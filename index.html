@@ -306,6 +306,46 @@
       letter-spacing: 0;
     }
 
+    .news-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .news-item {
+      display: grid;
+      grid-template-columns: 116px minmax(0, 1fr);
+      gap: 20px;
+      padding: 15px 16px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent-line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .news-date {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+
+    .news-title {
+      margin: 0;
+      color: var(--ink-strong);
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .news-text {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
     .section {
       scroll-margin-top: 104px;
       margin-top: 70px;
@@ -656,20 +696,20 @@
       }
 
       .nav {
-        width: min(100% - 32px, 720px);
+        width: min(100% - 24px, 720px);
         height: auto;
         min-height: 68px;
-        gap: 16px;
+        gap: 11px;
         overflow-x: auto;
       }
 
       .brand {
-        margin-right: 8px;
-        font-size: 17.5px;
+        margin-right: 4px;
+        font-size: 16px;
       }
 
       .nav a:not(.brand) {
-        font-size: 14.5px;
+        font-size: 13.5px;
         white-space: nowrap;
       }
 
@@ -749,7 +789,8 @@
       .entry,
       .project-card,
       .publication-list li,
-      .course-grid {
+      .course-grid,
+      .news-item {
         grid-template-columns: 1fr;
         gap: 6px;
       }
@@ -810,6 +851,7 @@
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
       <a class="brand" href="#top">Kim Jungho</a>
+      <a href="#news">News</a>
       <a href="#publications">Publications</a>
       <a href="#projects">Portfolio</a>
       <a href="#cv">CV</a>
@@ -865,6 +907,33 @@
           <li>Real-Time Engine</li>
           <li>AI Media Art</li>
         </ul>
+      </section>
+
+      <section class="section" id="news">
+        <h2 class="section-title">News</h2>
+        <div class="news-list">
+          <article class="news-item">
+            <div class="news-date">2026.03.26</div>
+            <div>
+              <h3 class="news-title">Patent application filed for a generative AI-based storyboard generation system.</h3>
+              <p class="news-text">Filed KR 10-2026-0054962 with Tae-Kyung Yoo, covering agile vibe pre-production storyboard generation.</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2025.06</div>
+            <div>
+              <h3 class="news-title">Founded IXIWORKS as a software and AI media content development company.</h3>
+              <p class="news-text">Building tools and production systems across AI software, digital media content, and real-time engine workflows.</p>
+            </div>
+          </article>
+          <article class="news-item">
+            <div class="news-date">2025</div>
+            <div>
+              <h3 class="news-title">Participated in the Korea-Canada convergence art special exhibition.</h3>
+              <p class="news-text">Served as VR Supervisor and Film AI Engineer for <em>Spectrum of Humanity</em> in Montréal.</p>
+            </div>
+          </article>
+        </div>
       </section>
 
       <section class="section" id="experience">
