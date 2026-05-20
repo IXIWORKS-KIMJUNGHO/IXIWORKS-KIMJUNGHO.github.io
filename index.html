@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kim Jungho | CV</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fb;
+      --surface-strong: #f1f3f6;
+      --ink: #343840;
+      --ink-strong: #22252b;
+      --muted: #6a6f78;
+      --muted-light: #8b9098;
+      --line: #e7e9ee;
+      --line-strong: #d7dae2;
+      --accent: #3956a3;
+      --accent-soft: #eef2ff;
+      --link: #294a9b;
+      --shadow: 0 18px 45px rgba(20, 31, 52, 0.08);
+
+      --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+      --mono: "IBM Plex Mono", "SF Mono", Menlo, ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16.5px;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a {
+      color: var(--link);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 48px));
+      height: 76px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 44px;
+    }
+
+    .brand {
+      margin-right: 28px;
+      color: var(--ink-strong);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .nav a:not(.brand) {
+      color: var(--ink);
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .nav a:not(.brand):hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 252px minmax(0, 1fr);
+      gap: 72px;
+      padding: 56px 0 96px;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 112px;
+      align-self: start;
+    }
+
+    .portrait-wrap {
+      width: 214px;
+      height: 266px;
+      margin-bottom: 18px;
+      padding: 7px;
+      border: 1px solid var(--line);
+      border-radius: 50% / 42%;
+      background: #fff;
+      box-shadow: 0 14px 36px rgba(35, 38, 44, 0.08);
+      overflow: hidden;
+    }
+
+    .portrait {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: inherit;
+      object-fit: cover;
+      filter: saturate(0.96) contrast(1.02);
+    }
+
+    .side-name {
+      margin: 0 0 7px;
+      color: var(--ink-strong);
+      font-size: 22px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .side-role {
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.6;
+      word-break: keep-all;
+    }
+
+    .side-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .side-list li {
+      display: grid;
+      grid-template-columns: 22px 1fr;
+      align-items: baseline;
+      gap: 8px;
+    }
+
+    .side-list svg {
+      width: 16px;
+      height: 16px;
+      color: var(--muted);
+      transform: translateY(2px);
+    }
+
+    .content {
+      min-width: 0;
+    }
+
+    .hero {
+      padding-top: 6px;
+      margin-bottom: 76px;
+    }
+
+    h1 {
+      margin: 0 0 58px;
+      color: var(--ink-strong);
+      font-size: 40px;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.12;
+    }
+
+    .welcome {
+      display: inline-block;
+      margin: 0 0 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line-strong);
+      color: var(--ink-strong);
+      font-size: 27px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .lead {
+      max-width: 820px;
+      margin: 0 0 28px;
+      color: var(--muted);
+      font-size: 20px;
+      line-height: 1.58;
+      word-break: keep-all;
+    }
+
+    .lead strong,
+    .section-text strong {
+      color: var(--ink-strong);
+      font-weight: 800;
+    }
+
+    .quick-tags {
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .quick-tags li {
+      padding: 6px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+
+    .section {
+      scroll-margin-top: 104px;
+      margin-top: 70px;
+    }
+
+    .section:first-of-type {
+      margin-top: 0;
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-strong);
+      font-size: 27px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .section-text {
+      margin: 0;
+      color: var(--muted);
+      font-size: 19px;
+      line-height: 1.68;
+      word-break: keep-all;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 18px;
+    }
+
+    .entry {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      gap: 28px;
+      padding: 0 0 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .entry:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .date {
+      color: var(--muted-light);
+      font-family: var(--mono);
+      font-size: 13.5px;
+      line-height: 1.55;
+      white-space: nowrap;
+    }
+
+    .entry-title {
+      margin: 0;
+      color: var(--ink-strong);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .entry-meta {
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .entry-note {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .publication-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: pub;
+      display: grid;
+      gap: 0;
+    }
+
+    .publication-list li {
+      counter-increment: pub;
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 86px 54px;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: baseline;
+    }
+
+    .publication-list li::before {
+      content: counter(pub, decimal-leading-zero);
+      color: var(--muted-light);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .paper-title {
+      color: var(--ink);
+      font-size: 16px;
+      line-height: 1.55;
+      word-break: keep-all;
+    }
+
+    .pub-type,
+    .pub-year {
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 12px;
+      line-height: 1.45;
+      white-space: nowrap;
+    }
+
+    .pub-year {
+      text-align: right;
+    }
+
+    .grid-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .project-card {
+      display: grid;
+      grid-template-columns: 140px minmax(0, 1fr);
+      gap: 22px;
+      padding: 17px 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .project-card .date {
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .project-title {
+      margin: 0;
+      color: var(--ink-strong);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.45;
+      word-break: keep-all;
+    }
+
+    .project-meta {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.5;
+      word-break: keep-all;
+    }
+
+    .pill-row {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+    }
+
+    .pill-row li {
+      padding: 7px 10px;
+      border-radius: 7px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.3;
+      word-break: keep-all;
+    }
+
+    .site-footer {
+      width: min(1120px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 28px 0 38px;
+      border-top: 1px solid var(--line);
+      color: var(--muted-light);
+      font-family: var(--mono);
+      font-size: 12px;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        font-size: 16px;
+      }
+
+      .nav {
+        width: min(100% - 32px, 720px);
+        height: auto;
+        min-height: 68px;
+        gap: 16px;
+        overflow-x: auto;
+      }
+
+      .brand {
+        margin-right: 8px;
+        font-size: 18px;
+      }
+
+      .nav a:not(.brand) {
+        font-size: 15.5px;
+        white-space: nowrap;
+      }
+
+      .shell {
+        width: min(100% - 32px, 720px);
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: 34px 0 72px;
+      }
+
+      .sidebar {
+        position: static;
+        display: grid;
+        grid-template-columns: 132px minmax(0, 1fr);
+        gap: 22px;
+        align-items: center;
+      }
+
+      .portrait-wrap {
+        width: 132px;
+        height: 164px;
+        margin: 0;
+      }
+
+      .side-list {
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      h1 {
+        margin-bottom: 34px;
+        font-size: 33px;
+      }
+
+      .hero {
+        margin-bottom: 54px;
+      }
+
+      .lead {
+        font-size: 18px;
+      }
+
+      .entry,
+      .project-card,
+      .publication-list li {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .pub-year {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .side-list {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        grid-template-columns: 104px minmax(0, 1fr);
+      }
+
+      .portrait-wrap {
+        width: 104px;
+        height: 130px;
+      }
+
+      .welcome {
+        font-size: 23px;
+      }
+
+      .section-title {
+        font-size: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="#top">Kim Jungho</a>
+      <a href="#publications">Publications</a>
+      <a href="#projects">Portfolio</a>
+      <a href="#cv">CV</a>
+    </nav>
+  </header>
+
+  <div class="shell" id="top">
+    <aside class="sidebar" aria-label="Profile">
+      <div class="portrait-wrap">
+        <img class="portrait" src="assets/cv-photo.png" alt="Kim Jungho portrait">
+      </div>
+      <div>
+        <h2 class="side-name">Kim Jungho</h2>
+        <p class="side-role">Art &amp; technology researcher working across generative AI, digital twins, immersive content, and real-time engines.</p>
+      </div>
+      <ul class="side-list">
+        <li>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+          <span>Seoul, Korea</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 8l10 5 10-5-10-5Zm-7 8.25V18h3v-5.25l-3-1.5Zm5 2.5V18h4v-4.25l-2 .99-2-.99Zm6-.99V18h3v-6.75l-3 1.51ZM4 20v2h16v-2H4Z"/></svg>
+          <span>Chung-Ang University</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 8 8-6H4l8 6Zm0 2.5L4 9.5V17h16V9.5l-8 6Z"/></svg>
+          <span>Email</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.11.79-.25.79-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.21 1.79 1.21 1.04 1.78 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.57-.29-5.27-1.28-5.27-5.72 0-1.26.45-2.3 1.2-3.11-.12-.29-.52-1.47.11-3.07 0 0 .98-.31 3.18 1.19a10.99 10.99 0 0 1 5.8 0c2.2-1.5 3.17-1.19 3.17-1.19.64 1.6.24 2.78.12 3.07.75.81 1.2 1.85 1.2 3.11 0 4.45-2.71 5.43-5.3 5.72.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
+          <span>GitHub</span>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="content">
+      <section class="hero" id="cv">
+        <h1>Kim Jungho</h1>
+        <h2 class="welcome">Welcome to Jungho's page</h2>
+        <p class="lead">Hi. I am an <strong>art engineering researcher and developer</strong> working on generative AI content production R&amp;D, digital twins, 3D human digitizing, immersive media, and game-engine based production.</p>
+        <p class="lead">I am currently a full-time researcher at Chung-Ang University Industry-Academic Cooperation Foundation, a lecturer at the College of Art &amp; Technology, and the CEO of IXIWORKS. My work connects <strong>AI production tools</strong>, <strong>real-time engines</strong>, and <strong>media art systems</strong>.</p>
+        <ul class="quick-tags">
+          <li>Generative AI</li>
+          <li>Digital Twin</li>
+          <li>3D Human Digitizing</li>
+          <li>VR Storyboard</li>
+          <li>Real-Time Engine</li>
+          <li>AI Media Art</li>
+        </ul>
+      </section>
+
+      <section class="section" id="experience">
+        <h2 class="section-title">Experiences</h2>
+        <div class="timeline">
+          <article class="entry">
+            <div class="date">2025.06 &mdash; Present</div>
+            <div>
+              <h3 class="entry-title">IXIWORKS</h3>
+              <p class="entry-meta">CEO</p>
+              <p class="entry-note">Operating a software company focused on AI software and digital media content development.</p>
+            </div>
+          </article>
+          <article class="entry">
+            <div class="date">2024.05 &mdash; Present</div>
+            <div>
+              <h3 class="entry-title">Chung-Ang University Industry-Academic Cooperation Foundation</h3>
+              <p class="entry-meta">Full-time Researcher</p>
+              <p class="entry-note">Participating in generative AI and cloud-based content production R&amp;D.</p>
+            </div>
+          </article>
+          <article class="entry">
+            <div class="date">2022.09 &mdash; Present</div>
+            <div>
+              <h3 class="entry-title">College of Art &amp; Technology, Chung-Ang University</h3>
+              <p class="entry-meta">Lecturer</p>
+              <p class="entry-note">Teaching Game Engine I·II, content programming, media art programming, digital archiving, and data visualization.</p>
+            </div>
+          </article>
+          <article class="entry">
+            <div class="date">2019.05 &mdash; 2024.02</div>
+            <div>
+              <h3 class="entry-title">IMG Lab / Netmarble Game Academy</h3>
+              <p class="entry-meta">Programming Mentor</p>
+              <p class="entry-note">Mentored programming for Netmarble Game Academy cohorts 4-8.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Education</h2>
+        <div class="timeline">
+          <article class="entry">
+            <div class="date">2020.03 &mdash; 2024.02</div>
+            <div>
+              <h3 class="entry-title">Ph.D. in Image Engineering / Art Engineering</h3>
+              <p class="entry-meta">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University</p>
+            </div>
+          </article>
+          <article class="entry">
+            <div class="date">2018.03 &mdash; 2020.02</div>
+            <div>
+              <h3 class="entry-title">M.A. in Image Engineering / Art Engineering</h3>
+              <p class="entry-meta">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University</p>
+            </div>
+          </article>
+          <article class="entry">
+            <div class="date">2011.02 &mdash; 2017.02</div>
+            <div>
+              <h3 class="entry-title">B.A. in Photography &amp; Video</h3>
+              <p class="entry-meta">Kyungil University</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="publications">
+        <h2 class="section-title">Publications</h2>
+        <ol class="publication-list">
+          <li><span class="paper-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System. Springer Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024, pp. 75-91. DOI: 10.1007/978-981-97-8093-8_6.</span><span class="pub-type">Springer</span><span class="pub-year">2025</span></li>
+          <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Human Digitizing System.</span><span class="pub-type">Ph.D.</span><span class="pub-year">2024</span></li>
+          <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Facial Appearance Digitizing System. Journal of Broadcast Engineering, Vol. 28 No. 5, pp. 530-544. DOI: 10.5909/JBE.2023.28.5.530.</span><span class="pub-type">KCI</span><span class="pub-year">2023</span></li>
+          <li><span class="paper-title">Detecting Branches in Silent Films Using a Center-of-Gravity Algorithm: Focusing on Dziga Vertov's &lt;Man with a Movie Camera&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
+          <li><span class="paper-title">A Study on Immersive Content Production and Storytelling Methods Using Photogrammetry and Artificial Intelligence.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
+          <li><span class="paper-title">Correlation Between Head Movement Data and Immersion in Virtual Reality Content.</span><span class="pub-type">KCI</span><span class="pub-year">2021</span></li>
+          <li><span class="paper-title">Remediating tradition with technology: a case study of From Tangible to Intangible: A Media Showcase of Lisa chin p'yori chinch'a uigwe.</span><span class="pub-type">A&amp;HCI</span><span class="pub-year">2021</span></li>
+          <li><span class="paper-title">An Analysis of Interactive Virtual Human Technologies and Characteristics in the Content Industry.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
+          <li><span class="paper-title">A Study on Out-of-Register Expression in Real-Time Rendering Environments.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
+          <li><span class="paper-title">A Study on Storyboarding for Pre-Production on Virtual Reality Platforms.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
+          <li><span class="paper-title">A Study on Directing Methods for VR Animation: Focusing on the VR Animation &lt;DreamTherapy&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2019</span></li>
+        </ol>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Patents</h2>
+        <div class="timeline">
+          <article class="entry">
+            <div class="date">2026.03.26</div>
+            <div>
+              <h3 class="entry-title">Generative AI-Based Agile Vibe Pre-Production Storyboard Generation Apparatus, Method, and Recording Medium</h3>
+              <p class="entry-meta">KR 10-2026-0054962 · Tae-Kyung Yoo, Jungho Kim</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Research Projects</h2>
+        <div class="grid-list">
+          <article class="project-card">
+            <div class="date">2024.05 &mdash; 2026.12</div>
+            <div>
+              <h3 class="project-title">Training R&amp;D Talent for Generative AI and Cloud-Based Content Production</h3>
+              <p class="project-meta">Co-researcher · 1,375,000,000 KRW</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2023.01 &mdash; 2023.12</div>
+            <div>
+              <h3 class="project-title">Development of a Support System for Digital Data Acquisition and Scientific Reliability Analysis of Modern and Contemporary Artworks</h3>
+              <p class="project-meta">Student researcher · 30,000,000 KRW</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2021.06 &mdash; 2023.12</div>
+            <div>
+              <h3 class="project-title">Training R&amp;D Specialists for Metaverse Content Based on Virtual Production</h3>
+              <p class="project-meta">Participating researcher · 1,375,000,000 KRW</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="projects">
+        <h2 class="section-title">Portfolio</h2>
+        <div class="grid-list">
+          <article class="project-card">
+            <div class="date">2025.10 &mdash; 2025.12</div>
+            <div>
+              <h3 class="project-title">Healing Landscape-Style AI Media Art Content Production</h3>
+              <p class="project-meta">Jeonju University Industry-Academic Cooperation Foundation · AI media art content</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2025.09 &mdash; 2025.11</div>
+            <div>
+              <h3 class="project-title">AI-Based Smart Home Living Environment Content Platform UI Prototype</h3>
+              <p class="project-meta">Skonec Entertainment · Prototype content</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2025.08 &mdash; 2025.11</div>
+            <div>
+              <h3 class="project-title">VIVE AI UI/UX Design</h3>
+              <p class="project-meta">VIVE Studios · System design, development, and UI</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2025.07 &mdash; 2025.12</div>
+            <div>
+              <h3 class="project-title">Hyundai Mobis Connect Platform 3D Content Production</h3>
+              <p class="project-meta">VIVE Studios / Hyundai Mobis · Infotainment development</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2024.01 &mdash; 2024.04</div>
+            <div>
+              <h3 class="project-title">Samsung Paris 2024 Breaking Solution Development</h3>
+              <p class="project-meta">IMG Lab · Large-screen UI, kiosk, mobile camera linkage, QR system</p>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2023.08 &mdash; 2023.11</div>
+            <div>
+              <h3 class="project-title">One Thousand and One Nights Live Sketch System Development</h3>
+              <p class="project-meta">IMG Lab · Live sketch system development</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Exhibitions &amp; Screenings</h2>
+        <div class="timeline">
+          <article class="entry"><div class="date">2025</div><div><h3 class="entry-title">Korea-Canada Convergence Art Special Exhibition, &lt;Spectrum of Humanity&gt;</h3><p class="entry-meta">KOFICE × MMCA, Montréal · VR Supervisor / Film AI Engineer</p></div></article>
+          <article class="entry"><div class="date">2024 &mdash; 2025</div><div><h3 class="entry-title">&lt;Transport to Another World&gt;</h3><p class="entry-meta">MMCA × National Film Board of Canada · VR Supervisor / Film AI Engineer</p></div></article>
+          <article class="entry"><div class="date">2023</div><div><h3 class="entry-title">BIFAN 2023 Beyond Reality Official Selection</h3><p class="entry-meta">Bucheon International Fantastic Film Festival · VR Supervisor / Film AI Engineer</p></div></article>
+          <article class="entry"><div class="date">2022</div><div><h3 class="entry-title">Perception of War: AI Data Universe</h3><p class="entry-meta">ACM SIGGRAPH Art Gallery · AI Developer / Content Developer</p></div></article>
+          <article class="entry"><div class="date">2022</div><div><h3 class="entry-title">Deep.Photoplay II VR Silent Film</h3><p class="entry-meta">Korean Film Archive · Film AI Engineer / VR Supervisor</p></div></article>
+          <article class="entry"><div class="date">2021</div><div><h3 class="entry-title">Deep.Photoplay I</h3><p class="entry-meta">Korean Film Archive · Film AI Engineer</p></div></article>
+          <article class="entry"><div class="date">2020</div><div><h3 class="entry-title">Nebula GO</h3><p class="entry-meta">ACM SIGGRAPH Art Gallery · Content Developer</p></div></article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Teaching</h2>
+        <div class="timeline">
+          <article class="entry">
+            <div class="date">2022.09 &mdash; Present</div>
+            <div>
+              <h3 class="entry-title">College of Art &amp; Technology, Chung-Ang University</h3>
+              <p class="entry-meta">Game Engine I, Game Engine II, Content Programming Practice, Media Art Programming Practice, Digital Archiving and Data Visualization</p>
+            </div>
+          </article>
+          <article class="entry">
+            <div class="date">2019.05 &mdash; 2024.02</div>
+            <div>
+              <h3 class="entry-title">Netmarble Game Academy / IMG Lab</h3>
+              <p class="entry-meta">Game programming mentoring and team project guidance</p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Research Interests</h2>
+        <ul class="pill-row">
+          <li>Generative AI-Based Pre-Production</li>
+          <li>AI Director Systems</li>
+          <li>3D Human Digitizing</li>
+          <li>Digital Twin Pipelines</li>
+          <li>VR Storyboarding</li>
+          <li>Real-Time Engine Content Production</li>
+          <li>AI Media Art</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <span>Kim Jungho · Curriculum Vitae · Updated 2026.05.07</span>
+  </footer>
+</body>
+</html>
