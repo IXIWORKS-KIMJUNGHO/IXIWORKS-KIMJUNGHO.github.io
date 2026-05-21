@@ -645,6 +645,7 @@ h1 {
 }
 
 .architecture-panel {
+  margin-top: 14px;
   padding: 18px;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -652,6 +653,22 @@ h1 {
     linear-gradient(135deg, rgba(238, 242, 255, 0.92), rgba(255, 255, 255, 0.78)),
     repeating-linear-gradient(90deg, rgba(201, 212, 245, 0.22) 0 1px, transparent 1px 46px),
     #fff;
+}
+
+.architecture-image-frame {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 14px 30px rgba(20, 31, 52, 0.06);
+}
+
+.architecture-image-frame img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1694 / 928;
+  object-fit: cover;
 }
 
 .architecture-flow {
