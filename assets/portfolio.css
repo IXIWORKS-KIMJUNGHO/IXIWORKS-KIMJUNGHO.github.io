@@ -211,6 +211,12 @@ h1 {
   line-height: 1.08;
 }
 
+.patent-title {
+  max-width: 780px;
+  font-size: 34px;
+  line-height: 1.12;
+}
+
 .lead {
   max-width: 780px;
   margin: 0;
@@ -726,6 +732,11 @@ h1 {
 
   h1 {
     font-size: 34px;
+  }
+
+  .patent-title {
+    font-size: 28px;
+    line-height: 1.18;
   }
 
   .lead {
