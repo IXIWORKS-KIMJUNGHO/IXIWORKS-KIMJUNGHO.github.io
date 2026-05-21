@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../assets/portfolio.css?v=digital-twin-pipeline1">
+  <link rel="stylesheet" href="../assets/portfolio.css?v=digital-twin-pipeline2">
 </head>
 <body>
   <header class="site-header"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html">Kim Jungho</a><a href="../news.html">News</a><a href="../index.html#publications">Publications</a><a class="active" href="../portfolio.html">Portfolio</a><a href="../index.html#cv">CV</a></nav></header>
@@ -36,41 +36,66 @@
           </div>
         </div>
         <figure class="twin-hero-figure">
-          <img src="../assets/digital-twin-pipeline-architecture.png" alt="Digital twin pipeline architecture connecting virtual space and physical space">
+          <img src="../assets/digital-twin-hero-rig.png" alt="Digital twin capture rig with physical cameras and virtual wireframe overlay">
         </figure>
       </section>
       <section class="section"><h2 class="section-title">Overview</h2><div class="text-grid"><div class="text-block"><h3>Research Problem</h3><p>3D human digitizing requires careful coordination between acquisition conditions, reconstruction quality, camera placement, lighting, and repeatable analysis. The research asks how a digital twin can make that process more systematic before modifying the physical capture system.</p></div><div class="text-block"><h3>Pipeline Direction</h3><p>The pipeline first searches and evaluates system variables in virtual space, then transfers optimized conditions into the physical facial digitizing system for real-world capture and reconstruction.</p></div></div></section>
       <section class="section">
         <h2 class="section-title">Pipeline Architecture</h2>
         <div class="twin-pipeline-panel">
-          <div class="twin-pipeline-column virtual">
-            <p class="pipeline-label">Virtual Space</p>
-            <div class="pipeline-node primary"><span>Simulation Setup</span><strong>Virtual Facial Digitizing System</strong><p>Ground-truth head model, virtual cameras, lighting, and capture conditions.</p></div>
-            <div class="pipeline-chain">
+          <div class="pipeline-stage virtual">
+            <div class="pipeline-stage-head">
+              <div>
+                <p class="pipeline-label">Virtual Space</p>
+                <h3>Optimize Before Physical Capture</h3>
+              </div>
+              <p>Search camera, lighting, and placement variables using a simulated facial digitizing system.</p>
+            </div>
+            <div class="pipeline-start-grid">
+              <div class="pipeline-node primary"><span>Simulation Setup</span><strong>Virtual Facial Digitizing System</strong><p>Ground-truth head model, virtual cameras, lighting, and capture conditions.</p></div>
+              <div class="pipeline-node feedback"><span>Update Variables</span><strong>Camera / Lighting / Placement</strong><p>Loss values feed back into the virtual system variable search.</p></div>
+            </div>
+            <div class="pipeline-chain flow">
               <span>Image Capture</span>
               <span>3D Reconstruction</span>
               <span>Mesh Fitting</span>
               <span>Output</span>
             </div>
-            <div class="pipeline-node feedback"><span>Feedback Loop</span><strong>Chamfer Loss</strong><p>Compare output against ground truth and update camera / lighting variables.</p></div>
+            <div class="pipeline-evaluation">
+              <div>
+                <span>Evaluation</span>
+                <strong>Output vs. Ground Truth</strong>
+                <p>Reconstructed geometry and appearance are compared against the known virtual reference.</p>
+              </div>
+              <div class="loss-grid">
+                <div><span>Chamfer Loss</span><p>Measures geometric distance between reconstructed and reference surfaces.</p></div>
+                <div><span>Texture Loss</span><p>Measures appearance consistency between rendered output and reference texture.</p></div>
+              </div>
+            </div>
           </div>
           <div class="pipeline-transfer">
             <span>Transfer</span>
             <strong>Optimized Variables</strong>
           </div>
-          <div class="twin-pipeline-column physical">
-            <p class="pipeline-label">Physical Space</p>
-            <div class="pipeline-node primary"><span>Real Capture</span><strong>Physical Facial Digitizing System</strong><p>Apply optimized camera and lighting conditions to the physical rig.</p></div>
-            <div class="pipeline-chain">
-              <span>Human Face</span>
+          <div class="pipeline-stage physical">
+            <div class="pipeline-stage-head">
+              <div>
+                <p class="pipeline-label">Physical Space</p>
+                <h3>Apply to the Real Digitizing Rig</h3>
+              </div>
+              <p>Transfer optimized variables into the physical setup and run the real capture pipeline.</p>
+            </div>
+            <div class="pipeline-node primary"><span>Real Capture</span><strong>Physical Facial Digitizing System</strong><p>Human face, camera rig, lighting setup, and calibrated acquisition conditions.</p></div>
+            <div class="pipeline-chain flow">
               <span>Image Capture</span>
               <span>3D Reconstruction</span>
+              <span>Mesh Fitting</span>
               <span>Digitized Face</span>
             </div>
           </div>
         </div>
       </section>
-      <section class="section"><h2 class="section-title">Process</h2><div class="process-list"><div class="process-step"><div><h3>Model the Capture System</h3><p>Define the physical components and controllable variables of the 3D human digitizing environment.</p></div></div><div class="process-step"><div><h3>Optimize in Virtual Space</h3><p>Use the digital twin to test camera and lighting placements against ground-truth reconstruction quality.</p></div></div><div class="process-step"><div><h3>Transfer to Physical Space</h3><p>Apply optimized system variables to the real capture rig and evaluate the resulting digitized human face.</p></div></div></div></section>
+      <section class="section"><h2 class="section-title">Process</h2><div class="process-list"><div class="process-step"><div><h3>Model the Capture System</h3><p>Define the physical components and controllable variables of the 3D human digitizing environment.</p></div></div><div class="process-step"><div><h3>Optimize in Virtual Space</h3><p>Use Chamfer Loss and Texture Loss to test camera and lighting placements against ground-truth reconstruction quality.</p></div></div><div class="process-step"><div><h3>Transfer to Physical Space</h3><p>Apply optimized system variables to the real capture rig and evaluate the resulting digitized human face.</p></div></div></div></section>
       <section class="section"><h2 class="section-title">Outcome</h2><div class="text-grid"><div class="text-block"><h3>Publication</h3><p>Published as Digital Twin Pipeline for Optimizing 3D Human Digitizing System, Springer Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024.</p></div><div class="text-block"><h3>Research Continuity</h3><p>The work anchors later interests in digital twins, 3D human digitizing, immersive content production, and real-time media systems.</p></div></div><div class="button-row"><a class="button primary" href="../portfolio.html">Back to Portfolio</a><a class="button" href="../index.html#publications">Publications</a></div></section>
     </main>
   </div>

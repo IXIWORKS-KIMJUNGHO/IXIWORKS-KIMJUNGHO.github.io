@@ -610,6 +610,8 @@ h1 {
 .twin-hero-figure img {
   display: block;
   width: 100%;
+  height: 100%;
+  min-height: 310px;
   aspect-ratio: 3 / 4;
   object-fit: cover;
 }
@@ -1128,7 +1130,7 @@ h1 {
 
 .twin-pipeline-panel {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 116px minmax(0, 1fr);
+  grid-template-columns: 1fr;
   gap: 14px;
   padding: 18px;
   border: 1px solid var(--line);
@@ -1139,20 +1141,61 @@ h1 {
   box-shadow: 0 14px 30px rgba(20, 31, 52, 0.05);
 }
 
-.twin-pipeline-column {
+.pipeline-stage {
   display: grid;
-  gap: 10px;
-  align-content: start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.pipeline-stage.virtual {
+  border-color: rgba(201, 212, 245, 0.86);
+}
+
+.pipeline-stage.physical {
+  border-color: rgba(174, 217, 226, 0.86);
+}
+
+.pipeline-stage-head {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
 }
 
 .pipeline-label {
-  margin: 0;
+  margin: 0 0 7px;
   color: var(--accent);
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
+}
+
+.pipeline-stage-head h3 {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.pipeline-stage-head p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.pipeline-start-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(240px, 0.76fr);
+  gap: 12px;
 }
 
 .pipeline-node,
@@ -1203,6 +1246,10 @@ h1 {
   overflow: hidden;
 }
 
+.pipeline-chain.flow {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .pipeline-chain span {
   position: relative;
   padding: 10px 12px 10px 30px;
@@ -1211,6 +1258,18 @@ h1 {
   font-size: 13px;
   font-weight: 700;
   line-height: 1.25;
+}
+
+.pipeline-chain.flow span {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+.pipeline-chain.flow span:last-child {
+  border-right: 0;
 }
 
 .pipeline-chain span:last-child {
@@ -1229,13 +1288,71 @@ h1 {
   transform: translateY(-50%);
 }
 
+.pipeline-evaluation {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 12px;
+  padding: 15px;
+  border: 1px solid var(--accent-line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(238, 242, 255, 0.86), rgba(255, 255, 255, 0.72)),
+    #fff;
+}
+
+.pipeline-evaluation > div:first-child > span,
+.loss-grid span {
+  display: block;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.pipeline-evaluation strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink-strong);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.pipeline-evaluation p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.loss-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.loss-grid div {
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.loss-grid p {
+  font-size: 12.5px;
+  line-height: 1.45;
+}
+
 .pipeline-transfer {
   position: relative;
-  align-self: center;
+  justify-self: center;
   display: grid;
   place-items: center;
-  min-height: 150px;
-  padding: 14px 10px;
+  width: min(360px, 100%);
+  min-height: 86px;
+  padding: 14px 18px;
   border: 1px solid #f1d788;
   border-radius: 8px;
   background: #fff8df;
@@ -1248,18 +1365,19 @@ h1 {
 .pipeline-transfer::after {
   content: "";
   position: absolute;
-  top: 50%;
-  width: 14px;
-  height: 1px;
+  left: 50%;
+  width: 1px;
+  height: 14px;
   background: #d7af39;
 }
 
 .pipeline-transfer::before {
-  right: 100%;
+  top: auto;
+  bottom: 100%;
 }
 
 .pipeline-transfer::after {
-  left: 100%;
+  top: 100%;
 }
 
 .pipeline-transfer span {
@@ -1490,6 +1608,23 @@ h1 {
 
   .pipeline-transfer {
     min-height: 84px;
+  }
+
+  .pipeline-stage-head,
+  .pipeline-start-grid,
+  .pipeline-evaluation,
+  .loss-grid,
+  .pipeline-chain.flow {
+    grid-template-columns: 1fr;
+  }
+
+  .pipeline-chain.flow span {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .pipeline-chain.flow span:last-child {
+    border-bottom: 0;
   }
 
   .pipeline-transfer::before,
