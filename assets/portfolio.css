@@ -753,6 +753,63 @@ h1 {
   line-height: 1.45;
 }
 
+.architecture-disclosure {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.architecture-disclosure summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: fit-content;
+  min-height: 36px;
+  margin: 0 auto;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  user-select: none;
+  box-shadow: 0 8px 18px rgba(20, 31, 52, 0.05);
+  transition: border-color 160ms ease, color 160ms ease, background 160ms ease;
+}
+
+.architecture-disclosure summary::-webkit-details-marker {
+  display: none;
+}
+
+.architecture-disclosure summary::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 160ms ease;
+}
+
+.architecture-disclosure summary:hover {
+  border-color: var(--accent-line);
+  background: #fff;
+  color: var(--accent-strong);
+}
+
+.architecture-disclosure[open] summary::after {
+  transform: translateY(2px) rotate(225deg);
+}
+
+.architecture-disclosure .architecture-image-frame {
+  margin-top: 14px;
+}
+
 .process-list {
   counter-reset: process;
   display: grid;
