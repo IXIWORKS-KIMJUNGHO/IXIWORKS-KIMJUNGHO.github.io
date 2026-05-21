@@ -598,6 +598,22 @@ h1 {
   object-fit: cover;
 }
 
+.twin-hero-figure {
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 18px 38px rgba(20, 31, 52, 0.08);
+}
+
+.twin-hero-figure img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
 .kiosk-hero-visual {
   position: relative;
   min-height: 310px;
@@ -1110,6 +1126,159 @@ h1 {
   margin-top: 14px;
 }
 
+.twin-pipeline-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 116px minmax(0, 1fr);
+  gap: 14px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(238, 242, 255, 0.86), rgba(255, 255, 255, 0.92)),
+    #fff;
+  box-shadow: 0 14px 30px rgba(20, 31, 52, 0.05);
+}
+
+.twin-pipeline-column {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.pipeline-label {
+  margin: 0;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.pipeline-node,
+.pipeline-chain {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.pipeline-node {
+  padding: 15px;
+}
+
+.pipeline-node span {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.pipeline-node strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.pipeline-node p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.5;
+}
+
+.pipeline-node.feedback {
+  border-color: var(--accent-line);
+  background: rgba(238, 242, 255, 0.62);
+}
+
+.pipeline-chain {
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+}
+
+.pipeline-chain span {
+  position: relative;
+  padding: 10px 12px 10px 30px;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.pipeline-chain span:last-child {
+  border-bottom: 0;
+}
+
+.pipeline-chain span::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  transform: translateY(-50%);
+}
+
+.pipeline-transfer {
+  position: relative;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  min-height: 150px;
+  padding: 14px 10px;
+  border: 1px solid #f1d788;
+  border-radius: 8px;
+  background: #fff8df;
+  color: var(--ink-strong);
+  text-align: center;
+  box-shadow: 0 10px 24px rgba(133, 99, 18, 0.08);
+}
+
+.pipeline-transfer::before,
+.pipeline-transfer::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 1px;
+  background: #d7af39;
+}
+
+.pipeline-transfer::before {
+  right: 100%;
+}
+
+.pipeline-transfer::after {
+  left: 100%;
+}
+
+.pipeline-transfer span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.pipeline-transfer strong {
+  display: block;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
 .process-list {
   counter-reset: process;
   display: grid;
@@ -1269,7 +1438,8 @@ h1 {
   .text-grid,
   .media-grid,
   .architecture-flow,
-  .architecture-loop {
+  .architecture-loop,
+  .twin-pipeline-panel {
     grid-template-columns: 1fr;
   }
 
@@ -1312,6 +1482,31 @@ h1 {
 
   .kiosk-hero-visual {
     min-height: 260px;
+  }
+
+  .twin-hero-figure img {
+    max-height: 560px;
+  }
+
+  .pipeline-transfer {
+    min-height: 84px;
+  }
+
+  .pipeline-transfer::before,
+  .pipeline-transfer::after {
+    left: 50%;
+    right: auto;
+    width: 1px;
+    height: 14px;
+  }
+
+  .pipeline-transfer::before {
+    top: auto;
+    bottom: 100%;
+  }
+
+  .pipeline-transfer::after {
+    top: 100%;
   }
 
   .kiosk-flowbar {
