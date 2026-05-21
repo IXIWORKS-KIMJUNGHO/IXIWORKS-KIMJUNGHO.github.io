@@ -244,7 +244,7 @@
     }
 
     .hero-actions {
-      margin: 30px 0 0;
+      margin: 24px 0 0;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -292,25 +292,52 @@
       color: #fff;
     }
 
-    .quick-tags {
-      margin: 28px 0 0;
+    .focus-areas {
+      margin: 26px 0 0;
+      padding: 15px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 18px;
+      align-items: baseline;
+    }
+
+    .focus-label {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.3;
+      text-transform: uppercase;
+    }
+
+    .focus-list {
+      margin: 0;
       padding: 0;
       list-style: none;
       display: flex;
       flex-wrap: wrap;
-      gap: 9px;
+      row-gap: 6px;
     }
 
-    .quick-tags li {
-      padding: 6px 11px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: var(--surface);
+    .focus-list li {
+      display: inline-flex;
+      align-items: center;
       color: var(--ink);
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 500;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.45;
       letter-spacing: 0;
+    }
+
+    .focus-list li:not(:last-child)::after {
+      content: "";
+      width: 3px;
+      height: 3px;
+      margin: 0 10px;
+      border-radius: 999px;
+      background: var(--accent-line);
     }
 
     .news-list {
@@ -760,6 +787,16 @@
         line-height: 1.68;
       }
 
+      .focus-areas {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 14px 0;
+      }
+
+      .focus-list li {
+        font-size: 13.5px;
+      }
+
       .side-name {
         font-size: 21px;
       }
@@ -901,19 +938,22 @@
         <h2 class="welcome">Welcome to Jungho's page</h2>
         <p class="lead">I am an <strong>art engineering researcher and developer</strong> exploring how generative AI, real-time engines, and immersive media can reshape creative production. My work focuses on AI-assisted content pipelines, digital twins, 3D human digitizing, VR storyboarding, and game-engine-based production systems.</p>
         <p class="lead">At Chung-Ang University, I work as a full-time researcher and lecturer while also leading IXIWORKS as CEO. Through this combined practice, I develop <strong>creative technologies</strong> that bridge <strong>research</strong>, <strong>production</strong>, and <strong>media art</strong>.</p>
+        <div class="focus-areas" aria-label="Focus areas">
+          <span class="focus-label">Focus Areas</span>
+          <ul class="focus-list">
+            <li>Generative AI Production</li>
+            <li>Real-Time Media Systems</li>
+            <li>Digital Twin Pipelines</li>
+            <li>3D Human Digitizing</li>
+            <li>Immersive Storytelling</li>
+            <li>AI Media Art</li>
+          </ul>
+        </div>
         <div class="hero-actions" aria-label="Featured links">
           <a class="button primary" href="#projects">View Portfolio</a>
           <a class="button" href="#publications">Publications</a>
           <a class="button" href="https://github.com/IXIWORKS-KIMJUNGHO">GitHub</a>
         </div>
-        <ul class="quick-tags">
-          <li>Generative AI</li>
-          <li>Digital Twin</li>
-          <li>3D Human Digitizing</li>
-          <li>VR Storyboard</li>
-          <li>Real-Time Engine</li>
-          <li>AI Media Art</li>
-        </ul>
       </section>
 
       <section class="section" id="news">
