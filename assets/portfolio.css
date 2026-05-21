@@ -483,13 +483,16 @@ h1 {
   border: 1px solid var(--line);
   border-radius: 8px;
   background:
-    linear-gradient(135deg, rgba(57, 86, 163, 0.10), rgba(248, 249, 251, 0.15)),
-    repeating-linear-gradient(0deg, rgba(201, 212, 245, 0.35) 0 1px, transparent 1px 28px),
+    radial-gradient(circle at 22% 20%, rgba(57, 86, 163, 0.12), transparent 28%),
+    linear-gradient(135deg, rgba(57, 86, 163, 0.09), rgba(248, 249, 251, 0.15)),
+    repeating-linear-gradient(0deg, rgba(201, 212, 245, 0.34) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(201, 212, 245, 0.18) 0 1px, transparent 1px 44px),
     #fff;
   padding: 18px;
-  display: grid;
-  align-content: end;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
   overflow: hidden;
 }
 
@@ -519,6 +522,64 @@ h1 {
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 600;
+}
+
+.visual-pipeline {
+  display: grid;
+  gap: 9px;
+}
+
+.visual-pipeline span {
+  position: relative;
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--accent-line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.15;
+  box-shadow: 0 8px 18px rgba(20, 31, 52, 0.06);
+}
+
+.visual-pipeline span:nth-child(2) { margin-left: 12%; }
+.visual-pipeline span:nth-child(3) { margin-left: 24%; }
+.visual-pipeline span:nth-child(4) { margin-left: 36%; }
+.visual-pipeline span:nth-child(5) { margin-left: 48%; }
+
+.visual-pipeline span::after {
+  content: "";
+  position: absolute;
+  left: calc(100% + 6px);
+  top: 50%;
+  width: 40px;
+  height: 1px;
+  background: var(--accent-line);
+}
+
+.visual-pipeline span:last-child::after {
+  display: none;
+}
+
+.visual-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.visual-preview-grid span {
+  min-height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(150deg, rgba(57, 86, 163, 0.10), transparent 56%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.86)),
+    var(--surface);
+  box-shadow: inset 0 -18px 0 rgba(201, 212, 245, 0.18);
 }
 
 .meta-grid {
@@ -581,6 +642,98 @@ h1 {
   font-size: 14.5px;
   line-height: 1.58;
   word-break: keep-all;
+}
+
+.architecture-panel {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(238, 242, 255, 0.92), rgba(255, 255, 255, 0.78)),
+    repeating-linear-gradient(90deg, rgba(201, 212, 245, 0.22) 0 1px, transparent 1px 46px),
+    #fff;
+}
+
+.architecture-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.arch-node {
+  position: relative;
+  min-height: 166px;
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 14px 28px rgba(20, 31, 52, 0.06);
+}
+
+.arch-node:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 36px;
+  left: calc(100% + 1px);
+  width: 10px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.arch-index {
+  display: block;
+  margin-bottom: 28px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.arch-node h3 {
+  margin: 0 0 8px;
+  color: var(--ink-strong);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.arch-node p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.75px;
+  line-height: 1.46;
+}
+
+.architecture-loop {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.architecture-loop div {
+  padding: 12px;
+  border-left: 2px solid var(--accent-line);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.architecture-loop span {
+  display: block;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.architecture-loop p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.45;
 }
 
 .process-list {
@@ -739,8 +892,22 @@ h1 {
   .case-hero-layout,
   .case-card.full .case-facts,
   .meta-grid,
-  .text-grid {
+  .text-grid,
+  .architecture-flow,
+  .architecture-loop {
     grid-template-columns: 1fr;
+  }
+
+  .arch-node {
+    min-height: 0;
+  }
+
+  .arch-node:not(:last-child)::after {
+    top: auto;
+    left: 30px;
+    bottom: -11px;
+    width: 1px;
+    height: 10px;
   }
 
   .case-card.full {
@@ -761,6 +928,22 @@ h1 {
 
   .case-visual {
     min-height: 220px;
+  }
+
+  .visual-pipeline span,
+  .visual-pipeline span:nth-child(n) {
+    margin-left: 0;
+  }
+
+  .visual-pipeline span::after {
+    left: 18px;
+    top: calc(100% + 3px);
+    width: 1px;
+    height: 9px;
+  }
+
+  .visual-preview-grid span {
+    min-height: 54px;
   }
 }
 
