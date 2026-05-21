@@ -349,6 +349,65 @@ h1 {
   word-break: keep-all;
 }
 
+.case-facts {
+  margin: 0;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 7px;
+}
+
+.case-card.full .case-facts {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.case-facts div {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+}
+
+.case-facts dt {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.case-facts dd {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.case-link {
+  align-self: end;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  margin-top: 2px;
+  padding-top: 2px;
+  color: var(--accent);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+  transition: color 160ms ease, transform 160ms ease;
+}
+
+.case-link span {
+  margin-left: 6px;
+}
+
+.case-card:hover .case-link {
+  color: var(--accent-strong);
+  transform: translateX(2px);
+}
+
 .card-tags,
 .pill-row {
   margin: 0;
@@ -678,6 +737,7 @@ h1 {
   .portfolio-grid,
   .archive-item,
   .case-hero-layout,
+  .case-card.full .case-facts,
   .meta-grid,
   .text-grid {
     grid-template-columns: 1fr;
