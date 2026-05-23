@@ -598,6 +598,31 @@ h1 {
   object-fit: cover;
 }
 
+.mobis-case-hero {
+  grid-template-columns: 1fr;
+}
+
+.mobis-case-hero .lead,
+.mobis-case-hero .meta-grid {
+  max-width: 760px;
+}
+
+.mobis-hero-shot {
+  align-self: start;
+  min-height: 0;
+  padding: 10px;
+  background:
+    linear-gradient(135deg, rgba(238, 242, 255, 0.9), rgba(255, 255, 255, 0.96)),
+    #fff;
+}
+
+.mobis-hero-shot img {
+  min-height: 0;
+  aspect-ratio: 16 / 8.4;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
 .twin-hero-figure {
   margin: 0;
   border: 1px solid var(--line);
