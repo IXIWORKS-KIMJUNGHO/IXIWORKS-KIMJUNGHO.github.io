@@ -619,6 +619,11 @@ h1 {
   object-fit: cover;
 }
 
+.cinematic-hero-figure img {
+  aspect-ratio: 16 / 9;
+  object-position: center;
+}
+
 .twin-hero-figure {
   margin: 0;
   border: 1px solid var(--line);
@@ -946,6 +951,56 @@ h1 {
   font-weight: 600;
   line-height: 1.2;
   text-transform: uppercase;
+}
+
+.trajectory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.trajectory-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background:
+    linear-gradient(140deg, rgba(57, 86, 163, 0.07), transparent 42%),
+    var(--surface);
+}
+
+.trajectory-year {
+  display: block;
+  margin-bottom: 18px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.trajectory-card h3 {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.trajectory-meta {
+  margin: 8px 0 12px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+.trajectory-card p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.58;
+  word-break: keep-all;
 }
 
 .architecture-panel {
@@ -1576,6 +1631,7 @@ h1 {
   .meta-grid,
   .text-grid,
   .media-grid,
+  .trajectory-grid,
   .architecture-flow,
   .architecture-loop,
   .twin-pipeline-panel {
