@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>게임엔진 2 — 1주차: OT 및 언리얼엔진 소개</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code { padding: 0; border: 0; background: transparent; }
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 01 · OT Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Cinematic Pipeline</p>
+        <h1>게임엔진 2 — 1주차: OT 및 언리얼엔진 소개</h1>
+        <p class="lead">16주 동안 Unreal Engine 5와 생성형 AI를 활용해 시네마틱 영상을 기획, 제작, 렌더링하는 수업의 첫 안내 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 01</span>
+          <span class="hero-chip">OT</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">CINEMATIC</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">1주차 OT</span></div>
+        <div class="meta-row"><span class="meta-key">생성일</span><span class="meta-value">2026-05-26</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="게임엔진-2-1주차-ot-및-언리얼엔진-소개"><span>게임엔진 2 — 1주차: OT 및 언리얼엔진 소개</span></h1>
+<aside class="callout callout-abstract"><div class="callout-title"><span>오늘의 학습 목표</span></div><div class="callout-body"><p>이 수업이 끝나면 여러분은:</p>
+<ul><li>16주간의 강의 로드맵과 시네마틱 영상 제작 파이프라인을 이해합니다</li><li>언리얼엔진 5의 핵심 기술(Nanite, Lumen, Megascans, 시퀀서)을 파악합니다</li><li>생성형 AI 도구의 시네마틱 제작 활용 가능성을 인식합니다</li></ul></div></aside>
+<hr>
+<h2 id="시네마틱-show-reel"><span>시네마틱 SHOW REEL</span></h2>
+<aside class="callout callout-video"><div class="callout-title"><span>오늘 수업에서 함께 보는 영상</span></div><div class="callout-body"><p><strong>오프닝 쇼릴</strong></p>
+<ul><li><a href="https://www.youtube.com/watch?v=WU0gvPcc3jQ" target="_blank" rel="noopener noreferrer">The Matrix Awakens — Epic Games 공식</a> — 실사급 퀄리티의 UE5 기술 데모</li><li><a href="https://www.youtube.com/watch?v=WZbeTaG-8gg" target="_blank" rel="noopener noreferrer">ABYSS — UE5.5 인디 시네마틱 (2025)</a> — 2인 크리에이터가 MetaHuman + Mocap으로 제작</li></ul>
+<p><strong>사례 분석</strong></p>
+<ul><li><a href="https://www.youtube.com/watch?v=84oxXdK2eGg" target="_blank" rel="noopener noreferrer">Haruki (陽輝) — UE5 환경 시네마틱 (2025)</a> — Lumen 렌더링, 라이팅·카메라 워크 관찰에 최적</li><li><a href="https://www.youtube.com/watch?v=3416z2WutQE" target="_blank" rel="noopener noreferrer">Hidden Alley — UEcinema 수업 프로젝트 (2025)</a> — 12일 만에 42개 샷 완성한 수업 프로젝트</li></ul>
+<p><strong>UE5 기술 데모</strong></p>
+<ul><li><a href="https://www.youtube.com/watch?v=qC5KtatMcUw" target="_blank" rel="noopener noreferrer">Lumen in the Land of Nanite — Epic Games 공식</a> — Nanite + Lumen 기술 시연</li></ul></div></aside>
+<hr>
+<h2 id="강의-개요"><span>강의 개요</span></h2>
+<h3 id="16주-로드맵"><span>16주 로드맵</span></h3>
+<p>이 수업은 <strong>언리얼엔진 5 + 생성형 AI</strong>를 활용하여 시네마틱 영상을 기획하고 제작하는 전 과정을 다룹니다.</p>
+<div class="table-wrap"><table><thead><tr><th>구분</th><th>주차</th><th>핵심 내용</th></tr></thead><tbody><tr><td data-label="구분"><strong>전반부</strong></td><td data-label="주차">1~7주</td><td data-label="핵심 내용">언리얼엔진 환경 구축 — 인터페이스, 레벨디자인, 에셋, 라이팅, 머티리얼</td></tr>
+<tr><td data-label="구분"><strong>중간고사</strong></td><td data-label="주차">8주</td><td data-label="핵심 내용">시네마틱 스토리보드 제작</td></tr>
+<tr><td data-label="구분"><strong>후반부</strong></td><td data-label="주차">9~13주</td><td data-label="핵심 내용">시네마틱 제작 핵심 — 블루프린트, 시퀀서, 카메라, AI 활용, 렌더링</td></tr>
+<tr><td data-label="구분"><strong>기말</strong></td><td data-label="주차">14~16주</td><td data-label="핵심 내용">시네마틱 영상 프로젝트 제작 및 피드백</td></tr></tbody></table></div>
+<hr>
+<h3 id="주차별-세부"><span>주차별 세부</span></h3>
+<p><strong>전반부: &quot;재료 모으기&quot;</strong></p>
+<div class="table-wrap"><table><thead><tr><th>주차</th><th>주제</th><th>한 줄 요약</th></tr></thead><tbody><tr><td data-label="주차">1</td><td data-label="주제">OT</td><td data-label="한 줄 요약">강의 소개 및 언리얼엔진 개요</td></tr>
+<tr><td data-label="주차">2</td><td data-label="주제">인터페이스 및 기초</td><td data-label="한 줄 요약">언리얼엔진 처음 켜기</td></tr>
+<tr><td data-label="주차">3</td><td data-label="주제">컨셉 개발 &amp; 레벨 디자인</td><td data-label="한 줄 요약">어떤 공간을 만들 건지 기획하기</td></tr>
+<tr><td data-label="주차">4</td><td data-label="주제">메가스캔 &amp; 폴리지</td><td data-label="한 줄 요약">고퀄리티 나무, 바위, 풀 배치하기</td></tr>
+<tr><td data-label="주차">5</td><td data-label="주제">라이팅</td><td data-label="한 줄 요약">빛으로 분위기 만들기</td></tr>
+<tr><td data-label="주차">6</td><td data-label="주제">머티리얼</td><td data-label="한 줄 요약">표면의 질감 표현하기</td></tr>
+<tr><td data-label="주차">7</td><td data-label="주제">스토리보드</td><td data-label="한 줄 요약">어떤 장면을 어떻게 찍을지 기획</td></tr></tbody></table></div>
+<p><strong>후반부: &quot;영상 만들기&quot;</strong></p>
+<div class="table-wrap"><table><thead><tr><th>주차</th><th>주제</th><th>한 줄 요약</th></tr></thead><tbody><tr><td data-label="주차">9</td><td data-label="주제">블루프린트</td><td data-label="한 줄 요약">코딩 없이 움직임 만들기</td></tr>
+<tr><td data-label="주차">10</td><td data-label="주제">시퀀서 기초</td><td data-label="한 줄 요약">타임라인 위에 장면 쌓기</td></tr>
+<tr><td data-label="주차">11</td><td data-label="주제">시퀀서 심화 &amp; 카메라</td><td data-label="한 줄 요약">영화 같은 카메라 연출</td></tr>
+<tr><td data-label="주차">12</td><td data-label="주제">3D 에셋 &amp; AI 활용</td><td data-label="한 줄 요약">AI로 텍스처, 에셋 만들기</td></tr>
+<tr><td data-label="주차">13</td><td data-label="주제">렌더링 &amp; 출력</td><td data-label="한 줄 요약">최종 영상 파일로 출력하기</td></tr></tbody></table></div>
+<hr>
+<h3 id="평가-방식"><span>평가 방식</span></h3>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>비중</th><th>내용</th></tr></thead><tbody><tr><td data-label="항목">출석</td><td data-label="비중">20%</td><td data-label="내용">매주 체크. 실습 수업 특성상 결석 시 따라잡기 어려움</td></tr>
+<tr><td data-label="항목">과제</td><td data-label="비중">20%</td><td data-label="내용">언리얼엔진 기초 실습 4회 (2, 4, 6, 10주차)</td></tr>
+<tr><td data-label="항목">중간고사</td><td data-label="비중">20%</td><td data-label="내용">시네마틱 스토리보드 제작</td></tr>
+<tr><td data-label="항목">기말고사</td><td data-label="비중">40%</td><td data-label="내용"><strong>시네마틱 영상 최종 제작</strong> (영상 + 프로젝트 파일)</td></tr></tbody></table></div>
+<aside class="callout callout-tip"><div class="callout-title"><span>핵심 포인트</span></div><div class="callout-body"><p>기말고사가 40%로 가장 큰 비중을 차지합니다. 이 수업의 최종 목표는 <strong>한 편의 시네마틱 영상을 완성하는 것</strong>입니다.</p></div></aside>
+<hr>
+<h3 id="수업-방침"><span>수업 방침</span></h3>
+<ul><li><strong>수업 구조</strong>: 주당 3시간 — 이론 2시간 + 실습 1시간 (2주차부터)</li><li><strong>생성형 AI 사용</strong>: 적극 권장 (구체적 규칙은 아래 AI 섹션 참고)</li><li><strong>자습 권장</strong>: 수업 외 주당 3~5시간</li></ul>
+<hr>
+<hr>
+<h2 id="시네마틱-제작-파이프라인"><span>시네마틱 제작 파이프라인</span></h2>
+<p>영상을 만드는 과정은 크게 <strong>세 단계</strong>로 나뉩니다. 이 파이프라인이 16주 커리큘럼의 뼈대입니다.</p>
+<h3 id="1단계-프리프로덕션-기획"><span>1단계: 프리프로덕션 — &quot;기획&quot;</span></h3>
+<pre><code>컨셉 개발 → 스토리보드 → 레퍼런스 수집</code></pre>
+<p>촬영(제작)에 들어가기 전에 &quot;무엇을 만들 것인지&quot; 정하는 단계입니다. 영화 감독이 콘티를 구성하는 과정에 해당합니다.</p>
+<aside class="callout callout-info"><div class="callout-title"><span>수업에서는</span></div><div class="callout-body"><p>7주차에 스토리보드를 제작하고, <strong>중간고사</strong>에서 제출합니다.</p></div></aside>
+<hr>
+<h3 id="2단계-프로덕션-제작"><span>2단계: 프로덕션 — &quot;제작&quot;</span></h3>
+<pre><code>씬 구성 → 라이팅 → 머티리얼 → 카메라 → 시퀀서</code></pre>
+<p>언리얼엔진 안에서 무대를 짓고, 조명을 놓고, 카메라를 움직여서 장면을 촬영하는 단계입니다. 실제 촬영과 달리, 원하는 만큼 수정하고 다시 찍을 수 있습니다.</p>
+<aside class="callout callout-info"><div class="callout-title"><span>수업에서는</span></div><div class="callout-body"><p>전반부(2~6주)에서 씬 구성·라이팅·머티리얼을, 후반부(9~11주)에서 카메라·시퀀서를 배웁니다.</p></div></aside>
+<hr>
+<h3 id="3단계-포스트프로덕션-후반-작업"><span>3단계: 포스트프로덕션 — &quot;후반 작업&quot;</span></h3>
+<pre><code>포스트 프로세스 → 렌더링 → 최종 출력</code></pre>
+<p>촬영한 장면에 색보정, 블룸, 비네팅 같은 효과를 입히고 최종 영상 파일로 출력하는 단계입니다.</p>
+<aside class="callout callout-info"><div class="callout-title"><span>수업에서는</span></div><div class="callout-body"><p>13주차에서 포스트 프로세스와 무비 렌더 큐를 다룹니다.</p></div></aside>
+<hr>
+<h3 id="파이프라인과-커리큘럼-매핑"><span>파이프라인과 커리큘럼 매핑</span></h3>
+<div class="table-wrap"><table><thead><tr><th>파이프라인</th><th>해당 주차</th><th>핵심 도구/개념</th></tr></thead><tbody><tr><td data-label="파이프라인">프리프로덕션</td><td data-label="해당 주차">3, 7주차</td><td data-label="핵심 도구/개념">컨셉 개발, 스토리보드</td></tr>
+<tr><td data-label="파이프라인">프로덕션 (씬)</td><td data-label="해당 주차">2~6주차</td><td data-label="핵심 도구/개념">레벨디자인, 메가스캔, 라이팅, 머티리얼</td></tr>
+<tr><td data-label="파이프라인">프로덕션 (촬영)</td><td data-label="해당 주차">9~11주차</td><td data-label="핵심 도구/개념">블루프린트, 시퀀서, 카메라 워크</td></tr>
+<tr><td data-label="파이프라인">포스트프로덕션</td><td data-label="해당 주차">13주차</td><td data-label="핵심 도구/개념">포스트 프로세스, 렌더링, 출력</td></tr></tbody></table></div>
+<aside class="callout callout-question"><div class="callout-title"><span>생각해보기</span></div><div class="callout-body"><p>좋아하는 게임 시네마틱이나 영화 트레일러를 떠올려 보세요. 그 영상의 어떤 부분이 &quot;멋있다&quot;고 느껴지나요? 그 느낌을 만들어내는 것이 <strong>라이팅</strong>, <strong>카메라 워크</strong>, <strong>포스트 프로세스</strong> 같은 기술입니다. 학기가 끝나면 이런 것들을 직접 만들 수 있게 됩니다.</p></div></aside>
+<h3 id="영상-속-기술-읽기"><span>영상 속 기술 읽기</span></h3>
+<p>영상을 볼 때 &quot;이건 어떻게 만들었지?&quot;라는 눈으로 보는 습관을 들이면, 학기가 끝날 때쯤 많은 것들이 보이기 시작합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>관찰 포인트</th><th>기술 요소</th><th>배우는 주차</th></tr></thead><tbody><tr><td data-label="관찰 포인트">&quot;이 장면이 왜 으스스해 보일까?&quot;</td><td data-label="기술 요소"><strong>라이팅</strong> — 빛의 방향과 그림자</td><td data-label="배우는 주차">5주차</td></tr>
+<tr><td data-label="관찰 포인트">&quot;이 장면이 왜 웅장해 보일까?&quot;</td><td data-label="기술 요소"><strong>로우앵글</strong> — 카메라 위치와 앵글</td><td data-label="배우는 주차">11주차</td></tr>
+<tr><td data-label="관찰 포인트">&quot;나무와 바위가 왜 실제처럼 보일까?&quot;</td><td data-label="기술 요소"><strong>메가스캔</strong> — 실제 자연물 스캔 에셋</td><td data-label="배우는 주차">4주차</td></tr>
+<tr><td data-label="관찰 포인트">&quot;전체적인 색감 톤은 어떻게?&quot;</td><td data-label="기술 요소"><strong>포스트 프로세스</strong> — 색보정 필터</td><td data-label="배우는 주차">13주차</td></tr></tbody></table></div>
+<hr>
+<hr>
+<h2 id="언리얼엔진-5-핵심-기술"><span>언리얼엔진 5 핵심 기술</span></h2>
+<h3 id="nanite-폴리곤-걱정-없는-세상"><span>Nanite — 폴리곤 걱정 없는 세상</span></h3>
+<p>수십억 개의 폴리곤을 가진 에셋을 씬에 배치해도, 엔진이 화면에 보이는 부분만 최적화하여 렌더링합니다. <strong>성능 때문에 디테일을 포기할 필요가 없습니다.</strong></p>
+<aside class="callout callout-example"><div class="callout-title"><span>비유</span></div><div class="callout-body"><p>도서관에 책이 100만 권 있다고 상상해보세요. Nanite는 지금 당장 읽을 페이지만 골라서 보여주는 똑똑한 사서와 같습니다.</p></div></aside>
+<p><strong>데모</strong>: <a href="https://www.youtube.com/watch?v=qC5KtatMcUw" target="_blank" rel="noopener noreferrer">Lumen in the Land of Nanite — Epic Games 공식</a></p>
+<hr>
+<h3 id="lumen-실시간으로-변하는-빛"><span>Lumen — 실시간으로 변하는 빛</span></h3>
+<p>빛의 반사, 간접광, 그림자를 <strong>실시간</strong>으로 계산합니다. 해가 지는 장면을 만들 때 라이트를 움직이면 바로 결과가 반영됩니다.</p>
+<aside class="callout callout-tip"><div class="callout-title"><span>핵심 포인트</span></div><div class="callout-body"><p>시네마틱에서 라이팅은 영상의 분위기를 결정하는 가장 중요한 요소입니다. 실시간 조정이 가능하다는 것은 다양한 시도를 빠르게 해볼 수 있다는 뜻입니다.</p></div></aside>
+<hr>
+<h3 id="megascans-무료-포토리얼-에셋"><span>Megascans — 무료 포토리얼 에셋</span></h3>
+<p>Quixel이 실제 자연물(바위, 나무, 흙 등)을 스캔해서 만든 3D 에셋 라이브러리입니다. <strong>언리얼엔진 사용자에게 무료</strong>로 제공되며, 수천 개의 에셋을 클릭 몇 번으로 씬에 배치할 수 있습니다.</p>
+<aside class="callout callout-info"><div class="callout-title"><span>수업에서는</span></div><div class="callout-body"><p>4주차 &quot;메가스캔 및 폴리지 시스템&quot;에서 직접 활용합니다.</p></div></aside>
+<hr>
+<h3 id="시퀀서-엔진-내장-영상-편집기"><span>시퀀서 — 엔진 내장 영상 편집기</span></h3>
+<p>프리미어 프로, 다빈치 리졸브와 유사한 타임라인 도구가 언리얼엔진에 내장되어 있습니다. 카메라 움직임을 키프레임으로 찍고, 장면 전환을 편집하고, 최종 영상으로 출력하는 것까지 엔진 안에서 가능합니다.</p>
+<aside class="callout callout-info"><div class="callout-title"><span>수업에서는</span></div><div class="callout-body"><p>10~11주차 &quot;시퀀서 기초/심화&quot;에서 집중적으로 다룹니다.</p></div></aside>
+<hr>
+<h3 id="unity-vs-unreal-engine-5"><span>Unity vs Unreal Engine 5</span></h3>
+<div class="table-wrap"><table><thead><tr><th></th><th>Unity</th><th>Unreal Engine 5</th></tr></thead><tbody><tr><td data-label="">강점</td><td data-label="Unity">모바일, 2D, 빠른 프로토타이핑</td><td data-label="Unreal Engine 5">고퀄리티 비주얼, 시네마틱</td></tr>
+<tr><td data-label="">비주얼 품질</td><td data-label="Unity">추가 설정 필요</td><td data-label="Unreal Engine 5">기본 상태로 높은 퀄리티</td></tr>
+<tr><td data-label="">시네마틱 도구</td><td data-label="Unity">제한적 (Timeline)</td><td data-label="Unreal Engine 5">전문적 (시퀀서, 시네 카메라)</td></tr>
+<tr><td data-label="">스크립팅</td><td data-label="Unity">C# 코드</td><td data-label="Unreal Engine 5">블루프린트 (비주얼) + C++</td></tr>
+<tr><td data-label="">학습 곡선</td><td data-label="Unity">비교적 완만</td><td data-label="Unreal Engine 5">초반에 가파름, 익숙해지면 강력</td></tr></tbody></table></div>
+<aside class="callout callout-tip"><div class="callout-title"><span>핵심 포인트</span></div><div class="callout-body"><p>Unity와 UE5는 용도가 다릅니다. <strong>&quot;시네마틱 영상 제작&quot;</strong>이라는 목적에서는 UE5가 훨씬 특화되어 있습니다.</p></div></aside>
+<hr>
+<hr>
+<h2 id="생성형-ai-활용"><span>생성형 AI 활용</span></h2>
+<h3 id="파이프라인별-ai-활용"><span>파이프라인별 AI 활용</span></h3>
+<p>시네마틱 제작 파이프라인의 거의 모든 단계에서 생성형 AI를 활용할 수 있습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>파이프라인 단계</th><th>AI 활용 예시</th><th>도구 예시 (2025~)</th></tr></thead><tbody><tr><td data-label="파이프라인 단계"><strong>프리프로덕션</strong></td><td data-label="AI 활용 예시">스토리 아이디어 발전, 컨셉 아트 생성</td><td data-label="도구 예시 (2025~)">ChatGPT, Midjourney, DALL-E</td></tr>
+<tr><td data-label="파이프라인 단계"><strong>프로덕션</strong></td><td data-label="AI 활용 예시">AI 텍스처 생성, 3D 모델 생성 → UE5 직접 임포트</td><td data-label="도구 예시 (2025~)"><a href="https://www.meshy.ai/" target="_blank" rel="noopener noreferrer">Meshy</a>, <a href="https://www.tripo3d.ai/" target="_blank" rel="noopener noreferrer">Tripo</a></td></tr>
+<tr><td data-label="파이프라인 단계"><strong>포스트프로덕션</strong></td><td data-label="AI 활용 예시">AI 기반 업스케일링, 음악/사운드 생성</td><td data-label="도구 예시 (2025~)">Topaz, Suno, Udio</td></tr></tbody></table></div>
+<aside class="callout callout-example"><div class="callout-title"><span>2025년 AI 도구 현황</span></div><div class="callout-body"><ul><li><strong>Meshy</strong>: 텍스트 한 줄로 3D 모델을 생성하고, UE5 플러그인으로 바로 씬에 배치 가능</li><li><strong>Tripo</strong>: 사진 1장을 넣으면 20초 만에 3D 모델 생성, FBX/GLB 내보내기 지원</li></ul>
+<p>12주차 &quot;3D 에셋 제작 및 AI 활용&quot;에서 직접 실습합니다.</p></div></aside>
+<hr>
+<h3 id="ai-사용-규칙"><span>AI 사용 규칙</span></h3>
+<aside class="callout callout-warning"><div class="callout-title"><span>필수 규칙</span></div><div class="callout-body"><p><strong>&quot;어떤 AI 도구를, 어떤 목적으로 사용했는지 반드시 기록하고 과제와 함께 제출하세요.&quot;</strong></p>
+<ul><li>AI 사용 자체는 감점이 아닙니다. <strong>적극 권장</strong>합니다.</li><li>단, 사용 도구와 방법을 기록하지 않고 제출하면 <strong>감점 대상</strong>입니다.</li><li>이는 실무에서도 동일하게 요구되는 투명성 원칙입니다.</li></ul></div></aside>
+<hr>
+<hr>
+<h2 id="시스템-요구사항-설치"><span>시스템 요구사항 &amp; 설치</span></h2>
+<h3 id="권장-사양"><span>권장 사양</span></h3>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>권장 사양</th><th>비고</th></tr></thead><tbody><tr><td data-label="항목">OS</td><td data-label="권장 사양">Windows 10/11 64-bit</td><td data-label="비고">Mac은 제한적 지원</td></tr>
+<tr><td data-label="항목">CPU</td><td data-label="권장 사양">Intel i7 / AMD Ryzen 7 이상</td><td data-label="비고">i5/Ryzen 5도 가능하나 느릴 수 있음</td></tr>
+<tr><td data-label="항목">RAM</td><td data-label="권장 사양">16GB 이상 (32GB 권장)</td><td data-label="비고">16GB는 최소</td></tr>
+<tr><td data-label="항목">GPU</td><td data-label="권장 사양">RTX 시리즈 권장</td><td data-label="비고">GTX 1060 이상이면 가능</td></tr>
+<tr><td data-label="항목">저장공간</td><td data-label="권장 사양">SSD 100GB 이상 여유</td><td data-label="비고"><strong>반드시 SSD</strong></td></tr></tbody></table></div>
+<aside class="callout callout-warning"><div class="callout-title"><span>개인 PC 필요</span></div><div class="callout-body"><p>실습실 PC는 기본 시연과 간단한 실습만 가능합니다. 기말 프로젝트 수준의 작업에는 <strong>개인 PC 사용을 강력 권장</strong>합니다. PC가 없거나 사양이 부족한 경우 교수에게 상담하세요.</p></div></aside>
+<hr>
+<h3 id="설치-방법"><span>설치 방법</span></h3>
+<aside class="callout callout-success"><div class="callout-title"><span>다음 주까지 설치를 완료해주세요!</span></div><div class="callout-body"></div></aside>
+<ol><li><strong>Epic Games Launcher 설치</strong> — <a href="https://www.epicgames.com/" target="_blank" rel="noopener noreferrer">epicgames.com</a> 에서 다운로드</li><li><strong>런처에서 Unreal Engine 탭</strong> → 최신 버전 (UE 5.x) 설치</li><li><strong>설치 경로는 반드시 SSD로 지정</strong> — HDD에 설치하면 로딩이 매우 느립니다</li><li><strong>설치 용량</strong>: 엔진 약 30~40GB + 프로젝트별 추가 용량</li></ol>
+<p>설치 중 문제가 생기면: jungho1005@cau.ac.kr</p>
+<hr>
+<hr>
+<h2 id="자주-묻는-질문"><span>자주 묻는 질문</span></h2>
+<aside class="callout callout-faq"><div class="callout-title"><span>&quot;Mac으로도 할 수 있나요?&quot;</span></div><div class="callout-body"><p>언리얼엔진 5는 Mac도 지원하지만, Apple Silicon(M1/M2/M3) 기준으로 일부 기능에 제한이 있습니다. 특히 <strong>Nanite와 Lumen이 제대로 동작하지 않을 수 있습니다.</strong> 가능하면 Windows를 권장하며, Mac밖에 없다면 교수와 상담하세요.</p></div></aside>
+<aside class="callout callout-faq"><div class="callout-title"><span>&quot;코딩을 못 해도 괜찮나요?&quot;</span></div><div class="callout-body"><p>괜찮습니다. 이 수업에서는 코드를 직접 작성하지 않습니다. <strong>블루프린트</strong>라는 비주얼 스크립팅 도구를 사용하며, 노드를 연결하는 방식이라 프로그래밍 경험이 없어도 할 수 있습니다.</p></div></aside>
+<aside class="callout callout-faq"><div class="callout-title"><span>&quot;기말 프로젝트 영상은 몇 분 정도인가요?&quot;</span></div><div class="callout-body"><p>길이보다 <strong>퀄리티</strong>가 중요합니다. 30초~1분 정도의 짧은 시네마틱이라도, 라이팅·카메라·분위기가 잘 잡혀있으면 높은 평가를 받을 수 있습니다.</p></div></aside>
+<aside class="callout callout-faq"><div class="callout-title"><span>&quot;팀 프로젝트인가요?&quot;</span></div><div class="callout-body"><p>아닙니다. <strong>개인 프로젝트</strong>입니다. 처음부터 끝까지 본인이 직접 제작합니다.</p></div></aside>
+<hr>
+<h2 id="시네마틱-장르-가이드"><span>시네마틱 장르 가이드</span></h2>
+<p>레퍼런스를 모을 때 참고할 수 있는 주요 장르입니다. 관심 가는 방향을 미리 탐색해보세요.</p>
+<div class="table-wrap"><table><thead><tr><th>장르</th><th>특징</th><th>예시</th></tr></thead><tbody><tr><td data-label="장르">게임 트레일러</td><td data-label="특징">액션, 캐릭터 중심, 빠른 컷</td><td data-label="예시">LOL 시네마틱, Fortnite 이벤트</td></tr>
+<tr><td data-label="장르">건축 시각화</td><td data-label="특징">공간감, 자연광, 차분한 무빙</td><td data-label="예시">ArchViz 쇼릴</td></tr>
+<tr><td data-label="장르">뮤직비디오</td><td data-label="특징">분위기, 색감, 리듬감 있는 편집</td><td data-label="예시">가상 아이돌 MV</td></tr>
+<tr><td data-label="장르">단편 영화</td><td data-label="특징">스토리텔링, 감정 연출, 긴 테이크</td><td data-label="예시">UE5 단편 필름</td></tr>
+<tr><td data-label="장르">환경 시네마틱</td><td data-label="특징">풍경, 자연, 분위기 몰입</td><td data-label="예시">&quot;Beautiful UE5 Environment&quot;</td></tr></tbody></table></div>
+<aside class="callout callout-tip"><div class="callout-title"><span>레퍼런스 수집 습관</span></div><div class="callout-body"><p>&quot;멋있다&quot;고 느끼는 영상이 있으면 핀터레스트, 유튜브 재생목록, 스크린샷 폴더 등 어디든 좋으니 틈틈이 수집해 두세요. 기말 프로젝트 때 큰 도움이 됩니다.</p></div></aside>
+<hr>
+<h2 id="다음-주-예고"><span>다음 주 예고</span></h2>
+<aside class="callout callout-important"><div class="callout-title"><span>2주차: 언리얼엔진 인터페이스 및 기초</span></div><div class="callout-body"><ul><li>에디터 화면 구성, 프로젝트 생성, 기본 오브젝트 배치</li><li><strong>실습과제 1</strong>이 있습니다</li><li><strong>준비물</strong>: <strong>언리얼엔진 5가 설치된 개인 PC</strong><ul><li>설치가 안 되면 수업을 따라가기 어렵습니다. 반드시 미리 설치하세요!</li><li>설치 문제 시: jungho1005@cau.ac.kr</li></ul></li></ul></div></aside>
+<hr>
+<hr>
+<h2 id="참고-자료"><span>참고 자료</span></h2>
+<h3 id="학습-자료"><span>학습 자료</span></h3>
+<div class="table-wrap"><table><thead><tr><th>자료</th><th>설명</th></tr></thead><tbody><tr><td data-label="자료"><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/" target="_blank" rel="noopener noreferrer">언리얼엔진 공식 문서</a></td><td data-label="설명">Epic Games 공식 레퍼런스</td></tr>
+<tr><td data-label="자료"><a href="https://dev.epicgames.com/community/unreal-engine/learning" target="_blank" rel="noopener noreferrer">언리얼엔진 학습 포털</a></td><td data-label="설명">공식 튜토리얼 및 강좌</td></tr>
+<tr><td data-label="자료"><a href="https://quixel.com/megascans" target="_blank" rel="noopener noreferrer">Quixel Megascans</a></td><td data-label="설명">포토리얼 3D 에셋 라이브러리 (UE 사용자 무료)</td></tr></tbody></table></div>
+<h3 id="오늘-수업에서-본-영상"><span>오늘 수업에서 본 영상</span></h3>
+<div class="table-wrap"><table><thead><tr><th>영상</th><th>링크</th></tr></thead><tbody><tr><td data-label="영상">The Matrix Awakens — Epic Games</td><td data-label="링크"><a href="https://www.youtube.com/watch?v=WU0gvPcc3jQ" target="_blank" rel="noopener noreferrer">YouTube</a></td></tr>
+<tr><td data-label="영상">ABYSS — UE5.5 인디 시네마틱 (2025)</td><td data-label="링크"><a href="https://www.youtube.com/watch?v=WZbeTaG-8gg" target="_blank" rel="noopener noreferrer">YouTube</a></td></tr>
+<tr><td data-label="영상">Haruki (陽輝) — UE5 환경 시네마틱 (2025)</td><td data-label="링크"><a href="https://www.youtube.com/watch?v=84oxXdK2eGg" target="_blank" rel="noopener noreferrer">YouTube</a></td></tr>
+<tr><td data-label="영상">Hidden Alley — UEcinema 수업 프로젝트 (2025)</td><td data-label="링크"><a href="https://www.youtube.com/watch?v=3416z2WutQE" target="_blank" rel="noopener noreferrer">YouTube</a></td></tr>
+<tr><td data-label="영상">Lumen in the Land of Nanite — Epic Games 공식</td><td data-label="링크"><a href="https://www.youtube.com/watch?v=qC5KtatMcUw" target="_blank" rel="noopener noreferrer">YouTube</a></td></tr></tbody></table></div>
+<h3 id="ai-도구"><span>AI 도구</span></h3>
+<div class="table-wrap"><table><thead><tr><th>도구</th><th>설명</th></tr></thead><tbody><tr><td data-label="도구"><a href="https://www.meshy.ai/" target="_blank" rel="noopener noreferrer">Meshy</a></td><td data-label="설명">텍스트/이미지 → 3D 모델 생성, UE5 플러그인 지원</td></tr>
+<tr><td data-label="도구"><a href="https://www.tripo3d.ai/" target="_blank" rel="noopener noreferrer">Tripo</a></td><td data-label="설명">이미지 1장 → 20초 만에 3D 모델 생성</td></tr></tbody></table></div>
+<hr>
+<aside class="callout callout-abstract"><div class="callout-title"><span>오늘의 전체 요약</span></div><div class="callout-body"><ul><li><strong>로드맵</strong>: 전반부(1~7주)에서 UE5 환경을 구축하고, 후반부(9~13주)에서 시네마틱을 제작하여, 기말(14~16주)에 영상을 완성합니다</li><li><strong>파이프라인</strong>: 프리프로덕션(기획) → 프로덕션(제작) → 포스트프로덕션(후반 작업) 3단계가 커리큘럼의 뼈대입니다</li><li><strong>UE5 핵심 기술</strong>: Nanite(폴리곤 최적화), Lumen(실시간 라이팅), Megascans(무료 에셋), 시퀀서(영상 편집)</li><li><strong>다음 주 준비물</strong>: <strong>언리얼엔진 5가 설치된 개인 PC</strong></li></ul></div></aside>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#시네마틱-show-reel">시네마틱 SHOW REEL</a></li><li><a href="#강의-개요">강의 개요</a></li><li><a href="#시네마틱-제작-파이프라인">시네마틱 제작 파이프라인</a></li><li><a href="#언리얼엔진-5-핵심-기술">언리얼엔진 5 핵심 기술</a></li><li><a href="#생성형-ai-활용">생성형 AI 활용</a></li><li><a href="#시스템-요구사항-설치">시스템 요구사항 &amp; 설치</a></li><li><a href="#자주-묻는-질문">자주 묻는 질문</a></li><li><a href="#시네마틱-장르-가이드">시네마틱 장르 가이드</a></li><li><a href="#다음-주-예고">다음 주 예고</a></li><li><a href="#참고-자료">참고 자료</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External video links open in a new tab.</p>
+</body>
+</html>

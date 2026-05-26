@@ -672,11 +672,23 @@
     }
 
     .course-card {
+      display: block;
       padding: 15px 16px;
       border: 1px solid var(--line);
       border-radius: 8px;
       background: #fff;
+      color: inherit;
       box-shadow: 0 10px 24px rgba(20, 31, 52, 0.04);
+      text-decoration: none;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .course-card:hover {
+      border-color: var(--accent-line);
+      background: var(--surface);
+      box-shadow: 0 14px 30px rgba(20, 31, 52, 0.07);
+      text-decoration: none;
+      transform: translateY(-1px);
     }
 
     .course-card h4 {
@@ -692,6 +704,17 @@
       color: var(--muted);
       font-size: 14px;
       line-height: 1.5;
+    }
+
+    .course-link-label {
+      display: inline-flex;
+      margin-top: 12px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.3;
+      text-transform: uppercase;
     }
 
     .pill-row {
@@ -1188,11 +1211,12 @@
           <section class="teaching-group">
             <h3 class="subsection-title">University Courses</h3>
             <div class="course-grid">
-              <article class="course-card">
+              <a class="course-card" href="teaching/game-engine/">
                 <h4>Game Engine I / II</h4>
                 <p>Unreal Engine, real-time production, interactive systems, and project-based prototyping.</p>
                 <ul class="card-tags"><li>Unreal Engine</li><li>Real-Time</li><li>Interactive Systems</li></ul>
-              </article>
+                <span class="course-link-label">View course materials</span>
+              </a>
               <article class="course-card">
                 <h4>Content Programming Practice</h4>
                 <p>Creative coding, production pipelines, and practical software prototyping for media content.</p>

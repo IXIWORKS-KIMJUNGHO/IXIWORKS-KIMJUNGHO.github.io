@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Game Engine I / II | Kim Jungho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --surface: #f8f9fb;
+      --surface-strong: #f1f3f6;
+      --ink: #343840;
+      --ink-strong: #22252b;
+      --muted: #6a6f78;
+      --line: #e7e9ee;
+      --line-strong: #d7dae2;
+      --accent: #3956a3;
+      --accent-strong: #263f87;
+      --accent-soft: #eef2ff;
+      --accent-line: #c9d4f5;
+      --link: #294a9b;
+      --shadow: 0 18px 45px rgba(20, 31, 52, .08);
+      --sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+      --mono: "IBM Plex Mono", "SF Mono", Menlo, ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.66;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 255, 255, .96);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav {
+      width: min(1120px, calc(100% - 48px));
+      height: 72px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .brand {
+      margin-right: auto;
+      color: var(--ink-strong);
+      font-size: 21px;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .nav a:not(.brand) {
+      color: var(--ink);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .nav a:not(.brand):hover {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    .page {
+      width: min(960px, calc(100% - 48px));
+      margin: 0 auto;
+      padding: 58px 0 86px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 16px;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 18px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--ink-strong);
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: 0;
+      line-height: 1.08;
+    }
+
+    .lead {
+      max-width: 760px;
+      margin: 18px 0 34px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.66;
+    }
+
+    .section-title {
+      margin: 0 0 18px;
+      padding-bottom: 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-strong);
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .material-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .material-card {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent-line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: inherit;
+      box-shadow: 0 10px 24px rgba(20, 31, 52, .04);
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+    }
+
+    .material-card:hover {
+      border-color: var(--accent-line);
+      background: #fff;
+      box-shadow: 0 14px 30px rgba(20, 31, 52, .07);
+      text-decoration: none;
+      transform: translateY(-1px);
+    }
+
+    .week {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.4;
+      white-space: nowrap;
+    }
+
+    .material-title {
+      margin: 0;
+      color: var(--ink-strong);
+      font-size: 17px;
+      font-weight: 700;
+      line-height: 1.45;
+    }
+
+    .material-meta {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .open-label {
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.3;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .note {
+      margin: 28px 0 0;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 720px) {
+      .nav {
+        width: min(100% - 24px, 720px);
+        min-height: 68px;
+        height: auto;
+        gap: 14px;
+      }
+
+      .brand { font-size: 16px; }
+      .nav a:not(.brand) { font-size: 13.5px; }
+
+      .page {
+        width: min(100% - 32px, 720px);
+        padding: 38px 0 68px;
+      }
+
+      h1 { font-size: 34px; }
+      .lead { font-size: 16.5px; }
+
+      .material-card {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+
+      .open-label { margin-top: 6px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="../../index.html">Kim Jungho</a>
+      <a href="../../index.html#teaching">Teaching</a>
+      <a href="../../index.html#cv">CV</a>
+    </nav>
+  </header>
+
+  <main class="page">
+    <p class="kicker">Teaching Archive</p>
+    <h1>Game Engine I / II</h1>
+    <p class="lead">Course materials for Unreal Engine, real-time production, interactive systems, and cinematic project-based prototyping.</p>
+
+    <section aria-labelledby="game-engine-ii">
+      <h2 class="section-title" id="game-engine-ii">Game Engine II</h2>
+      <div class="material-list">
+        <a class="material-card" href="week-01-ot.html">
+          <span class="week">Week 01</span>
+          <span>
+            <span class="material-title">OT and Unreal Engine Introduction</span>
+            <span class="material-meta">Course roadmap, UE5 cinematic pipeline, core technologies, AI usage policy, and installation guide.</span>
+          </span>
+          <span class="open-label">Open</span>
+        </a>
+      </div>
+    </section>
+
+    <p class="note">Additional weekly materials will be added here as public handouts are prepared.</p>
+  </main>
+</body>
+</html>
