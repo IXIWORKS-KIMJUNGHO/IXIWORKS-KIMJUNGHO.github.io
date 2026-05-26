@@ -337,7 +337,7 @@ pre code { padding: 0; border: 0; background: transparent; }
 
 table {
   width: 100%;
-  table-layout: fixed;
+  table-layout: auto;
   border-collapse: collapse;
   border: 1px solid #c6d0dc;
   font-size: .9rem;
@@ -519,27 +519,6 @@ hr {
   font-weight: 760;
 }
 
-.figure-missing {
-  display: grid;
-  min-height: 164px;
-  align-items: center;
-  text-align: center;
-  background:
-    linear-gradient(90deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
-    #f4f6f8;
-  background-size: 28px 28px;
-}
-
-.figure-missing .missing-label {
-  padding: 34px 14px 20px;
-  color: #59616a;
-  font-family: var(--font-latin), var(--font-ko);
-  font-size: .78rem;
-  font-weight: 900;
-  letter-spacing: 0;
-}
-
 .hint-details {
   margin: 14px 0;
   border: 1px solid #d4d8dd;
@@ -656,14 +635,6 @@ h1, .lead, .material-title, .material-meta,
 <li><strong>Unreal Engine 5.7</strong> 옆의 <strong>Launch</strong> 버튼을 클릭하세요. → 런처가 사라지고 잠시 후 <strong>프로젝트 브라우저</strong> 창이 열립니다. 이 창에서 프로젝트를 만들어야 에디터가 열립니다.</li>
 </ol></li>
 </ul>
-<figure class="lecture-figure figure-missing">
-<div class="missing-label">
-이미지 준비 중
-</div>
-<figcaption>
-ue-project-browser.png
-</figcaption>
-</figure>
 <p><strong>프로젝트 브라우저 화면 구성</strong> — 창이 열리면 3개 영역으로 나뉘어 있습니다.</p>
 <ul>
 <li><strong>왼쪽</strong> — 카테고리 탭: Games, Film, Architecture 등</li>
@@ -882,14 +853,6 @@ ue ue4 classic layout
 <p>Viewport는 <strong>에디터 전용 카메라</strong>입니다. Play를 누르면 씬에 배치된 PlayerStart 위치의 <strong>게임 카메라</strong>로 전환됩니다. 둘은 다릅니다.</p>
 </div>
 </div>
-<figure class="lecture-figure figure-missing">
-<div class="missing-label">
-이미지 준비 중
-</div>
-<figcaption>
-ue-viewport-toolbar.png
-</figcaption>
-</figure>
 <p><strong>Viewport 상단 툴바</strong> — 왼쪽 상단 모서리에 드롭다운 버튼이 나열되어 있습니다: <code>[Perspective ▼]  [Lit ▼]  [Show ▼]</code></p>
 <ul>
 <li><strong>[Perspective]</strong> — 클릭하면 Top / Front / Right / Side 등 직교 뷰로 전환 가능. 오늘은 Perspective(원근) 그대로 둡니다.</li>
@@ -901,14 +864,6 @@ ue-viewport-toolbar.png
 <blockquote class="quote-note">
 <p><strong>위치</strong>: 화면 우측 상단 <strong>역할</strong>: 현재 씬(레벨)에 배치된 <strong>모든 액터의 목록</strong>. “무대 위 배우 명단”</p>
 </blockquote>
-<figure class="lecture-figure figure-missing">
-<div class="missing-label">
-이미지 준비 중
-</div>
-<figcaption>
-ue-outliner-panel.png
-</figcaption>
-</figure>
 <p><strong>Outliner 패널 구성</strong> — 화면 오른쪽 상단의 세로로 긴 패널입니다.</p>
 <ul>
 <li><strong>[상단]</strong> 돋보기 아이콘이 있는 검색창 — 오브젝트 이름을 타이핑하면 실시간 필터링. 오브젝트가 많아졌을 때 빠르게 찾을 수 있습니다.</li>
@@ -926,14 +881,6 @@ ue-outliner-panel.png
 <blockquote class="quote-note">
 <p><strong>위치</strong>: 화면 우측 하단 (Outliner 아래) <strong>역할</strong>: 선택한 액터의 <strong>모든 속성</strong> 표시·편집. Unity의 Inspector와 동일.</p>
 </blockquote>
-<figure class="lecture-figure figure-missing">
-<div class="missing-label">
-이미지 준비 중
-</div>
-<figcaption>
-ue-details-panel.png
-</figcaption>
-</figure>
 <p><strong>Details Panel 구성</strong> — Outliner 바로 아래, 화면 오른쪽 하단에 있습니다.</p>
 <ul>
 <li><strong>[맨 위]</strong> 선택된 액터 이름이 텍스트 칸에 표시됨 — 클릭해서 이름 변경 가능.</li>
@@ -951,14 +898,6 @@ ue-details-panel.png
 <blockquote class="quote-note">
 <p><strong>위치</strong>: 화면 하단 <strong>역할</strong>: 프로젝트 내 <strong>모든 에셋 파일 관리</strong>. 3D 모델, 텍스처, 머티리얼, 블루프린트, 레벨 파일.</p>
 </blockquote>
-<figure class="lecture-figure figure-missing">
-<div class="missing-label">
-이미지 준비 중
-</div>
-<figcaption>
-ue-content-browser.png
-</figcaption>
-</figure>
 <p><strong>Content Browser 구성</strong> — 화면 하단에 가로로 넓게 펼쳐진 패널입니다.</p>
 <ul>
 <li><strong>[왼쪽 영역]</strong> 폴더 트리 — Content, Engine 등 폴더가 계층 구조로 나열. &gt; 화살표를 클릭하면 하위 폴더가 펼쳐지고, 폴더를 클릭하면 오른쪽에 내용물이 표시됨.</li>
@@ -1312,14 +1251,6 @@ ue-content-browser.png
 </ul>
 <hr />
 <h3 id="스냅-게임-뷰">스냅 + 게임 뷰</h3>
-<figure class="lecture-figure figure-missing">
-<div class="missing-label">
-이미지 준비 중
-</div>
-<figcaption>
-ue-navigation-snap.png
-</figcaption>
-</figure>
 <p><strong>스냅 아이콘</strong> — Viewport 오른쪽 상단 모서리 근처, 이동/회전/스케일 아이콘보다 더 오른쪽에 격자 모양 아이콘 3개가 나란히 있습니다. 각각 옆에 숫자가 적혀 있습니다: <code>[격자 | 10]</code> 이동 스냅 / <code>[원호 | 10.0]</code> 회전 스냅 / <code>[네모 | 0.25]</code> 스케일 스냅.</p>
 <ul>
 <li><strong>아이콘 자체를 클릭</strong> = 스냅 켜기/끄기 전환 (파란색 = 켜짐, 회색 = 꺼짐)</li>
