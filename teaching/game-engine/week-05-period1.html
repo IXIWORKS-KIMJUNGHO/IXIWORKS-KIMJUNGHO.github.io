@@ -1,0 +1,1676 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 1교시 — 환경 라이팅 시스템</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 05 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Environment Lighting</p>
+        <h1>5주차 1교시 — 환경 라이팅 시스템</h1>
+        <p class="lead">빈 레벨에서 Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud를 조합해 자연환경 라이팅을 구축하는 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 05</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">LIGHTING</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">5주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">1교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">환경 라이팅 시스템</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-1교시-환경-라이팅-시스템-학생용">5주차 1교시 — 환경 라이팅 시스템 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">강의 아웃라인</td>
+<td data-label="문서">5주차 아웃라인: 환경 라이팅과 에셋 배치</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title">
+<span>학습 목표</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>
+빈 레벨에서 환경 라이팅을 처음부터 구축할 수 있다
+</li>
+<li>
+Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud — 5가지 요소의 역할을 이해한다
+</li>
+<li>
+Env. Light Mixer로 환경 라이팅을 한 번에 생성하고 관리할 수 있다
+</li>
+</ul>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/01_env-lighting-components.png" alt="env lighting components" />
+<figcaption>환경 라이팅 구성요소와 빌드 순서 (UE 5.7 기준 — MegaLights, Local Fog Volume, Day Sequence 포함)</figcaption>
+</figure>
+<p>이 5개를 하나씩 넣으면서 어떤 변화가 생기는지 직접 눈으로 확인합니다.</p>
+<hr />
+<h2 id="레벨-준비">1. 레벨 준비</h2>
+<p>4주차에서 만들어둔 레벨을 열거나, 없는 경우 새로 생성합니다.</p>
+<ol type="1">
+<li>File &gt; Open Level에서 4주차 레벨을 여세요</li>
+<li>없으면 File &gt; New Level &gt; Basic으로 생성</li>
+<li>Cube 바닥(Scale 20,20,1)과 폴리지가 있는 상태에서 시작합니다</li>
+</ol>
+<p>바닥과 풀이 있는 상태이면 됩니다. 이미 준비한 경우 그대로 사용하세요.</p>
+<hr />
+<h2 id="directional-light-구축-directional-light">2. Directional Light 구축 — Directional Light</h2>
+<h3 id="기존-라이팅-삭제-암흑에서-시작">기존 라이팅 삭제 — 암흑에서 시작</h3>
+<p>기본 레벨에 이미 하늘과 라이팅이 들어있습니다. 이를 모두 삭제하고 처음부터 만들어야 원리를 이해할 수 있습니다.</p>
+<p><strong>라이팅 삭제:</strong></p>
+<ol type="1">
+<li>Outliner 검색창에 “light”를 검색 → Ctrl+A로 전부 선택 → Delete</li>
+<li>“fog” 검색 → 삭제</li>
+<li>“sky” 검색 → 삭제</li>
+<li>“cloud” 검색 → 삭제</li>
+<li>Outliner 검색창을 비우세요</li>
+</ol>
+<p>뷰포트가 <strong>완전히 어두운 상태</strong>이 됩니다. 나무도 풀도 있지만 빛이 없으므로 보이지 않습니다.</p>
+<hr />
+<h3 id="directional-light-생성-조작">Directional Light 생성 + 조작</h3>
+<p><strong>Directional Light 배치:</strong></p>
+<ol type="1">
+<li>Place Actors 패널을 여세요 (Shift+1 또는 Window &gt; Place Actors)</li>
+<li>검색창에 “directional”을 타이핑하세요</li>
+<li>Directional Light를 뷰포트 중앙으로 드래그하세요</li>
+</ol>
+<ul>
+<li>한쪽 면에만 빛이 비칩니다</li>
+<li>배경은 여전히 검정입니다</li>
+</ul>
+<p>빛은 생겼지만, 하늘이 없으므로 배경은 아직 검정입니다.</p>
+<p><strong>Directional Light 회전 시연:</strong></p>
+<ol type="1">
+<li>Outliner에서 DirectionalLight를 선택하세요</li>
+<li>회전 모드로 전환하세요 (단축키 E)</li>
+<li>뷰포트에서 회전 기즈모를 드래그하세요</li>
+</ol>
+<ul>
+<li>위에서 비추면 한낮처럼 밝음</li>
+<li>수평에 가까우면 긴 그림자, 노을 느낌</li>
+<li>아래로 내리면 어두워짐 (밤)</li>
+</ul>
+<hr />
+<h3 id="directional-light-개념-light-mobility">Directional Light 개념 + Light Mobility</h3>
+<p>디렉셔널 라이트는 가상세계에서 태양 역할을 합니다.</p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>특성</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="특성"><strong>직진성</strong></td>
+<td data-label="설명">모든 광선이 같은 방향으로 평행하게 나감 — 태양빛과 동일</td>
+</tr>
+<tr>
+<td data-label="특성"><strong>거리 무관</strong></td>
+<td data-label="설명">거리에 따라 빛의 강도가 변하지 않습니다</td>
+</tr>
+<tr>
+<td data-label="특성"><strong>위치 무의미</strong></td>
+<td data-label="설명">Location을 바꿔도 변화 없음. <strong>Rotation(회전)</strong>으로 빛의 방향 = 시간대를 결정</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/02_directional-light-rotation.png" alt="directional light rotation" />
+<figcaption>Directional Light 회전에 따른 시간대 변화</figcaption>
+</figure>
+<p>정리하면, 위치를 바꿔봐야 소용없습니다. 회전만이 의미 있습니다.</p>
+<p><strong>Directional Light 주요 속성 (Details 패널):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Intensity</strong></td>
+<td data-label="기본값">10.0 lux</td>
+<td data-label="설명">빛의 세기. 값이 높을수록 밝음</td>
+<td data-label="조절 팁">실외 태양: 10~15, 흐린 날: 3~5</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Light Color</strong></td>
+<td data-label="기본값">흰색</td>
+<td data-label="설명">빛의 색상. 클릭하면 컬러 피커 열림</td>
+<td data-label="조절 팁">노을: 주황빛, 달빛: 파란빛</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Use Temperature</strong></td>
+<td data-label="기본값">꺼짐</td>
+<td data-label="설명">켜면 색온도(K)로 빛 색을 제어</td>
+<td data-label="조절 팁">5500K=한낮, 3000K=석양, 8000K=흐린 하늘</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Temperature</strong></td>
+<td data-label="기본값">6500 K</td>
+<td data-label="설명">Use Temperature 켰을 때만 적용</td>
+<td data-label="조절 팁">낮은 값=따뜻, 높은 값=차가움</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Source Angle</strong></td>
+<td data-label="기본값">0.5357</td>
+<td data-label="설명">태양 디스크 크기. 값이 클수록 그림자 가장자리가 부드러워짐</td>
+<td data-label="조절 팁">0.5=현실 태양, 2~3=부드러운 그림자</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Atmosphere Sun Light</strong></td>
+<td data-label="기본값">체크됨</td>
+<td data-label="설명">SkyAtmosphere와 연동하여 태양 위치를 결정</td>
+<td data-label="조절 팁">기본 체크 유지</td>
+</tr>
+</tbody>
+</table></div>
+<p>Intensity는 햇빛 밝기, Light Color는 빛 색, Source Angle은 그림자 부드러움입니다. 이 3개만 알면 됩니다.</p>
+<p>Light Mobility라는 개념도 중요합니다. 라이트마다 ’이 빛을 어떻게 처리할 것인가’를 정해줘야 합니다.</p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>Mobility</th>
+<th>그림자</th>
+<th>실시간 변경</th>
+<th>성능 비용</th>
+<th>사용 시점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="Mobility"><strong>Static</strong></td>
+<td data-label="그림자">라이트맵에 구워짐 (빌드 필요)</td>
+<td data-label="실시간 변경">불가 — 게임 중 바꿀 수 없음</td>
+<td data-label="성능 비용">가장 가벼움</td>
+<td data-label="사용 시점">움직이지 않는 고정 조명</td>
+</tr>
+<tr>
+<td data-label="Mobility"><strong>Stationary</strong></td>
+<td data-label="그림자">정적 그림자 + 일부 동적</td>
+<td data-label="실시간 변경">색/강도만 변경 가능</td>
+<td data-label="성능 비용">중간</td>
+<td data-label="사용 시점">하루 중 변하지 않는 실내 조명</td>
+</tr>
+<tr>
+<td data-label="Mobility"><strong>Movable</strong></td>
+<td data-label="그림자">완전히 동적인 그림자</td>
+<td data-label="실시간 변경">위치/회전/색 전부 변경 가능</td>
+<td data-label="성능 비용">가장 무거움</td>
+<td data-label="사용 시점">태양처럼 움직여야 하는 빛</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/03_light-mobility-table.png" alt="light mobility table" />
+<figcaption>light mobility table</figcaption>
+</figure>
+<p>예전에는 Movable 라이트를 많이 쓰면 부담이 컸지만, UE 5.7에서는 MegaLights가 Beta로 개선되어 많은 동적 라이트를 다루는 흐름이 좋아지고 있습니다. 뒤에서 사례로 다룹니다.</p>
+<hr />
+<h3 id="작업-팁-ctrl-l">작업 팁: Ctrl + L</h3>
+<p>기즈모로 회전하는 것보다 훨씬 빠른 방법이 있습니다.</p>
+<p>Ctrl + L을 누른 채로 마우스를 움직여보세요:</p>
+<ul>
+<li>Directional Light가 마우스 움직임에 따라 빠르게 회전됩니다</li>
+<li>마우스를 왼쪽/오른쪽으로 움직이면 태양 위치(시간대)가 변경됩니다</li>
+<li>마우스를 위/아래로 움직이면 태양 높이가 변경됩니다</li>
+<li>Viewport 안쪽을 먼저 클릭해서 포커스를 줘야 작동합니다</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>Ctrl + L은 Directional Light 회전에 자주 쓰는 단축키입니다. 기억해두면 시간대 연출이 훨씬 빨라집니다.</span>
+</div>
+<div class="callout-body">
+
+</div>
+</div>
+<hr />
+<h3 id="학생-실습">학생 실습</h3>
+<p>Directional Light를 넣고 회전해보세요. 기즈모로도 해보고, Ctrl+L로도 해보세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>
+“Ctrl+L이 안 돼요” → Viewport 안쪽을 먼저 클릭하세요
+</li>
+<li>
+“빛이 안 바뀌어요” → Location이 아니라 Rotation을 바꿔야 합니다
+</li>
+</ul>
+</div>
+</div>
+<p>Directional Light만 있으면 하늘이 보이지 않습니다. 배경이 검정이므로, 하늘을 만들려면 다른 구성요소가 필요합니다.</p>
+<hr />
+<h2 id="하늘과-그림자-skyatmosphere-skylight">3. 하늘과 그림자 — SkyAtmosphere + SkyLight</h2>
+<h3 id="skyatmosphere-대기를-만들기">SkyAtmosphere — 대기를 만들기</h3>
+<p>하늘이 없으므로 배경이 검정입니다. SkyAtmosphere를 넣어봅니다. 이름 그대로 — 하늘(Sky) + 대기(Atmosphere)입니다.</p>
+<p><strong>SkyAtmosphere 배치:</strong></p>
+<ol type="1">
+<li>Place Actors 패널을 여세요 (Shift+1)</li>
+<li>검색창에 “sky atmosphere”를 타이핑하세요</li>
+<li>Sky Atmosphere를 뷰포트 아무 곳에나 드래그하세요 — 위치는 상관없습니다</li>
+</ol>
+<p>배경에 하늘이 나타납니다. Directional Light 각도에 따라 노을이 보이기도 하고, 파란 하늘이 보이기도 합니다.</p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>역할</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="역할"><strong>대기 생성</strong></td>
+<td data-label="설명">하늘색, 노을, 밤하늘을 표현하는 대기 층을 만들어줌</td>
+</tr>
+<tr>
+<td data-label="역할"><strong>Directional Light 연동</strong></td>
+<td data-label="설명">태양 없이 대기만 있으면 변화가 적으므로 기본적으로 함께 사용</td>
+</tr>
+<tr>
+<td data-label="역할"><strong>시간대 연동</strong></td>
+<td data-label="설명">Directional Light를 회전하면 대기 색이 자동으로 바뀜</td>
+</tr>
+</tbody>
+</table></div>
+<p>디렉셔널 라이트 + SkyAtmosphere — 이 두 개가 기본 세트입니다.</p>
+<p><strong>SkyAtmosphere 주요 속성 (Details 패널):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Rayleigh Scattering Scale</strong></td>
+<td data-label="기본값">0.0331</td>
+<td data-label="설명">대기 산란 강도. 하늘이 파란 이유가 이 산란 때문</td>
+<td data-label="조절 팁">올리면 하늘이 더 강렬, 낮추면 탁한 느낌</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Rayleigh Scattering Color</strong></td>
+<td data-label="기본값">파란색</td>
+<td data-label="설명">산란 색상. 바꾸면 하늘 전체 색이 변함</td>
+<td data-label="조절 팁">흰색=흑백 하늘, 보라=SF 느낌</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Mie Scattering Scale</strong></td>
+<td data-label="기본값">0.003996</td>
+<td data-label="설명">안개/미립자 산란. 태양 주변 빛번짐(halo) 제어</td>
+<td data-label="조절 팁">올리면 태양 주변이 뿌옇게</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Mie Anisotropy</strong></td>
+<td data-label="기본값">0.8</td>
+<td data-label="설명">산란 방향성. 1에 가까울수록 태양 쪽으로만 빛번짐</td>
+<td data-label="조절 팁">낮추면 빛이 전방향으로 퍼짐</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Absorption Scale</strong></td>
+<td data-label="기본값">0.001881</td>
+<td data-label="설명">대기가 특정 색을 흡수하는 정도</td>
+<td data-label="조절 팁">올리면 보색이 하늘에 강하게 나타남</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Ground Radius</strong></td>
+<td data-label="기본값">6360.0</td>
+<td data-label="설명">행성 크기 (km). 지구 반지름 기준</td>
+<td data-label="조절 팁">바꾸면 수평선 곡률이 달라짐</td>
+</tr>
+</tbody>
+</table></div>
+<p>대부분은 기본값 그대로 써도 충분합니다. 외계 행성이나 판타지 분위기를 만들고 싶을 때 Rayleigh Color나 Absorption을 바꿔보세요. 물리를 이해할 필요 없이 색을 바꿔보고 마음에 드는 것을 사용합니다.</p>
+<p><strong>시연: Ctrl+L로 연동 확인</strong></p>
+<p>Ctrl+L로 회전시켜보세요.</p>
+<ul>
+<li>빛이 높을 때: 맑은 파란 하늘</li>
+<li>빛이 수평일 때: 붉은 노을 — 하늘 전체가 주황+보라빛</li>
+<li>빛이 아래일 때: 어두운 밤하늘</li>
+</ul>
+<p>Directional Light 하나를 회전시킨 것뿐인데 SkyAtmosphere가 연동해서 대기 색을 자동으로 바꿔주는 것입니다.</p>
+<hr />
+<h3 id="skylight-그림자에-skylight로-그림자-보완하기">SkyLight — 그림자에 SkyLight로 그림자 보완하기</h3>
+<p>하늘이 생겼지만 아직 어색한 부분이 있습니다. 나무 뒤쪽, 빛이 안 닿는 부분이 매우 어둡습니다. 현실에서 그림자는 검정에 가깝게이 아닙니다. 하늘빛이 반사되어 그림자에도 약간의 색이 있습니다.</p>
+<p><strong>SkyLight 배치:</strong></p>
+<ol type="1">
+<li>Place Actors 패널 검색창에 “sky light”을 타이핑하세요</li>
+<li>Sky Light를 뷰포트 아무 곳에 드래그하세요</li>
+</ol>
+<ul>
+<li>배치하는 순간 그림자 부분의 색이 바뀝니다</li>
+</ul>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>항목</th>
+<th>SkyLight 적용 전</th>
+<th>SkyLight 적용 후</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목">그림자 색</td>
+<td data-label="SkyLight 적용 전">검정에 가깝게, 디테일 없음</td>
+<td data-label="SkyLight 적용 후">하늘색이 반영된 자연스러운 색</td>
+</tr>
+<tr>
+<td data-label="항목">어두운 영역</td>
+<td data-label="SkyLight 적용 전">뭉개져서 형태 구분 어려움</td>
+<td data-label="SkyLight 적용 후">형태가 살아남, 디테일 보임</td>
+</tr>
+<tr>
+<td data-label="항목">전체 느낌</td>
+<td data-label="SkyLight 적용 전">CG 같은 부자연스러운 느낌</td>
+<td data-label="SkyLight 적용 후">훨씬 자연스럽고 현실적</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/04_skylight-before-after.png" alt="skylight before after" />
+<figcaption>SkyLight 적용 전/후 — 그림자 속 디테일과 하늘색 주변광 비교</figcaption>
+</figure>
+<blockquote class="quote-note"><p>SkyLight를 켠 뒤 그림자 색과 어두운 영역의 디테일이 어떻게 달라지는지 뷰포트에서 직접 비교해보세요.</p></blockquote>
+<p>스카이 라이트는 빛을 받지 않는 그림자에 하늘의 컬러를 입혀줍니다.</p>
+<p><strong>SkyLight 주요 설정:</strong></p>
+<p>설정을 하지 않으면 실시간으로 반영이 되지 않습니다.</p>
+<ol type="1">
+<li>Outliner에서 SkyLight를 선택하세요</li>
+<li>Details 패널 상단에서 Mobility를 Static에서 <strong>Movable</strong>로 변경하세요</li>
+<li>Details 패널 Light 섹션에서 <strong>Real Time Capture</strong> 체크박스를 켜세요 (검색창에 “real time” 입력하면 빠름)</li>
+</ol>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>설정</th>
+<th>값</th>
+<th>안 하면?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="설정">Mobility</td>
+<td data-label="값"><strong>Movable</strong></td>
+<td data-label="안 하면?">하늘 색 변해도 그림자 색 안 바뀜</td>
+</tr>
+<tr>
+<td data-label="설정">Real Time Capture</td>
+<td data-label="값"><strong>체크</strong></td>
+<td data-label="안 하면?">Directional Light 회전해도 반영 안 됨</td>
+</tr>
+</tbody>
+</table></div>
+<p>Movable로 설정하면 시간대 변화나 하늘 색 변화가 실시간 조명 흐름에 더 잘 반영됩니다. UE 5.7의 Lumen은 동적 간접광을 계산할 수 있으므로, 이번 실습처럼 낮/노을을 움직이며 보는 장면에서는 SkyLight를 Movable로 두는 편이 이해하기 쉽습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>프로젝트 설정과 그래픽카드에 따라 Lumen과 레이트레이싱 품질이 달라질 수 있습니다. 수업에서는 기본 프로젝트 설정을 기준으로 진행합니다.</span>
+</div>
+<div class="callout-body">
+
+</div>
+</div>
+<p><strong>SkyLight 주요 속성 (Details 패널):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Intensity Scale</strong></td>
+<td data-label="기본값">1.0</td>
+<td data-label="설명">간접광 밝기 배율</td>
+<td data-label="조절 팁">올리면 그림자가 밝아짐. 0.5~2.0 범위 추천</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Light Color</strong></td>
+<td data-label="기본값">흰색</td>
+<td data-label="설명">간접광 색 틴트</td>
+<td data-label="조절 팁">보통 흰색 유지. 특수 분위기 시 조절</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Source Type</strong></td>
+<td data-label="기본값">SLS Captured Scene</td>
+<td data-label="설명">주변 씬을 캡처하여 간접광 계산</td>
+<td data-label="조절 팁">기본값 유지 권장. Cubemap으로 바꾸면 HDR 이미지 사용 가능</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Real Time Capture</strong></td>
+<td data-label="기본값">꺼짐</td>
+<td data-label="설명">매 프레임 주변 캡처 갱신</td>
+<td data-label="조절 팁">Directional Light 회전 시 그림자 색 변화를 함께 보고 싶을 때 켜기</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Lower Hemisphere Is Solid Color</strong></td>
+<td data-label="기본값">체크됨</td>
+<td data-label="설명">바닥 아래를 단색으로 처리</td>
+<td data-label="조절 팁">체크 시 바닥 반사가 단순해져 성능 이득</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Cubemap Resolution</strong></td>
+<td data-label="기본값">128</td>
+<td data-label="설명">캡처 해상도</td>
+<td data-label="조절 팁">높이면 정밀하지만 무거움. 128이면 충분</td>
+</tr>
+</tbody>
+</table></div>
+<p>Intensity Scale이 가장 자주 건드리는 값입니다. 그림자가 너무 어두우면 올려보세요.</p>
+<hr />
+<h3 id="추가-비교-시연">추가 비교 시연</h3>
+<p>나무를 비활성화하고 풀만 남겨보면 차이가 더 명확합니다.</p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>SkyLight 적용 전</th>
+<th>SkyLight 적용 후</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="SkyLight 적용 전">풀과 바닥의 그림자가 검정에 가까운 상태</td>
+<td data-label="SkyLight 적용 후">그림자에 하늘 색이 반영되어 디테일이 살아남</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/05_skylight-before-after-simple.png" alt="skylight before after simple" />
+<figcaption>SkyLight 적용 전/후 — 나무를 비활성화한 단순 테스트 씬</figcaption>
+</figure>
+<h3 id="학생-실습-1">학생 실습</h3>
+<p>SkyAtmosphere, SkyLight를 넣어보세요. SkyLight를 선택해서 Mobility를 Movable, Real Time Capture를 체크한 뒤 Ctrl+L로 돌려서 노을을 만들어보세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>
+SkyLight의 Mobility가 Static인 경우 → Movable로 바꿔주세요
+</li>
+<li>
+Real Time Capture 체크 안 한 경우 → Light 섹션에서 체크박스를 찾아보세요
+</li>
+<li>
+SkyAtmosphere를 안 넣은 경우 → SkyAtmosphere 먼저 넣어야 합니다
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="안개와-구름-fog-시스템">4. 안개와 구름 — Fog 시스템</h2>
+<h3 id="exponential-height-fog-안개를-설정하기">Exponential Height Fog — 안개를 설정하기</h3>
+<p>Directional Light, SkyAtmosphere, SkyLight 3개를 넣었지만, 하늘과 바닥이 만나는 부분의 경계가 너무 선명합니다. 실제 세계에서 멀리 있는 것은 뿌옇게 보입니다. 안개 때문입니다.</p>
+<p><strong>Exponential Height Fog 배치:</strong></p>
+<ol type="1">
+<li>Place Actors 패널 검색창에 “exponential”을 타이핑하세요</li>
+<li>Exponential Height Fog를 뷰포트 아무 곳에 드래그하세요</li>
+</ol>
+<p>배경의 검정색이 사라지고, 멀리 있는 오브젝트가 뿌옇게 보이기 시작합니다.</p>
+<p><strong>Fog의 역할 2가지:</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>역할</th>
+<th>설명</th>
+<th>왜 중요한가</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="역할"><strong>안개</strong></td>
+<td data-label="설명">말 그대로 안개를 표현</td>
+<td data-label="왜 중요한가">공포, 몽환, 새벽 같은 분위기 연출에 유용</td>
+</tr>
+<tr>
+<td data-label="역할"><strong>공기 원근법</strong></td>
+<td data-label="설명">멀리 있으면 색상과 선명도가 떨어지는 현상</td>
+<td data-label="왜 중요한가">원근감 표현 + LOD 변화를 시각적으로 가려주는 역할</td>
+</tr>
+</tbody>
+</table></div>
+<p>공기 원근법이란, 밖에 나가서 먼 산을 보면 가까운 산은 진한 초록인데 먼 산은 뿌옇고 파란 현상입니다. 포그가 이것을 만들어줍니다.</p>
+<p><strong>Fog 속성 조절:</strong></p>
+<ol type="1">
+<li>Outliner에서 ExponentialHeightFog를 선택하세요</li>
+<li>Details 패널에서 주요 속성을 조절하세요</li>
+</ol>
+<p><strong>Fog Density (밀도):</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>값</th>
+<th>결과</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="값"><strong>0.02</strong> (기본)</td>
+<td data-label="결과">자연스러운 약한 안개</td>
+<td data-label="용도">일반 야외 씬</td>
+</tr>
+<tr>
+<td data-label="값"><strong>0.1</strong></td>
+<td data-label="결과">중간 안개, 원경이 뿌옇게</td>
+<td data-label="용도">안개 낀 아침</td>
+</tr>
+<tr>
+<td data-label="값"><strong>0.5</strong></td>
+<td data-label="결과">매우 짙은 안개</td>
+<td data-label="용도">공포/미스터리</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/06_fog-density-comparison.png" alt="fog density comparison" />
+<figcaption>Fog Density 0.02 → 0.1 → 0.5 — 원경과 태양이 점점 안개에 가려짐</figcaption>
+</figure>
+<p>Fog Density를 0.5까지 올리면 안개가 너무 짙어서 태양빛조차 가려집니다. 다시 0.02로 돌려놓으세요.</p>
+<blockquote class="quote-note"><p>Fog Density는 값 차이가 바로 보이는 편입니다. 0.02, 0.1, 0.5를 차례로 넣어보고 원경이 얼마나 가려지는지 직접 비교하세요.</p></blockquote>
+<p><strong>Fog Height Falloff (높이 감쇠):</strong></p>
+<ul>
+<li>값을 낮추면 (예: 0.2) 안개가 더 높이까지 퍼짐</li>
+<li>값을 높이면 (예: 2.0) 바닥 근처에만 안개가 깔림</li>
+<li>“높이 감쇠”니까: 높은 값 = 빠르게 감쇠 = 바닥에만 안개</li>
+</ul>
+<p><strong>Fog Inscattering Color (포그 색상):</strong></p>
+<ul>
+<li>색상 막대를 클릭하면 컬러 피커가 열림</li>
+<li>하늘의 색과 유사하게 맞춰주는 것이 자연스러움</li>
+<li>노을 씬이면 주황빛, 한낮이면 하늘색</li>
+</ul>
+<hr />
+<h3 id="local-fog-volume-특정-위치에만-안개-깔기">Local Fog Volume — 특정 위치에만 안개 깔기</h3>
+<p>Exponential Height Fog는 월드 전체에 균일하게 안개가 깔립니다. 동굴 입구에만 안개를 깔고 싶다면 Local Fog Volume을 사용합니다. 현재 UE5에서 사용할 수 있는 국소 안개 액터로, 특정 위치에만 안개를 배치할 때 유용합니다.</p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>비교</th>
+<th>Exponential Height Fog</th>
+<th>Local Fog Volume</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="비교"><strong>범위</strong></td>
+<td data-label="Exponential Height Fog">전체 월드에 균일하게 적용</td>
+<td data-label="Local Fog Volume">배치한 볼륨 안쪽에만 적용</td>
+</tr>
+<tr>
+<td data-label="비교"><strong>용도</strong></td>
+<td data-label="Exponential Height Fog">씬 전체의 기본 안개</td>
+<td data-label="Local Fog Volume">동굴 입구, 호수 위, 절벽 아래 등 국소 연출</td>
+</tr>
+<tr>
+<td data-label="비교"><strong>개수</strong></td>
+<td data-label="Exponential Height Fog">레벨에 1개</td>
+<td data-label="Local Fog Volume">원하는 만큼 여러 개 배치 가능</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Local Fog Volume 배치:</strong></p>
+<ol type="1">
+<li>Place Actors 패널에서 “local fog”를 검색하세요</li>
+<li>Local Fog Volume을 뷰포트에 드래그하세요</li>
+<li>바위 뒤쪽이나 나무 사이에 배치해보세요</li>
+<li>Details 패널에서 크기(Scale)를 조절하면 안개 영역이 바뀝니다</li>
+</ol>
+<p><strong>Local Fog Volume 주요 속성 (Details 패널):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Fog Density</strong></td>
+<td data-label="기본값">1.0</td>
+<td data-label="설명">이 볼륨 안의 안개 농도</td>
+<td data-label="조절 팁">0.5=은은한 안개, 5.0=짙은 안개</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Albedo</strong></td>
+<td data-label="기본값">흰색</td>
+<td data-label="설명">안개 색상</td>
+<td data-label="조절 팁">보통 흰색/회색. 초록빛=독안개, 주황빛=먼지</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Emissive</strong></td>
+<td data-label="기본값">검정</td>
+<td data-label="설명">안개 자체가 빛을 내는 정도</td>
+<td data-label="조절 팁">살짝 올리면 안개가 은은하게 빛남</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Fog Shape</strong></td>
+<td data-label="기본값">Box</td>
+<td data-label="설명">안개 영역의 형태 (Box/Sphere)</td>
+<td data-label="조절 팁">Sphere가 자연스러운 경우가 많음</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Scale (Transform)</strong></td>
+<td data-label="기본값">1,1,1</td>
+<td data-label="설명">안개 영역 크기</td>
+<td data-label="조절 팁">X/Y/Z를 키워서 원하는 범위 설정</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/07_local-fog-volume-demo.png" alt="local fog volume demo" />
+<figcaption>Local Fog Volume — 바위 뒤에 배치한 국소 안개</figcaption>
+</figure>
+<p>실무에서 매우 자주 사용됩니다. 동굴 입구에 깔아두면 안에 무엇이 있을까 궁금해지는 분위기가 만들어지고, 호수 위에 깔면 새벽 물안개가 되고, 절벽 아래에 깔면 깊은 골짜기 느낌이 납니다. 시네마틱에서 분위기 연출할 때 특히 유용합니다.</p>
+<hr />
+<h3 id="volumetric-fog-volumetric-cloud">Volumetric Fog + Volumetric Cloud</h3>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th></th>
+<th>Exponential Height Fog</th>
+<th>Volumetric Fog</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label=""><strong>원리</strong></td>
+<td data-label="Exponential Height Fog">거리와 높이에 따라 단순히 색상과 투명도를 조정</td>
+<td data-label="Volumetric Fog">빛이 대기 입자와 상호작용하며 산란되는 현상을 시뮬레이션</td>
+</tr>
+<tr>
+<td data-label=""><strong>표현</strong></td>
+<td data-label="Exponential Height Fog">기본 안개</td>
+<td data-label="Volumetric Fog">안개 + <strong>God Ray(빛줄기)</strong> 표현 가능</td>
+</tr>
+<tr>
+<td data-label=""><strong>비용</strong></td>
+<td data-label="Exponential Height Fog">가벼움</td>
+<td data-label="Volumetric Fog">GPU 사용량 더 많음</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/08_fog-comparison.png" alt="fog comparison" />
+<figcaption>Exponential Height Fog vs Volumetric Fog 비교</figcaption>
+</figure>
+<p>핵심은, 볼류메트릭 포그를 켜면 God Ray를 표현할 수 있다는 것입니다. 나무 사이로 빛줄기가 내려오는 효과입니다.</p>
+<p><strong>Volumetric Fog 활성화 — 별도 액터가 아닙니다:</strong></p>
+<ol type="1">
+<li>Outliner에서 ExponentialHeightFog를 선택하세요</li>
+<li>Details 패널에서 Volumetric Fog 섹션을 찾으세요 (검색창에 “volumetric” 타이핑)</li>
+<li>Volumetric Fog 체크박스를 켜세요</li>
+</ol>
+<p>기존 Fog 액터에서 옵션 하나만 켜면 됩니다.</p>
+<p><strong>Volumetric Fog 주요 속성 (Details 패널 &gt; Volumetric Fog 섹션):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Scattering Distribution</strong></td>
+<td data-label="기본값">0.2</td>
+<td data-label="설명">빛이 얼마나 한 방향으로 산란하는지</td>
+<td data-label="조절 팁">0=균일 산란, 1에 가까울수록 태양 방향으로만 God Ray</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Albedo</strong></td>
+<td data-label="기본값">흰색</td>
+<td data-label="설명">안개 입자의 색상</td>
+<td data-label="조절 팁">보통 흰색 유지. 색 바꾸면 안개 자체에 색이 입혀짐</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Extinction Scale</strong></td>
+<td data-label="기본값">1.0</td>
+<td data-label="설명">안개에 의한 빛 감쇠 정도</td>
+<td data-label="조절 팁">올리면 안개가 빛을 더 많이 흡수 → 더 짙어짐</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>View Distance</strong></td>
+<td data-label="기본값">6000.0</td>
+<td data-label="설명">볼류메트릭 포그가 보이는 최대 거리</td>
+<td data-label="조절 팁">올리면 먼 곳까지 God Ray 보임, 성능↓</td>
+</tr>
+</tbody>
+</table></div>
+<p>Scattering Distribution과 Extinction Scale을 바꿔보세요. God Ray의 강도와 느낌이 크게 달라집니다.</p>
+<p><strong>Volumetric Cloud 추가:</strong></p>
+<ol type="1">
+<li>Place Actors 패널에서 “volumetric cloud”를 검색하세요</li>
+<li>Volumetric Cloud를 뷰포트에 드래그하세요 — 위치는 상관없습니다</li>
+</ol>
+<p>구름이 안 보인다면 포그 밀도를 0.02~0.05로 낮춰보세요.</p>
+<p><strong>Volumetric Cloud 주요 속성 (Details 패널):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Layer Bottom Altitude</strong></td>
+<td data-label="기본값">5.0 (km)</td>
+<td data-label="설명">구름 층의 시작 높이</td>
+<td data-label="조절 팁">낮추면 구름이 가까이, 올리면 높은 하늘에</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Layer Height</strong></td>
+<td data-label="기본값">10.0 (km)</td>
+<td data-label="설명">구름 층의 두께</td>
+<td data-label="조절 팁">두꺼우면 웅장한 적란운 느낌</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Shadow View Sample Count Per Pixel</strong></td>
+<td data-label="기본값">1.0</td>
+<td data-label="설명">구름 그림자 품질</td>
+<td data-label="조절 팁">올리면 그림자가 선명, 성능↓</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Tracing Start Max Distance</strong></td>
+<td data-label="기본값">350.0 (km)</td>
+<td data-label="설명">구름 렌더링 최대 거리</td>
+<td data-label="조절 팁">기본값 유지 추천</td>
+</tr>
+</tbody>
+</table></div>
+<p>보통 기본값으로 충분합니다. 구름 높이(Bottom Altitude)와 두께(Layer Height)만 알아두면 됩니다.</p>
+<hr />
+<h3 id="point-light-volumetric-fog-시연">Point Light + Volumetric Fog 시연</h3>
+<p>포인트 라이트를 넣어서 볼류메트릭 포그와 어떻게 상호작용하는지 확인합니다.</p>
+<p><strong>Point Light 배치:</strong></p>
+<ol type="1">
+<li>Place Actors 패널에서 “point light” 검색하세요</li>
+<li>Point Light를 뷰포트에 드래그 — 나무 사이에 2개 배치하세요</li>
+<li>첫 번째 Point Light 선택 → Details에서 Light Color를 빨간색으로 변경</li>
+<li>두 번째 Point Light 선택 → Light Color를 파란색으로 변경</li>
+<li>각 Point Light의 Volumetric Scattering Intensity를 3.0으로 올리세요 (Details 검색창에 “volumetric scattering” 타이핑)</li>
+</ol>
+<p><strong>Point Light 주요 속성 (Details 패널):</strong></p>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>속성</th>
+<th>기본값</th>
+<th>설명</th>
+<th>조절 팁</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="속성"><strong>Intensity</strong></td>
+<td data-label="기본값">8.0 cd</td>
+<td data-label="설명">빛의 밝기 (칸델라 단위)</td>
+<td data-label="조절 팁">횃불: 5~10, 가로등: 50~100, 강렬한 조명: 500+</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Light Color</strong></td>
+<td data-label="기본값">흰색</td>
+<td data-label="설명">빛의 색상</td>
+<td data-label="조절 팁">자유롭게 바꿔보세요</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Attenuation Radius</strong></td>
+<td data-label="기본값">1000.0</td>
+<td data-label="설명">빛이 영향을 미치는 반경 (cm)</td>
+<td data-label="조절 팁">좁은 방: 300~500, 넓은 공간: 1000+</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Source Radius</strong></td>
+<td data-label="기본값">0.0</td>
+<td data-label="설명">광원의 물리적 크기</td>
+<td data-label="조절 팁">올리면 그림자 가장자리가 부드러워짐. 10~30 추천</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Cast Shadows</strong></td>
+<td data-label="기본값">체크됨</td>
+<td data-label="설명">그림자 생성 여부</td>
+<td data-label="조절 팁">성능 부족 시 끄면 가벼워짐</td>
+</tr>
+<tr>
+<td data-label="속성"><strong>Volumetric Scattering Intensity</strong></td>
+<td data-label="기본값">1.0</td>
+<td data-label="설명">볼류메트릭 포그에서의 산란 강도</td>
+<td data-label="조절 팁">올리면 안개 속에서 빛이 더 많이 퍼짐</td>
+</tr>
+</tbody>
+</table></div>
+<p>Attenuation Radius는 빛이 닿는 범위입니다. 이 범위 밖에 있으면 아무리 밝아도 빛이 닿지 않습니다. Source Radius를 올리면 그림자가 부드러워지는데, 현실에서 전구가 크기를 가지고 있는 것과 같은 원리입니다.</p>
+<blockquote class="quote-note"><p>Point Light 색을 바꿔 Volumetric Fog 속에서 빛이 어떻게 퍼지는지 직접 확인하세요.</p></blockquote>
+<p>빨간 빛과 파란 빛이 안개 속에서 퍼져 나가는 것이 볼류메트릭 포그의 힘입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/09_volumetric-fog-pointlight.png" alt="volumetric fog pointlight" />
+<figcaption>빨강/파랑 Point Light + Volumetric Fog — 산란 강도를 올렸을 때 안개 속에서 빛이 퍼지는 모습</figcaption>
+</figure>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>단계</th>
+<th>설정</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="단계">1단계</td>
+<td data-label="설정">Exponential Height Fog만 (Volumetric 꺼짐)</td>
+<td data-label="결과">기본 안개, Point Light 빛이 퍼지지 않음</td>
+</tr>
+<tr>
+<td data-label="단계">2단계</td>
+<td data-label="설정">Volumetric Fog 켜기</td>
+<td data-label="결과">God Ray 시작, 약한 빛 산란</td>
+</tr>
+<tr>
+<td data-label="단계">3단계</td>
+<td data-label="설정">Volumetric Scattering Intensity = 3.0</td>
+<td data-label="결과">빛이 강하게 산란, 시네마틱 느낌</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="학생-실습-2">학생 실습</h3>
+<p>Volumetric Fog를 체크하고, Point Light 2개를 넣어서 색을 바꿔보세요. Volumetric Cloud도 넣어보세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>
+“Volumetric Fog가 어디 있어요?” → Exponential Height Fog의 Details에서 검색
+</li>
+<li>
+“구름이 안 보여요” → Fog Density를 0.02~0.05로 낮추세요
+</li>
+<li>
+“Point Light 빛이 안 퍼져요” → Volumetric Fog 체크 + Scattering Intensity 올리기
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="megalights-라이팅의-나나이트">5. MegaLights — 라이팅의 나나이트</h2>
+<p>포인트 라이트를 100개 넣으면 성능이 급격히 떨어집니다. 원래는 동적 라이트를 많이 넣으면 성능이 급격히 저하되기 때문에 Static으로 구워서 사용했습니다.</p>
+<p>UE 5.7에서는 MegaLights가 Beta로 제공됩니다. 나나이트가 고밀도 메쉬를 효율적으로 다루는 것처럼, MegaLights는 많은 동적 라이트가 있는 장면의 직접광 처리를 더 효율적으로 만드는 방향의 기능입니다.</p>
+<p><strong>MegaLights 활성화:</strong></p>
+<ol type="1">
+<li>Edit &gt; Project Settings를 여세요</li>
+<li>검색창에 “megalights”를 타이핑하세요</li>
+<li>Rendering &gt; Direct Lighting 섹션에서 <strong>MegaLights</strong> 를 활성화하세요</li>
+</ol>
+<figure class="lecture-figure">
+<img src="assets/10_megalights-comparison.png" alt="megalights comparison" />
+<figcaption>MegaLights ON/OFF 비교 — 다수의 Point Light 환경</figcaption>
+</figure>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>항목</th>
+<th>MegaLights OFF</th>
+<th>MegaLights ON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목">라이트 10개+</td>
+<td data-label="MegaLights OFF">장면에 따라 프레임 부담 증가</td>
+<td data-label="MegaLights ON">많은 동적 라이트 장면에서 부담 완화 가능</td>
+</tr>
+<tr>
+<td data-label="항목">그림자 품질</td>
+<td data-label="MegaLights OFF">라이트 수가 늘면 품질/성능 관리가 어려움</td>
+<td data-label="MegaLights ON">더 일관된 품질을 목표로 함</td>
+</tr>
+<tr>
+<td data-label="항목">라이트 개수 제한</td>
+<td data-label="MegaLights OFF">실질적으로 제한이 큼</td>
+<td data-label="MegaLights ON">복잡한 라이트 장면을 다루기 쉬워짐</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>MegaLights는 UE 5.7 기준 Beta 기능입니다. 하드웨어 레이트레이싱 환경에서 의미가 크며, 실제 프로젝트 적용 전에는 장면과 장비 조건을 확인해야 합니다.</span>
+</div>
+<div class="callout-body">
+
+</div>
+</div>
+<p>실습에서 성능 문제가 생기면 이 옵션을 떠올리면 됩니다.</p>
+<hr />
+<h2 id="env.-light-mixer-한-번에-만들기">6. Env. Light Mixer — 한 번에 만들기</h2>
+<h3 id="env.-light-mixer로-전체-생성">Env. Light Mixer로 전체 생성</h3>
+<p>매번 Place Actors에서 하나씩 검색해서 넣는 것 대신, 한 번에 할 수 있는 도구가 있습니다.</p>
+<p><strong>Env. Light Mixer 열기:</strong></p>
+<ol type="1">
+<li>에디터 상단 메뉴바에서 Window를 클릭하세요</li>
+<li>아래로 스크롤하여 Env. Light Mixer를 찾아 클릭하세요</li>
+<li>별도 창이 열립니다</li>
+</ol>
+<blockquote class="quote-note"><p>Env. Light Mixer 창에서 현재 레벨에 없는 환경 라이팅 요소는 Create 버튼으로 표시됩니다.</p></blockquote>
+<p><strong>라이팅 전체 삭제 후 재생성:</strong></p>
+<ol type="1">
+<li>Outliner에서 DirectionalLight, SkyLight, SkyAtmosphere, ExponentialHeightFog, VolumetricCloud 전부 선택 → Delete</li>
+<li>Point Light 2개도 지워주세요</li>
+<li>Env. Light Mixer 창을 보면 Create 버튼들이 나타납니다</li>
+</ol>
+<p>Env. Light Mixer 창에서 5개 Create 버튼을 위에서부터 순서대로 클릭하세요:</p>
+<ol type="1">
+<li>Create Sky Light 클릭</li>
+<li>Create Directional Light 클릭</li>
+<li>Create Sky Atmosphere 클릭</li>
+<li>Create Volumetric Cloud 클릭</li>
+<li>Create Height Fog 클릭</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>SkyLight의 Movable과 Real Time Capture는 직접 설정해야 합니다. 이것만 반드시 확인하세요.</span>
+</div>
+<div class="callout-body">
+
+</div>
+</div>
+<p><strong>Outliner 폴더 정리:</strong></p>
+<ol type="1">
+<li>Outliner에서 폴더 생성 (+ 버튼 또는 우클릭 &gt; Create Folder)</li>
+<li>폴더 이름: “Lightings”</li>
+<li>라이팅 액터 5개를 전부 이 폴더로 드래그</li>
+</ol>
+<p>폴더링은 습관입니다. 안 그러면 나중에 찾기 어렵습니다.</p>
+<hr />
+<h3 id="학생-실습-3">학생 실습</h3>
+<p>라이팅 전부 지우고 → Env. Light Mixer로 5개 Create → SkyLight 설정 → Lightings 폴더 정리를 해보세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>
+Env. Light Mixer 메뉴를 못 찾는 경우 → Window 메뉴 아래쪽에 있습니다
+</li>
+<li>
+Create 버튼이 안 보이는 경우 → 이미 해당 라이팅이 있으면 Create 대신 속성이 표시됩니다
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="day-sequence-플러그인-소개">7. Day Sequence 플러그인 소개</h2>
+<p>Env. Light Mixer보다 더 상위 도구로, Day Sequence라는 플러그인이 있습니다. 시간이 흐르는 연출 — 낮에서 노을, 밤, 새벽까지 자동으로 바뀌게 하고 싶을 때 사용합니다. UE 5.7 기준 플러그인 기능이므로 프로젝트 설정에서 활성화 여부를 확인해야 합니다.</p>
+<p><strong>Day Sequence 플러그인 활성화:</strong></p>
+<ol type="1">
+<li>Edit &gt; Plugins를 여세요</li>
+<li>검색창에 “Day Sequence”를 타이핑하세요</li>
+<li>Day Sequence 플러그인을 활성화하세요</li>
+<li>에디터를 재시작하세요</li>
+</ol>
+<figure class="lecture-figure">
+<img src="assets/11_day-sequence-plugin.png" alt="day sequence plugin" />
+<figcaption>Day Sequence 플러그인 24시간 사이클 화면</figcaption>
+</figure>
+<p>이 플러그인을 활성화하면 24시간 사이클을 자동으로 생성해줍니다. 낮 → 노을 → 밤 → 새벽까지 자연스럽게 전환됩니다. 시네마틱에서 시간 경과를 연출할 때 특히 유용합니다. 학기 말에 시네마틱 영상을 만들 때 활용해보세요.</p>
+<hr />
+<h2 id="정리">정리</h2>
+<h3 id="핵심-요약">핵심 요약</h3>
+<ol type="1">
+<li><p><strong>Directional Light + SkyAtmosphere</strong>: 태양과 하늘의 기본 세트입니다. Ctrl+L로 시간대를 조절합니다.</p></li>
+<li><p><strong>SkyLight</strong>: 그림자에 하늘 색을 반영합니다. 동적 시간대 연출에서는 <strong>Movable + Real Time Capture</strong> 설정을 사용합니다. Lumen GI와 함께 이해하면 좋습니다.</p></li>
+<li><p><strong>Fog</strong>: 안개 + 공기 원근법입니다. Volumetric Fog 체크 하나로 God Ray까지 표현 가능합니다. <strong>Local Fog Volume</strong>으로 국소 안개도 가능합니다.</p></li>
+<li><p><strong>MegaLights</strong>: 많은 동적 라이트가 있는 장면의 직접광 처리를 효율화하는 Beta 기능입니다. ’라이팅의 나나이트’는 이해를 돕는 비유로 확인합니다.</p></li>
+<li><p><strong>Env. Light Mixer / Day Sequence</strong>: 환경 라이팅 빠른 생성과 24시간 사이클 연출 도구입니다.</p></li>
+</ol>
+<p>환경 라이팅 5대 요소:</p>
+<ol type="1">
+<li>Directional Light — 태양</li>
+<li>SkyAtmosphere — 대기/하늘</li>
+<li>SkyLight — 그림자에 하늘색 반영</li>
+<li>Exponential Height Fog — 안개 + 공기 원근법</li>
+<li>Volumetric Cloud — 구름</li>
+</ol>
+<hr />
+<h3 id="교시-예고">2교시 예고</h3>
+<p>2교시에는 SkyAtmosphere 심화부터 시작하여, 에셋을 효율적으로 재사용하는 레벨 인스턴스와, 캐릭터가 바위를 뚫고 가지 않게 하는 콜리전을 다룹니다. SkyAtmosphere에서 Absorption, Rayleigh Scattering 같은 값을 조절하면 하늘 분위기를 크게 바꿀 수 있습니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#레벨-준비">1. 레벨 준비</a></li><li><a href="#directional-light-구축-directional-light">2. Directional Light 구축 — Directional Light</a></li><li><a href="#하늘과-그림자-skyatmosphere-skylight">3. 하늘과 그림자 — SkyAtmosphere + SkyLight</a></li><li><a href="#안개와-구름-fog-시스템">4. 안개와 구름 — Fog 시스템</a></li><li><a href="#megalights-라이팅의-나나이트">5. MegaLights — 라이팅의 나나이트</a></li><li><a href="#env.-light-mixer-한-번에-만들기">6. Env. Light Mixer — 한 번에 만들기</a></li><li><a href="#day-sequence-플러그인-소개">7. Day Sequence 플러그인 소개</a></li><li><a href="#정리">정리</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>

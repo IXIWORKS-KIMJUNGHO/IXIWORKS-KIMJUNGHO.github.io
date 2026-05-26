@@ -1,0 +1,1407 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 3교시 — 실습: 자연환경 씬 제작</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 05 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Lighting and Environment Practice</p>
+        <h1>5주차 3교시 — 실습: 자연환경 씬 제작</h1>
+        <p class="lead">환경 라이팅, Quixel 에셋, 레벨 인스턴스, 콜리전, 폴리지를 통합해 자연환경 씬을 완성하는 실습 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 05</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">PRACTICE</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">5주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">3교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">자연환경 씬 제작 실습</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-3교시-실습-자연환경-씬-제작-학생용">5주차 3교시 — 실습: 자연환경 씬 제작 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">강의 아웃라인</td>
+<td data-label="문서">5주차 아웃라인: 환경 라이팅과 에셋 배치</td>
+</tr>
+<tr>
+<td data-label="관계">1교시 핸드아웃</td>
+<td data-label="문서">5주차 1교시: 환경 라이팅 시스템</td>
+</tr>
+<tr>
+<td data-label="관계">2교시 핸드아웃</td>
+<td data-label="문서">5주차 2교시: Fab 에셋과 레벨 인스턴스</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title">
+<span>3교시 학습 목표</span>
+</div>
+<div class="callout-body">
+<p>
+1·2교시 내용을 통합하여 자연환경 씬을 직접 제작합니다.
+</p>
+<ul>
+<li>
+환경 라이팅 구축 (Env. Light Mixer)
+</li>
+<li>
+Quixel 에셋 배치 + 레벨 인스턴스 변형 생성
+</li>
+<li>
+주요 바위 에셋의 콜리전 확인
+</li>
+<li>
+폴리지로 풀 배치 + Outliner 정리
+</li>
+<li>
+High Resolution Screenshot 촬영 + 저장
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="실습-과제">실습 과제</h2>
+<p>빈 레벨에서 시작하여 환경 라이팅을 구축하고, Quixel 에셋으로 자연환경 씬을 완성합니다.</p>
+<p><strong>완성 목표:</strong></p>
+<ul>
+<li><strong>하늘</strong>: 원하는 시간대의 분위기 + Volumetric Cloud로 구름</li>
+<li><strong>빛</strong>: 볼류메트릭 포그의 God Ray가 나무 사이로 비침</li>
+<li><strong>지면</strong>: Quixel 에셋들이 레벨 인스턴스로 묶여 여러 곳에 배치</li>
+<li><strong>풀</strong>: 폴리지로 자연스러운 지면</li>
+<li><strong>선택 확장</strong>: 바위 근처에 Local Fog Volume으로 국소 안개 효과</li>
+</ul>
+<figure class="lecture-figure">
+<img src="assets/15_practice-reference-forest-day.png" alt="practice reference forest day" />
+<figcaption>실습 2 레퍼런스 — 환경 라이팅, 레벨 인스턴스형 바위 배치, 폴리지, God Ray, Local Fog Volume 예시</figcaption>
+</figure>
+<p><strong>기본 완성 기준 — 7가지:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>조건</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="#">1</td>
+<td data-label="조건">환경 라이팅 5개 요소 구축 (Env. Light Mixer 활용)</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">2</td>
+<td data-label="조건">Quixel 에셋으로 환경 배치</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">3</td>
+<td data-label="조건">레벨 인스턴스 <strong>최소 2개 변형</strong> 생성</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">4</td>
+<td data-label="조건">주요 바위 에셋 콜리전 확인</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">5</td>
+<td data-label="조건">폴리지(풀) 배치로 자연스러운 지면 연출</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">6</td>
+<td data-label="조건">Outliner 폴더 정리 + 프로젝트 저장</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">7</td>
+<td data-label="조건">High Resolution Screenshot으로 결과물 캡처</td>
+<td data-label="확인">□</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+<span>제출 방법</span>
+</div>
+<div class="callout-body">
+<p>
+수업 시간 안에 가능한 범위까지 완성하고 결과물을 확인하세요. 이 프로젝트가 <strong>실습 2 과제</strong>로 이어집니다. <code>Ctrl+S</code>로 저장해 두세요.
+</p>
+</div>
+</div>
+<hr />
+<h2 id="타임라인">타임라인</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>시간</th>
+<th>누적</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="단계">단계 1: 레벨 준비</td>
+<td data-label="시간">3분</td>
+<td data-label="누적">0:00~0:03</td>
+</tr>
+<tr>
+<td data-label="단계">단계 2: 환경 라이팅 구축</td>
+<td data-label="시간">10분</td>
+<td data-label="누적">0:03~0:13</td>
+</tr>
+<tr>
+<td data-label="단계">단계 3: 에셋 배치 + 레벨 인스턴스</td>
+<td data-label="시간">15분</td>
+<td data-label="누적">0:13~0:28</td>
+</tr>
+<tr>
+<td data-label="단계">단계 4: 콜리전 확인</td>
+<td data-label="시간">5분</td>
+<td data-label="누적">0:28~0:33</td>
+</tr>
+<tr>
+<td data-label="단계">단계 5: 폴리지 + 마무리</td>
+<td data-label="시간">9분</td>
+<td data-label="누적">0:33~0:42</td>
+</tr>
+<tr>
+<td data-label="단계">여유</td>
+<td data-label="시간">3분</td>
+<td data-label="누적">0:42~0:45</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="단계-1-레벨-준비">단계 1: 레벨 준비</h2>
+<p>2교시에서 받아둔 에셋을 활용합니다. 새 레벨을 만들고 바닥을 깔아주세요.</p>
+<h3 id="새-레벨-생성-바닥">1-1. 새 레벨 생성 + 바닥</h3>
+<pre><code>1. File &gt; New Level &gt; Basic 선택
+ → 기본 바닥과 하늘이 있는 레벨이 열립니다.
+
+2. Outliner에서 기존 Floor 액터들을 모두 선택 → Delete
+ → 검색창에 &quot;floor&quot; → Ctrl+A → Delete
+ → 기본 Floor는 폴리지가 활성화 안 되는 이슈가 있습니다.
+
+3. Place Actors (Shift+1) &gt; Shapes &gt; Cube를 뷰포트에 드래그
+ → Location: 0, 0, 0 (우클릭 &gt; Reset)
+ → Scale: 20, 20, 1
+
+4. 바닥 머테리얼 적용:
+ → Fab에서 받아둔 바닥 머테리얼을 Cube 위에 드래그 앤 드롭
+
+5. 레벨 저장:
+ → Ctrl+Shift+S → Content &gt; Lectures &gt; 5Weeks
+ → 이름: &quot;Week05_Practice&quot;
+</code></pre>
+<div class="callout callout-info">
+<div class="callout-title">
+<span>2교시 에셋 활용</span>
+</div>
+<div class="callout-body">
+<p>
+2교시에서 받은 Nordic Forest 에셋이 프로젝트에 그대로 있으면 새로 받을 필요 없습니다. Content &gt; Fab &gt; Megascans &gt; 3D에서 확인하세요.
+</p>
+</div>
+</div>
+<details class="hint-details">
+<summary>
+힌트: Fab 에셋이 없어요
+</summary>
+<div class="details-body">
+<p>
+2교시에서 받아둔 에셋이 있으면 그걸 사용하세요. 옆 학생과 프로젝트 파일을 공유할 수도 있어요. 수업용 백업 파일을 활용하세요.
+</p>
+</div>
+</details>
+<div class="callout callout-todo">
+<div class="callout-title">
+<span>단계 1 체크</span>
+</div>
+<div class="callout-body">
+<ul class="task-list">
+<li>
+<label><input type="checkbox" />Cube 바닥이 Scale (20, 20, 1)로 설정되었나요?
+</li>
+<li>
+<label><input type="checkbox" />바닥 머테리얼이 적용되었나요?
+</li>
+<li>
+<label><input type="checkbox" />2교시 에셋이 프로젝트에 있는지 확인했나요?
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="단계-2-환경-라이팅-구축">단계 2: 환경 라이팅 구축</h2>
+<p>1교시에서 배운 방법을 직접 적용합니다. 마지막에 Local Fog Volume도 배치해봅니다.</p>
+<pre><code>1. 기존 라이팅 삭제:
+ → Outliner 검색창에 &quot;light&quot; → Ctrl+A → Delete
+ → &quot;fog&quot; 검색 → Delete
+ → &quot;sky&quot; 검색 → Delete
+ → &quot;cloud&quot; 검색 → Delete
+ → 뷰포트가 암흑이 됩니다.
+
+2. Env. Light Mixer 열기:
+ → 상단 메뉴 [Window] &gt; [Env. Light Mixer]
+
+3. 5개 액터 생성:
+ → [Create Sky Light] 클릭
+ → [Create Directional Light] 클릭
+ → [Create Sky Atmosphere] 클릭
+ → [Create Volumetric Cloud] 클릭
+ → [Create Height Fog] 클릭
+
+4. SkyLight 주요 설정:
+ → Outliner에서 SkyLight 선택 → Details 패널
+ → Mobility: Movable
+ → Real Time Capture: 체크
+
+5. 분위기 설정:
+ → Directional Light 선택 → Ctrl+L로 회전하여 원하는 시간대 설정
+ → Exponential Height Fog 선택 → Volumetric Fog 체크
+ → Fog Density 조절 (0.02~0.05 정도, 너무 높으면 구름이 안 보여요)
+
+6. Outliner 정리:
+ → 폴더 생성 (+) → 이름: &quot;Lightings&quot;
+ → 5개 라이팅 액터를 Lightings 폴더로 드래그
+
+7. Local Fog Volume 배치 (선택 확장):
+ → Place Actors에서 &quot;Local Fog&quot; 검색 → 뷰포트에 드래그
+ → 바위 뒤나 나무 사이에 배치
+ → Scale을 조절하여 국소적인 안개 효과 연출
+</code></pre>
+<details class="hint-details">
+<summary>
+힌트 1: Env. Light Mixer를 못 찾겠어요
+</summary>
+<div class="details-body">
+<p>
+상단 메뉴바에서 [Window] 클릭 &gt; 드롭다운을 아래로 쭉 스크롤 &gt; [Env. Light Mixer]가 있습니다. 클릭하면 별도 창이 열려요.
+</p>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 2: 노을 분위기를 만들고 싶어요
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+Directional Light 선택
+</li>
+<li>
+Ctrl+L을 누른 채로 마우스를 좌우로 움직여보세요
+</li>
+</ol>
+<ul>
+<li>
+뷰포트를 먼저 클릭해서 포커스를 줘야 합니다!
+</li>
+</ul>
+<ol start="3" type="1">
+<li>
+빛이 수평선 근처에 오면 노을이 됩니다
+</li>
+<li>
+Fog 색상도 노을에 맞춰 따뜻한 색으로 변경하면 더 좋아요:
+</li>
+</ol>
+<ul>
+<li>
+Exponential Height Fog 선택
+</li>
+<li>
+Details에서 “inscattering” 검색
+</li>
+<li>
+Fog Inscattering Color를 주황빛으로 변경
+</li>
+</ul>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 3: SkyLight 설정을 어디서 하나요?
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+Outliner에서 [SkyLight] 클릭하여 선택
+</li>
+<li>
+오른쪽 Details 패널에서:
+</li>
+</ol>
+<ul>
+<li>
+Transform 근처에 [Mobility] 항목 → [Movable] 선택
+</li>
+<li>
+아래로 스크롤하여 Light 섹션
+</li>
+<li>
+[Real Time Capture] 체크박스 체크
+</li>
+<li>
+못 찾겠으면: Details 검색창에 “real time” 타이핑
+</li>
+</ul>
+</div>
+</details>
+<div class="callout callout-todo">
+<div class="callout-title">
+<span>단계 2 체크</span>
+</div>
+<div class="callout-body">
+<ul class="task-list">
+<li>
+<label><input type="checkbox" />환경 라이팅 5개 액터가 모두 배치되었나요?
+</li>
+<li>
+<label><input type="checkbox" />SkyLight: Movable + Real Time Capture 설정 완료?
+</li>
+<li>
+<label><input type="checkbox" />Volumetric Fog 체크했나요?
+</li>
+<li>
+<label><input type="checkbox" />Outliner에 Lightings 폴더로 정리했나요?
+</li>
+<li>
+<label><input type="checkbox" />여기까지 했으면 <strong>단계 3으로 넘어가세요</strong>
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="단계-3-에셋-배치-레벨-인스턴스-생성">단계 3: 에셋 배치 + 레벨 인스턴스 생성</h2>
+<p>2교시에서 본 과정을 직접 수행합니다. 본인만의 변형 2개 이상을 만드세요.</p>
+<h3 id="에셋-확인-및-정렬">3-1. 에셋 확인 및 정렬</h3>
+<pre><code>1. Content Browser에서 다운로드한 에셋 폴더 찾기:
+ → Content &gt; Fab &gt; Megascans &gt; 3D &gt; [에셋별 폴더]
+
+2. 필터링으로 Static Mesh만 보기:
+ → Content Browser 좌상단 필터 아이콘(깔때기) 클릭
+ → [Static Mesh] 선택
+
+3. 에셋들을 뷰포트 바닥에 전부 드래그하여 나열:
+ → 어떤 에셋이 있는지 한눈에 확인
+
+4. Outliner에서 [Museums] 폴더 생성 → 나열한 에셋을 모두 넣기
+
+5. Museums 에셋 전체 선택 → Details 검색 &quot;hidden in game&quot;
+ → [Actor Hidden In Game] 체크
+ → G키로 게임 뷰 확인 — 안 보이면 정상
+</code></pre>
+<h3 id="레벨-인스턴스-변형-만들기">3-2. 레벨 인스턴스 변형 만들기</h3>
+<p><strong>완성 기준:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="#">1</td>
+<td data-label="조건">Museums에서 에셋을 골라 느낌 있게 배치</td>
+</tr>
+<tr>
+<td data-label="#">2</td>
+<td data-label="조건">배치한 에셋 선택 → RMB &gt; Level &gt; Create Packed Level Actor</td>
+</tr>
+<tr>
+<td data-label="#">3</td>
+<td data-label="조건">Hidden In Game 해제 + <strong>Compile</strong></td>
+</tr>
+<tr>
+<td data-label="#">4</td>
+<td data-label="조건"><strong>최소 2개 변형</strong> 생성 (다른 에셋 조합)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>변형 1 만들기:</strong></p>
+<pre><code>1. Museums에서 에셋 5~6개를 골라 뷰포트에 새로 배치하세요.
+ Museums 폴더의 에셋을 직접 쓰는 게 아니라,
+ 같은 에셋을 Content Browser에서 새로 드래그하여 배치!
+ → 큰 바위를 중심에, 작은 바위를 주변에
+ → 회전(E)과 스케일(R)을 바꿔가며 자연스럽게
+
+2. Outliner에서 방금 배치한 에셋들을 선택하세요.
+ Museums 폴더 안의 에셋이 아닙니다!
+
+3. 선택한 상태에서 RMB(우클릭)
+ → [Level] &gt; [Create Packed Level Actor]
+ Create Level Instance가 아닙니다!
+
+4. Pivot Type: [Center Min Z] 선택 → 확인 버튼 클릭
+
+5. 레벨 저장:
+ → 경로: Content &gt; Lectures &gt; 5Weeks
+ → 이름: LV_Var01
+
+6. 블루프린트 저장:
+ → 같은 경로
+ → 이름: BPP_LV_Var01
+
+7. Hidden In Game 해제:
+ → Content Browser에서 BPP_LV_Var01 더블클릭
+ → 좌측 Components에서 메쉬 전체 선택 (Ctrl+A)
+ → 우측 Details 검색 &quot;hidden in game&quot; → 체크 해제
+ → 상단 [Compile] 버튼 클릭
+ → Compile 옆 [Save]도 클릭
+</code></pre>
+<p><strong>변형 2 만들기:</strong></p>
+<pre><code>8. 다른 에셋 조합으로 배치 → 같은 과정 반복
+ → LV_Var02, BPP_LV_Var02로 저장
+ → Hidden In Game 해제 + Compile
+</code></pre>
+<p><strong>배치:</strong></p>
+<pre><code>9. Content Browser에서 BPP_LV_Var01, Var02를 뷰포트에 드래그
+ → 회전(E)/스케일(R)을 바꿔가며 여러 곳에 배치
+ → Ctrl+D로 복제도 가능
+ → 같은 BPP를 여러 개 배치하되 회전/스케일을 다르게!
+</code></pre>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>Compile 클릭</span>
+</div>
+<div class="callout-body">
+<p>
+Hidden In Game을 해제한 후 상단의 <strong>Compile</strong> 버튼(초록색 체크 아이콘)을 클릭해 변경사항을 적용합니다. Compile하지 않으면 변경사항이 반영되지 않습니다.
+</p>
+</div>
+</div>
+<details class="hint-details">
+<summary>
+힌트 1: Create Packed Level Actor가 안 보여요
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+먼저 배치한 메쉬들을 Outliner에서 선택했는지 확인
+</li>
+</ol>
+<ul>
+<li>
+Museums 폴더의 에셋이 아니라, 뷰포트에 새로 배치한 에셋!
+</li>
+</ul>
+<ol start="2" type="1">
+<li>
+선택한 상태에서 RMB(우클릭)
+</li>
+</ol>
+<ul>
+<li>
+ACTOR OPTIONS 섹션에서 [Level] 항목을 찾으세요
+</li>
+<li>
+마우스를 올리면 서브메뉴가 나타납니다
+</li>
+<li>
+[Create Packed Level Actor] 클릭
+</li>
+</ul>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 2: 레벨 인스턴스가 게임에서 안 보여요 (G키 눌렀을 때)
+</summary>
+<div class="details-body">
+<p>
+원인: Hidden In Game이 체크된 상태로 만들어져서 그래요.
+</p>
+<p>
+해결:
+</p>
+<ol type="1">
+<li>
+BPP_LV_Var01을 더블클릭하여 블루프린트 에디터 열기
+</li>
+<li>
+좌측 Components에서 메쉬 전체 선택 (Ctrl+A)
+</li>
+<li>
+우측 Details 검색창에 “hidden” 타이핑
+</li>
+<li>
+[Hidden In Game] 체크 해제
+</li>
+<li>
+상단 [Compile] 버튼 클릭
+</li>
+</ol>
+<ul>
+<li>
+‘Compile Successful’ 메시지가 뜨면 성공
+</li>
+</ul>
+<ol start="6" type="1">
+<li>
+[Save] 클릭
+</li>
+</ol>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 3: 레벨 인스턴스를 수정하고 싶어요
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+뷰포트에서 레벨 인스턴스 선택
+</li>
+<li>
+Details 패널의 Level Instance 섹션에서 [Edit] 클릭
+</li>
+<li>
+Level Instance Edit 모드에서 내부 오브젝트 이동/삭제/추가
+</li>
+<li>
+하단의 [Save] 클릭으로 저장
+</li>
+</ol>
+<ul>
+<li>
+같은 BPP를 쓰는 모든 인스턴스에 반영됩니다!
+</li>
+</ul>
+</div>
+</details>
+<div class="callout callout-todo">
+<div class="callout-title">
+<span>단계 3 체크</span>
+</div>
+<div class="callout-body">
+<ul class="task-list">
+<li>
+<label><input type="checkbox" />Museums 폴더에 에셋을 정렬하고 Hidden In Game 체크했나요?
+</li>
+<li>
+<label><input type="checkbox" />레벨 인스턴스 변형을 최소 2개 만들었나요?
+</li>
+<li>
+<label><input type="checkbox" />각 변형의 Hidden In Game을 해제하고 <strong>Compile</strong> 했나요?
+</li>
+<li>
+<label><input type="checkbox" />BPP를 뷰포트에 드래그하여 여러 곳에 배치했나요?
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="단계-4-콜리전-확인">단계 4: 콜리전 확인</h2>
+<p>주요 바위 에셋 1~2개는 콜리전을 확인합니다. 캐릭터가 바위를 뚫고 지나가지 않는지 확인하는 과정입니다.</p>
+<pre><code>1. Content Browser에서 사용할 바위 Static Mesh를 더블클릭
+2. Static Mesh Editor 상단 메뉴에서 Show &gt; Complex Collision 체크
+3. 초록색 와이어프레임이 보이는지 확인
+4. 콜리전이 없거나 너무 단순하면:
+ → Collision &gt; Auto Convex Collision
+ → 기본값으로 Apply
+
+5. Details &gt; Collision &gt; Collision Presets가 BlockAll인지 확인
+6. Play(Alt+P)로 걸어다니며 바위를 뚫고 지나가지 않는지 확인</code></pre>
+<div class="callout callout-todo">
+<div class="callout-title">
+<span>단계 4 체크</span>
+</div>
+<div class="callout-body">
+<ul class="task-list">
+<li>
+<label><input type="checkbox" />주요 바위 에셋의 콜리전을 확인했나요?
+</li>
+<li>
+<label><input type="checkbox" />Play 모드에서 캐릭터가 바위를 뚫고 지나가지 않나요?
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="단계-5-폴리지-마무리">단계 5: 폴리지 + 마무리</h2>
+<h3 id="폴리지-모드로-풀-배치">4-1. 폴리지 모드로 풀 배치</h3>
+<pre><code>1. 상단 모드 바에서 [Foliage] 아이콘 클릭
+ → 또는 단축키 Shift+3
+
+2. Foliage 패널 왼쪽 하단의 [+ Foliage Type] 버튼 클릭
+ → Content Browser에서 풀/식물 에셋(Static Mesh)을 드래그하여 등록
+ → Fab에서 받은 Tundra Grass 등 활용
+ → 여러 종류를 등록하면 자연스러운 혼합 가능
+
+3. Paint 모드 선택 (파란 붓 아이콘)
+
+4. Painting 설정 (Foliage 패널 우측):
+ → Density: 적절히 조절 (너무 빽빽하면 성능 저하)
+ → Radius: 배치 범위 (넓게 칠하려면 올리기)
+ → Scale: Min 0.8 ~ Max 1.2 정도 (크기 변화를 주면 자연스러움)
+
+5. 바닥(Cube) 위에 마우스 드래그하여 풀 칠하기
+ → 바위 주변에 집중적으로 칠하면 자연스러워요
+ → 나무는 너무 많으면 무거우니까 적당히!
+
+6. 끝나면 상단 모드에서 [Select Mode] (Shift+1)로 돌아오세요.</code></pre>
+<details class="hint-details">
+<summary>
+힌트 1: 폴리지 에셋이 등록이 안 돼요
+</summary>
+<div class="details-body">
+<p>
+폴리지에 등록할 수 있는 건 Static Mesh만 가능합니다. Content Browser에서 Static Mesh 필터를 켜고 풀이나 식물 에셋을 찾아서 Foliage 패널로 드래그하세요. Material이나 Texture는 등록 안 됩니다!
+</p>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 2: 풀이 너무 빽빽해요 / 너무 적어요
+</summary>
+<div class="details-body">
+<p>
+Density를 조절하세요:
+</p>
+<ul>
+<li>
+너무 빽빽하면: Density 값을 낮추세요
+</li>
+<li>
+너무 적으면: Density 값을 높이세요
+</li>
+<li>
+이미 칠한 풀을 지우려면: Shift+드래그 (지우기 모드)
+</li>
+</ul>
+</div>
+</details>
+<h3 id="outliner-정리">4-2. Outliner 정리</h3>
+<div class="table-wrap"><table>
+
+<thead>
+<tr>
+<th>폴더</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="폴더">Lightings/</td>
+<td data-label="내용">DirectionalLight, SkyLight, SkyAtmosphere, ExponentialHeightFog, VolumetricCloud</td>
+</tr>
+<tr>
+<td data-label="폴더">Museums/</td>
+<td data-label="내용">에셋 확인용, Hidden In Game 체크됨</td>
+</tr>
+<tr>
+<td data-label="폴더">LevelInstances/ (선택)</td>
+<td data-label="내용">BPP_LV_Var01, BPP_LV_Var01_복제1, BPP_LV_Var02 등</td>
+</tr>
+</tbody>
+</table></div>
+<p>폴더가 없으면: Outliner 상단 (+) &gt; Create Folder로 만들어 정리합니다.</p>
+<h3 id="high-resolution-screenshot-촬영">4-3. High Resolution Screenshot 촬영</h3>
+<p>과제 제출용 스크린샷을 찍어두세요.</p>
+<pre><code>1. 뷰포트에서 마음에 드는 앵글을 잡으세요.
+2. 뷰포트 좌상단 햄버거 메뉴(三) 클릭 → [High Resolution Screenshot] 선택
+3. 해상도 배율을 2로 설정 → [Capture] 클릭
+4. 또는 콘솔 명령어 사용:
+ → ` 키(백틱)로 콘솔 열기
+ → HighResShot 2 입력 후 Enter (2배 해상도)
+
+5. 저장된 스크린샷 위치: 프로젝트 폴더 &gt; Saved &gt; Screenshots</code></pre>
+<h3 id="최종-확인-저장">4-4. 최종 확인 + 저장</h3>
+<pre><code>1. 전체 씬을 둘러보세요:
+ → RMB + WASD로 카메라 이동
+ → 하늘, 빛, 안개, 바위, 풀이 모두 있는지 확인
+
+2. G키로 게임 뷰 확인:
+ → Museums 에셋은 안 보이고, 환경만 보이면 정상
+
+3. Ctrl+S로 저장
+ → 저장하지 않으면 작업 내용이 사라질 수 있습니다
+
+4. 완성 씬을 확인하고 제출용 스크린샷을 챙기세요.</code></pre>
+<div class="callout callout-todo">
+<div class="callout-title">
+<span>단계 5 체크</span>
+</div>
+<div class="callout-body">
+<ul class="task-list">
+<li>
+<label><input type="checkbox" />폴리지로 풀이 깔려 있나요?
+</li>
+<li>
+<label><input type="checkbox" />Outliner에 폴더가 정리되어 있나요?
+</li>
+<li>
+<label><input type="checkbox" />High Resolution Screenshot을 촬영했나요?
+</li>
+<li>
+<label><input type="checkbox" />프로젝트를 저장했나요?
+</li>
+<li>
+<label><input type="checkbox" />제출용 결과물을 확인했나요?
+</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="확장-과제-일찍-완료한-학생용">확장 과제 (일찍 완료한 학생용)</h2>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>시간이 남으면 아래를 시도해보세요. 선택 사항입니다.</span>
+</div>
+<div class="callout-body">
+
+</div>
+</div>
+<p><strong>확장 과제 1 — 레벨 인스턴스 변형 추가:</strong></p>
+<p>2개만 만들었다면, 4~6개까지 변형을 늘려보세요. 변형들을 섞어서 배치하면 더 자연스러운 환경이 됩니다. 큰 바위 군집 + 작은 바위 군집 + 그루터기 등 다양하게 조합합니다.</p>
+<p><strong>확장 과제 2 — 분위기 연출:</strong></p>
+<ul>
+<li>Directional Light를 Ctrl+L로 회전하여 다른 시간대를 만들어보세요.</li>
+<li>Fog Density와 Fog Color를 시간대에 맞춰 조절합니다.</li>
+<li>Point Light를 추가하여 볼류메트릭 포그에서 빛 산란 효과를 연출합니다.</li>
+<li>Point Light의 Volumetric Scattering Intensity를 3.0 이상으로!</li>
+</ul>
+<p><strong>확장 과제 3 — SkyAtmosphere 커스터마이징:</strong></p>
+<ul>
+<li>2교시에서 배운 Absorption, Rayleigh Scattering 색상을 바꿔보세요.</li>
+<li>외계 행성 느낌이나 포스트 아포칼립스 분위기를 만들어보세요.</li>
+<li>SkyAtmosphere 선택 → Details 검색 “absorption” 또는 “rayleigh”</li>
+</ul>
+<p><strong>확장 과제 4 — 머테리얼 인스턴스 조작:</strong></p>
+<ul>
+<li>바닥 머테리얼 인스턴스를 더블클릭하여 열기.</li>
+<li>3주차에서 배운 것처럼 Tiling, Saturation, Brightness 값 조정.</li>
+<li>바위 에셋과 어울리는 바닥 색감으로 통일감 만들기.</li>
+</ul>
+<hr />
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">
+<span>3교시에서 실습한 내용</span>
+</div>
+<div class="callout-body">
+<ol type="1">
+<li>
+<strong>환경 라이팅</strong>: Env. Light Mixer로 5개 요소를 한 번에 생성하고, SkyLight는 Movable + Real Time Capture로 설정합니다. Local Fog Volume으로 국소 안개 효과도 연출할 수 있습니다.
+</li>
+<li>
+<strong>레벨 인스턴스</strong>: 에셋 배치를 패키지로 묶어 재사용합니다. Hidden In Game 해제 후 Compile을 클릭합니다.
+</li>
+<li>
+<strong>콜리전</strong>: 주요 바위 에셋의 물리 경계를 확인하고 Play 모드에서 검증합니다.
+</li>
+<li>
+<strong>폴리지</strong>: Foliage 모드에서 풀을 Paint하여 자연스러운 지면을 만듭니다.
+</li>
+<li>
+<strong>스크린샷</strong>: High Resolution Screenshot으로 결과물을 캡처합니다.
+</li>
+<li>
+<strong>정리</strong>: Outliner 폴더 정리와 <code>Ctrl+S</code> 저장은 마지막에 수행합니다.
+</li>
+</ol>
+</div>
+</div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#실습-과제">실습 과제</a></li><li><a href="#타임라인">타임라인</a></li><li><a href="#단계-1-레벨-준비">단계 1: 레벨 준비</a></li><li><a href="#단계-2-환경-라이팅-구축">단계 2: 환경 라이팅 구축</a></li><li><a href="#단계-3-에셋-배치-레벨-인스턴스-생성">단계 3: 에셋 배치 + 레벨 인스턴스 생성</a></li><li><a href="#단계-4-콜리전-확인">단계 4: 콜리전 확인</a></li><li><a href="#단계-5-폴리지-마무리">단계 5: 폴리지 + 마무리</a></li><li><a href="#확장-과제-일찍-완료한-학생용">확장 과제 (일찍 완료한 학생용)</a></li><li><a href="#핵심-요약">핵심 요약</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>
