@@ -622,7 +622,7 @@ Fab에서 나무/풀 에셋을 받고 나나이트를 설정할 수 있습니다
 <p>노말맵은 이 법선 방향을 텍스처에 저장합니다. 원래 평평한 표면인데, 텍스처가 법선이 기울어져 있다고 엔진에 정보를 전달합니다. 그러면 빛이 울퉁불퉁하게 반사됩니다. 실제로는 평평한데 울퉁불퉁해 보이는 것입니다.</p>
 <p>비유하자면 — 평평한 벽에 벽돌 무늬 벽지를 바르면, 만져보면 평평하지만 빛에 따라 입체적으로 보입니다. 노말맵이 바로 그 벽지 역할입니다. 실제 벽돌을 쌓은 것은 아니지만 눈을 속이는 것입니다.</p>
 <figure class="lecture-figure">
-<img src="assets/01_normal-map-concept.png" alt="normal map concept" />
+<img src="assets/01_normal-map-concept.webp" alt="normal map concept" />
 <figcaption>normal map concept</figcaption>
 </figure>
 <div class="table-wrap"><table>
@@ -651,7 +651,7 @@ Fab에서 나무/풀 에셋을 받고 나나이트를 설정할 수 있습니다
 <h3 id="rgb-채널의-의미-왜-보라색인가">RGB 채널의 의미 — 왜 보라색인가?</h3>
 <p>노말맵은 RGB 3개 채널에 법선 방향 정보를 저장합니다. 각 채널이 X, Y, Z 축의 기울기를 나타냅니다.</p>
 <figure class="lecture-figure">
-<img src="assets/02_normal-map-rgb.png" alt="normal map rgb" />
+<img src="assets/02_normal-map-rgb.webp" alt="normal map rgb" />
 <figcaption>normal map rgb</figcaption>
 </figure>
 <div class="table-wrap"><table>
@@ -769,7 +769,7 @@ NormalTexture 체크박스와 Normal Intensity 체크박스 <strong>둘 다</str
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/03_normal-intensity-comparison.png" alt="normal intensity comparison" />
+<img src="assets/03_normal-intensity-comparison.webp" alt="normal intensity comparison" />
 <figcaption>normal intensity comparison</figcaption>
 </figure>
 <p>보통 <strong>1~2</strong> 범위가 적당합니다. 프리뷰 구체에서 0일 때는 매끈한 공이지만, 1로 바꾸면 표면에 요철이 생깁니다. 이는 법선 방향을 얼마나 강하게 적용하느냐의 차이입니다.</p>
@@ -966,13 +966,13 @@ MI_[ID]_Billboard는 사용하지 마세요. 이것은 멀리서 볼 때 2D 이�
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/05_foliage-ft-vs-sm.png" alt="foliage ft vs sm" />
+<img src="assets/05_foliage-ft-vs-sm.webp" alt="foliage ft vs sm" />
 <figcaption>foliage ft vs sm</figcaption>
 </figure>
 <h3 id="나나이트-전통-lod-vs-자동-lod">나나이트 — 전통 LOD vs 자동 LOD</h3>
 <p><strong>Level of Detail(LOD)</strong> 은 카메라에서 멀리 있는 오브젝트의 폴리곤을 줄이는 기법입니다. 가까이 있을 때는 디테일하게, 멀리 있을 때는 간략하게 표시합니다.</p>
 <figure class="lecture-figure">
-<img src="assets/06_nanite-lod-concept.png" alt="nanite lod concept" />
+<img src="assets/06_nanite-lod-concept.webp" alt="nanite lod concept" />
 <figcaption>nanite lod concept</figcaption>
 </figure>
 <p><strong>전통 LOD vs 나나이트 비교:</strong></p>
@@ -1009,7 +1009,7 @@ MI_[ID]_Billboard는 사용하지 마세요. 이것은 멀리서 볼 때 2D 이�
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/07_lod-vs-nanite.png" alt="lod vs nanite" />
+<img src="assets/07_lod-vs-nanite.webp" alt="lod vs nanite" />
 <figcaption>lod vs nanite</figcaption>
 </figure>
 <div class="callout callout-tip">
@@ -1140,7 +1140,7 @@ Property Matrix는 여러 에셋의 속성을 엑셀처럼 한 번에 편집하�
 <h2 id="핵심-개념-3-폴리지-시스템-기초">핵심 개념 3: 폴리지 시스템 기초</h2>
 <h3 id="폴리지-시스템이란">폴리지 시스템이란</h3>
 <figure class="lecture-figure">
-<img src="assets/08_foliage-workflow.png" alt="foliage workflow" />
+<img src="assets/08_foliage-workflow.webp" alt="foliage workflow" />
 <figcaption>foliage workflow</figcaption>
 </figure>
 <p>폴리지 시스템은 내부적으로 <strong>Instanced Static Mesh(ISM)</strong> 를 사용합니다. ISM은 같은 메쉬를 여러 개 배치할 때 하나의 드로우콜로 처리하는 방식입니다.</p>
@@ -1177,7 +1177,7 @@ Property Matrix는 여러 에셋의 속성을 엑셀처럼 한 번에 편집하�
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/09_foliage-ism-drawcall.png" alt="foliage ism drawcall" />
+<img src="assets/09_foliage-ism-drawcall.webp" alt="foliage ism drawcall" />
 <figcaption>foliage ism drawcall</figcaption>
 </figure>
 <div class="callout callout-tip">
@@ -1430,7 +1430,7 @@ Density를 300~500으로, Scale을 0.6~1.5로 하면 자연스러운 풀밭이 �
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/10_foliage-troubleshooting.png" alt="foliage troubleshooting" />
+<img src="assets/10_foliage-troubleshooting.webp" alt="foliage troubleshooting" />
 <figcaption>foliage troubleshooting</figcaption>
 </figure>
 <h3 id="학생-따라하기">학생 따라하기</h3>
