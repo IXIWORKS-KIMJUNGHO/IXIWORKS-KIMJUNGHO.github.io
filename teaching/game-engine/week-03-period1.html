@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3주차 1교시 — 머테리얼 시스템 기초 + PBR</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code { padding: 0; border: 0; background: transparent; }
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 03 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Material &amp; PBR</p>
+        <h1>3주차 1교시 — 머테리얼 시스템 기초 + PBR</h1>
+        <p class="lead">머테리얼 에디터, PBR 속성, Metallic과 Roughness 조합, Emissive 발광 구조를 다루는 학생용 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 03</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">MATERIAL</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">3주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">1교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">머테리얼 시스템 기초와 PBR</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-1교시-머테리얼-시스템-기초-pbr-학생용">3주차 1교시 — 머테리얼 시스템 기초 + PBR (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>학습 목표</span></div>
+<div class="callout-body">
+<ul>
+<li>머테리얼 에디터에서 직접 머테리얼을 생성하고 편집할 수 있다</li>
+<li>PBR 핵심 속성 5가지(Base Color, Metallic, Roughness, Specular, Emissive)의 역할을 이해할 수 있다</li>
+<li>Metallic과 Roughness 값 조합으로 원하는 표면 느낌을 조절할 수 있다</li>
+</ul>
+</div>
+</div>
+<hr>
+<h2 id="도입">도입</h2>
+<p>뷰포트에 큐브, 스피어 같은 오브젝트가 놓여 있지만 모두 회색입니다. 실시간 콘텐츠를 만들려면 이 밋밋한 회색 오브젝트에 색과 질감을 입혀야 합니다. 지금까지 배치만 했던 오브젝트에 재질을 입히는 것이 시네마틱 영상 제작의 핵심입니다. 오늘부터 머테리얼을 배우며 오브젝트에 색을 입혀봅니다.</p>
+<p><strong>머테리얼이란?</strong></p>
+<p>머테리얼은 스태틱 메쉬의 재질을 결정합니다. 쉽게 말해 3D 모델에 색, 질감과 같은 시각적 특징을 입히는 페인트입니다. 3D 모델의 형태가 뼈대라면, 머테리얼은 그 표면의 색과 질감을 정하는 레이어입니다.</p>
+<p>학술적으로는 다음과 같이 정의합니다.</p>
+<ul>
+<li><strong>머테리얼(Material)</strong>: 3D 객체의 표면 특성을 정의하는 셰이더 기반 시스템으로, 컴퓨터 그래픽스에서 물리 기반 렌더링(PBR, Physically Based Rendering)을 구현하는 핵심 요소</li>
+<li><strong>PBR</strong>: 빛과 표면 간의 상호작용을 실제 물리 법칙에 근거해 시뮬레이션하는 렌더링 기법</li>
+<li><strong>셰이더</strong>: 오브젝트의 외관과 조명효과를 결정하는 역할</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>PBR이 ’어떻게 보일지’를 정의한다면, 셰이더는 ’그걸 실제로 계산하고 그리는 방법’입니다.</p>
+</div>
+</div>
+<p>이번 시간이 끝나면 여러분은:</p>
+<ol type="1">
+<li>머테리얼 에디터에서 직접 머테리얼을 생성하고 편집할 수 있습니다.</li>
+<li>PBR 핵심 속성 5가지(Base Color, Metallic, Roughness, Specular, Emissive)의 역할을 이해할 수 있습니다.</li>
+<li>Metallic과 Roughness 값 조합으로 원하는 표면 느낌을 조절할 수 있습니다.</li>
+</ol>
+<hr>
+<h2 id="핵심-개념-1-머테리얼-생성과-에디터-인터페이스">핵심 개념 1 — 머테리얼 생성과 에디터 인터페이스</h2>
+<h3 id="머테리얼-폴더-만들기">머테리얼 폴더 만들기</h3>
+<p>머테리얼을 프로젝트마다 새로 만들면 작업이 금방 비효율적이 됩니다. 그래서 재사용할 수 있도록 폴더와 이름을 처음부터 정리해두는 것이 중요합니다.</p>
+<p><strong>폴더 생성 순서:</strong></p>
+<ol type="1">
+<li>Content Browser 좌측 상단의 초록색 <code>+ Add</code> 버튼을 클릭합니다</li>
+<li>드롭다운 메뉴 하단의 FOLDER 섹션에서 <code>New Folder</code>를 클릭합니다</li>
+<li>경로를 확인합니다: <code>All &gt; Content &gt; Lectures &gt; 3Weeks</code></li>
+<li>여기에 <code>Materials</code>라는 이름의 폴더를 생성합니다</li>
+</ol>
+<div class="callout callout-info">
+<div class="callout-title"><span>경로 확인</span></div>
+<div class="callout-body">
+<p>Content Browser 상단의 경로 표시줄(breadcrumb)이 <code>All &gt; Content &gt; Lectures &gt; 3Weeks &gt; Materials</code>로 되어 있어야 합니다. 폴더 트리에서는 GameEngineII_2026_01 &gt; Content &gt; Lectures &gt; 3Weeks &gt; Materials 형태로 계층이 보입니다.</p>
+</div>
+</div>
+<h3 id="머테리얼-생성">머테리얼 생성</h3>
+<p>이제 Materials 폴더 안에서 머테리얼을 만듭니다.</p>
+<ol type="1">
+<li><code>+ Add</code> 버튼 클릭</li>
+<li>드롭다운에서 CREATE BASIC ASSET 섹션을 봅니다. Blueprint Class, Level, <strong>Material</strong>, Niagara System 등이 있습니다</li>
+<li><code>Material</code>을 선택합니다 (지구본 모양의 초록색 아이콘)</li>
+</ol>
+<h3 id="네이밍-컨벤션">네이밍 컨벤션</h3>
+<p>머테리얼도 이름을 변경해줍니다. 텍스트만 보고도 어떤 데이터 타입인지 알 수 있게 해야 합니다.</p>
+<ul>
+<li>머테리얼: <code>M_</code> 접두사 → <code>M_Sample</code></li>
+<li>텍스처: <code>T_</code> 접두사</li>
+<li>머테리얼 인스턴스: <code>MI_</code> 접두사</li>
+</ul>
+<p>Content Browser에 M_Sample이라는 이름의 머테리얼 에셋이 나타납니다. 썸네일에는 회색 구(Sphere) 프리뷰가 보입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>학생 따라하기</span></div>
+<div class="callout-body">
+<p>Content Browser에서 <code>+ Add</code>를 눌러 Materials 폴더를 만들고, 그 안에 Material을 생성한 뒤 이름을 <code>M_Sample</code>로 바꿔보세요. 폴더 경로(<code>Content &gt; Lectures &gt; 3Weeks &gt; Materials</code>)와 네이밍(<code>M_Sample</code>)이 올바른지 확인합니다.</p>
+</div>
+</div>
+<h3 id="머테리얼-에디터-열기">머테리얼 에디터 열기</h3>
+<p>M_Sample을 더블클릭하면 머테리얼 에디터가 별도 창으로 열립니다. 머테리얼의 모든 것을 정의하는 별도 에디터입니다.</p>
+<p><strong>머테리얼 에디터는 3개 영역으로 구성됩니다:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>영역</th>
+<th>위치</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="영역"><strong>프리뷰 뷰포트</strong></td>
+<td data-label="위치">좌측 상단</td>
+<td data-label="설명">현재 머테리얼이 적용된 3D 구체가 실시간으로 보입니다. 회색 구체가 기본 상태이고, 배경에 Epic 본사 건물이 HDRI로 비치고 있습니다. 노드를 수정하면 여기서 바로 결과를 확인할 수 있습니다</td>
+</tr>
+<tr>
+<td data-label="영역"><strong>노드 그래프</strong></td>
+<td data-label="위치">우측 (가장 큰 영역)</td>
+<td data-label="설명">어두운 격자 무늬 배경 위에 노드들을 배치하고 연결하는 공간입니다. 우측에 금색 테두리의 큰 노드가 하나 있는데, 이것이 <strong>Result Node</strong>입니다. 우측 상단에 ’M_Sample &gt; Material Graph’라고 경로가 표시됩니다</td>
+</tr>
+<tr>
+<td data-label="영역"><strong>디테일 패널</strong></td>
+<td data-label="위치">좌측 하단</td>
+<td data-label="설명">Details와 Parameters 탭이 있습니다. Material Domain(Surface), Blend Mode(Opaque), Shading Model(Default Lit) 등 머테리얼의 전체 속성을 설정합니다</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/01_material-editor-overview.png" alt="01 material editor overview">
+<figcaption>
+01 material editor overview
+</figcaption>
+</figure>
+<p><strong>이미지: 머테리얼 에디터의 프리뷰 뷰포트, 노드 그래프, 디테일 패널, Result Node 구조</strong></p>
+<p>가운데 넓은 영역이 노드 그래프입니다. 여기서 노드를 배치하고 와이어로 연결하는 방식으로 머테리얼을 만듭니다. 코드 한 줄 없이 시각적으로 만드는 것으로, 블루프린트와 비슷한 개념입니다. 지금은 ’노드를 연결해서 만든다’는 것만 기억하면 됩니다.</p>
+<p><strong>노드 그래프 조작 — 기본 네비게이션:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>조작</th>
+<th>방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="조작"><strong>화면 이동(Pan)</strong></td>
+<td data-label="방법">마우스 <strong>RMB 드래그</strong> (또는 MMB 드래그)</td>
+</tr>
+<tr>
+<td data-label="조작"><strong>확대/축소(Zoom)</strong></td>
+<td data-label="방법">마우스 <strong>스크롤 휠</strong></td>
+</tr>
+<tr>
+<td data-label="조작"><strong>노드 선택</strong></td>
+<td data-label="방법">노드 위에서 <strong>LMB 클릭</strong></td>
+</tr>
+<tr>
+<td data-label="조작"><strong>노드 이동</strong></td>
+<td data-label="방법">선택 후 <strong>LMB 드래그</strong></td>
+</tr>
+<tr>
+<td data-label="조작"><strong>영역 선택</strong></td>
+<td data-label="방법">빈 공간에서 <strong>LMB 드래그</strong> — 사각 범위로 여러 노드 선택</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title"><span>메인 뷰포트와 다른 조작</span></div>
+<div class="callout-body">
+<p>노드 그래프는 2D 공간이라 메인 뷰포트와 네비게이션이 다릅니다. RMB 드래그로 화면이 움직이고, 스크롤로 확대/축소됩니다.</p>
+</div>
+</div>
+<p><strong>상단 툴바:</strong></p>
+<p>상단 툴바에는 중요한 버튼들이 있습니다. 지금 알아야 할 것만 짚습니다:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>버튼</th>
+<th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="버튼"><strong>Apply</strong></td>
+<td data-label="기능">머테리얼을 컴파일(적용). 프리뷰에 반영</td>
+</tr>
+<tr>
+<td data-label="버튼"><strong>Save</strong> (디스크 아이콘)</td>
+<td data-label="기능">디스크에 저장. <code>Ctrl+S</code>와 동일</td>
+</tr>
+<tr>
+<td data-label="버튼"><strong>Live Update</strong></td>
+<td data-label="기능">켜져 있으면 노드 수정 시 프리뷰가 자동 갱신 (기본 ON)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title"><span>Apply와 Save의 차이</span></div>
+<div class="callout-body">
+<p>Apply는 에디터 안에서 미리보기를 반영하는 것이고, Save는 실제 파일로 저장하는 것입니다. <strong>Apply만 하고 Save를 안 하면 다음에 열었을 때 변경사항이 사라집니다.</strong> 둘 다 해야 합니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>학생 따라하기</span></div>
+<div class="callout-body">
+<p>M_Sample을 더블클릭해 에디터를 열고, 노드 그래프에서 RMB 드래그로 화면을 이동해보고 스크롤로 확대/축소해보세요. 우측의 금색 큰 노드가 Result Node입니다.</p>
+</div>
+</div>
+<h3 id="result-node-결과-노드">Result Node (결과 노드)</h3>
+<p>노드 그래프 우측의 Result Node를 자세히 보면, 다음과 같은 핀(Pin)들이 세로로 나열되어 있습니다:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>핀 이름</th>
+<th>기본값</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="핀 이름"><strong>Base Color</strong></td>
+<td data-label="기본값">검정 (색상 사각형)</td>
+<td data-label="설명">표면의 기본 색상</td>
+</tr>
+<tr>
+<td data-label="핀 이름"><strong>Metallic</strong></td>
+<td data-label="기본값">0.0</td>
+<td data-label="설명">금속성 여부</td>
+</tr>
+<tr>
+<td data-label="핀 이름"><strong>Specular</strong></td>
+<td data-label="기본값">0.5</td>
+<td data-label="설명">반사 강도 (기본값)</td>
+</tr>
+<tr>
+<td data-label="핀 이름"><strong>Roughness</strong></td>
+<td data-label="기본값">0.5</td>
+<td data-label="설명">표면 거칠기</td>
+</tr>
+<tr>
+<td data-label="핀 이름"><strong>Anisotropy</strong></td>
+<td data-label="기본값">0.0</td>
+<td data-label="설명">비등방성 (지금은 무시)</td>
+</tr>
+<tr>
+<td data-label="핀 이름"><strong>Emissive Color</strong></td>
+<td data-label="기본값">체크무늬 (없음)</td>
+<td data-label="설명">자체 발광</td>
+</tr>
+</tbody>
+</table></div>
+<p>그 아래로 Opacity, Opacity Mask, Normal, Tangent, World Position Offset, Subsurface Color, Ambient Occlusion 등이 있지만, 오늘은 위의 6개 중 핵심 5개만 다룹니다.</p>
+<p>이 Result Node가 머테리얼의 최종 결과물입니다. 왼쪽에서 노드를 만들어 이 핀들에 연결하면 머테리얼이 완성됩니다. 각 핀이 재질의 한 가지 특성을 담당합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>이 노드에서 오늘 우리가 주로 다룰 속성 5개가 무엇인지, 위에서부터 하나씩 읽어볼까요?</p>
+</div>
+</div>
+<hr>
+<h2 id="핵심-개념-2-pbr-핵심-속성-base-color-metallic-roughness-specular">핵심 개념 2 — PBR 핵심 속성 (Base Color · Metallic · Roughness · Specular)</h2>
+<h3 id="base-color">Base Color</h3>
+<p><strong>Constant3Vector 노드 생성:</strong></p>
+<ul>
+<li>노드 그래프의 빈 공간에서 키보드 <code>3</code>을 누른 상태로 마우스 좌클릭(LMB)합니다</li>
+<li>그러면 Constant3Vector 노드가 생성됩니다. 이 노드는 X, Y, Z 세 개의 값 영역이 있고, 이것이 곧 R, G, B 색상값입니다</li>
+<li>노드 상단에 <code>0,0,0</code>이라고 표시되고, 하단에 검정색 사각형 프리뷰가 보입니다</li>
+<li>우측에 흰색(●), 빨간색(○), 초록색(○), 파란색(○) 4개의 출력 핀이 있습니다</li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>왜 Constant3Vector인가</span></div>
+<div class="callout-body">
+<p>알파를 빼면 색은 R, G, B 3개 값으로 구성됩니다. 그래서 Constant<strong>3</strong>Vector입니다.</p>
+</div>
+</div>
+<p><strong>색상 선택:</strong></p>
+<ul>
+<li>노드를 선택하면 좌측 하단 Details 패널에 ’Material Expression Constant 3Vector’가 나타나고, Constant 옆에 색상 사각형이 보입니다</li>
+<li>이 색상 사각형을 더블클릭하면 <strong>Color Picker</strong> 창이 열립니다</li>
+<li>Color Picker는 원형 색상환(Hue Wheel)이 가운데에 있고, 우측에 밝기/채도를 조절하는 직사각형 바가 있습니다</li>
+<li>하단에 R, G, B 슬라이더와 H, S, V 값, Hex Linear/Hex sRGB 값이 표시됩니다</li>
+<li>원하는 색을 선택하고 확인 버튼을 누르면 됩니다</li>
+</ul>
+<p><strong>연결:</strong></p>
+<ul>
+<li>Constant3Vector의 흰색 출력 핀(●)에서 드래그하여 Result Node의 <code>Base Color</code> 핀으로 연결합니다</li>
+<li>연결되면 흰색 곡선 와이어가 두 노드 사이에 나타납니다</li>
+<li>프리뷰 뷰포트의 구체 색상이 즉시 바뀝니다</li>
+</ul>
+<p><strong>Apply와 Save:</strong></p>
+<p>머테리얼은 Save를 하지 않으면 반영이 되지 않으므로 반드시 저장해야 합니다.</p>
+<ul>
+<li>상단 툴바의 <code>Apply</code> 버튼을 클릭하면 머테리얼이 컴파일됩니다</li>
+<li>저장하지 않으면 에디터 탭에서 머테리얼 이름 옆에 별표(*)가 뜹니다: <code>M_Sample*</code></li>
+<li>좌측 상단의 디스크 아이콘(Save)을 클릭하거나 <code>Ctrl+S</code>로 저장합니다</li>
+</ul>
+<p><strong>뷰포트에 적용 — 3가지 방법:</strong></p>
+<p>머테리얼을 오브젝트에 적용하는 방법은 3가지가 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방법</th>
+<th>순서</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="방법"><strong>1. 드래그 앤 드롭</strong></td>
+<td data-label="순서">Content Browser에서 M_Sample을 뷰포트의 오브젝트 위로 드래그</td>
+<td data-label="특징">가장 직관적. 빠름</td>
+</tr>
+<tr>
+<td data-label="방법"><strong>2. Details 패널에서 지정</strong></td>
+<td data-label="순서">오브젝트 선택 → Details &gt; Materials &gt; Element 0 드롭다운에서 M_Sample 검색/선택</td>
+<td data-label="특징">정확한 슬롯 지정 가능</td>
+</tr>
+<tr>
+<td data-label="방법"><strong>3. Content Browser 선택 후 화살표 적용</strong></td>
+<td data-label="순서">Content Browser에서 M_Sample 클릭하여 선택 → 오브젝트의 Details &gt; Materials &gt; Element 0 옆 <strong>←</strong> 화살표 아이콘 클릭</td>
+<td data-label="특징">Content Browser에서 선택한 에셋을 바로 적용. 여러 오브젝트에 같은 머테리얼을 빠르게 적용할 때 편리</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>3가지 방법 중 편한 것을 쓰면 됩니다. 여러 오브젝트에 같은 머테리얼을 넣을 때는 3.번이 편리합니다. Content Browser에서 머테리얼을 선택하고 화살표만 클릭하면 되기 때문입니다.</p>
+</div>
+</div>
+<p>머테리얼 에디터에서 색을 바꾸면 뷰포트에도 바로바로 적용됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>학생 따라하기</span></div>
+<div class="callout-body">
+<p><code>3+LMB</code>로 Constant3Vector를 만들고, 좋아하는 색을 골라 Base Color에 연결해보세요. Apply, Save까지 하고, 뷰포트의 오브젝트에 드래그 앤 드롭으로 적용해봅니다.</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title"><span>흔한 실수</span></div>
+<div class="callout-body">
+<ul>
+<li>Color Picker에서 확인 버튼을 안 눌러서 색이 적용 작동하지 않음</li>
+<li>Apply를 누르지 않아서 프리뷰가 안 바뀜</li>
+<li>뷰포트 드래그 앤 드롭 시 잘못된 오브젝트에 적용</li>
+</ul>
+</div>
+</div>
+<hr>
+<h3 id="metallic">Metallic</h3>
+<p>금속성인지 아닌지는 1개의 값으로 판단합니다.</p>
+<p><strong>Constant 노드 생성:</strong></p>
+<ul>
+<li>키보드 <code>1</code>을 누른 상태로 LMB 클릭 → Constant 노드 생성 (값 1개짜리)</li>
+<li>노드 상단에 초록빛 바와 Value 필드가 있고, 기본값은 0.0입니다</li>
+<li>이 노드의 출력 핀을 Result Node의 <code>Metallic</code> 핀으로 연결합니다</li>
+</ul>
+<p><strong>Metallic 값에 따른 변화 (0.0 → 0.5 → 1.0):</strong></p>
+<p>이 세 가지 값을 순서대로 적용해보면서 프리뷰 뷰포트의 구체 변화를 관찰합니다. 배경에 Epic 본사 건물이 HDRI로 비치고 있어서 반사를 잘 관찰할 수 있습니다:</p>
+<ul>
+<li><strong>Metallic = 0.0</strong> (비금속): 구체 표면이 균일하고 부드럽습니다. 플라스틱이나 고무 같은 느낌입니다. 빛이 표면에서 부드럽게 확산되고, 주변 환경이 거의 반사되지 않습니다. 색상이 선명하게 그대로 보입니다.</li>
+<li><strong>Metallic = 0.5</strong> (중간값): 표면에 약간의 금속 느낌이 나타나기 시작합니다. 색상이 살짝 어두워지면서 반사가 조금씩 보이기 시작합니다. 하지만 완전한 금속도, 완전한 비금속도 아닌 어색한 상태입니다.</li>
+<li><strong>Metallic = 1.0</strong> (완전 금속): 구체 표면에 주변 환경(건물, 하늘)이 선명하게 반사됩니다. 색상 자체가 반사광에 섞이면서 독특한 금속 색감이 됩니다. 마치 크롬이나 금처럼 환경을 비추는 거울 같은 느낌입니다.</li>
+</ul>
+<p>값이 1에 가까울수록 금속성을 보입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>실제 재질은 대부분 금속이거나 비금속입니다. 이번 실습에서는 Metallic을 0 또는 1로 구분해서 사용합니다. 0.5 같은 중간값은 특수한 마스크나 혼합 표현이 필요할 때 다룹니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>학생 따라하기</span></div>
+<div class="callout-body">
+<p><code>1+LMB</code>로 Constant를 만들어 Metallic에 연결해보세요. 값을 0으로 넣어보고 1로도 바꿔봅니다. 프리뷰에서 차이가 보이는지 확인합니다.</p>
+</div>
+</div>
+<hr>
+<h3 id="노드-연결-해제-altlmb">노드 연결 해제 — Alt+LMB</h3>
+<p>여기서 잠깐 유용한 단축키를 알아봅니다.</p>
+<ul>
+<li>두 노드를 연결하는 와이어(흰색 곡선 라인)에 마우스를 올려놓으면 툴팁이 나타납니다. 예를 들어 <code>&lt;&lt; Constant Output</code>과 <code>M_Sample Metallic &gt;&gt;</code>이라고 보입니다</li>
+<li>이 상태에서 <code>Alt</code> 키를 누른 채 마우스 좌클릭(LMB)을 하면 연결이 끊어집니다</li>
+<li>핀에서 직접 드래그해서 빈 공간에 놓아도 연결이 끊어집니다</li>
+</ul>
+<hr>
+<h3 id="roughness">Roughness</h3>
+<p>표면이 거친지 아니면 매끄러운지를 결정합니다. Metallic과 마찬가지로 Constant 노드(<code>1+LMB</code>)를 생성하여 Result Node의 <code>Roughness</code> 핀에 연결합니다.</p>
+<p><strong>Roughness 값에 따른 변화 (0.0 → 0.5 → 1.0):</strong></p>
+<p>Metallic을 끊어놓은 상태에서 Roughness만 변경하며 관찰합니다:</p>
+<ul>
+<li><strong>Roughness = 0.0</strong> (완전 매끄러움): 구체 표면이 광택 코팅 표면처럼 매끄럽습니다. 배경의 건물, 하늘이 또렷하게 반사됩니다. 표면에 선명한 하이라이트(정반사, Specular highlight)가 작고 날카롭게 나타납니다. 광택 타일이나 코팅된 당구공 같은 느낌입니다.</li>
+<li><strong>Roughness = 0.5</strong> (중간): 반사가 뿌옇게 번집니다. 배경이 어렴풋이 비치긴 하지만 선명하지 않습니다. 하이라이트도 넓고 부드럽게 퍼집니다. 일반적인 플라스틱 느낌입니다.</li>
+<li><strong>Roughness = 1.0</strong> (완전 거침): 반사가 거의 사라집니다. 구체 표면이 완전히 무광(matte)이고, 빛이 사방으로 확산됩니다. 하이라이트가 보이지 않습니다. 분필이나 콘크리트 같은 느낌입니다.</li>
+</ul>
+<p>값이 0에 가까울수록 표면이 매끄럽고, 매끄러운 표면에서는 정반사가 일어납니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>그러면 광택 타일은 Roughness가 얼마일까요? 반대로 칠판은요?</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>학생 따라하기</span></div>
+<div class="callout-body">
+<p>Metallic 노드는 <code>Alt+LMB</code>로 끊고, Roughness에 Constant를 연결해 0, 0.5, 1로 바꿔보세요.</p>
+</div>
+</div>
+<hr>
+<h3 id="metallic-roughness-조합-매트릭스">Metallic × Roughness 조합 매트릭스</h3>
+<p>Metallic과 Roughness 노드를 모두 연결한 상태에서, 값을 조합해가며 프리뷰 변화를 관찰합니다.</p>
+<p><strong>3×3 매트릭스:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th><strong>R = 0.0</strong> (매끄러움)</th>
+<th><strong>R = 0.5</strong> (중간)</th>
+<th><strong>R = 1.0</strong> (거침)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label=""><strong>M = 0.0</strong> (비금속)</td>
+<td data-label="R = 0.0 (매끄러움)">광택 세라믹, 코팅 표면 — 선명한 반사 + 색상 유지</td>
+<td data-label="R = 0.5 (중간)">일반 플라스틱 — 뿌연 반사</td>
+<td data-label="R = 1.0 (거침)">분필, 콘크리트 — 반사 없음, 완전 무광</td>
+</tr>
+<tr>
+<td data-label=""><strong>M = 0.5</strong> ( 비현실적)</td>
+<td data-label="R = 0.0 (매끄러움)">어색한 반금속</td>
+<td data-label="R = 0.5 (중간)">어색한 반금속</td>
+<td data-label="R = 1.0 (거침)">어색한 반금속</td>
+</tr>
+<tr>
+<td data-label=""><strong>M = 1.0</strong> (금속)</td>
+<td data-label="R = 0.0 (매끄러움)">크롬, 거울 — 환경이 선명하게 비침</td>
+<td data-label="R = 0.5 (중간)">브러싱 스틸 — 뿌연 금속 반사</td>
+<td data-label="R = 1.0 (거침)">산화된 철, 녹슨 금속 — 무광 금속</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/02_pbr-metallic-roughness-matrix.png" alt="02 pbr metallic roughness matrix">
+<figcaption>
+02 pbr metallic roughness matrix
+</figcaption>
+</figure>
+<p><strong>이미지: Metallic 값과 Roughness 값의 조합에 따른 재질 변화</strong></p>
+<p><strong>주요 조합 살펴보기:</strong></p>
+<ol type="1">
+<li><strong>M=0, R=0</strong> (광택 비금속): 비금속인데 반사가 선명합니다. 비금속도 Roughness가 0이면 이렇게 반사됩니다</li>
+<li><strong>M=1, R=0</strong> (크롬): 금속 + 매끄러움. 완전한 거울 금속입니다</li>
+<li><strong>M=1, R=1</strong> (녹슨 철): 금속인데 무광. 금속이어도 Roughness가 높으면 반사가 사라집니다</li>
+<li><strong>M=0, R=1</strong> (분필): 비금속 + 거침. 가장 밋밋한 표면입니다</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>Metallic과 Roughness 두 값의 조합만으로도 크롬, 녹슨 철, 플라스틱, 분필처럼 서로 다른 표면 느낌을 크게 구분할 수 있습니다. 이 두 개가 PBR의 핵심입니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>’새 스마트폰 뒷면’은 이 매트릭스에서 어디에 해당할까요? → M=0 (세라믹/코팅 계열 표면), R=0.05~0.1 (거의 매끄러움) — 좌측 상단 근처</p>
+</div>
+</div>
+<hr>
+<h3 id="specular">Specular</h3>
+<p>물리기반 렌더링(PBR)에서 정반사는 Metallic과 Roughness를 통해 표현합니다. 그렇다면 Specular 핀은 왜 있을까요?</p>
+<p>기본 PBR 반사에 미세한 보정을 더하고 싶을 때 Specular를 사용합니다. 포토리얼리스틱뿐 아니라 NPR 스타일에서도 활용할 수 있습니다.</p>
+<p><strong>Specular의 실체:</strong></p>
+<ul>
+<li>Specular는 별도의 설정이 없으면 기본값 <strong>0.5</strong>를 가집니다</li>
+<li>Result Node에서 Specular 핀 옆에 <code>0.5</code>라고 표시되어 있는 것을 확인할 수 있습니다</li>
+<li>대부분의 경우 이 값을 수정할 필요가 없습니다</li>
+</ul>
+<p><strong>Specular 값에 따른 변화 (0.0 → 0.5 → 1.0):</strong></p>
+<p>Constant 노드를 연결하여 비교합니다. 차이가 Metallic이나 Roughness에 비해 미묘합니다:</p>
+<ul>
+<li><strong>Specular = 0.0</strong>: 구체 표면의 좌측 상단 하이라이트(반짝이는 밝은 점) 부분을 보면, 하이라이트가 거의 사라지고 표면이 평평해 보입니다. 빛 반사가 억제됩니다.</li>
+<li><strong>Specular = 0.5</strong> (기본값): 자연스러운 정도의 하이라이트가 보입니다. 대부분의 실제 재질과 유사합니다.</li>
+<li><strong>Specular = 1.0</strong>: 하이라이트가 더 강하고 밝게 나타납니다. 반사 영역이 약간 더 선명합니다. 하지만 차이가 극적이지는 않습니다.</li>
+</ul>
+<p>값이 1에 가까울수록 정반사 효과가 높아지지만, Metallic이나 Roughness만큼 극적인 변화는 아닙니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>Specular는 기본 반사에 미세한 보정을 더하는 값입니다. 대부분의 실습에서는 기본값 0.5를 유지하세요.</p>
+</div>
+</div>
+<hr>
+<h2 id="핵심-개념-3-emissive-color-자체-발광">핵심 개념 3 — Emissive Color (자체 발광)</h2>
+<p>Emissive Color는 빛을 스스로 내는 것처럼 보이게 하는 속성입니다. 발광체를 만들 때 사용합니다.</p>
+<h3 id="단순-연결의-함정">단순 연결의 함정</h3>
+<p>Constant3Vector(<code>3+LMB</code>)로 빨간색-주황색 계열 색상을 만들어 Emissive Color 핀에 연결해봅니다.</p>
+<p>노드 그래프에서: 좌측에 주황-빨강색 사각형이 있는 Constant3Vector(예: X=1.0, Y=0.028, Z=0.0)가 있고, 이 노드의 출력이 Result Node의 Emissive Color 핀에 연결됩니다.</p>
+<p>뷰포트에서 확인하면 — 주황색 구체가 있지만, 단순히 주황색 표면으로 보일 뿐 발광 효과가 전혀 없습니다. 주변을 밝히지도 않고, 단순한 주황색 구체입니다. 그림자도 정상적으로 드리워져 있습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/03_pbr-emissive-before-after.png" alt="03 pbr emissive before after">
+<figcaption>
+03 pbr emissive before after
+</figcaption>
+</figure>
+<p><strong>이미지: Emissive 적용 전후 — 단순 Base Color와 자체 발광/빛 번짐의 차이</strong></p>
+<p><strong>이유</strong>: Constant3Vector의 RGB 값은 0~1 범위인데, Emissive가 눈에 보이려면 1.0을 훨씬 넘는 HDR 강도가 필요합니다.</p>
+<h3 id="multiply-노드로-해결">Multiply 노드로 해결</h3>
+<ol type="1">
+<li><code>M+LMB</code> 클릭으로 <strong>Multiply</strong> 노드를 생성합니다</li>
+<li>Multiply 노드는 A와 B 두 개의 입력을 가집니다
+<ul>
+<li>노드 모양: 상단에 <code>Multiply(,100)</code>이라고 표시되고, 좌측에 <code>A</code> 입력 핀과 <code>B</code> 입력 핀이 있고, <code>B</code> 옆에 값을 직접 입력할 수 있는 필드가 있습니다</li>
+</ul></li>
+<li><strong>색상 노드 → Multiply의 A핀</strong>에 연결합니다</li>
+<li><strong>Multiply의 B값을 100으로</strong> 설정합니다 (기본값에서 직접 타이핑)</li>
+<li><strong>Multiply의 출력 → Emissive Color 핀</strong>에 연결합니다</li>
+</ol>
+<p>뷰포트에서 확인하면 — 구체가 밝은 노란-주황색으로 빛나면서, 마치 태양처럼 환하게 빛납니다. 구체 주변 바닥에 주황색 빛이 번지고 있고, 가까이 있는 다른 오브젝트들도 주황빛에 살짝 물듭니다. 발광 강도가 높아서 구체 표면의 디테일은 보이지 않고, 밝은 발광체처럼 보입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>Emissive는 색상만 연결하면 효과가 약합니다. Multiply 노드를 사이에 넣어서 B 값을 100 이상으로 올리면 발광이 눈에 띄게 보입니다. B 값을 높일수록 더 밝게 빛납니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>학생 따라하기</span></div>
+<div class="callout-body">
+<p>기존 노드들을 다 끊고, <code>3+LMB</code>로 색상 노드를 만들고 <code>M+LMB</code>로 Multiply를 만들어 연결해보세요. B 값을 100부터 시작해 500, 1000까지 올려보며 어떤 차이가 있는지 관찰합니다. 뷰포트에서 주변 오브젝트에도 빛이 가는지 확인해봅니다.</p>
+</div>
+</div>
+<hr>
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>1교시 한 줄 요약</span></div>
+<div class="callout-body">
+<p>머테리얼 에디터에서 노드를 연결해 표면을 정의하고, Metallic·Roughness 조합으로 재질감을 표현하며, Emissive Color는 Multiply 노드로 발광 강도를 끌어올린다.</p>
+</div>
+</div>
+<p><strong>3줄 요약:</strong></p>
+<ol type="1">
+<li><strong>머테리얼 에디터</strong>에서 노드를 연결하여 표면을 정의합니다 (생성: +Add &gt; Material, 단축키: <code>1</code>/<code>3</code>/<code>M</code>+LMB)</li>
+<li><strong>Metallic과 Roughness</strong> 두 값만 바꿔도 금속/플라스틱/고무/광택 표면을 표현할 수 있습니다</li>
+<li><strong>Emissive Color</strong>는 Multiply 노드(B값 100+)를 사이에 넣으면 발광이 눈에 띄게 보입니다</li>
+</ol>
+<p>오늘은 Base Color, Metallic, Roughness, Specular, Emissive를 처음 연결해봤습니다. 특히 Metallic과 Roughness는 다음 실습에서도 계속 쓰게 될 핵심 값입니다.</p>
+<h3 id="교시-예고">2교시 예고</h3>
+<p>2교시에는 텍스처를 사용해 더 사실적인 머테리얼을 만들어봅니다. 그리고 머테리얼 인스턴스라는 편리한 기능도 알아봅니다. 이 기능이 있으면 매번 에디터를 열 필요 없이 실시간으로 값을 바꿀 수 있습니다.</p>
+<hr>
+<h2 id="노드-단축키-요약">노드 단축키 요약</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단축키</th>
+<th>노드</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="단축키"><code>1 + LMB</code></td>
+<td data-label="노드">Constant</td>
+<td data-label="용도">단일 값 (Metallic, Roughness 등)</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>3 + LMB</code></td>
+<td data-label="노드">Constant3Vector</td>
+<td data-label="용도">색상값 RGB (Base Color, Emissive 등)</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>M + LMB</code></td>
+<td data-label="노드">Multiply</td>
+<td data-label="용도">두 값 곱하기 (Emissive 강도 조절 등)</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>T + LMB</code></td>
+<td data-label="노드">Texture Sample</td>
+<td data-label="용도">텍스처 연결 (2교시에서 다룸)</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>Alt + LMB</code></td>
+<td data-label="노드">—</td>
+<td data-label="용도">연결 해제 (와이어 위에서)</td>
+</tr>
+</tbody>
+</table></div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#관련-문서">관련 문서</a></li><li><a href="#도입">도입</a></li><li><a href="#핵심-개념-1-머테리얼-생성과-에디터-인터페이스">핵심 개념 1 — 머테리얼 생성과 에디터 인터페이스</a></li><li><a href="#핵심-개념-2-pbr-핵심-속성-base-color-metallic-roughness-specular">핵심 개념 2 — PBR 핵심 속성 (Base Color · Metallic · Roughness · Specular)</a></li><li><a href="#핵심-개념-3-emissive-color-자체-발광">핵심 개념 3 — Emissive Color (자체 발광)</a></li><li><a href="#핵심-요약">핵심 요약</a></li><li><a href="#노드-단축키-요약">노드 단축키 요약</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>

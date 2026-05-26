@@ -1,0 +1,1202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3주차 2교시 — 텍스처 + 파라미터 + 머테리얼 인스턴스</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code { padding: 0; border: 0; background: transparent; }
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 03 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Texture &amp; Instance</p>
+        <h1>3주차 2교시 — 텍스처 + 파라미터 + 머테리얼 인스턴스</h1>
+        <p class="lead">텍스처와 UV 좌표, 타일링, 파라미터화, 머테리얼 인스턴스, Fab/Quixel 에셋 활용을 정리하는 학생용 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 03</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">TEXTURE</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">3주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">2교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">텍스처, 파라미터, 머테리얼 인스턴스</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-2교시-텍스처-파라미터-머테리얼-인스턴스-학생용">3주차 2교시 — 텍스처 + 파라미터 + 머테리얼 인스턴스 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">1교시 교안</td>
+<td data-label="문서">3주차 1교시: 머테리얼 기초와 PBR</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>학습 목표</span></div>
+<div class="callout-body">
+<ul>
+<li>텍스처를 활용해 사실적인 머테리얼을 제작할 수 있다</li>
+<li>파라미터화와 머테리얼 인스턴스의 개념을 이해하고 직접 만들 수 있다</li>
+<li>Fab 마켓플레이스에서 에셋을 다운로드하여 프로젝트에 활용할 수 있다</li>
+</ul>
+</div>
+</div>
+<p>오늘은 1교시에서 색만 바꾸던 머테리얼을 한 단계 더 발전시킵니다. 텍스처 이미지를 사용해 훨씬 사실적인 표면을 만들고, 값을 파라미터화하여 실시간으로 조절하며, Fab 에셋까지 활용합니다.</p>
+<hr>
+<h2 id="교시-복습">1교시 복습</h2>
+<p>1교시에서 다룬 PBR 속성 5개를 빠르게 복습합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>질문</th>
+<th>정답</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="질문">Metallic 값은 현실에서 몇과 몇만 사용합니까?</td>
+<td data-label="정답"><strong>0 아니면 1</strong></td>
+</tr>
+<tr>
+<td data-label="질문">Roughness가 0에 가까우면?</td>
+<td data-label="정답"><strong>매끄러움, 정반사</strong></td>
+</tr>
+<tr>
+<td data-label="질문">Emissive Color에 색상만 연결하면 빛이 나나요?</td>
+<td data-label="정답"><strong>아닙니다. Multiply 노드 필요 (B값 100+)</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<h2 id="심화-개념-1-텍스처와-uv-좌표">심화 개념 1 — 텍스처와 UV 좌표</h2>
+<h3 id="텍스처란">텍스처란?</h3>
+<p>1교시에서는 Constant3Vector로 단색만 넣었습니다. 하지만 실제 세계의 표면은 단색이 아닙니다. 나무결, 돌의 무늬, 금속의 스크래치 같은 복잡한 패턴을 표현하려면 <strong>텍스처(이미지)</strong>가 필요합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/04_texture-maps-to-material-result.png" alt="04 texture maps to material result">
+<figcaption>
+04 texture maps to material result
+</figcaption>
+</figure>
+<p><strong>이미지: Base Color, Normal, Roughness, Metallic, AO 맵이 최종 PBR 재질로 결합되는 구조</strong></p>
+<p>텍스처는 2D 공간입니다. 일반적인 XY 좌표가 아니라, 언리얼에서는 텍스처 매핑에 <strong>UV 좌표</strong>를 사용합니다. U는 가로, V는 세로 방향이라고 이해하면 됩니다.</p>
+<h3 id="uv-좌표-개념">UV 좌표 개념</h3>
+<p><strong>Texture Coordinate란</strong> 3D 오브젝트 표면에 2D 텍스처를 매핑하기 위해 사용되는 좌표 시스템입니다.</p>
+<ul>
+<li>3D 오브젝트를 종이접기처럼 펼치면 2D 평면이 됩니다</li>
+<li>이게 바로 <strong>UV 공간</strong>입니다</li>
+<li>펼쳐진 면에 텍스처를 넣으면, 매핑된 공간에 텍스처가 보이게 됩니다</li>
+</ul>
+<figure class="lecture-figure">
+<img src="assets/05_uv-coordinate-diagram.png" alt="05 uv coordinate diagram">
+<figcaption>
+05 uv coordinate diagram
+</figcaption>
+</figure>
+<p>UV 좌표는 0에서 1까지의 범위를 가집니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>좌표</th>
+<th>위치</th>
+<th>색상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="좌표"><strong>(0, 0)</strong></td>
+<td data-label="위치">좌측 하단</td>
+<td data-label="색상">검정 (R=0, G=0)</td>
+</tr>
+<tr>
+<td data-label="좌표"><strong>(1, 0)</strong></td>
+<td data-label="위치">우측 하단</td>
+<td data-label="색상">빨강 (R=1, G=0) — U 방향</td>
+</tr>
+<tr>
+<td data-label="좌표"><strong>(0, 1)</strong></td>
+<td data-label="위치">좌측 상단</td>
+<td data-label="색상">초록 (R=0, G=1) — V 방향</td>
+</tr>
+<tr>
+<td data-label="좌표"><strong>(1, 1)</strong></td>
+<td data-label="위치">우측 상단</td>
+<td data-label="색상">노랑 (R=1, G=1) — U+V</td>
+</tr>
+</tbody>
+</table></div>
+<p>U는 가로축, V는 세로축이며 0에서 1까지입니다. 3D 모델을 펼쳐서 만든 2D 면에 텍스처를 붙이는 것, 그것이 UV 매핑입니다.</p>
+<h3 id="텍스처-임포트">텍스처 임포트</h3>
+<p>강의에 필요한 PNG, JPG 텍스처 샘플은 구글 드라이브에서 받습니다. 경로는 <code>내 드라이브 &gt; 예술공학대학_게임엔진II &gt; 3Week</code>입니다.</p>
+<p>다운로드한 텍스처 파일(T_Alpha — 흑백 2×2 체커보드)을 프로젝트에 가져옵니다.</p>
+<ol type="1">
+<li>구글 드라이브에서 T_Alpha 텍스처 파일(PNG)을 다운로드합니다</li>
+<li>Content Browser에서 <code>Content &gt; Lectures &gt; 3Weeks</code> 아래에 <code>Textures</code> 폴더를 생성합니다</li>
+<li>탐색기(또는 Finder)에서 다운로드한 PNG 파일을 <strong>Content Browser의 Textures 폴더로 드래그 앤 드롭</strong>합니다</li>
+</ol>
+<p>Content Browser에 <code>T_Alpha</code>라는 에셋이 나타납니다. 썸네일에 흑백 체커보드 패턴이 보이고, 하단에 파란색 라벨로 이름이 표시됩니다.</p>
+<h3 id="흔한-문제-텍스처-임포트">흔한 문제 — 텍스처 임포트</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">다운로드 경로를 찾지 못하는 경우</td>
+<td data-label="해결">다운로드 폴더를 확인합니다</td>
+</tr>
+<tr>
+<td data-label="증상">Content Browser가 아닌 뷰포트에 드래그한 경우</td>
+<td data-label="해결">파일은 반드시 Content Browser 안에 넣어야 합니다</td>
+</tr>
+<tr>
+<td data-label="증상">Textures 폴더가 아닌 다른 위치에 넣은 경우</td>
+<td data-label="해결">폴더 경로를 다시 확인합니다</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="texture-sample-노드">Texture Sample 노드</h3>
+<p>M_Sample을 더블클릭하여 머테리얼 에디터를 엽니다.</p>
+<p><strong>Texture Sample 노드 생성</strong></p>
+<ul>
+<li>키보드 <code>T</code>를 누른 상태로 LMB 클릭 → <strong>Texture Sample</strong> 노드가 생성됩니다</li>
+<li>이 노드는 1교시의 Constant 노드들보다 큽니다. 구조는 다음과 같습니다:
+<ul>
+<li>상단에 <code>Texture Sample</code>이라고 표시</li>
+<li>좌측 입력 핀: <code>UVs [0]</code>, <code>Tex</code>, <code>Apply View MipBias</code></li>
+<li>우측 출력 핀: <code>RGB</code>(흰색), <code>R</code>(빨간색), <code>G</code>(초록색), <code>B</code>(파란색), <code>A</code>(회색), <code>RGBA</code>(흰색)</li>
+<li>하단에 텍스처 프리뷰가 보입니다 (아직 텍스처를 지정하지 않으면 검정/흰색 기본 체크무늬)</li>
+</ul></li>
+</ul>
+<p><strong>텍스처 지정</strong></p>
+<ul>
+<li>Texture Sample 노드를 선택하면 좌측 하단 Details 패널에 <code>Material Expression Texture Base</code> 섹션이 나타납니다</li>
+<li><code>Texture</code> 항목 옆의 드롭다운에서 <code>T_Alpha</code>를 선택합니다 (또는 Content Browser에서 T_Alpha를 끌어다 노드 위에 놓습니다)</li>
+<li>노드 하단 프리뷰에 흑백 체커보드가 나타납니다</li>
+</ul>
+<p><strong>Base Color에 연결</strong></p>
+<ul>
+<li>Texture Sample의 <code>RGB</code> 출력 핀을 Result Node의 <code>Base Color</code> 핀에 연결합니다</li>
+<li>프리뷰 뷰포트의 구체에 체커보드 패턴이 입혀집니다</li>
+</ul>
+<p>같은 머테리얼을 큐브와 스피어에 각각 적용하면 다르게 나타납니다.</p>
+<ul>
+<li><strong>큐브</strong>: 각 면에 체커보드가 깔끔하게 1:1로 매핑됩니다. 면마다 검정-흰색 사각형이 또렷하게 보입니다</li>
+<li><strong>스피어</strong>: 체커보드가 구체 표면을 따라 휘어집니다. 위아래 극점(pole) 부분에서 패턴이 찌그러지고, 적도 부분은 비교적 균일합니다</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>메쉬에 따른 텍스처 차이</span></div>
+<div class="callout-body">
+<p>같은 텍스처인데 메쉬 모양에 따라 달라 보이는 이유는 UV 매핑의 차이 때문입니다. 텍스처는 스태틱 메쉬에 영향을 많이 받습니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>같은 머테리얼을 큐브와 스피어에 적용했는데 왜 텍스처가 다르게 나타날까요?</p>
+</div>
+</div>
+<hr>
+<h2 id="심화-개념-2-texturecoordinate와-타일링">심화 개념 2 — TextureCoordinate와 타일링</h2>
+<h3 id="타일링의-필요성">타일링의 필요성</h3>
+<p>벽이나 바닥처럼 넓은 면에 작은 텍스처를 반복해서 깔아야 하는 상황이 있습니다. 텍스처 자체를 크게 만들면 메모리 낭비이므로, 작은 텍스처를 타일링(반복)하는 게 효율적입니다.</p>
+<h3 id="texturecoordinate-노드">TextureCoordinate 노드</h3>
+<p>노드 그래프 빈 공간에서 마우스 우클릭(RMB)하면 검색 창이 나타납니다. <code>texture coordinate</code>를 입력하면:</p>
+<ul>
+<li>Coordinates 카테고리 아래에 <code>PanTextureCoordinateChannelfrom-1ton+1</code>, <code>PanTextureCoordinateFrom-1toN+1</code>, <strong><code>TextureCoordinate</code></strong> 등이 나열됩니다</li>
+<li><code>TextureCoordinate</code>를 선택합니다</li>
+</ul>
+<p>생성된 노드:</p>
+<ul>
+<li>상단에 <code>TexCoord[0]</code>이라고 표시되고, 빨간색에서 검은색으로 그라데이션 바가 있습니다</li>
+<li><code>Coordinate Index [0]</code> 필드와 출력 핀이 있습니다</li>
+</ul>
+<p><strong>타일링 노드 체인 구성</strong></p>
+<p>이제 Multiply 노드를 사이에 넣어서 타일링 횟수를 제어합니다.</p>
+<ol type="1">
+<li>TexCoord[0] 노드의 출력 → <strong>Multiply</strong> 노드의 A핀에 연결</li>
+<li>Multiply 노드의 B값을 <code>3.0</code>으로 설정</li>
+<li>Multiply 노드의 출력 → Texture Sample의 <code>UVs</code> 입력 핀에 연결</li>
+</ol>
+<p>노드 그래프 모습: 좌측부터 <code>TexCoord[0]</code> → <code>Multiply(,3)</code> → <code>Texture Sample</code> 순서로 연결됩니다.</p>
+<div class="callout callout-info">
+<div class="callout-title"><span>Multiply의 B값 = 타일링 횟수</span></div>
+<div class="callout-body">
+<p>B값이 3이면 UV 좌표가 3배로 커져서 텍스처가 3×3으로 반복됩니다.</p>
+</div>
+</div>
+<h3 id="타일링-비교">타일링 비교</h3>
+<p>Multiply B값을 바꿔가며 프리뷰 뷰포트에서 비교합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>B 값</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="B 값"><strong>1</strong></td>
+<td data-label="결과">체커보드가 원래 크기 그대로. 큰 사각형 4개(2×2)</td>
+</tr>
+<tr>
+<td data-label="B 값"><strong>5</strong></td>
+<td data-label="결과">5×5로 반복. 촘촘한 바둑판</td>
+</tr>
+<tr>
+<td data-label="B 값"><strong>10</strong></td>
+<td data-label="결과">10×10으로 매우 촘촘. 멀리서 보면 회색으로 보일 정도</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/06_texture-tiling-floor-comparison.png" alt="06 texture tiling floor comparison">
+<figcaption>
+06 texture tiling floor comparison
+</figcaption>
+</figure>
+<p><strong>이미지: 같은 바닥 텍스처를 1x, 3x, 8x로 반복했을 때의 차이</strong></p>
+<p>1교시에서는 Multiply를 Emissive 강도에 사용했습니다. 여기서는 같은 노드를 UV 타일링에 씁니다. 같은 노드인데 용도가 다른 것입니다.</p>
+<hr>
+<h2 id="심화-개념-2.5-텍스처로-속성-마스킹">심화 개념 2.5 — 텍스처로 속성 마스킹</h2>
+<p>Color, Metallic, Roughness 같은 속성에 값을 설정하면 오브젝트 전체가 바뀝니다. 그런데 하나의 3D 오브젝트에서 오른쪽은 금속, 왼쪽은 비금속으로 만들고 싶다면 어떻게 해야 할까요? 이럴 때 텍스처를 활용합니다.</p>
+<p><strong>핵심 개념 — 텍스처의 흑백값 = 0과 1</strong></p>
+<p>언리얼 엔진은 텍스처의 검정색을 0, 흰색을 1로 인식합니다. T_Alpha 체커보드를 보면 좌상단 검정(=0), 우상단 흰색(=1), 좌하단 흰색(=1), 우하단 검정(=0)입니다.</p>
+<p><strong>Metallic에 텍스처 적용</strong></p>
+<p>Texture Sample의 RGB 출력을 Result Node의 <code>Metallic</code> 핀에 직접 연결합니다. 동시에 Constant3Vector(보라색 계열, X=0.475, Y=0.169, Z=1.0)가 Base Color에 연결되어 있습니다.</p>
+<p>프리뷰 뷰포트에서 확인하면 보라색 큐브의 표면이 4등분되어 있습니다. 텍스처에서 흰색 영역(=Metallic 1.0)은 배경이 반사되는 금속질 보라색으로 보이고, 검정 영역(=Metallic 0.0)은 반사 없는 무광 보라색으로 보입니다. 하나의 오브젝트 위에 금속과 비금속이 공존하는 것입니다.</p>
+<p>같은 원리로 Roughness에도 텍스처를 넣을 수 있습니다. 한 오브젝트에서 부분마다 거칠기가 다른 표면을 만들 수 있습니다.</p>
+<h3 id="텍스처를-multiply로-곱해서-적용하기">텍스처를 Multiply로 곱해서 적용하기</h3>
+<p>텍스처를 Metallic에 바로 연결하면 흰색=1.0, 검정=0.0으로 극단적인 결과만 나옵니다. 하지만 <strong>Multiply 노드를 사이에 넣으면</strong> 텍스처 값에 원하는 숫자를 곱해서 강도를 조절할 수 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>노드 체인</th>
+<th>흰색 영역의 결과</th>
+<th>검정 영역의 결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="노드 체인">Texture → Metallic (직접 연결)</td>
+<td data-label="흰색 영역의 결과">1.0 × 1 = <strong>1.0</strong> (완전 금속)</td>
+<td data-label="검정 영역의 결과">0.0 × 1 = <strong>0.0</strong> (완전 비금속)</td>
+</tr>
+<tr>
+<td data-label="노드 체인">Texture → Multiply(B=0.5) → Metallic</td>
+<td data-label="흰색 영역의 결과">1.0 × 0.5 = <strong>0.5</strong></td>
+<td data-label="검정 영역의 결과">0.0 × 0.5 = <strong>0.0</strong></td>
+</tr>
+<tr>
+<td data-label="노드 체인">Texture → Multiply(B=0.3) → Roughness</td>
+<td data-label="흰색 영역의 결과">1.0 × 0.3 = <strong>0.3</strong> (약간 거침)</td>
+<td data-label="검정 영역의 결과">0.0 × 0.3 = <strong>0.0</strong> (매끄러움)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>노드 연결</strong></p>
+<pre><code>Texture Sample (RGB) ──→ Multiply (A핀)
+                                        ──→ 출력 ──→ Result Node: Roughness
+Constant [0.3]       ──→ Multiply (B핀)</code></pre>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>텍스처 값 × B값 = 최종 속성값. 곱하기를 하면 텍스처의 패턴은 유지하면서 강도를 자유롭게 조절할 수 있습니다. 1교시에서 Emissive 강도를 올릴 때 Multiply를 쓴 것과 같은 원리입니다.</p>
+</div>
+</div>
+<p><strong>예제 — Roughness 마스킹 강도 조절</strong></p>
+<p>Multiply의 B값을 0.0 → 0.5 → 1.0으로 바꿔가며 프리뷰 변화를 관찰합니다. B값이 커질수록 텍스처의 흑백 차이가 Roughness에 더 강하게 반영됩니다.</p>
+<p>직접 해봅니다. Texture Sample을 하나 더 만들어서 T_Alpha를 지정하고 Metallic 핀에 연결합니다. Base Color에는 좋아하는 색을 연결해 둡니다. 프리뷰에서 한쪽은 반짝이고 한쪽은 무광으로 4등분되는 것을 확인합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>Base Color에 텍스처, Metallic에도 텍스처를 넣으면 어떻게 될까요? 두 텍스처의 흑백 영역이 다르면요?</p>
+</div>
+</div>
+<hr>
+<h2 id="심화-개념-3-파라미터화와-머테리얼-인스턴스">심화 개념 3 — 파라미터화와 머테리얼 인스턴스</h2>
+<h3 id="파라미터화의-동기">파라미터화의 동기</h3>
+<p>지금까지는 값을 바꾸려면 머테리얼 에디터 열기 → 노드 값 수정 → Apply → Save → 뷰포트 확인의 과정이 매번 반복됩니다. 실시간 콘텐츠 제작 도구인데 이러면 작업 흐름이 너무 느립니다. 이제 값을 실시간으로 변경하는 방법을 배웁니다.</p>
+<h3 id="convert-to-parameter">Convert to Parameter</h3>
+<p>타일링 Multiply의 B값을 파라미터화합니다.</p>
+<p><strong>작업 1 — Constant 노드 준비</strong></p>
+<ol type="1">
+<li>반복하는 횟수를 파라미터화하기 위해, <code>1+LMB 클릭</code>으로 값 1개짜리 Constant 노드를 만듭니다</li>
+<li>TexCoord → Multiply → Texture Sample 체인에서, Multiply의 B핀에 Constant 노드(Value: 1.0)를 연결합니다</li>
+</ol>
+<p>노드 그래프 모습: <code>TexCoord[0]</code> → <code>Multiply</code>(A핀), 아래에서 <code>Constant(1)</code> Value [1.0] → <code>Multiply</code>(B핀), <code>Multiply</code> 출력 → <code>Texture Sample</code>(UVs)</p>
+<p><strong>작업 2 — Convert to Parameter</strong></p>
+<ol type="1">
+<li>Constant 노드를 선택하고 마우스 우클릭(RMB)합니다</li>
+<li>컨텍스트 메뉴의 <strong>NODE ACTIONS</strong> 섹션에서 <strong>Convert to Parameter</strong>를 클릭합니다</li>
+<li>기존 Constant 노드가 초록색 테두리의 파라미터 노드로 바뀝니다 — 상단에 이름, 그 아래 <code>Param (1)</code> 타입, <code>Default Value [1.0]</code> 필드가 보입니다</li>
+<li>좌측 하단 Details 패널의 <strong>General</strong> 섹션에서 <code>Parameter Name</code>을 <code>Tiling</code>으로 입력합니다</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title"><span>파라미터 = 변수</span></div>
+<div class="callout-body">
+<p>파라미터가 되었다는 것은 변수가 되었다는 의미입니다. 그래서 이름을 정해야 합니다. 이 이름으로 나중에 머테리얼 인스턴스에서 값을 조절할 수 있습니다.</p>
+</div>
+</div>
+<h3 id="색상도-파라미터화">색상도 파라미터화</h3>
+<p>색, 머테리얼 등 다양한 값을 파라미터화할 수 있습니다. Base Color에 연결된 Constant3Vector 노드도 같은 방법으로 파라미터화합니다.</p>
+<ol type="1">
+<li>Constant3Vector 선택 → RMB → Convert to Parameter</li>
+<li>Parameter Name을 <code>Color</code>로 설정</li>
+</ol>
+<p>노드가 주황색 테두리의 파라미터 노드로 바뀌고, 상단에 <code>Color</code>라고 표시됩니다. <code>Param (0,0,0,1)</code> 기본값과 함께 <code>Default Value</code> 옆에 색상 프리뷰 사각형이 있습니다.</p>
+<h3 id="metallic-roughness도-파라미터화">Metallic, Roughness도 파라미터화</h3>
+<p>3교시 실습에서 금속, 플라스틱, 발광체를 만들려면 Metallic과 Roughness도 인스턴스에서 바꿀 수 있어야 합니다. 1교시에서 만든 Metallic, Roughness의 Constant 노드도 파라미터화합니다.</p>
+<p><strong>Metallic 파라미터화</strong></p>
+<ol type="1">
+<li>Metallic 핀에 연결된 Constant 노드 선택 (없으면 <code>1+LMB</code>로 생성 후 연결)</li>
+<li>RMB → Convert to Parameter</li>
+<li>Parameter Name: <code>Metallic</code></li>
+<li>Default Value: <code>0.0</code></li>
+</ol>
+<p><strong>Roughness 파라미터화</strong></p>
+<ol type="1">
+<li>Roughness 핀에 연결된 Constant 노드 선택 (없으면 <code>1+LMB</code>로 생성 후 연결)</li>
+<li>RMB → Convert to Parameter</li>
+<li>Parameter Name: <code>Roughness</code></li>
+<li>Default Value: <code>0.5</code></li>
+</ol>
+<p>이제 파라미터가 4개입니다. Color, Tiling, Metallic, Roughness. 이것만으로도 3교시에서 다양한 재질을 만들 수 있습니다.</p>
+<p><strong>완성된 노드 그래프 (파라미터 4개)</strong></p>
+<pre><code>[Param: Color]     (주황 테두리) ──→ Result Node: Base Color
+[Param: Metallic]  (초록 테두리) ──→ Result Node: Metallic
+[Param: Roughness] (초록 테두리) ──→ Result Node: Roughness
+[Param: Tiling]    (초록 테두리) ──→ Multiply (B핀) ──→ Texture Sample (UVs)</code></pre>
+<div class="callout callout-warning">
+<div class="callout-title"><span>Apply + Save 잊지 마세요</span></div>
+<div class="callout-body">
+<p>파라미터화를 마쳤으면 반드시 Apply와 Save를 합니다. 파라미터 노드는 초록색/주황색 테두리로 바뀌고 이름이 표시됩니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-파라미터화">흔한 문제 — 파라미터화</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">Multiply 노드 자체를 파라미터화하려는 경우</td>
+<td data-label="해결">Multiply가 아니라 그 아래 Constant 노드를 선택합니다</td>
+</tr>
+<tr>
+<td data-label="증상">Convert to Parameter 메뉴를 찾지 못하는 경우</td>
+<td data-label="해결">노드 선택 후 RMB, <strong>NODE ACTIONS</strong> 섹션에 있습니다</td>
+</tr>
+<tr>
+<td data-label="증상">Parameter Name을 변경하지 않은 경우</td>
+<td data-label="해결">좌측 Details 패널에서 이름을 꼭 바꿉니다</td>
+</tr>
+<tr>
+<td data-label="증상">Metallic/Roughness Constant가 없는 경우</td>
+<td data-label="해결"><code>1+LMB</code>로 새로 만들어서 핀에 연결하고 파라미터화합니다</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="머테리얼-인스턴스-왜-필요한가">머테리얼 인스턴스 — 왜 필요한가?</h3>
+<p>동일한 금속 재질인데 강도만 다른 머테리얼이 여러 개 필요하다면, 머테리얼을 따로따로 만들 수도 있지만 최적화가 안 됩니다. 그래서 <strong>머테리얼 인스턴스</strong>를 만듭니다.</p>
+<p><strong>머테리얼 인스턴스(Material Instance)</strong>란 부모 머테리얼 기반으로 생성된 파생 머테리얼입니다. 원본 머테리얼의 구조와 셰이더 로직을 유지하면서 특정 속성을 동적으로 변경할 수 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>왜 씀?</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="왜 씀?"><strong>재사용성</strong></td>
+<td data-label="설명">하나의 금속 머테리얼로 여러 색상 변형을 만들 때 유용</td>
+</tr>
+<tr>
+<td data-label="왜 씀?"><strong>동적 변경</strong></td>
+<td data-label="설명">게임 중에 머테리얼 속성을 실시간으로 변경</td>
+</tr>
+<tr>
+<td data-label="왜 씀?"><strong>에디터 워크플로우</strong></td>
+<td data-label="설명">코딩, 복잡한 노드 편집 없이 속성 변경 가능하여 작업 효율 향상</td>
+</tr>
+<tr>
+<td data-label="왜 씀?"><strong>최적화</strong></td>
+<td data-label="설명">부모 머테리얼을 공유함으로 메모리 사용량, 셰이더 컴파일 시간 감소</td>
+</tr>
+</tbody>
+</table></div>
+<p>플레이 중에 머테리얼 속성이 변한다면 머테리얼 인스턴스를 사용해야 합니다.</p>
+<h3 id="머테리얼-인스턴스-생성">머테리얼 인스턴스 생성</h3>
+<p>Content Browser에서 M_Sample을 <strong>우클릭</strong>합니다. 컨텍스트 메뉴 맨 위에 톱니바퀴 아이콘과 함께 <strong>Create Material Instance</strong>가 표시됩니다. 그 아래로 Edit, Rename, Batch Rename, Duplicate, Save, Delete 등이 나열됩니다.</p>
+<p><code>Create Material Instance</code>를 클릭하면 <code>MI_Sample</code>이 생성됩니다. 처음 만든 머테리얼을 마스터 머테리얼이라고 하며, 마스터 머테리얼이 있으면 인스턴스는 계속 만들 수 있습니다.</p>
+<p>Content Browser에 두 에셋이 나란히 보입니다.</p>
+<ul>
+<li><strong>M_Sample</strong> (좌측, 초록색 테두리): 하단에 <code>Material</code> 타입 표시. 어두운 구체 썸네일</li>
+<li><strong>MI_Sample</strong> (우측, 보라색 테두리): 하단에 <code>Material Instance</code> 타입 표시. 별표(*) 마크가 있어 아직 저장되지 않은 상태</li>
+</ul>
+<p><strong>MI_Sample 더블클릭으로 열기</strong></p>
+<p>머테리얼 인스턴스 에디터가 열립니다. 머테리얼 에디터와 다른 모습입니다.</p>
+<ul>
+<li>좌측: 프리뷰 뷰포트에 어두운 구체가 보입니다. 좌측 상단에 셰이더 정보(Base pass shader: 170 instructions 등)가 표시됩니다</li>
+<li>우측: <strong>Details</strong> 탭과 <strong>Layer Parameters</strong> 탭
+<ul>
+<li><strong>Parameter Groups</strong> 섹션 아래 <code>Global Vector Parameter</code>: <code>Color</code> 파라미터(체크박스, R/G/B/A 슬라이더), <code>Save Sibling</code>·<code>Save Child</code> 버튼</li>
+<li><strong>General</strong> 섹션: <code>Phys Material</code>(None), <code>Parent</code>(M_Sample)</li>
+</ul></li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>머테리얼 인스턴스 에디터</span></div>
+<div class="callout-body">
+<p>노드 그래프가 없습니다. 대신 파라미터화한 값들만 표시됩니다. 각 파라미터 옆의 체크박스를 켜면 그 값을 바꿀 수 있고, 변경하면 프리뷰 구체가 즉시 바뀝니다. 머테리얼 에디터를 열 필요가 없습니다.</p>
+</div>
+</div>
+<p>직접 해봅니다. Content Browser에서 M_Sample 우클릭 → Create Material Instance를 실행하고, MI_Sample을 더블클릭해서 엽니다. Color 체크박스를 켜서 색을 바꿔보고, 잘 되면 Tiling 값도 바꿔서 체커보드 반복 횟수가 변하는지 확인합니다.</p>
+<h3 id="머테리얼-인스턴스-활용도">머테리얼 인스턴스 활용도</h3>
+<p>머테리얼 인스턴스는 속성은 동일하면서 세부적인 값들을 변경할 때 유용합니다. 인스턴스를 여러 개 만들어서 각각 다른 색을 적용할 수 있습니다.</p>
+<ul>
+<li><code>M_Sample</code> (어두운 구체) — 마스터 머테리얼</li>
+<li><code>MI_Sample</code> (분홍색 구체) — 인스턴스 1</li>
+<li><code>MI_Sample_02</code> (파란색 구체) — 인스턴스 2</li>
+<li><code>MI_Sample_03</code> (민트색 구체) — 인스턴스 3</li>
+<li><code>MI_Sample_04</code> (노란색 구체) — 인스턴스 4</li>
+</ul>
+<p>전부 같은 마스터 머테리얼에서 나온 인스턴스입니다. 셰이더 로직은 한 번만 컴파일하고 색상값만 다른 것입니다. 100개를 만들어도 성능 부담이 거의 없습니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>마스터 머테리얼 M_Sample의 노드를 수정하면 인스턴스들은 어떻게 될까요? 그리고 인스턴스를 100개 만들면 성능에 문제가 있을까요?</p>
+</div>
+</div>
+<p>마스터 머테리얼을 수정하면 부모-자식 관계이기 때문에 모든 인스턴스에 영향이 갑니다. 인스턴스를 100개 만들어도 셰이더 컴파일은 부모 1번만 하고, 인스턴스는 파라미터 값만 다르게 저장하므로 성능 부담은 거의 없습니다.</p>
+<hr>
+<h2 id="실전-사례-fab과-quixel-megascans-에셋">실전 사례 — Fab과 Quixel Megascans 에셋</h2>
+<h3 id="fab-마켓플레이스-소개">Fab 마켓플레이스 소개</h3>
+<p>Content Browser 상단 툴바에 <code>Fab</code> 버튼이 있습니다(+ Add 옆). 클릭하면 Fab 패널이 언리얼 에디터 안에서 열립니다.</p>
+<p>Fab 패널 상단 검색바에서 카테고리 필터 <code>in Material &amp; Textures</code>를 선택하고 <code>QUIXEL</code>을 검색합니다.</p>
+<p>검색 결과 화면에는 Trampled Snow(눈), Mossy Wild Grass(이끼 풀), Icelandic Glacier(빙하), Mossy Grass(이끼) 등이 나옵니다. 각각 Quixel 제작이며 구체 프리뷰 썸네일을 가집니다.</p>
+<p>Quixel이 만든 고품질 머테리얼들입니다. 예전에는 Megascans Bridge라는 별도 앱을 썼는데, 이제 Fab으로 통합되었습니다.</p>
+<h3 id="mossy-ground-다운로드">Mossy Ground 다운로드</h3>
+<p>예시로 Mossy Ground 계열 에셋을 다운로드합니다. 에셋 상세 페이지에서 <code>High quality</code> 드롭다운을 선택하고 민트색 <strong><code>Add to Project</code></strong> 버튼을 클릭하면 자동으로 다운로드되어 프로젝트에 추가됩니다.</p>
+<p>다운로드 완료 후 Content Browser에서 확인합니다. 폴더 경로는 <code>Content &gt; Fab &gt; Megascans &gt; Surfaces &gt; Mossy_Ground_ulxnehiew &gt; High</code>이며, 이 폴더 안에 6개의 에셋이 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>에셋</th>
+<th>타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="에셋"><code>MI_ulxnehiew</code></td>
+<td data-label="타입">Material Instance</td>
+<td data-label="설명">이끼 구체 프리뷰. 이미 완성된 머테리얼 인스턴스</td>
+</tr>
+<tr>
+<td data-label="에셋"><code>T_ulxnehiew_4K_B</code></td>
+<td data-label="타입">Texture</td>
+<td data-label="설명">어두운 초록/갈색 이미지 — <strong>Base Color</strong> 텍스처</td>
+</tr>
+<tr>
+<td data-label="에셋"><code>T_ulxnehiew_4K_H</code></td>
+<td data-label="타입">Texture</td>
+<td data-label="설명">회색 높낮이 맵 — <strong>Height(Displacement)</strong> 텍스처</td>
+</tr>
+<tr>
+<td data-label="에셋"><code>T_ulxnehiew_4K_N</code></td>
+<td data-label="타입">Texture</td>
+<td data-label="설명">보라색/파란색 이미지 — <strong>Normal</strong> 맵</td>
+</tr>
+<tr>
+<td data-label="에셋"><code>T_ulxnehiew_4K_ORM</code></td>
+<td data-label="타입">Texture</td>
+<td data-label="설명">연두색/초록색 이미지 — <strong>ORM</strong> 텍스처</td>
+</tr>
+<tr>
+<td data-label="에셋"><code>T_ulxnehiew_4K_T</code></td>
+<td data-label="타입">Texture</td>
+<td data-label="설명">흑백 패턴 — <strong>Translucency</strong> 텍스처</td>
+</tr>
+</tbody>
+</table></div>
+<p>이름 끝의 <code>_B</code>, <code>_N</code>, <code>_ORM</code> 같은 접미사가 각 텍스처의 역할을 나타냅니다.</p>
+<h3 id="quixel-머테리얼-인스턴스-살펴보기">Quixel 머테리얼 인스턴스 살펴보기</h3>
+<p>MI_ulxnehiew를 더블클릭하면 머테리얼 인스턴스 에디터가 열립니다.</p>
+<ul>
+<li>좌측: 이끼 텍스처가 입혀진 사실적인 구체 프리뷰</li>
+<li>우측 Details 패널의 <strong>Parameter Groups</strong>:
+<ul>
+<li><code>00 - Global</code>: Tiling (1.0), Offset X (0.0), Offset Y (0.0)</li>
+<li><code>01 - Base Color</code>: BaseColorTexture, Saturation, Brightness, Contrast, BaseColor Tint</li>
+<li><code>02 - Specular</code>, <code>03 - ORM</code>, <code>04 - Normal</code>, <code>05 - SSS</code>, <code>06 - Displacement</code></li>
+</ul></li>
+<li>General 섹션의 <code>Parent</code>: <strong>M_MS_Srf_Trm</strong> — Quixel의 마스터 머테리얼</li>
+</ul>
+<p>우리가 만든 M_Sample처럼 단순한 게 아니라, Quixel이 만든 전문 마스터 머테리얼의 인스턴스입니다. 파라미터 그룹이 체계적으로 정리되어 있는 것이 바로 파라미터화의 힘입니다.</p>
+<div class="callout callout-info">
+<div class="callout-title"><span>ORM이란?</span></div>
+<div class="callout-body">
+<p>이름 끝의 <code>_ORM</code>은 Occlusion, Roughness, Metallic 3개의 정보를 RGB 채널에 하나씩 넣어서 텍스처 1장으로 합친 것입니다. 자세한 내용은 심화 주차에서 다룹니다. 지금은 전문가 수준의 머테리얼도 인스턴스로 값만 조절해서 쓸 수 있다는 점이 핵심입니다.</p>
+</div>
+</div>
+<h3 id="fab-에셋-뷰포트에-적용">Fab 에셋 뷰포트에 적용</h3>
+<p>받아놓기만 하면 안 되고 적용을 해봐야 합니다.</p>
+<ol type="1">
+<li>Content Browser에서 <code>MI_ulxnehiew</code>(이끼 머테리얼 인스턴스)를 찾습니다</li>
+<li>뷰포트의 오브젝트(Cube, Sphere 등)에 <strong>드래그 앤 드롭</strong>합니다</li>
+<li>즉시 사실적인 이끼 텍스처가 입혀집니다</li>
+</ol>
+<p>우리가 만든 단색 머테리얼과 비교해 봅니다. 전문가가 만든 에셋은 Base Color뿐만 아니라 Normal, Roughness, Metallic 텍스처가 전부 연결되어 있어서 사실적입니다.</p>
+<p>직접 해봅니다. 다운로드한 에셋에서 MI를 찾아 뷰포트 오브젝트에 드래그하고, 적용된 것을 확인한 뒤 MI를 더블클릭해서 Tiling 값을 바꿔봅니다. 텍스처 반복 횟수가 바뀌는 것을 확인합니다. 이것이 파라미터화의 힘입니다.</p>
+<hr>
+<h2 id="교시-실습-예고">3교시 실습 예고</h2>
+<p>3교시에는 오늘 배운 것을 직접 해봅니다.</p>
+<p><strong>실습 과제 (3단계)</strong></p>
+<ol type="1">
+<li><strong>단계 1 — Fab 에셋 다운로드</strong> (다운로드 시간 활용): Fab에서 Quixel 에셋을 1개 이상 다운로드하여 프로젝트에 추가합니다. 다운로드 중 단계 2를 병행합니다</li>
+<li><strong>단계 2 — 파라미터화 머테리얼 제작</strong>: M_Practice 머테리얼을 만들고, PBR 속성(Base Color, Metallic, Roughness, Emissive)을 파라미터화합니다</li>
+<li><strong>단계 3 — 머테리얼 인스턴스 변형</strong>: MI_Metal, MI_Plastic, MI_Emissive 인스턴스를 생성하여 3가지 다른 재질 변형을 만듭니다</li>
+</ol>
+<p><strong>기대 결과물</strong></p>
+<ul>
+<li>뷰포트에 여러 오브젝트가 있고, 각각 다른 머테리얼 인스턴스가 적용된 씬</li>
+<li>Fab에서 다운로드한 Quixel 에셋이 씬에 적용되어 있는 상태. 다운로드가 어려우면 자체 제작 머테리얼 인스턴스로 대체합니다</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>시간 절약 팁</span></div>
+<div class="callout-body">
+<p>먼저 Fab에서 마음에 드는 에셋 다운로드를 걸어놓으세요. 다운로드되는 동안 M_Practice 머테리얼부터 만들면 시간을 아낄 수 있습니다.</p>
+</div>
+</div>
+<p><strong>확장 과제 (빨리 끝난 경우)</strong></p>
+<ul>
+<li>인스턴스를 5개 이상 만들어서 다양한 재질을 표현해봅니다</li>
+<li>Fab 에셋의 MI를 열어서 파라미터 값을 바꿔봅니다</li>
+</ul>
+<hr>
+<h2 id="노드-단축키-요약-2교시-추가분">노드 단축키 요약 (2교시 추가분)</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단축키</th>
+<th>노드</th>
+<th>용도</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="단축키"><code>T + LMB</code></td>
+<td data-label="노드">Texture Sample</td>
+<td data-label="용도">텍스처 연결</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>RMB</code></td>
+<td data-label="노드">(검색 메뉴)</td>
+<td data-label="용도">TextureCoordinate 등 노드 검색</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>1 + LMB</code></td>
+<td data-label="노드">Constant</td>
+<td data-label="용도">단일 값 (타일링 횟수 등)</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>M + LMB</code></td>
+<td data-label="노드">Multiply</td>
+<td data-label="용도">UV 타일링, Emissive 강도 등</td>
+</tr>
+<tr>
+<td data-label="단축키"><code>RMB on Node</code></td>
+<td data-label="노드">(컨텍스트 메뉴)</td>
+<td data-label="용도">Convert to Parameter</td>
+</tr>
+</tbody>
+</table></div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#관련-문서">관련 문서</a></li><li><a href="#교시-복습">1교시 복습</a></li><li><a href="#심화-개념-1-텍스처와-uv-좌표">심화 개념 1 — 텍스처와 UV 좌표</a></li><li><a href="#심화-개념-2-texturecoordinate와-타일링">심화 개념 2 — TextureCoordinate와 타일링</a></li><li><a href="#심화-개념-2.5-텍스처로-속성-마스킹">심화 개념 2.5 — 텍스처로 속성 마스킹</a></li><li><a href="#심화-개념-3-파라미터화와-머테리얼-인스턴스">심화 개념 3 — 파라미터화와 머테리얼 인스턴스</a></li><li><a href="#실전-사례-fab과-quixel-megascans-에셋">실전 사례 — Fab과 Quixel Megascans 에셋</a></li><li><a href="#교시-실습-예고">3교시 실습 예고</a></li><li><a href="#노드-단축키-요약-2교시-추가분">노드 단축키 요약 (2교시 추가분)</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>
