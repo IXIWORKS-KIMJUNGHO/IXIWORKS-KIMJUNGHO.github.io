@@ -1,0 +1,1335 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 3교시 — 실습: 기본 도형으로 공간 만들기</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code { padding: 0; border: 0; background: transparent; }
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.figure-missing {
+  display: grid;
+  min-height: 164px;
+  align-items: center;
+  text-align: center;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    #f4f6f8;
+  background-size: 28px 28px;
+}
+
+.figure-missing .missing-label {
+  padding: 34px 14px 20px;
+  color: #59616a;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 02 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Level Practice</p>
+        <h1>2주차 3교시 — 실습: 기본 도형으로 공간 만들기</h1>
+        <p class="lead">기본 도형으로 공간을 구성하고 Outliner 정리, 제출 요건, 확장 과제를 확인하는 실습 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 02</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">PRACTICE</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">2주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">3교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">기본 도형으로 공간 만들기</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-3교시-실습-기본-도형으로-공간-만들기-학생용">2주차 3교시 — 실습: 기본 도형으로 공간 만들기 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">강의 아웃라인</td>
+<td data-label="문서">2주차 아웃라인: 에디터 인터페이스</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title"><span>학습 목표</span></div>
+<div class="callout-body">
+<ul>
+<li>기본 도형(Cube, Sphere, Cylinder, Plane)만으로 실내·실외 공간을 직접 구성할 수 있다</li>
+<li>이동(W)·회전(E)·스케일(R) 세 가지 트랜스폼을 자유롭게 활용할 수 있다</li>
+<li>Outliner 폴더 정리와 명명 규칙(SM_ 접두어)을 적용할 수 있다</li>
+</ul>
+</div>
+</div>
+<p>1교시에서 에디터 구조를 배웠고, 2교시에서 오브젝트를 배치하고 움직이는 방법을 배웠습니다. 이제 직접 해볼 시간입니다.</p>
+<hr />
+<h2 id="실습-과제-안내">실습 과제 안내</h2>
+<p>기본 도형(Cube, Sphere, Cylinder, Plane)만 사용해서 <strong>간단한 실내 또는 실외 공간</strong>을 만드세요. 교실, 카페, 방, 작은 광장 — 어떤 공간이든 좋습니다. 화려한 에셋이 아니라 <strong>트랜스폼 정확도</strong>와 <strong>씬 정리 상태</strong>를 평가합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/ue-simple-room-demo.png" alt="ue simple room demo">
+<figcaption>
+ue simple room demo
+</figcaption>
+</figure>
+<p><strong>예시: 기본 도형으로 만든 간단한 방과 정리된 Outliner</strong></p>
+<h3 id="필수-조건-4가지">필수 조건 — 4가지</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>조건</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="#">1</td>
+<td data-label="조건">오브젝트 <strong>8개 이상</strong> 배치</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">2</td>
+<td data-label="조건">모든 오브젝트에 <strong>의미 있는 영문 이름</strong> 부여 (SM_ 접두어 권장)</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">3</td>
+<td data-label="조건">Outliner <strong>폴더</strong>로 분류 (최소 2개 폴더)</td>
+<td data-label="확인">□</td>
+</tr>
+<tr>
+<td data-label="#">4</td>
+<td data-label="조건">이동·회전·스케일 <strong>세 가지 트랜스폼 모두</strong> 사용</td>
+<td data-label="확인">□</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="제출-방법">제출 방법</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>제출물</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="#">1</td>
+<td data-label="제출물">스크린샷 1장</td>
+<td data-label="설명">뷰포트 + Outliner가 같이 보이는 화면</td>
+</tr>
+<tr>
+<td data-label="#">2</td>
+<td data-label="제출물">스크린샷 1장</td>
+<td data-label="설명">Outliner를 충분히 펼쳐서 이름이 보이는 화면</td>
+</tr>
+<tr>
+<td data-label="#">3</td>
+<td data-label="제출물">LMS 업로드</td>
+<td data-label="설명">2장을 LMS 과제란에 업로드</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title"><span>스크린샷 찍는 법</span></div>
+<div class="callout-body">
+<ul>
+<li><strong>Windows</strong>: <code>Win + Shift + S</code> → 영역 선택 → 클립보드에 복사 → 그림판에 붙여넣기 → 저장</li>
+<li><strong>언리얼 내</strong>: Viewport 좌측 상단 <code>≡</code> 메뉴 → <code>High Resolution Screenshot</code></li>
+</ul>
+</div>
+</div>
+<hr />
+<h3 id="step-1-프로젝트-준비">Step 1 — 프로젝트 준비</h3>
+<div class="callout callout-info">
+<div class="callout-title"><span>참고</span></div>
+<div class="callout-body">
+<p>1교시에서 프로젝트를 이미 만들고 폴더까지 만들었다면 이 단계를 건너뛰세요. 아직 안 했거나 새로 시작하고 싶다면 아래를 따라가세요.</p>
+</div>
+</div>
+<h4 id="프로젝트-생성-이미-있으면-건너뛰기">1-1. 프로젝트 생성 (이미 있으면 건너뛰기)</h4>
+<p><strong>작업 1 — 프로젝트 생성</strong></p>
+<ul>
+<li><ol type="1">
+<li>Epic Games Launcher에서 <strong>[Launch]</strong> 를 클릭하여 프로젝트 브라우저를 여세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>프로젝트 브라우저에서 설정하세요. → 왼쪽 카테고리: <strong>[Games]</strong> / 가운데 템플릿: <strong>[Third Person]</strong> / 오른쪽 설정: Blueprint 선택, Starter Content 체크</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>오른쪽 하단에서 프로젝트 이름과 경로를 입력하세요. → 프로젝트 이름: “GameEngineII_Week02” (영문+언더바만) / 저장 경로: 수업 시작 시 안내된 서버 경로 → <strong>[Create]</strong> 클릭</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>에디터가 열릴 때까지 기다리세요. (처음엔 셰이더 컴파일로 시간이 걸립니다)</li>
+</ol></li>
+</ul>
+<h4 id="에디터-환경-확인">1-2. 에디터 환경 확인</h4>
+<p><strong>작업 2 — 에디터 환경 확인</strong></p>
+<ul>
+<li><ol type="1">
+<li>레이아웃이 UE4 Classic Layout인지 확인하세요. → Content Browser가 화면 하단에 있으면 OK. 아니라면 상단 메뉴바 <strong>[Window] → [Load Layout] → [UE4 Classic Layout]</strong>.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>메뉴가 영어로 표시되는지 확인하세요. → 한글이면 <strong>[Edit] → [Editor Preferences…] → [General] → [Region &amp; Language]</strong> 에서 <strong>[Editor Language]</strong> 를 <strong>[English]</strong> 로 → <strong>[Restart Now]</strong>.</li>
+</ol></li>
+</ul>
+<h4 id="폴더-구조-세팅">1-3. 폴더 구조 세팅</h4>
+<p><strong>작업 3 — Content 폴더 구조 세팅</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 하단 Content Browser 패널의 왼쪽 폴더 트리에서 <strong>[Content]</strong> 폴더를 클릭하세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>오른쪽 에셋 그리드의 빈 공간에서 마우스 오른쪽 버튼을 클릭하세요. → 팝업 메뉴가 나타납니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><strong>[New Folder]</strong> 를 클릭하고, 이름을 타이핑한 뒤 Enter를 누르세요.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>아래 4개 폴더를 만드세요.</li>
+</ol></li>
+</ul>
+<pre><code>Content/
+├── Maps/          ← 레벨 파일 (.umap)
+├── Props/         ← 소품 (3D 모델)
+├── Materials/     ← 머티리얼
+└── Blueprints/    ← 블루프린트</code></pre>
+<h4 id="레벨-저장">1-4. 레벨 저장</h4>
+<p><strong>작업 4 — 새 레벨을 Maps 폴더에 저장</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단 메뉴바에서 <strong>[File]</strong> 을 클릭하세요. → 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>[Save Current Level As…]</strong> 를 클릭하세요. → 저장 다이얼로그 창이 열립니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>다이얼로그 왼쪽에서 <strong>[Maps]</strong> 폴더를 클릭하세요.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>하단 파일 이름 칸에 <strong>“Week02_Scene”</strong> 을 입력하세요.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li><strong>[Save]</strong> 버튼을 클릭하세요.</li>
+</ol></li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>체크포인트</span></div>
+<div class="callout-body">
+<ul class="task-list">
+<li><label><input type="checkbox" />Content Browser에 Maps, Props, Materials, Blueprints 폴더가 보이나요?</label></li>
+<li><label><input type="checkbox" />Maps 폴더 안에 Week02_Scene 레벨 파일이 저장되었나요?</label></li>
+</ul>
+</div>
+</div>
+<h4 id="흔한-문제-프로젝트-준비">흔한 문제 — 프로젝트 준비</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">프로젝트 생성 오류</td>
+<td data-label="원인">이름에 한글·공백·특수문자</td>
+<td data-label="해결">영문+언더바만 사용해 새로 생성</td>
+</tr>
+<tr>
+<td data-label="증상">패널이 사라짐</td>
+<td data-label="원인">실수로 닫음</td>
+<td data-label="해결"><code>Window</code> 메뉴에서 해당 패널 다시 열기</td>
+</tr>
+<tr>
+<td data-label="증상">레이아웃이 이상함</td>
+<td data-label="원인">패널 도킹 변경</td>
+<td data-label="해결"><code>Window → Load Layout → UE4 Classic Layout</code></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="step-1.5-공간-컨셉-정하기">Step 1.5 — 공간 컨셉 정하기</h3>
+<div class="callout callout-question">
+<div class="callout-title"><span>생각해보기</span></div>
+<div class="callout-body">
+<p>본격적으로 만들기 전에, <strong>어떤 공간을 만들 건지</strong> 30초만 생각해보세요.</p>
+</div>
+</div>
+<p>아래에서 하나를 고르거나, 자유롭게 정하세요.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>컨셉</th>
+<th>필요한 소품 예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="컨셉">교실</td>
+<td data-label="필요한 소품 예시">칠판, 책상, 의자, 교탁</td>
+</tr>
+<tr>
+<td data-label="컨셉">카페</td>
+<td data-label="필요한 소품 예시">테이블, 의자, 카운터, 선반</td>
+</tr>
+<tr>
+<td data-label="컨셉">전시실</td>
+<td data-label="필요한 소품 예시">전시대, 기둥, 벽면 작품(얇은 Cube)</td>
+</tr>
+<tr>
+<td data-label="컨셉">놀이방</td>
+<td data-label="필요한 소품 예시">블록탑, 미끄럼틀(경사 Cube), 공(Sphere)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title"><span>왜 먼저 정하나요?</span></div>
+<div class="callout-body">
+<p>컨셉 없이 도형을 배치하면 나중에 무엇을 표현한 공간인지 불명확해지기 쉽습니다. 컨셉을 정해두면 벽 위치, 소품 종류를 일관되게 결정할 수 있습니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="step-2-바닥-및-벽-배치">Step 2 — 바닥 및 벽 배치</h3>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>목표</span></div>
+<div class="callout-body">
+<p>바닥 1개 + 벽을 배치해서 방의 기본 뼈대를 만드세요. 아래 조건을 만족시키면 됩니다. 방법은 스스로 시도해보세요.</p>
+</div>
+</div>
+<p><strong>달성 조건:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="#">1</td>
+<td data-label="조건">Plane으로 바닥 1개 배치 (Scale로 넓게)</td>
+</tr>
+<tr>
+<td data-label="#">2</td>
+<td data-label="조건">Cube로 벽 4개 배치 (얇고 넓고 높게 만들기)</td>
+</tr>
+<tr>
+<td data-label="#">3</td>
+<td data-label="조건">모든 오브젝트에 SM_ 접두어 영문 이름 부여</td>
+</tr>
+<tr>
+<td data-label="#">4</td>
+<td data-label="조건">Outliner에 “Room_Structure” 폴더 만들어서 정리</td>
+</tr>
+<tr>
+<td data-label="#">5</td>
+<td data-label="조건">이동(W), 회전(E), 스케일(R) 세 가지 트랜스폼 모두 사용</td>
+</tr>
+</tbody>
+</table></div>
+<details class="hint-details">
+<summary>
+힌트 1: 도형 배치는 어떻게 하나요? (Place Actors)
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+Place Actors 패널을 여세요. → 상단 메뉴바 [Window] → [Place Actors] 클릭, 또는 단축키 Shift + 1
+</li>
+<li>
+Place Actors 패널에서 [Shapes] 탭을 클릭하세요. → Cube, Sphere, Cylinder, Plane 등의 도형이 보여요.
+</li>
+<li>
+원하는 도형을 마우스 왼쪽 버튼으로 클릭 &amp; 드래그하여 Viewport(화면 가운데)로 끌어오세요.
+</li>
+</ol>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 2: 바닥 만들기 (Plane 배치 + 스케일)
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+Place Actors → Shapes → Plane → Viewport로 드래그
+</li>
+<li>
+위치를 원점으로 맞추세요. → Details Panel → Transform → Location → X: 0, Y: 0, Z: 0
+</li>
+<li>
+크기를 키우세요. → R 키 → 중앙 흰색 큐브 핸들 드래그, 또는 Details Panel → Scale → X: 5, Y: 5, Z: 1
+</li>
+<li>
+이름 변경 → Outliner에서 “Plane” 더블클릭 → “SM_Floor_Main” 입력 → Enter
+</li>
+</ol>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 3: 벽 만들기 (Cube 변형 + 복제)
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+Place Actors → Shapes → Cube → Viewport로 드래그
+</li>
+<li>
+벽 형태로 스케일 조정 → R 키(스케일 모드) → Details Panel → Scale → X: 0.1, Y: 5.0, Z: 3.0 (얇고 넓고 높게)
+</li>
+<li>
+바닥 끝으로 이동 → W 키(이동 모드) → 화살표 드래그 또는 Location 값 직접 입력
+</li>
+<li>
+이름 변경: “SM_Wall_North”
+</li>
+<li>
+벽 복제: Alt + 드래그 → 반대편 배치 → 이름: “SM_Wall_South”
+</li>
+<li>
+나머지 벽: 복제 → E 키(회전) → 파란 Z축 링 90도 회전 → 옆면 배치 → 이름: “SM_Wall_East”, “SM_Wall_West”
+</li>
+</ol>
+<blockquote class="quote-note">
+<p>
+<strong>팁</strong>: 회전 스냅이 켜져 있으면(Viewport 우측 상단 원호 아이콘이 파란색) 10도 단위로 딱딱 맞춰져요. 90도 회전이 쉬워요.
+</p>
+</blockquote>
+</div>
+</details>
+<details class="hint-details">
+<summary>
+힌트 4: Outliner 폴더 정리
+</summary>
+<div class="details-body">
+<ol type="1">
+<li>
+Outliner 패널 빈 공간에서 우클릭 → [Create Folder] → “Room_Structure”
+</li>
+<li>
+SM_Floor_Main, SM_Wall_North ~ West를 Ctrl+클릭으로 다중 선택 → “Room_Structure” 폴더 위로 드래그
+</li>
+</ol>
+</div>
+</details>
+<div class="callout callout-info">
+<div class="callout-title"><span>체크포인트</span></div>
+<div class="callout-body">
+<ul class="task-list">
+<li><label><input type="checkbox" />바닥 1개 + 벽 4개가 배치되었나요?</label></li>
+<li><label><input type="checkbox" />모든 오브젝트에 SM_ 접두어가 붙은 영문 이름이 있나요?</label></li>
+<li><label><input type="checkbox" />Outliner에 “Room_Structure” 폴더가 있고, 그 안에 5개 오브젝트가 들어있나요?</label></li>
+<li><label><input type="checkbox" />이동(W), 회전(E), 스케일(R) 세 가지 트랜스폼을 모두 사용했나요?</label></li>
+</ul>
+</div>
+</div>
+<hr />
+<h3 id="중간-점검">중간 점검</h3>
+<div class="callout callout-warning">
+<div class="callout-title"><span>잠깐 멈추고 확인</span></div>
+<div class="callout-body">
+<p>이 시점에 잠깐 멈추고 자신의 화면에서 아래 항목을 점검하세요.</p>
+</div>
+</div>
+<p><strong>확인 포인트:</strong></p>
+<ul>
+<li>Outliner 이름이 의미 있는 영문인가?</li>
+<li>폴더로 분류되어 있는가?</li>
+<li>공간의 컨셉이 전달되는가?</li>
+</ul>
+<p>확인이 끝나면 부족한 부분을 수정하면서 소품을 추가하세요.</p>
+<hr />
+<h3 id="step-3-소품-배치-및-공간감-연출">Step 3 — 소품 배치 및 공간감 연출</h3>
+<p>뼈대가 완성되면 소품을 배치해 공간감을 더합니다. 기본 도형을 조합하면 간단한 가구를 표현할 수 있습니다.</p>
+<h4 id="소품-아이디어">3-1. 소품 아이디어</h4>
+<p>어떤 공간을 만들든 아래 조합을 참고하세요.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>소품</th>
+<th>도형 조합</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="소품">테이블</td>
+<td data-label="도형 조합">Cube(상판) + Cylinder 4개(다리)</td>
+<td data-label="설명">상판은 넓고 얇게, 다리는 길고 가늘게</td>
+</tr>
+<tr>
+<td data-label="소품">의자</td>
+<td data-label="도형 조합">Cube(좌석) + Cube(등받이) + Cylinder 4개(다리)</td>
+<td data-label="설명">좌석은 정사각형, 등받이는 세로로 길게</td>
+</tr>
+<tr>
+<td data-label="소품">기둥</td>
+<td data-label="도형 조합">Cylinder 1개</td>
+<td data-label="설명">높이만 늘리면 기둥</td>
+</tr>
+<tr>
+<td data-label="소품">칠판/스크린</td>
+<td data-label="도형 조합">Cube 1개</td>
+<td data-label="설명">매우 얇고 넓게 + 벽에 붙이기</td>
+</tr>
+<tr>
+<td data-label="소품">화분</td>
+<td data-label="도형 조합">Cylinder(화분) + Sphere(나무)</td>
+<td data-label="설명">실린더 위에 구 올리기</td>
+</tr>
+<tr>
+<td data-label="소품">조명 기구</td>
+<td data-label="도형 조합">Sphere 1개</td>
+<td data-label="설명">천장에 매달린 느낌으로 배치</td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="소품-배치-방법">3-2. 소품 배치 방법</h4>
+<p><strong>작업 5 — 테이블 만들기 (예시)</strong></p>
+<ul>
+<li><ol type="1">
+<li><strong>상판 만들기</strong> — Place Actors → Shapes → Cube → Viewport로 드래그 → R 키 → Scale X: 2.0, Y: 1.0, Z: 0.05 (넓고 얇게) → W 키로 방 안쪽 이동 → Outliner 이름 “SM_Table_Top”.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>다리 만들기</strong> — Place Actors → Shapes → Cylinder → Viewport로 드래그 → R 키 → Scale X: 0.1, Y: 0.1, Z: 0.8 (가늘고 길게) → W 키로 상판 모서리 아래 배치 → Outliner 이름 “SM_Table_Leg_01”.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><strong>다리 복제 (3개 더)</strong> — SM_Table_Leg_01 선택 → Alt + 드래그 → 다른 모서리에 배치 → 이름 “SM_Table_Leg_02” → 반복하여 “SM_Table_Leg_03”, “SM_Table_Leg_04” 생성.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li><strong>폴더 정리</strong> — Outliner 빈 곳 우클릭 → [Create Folder] → “Props” → 테이블 관련 오브젝트 5개를 “Props” 폴더로 드래그.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>다리를 정확한 위치에 배치하려면 Details Panel → Location 값을 직접 입력하거나, 스냅을 켜서(Viewport 우측 상단 격자 아이콘 파란색) 격자에 맞추세요.</p>
+</div>
+</div>
+<h4 id="추가-소품-배치">3-3. 추가 소품 배치</h4>
+<p>테이블을 만든 것처럼 의자, 기둥, 화분 등을 추가해서 공간을 채워주세요. <strong>최소 오브젝트 8개 이상</strong>이 필요합니다. (바닥 1 + 벽 4 = 5개이므로, 소품이 최소 3개 이상 필요합니다)</p>
+<div class="callout callout-warning">
+<div class="callout-title"><span>자주 하는 실수</span></div>
+<div class="callout-body">
+<ul>
+<li>바닥 아래로 파고들면: Details → Location → Z 값을 높여주세요</li>
+<li>오브젝트가 겹쳐 보이면: W 키로 조금씩 이동하여 분리</li>
+<li>스케일이 이상하면: Details → Scale에서 음수가 아닌지 확인</li>
+</ul>
+</div>
+</div>
+<h4 id="최종-outliner-정리">3-4. 최종 Outliner 정리</h4>
+<p>모든 소품을 배치했으면, Outliner를 깔끔하게 정리하세요.</p>
+<pre><code>Outliner:
+├── [Folder] Room_Structure
+│   ├── SM_Floor_Main
+│   ├── SM_Wall_North
+│   ├── SM_Wall_South
+│   ├── SM_Wall_East
+│   └── SM_Wall_West
+├── [Folder] Props
+│   ├── SM_Table_Top
+│   ├── SM_Table_Leg_01 ~ 04
+│   ├── SM_Chair_01
+│   └── SM_Pillar_01
+└── [Folder] Lighting (조명을 추가했다면)
+    └── DirectionalLight_Main</code></pre>
+<div class="callout callout-info">
+<div class="callout-title"><span>체크포인트</span></div>
+<div class="callout-body">
+<ul class="task-list">
+<li><label><input type="checkbox" />소품이 3개 이상 추가되어, 총 오브젝트가 8개 이상인가요?</label></li>
+<li><label><input type="checkbox" />모든 오브젝트에 의미 있는 영문 이름(SM_ 접두어)이 붙어있나요?</label></li>
+<li><label><input type="checkbox" />Outliner에 최소 2개 이상의 폴더로 분류되어 있나요?</label></li>
+<li><label><input type="checkbox" />만든 공간이 하나의 일관된 공간(교실, 카페 등)으로 느껴지나요?</label></li>
+</ul>
+</div>
+</div>
+<h4 id="흔한-문제-배치-트랜스폼">흔한 문제 — 배치 &amp; 트랜스폼</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">Place Actors 패널이 안 보임</td>
+<td data-label="원인">패널 미열림</td>
+<td data-label="해결"><code>Window → Place Actors</code> 또는 <code>Shift+1</code></td>
+</tr>
+<tr>
+<td data-label="증상">오브젝트가 바닥 아래로 파고듦</td>
+<td data-label="원인">Z 위치 음수</td>
+<td data-label="해결">Details → Location → Z 값을 0 이상으로</td>
+</tr>
+<tr>
+<td data-label="증상">기즈모가 안 보임</td>
+<td data-label="원인">오브젝트 미선택</td>
+<td data-label="해결">Viewport 또는 Outliner에서 오브젝트 클릭</td>
+</tr>
+<tr>
+<td data-label="증상">회전이 자유롭게 안 됨</td>
+<td data-label="원인">회전 스냅 켜져 있음</td>
+<td data-label="해결">Viewport 우측 상단 원호 아이콘 클릭하여 회색(끄기)으로 전환</td>
+</tr>
+<tr>
+<td data-label="증상">Alt+드래그로 복제가 안 됨</td>
+<td data-label="원인">이동 모드(W)가 아닌 상태</td>
+<td data-label="해결">W 키 누른 후 Alt+드래그</td>
+</tr>
+<tr>
+<td data-label="증상">Outliner에 오브젝트 이름이 겹침</td>
+<td data-label="원인">복제 시 자동 이름</td>
+<td data-label="해결">복제 즉시 이름 변경 습관화</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="step-4-최종-확인-및-제출">Step 4 — 최종 확인 및 제출</h3>
+<h4 id="저장">4-1. 저장</h4>
+<p><strong><code>Ctrl + S</code></strong> 로 레벨을 덮어쓰기 저장하세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title"><span>주의사항</span></div>
+<div class="callout-body">
+<p>제출 전에 반드시 저장하세요. 저장하지 않고 에디터를 닫으면 작업이 사라집니다.</p>
+</div>
+</div>
+<h4 id="스크린샷-촬영">4-2. 스크린샷 촬영</h4>
+<p><strong>작업 6 — 스크린샷 1 (뷰포트 + Outliner 통합 화면)</strong></p>
+<ul>
+<li><ol type="1">
+<li>Viewport에서 공간 전체가 잘 보이는 앵글을 잡으세요. → RMB(마우스 오른쪽) + WASD로 카메라 이동, RMB + 마우스 휠로 이동 속도 조절. 공간이 한눈에 들어오는 위치를 찾으세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>Outliner 패널이 화면에 보이는지 확인하세요. → 접혀있다면 폴더를 펼쳐서 오브젝트 이름이 보이게 하세요.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>스크린샷을 찍으세요. → <code>Win + Shift + S</code> → 화면 전체 또는 영역 선택 → 그림판에 붙여넣기(Ctrl + V) → 파일로 저장 (PNG 권장)</li>
+</ol></li>
+</ul>
+<p><strong>작업 7 — 스크린샷 2 (Outliner 클로즈업)</strong></p>
+<ul>
+<li><ol type="1">
+<li>Outliner 패널을 가능한 넓게 펼치세요. → 패널 경계를 드래그하면 크기를 키울 수 있어요. 모든 폴더를 &gt; 클릭하여 펼치세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>모든 오브젝트 이름이 보이는 상태에서 스크린샷을 찍으세요. → <code>Win + Shift + S</code> → Outliner 영역만 선택 → 그림판에 붙여넣기 → 저장</li>
+</ol></li>
+</ul>
+<h4 id="lms-제출">4-3. LMS 제출</h4>
+<p><strong>작업 8 — LMS 제출</strong></p>
+<ul>
+<li><ol type="1">
+<li>LMS(학습관리시스템)에 접속하세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>해당 주차 과제란에 스크린샷 2장을 업로드하세요.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>제출 완료를 확인하세요.</li>
+</ol></li>
+</ul>
+<h4 id="흔한-문제-저장-제출">흔한 문제 — 저장 &amp; 제출</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">스크린샷 찍는 법 모름</td>
+<td data-label="원인">Windows 단축키 미숙</td>
+<td data-label="해결"><code>Win + Shift + S</code> 사용 또는 <code>PrtSc</code> 키 활용</td>
+</tr>
+<tr>
+<td data-label="증상">LMS 업로드 실패</td>
+<td data-label="원인">파일 크기·형식 문제</td>
+<td data-label="해결">PNG, 5MB 이하 확인</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="빨리-끝난-학생을-위한-확장-과제">빨리 끝난 학생을 위한 확장 과제</h3>
+<div class="callout callout-question">
+<div class="callout-title"><span>도전 과제</span></div>
+<div class="callout-body">
+<p>시간이 남으면 아래를 시도해보세요.</p>
+</div>
+</div>
+<p><strong>확장 과제 1 — Starter Content 에셋 활용</strong></p>
+<ol type="1">
+<li>화면 하단 Content Browser를 보세요.</li>
+<li>왼쪽 폴더 트리: <strong>[Content] → [StarterContent] → [Props]</strong> 클릭</li>
+<li>오른쪽 에셋 그리드에서 SM_TableRound, SM_Chair 같은 에셋을 Viewport로 드래그하여 배치해보세요.</li>
+<li>기본 도형과 섞어서 공간을 더 풍성하게 만들어보세요.</li>
+</ol>
+<p><strong>확장 과제 2 — 수치 입력으로 정밀 배치</strong></p>
+<p>벽 4개를 Details Panel → Location 수치 입력으로 정확하게 정사각형 방을 만들어보세요. 예시 (바닥 Scale X:5, Y:5 기준):</p>
+<ul>
+<li>SM_Wall_North: Location Y=250</li>
+<li>SM_Wall_South: Location Y=-250</li>
+<li>SM_Wall_East: Location X=250, Rotation Z=90</li>
+<li>SM_Wall_West: Location X=-250, Rotation Z=90</li>
+</ul>
+<p><strong>확장 과제 3 — 조명 추가</strong></p>
+<ol type="1">
+<li>Place Actors 패널 → <strong>[Lights]</strong> 탭 → <strong>[Point Light]</strong> 를 Viewport로 드래그</li>
+<li>W 키로 천장 근처로 이동</li>
+<li>Details Panel → Light 섹션 → Intensity(밝기)와 Light Color(색상) 조정</li>
+<li>Outliner에서 이름 변경: “PointLight_Ceiling”</li>
+<li>“Lighting” 폴더를 만들어서 정리</li>
+</ol>
+<hr />
+<h2 id="평가-기준">평가 기준</h2>
+<p><strong>필수 요구사항 (통과 기준):</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>기준</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목">공간 구성</td>
+<td data-label="기준">바닥 + 벽 이상의 공간 구성 (최소 오브젝트 8개 이상)</td>
+</tr>
+<tr>
+<td data-label="항목">명명 규칙</td>
+<td data-label="기준">모든 오브젝트에 의미 있는 영문 이름 (SM_ 접두어)</td>
+</tr>
+<tr>
+<td data-label="항목">제출물</td>
+<td data-label="기준">스크린샷 2장 (뷰포트 + Outliner) LMS 업로드</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="참고-자료">참고 자료</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>자료</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="자료"><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-editor-interface" target="_blank" rel="noopener noreferrer">Editor Interface</a></td>
+<td data-label="설명">언리얼 에디터 인터페이스 공식 문서</td>
+</tr>
+<tr>
+<td data-label="자료"><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/placing-actors-in-unreal-engine" target="_blank" rel="noopener noreferrer">Place Actors</a></td>
+<td data-label="설명">액터 배치 공식 문서</td>
+</tr>
+<tr>
+<td data-label="자료"><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/transforming-actors-in-unreal-engine" target="_blank" rel="noopener noreferrer">Transforming Actors</a></td>
+<td data-label="설명">트랜스폼 조작 공식 문서</td>
+</tr>
+<tr>
+<td data-label="자료">단축키 치트시트 PDF</td>
+<td data-label="설명">강사 배포 자료</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title"><span>오늘의 실습 요약</span></div>
+<div class="callout-body">
+<p><strong>Step 1</strong>: 프로젝트 생성, 폴더 구조 세팅, 레벨 저장 <strong>Step 2</strong>: Plane(바닥) + Cube(벽 4개)로 공간 뼈대 구성 <strong>Step 3</strong>: 기본 도형 조합으로 소품 배치 + Outliner 폴더 정리 <strong>Step 4</strong>: 저장 → 스크린샷 2장 촬영 → LMS 제출</p>
+</div>
+</div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#관련-문서">관련 문서</a></li><li><a href="#실습-과제-안내">실습 과제 안내</a></li><li><a href="#평가-기준">평가 기준</a></li><li><a href="#참고-자료">참고 자료</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>

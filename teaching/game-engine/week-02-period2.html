@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 2교시 — 오브젝트 배치 + 트랜스폼</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code { padding: 0; border: 0; background: transparent; }
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.figure-missing {
+  display: grid;
+  min-height: 164px;
+  align-items: center;
+  text-align: center;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    #f4f6f8;
+  background-size: 28px 28px;
+}
+
+.figure-missing .missing-label {
+  padding: 34px 14px 20px;
+  color: #59616a;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 02 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Transform Basics</p>
+        <h1>2주차 2교시 — 오브젝트 배치 + 트랜스폼</h1>
+        <p class="lead">오브젝트 배치, 이동·회전·스케일 트랜스폼, World/Local 좌표계, 씬 정리 습관을 다루는 학생용 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 02</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">TRANSFORM</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">2주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">2교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">오브젝트 배치와 트랜스폼</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-2교시-오브젝트-배치-트랜스폼-학생용">2주차 2교시 — 오브젝트 배치 + 트랜스폼 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">강의 아웃라인</td>
+<td data-label="문서">2주차 아웃라인: 에디터 인터페이스</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title"><span>학습 목표</span></div>
+<div class="callout-body">
+<ul>
+<li>오브젝트 배치 3가지 방법(Place Actors 패널 / Content Browser 드래그 / Viewport 우클릭)을 직접 써서 씬에 액터를 넣을 수 있다</li>
+<li>이동·회전·스케일 트랜스폼을 단축키와 Details 패널 수치 입력 두 방식으로 조작할 수 있다</li>
+<li>World 좌표계와 Local 좌표계의 차이를 이해하고, 상황에 맞는 좌표계를 선택할 수 있다</li>
+<li>다중 선택·복제·이름 변경·폴더 정리로 씬을 처음부터 깔끔하게 관리하는 습관을 들인다</li>
+</ul>
+</div>
+</div>
+<p>1교시에서는 에디터 인터페이스와 패널 구성을 익혔습니다. 2교시는 그 위에서 <strong>씬에 오브젝트를 넣고 움직이는</strong> 시간입니다. 배치 3가지 방법, 이동·회전·스케일 트랜스폼, World vs Local 좌표계, 그리고 씬을 깔끔하게 정리하는 습관을 다룹니다.</p>
+<hr />
+<h2 id="교시-복습-패널-설정-점검">1교시 복습 + 패널 설정 점검</h2>
+<h3 id="복습-퀴즈">복습 퀴즈</h3>
+<p>1교시에서 배운 내용을 빠르게 확인합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title"><span>Q1. Outliner와 Content Browser, 무엇이 다른가요?</span></div>
+<div class="callout-body">
+<p>창고(Content Browser, 저장된 에셋) vs 무대(Outliner, 씬에 배치된 액터)의 차이입니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>Q2. 에디터에서 Floor를 선택하면 어느 패널에 속성이 표시되나요?</span></div>
+<div class="callout-body">
+<p>Details Panel (오른쪽 아래)에 표시됩니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title"><span>Q3. 프로젝트 저장 경로에 한글을 넣으면 어떻게 되나요?</span></div>
+<div class="callout-body">
+<p>오류가 발생합니다. 영문 + 언더바만 사용해야 합니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="패널-복구-훈련">패널 복구 훈련</h3>
+<p>실습 도중 패널을 실수로 닫는 경우가 꼭 생깁니다. 스스로 복구할 수 있어야 원활하게 실습할 수 있습니다. 지금 한 번 연습해 봅니다.</p>
+<p>먼저 Outliner 패널 우측 상단 <code>X</code> 버튼을 눌러 패널을 닫아 보세요. 그리고 아래 절차로 복구합니다.</p>
+<p><strong>작업 1 — Outliner 패널 복구</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단의 메뉴바를 보세요. 왼쪽부터 [File] [Edit] [Window] [Tools] [Build] [Help] 순서로 있습니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>[Window]</strong> 를 클릭하세요. 드롭다운 메뉴가 아래로 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>드롭다운 안에서 <strong>[Outliner]</strong> 항목을 찾아 클릭하세요. 목록 중간쯤(알파벳 O)에 있습니다. 클릭하면 Outliner 패널이 다시 나타나고, 보통 에디터 오른쪽 상단에 도킹(탭 형태로 고정)됩니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>다른 패널도 같은 방법</span></div>
+<div class="callout-body">
+<ul>
+<li>Details Panel: <code>[Window]</code> → 드롭다운에서 <code>[Details]</code> 클릭</li>
+<li>Content Browser: <code>[Window]</code> → <code>[Content Browser]</code> 위에 마우스를 올리면 서브메뉴가 펼쳐짐 → <code>[Content Browser 1]</code> 클릭</li>
+</ul>
+</div>
+</div>
+<p>패널이 너무 흐트러졌을 때는 레이아웃 전체를 초기 상태로 되돌립니다.</p>
+<p><strong>작업 2 — 레이아웃 완전 초기화</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단 메뉴바에서 <strong>[Window]</strong> 를 클릭하세요. 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>드롭다운 맨 아래쪽의 <strong>[Load Layout]</strong> 항목에 마우스를 올리세요. 서브메뉴가 오른쪽으로 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>서브메뉴에서 <strong>[UE4 Classic Layout]</strong> 을 클릭하세요. 모든 패널이 처음 설치했을 때 상태로 돌아갑니다. Outliner는 오른쪽 상단, Details는 오른쪽 하단, Content Browser는 화면 하단, Viewport는 가운데에 배치됩니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>레이아웃 초기화는 가장 확실한 복구 수단</span></div>
+<div class="callout-body">
+<p>패널 배치가 어떻게 흐트러졌든 [UE4 Classic Layout] 한 번이면 처음 상태로 돌아갑니다. 이것만 기억해도 실습 도중 패널 문제로 막히지 않습니다.</p>
+</div>
+</div>
+<p>메뉴가 한글로 보인다면 영어로 바꿔야 합니다. 수업 자료와 메뉴 이름이 일치해야 따라가기 쉽습니다.</p>
+<p><strong>작업 3 — 에디터 언어 영어로 확인</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단 메뉴바에서 <strong>[Edit]</strong> 를 클릭하세요. [File] 바로 오른쪽에 있습니다. 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>드롭다운 맨 아래쪽의 <strong>[Editor Preferences…]</strong> 를 클릭하세요. 새로운 큰 설정 창이 열립니다. (탭이 아니라 별도 창)</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>설정 창의 왼쪽 패널에서 <strong>[General] → [Region &amp; Language]</strong> 를 클릭하세요. 또는 설정 창 상단의 검색창에 “language” 라고 입력하면 바로 찾을 수 있습니다.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>오른쪽 설정 영역에서 <strong>[Editor Language]</strong> 항목을 찾으세요. 드롭다운 박스를 클릭하면 언어 목록이 나옵니다. <strong>[English]</strong> 를 선택하세요.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>“에디터를 재시작해야 적용됩니다” 알림이 뜨면 <strong>[Restart Now]</strong> 를 눌러 재시작하세요.</li>
+</ol></li>
+</ul>
+<hr />
+<h2 id="핵심-개념-1-오브젝트-배치-방법-3가지">핵심 개념 1 — 오브젝트 배치 방법 3가지</h2>
+<p>씬에 오브젝트를 넣는 방법은 3가지가 있으며, 상황에 따라 다르게 사용합니다. 전부 알아두세요. (직접 실습 3가지는 3교시에서 진행하며, 여기서는 배치 방법을 눈으로 익힙니다.)</p>
+<hr />
+<h3 id="방법-1-place-actors-패널에서-배치-기본-도형">방법 1 — Place Actors 패널에서 배치 (기본 도형)</h3>
+<p>가장 자주 쓰는 방법입니다. 큐브, 구, 평면 같은 <strong>기본 도형</strong>을 바로 꺼낼 수 있습니다.</p>
+<p><strong>작업 4 — Place Actors 패널 열기</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단 메뉴바에서 <strong>[Window]</strong> 를 클릭하세요. 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>드롭다운에서 <strong>[Place Actors]</strong> 를 클릭하세요. 목록 위쪽(P로 시작하는 항목)에 있습니다. 클릭하면 보통 에디터 왼쪽에 세로로 긴 패널이 나타납니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>단축키</span></div>
+<div class="callout-body">
+<p><code>Shift + 1</code> 을 누르면 Place Actors 패널이 바로 열립니다. (가장 빠름)</p>
+</div>
+</div>
+<p><strong>패널 구성</strong> — 패널 상단에 탭 버튼들이 가로로 나열되어 있습니다. 각 탭을 클릭하면 해당 카테고리의 액터 목록이 아래에 표시됩니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>탭 이름</th>
+<th>아이콘 모양</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="탭 이름">Basic</td>
+<td data-label="아이콘 모양">큐브 아이콘</td>
+<td data-label="내용">기본 도형: Cube, Sphere, Plane, Cylinder 등</td>
+</tr>
+<tr>
+<td data-label="탭 이름">Lights</td>
+<td data-label="아이콘 모양">전구 아이콘</td>
+<td data-label="내용">조명 액터</td>
+</tr>
+<tr>
+<td data-label="탭 이름">Cinematic</td>
+<td data-label="아이콘 모양">카메라 아이콘</td>
+<td data-label="내용">카메라, 시퀀서 관련</td>
+</tr>
+<tr>
+<td data-label="탭 이름">Volumes</td>
+<td data-label="아이콘 모양">반투명 박스 아이콘</td>
+<td data-label="내용">트리거 볼륨 등</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>작업 5 — Cube 배치</strong></p>
+<ul>
+<li><ol type="1">
+<li>Place Actors 패널에서 <strong>[Shapes]</strong> 탭을 클릭하세요. (또는 [Basic] 탭 안에서 스크롤하면 도형 섹션이 있습니다.) Cube, Sphere, Cylinder, Plane 등이 아이콘과 함께 보입니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>[Cube]</strong> 항목 위에 마우스 왼쪽 버튼을 누르고 꾹 잡으세요. 마우스 커서가 바뀌면서 드래그 모드가 됩니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>마우스 버튼을 누른 채로 화면 가운데 Viewport(3D 뷰)로 끌어오세요. Viewport 위에 올리면 배치될 위치에 미리보기가 표시됩니다.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>원하는 위치에서 마우스 버튼을 놓으세요. Cube가 해당 위치에 생성됩니다.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>배치 확인 — 오른쪽 상단 Outliner에 “Cube” 항목이 추가됐고, 오른쪽 하단 Details 패널에 Transform 섹션이 보이면 배치 성공입니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>UE5.7 대안 경로 — Place Actors 패널이 안 보일 때</span></div>
+<div class="callout-body">
+<ul>
+<li>Viewport 왼쪽 상단 툴바의 <code>Create</code> 버튼 → 드롭다운 → <code>Shapes</code> → 원하는 도형 선택</li>
+<li>또는 Viewport 왼쪽 상단 녹색 <code>+</code> 아이콘의 <code>Add</code> 버튼 → <code>Shapes</code> → 도형 선택</li>
+</ul>
+</div>
+</div>
+<hr />
+<h3 id="방법-2-content-browser에서-드래그-앤-드롭">방법 2 — Content Browser에서 드래그 앤 드롭</h3>
+<p>본인이 임포트한 에셋이나 Starter Content 에셋을 씬에 넣을 때 사용합니다.</p>
+<p>Content Browser는 화면 하단에 가로로 넓게 펼쳐져 있는 패널입니다. 안 보인다면 아래 절차로 고정합니다.</p>
+<p><strong>작업 6 — Content Browser 항상 보이게 고정</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 왼쪽 하단 구석의 <strong>[Content Drawer]</strong> 버튼을 클릭하세요. Content Browser가 서랍처럼 아래에서 올라옵니다. 이 상태에서는 다른 곳을 클릭하면 자동으로 닫힙니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>패널 오른쪽 상단의 <strong>[Dock in Layout]</strong> 버튼(사각형 아이콘)을 클릭하세요. 화면 하단에 영구 고정됩니다.</li>
+</ol></li>
+</ul>
+<p><strong>작업 7 — Starter Content 에셋 배치</strong></p>
+<ul>
+<li><ol type="1">
+<li>Content Browser 패널의 왼쪽 폴더 트리를 보세요. 맨 위에 <strong>[Content]</strong> 라는 최상위 폴더가 있습니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>[Content]</strong> 왼쪽의 &gt; 화살표를 클릭해서 펼치고, <strong>[StarterContent]</strong> 폴더를 찾아 다시 &gt; 로 펼치세요.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><strong>[StarterContent] → [Props]</strong> 폴더를 클릭하세요. 오른쪽 영역에 SM_TableRound, SM_Chair 같은 에셋이 썸네일 형태로 나타납니다.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>원하는 에셋(예: SM_TableRound)을 마우스 왼쪽 버튼으로 클릭 &amp; 꾹 잡고, 화면 가운데 Viewport로 끌어오세요.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>Viewport 위 원하는 위치에서 마우스 버튼을 놓으세요. 에셋이 씬에 배치되고, Outliner에 이름이 추가됩니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-warning">
+<div class="callout-title"><span>주의 — 저장과 배치의 차이</span></div>
+<div class="callout-body">
+<p>Content Browser에서 찾은 에셋은 <strong>저장된 파일</strong>입니다. Viewport로 드래그해야 비로소 <strong>씬에 배치(인스턴스)</strong>가 됩니다. 그 전까지는 창고에 있는 상태입니다.</p>
+</div>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title"><span>에셋 검색 — 빠르게 찾기</span></div>
+<div class="callout-body">
+<p>Content Browser 패널 상단의 돋보기 검색창에 에셋 이름을 입력하면 실시간 필터링됩니다. 예: “table” 입력 → 이름에 table이 포함된 에셋만 표시.</p>
+</div>
+</div>
+<hr />
+<h3 id="방법-3-viewport-우클릭-컨텍스트-메뉴">방법 3 — Viewport 우클릭 컨텍스트 메뉴</h3>
+<p>가장 빠른 방법입니다. Viewport 안에서 바로 액터를 소환합니다.</p>
+<p><strong>작업 8 — Viewport 우클릭으로 배치</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 가운데 Viewport(3D 뷰) 안에서 배치하고 싶은 위치를 정하세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>그 위치에서 마우스 오른쪽 버튼을 클릭하세요. 작은 팝업 메뉴(컨텍스트 메뉴)가 마우스 커서 위치에 나타납니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>팝업 메뉴에서 <strong>[Place Actor Here]</strong> 항목에 마우스를 올리세요. 오른쪽으로 서브메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>서브메뉴에서 원하는 카테고리를 선택하세요. [Shapes] → Cube, Sphere, Cylinder, Plane 등 / [Lights] → Point Light, Directional Light 등.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>원하는 항목을 클릭하면 우클릭했던 바로 그 위치에 액터가 생성됩니다. Outliner에 새 항목이 추가되고, 우클릭한 위치에 오브젝트가 나타납니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>정확한 위치 배치에 유리</span></div>
+<div class="callout-body">
+<p>커서가 있는 위치에 액터가 생성되므로 정확한 위치에 배치할 때 유용합니다. 바닥 위 특정 지점에 소품을 놓고 싶을 때 이 방법이 가장 직관적입니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="방법-요약">방법 요약</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방법</th>
+<th>언제 쓰나</th>
+<th>위치</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="방법">Place Actors 패널</td>
+<td data-label="언제 쓰나">기본 도형 (큐브, 구, 평면)</td>
+<td data-label="위치"><code>Window → Place Actors</code> 또는 <code>Shift+1</code></td>
+</tr>
+<tr>
+<td data-label="방법">Content Browser 드래그</td>
+<td data-label="언제 쓰나">임포트한 에셋, Starter Content</td>
+<td data-label="위치">화면 하단 Content Browser</td>
+</tr>
+<tr>
+<td data-label="방법">Viewport 우클릭</td>
+<td data-label="언제 쓰나">빠르게, 정확한 위치에</td>
+<td data-label="위치">Viewport 빈 공간 우클릭</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="흔한-문제-오브젝트-배치">흔한 문제 — 오브젝트 배치</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">Place Actors 패널이 안 보임</td>
+<td data-label="원인">패널 미열림</td>
+<td data-label="해결"><code>Window → Place Actors</code> 또는 <code>Shift+1</code></td>
+</tr>
+<tr>
+<td data-label="증상">드래그해도 Viewport에 안 들어감</td>
+<td data-label="원인">Viewport 포커스 없음</td>
+<td data-label="해결">Viewport 안쪽 클릭 후 다시 시도</td>
+</tr>
+<tr>
+<td data-label="증상">Content Browser에 StarterContent 없음</td>
+<td data-label="원인">프로젝트 생성 시 미체크</td>
+<td data-label="해결">상단 메뉴 <code>Edit → Plugins</code>에서 Starter Content 확인 또는 별도 제공</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="핵심-개념-2-트랜스폼-이동회전스케일">핵심 개념 2 — 트랜스폼: 이동·회전·스케일</h2>
+<p>배치한 오브젝트를 움직이는 방법입니다. 트랜스폼은 3D 툴의 기본이자 핵심입니다.</p>
+<hr />
+<h3 id="트랜스폼-단축키-전환">트랜스폼 단축키 전환</h3>
+<p><strong>트랜스폼 모드 아이콘</strong> — Viewport(3D 뷰) 오른쪽 상단 모서리에 작은 아이콘 4개가 나란히 있습니다 (왼쪽부터): <code>[커서]</code> 선택 / <code>[십자화살표]</code> 이동 / <code>[원호]</code> 회전 / <code>[네모]</code> 스케일. 클릭하면 해당 모드로 전환되고, 현재 선택된 모드는 아이콘이 하이라이트(밝게) 표시됩니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>모드</th>
+<th>단축키</th>
+<th>아이콘 모양</th>
+<th>Viewport에서 보이는 기즈모</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="모드">이동 (Move)</td>
+<td data-label="단축키"><code>W</code></td>
+<td data-label="아이콘 모양">십자 화살표</td>
+<td data-label="Viewport에서 보이는 기즈모">빨·초·파 3축 화살표</td>
+</tr>
+<tr>
+<td data-label="모드">회전 (Rotate)</td>
+<td data-label="단축키"><code>E</code></td>
+<td data-label="아이콘 모양">원호 (곡선 화살표)</td>
+<td data-label="Viewport에서 보이는 기즈모">빨·초·파 3축 원형 링</td>
+</tr>
+<tr>
+<td data-label="모드">스케일 (Scale)</td>
+<td data-label="단축키"><code>R</code></td>
+<td data-label="아이콘 모양">네모 (작은 정육면체)</td>
+<td data-label="Viewport에서 보이는 기즈모">빨·초·파 3축 막대 + 중앙 흰색 큐브</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title"><span>기즈모(Gizmo)란?</span></div>
+<div class="callout-body">
+<p>오브젝트 위에 나타나는 조작용 핸들입니다. 모드를 바꿀 때마다 기즈모 모양이 바뀌는 것을 Viewport에서 확인하세요. <strong>색상 규칙 — 모든 모드 공통</strong>: 빨강 = X축, 초록 = Y축, 파랑 = Z축</p>
+</div>
+</div>
+<hr />
+<h3 id="이동-w-world-vs-local-좌표계">이동 (W) — World vs Local 좌표계</h3>
+<p>이것이 오늘의 핵심입니다. “큐브를 45도 회전시킨 뒤 앞으로 이동하면 어느 방향으로 갈까?” — 지금 직접 확인합니다.</p>
+<p><strong>World 좌표계 vs Local 좌표계</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>World 좌표계</th>
+<th>Local 좌표계</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label=""><strong>기준</strong></td>
+<td data-label="World 좌표계">씬의 절대 좌표 (X: East, Y: North, Z: Up)</td>
+<td data-label="Local 좌표계">오브젝트 자체가 바라보는 방향</td>
+</tr>
+<tr>
+<td data-label=""><strong>기즈모 모양</strong></td>
+<td data-label="World 좌표계">항상 같은 방향</td>
+<td data-label="Local 좌표계">오브젝트 회전에 따라 기즈모도 따라 회전</td>
+</tr>
+<tr>
+<td data-label=""><strong>쓰는 때</strong></td>
+<td data-label="World 좌표계">절대 위치로 맞춰야 할 때</td>
+<td data-label="Local 좌표계">오브젝트 기준으로 앞뒤좌우 이동할 때</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/ue-world-local-toggle.png" alt="ue world local toggle">
+<figcaption>
+ue world local toggle
+</figcaption>
+</figure>
+<p><strong>좌표계 전환</strong> — Viewport 우측 상단 툴바에서 이동/회전/스케일 아이콘 바로 오른쪽에 좌표계 전환 아이콘이 있습니다.</p>
+<ul>
+<li><strong>[지구본 모양]</strong> = World 좌표계 (씬 기준)</li>
+<li><strong>[큐브 모양]</strong> = Local 좌표계 (오브젝트 기준)</li>
+<li>한 번 클릭할 때마다 World /︎ Local 이 토글(전환)됩니다. 현재 좌표계는 아이콘 모양으로 알 수 있습니다.</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>단축키</span></div>
+<div class="callout-body">
+<p><strong>Space Bar</strong> — 키보드만으로 World /︎ Local 토글. 가장 빠릅니다.</p>
+</div>
+</div>
+<p><strong>예제 — World vs Local 차이 확인</strong></p>
+<ul>
+<li><ol type="1">
+<li>Cube를 씬에 배치합니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><code>E</code>키(회전)로 Z축 기준 45도 회전합니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><code>W</code>키(이동) → World 모드에서 빨간 X축 화살표를 드래그합니다. 씬의 X방향으로 이동합니다 (큐브가 바라보는 방향 무시).</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>Space Bar로 Local로 전환합니다.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>빨간 X축 화살표를 드래그합니다. 큐브가 바라보는 “앞 방향”으로 이동합니다.</li>
+</ol></li>
+<li><ol start="6" type="1">
+<li>같은 화살표를 드래그해도 좌표계에 따라 이동 방향이 달라지는 것 — 이것이 World vs Local의 차이입니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>캐릭터가 오른쪽으로 회전해 있을 때, 그 캐릭터를 “앞으로” 이동시키려면 어떤 좌표계가 맞을까요? → Local. 캐릭터가 바라보는 방향이 기준이어야 하기 때문입니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="이동-details-panel-수치-입력">이동 — Details Panel 수치 입력</h3>
+<p><strong>작업 9 — Details Panel 수치 입력으로 이동</strong></p>
+<ul>
+<li><ol type="1">
+<li>먼저 Viewport에서 오브젝트를 클릭하여 선택하세요. 오브젝트 주위에 주황색 테두리가 나타나면 선택된 것입니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>화면 오른쪽 하단의 Details Panel을 보세요. (Outliner 아래에 위치) 선택한 오브젝트의 이름이 패널 맨 위에 표시됩니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>Details Panel을 조금 아래로 스크롤하면 <strong>[Transform]</strong> 섹션이 있습니다. 접힌 상태라면 [Transform] 글자 왼쪽의 &gt; 화살표를 클릭해서 펼치세요.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>Transform 섹션 안에 세 행이 있습니다. Location(위치) / Rotation(회전 각도) / Scale(크기) 각각 X, Y, Z 숫자 칸 3개입니다.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>숫자 칸을 클릭하면 편집 가능해집니다. 원하는 숫자를 입력하고 Enter를 누르세요. 예: Location의 X 칸에 “0” 입력 → 오브젝트가 X=0 위치로 이동.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>정확한 위치가 필요할 때</span></div>
+<div class="callout-body">
+<p>드래그보다 정확한 위치가 필요할 때 사용합니다. “정확히 X=0, Y=0, Z=0에 놓고 싶다” → Location 값을 직접 입력합니다. <strong>리셋 방법</strong>: 각 행(Location/Rotation/Scale) 오른쪽 끝에 작은 노란색 되돌리기 화살표(Reset︎) 아이콘이 있습니다. 클릭하면 해당 값이 기본값으로 복원됩니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="회전-e">회전 (E)</h3>
+<p><code>E</code> 키를 누르면 회전 기즈모가 표시됩니다.</p>
+<p><strong>기즈모 색상과 축</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>색상</th>
+<th>축</th>
+<th>회전 방향</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="색상">빨강</td>
+<td data-label="축">X축</td>
+<td data-label="회전 방향">Roll (앞뒤로 눕히기)</td>
+</tr>
+<tr>
+<td data-label="색상">초록</td>
+<td data-label="축">Y축</td>
+<td data-label="회전 방향">Pitch (앞뒤로 기울이기)</td>
+</tr>
+<tr>
+<td data-label="색상">파랑</td>
+<td data-label="축">Z축</td>
+<td data-label="회전 방향">Yaw (좌우로 돌리기)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Details Panel → Transform → Rotation 칸에 각도를 직접 입력하는 것도 가능합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title"><span>스냅 설정 (회전)</span></div>
+<div class="callout-body">
+<p>Viewport 우측 상단 툴바에서 좌표계 아이콘(지구본/큐브)보다 더 오른쪽에 격자 모양 아이콘 3개가 있습니다. 두 번째가 <strong>회전 스냅</strong>(옆에 “10.0” 같은 숫자)입니다. 숫자를 클릭하면 스냅 단위를 바꿀 수 있고(5, 10, 15, 45, 90도 등), 격자 아이콘 자체를 클릭하면 스냅 켜기/끄기가 전환됩니다 (파란색=켜짐, 회색=꺼짐).</p>
+</div>
+</div>
+<hr />
+<h3 id="스케일-r">스케일 (R)</h3>
+<p><code>R</code> 키를 누르면 스케일 기즈모가 표시됩니다.</p>
+<ul>
+<li><strong>중앙 흰색 정육면체 핸들 드래그</strong> → 3축 균등 스케일 (XYZ 동시)</li>
+<li><strong>빨강/초록/파랑 핸들 드래그</strong> → 해당 축만 독립 스케일</li>
+</ul>
+<p>Details Panel → Transform → Scale 칸에 직접 입력하는 것도 가능합니다. Scale 행에서 X, Y, Z 칸 사이에 작은 <strong>자물쇠 아이콘</strong>이 있습니다.</p>
+<ul>
+<li>자물쇠가 잠김 상태: 한 축 값을 바꾸면 나머지 축도 비례하여 자동 변경 (균등 스케일)</li>
+<li>자물쇠가 열림 상태: 각 축을 독립적으로 조절 가능 (비균등 스케일)</li>
+</ul>
+<div class="callout callout-warning">
+<div class="callout-title"><span>주의 — 음수 스케일</span></div>
+<div class="callout-body">
+<p>스케일을 음수로 입력하면 오브젝트가 뒤집힙니다. 의도적으로 쓸 수도 있지만, 실수라면 양수로 되돌리세요.</p>
+</div>
+</div>
+<hr />
+<h3 id="스냅snap-설정-통합-정리">스냅(Snap) 설정 통합 정리</h3>
+<p><strong>스냅 아이콘</strong> — Viewport 우측 상단 툴바의 오른쪽 끝 부분에 격자 모양 아이콘 3개가 나란히 있습니다. 각각 옆에 숫자가 적혀 있습니다: <code>[격자 | 10]</code> 이동 스냅 / <code>[원호 | 10.0]</code> 회전 스냅 / <code>[네모 | 0.25]</code> 스케일 스냅.</p>
+<ul>
+<li><strong>아이콘 자체를 클릭</strong> → 스냅 켜기/끄기 전환 (파란색 = 활성, 단위에 딱딱 맞춰 이동 / 회색 = 비활성, 자유롭게 이동)</li>
+<li><strong>아이콘 옆 숫자를 클릭</strong> → 드롭다운에서 스냅 단위 변경 (이동: 1, 5, 10, 50, 100 cm / 회전: 5, 10, 15, 45, 90도 / 스케일: 0.25, 0.5, 1.0 등)</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>기본값과 조정</span></div>
+<div class="callout-body">
+<p>실습에서는 이동 스냅 10, 회전 스냅 10도가 기본값입니다. 세밀한 조정이 필요하면 스냅을 끄거나(아이콘 회색으로) 단위를 줄이세요.</p>
+</div>
+</div>
+<hr />
+<h2 id="핵심-개념-3-씬-구성-기초-팁">핵심 개념 3 — 씬 구성 기초 팁</h2>
+<p>오브젝트가 많아지면 씬이 복잡해집니다. 처음부터 정리하는 습관이 필요합니다.</p>
+<hr />
+<h3 id="다중-선택">다중 선택</h3>
+<p><strong>작업 10 — 다중 선택</strong></p>
+<ul>
+<li><ol type="1">
+<li><strong>개별 추가 선택</strong> — Viewport에서 첫 번째 오브젝트를 클릭한 뒤, <code>Ctrl</code> 키를 누른 채로 두 번째·세 번째 오브젝트를 클릭합니다. 클릭할 때마다 선택에 추가됩니다. (이미 선택된 것을 다시 클릭하면 해제)</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>박스 셀렉션</strong> — Viewport 빈 공간에서 마우스 왼쪽 버튼을 누르고 드래그합니다. 반투명 사각형 안에 들어온 오브젝트가 전부 선택됩니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><strong>전체 선택</strong> — <code>Ctrl + A</code> → 씬에 있는 모든 오브젝트 선택.</li>
+</ol></li>
+</ul>
+<hr />
+<h3 id="오브젝트-복제">오브젝트 복제</h3>
+<p><strong>작업 11 — 오브젝트 복제</strong></p>
+<ul>
+<li><ol type="1">
+<li><strong>제자리 복제</strong> — 오브젝트 선택 → <code>Ctrl + D</code> → 같은 위치에 복사본 생성.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>드래그 복제</strong> — 오브젝트 선택 → <code>Alt + 드래그</code> → 드래그하면서 복제.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>어느 방법이 편한가</span></div>
+<div class="callout-body">
+<p>Alt + 드래그가 더 빠르고 직관적입니다. 벽 4개를 만들 때 특히 편리합니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="오브젝트-이름-변경">오브젝트 이름 변경</h3>
+<p><strong>작업 12 — 오브젝트 이름 변경</strong></p>
+<ul>
+<li><ol type="1">
+<li><strong>Outliner에서 변경 (가장 쉬움)</strong> — 화면 오른쪽 상단 Outliner 패널에서 바꾸고 싶은 오브젝트 이름을 더블클릭 → 편집 가능한 텍스트 상자로 바뀜 → 원하는 이름 입력 → Enter. (예: “Cube” → “SM_Floor_Main”)</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>Details Panel에서 변경</strong> — Viewport에서 오브젝트를 클릭하여 선택 → 오른쪽 하단 Details Panel 맨 위의 이름 텍스트 칸을 클릭 → 이름 수정 → Enter.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>이름은 배치 즉시 변경</span></div>
+<div class="callout-body">
+<p>이름은 배치 즉시 바꾸는 것을 권장합니다. 나중에 20개가 쌓이면 어떤 것이 어떤 것인지 구분할 수 없게 됩니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="그룹핑으로-정리">그룹핑으로 정리</h3>
+<p>관련된 오브젝트들을 묶어서 관리하는 두 가지 방법입니다.</p>
+<p><strong>작업 13 — Ctrl+G 그룹 만들기 (일시적 묶음)</strong></p>
+<ul>
+<li><ol type="1">
+<li>Viewport에서 묶고 싶은 오브젝트들을 <code>Ctrl + 클릭</code>으로 다중 선택하세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><code>Ctrl + G</code> 를 누르세요. Outliner에 “GroupActor” 라는 새 항목이 생기고, 선택했던 오브젝트들이 그 아래 하위 항목으로 들어갑니다. 이제 GroupActor를 선택하면 묶인 오브젝트 전체를 한 번에 이동·회전·스케일할 수 있습니다.</li>
+</ol></li>
+</ul>
+<p><strong>작업 14 — Outliner 폴더로 정리 (영구 분류) — 더 권장</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 오른쪽 상단 Outliner 패널의 빈 공간에서 마우스 오른쪽 버튼을 클릭하세요. 컨텍스트 메뉴(팝업)가 나타납니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>메뉴에서 <strong>[Create Folder]</strong> 를 클릭하세요. Outliner 목록에 새 폴더가 생기고 이름 편집 상태가 됩니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>폴더 이름을 입력하고 Enter로 확정하세요. (예: “Walls”, “Props”, “Lights”)</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>정리할 오브젝트를 마우스로 클릭 &amp; 드래그하여 방금 만든 폴더 위에 놓으세요. 오브젝트가 폴더 안으로 들어갑니다. 폴더 왼쪽 &gt; 화살표로 펼침/접힘을 전환합니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>폴더가 더 직관적</span></div>
+<div class="callout-body">
+<p>폴더가 더 직관적입니다. 3교시 실습에서는 이 방식으로 정리하세요.</p>
+</div>
+</div>
+<hr />
+<h3 id="숨기기잠금">숨기기·잠금</h3>
+<p><strong>숨기기·잠금 아이콘</strong> — Outliner 패널에서 각 오브젝트 이름 오른쪽 끝을 보세요. (마우스를 행 위에 올리면 아이콘이 나타날 수 있습니다.)</p>
+<ul>
+<li>** 눈 아이콘 클릭** → Viewport에서 숨기기/보이기 전환. 눈이 열려 있으면 보임, 사선이 그어지면 숨김.</li>
+<li>** 자물쇠 아이콘 클릭** → 선택·이동 잠금/해제 전환. 잠금 상태면 Viewport에서 클릭해도 선택되지 않습니다.</li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>숨기기와 잠금의 용도</span></div>
+<div class="callout-body">
+<ul>
+<li><strong>숨기기</strong>: 뷰포트에서만 안 보이며, 게임 플레이 시에는 다시 표시됩니다. 복잡한 씬에서 특정 오브젝트를 작업할 때 나머지를 임시로 숨깁니다.</li>
+<li><strong>잠금</strong>: 잘못 건드리면 안 되는 오브젝트에 사용합니다. 바닥이나 하늘처럼 고정된 것들에 적합합니다.</li>
+<li><strong>아이콘이 안 보인다면</strong>: Outliner 패널 오른쪽 상단의 눈 아이콘 버튼을 클릭해서 열 표시를 활성화해야 할 수 있습니다.</li>
+</ul>
+</div>
+</div>
+<hr />
+<h3 id="흔한-문제-트랜스폼-씬-구성">흔한 문제 — 트랜스폼 &amp; 씬 구성</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">기즈모가 보이지 않음</td>
+<td data-label="원인">오브젝트 미선택</td>
+<td data-label="해결">Outliner 또는 Viewport에서 오브젝트 클릭</td>
+</tr>
+<tr>
+<td data-label="증상">오브젝트가 너무 작거나 큼</td>
+<td data-label="원인">스케일 기본값 문제</td>
+<td data-label="해결">Details → Transform → Scale 직접 수치 입력</td>
+</tr>
+<tr>
+<td data-label="증상">Local 모드에서 이동이 이상함</td>
+<td data-label="원인">World로 되어있음</td>
+<td data-label="해결">Space Bar로 Local 전환 확인</td>
+</tr>
+<tr>
+<td data-label="증상">Outliner에 오브젝트가 너무 많음</td>
+<td data-label="원인">중복 배치</td>
+<td data-label="해결"><code>Ctrl+Z</code>로 되돌리기, 또는 불필요한 것 Delete</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="예제-간이-방-만들기">예제 — 간이 방 만들기</h2>
+<p>핵심 개념 1·2·3을 통합한 예제입니다. 3교시 실습의 미리보기로 활용합니다.</p>
+<h3 id="나쁜-씬-vs-좋은-씬">나쁜 씬 vs 좋은 씬</h3>
+<p>먼저 Outliner의 두 가지 상태를 비교합니다.</p>
+<p><strong>나쁜 씬 Outliner</strong></p>
+<pre><code>Outliner:
+├── Cube
+├── Cube2
+├── Cube (1)
+├── Cube (2)
+├── Cylinder
+├── Sphere
+├── Sphere2
+├── Plane</code></pre>
+<p>이 상태에서는 어떤 것이 바닥이고 어떤 것이 벽인지 알 수 없습니다.</p>
+<p><strong>좋은 씬 Outliner</strong></p>
+<pre><code>Outliner:
+├── [Folder] Room_Structure
+│   ├── SM_Floor_Main
+│   ├── SM_Wall_North
+│   ├── SM_Wall_South
+│   ├── SM_Wall_East
+│   └── SM_Wall_West
+├── [Folder] Props
+│   ├── SM_Table_Center
+│   ├── SM_Chair_01
+│   └── SM_Chair_02
+└── [Folder] Lighting
+    └── DirectionalLight_Main</code></pre>
+<p>이름만 봐도 무엇인지 알 수 있고, 폴더로 분류되어 있습니다. 3교시 실습의 목표가 바로 이것입니다.</p>
+<h3 id="라이브-시연-간이-방-코너-만들기">라이브 시연 — 간이 방 코너 만들기</h3>
+<p>바닥 하나, 벽 두 개, 소품 하나로 간단한 방 코너를 만듭니다.</p>
+<figure class="lecture-figure">
+<img src="assets/ue-simple-room-demo.png" alt="ue simple room demo">
+<figcaption>
+ue simple room demo
+</figcaption>
+</figure>
+<p><strong>Step 1 — 바닥 배치</strong></p>
+<ul>
+<li><ol type="1">
+<li>Place Actors 패널 (Window → Place Actors) → Shapes 탭 → Plane → Viewport로 드래그</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>W키 이동으로 Location X=0, Y=0, Z=0으로 이동</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>R키 스케일 → X/Y축으로 충분히 넓게 확장</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>Outliner에서 이름 더블클릭 → “SM_Floor_Main”으로 변경</li>
+</ol></li>
+</ul>
+<p><strong>Step 2 — 벽 배치</strong></p>
+<ul>
+<li><ol type="1">
+<li>Place Actors → Cube 드래그</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>R키로 스케일: X(두께 얇게), Y(폭 넓게), Z(높게) 조절</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>W키 이동으로 바닥 끝에 붙이기</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>Outliner 이름 → “SM_Wall_North”</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>Alt + 드래그로 복제 → 옆으로 이동 → “SM_Wall_West”</li>
+</ol></li>
+</ul>
+<p><strong>Step 3 — 폴더 정리</strong></p>
+<ul>
+<li><ol type="1">
+<li>Outliner 빈 곳 우클릭 → Create Folder → “Room_Structure”</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>SM_Floor_Main, SM_Wall_North, SM_Wall_West 모두 선택 → 폴더로 드래그 앤 드롭</li>
+</ol></li>
+</ul>
+<p>이렇게 정리하면 팀원이 봤을 때도, 한 달 뒤 본인이 다시 봤을 때도 바로 알 수 있습니다.</p>
+<hr />
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>2교시 한 줄 요약</span></div>
+<div class="callout-body">
+<p>씬에 오브젝트를 넣는 방법은 3가지, 움직이는 방법은 이동·회전·스케일 트랜스폼, 그리고 World vs Local 좌표계 선택과 폴더 정리 습관이 깔끔한 씬을 만든다.</p>
+</div>
+</div>
+<p><strong>3줄 요약:</strong></p>
+<ol type="1">
+<li><strong>배치 3가지</strong> — Place Actors 패널 / Content Browser 드래그 / Viewport 우클릭</li>
+<li><strong>트랜스폼</strong> — <code>W</code> 이동 / <code>E</code> 회전 / <code>R</code> 스케일. 정확한 값은 Details 패널 수치 입력</li>
+<li><strong>World vs Local</strong> — <code>Space Bar</code>로 전환. 오브젝트 기준으로 이동할 땐 Local</li>
+</ol>
+<hr />
+<h2 id="교시-실습-예고">3교시 실습 예고</h2>
+<p>3교시에서는 여러분이 직접 공간을 만듭니다.</p>
+<p><strong>실습 과제: 기본 도형으로 공간 만들기</strong></p>
+<p>교실, 카페, 방 — 어떤 공간이든 좋습니다. 기본 도형(Cube, Sphere, Cylinder, Plane)만 사용하여 공간을 표현하세요.</p>
+<p><strong>필수 조건</strong></p>
+<ul>
+<li>오브젝트 <strong>8개 이상</strong> 배치</li>
+<li>모든 오브젝트에 <strong>의미 있는 영문 이름</strong> 부여 (SM_ 접두어 권장)</li>
+<li>Outliner <strong>폴더</strong>로 분류 (최소 2개 폴더)</li>
+<li>이동·회전·스케일 <strong>세 가지 트랜스폼 모두</strong> 사용</li>
+</ul>
+<p><strong>제출 방법</strong></p>
+<ul>
+<li>뷰포트 + Outliner가 같이 보이는 스크린샷 1장</li>
+<li>Outliner를 충분히 펼쳐서 이름이 보이는 스크린샷 1장</li>
+<li>LMS에 2장 업로드</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>시작 힌트</span></div>
+<div class="callout-body">
+<p>바닥(Plane)부터 먼저 깔고, 벽(Cube)으로 경계를 만드세요. 그 다음에 소품을 채워가면 자연스럽게 공간이 만들어집니다.</p>
+</div>
+</div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#관련-문서">관련 문서</a></li><li><a href="#교시-복습-패널-설정-점검">1교시 복습 + 패널 설정 점검</a></li><li><a href="#핵심-개념-1-오브젝트-배치-방법-3가지">핵심 개념 1 — 오브젝트 배치 방법 3가지</a></li><li><a href="#핵심-개념-2-트랜스폼-이동회전스케일">핵심 개념 2 — 트랜스폼: 이동·회전·스케일</a></li><li><a href="#핵심-개념-3-씬-구성-기초-팁">핵심 개념 3 — 씬 구성 기초 팁</a></li><li><a href="#예제-간이-방-만들기">예제 — 간이 방 만들기</a></li><li><a href="#핵심-요약">핵심 요약</a></li><li><a href="#교시-실습-예고">3교시 실습 예고</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>

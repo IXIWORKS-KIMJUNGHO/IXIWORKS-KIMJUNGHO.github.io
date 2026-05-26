@@ -1,0 +1,1409 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 1교시 — 에디터 인터페이스 해부 + 프로젝트 구조</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+pre code { padding: 0; border: 0; background: transparent; }
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.figure-missing {
+  display: grid;
+  min-height: 164px;
+  align-items: center;
+  text-align: center;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    #f4f6f8;
+  background-size: 28px 28px;
+}
+
+.figure-missing .missing-label {
+  padding: 34px 14px 20px;
+  color: #59616a;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 02 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Editor Interface</p>
+        <h1>2주차 1교시 — 에디터 인터페이스 해부 + 프로젝트 구조</h1>
+        <p class="lead">언리얼 에디터의 주요 패널, 프로젝트 구조, 에셋 관리 규칙, 뷰포트 내비게이션을 정리하는 학생용 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 02</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">EDITOR</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">2주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">1교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">에디터 인터페이스와 프로젝트 구조</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="주차-1교시-에디터-인터페이스-해부-프로젝트-구조-학생용">2주차 1교시 — 에디터 인터페이스 해부 + 프로젝트 구조 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">강의 아웃라인</td>
+<td data-label="문서">2주차 아웃라인: 에디터 인터페이스</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title"><span>학습 목표</span></div>
+<div class="callout-body">
+<ul>
+<li>언리얼엔진 5 에디터 인터페이스의 5대 구성 요소(Viewport / Outliner / Details Panel / Content Browser / Main Toolbar)의 역할을 설명할 수 있다</li>
+<li>프로젝트를 직접 생성하고 프로젝트 폴더 구조와 에셋 이름 규칙을 이해할 수 있다</li>
+<li>뷰포트 내비게이션 단축키를 활용해 3D 작업 공간을 자유롭게 이동할 수 있다</li>
+</ul>
+</div>
+</div>
+<p>지난 주에 이번 학기 목표를 한 줄로 정리했습니다 — “언리얼엔진으로 영화 같은 걸 만든다.” 오늘부터 그 도구를 직접 사용합니다.</p>
+<p>1교시는 에디터 인터페이스의 5대 패널을 해부하고, 프로젝트를 생성해 폴더 구조와 에셋 이름 규칙을 익히며, 뷰포트를 자유롭게 이동하는 방법을 다룹니다.</p>
+<hr />
+<h2 id="도입-언리얼-첫-실행">도입 — 언리얼 첫 실행</h2>
+<pre><code>언리얼엔진을 처음 켰을 때, 어디서부터 시작해야 할까?</code></pre>
+<p>언리얼을 켜면 에디터가 바로 열리는 게 아닙니다. 프로젝트 브라우저가 먼저 열립니다. 프로젝트를 만들어야 에디터가 열리고, 에디터가 열려야 설정도 할 수 있습니다. 순서는 <strong>프로젝트 생성 → 에디터 열림 → 환경 설정</strong> 입니다.</p>
+<hr />
+<h2 id="프로젝트-생성">프로젝트 생성</h2>
+<p><strong>작업 1 — 에픽게임즈 런처에서 언리얼엔진 실행</strong></p>
+<ul>
+<li><ol type="1">
+<li>바탕화면 또는 시작 메뉴에서 <strong>Epic Games Launcher</strong> 를 실행하세요. → 검은색 배경의 런처 창이 열립니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>런처 왼쪽 세로 메뉴에서 <strong>Library</strong> 탭을 클릭하세요. → <strong>Unreal Engine</strong> 아이콘이 상단에 있습니다. (오렌지색 로고)</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><strong>Unreal Engine 5.7</strong> 옆의 <strong>Launch</strong> 버튼을 클릭하세요. → 런처가 사라지고 잠시 후 <strong>프로젝트 브라우저</strong> 창이 열립니다. 이 창에서 프로젝트를 만들어야 에디터가 열립니다.</li>
+</ol></li>
+</ul>
+<figure class="lecture-figure figure-missing">
+<div class="missing-label">
+이미지 준비 중
+</div>
+<figcaption>
+ue-project-browser.png
+</figcaption>
+</figure>
+<p><strong>프로젝트 브라우저 화면 구성</strong> — 창이 열리면 3개 영역으로 나뉘어 있습니다.</p>
+<ul>
+<li><strong>왼쪽</strong> — 카테고리 탭: Games, Film, Architecture 등</li>
+<li><strong>가운데</strong> — 템플릿 그리드: 각 템플릿이 썸네일 카드로 나열</li>
+<li><strong>오른쪽</strong> — 설정 항목들: Blueprint/C++, 품질, Starter Content 등</li>
+<li><strong>오른쪽 하단</strong> — 프로젝트 이름 칸 + 저장 경로 칸 + [Create] 버튼</li>
+</ul>
+<p><strong>설정표:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>UI 위치</th>
+<th>설정값</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목">카테고리</td>
+<td data-label="UI 위치">좌측 탭</td>
+<td data-label="설정값">Games</td>
+<td data-label="이유">시네마틱도 Games 템플릿이 편함</td>
+</tr>
+<tr>
+<td data-label="항목">템플릿</td>
+<td data-label="UI 위치">중앙 그리드</td>
+<td data-label="설정값"><strong>Third Person</strong></td>
+<td data-label="이유">기본 캐릭터 포함, 씬 확인에 편리</td>
+</tr>
+<tr>
+<td data-label="항목">Blueprint vs C++</td>
+<td data-label="UI 위치">우측 설정</td>
+<td data-label="설정값"><strong>Blueprint</strong></td>
+<td data-label="이유">코드 없이 시작</td>
+</tr>
+<tr>
+<td data-label="항목">Target Platform</td>
+<td data-label="UI 위치">우측 설정</td>
+<td data-label="설정값">Desktop</td>
+<td data-label="이유">기본값 유지</td>
+</tr>
+<tr>
+<td data-label="항목">Quality Preset</td>
+<td data-label="UI 위치">우측 설정</td>
+<td data-label="설정값">Maximum</td>
+<td data-label="이유">서버 사양 활용</td>
+</tr>
+<tr>
+<td data-label="항목">Starter Content</td>
+<td data-label="UI 위치">우측 설정</td>
+<td data-label="설정값"><strong>체크</strong></td>
+<td data-label="이유">기본 에셋 포함 — 필수</td>
+</tr>
+<tr>
+<td data-label="항목">Project Name</td>
+<td data-label="UI 위치">우측 하단 이름 칸</td>
+<td data-label="설정값"><strong>영문, 의미있는 이름</strong></td>
+<td data-label="이유">한글·공백·특수문자 금지</td>
+</tr>
+<tr>
+<td data-label="항목">Project Location</td>
+<td data-label="UI 위치">우측 하단 경로 칸</td>
+<td data-label="설정값">지정된 서버 경로</td>
+<td data-label="이유">수업 시작 전 안내된 경로</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title"><span>이름 규칙</span></div>
+<div class="callout-body">
+<p><code>GameEngineII_Week02</code> 처럼 영문 + 언더바만 사용하세요. 한글, 공백, 특수문자를 넣으면 오류가 발생합니다.</p>
+</div>
+</div>
+<p>[Create] 를 클릭하면 에디터 로딩이 시작됩니다. 처음 실행할 때는 로딩에 시간이 걸릴 수 있습니다. 에디터가 열리면 바로 환경 설정을 진행합니다.</p>
+<hr />
+<h2 id="환경-설정-에디터-열린-후-진행">환경 설정 — 에디터 열린 후 진행</h2>
+<p>에디터가 열렸으면 이제 설정할 수 있습니다. <code>Edit → Editor Preferences</code> 는 에디터 메뉴라서 프로젝트 없이는 접근할 수 없습니다. 그래서 프로젝트를 먼저 만든 것입니다.</p>
+<h3 id="설정-1-에디터-언어를-영어로">설정 1 — 에디터 언어를 영어로</h3>
+<p><strong>작업 2 — 에디터 언어 변경</strong></p>
+<ul>
+<li><ol type="1">
+<li>에디터 화면 최상단의 메뉴바를 보세요. → 왼쪽부터 [File] [Edit] [Window] [Tools] [Build] [Help] 순서입니다. 메뉴가 한글로 보이면 [편집] [창] 등으로 표시됩니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>[Edit]</strong> (또는 [편집]) 을 클릭하세요. → 드롭다운 메뉴가 아래로 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>드롭다운 맨 아래쪽의 <strong>[Editor Preferences…]</strong> (또는 [에디터 환경설정…]) 을 클릭하세요. → 별도의 큰 설정 창이 새로 열립니다. (탭이 아니라 독립 창)</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>설정 창 왼쪽 패널에서 <strong>[General] → [Region &amp; Language]</strong> 를 클릭하세요. → 또는 설정 창 상단 검색창에 “language” 라고 타이핑하면 바로 찾아줍니다.</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li>오른쪽 영역에서 <strong>[Editor Language]</strong> 항목을 찾으세요. → 드롭다운 박스를 클릭하면 언어 목록이 펼쳐집니다. <strong>[English]</strong> 를 선택하세요.</li>
+</ol></li>
+<li><ol start="6" type="1">
+<li>“에디터를 재시작해야 적용됩니다” 알림이 뜨면 <strong>[Restart Now]</strong> 를 클릭하세요. → 에디터가 닫혔다가 다시 열립니다. 프로젝트도 자동으로 다시 열립니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>재시작 후 셰이더 컴파일은 이어서 진행됩니다.</p>
+</div>
+</div>
+<h3 id="설정-2-ue4-classic-layout">설정 2 — UE4 Classic Layout</h3>
+<p><strong>작업 3 — UE4 Classic Layout 적용</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단 메뉴바에서 <strong>[Window]</strong> 를 클릭하세요. → 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>드롭다운을 아래로 쭉 내려 맨 아래쪽의 <strong>[Load Layout]</strong> 항목에 마우스를 올리세요. → 오른쪽으로 서브메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>서브메뉴에서 <strong>[UE4 Classic Layout]</strong> 을 클릭하세요. → 패널 배치가 즉시 바뀝니다: Viewport = 화면 가운데(가장 넓음), Outliner = 오른쪽 상단, Details = 오른쪽 하단, Content Browser = 화면 하단 고정. 이 레이아웃으로 수업을 진행합니다.</li>
+</ol></li>
+</ul>
+<h3 id="흔한-문제-프로젝트-생성-환경-설정">흔한 문제 — 프로젝트 생성 &amp; 환경 설정</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">프로젝트 생성 오류</td>
+<td data-label="원인">이름에 한글·공백 포함</td>
+<td data-label="해결">영문+언더바만 사용해 새로 생성</td>
+</tr>
+<tr>
+<td data-label="증상">셰이더 컴파일이 너무 오래 걸림</td>
+<td data-label="원인">서버 사양·첫 실행</td>
+<td data-label="해결">정상입니다. 처음 실행 시 한 번만 길게 걸립니다</td>
+</tr>
+<tr>
+<td data-label="증상">Content Browser 안 보임</td>
+<td data-label="원인">UE4 레이아웃 미적용</td>
+<td data-label="해결"><code>Window → Load Layout → UE4 Classic Layout</code></td>
+</tr>
+<tr>
+<td data-label="증상">한글로 표시됨</td>
+<td data-label="원인">재시작 안 함</td>
+<td data-label="해결">에디터 재시작</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="핵심-개념-1-에디터-5대-패널">핵심 개념 1 — 에디터 5대 패널</h2>
+<h3 id="unity-unreal-빠른-매핑">Unity → Unreal 빠른 매핑</h3>
+<p>게임엔진 I에서 Unity를 모두 배우고 왔습니다. 아래 매핑표를 보면 이름만 다를 뿐 구조는 동일합니다. 오늘 수업은 이 매핑을 머릿속에 굳히는 시간입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Unity</th>
+<th>→</th>
+<th>Unreal Engine 5.7</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="Unity">Scene View</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Viewport</strong></td>
+</tr>
+<tr>
+<td data-label="Unity">Hierarchy</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Outliner</strong></td>
+</tr>
+<tr>
+<td data-label="Unity">Inspector</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Details Panel</strong></td>
+</tr>
+<tr>
+<td data-label="Unity">Project 창</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Content Browser</strong></td>
+</tr>
+<tr>
+<td data-label="Unity">상단 메뉴/버튼</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Main Toolbar</strong></td>
+</tr>
+<tr>
+<td data-label="Unity">GameObject</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Actor</strong></td>
+</tr>
+<tr>
+<td data-label="Unity">Component</td>
+<td data-label="→"></td>
+<td data-label="Unreal Engine 5.7"><strong>Component</strong> <em>(동일)</em></td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/ue-ue4-classic-layout.png" alt="ue ue4 classic layout">
+<figcaption>
+ue ue4 classic layout
+</figcaption>
+</figure>
+<hr />
+<h3 id="viewport-3d-작업-공간">1. Viewport — 3D 작업 공간</h3>
+<blockquote class="quote-note">
+<p><strong>위치</strong>: 화면 중앙, 가장 큰 영역 <strong>역할</strong>: 에디터 카메라로 씬을 바라보는 창</p>
+</blockquote>
+<div class="callout callout-warning">
+<div class="callout-title"><span>에디터 카메라 ≠ 게임 카메라</span></div>
+<div class="callout-body">
+<p>Viewport는 <strong>에디터 전용 카메라</strong>입니다. Play를 누르면 씬에 배치된 PlayerStart 위치의 <strong>게임 카메라</strong>로 전환됩니다. 둘은 다릅니다.</p>
+</div>
+</div>
+<figure class="lecture-figure figure-missing">
+<div class="missing-label">
+이미지 준비 중
+</div>
+<figcaption>
+ue-viewport-toolbar.png
+</figcaption>
+</figure>
+<p><strong>Viewport 상단 툴바</strong> — 왼쪽 상단 모서리에 드롭다운 버튼이 나열되어 있습니다: <code>[Perspective ▼]  [Lit ▼]  [Show ▼]</code></p>
+<ul>
+<li><strong>[Perspective]</strong> — 클릭하면 Top / Front / Right / Side 등 직교 뷰로 전환 가능. 오늘은 Perspective(원근) 그대로 둡니다.</li>
+<li><strong>[Lit]</strong> — 조명 표시 모드 변경 (Unlit, Wireframe 등). 기본값 Lit = 조명이 적용된 상태. 그대로 둡니다.</li>
+<li><strong>[Show]</strong> — 그리드·콜리전·네비메시 등 시각화 요소를 켜고 끌 수 있습니다. 지금은 건드리지 않습니다.</li>
+</ul>
+<hr />
+<h3 id="outliner-씬의-목차">2. Outliner — 씬의 목차</h3>
+<blockquote class="quote-note">
+<p><strong>위치</strong>: 화면 우측 상단 <strong>역할</strong>: 현재 씬(레벨)에 배치된 <strong>모든 액터의 목록</strong>. “무대 위 배우 명단”</p>
+</blockquote>
+<figure class="lecture-figure figure-missing">
+<div class="missing-label">
+이미지 준비 중
+</div>
+<figcaption>
+ue-outliner-panel.png
+</figcaption>
+</figure>
+<p><strong>Outliner 패널 구성</strong> — 화면 오른쪽 상단의 세로로 긴 패널입니다.</p>
+<ul>
+<li><strong>[상단]</strong> 돋보기 아이콘이 있는 검색창 — 오브젝트 이름을 타이핑하면 실시간 필터링. 오브젝트가 많아졌을 때 빠르게 찾을 수 있습니다.</li>
+<li><strong>[중앙]</strong> 오브젝트 이름 목록 (세로 나열) — 각 행에 이름이 적혀 있고, 이름 왼쪽에 타입 아이콘 표시.</li>
+<li><strong>[각 행 오른쪽 끝]</strong> 눈 아이콘 () — 클릭하면 Viewport에서 해당 오브젝트 숨기기/보이기 전환.</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>핵심 포인트</span></div>
+<div class="callout-body">
+<p>오브젝트 이름을 더블클릭하면 Viewport 카메라가 해당 오브젝트로 자동 이동합니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="details-panel-속성-편집기">3. Details Panel — 속성 편집기</h3>
+<blockquote class="quote-note">
+<p><strong>위치</strong>: 화면 우측 하단 (Outliner 아래) <strong>역할</strong>: 선택한 액터의 <strong>모든 속성</strong> 표시·편집. Unity의 Inspector와 동일.</p>
+</blockquote>
+<figure class="lecture-figure figure-missing">
+<div class="missing-label">
+이미지 준비 중
+</div>
+<figcaption>
+ue-details-panel.png
+</figcaption>
+</figure>
+<p><strong>Details Panel 구성</strong> — Outliner 바로 아래, 화면 오른쪽 하단에 있습니다.</p>
+<ul>
+<li><strong>[맨 위]</strong> 선택된 액터 이름이 텍스트 칸에 표시됨 — 클릭해서 이름 변경 가능.</li>
+<li><strong>[Transform 섹션]</strong> 항상 최상단 근처에 고정 — Location(위치) / Rotation(회전 각도) / Scale(크기) 각각 X, Y, Z 숫자 칸 3개. 각 칸을 클릭하면 직접 입력 가능.</li>
+<li><strong>[아래로 스크롤]</strong> 액터 타입에 따라 달라지는 속성들 — Static Mesh, Materials, Collision 등. 나중에 필요할 때 다룹니다.</li>
+</ul>
+<div class="callout callout-warning">
+<div class="callout-title"><span>주의사항</span></div>
+<div class="callout-body">
+<p>Viewport에서 아무것도 선택하지 않으면 Details Panel이 비어 있습니다. 오브젝트를 클릭해야 속성이 표시됩니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="content-browser-에셋-창고">4. Content Browser — 에셋 창고</h3>
+<blockquote class="quote-note">
+<p><strong>위치</strong>: 화면 하단 <strong>역할</strong>: 프로젝트 내 <strong>모든 에셋 파일 관리</strong>. 3D 모델, 텍스처, 머티리얼, 블루프린트, 레벨 파일.</p>
+</blockquote>
+<figure class="lecture-figure figure-missing">
+<div class="missing-label">
+이미지 준비 중
+</div>
+<figcaption>
+ue-content-browser.png
+</figcaption>
+</figure>
+<p><strong>Content Browser 구성</strong> — 화면 하단에 가로로 넓게 펼쳐진 패널입니다.</p>
+<ul>
+<li><strong>[왼쪽 영역]</strong> 폴더 트리 — Content, Engine 등 폴더가 계층 구조로 나열. &gt; 화살표를 클릭하면 하위 폴더가 펼쳐지고, 폴더를 클릭하면 오른쪽에 내용물이 표시됨.</li>
+<li><strong>[오른쪽 영역]</strong> 에셋 그리드 — 선택한 폴더 안의 에셋이 썸네일 카드로 나열. 각 썸네일 아래에 이름이 적혀 있습니다.</li>
+<li><strong>[상단]</strong> 돋보기 아이콘이 있는 검색창 — 에셋 이름을 타이핑하면 실시간 필터링.</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>Content Browser가 안 보일 때</span></div>
+<div class="callout-body">
+<p>화면 왼쪽 하단 구석의 [Content Drawer] 버튼을 클릭하거나, 상단 메뉴 [Window] → [Content Browser] → [Content Browser 1] 을 선택합니다.</p>
+</div>
+</div>
+<p><strong>핵심 — Content Browser ≠ Outliner</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>Content Browser</th>
+<th>Outliner</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label=""><strong>비유</strong></td>
+<td data-label="Content Browser"><strong>창고</strong></td>
+<td data-label="Outliner"><strong>무대</strong></td>
+</tr>
+<tr>
+<td data-label=""><strong>내용</strong></td>
+<td data-label="Content Browser">디스크에 저장된 에셋 파일</td>
+<td data-label="Outliner">현재 레벨에 배치된 액터</td>
+</tr>
+<tr>
+<td data-label=""><strong>범위</strong></td>
+<td data-label="Content Browser">씬에 없는 에셋도 포함</td>
+<td data-label="Outliner">지금 씬에 있는 것만</td>
+</tr>
+</tbody>
+</table></div>
+<p>창고에서 꺼내 무대에 올려야 Outliner에 나타납니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title"><span>주의사항</span></div>
+<div class="callout-body">
+<p>탐색기(Explorer)에서 직접 파일 이동·삭제는 금지입니다. <strong>참조가 깨집니다.</strong> 반드시 <strong>Content Browser 안에서만</strong> 조작하세요.</p>
+</div>
+</div>
+<hr />
+<h3 id="main-toolbar-주요-기능-접근점">5. Main Toolbar — 주요 기능 접근점</h3>
+<blockquote class="quote-note">
+<p><strong>위치</strong>: 화면 최상단, 메뉴바 바로 아래</p>
+</blockquote>
+<p>위치만 파악하고 넘어갑니다. 자세한 내용은 사용하면서 익힙니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>버튼</th>
+<th>기능</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="버튼"><code>&gt;</code> Play</td>
+<td data-label="기능">에디터 내 게임 실행</td>
+</tr>
+<tr>
+<td data-label="버튼">저장</td>
+<td data-label="기능">레벨 저장 (<code>Ctrl+S</code> 권장)</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="중간-요약">중간 요약</h3>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>에디터 5대 패널 요약</span></div>
+<div class="callout-body">
+<ol type="1">
+<li><strong>Viewport</strong> — 화면 중앙, 에디터 카메라 창</li>
+<li><strong>Outliner</strong> — 우측 상단, 무대 위 배우 명단</li>
+<li><strong>Details Panel</strong> — 우측 하단, 선택한 액터 속성 편집</li>
+<li><strong>Content Browser</strong> — 하단, 에셋 창고</li>
+<li><strong>Main Toolbar</strong> — 최상단, Play·저장 버튼</li>
+</ol>
+</div>
+</div>
+<hr />
+<h2 id="핵심-개념-2-실제-에디터에서-패널-확인">핵심 개념 2 — 실제 에디터에서 패널 확인</h2>
+<p>방금 슬라이드로 본 패널들이 지금 여러분 화면에 모두 있습니다. 함께 찾아봅니다.</p>
+<h3 id="outliner-details-panel-연동-확인">Outliner /︎ Details Panel 연동 확인</h3>
+<p><strong>작업 4 — Outliner 클릭 → Details 변화 확인</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 오른쪽 상단 Outliner 패널에서 오브젝트 목록의 <strong>[Floor]</strong> 를 찾아 한 번 클릭하세요. → (없으면 검색창에 “floor” 타이핑)</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>클릭하는 순간 두 곳에서 변화가 생깁니다. → Viewport(화면 가운데): Floor 오브젝트에 주황색 테두리가 나타남 / Details Panel(오른쪽 하단): Floor의 속성이 표시됨 — 맨 위에 “Floor” 이름, Transform 섹션에 Location / Rotation / Scale 숫자</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>이번에는 Outliner에서 <strong>[SkySphere]</strong> 를 클릭해보세요. → Details Panel의 내용이 완전히 달라집니다. 선택한 오브젝트에 따라 Details가 달라집니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>Outliner에서 Floor를 클릭했을 때 어디에 반영되었나요? → 뷰포트에서 선택 표시 + Details에 속성 표시</p>
+</div>
+</div>
+<h3 id="content-browser-vs-outliner-직접-비교">Content Browser vs Outliner 직접 비교</h3>
+<p><strong>작업 5 — 창고와 무대 비교</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 하단 Content Browser에서 왼쪽 폴더 트리 <strong>[Content] → &gt; → [StarterContent] → &gt; → [Props]</strong> 폴더를 클릭하세요. → 오른쪽 에셋 그리드에 SM_Chair, SM_TableRound 같은 에셋 썸네일이 보입니다. (씬에 배치 전 상태 = 창고)</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>이제 화면 오른쪽 상단 Outliner를 보세요. → 방금 본 SM_Chair, SM_TableRound 가 Outliner 목록에는 없습니다. 창고에 있어도 무대에 올리기 전에는 Outliner에 나타나지 않습니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>Content Browser에서 에셋을 찾았는데 Outliner에 없습니다. 왜일까요? → 씬에 배치(드래그 앤 드롭)하지 않았기 때문입니다. 2교시에서 실제로 해봅니다.</p>
+</div>
+</div>
+<h3 id="패널-복구-연습">패널 복구 연습</h3>
+<p>실습하다 보면 패널을 실수로 닫는 경우가 꼭 생깁니다. 지금 연습해봅니다.</p>
+<p><strong>작업 6 — 패널 닫기 → 복구</strong></p>
+<ul>
+<li><ol type="1">
+<li>Outliner 패널의 오른쪽 상단 모서리에 있는 작은 <strong>[X]</strong> 버튼을 클릭하세요. → Outliner 패널이 사라집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>화면 최상단 메뉴바에서 <strong>[Window]</strong> 를 클릭하세요. → 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>드롭다운에서 <strong>[Outliner]</strong> 에 마우스를 올려 서브메뉴를 펼치고 <strong>[Outliner 1]</strong> 을 클릭하세요. → Outliner 패널이 다시 나타납니다.</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li><strong>최후 수단 — 레이아웃 완전 초기화</strong>: 패널 배치가 너무 엉켜버렸다면 <strong>[Window] → [Load Layout] → [UE4 Classic Layout]</strong> 을 클릭하세요. → 모든 패널이 처음 상태로 돌아갑니다.</li>
+</ol></li>
+</ul>
+<hr />
+<h2 id="핵심-개념-3-프로젝트-폴더-구조-에셋-이름-규칙">핵심 개념 3 — 프로젝트 폴더 구조 &amp; 에셋 이름 규칙</h2>
+<h3 id="프로젝트-폴더-구조">프로젝트 폴더 구조</h3>
+<p>지금 만든 프로젝트의 폴더 구조를 Content Browser에서 확인해봅니다.</p>
+<p><strong>작업 7 — Content Browser에서 폴더 구조 확인</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 하단 Content Browser 패널을 보세요.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>왼쪽 폴더 트리에서 맨 위의 <strong>[Content]</strong> 폴더를 찾아 왼쪽 &gt; 화살표를 클릭하세요. → 하위 폴더가 펼쳐집니다. <strong>[StarterContent]</strong> 폴더가 보이면 프로젝트 생성 때 Starter Content를 제대로 체크한 것입니다.</li>
+</ol></li>
+</ul>
+<pre><code>MyProject/
+├── Content/         ← 에셋 (주로 여기서 작업)
+│   └── StarterContent/
+├── Config/          ← 프로젝트 설정 파일
+├── Saved/           ← 자동저장·로그·캐시 (건드리지 마세요)
+├── Source/          ← C++ 코드 (Blueprint 프로젝트엔 비어있음)
+└── MyProject.uproject  ← 더블클릭하면 언리얼 실행</code></pre>
+<div class="callout callout-warning">
+<div class="callout-title"><span>주의사항</span></div>
+<div class="callout-body">
+<p>탐색기에서 Content 폴더 안 파일을 직접 이동·삭제하지 마세요. 반드시 <strong>Content Browser 안에서만</strong> 조작합니다.</p>
+</div>
+</div>
+<p><strong>작업 8 — 학기 프로젝트 권장 폴더 생성</strong></p>
+<ul>
+<li><ol type="1">
+<li>Content Browser 왼쪽 폴더 트리에서 <strong>[Content]</strong> 폴더를 클릭하세요. → 오른쪽 에셋 그리드에 Content 폴더의 내용물이 표시됩니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>오른쪽 에셋 그리드의 빈 공간에서 마우스 오른쪽 버튼을 클릭하세요. → 팝업 메뉴가 나타납니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>팝업 메뉴에서 <strong>[New Folder]</strong> 를 클릭하고, 이름을 타이핑한 뒤 Enter를 누르세요. → 아래 4개 폴더를 만드세요.</li>
+</ol></li>
+</ul>
+<pre><code>Content/
+├── Maps/          ← 레벨 파일 (.umap)
+├── Props/         ← 소품 (3D 모델)
+├── Materials/     ← 머티리얼
+└── Blueprints/    ← 블루프린트</code></pre>
+<hr />
+<h3 id="에셋-이름-규칙">에셋 이름 규칙</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>접두어</th>
+<th>에셋 타입</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="접두어"><code>SM_</code></td>
+<td data-label="에셋 타입">Static Mesh (3D 모델)</td>
+<td data-label="예시"><code>SM_Chair_01</code></td>
+</tr>
+<tr>
+<td data-label="접두어"><code>T_</code></td>
+<td data-label="에셋 타입">Texture (텍스처)</td>
+<td data-label="예시"><code>T_Wood_Diffuse</code></td>
+</tr>
+<tr>
+<td data-label="접두어"><code>M_</code></td>
+<td data-label="에셋 타입">Material (머티리얼)</td>
+<td data-label="예시"><code>M_Metal_Shiny</code></td>
+</tr>
+<tr>
+<td data-label="접두어"><code>BP_</code></td>
+<td data-label="에셋 타입">Blueprint</td>
+<td data-label="예시"><code>BP_PlayerController</code></td>
+</tr>
+<tr>
+<td data-label="접두어"><code>A_</code></td>
+<td data-label="에셋 타입">Audio</td>
+<td data-label="예시"><code>A_Footstep_Grass</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title"><span>이름 짓기 주의</span></div>
+<div class="callout-body">
+<ul>
+<li>나쁜 이름: <code>Object (1)</code>, <code>Cube22</code>, <code>내가만든벽</code></li>
+<li>좋은 이름: <code>SM_Wall_North_01</code>, <code>SM_Floor_Main</code></li>
+</ul>
+</div>
+</div>
+<p><strong>작업 9 — Content Browser에서 에셋 이름 변경</strong></p>
+<ul>
+<li><ol type="1">
+<li><strong>우클릭 방법</strong> — 에셋 그리드에서 썸네일을 마우스 오른쪽 버튼으로 클릭 → 팝업 메뉴에서 <strong>[Rename]</strong> → 이름이 편집 가능해짐 → 새 이름 타이핑 → Enter.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><strong>단축키 방법 (더 빠름)</strong> — 에셋을 한 번 클릭하여 선택 → <strong>F2</strong> 키 → 바로 이름 편집 모드로 전환 → 새 이름 타이핑 → Enter.</li>
+</ol></li>
+</ul>
+<div class="callout callout-question">
+<div class="callout-title"><span>확인 질문</span></div>
+<div class="callout-body">
+<p>의자 3D 모델 에셋 이름을 규칙대로 짓는다면? → <code>SM_Chair_01</code></p>
+</div>
+</div>
+<hr />
+<h3 id="첫-레벨-저장">첫 레벨 저장</h3>
+<p>지금 만든 씬을 Maps 폴더에 저장해봅니다.</p>
+<p><strong>작업 10 — 레벨 저장</strong></p>
+<ul>
+<li><ol type="1">
+<li>화면 최상단 메뉴바에서 맨 왼쪽의 <strong>[File]</strong> 을 클릭하세요. → 드롭다운 메뉴가 펼쳐집니다.</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li>드롭다운에서 <strong>[Save Current Level As…]</strong> 를 클릭하세요. → 저장 다이얼로그 창이 열립니다.</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li>다이얼로그 왼쪽에서 아까 만든 <strong>[Maps]</strong> 폴더를 찾아 클릭하세요. (Content → Maps)</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>하단 파일 이름 칸에 <strong>“Week02_Scene”</strong> 을 입력하세요. (영문+언더바만)</li>
+</ol></li>
+<li><ol start="5" type="1">
+<li><strong>[Save]</strong> 버튼을 클릭하세요. → 레벨이 Maps 폴더에 저장됩니다. Content Browser에서 Maps 폴더를 열면 “Week02_Scene” 파일이 보입니다.</li>
+</ol></li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title"><span>저장 단축키</span></div>
+<div class="callout-body">
+<ul>
+<li><code>Ctrl+Shift+S</code> = 다른 이름으로 저장</li>
+<li><code>Ctrl+S</code> = 덮어쓰기 저장</li>
+</ul>
+<p>이제부터 <code>Ctrl+S</code> 저장을 습관으로 만드세요. 언리얼은 자동저장이 느립니다.</p>
+</div>
+</div>
+<hr />
+<h2 id="핵심-개념-4-뷰포트-내비게이션">핵심 개념 4 — 뷰포트 내비게이션</h2>
+<h3 id="기본-단축키">기본 단축키</h3>
+<div class="callout callout-info">
+<div class="callout-title"><span>참고</span></div>
+<div class="callout-body">
+<p>먼저 Viewport 안쪽을 마우스로 클릭해서 포커스를 주어야 합니다. 다른 패널 클릭 상태에서는 WASD가 작동하지 않습니다.</p>
+</div>
+</div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>동작</th>
+<th>단축키</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="동작">카메라 회전</td>
+<td data-label="단축키"><code>RMB</code> + 드래그</td>
+</tr>
+<tr>
+<td data-label="동작">FPS식 이동 (앞뒤좌우)</td>
+<td data-label="단축키"><code>RMB</code> + <code>W A S D</code></td>
+</tr>
+<tr>
+<td data-label="동작">위/아래 이동</td>
+<td data-label="단축키"><code>RMB</code> + <code>Q</code> / <code>E</code></td>
+</tr>
+<tr>
+<td data-label="동작"><strong>이동 속도 조절</strong></td>
+<td data-label="단축키"><code>RMB</code> 누른 채 마우스 휠</td>
+</tr>
+<tr>
+<td data-label="동작">선택 오브젝트 포커스</td>
+<td data-label="단축키"><code>F</code></td>
+</tr>
+<tr>
+<td data-label="동작">게임 뷰 토글</td>
+<td data-label="단축키"><code>G</code></td>
+</tr>
+<tr>
+<td data-label="동작">오빗</td>
+<td data-label="단축키"><code>Alt</code> + <code>LMB</code> 드래그</td>
+</tr>
+<tr>
+<td data-label="동작">줌</td>
+<td data-label="단축키">마우스 휠</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title"><span>팁</span></div>
+<div class="callout-body">
+<ul>
+<li>이동이 느리면 <code>RMB</code> + 휠 위로 — 속도가 올라갑니다.</li>
+<li>오브젝트를 못 찾겠으면 Outliner에서 클릭 → <code>F</code> 키로 포커스합니다.</li>
+</ul>
+</div>
+</div>
+<h3 id="즉석-실습">즉석 실습</h3>
+<p>지금 바로 해봅니다.</p>
+<ul>
+<li><ol type="1">
+<li>Viewport 안쪽 클릭 (포커스)</li>
+</ol></li>
+<li><ol start="2" type="1">
+<li><code>RMB</code> 누르면서 <code>WASD</code>로 이동</li>
+</ol></li>
+<li><ol start="3" type="1">
+<li><code>RMB</code> 누른 채 휠 올려서 속도 올리기</li>
+</ol></li>
+<li><ol start="4" type="1">
+<li>Outliner에서 <code>Floor</code> 클릭 → <code>F</code>로 포커스</li>
+</ol></li>
+</ul>
+<hr />
+<h3 id="스냅-게임-뷰">스냅 + 게임 뷰</h3>
+<figure class="lecture-figure figure-missing">
+<div class="missing-label">
+이미지 준비 중
+</div>
+<figcaption>
+ue-navigation-snap.png
+</figcaption>
+</figure>
+<p><strong>스냅 아이콘</strong> — Viewport 오른쪽 상단 모서리 근처, 이동/회전/스케일 아이콘보다 더 오른쪽에 격자 모양 아이콘 3개가 나란히 있습니다. 각각 옆에 숫자가 적혀 있습니다: <code>[격자 | 10]</code> 이동 스냅 / <code>[원호 | 10.0]</code> 회전 스냅 / <code>[네모 | 0.25]</code> 스케일 스냅.</p>
+<ul>
+<li><strong>아이콘 자체를 클릭</strong> = 스냅 켜기/끄기 전환 (파란색 = 켜짐, 회색 = 꺼짐)</li>
+<li><strong>아이콘 옆 숫자를 클릭</strong> = 드롭다운에서 스냅 단위 변경 (이동: 1, 5, 10, 50, 100 cm / 회전: 5, 10, 15, 45, 90도)</li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title"><span>스냅이란?</span></div>
+<div class="callout-body">
+<p>오브젝트가 뚝뚝 끊겨 이동하는 것이 Snap입니다. 정밀 배치에는 켜고, 자유 배치에는 끄세요.</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title"><span>게임 뷰</span></div>
+<div class="callout-body">
+<p><code>G</code> 키를 누르면 기즈모·격자가 사라지고 순수 씬만 표시됩니다. 다시 <code>G</code>를 누르면 원래대로 돌아갑니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-패널-폴더-뷰포트">흔한 문제 — 패널 · 폴더 · 뷰포트</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증상</th>
+<th>원인</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="증상">패널이 사라짐</td>
+<td data-label="원인">실수로 닫음</td>
+<td data-label="해결"><code>Window</code> 메뉴에서 해당 패널 다시 열기</td>
+</tr>
+<tr>
+<td data-label="증상">뷰포트 이동 안 됨</td>
+<td data-label="원인">포커스 없음</td>
+<td data-label="해결">Viewport 안쪽 클릭 후 시도</td>
+</tr>
+<tr>
+<td data-label="증상">레벨 저장이 안 됨</td>
+<td data-label="원인">저장 경로 권한 없음</td>
+<td data-label="해결">서버 경로 쓰기 권한 확인</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title"><span>1교시 한 줄 요약</span></div>
+<div class="callout-body">
+<p>언리얼 에디터는 5대 패널(Viewport / Outliner / Details Panel / Content Browser / Main Toolbar)로 구성되며, 핵심은 <strong>Content Browser(창고) ≠ Outliner(무대)</strong> 의 구분이다.</p>
+</div>
+</div>
+<p><strong>핵심 정리:</strong></p>
+<ol type="1">
+<li><strong>Viewport</strong> = 에디터 카메라 창 (화면 중앙, 게임 카메라와 다름)</li>
+<li><strong>Outliner</strong> = 무대 위 배우 명단 (화면 우측 상단)</li>
+<li><strong>Details Panel</strong> = 선택한 액터 속성 편집 (화면 우측 하단)</li>
+<li><strong>Content Browser</strong> = 에셋 창고 (화면 하단, 씬에 없는 것도 있음)</li>
+<li><strong>뷰포트 이동</strong> = <code>RMB + WASD</code>, 속도는 <code>RMB + 휠</code></li>
+</ol>
+<hr />
+<h2 id="다음-시간-예고">다음 시간 예고</h2>
+<p>2교시로 가기 전에 퀴즈 하나입니다.</p>
+<p><strong>큐브를 45도 회전시킨 뒤 “앞으로 이동”하면 어느 방향으로 갈까요?</strong> 세계 기준으로 갈까요, 아니면 큐브가 바라보는 방향으로 갈까요?</p>
+<p>이것이 <strong>글로벌 좌표계 vs 로컬 좌표계</strong>입니다. 2교시에서 눈으로 직접 확인합니다.</p>
+<hr />
+<h2 id="참고-자료">참고 자료</h2>
+<div class="callout callout-info">
+<div class="callout-title"><span>참고 링크</span></div>
+<div class="callout-body">
+<ul>
+<li><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-editor-interface" target="_blank" rel="noopener noreferrer">언리얼 공식 문서 — Editor Interface</a></li>
+<li><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/viewport-controls-in-unreal-engine" target="_blank" rel="noopener noreferrer">언리얼 공식 문서 — Viewport Controls</a></li>
+<li>단축키 치트시트 PDF (강사 배포)</li>
+<li>Unity-Unreal 비교표 (강사 배포)</li>
+</ul>
+</div>
+</div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#관련-문서">관련 문서</a></li><li><a href="#도입-언리얼-첫-실행">도입 — 언리얼 첫 실행</a></li><li><a href="#프로젝트-생성">프로젝트 생성</a></li><li><a href="#환경-설정-에디터-열린-후-진행">환경 설정 — 에디터 열린 후 진행</a></li><li><a href="#핵심-개념-1-에디터-5대-패널">핵심 개념 1 — 에디터 5대 패널</a></li><li><a href="#핵심-개념-2-실제-에디터에서-패널-확인">핵심 개념 2 — 실제 에디터에서 패널 확인</a></li><li><a href="#핵심-개념-3-프로젝트-폴더-구조-에셋-이름-규칙">핵심 개념 3 — 프로젝트 폴더 구조 &amp;amp; 에셋 이름 규칙</a></li><li><a href="#핵심-개념-4-뷰포트-내비게이션">핵심 개념 4 — 뷰포트 내비게이션</a></li><li><a href="#핵심-요약">핵심 요약</a></li><li><a href="#다음-시간-예고">다음 시간 예고</a></li><li><a href="#참고-자료">참고 자료</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>
