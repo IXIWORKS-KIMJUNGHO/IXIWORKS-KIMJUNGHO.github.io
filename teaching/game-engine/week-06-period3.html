@@ -1,0 +1,937 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6주차 3교시 — 실습: 시네마틱 레벨 구성</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 06 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Cinematic Level Practice</p>
+        <h1>6주차 3교시 — 실습: 시네마틱 레벨 구성</h1>
+        <p class="lead">컨셉, 블록아웃, 에셋 교체 순서로 카메라 한 대 기준의 시네마틱 환경 레벨을 제작하는 실습 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 06</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">PRACTICE</span>
+          <span class="hero-chip">CINEMATIC LEVEL</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">6주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">3교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">실습: 시네마틱 레벨 구성</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="game-engine-ii-6주차-3교시-실습-시네마틱-레벨-구성-학생용">Game Engine II - 6주차 3교시: 실습 — 시네마틱 레벨 구성 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">1교시</td>
+<td data-label="문서">콜리전과 시네마틱 컨셉 개발</td>
+</tr>
+<tr>
+<td data-label="관계">2교시</td>
+<td data-label="문서">레벨 디자인 원칙과 Modeling Mode 블록아웃</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title">
+<span>실습 과제</span>
+</div>
+<div class="callout-body">
+<p><strong>카메라 1대로 촬영할 시네마틱 환경 레벨 1개</strong>를 제작합니다. 컨셉 → 블록아웃 → 에셋 교체 순서로 진행합니다.</p>
+</div>
+</div>
+<hr />
+<h2 id="실습-제약-조건">실습 제약 조건</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>조건</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목"><strong>레벨 크기</strong></td>
+<td data-label="조건">카메라가 바라보는 <strong>한 방향만</strong>. 가로 50m × 세로 30m 정도</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>카메라</strong></td>
+<td data-label="조건">1대. 이 카메라에 보이는 곳만 만들면 됩니다</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>에셋 수</strong></td>
+<td data-label="조건">5~10종. 같은 에셋을 크기/회전 바꿔서 반복 배치 가능</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>제출물</strong></td>
+<td data-label="조건">프로젝트 파일 + 뷰포트 스크린샷 3장 (카메라 앵글 1장 포함)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>영화 세트장처럼 만드세요</span>
+</div>
+<div class="callout-body">
+<p>360도 전체 공간을 제작할 필요는 없습니다. <strong>카메라에 보이는 범위</strong>를 우선 제작합니다. 뒤쪽 영역은 비워두어도 문제 없습니다.</p>
+</div>
+</div>
+<hr />
+<h2 id="테마-선택">테마 선택</h2>
+<p>컨셉이 안 떠오르면 아래에서 고르세요. 자유 주제도 가능합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>테마</th>
+<th>어디</th>
+<th>언제</th>
+<th>느낌</th>
+<th>핵심 구조</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="테마"><strong>A. 사막 협곡</strong></td>
+<td data-label="어디">사암 절벽 사이</td>
+<td data-label="언제">석양</td>
+<td data-label="느낌">경이로움</td>
+<td data-label="핵심 구조">양쪽 벽 + 좁은 길 + 원경</td>
+</tr>
+<tr>
+<td data-label="테마"><strong>B. 숲속 폐허</strong></td>
+<td data-label="어디">이끼 낀 돌담 유적</td>
+<td data-label="언제">새벽 안개</td>
+<td data-label="느낌">신비로움</td>
+<td data-label="핵심 구조">돌담 아치 + 나무 + 안개</td>
+</tr>
+<tr>
+<td data-label="테마"><strong>C. 해안 절벽</strong></td>
+<td data-label="어디">바다가 보이는 절벽 위</td>
+<td data-label="언제">흐린 낮</td>
+<td data-label="느낌">고독함</td>
+<td data-label="핵심 구조">절벽 끝 + 바위 + 먼 수평선</td>
+</tr>
+<tr>
+<td data-label="테마"><strong>D. 자유 선택</strong></td>
+<td data-label="어디">직접 정하기</td>
+<td data-label="언제">직접 정하기</td>
+<td data-label="느낌">직접 정하기</td>
+<td data-label="핵심 구조">—</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>어떤 테마를 고르든</span>
+</div>
+<div class="callout-body">
+<p><strong>세 단어(어디/언제/느낌)는 먼저 정하고</strong> 시작하세요. 컨셉 없이 만들면 방향을 잃습니다.</p>
+</div>
+</div>
+<hr />
+<h2 id="진행-순서">진행 순서</h2>
+<h3 id="순서-1-컨셉-레퍼런스-3분">순서 1: 컨셉 + 레퍼런스 (3분)</h3>
+<ol type="1">
+<li>위 테마 표에서 하나를 고르거나 자유 주제를 정하세요</li>
+<li>ArtStation/Pinterest/Google에서 레퍼런스 <strong>2~3장</strong> 수집하세요</li>
+<li>폰이나 브라우저에 띄워놓으세요 — 작업하면서 계속 참고합니다</li>
+</ol>
+<p><strong>완료 기준:</strong> 레퍼런스 이미지가 화면에 떠 있는 상태</p>
+<h3 id="순서-2-레벨-생성-라이팅-3분">순서 2: 레벨 생성 + 라이팅 (3분)</h3>
+<ol type="1">
+<li>File &gt; New Level &gt; <strong>Basic</strong> 으로 새 레벨을 만드세요</li>
+<li>5주차에서 배운 <strong>Env. Light Mixer</strong> 로 라이팅을 세팅하세요</li>
+</ol>
+<ul>
+<li>Window &gt; Env. Light Mixer</li>
+<li>Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud 전부 Create</li>
+<li>SkyLight → Mobility: <strong>Movable</strong>, <strong>Real Time Capture</strong> 체크</li>
+</ul>
+<p><strong>완료 기준:</strong> 빈 레벨에 하늘과 빛이 구성된 상태</p>
+<h3 id="순서-3-블록아웃-10분-가장-중요">순서 3: 블록아웃 (10분) — 가장 중요!</h3>
+<p><strong>Modeling Mode &gt; Create &gt; Box</strong>로 회색 도형을 배치해서 레벨 뼈대를 잡습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>도형</th>
+<th>Scale 예시</th>
+<th>역할</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="단계">1. 바닥</td>
+<td data-label="도형">Box 1개</td>
+<td data-label="Scale 예시">X:50, Y:30, Z:0.5</td>
+<td data-label="역할">지면</td>
+</tr>
+<tr>
+<td data-label="단계">2. 메인 구조물</td>
+<td data-label="도형">Box 2~3개</td>
+<td data-label="Scale 예시">X:50, Y:3, Z:20</td>
+<td data-label="역할">양쪽 벽/절벽 (테마에 따라 다름)</td>
+</tr>
+<tr>
+<td data-label="단계">3. 원경</td>
+<td data-label="도형">Box 1~2개</td>
+<td data-label="Scale 예시">X:100, Y:100, Z:30</td>
+<td data-label="역할">멀리 보이는 산/배경. <strong>크게</strong> 만들어서 멀리 배치</td>
+</tr>
+<tr>
+<td data-label="단계">4. 전경</td>
+<td data-label="도형">Box 2~3개</td>
+<td data-label="Scale 예시">X:1, Y:0.5, Z:2</td>
+<td data-label="역할">카메라 앞의 바위/풀. 프레임 역할</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>블록아웃 핵심</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>도형 <strong>7~8개</strong>면 충분합니다</li>
+<li>벽을 완전히 평행하게 놓지 말고 <strong>약간 벌리면</strong> 원근감이 강해집니다</li>
+<li>크기는 이후에 조절할 수 있으므로 <strong>대략적인 규모</strong>부터 설정하세요</li>
+</ul>
+</div>
+</div>
+<p><strong>완료 기준:</strong> 회색 도형으로 레벨 뼈대가 잡힌 상태</p>
+<h3 id="순서-4-블록아웃-확인-2분">순서 4: 블록아웃 확인 (2분)</h3>
+<p>카메라가 볼 위치로 이동해서 아래 3가지를 확인합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>체크</th>
+<th>확인 항목</th>
+<th>안 되면</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="체크">확인</td>
+<td data-label="확인 항목"><strong>소실점</strong> — 시선이 한 곳으로 모이는가?</td>
+<td data-label="안 되면">벽/구조물의 각도를 조절하세요</td>
+</tr>
+<tr>
+<td data-label="체크">확인</td>
+<td data-label="확인 항목"><strong>3레이어</strong> — 전경/중경/원경이 있는가?</td>
+<td data-label="안 되면">없는 레이어의 도형을 추가하세요</td>
+</tr>
+<tr>
+<td data-label="체크">확인</td>
+<td data-label="확인 항목"><strong>3분할</strong> — 메인 구조물이 정중앙이 아닌 교차점 근처에 있는가?</td>
+<td data-label="안 되면">위치를 약간 이동하세요</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>완료 기준:</strong> “구조가 적절하다”는 판단을 완료한 상태</p>
+<h3 id="순서-5-에셋-교체-12분">순서 5: 에셋 교체 (12분)</h3>
+<p>블록아웃 도형 위에 실제 에셋을 올립니다.</p>
+<ol type="1">
+<li>Content Browser에서 5주차에 받아놓은 에셋 또는 Fab 에셋을 찾으세요</li>
+<li>블록아웃 도형 근처에 에셋을 배치하세요</li>
+<li>블록아웃 도형을 선택 → Details 패널 → <strong>Hidden In Game</strong> 체크 (숨기기)</li>
+<li>에셋의 크기/위치를 블록아웃에 맞게 조절하세요</li>
+<li>반복하면서 레벨을 채우세요</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>에셋 배치 핵심</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>같은 바위를 <strong>Scale과 Rotation만 바꿔서</strong> 여러 개 놓으면 충분히 다양해 보입니다</li>
+<li><strong>불규칙하게</strong> 배치하세요. 같은 크기, 같은 간격은 자연스럽지 않습니다</li>
+<li>에셋 10종 받으려고 시간 쓰지 마세요. <strong>3~5종이면 충분</strong>합니다</li>
+</ul>
+</div>
+</div>
+<p><strong>완료 기준:</strong> 실제 환경의 형태가 드러나기 시작한 상태</p>
+<h3 id="순서-6-마무리-5분">순서 6: 마무리 (5분)</h3>
+<ol type="1">
+<li><strong>콜리전 확인</strong>: 뷰포트 Show &gt; Collision 체크 → 녹색 와이어프레임 확인</li>
+<li><strong>라이팅 미세 조절</strong>: Directional Light 회전(Ctrl+L)으로 시간대 맞추기</li>
+<li><strong>스크린샷 3장</strong>: 카메라 앵글 1장 + 다른 각도 2장</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>스크린샷 팁</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>5주차에서 배운 <strong>HighResShot</strong> 사용 가능 (Cmd 창 &gt; <code>HighResShot 2048x2048</code>)</li>
+<li>뷰포트를 <strong>F11</strong>로 전체화면 전환 후 촬영하면 더 깨끗합니다</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="과제-3-안내">과제 3 안내</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목"><strong>과제</strong></td>
+<td data-label="내용">시네마틱용 환경 레벨 제작</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>제출물</strong></td>
+<td data-label="내용">프로젝트 파일 + 뷰포트 스크린샷 3장 (카메라 앵글 1장 포함)</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>마감</strong></td>
+<td data-label="내용">(마감일 안내)</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>제출 기준:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>기준</th>
+<th>내용</th>
+<th>비중</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="기준"><strong>컨셉 일관성</strong></td>
+<td data-label="내용">어디서/언제/어떤 느낌이 레벨에서 느껴지는가</td>
+<td data-label="비중">25%</td>
+</tr>
+<tr>
+<td data-label="기준"><strong>레벨 구조</strong></td>
+<td data-label="내용">블록아웃 기반 구성, 소실점/시선유도가 있는가</td>
+<td data-label="비중">25%</td>
+</tr>
+<tr>
+<td data-label="기준"><strong>깊이감</strong></td>
+<td data-label="내용">전경/중경/원경 3레이어가 있는가</td>
+<td data-label="비중">25%</td>
+</tr>
+<tr>
+<td data-label="기준"><strong>에셋 활용</strong></td>
+<td data-label="내용">에셋이 자연스럽고 불규칙하게 배치되었는가</td>
+<td data-label="비중">25%</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>실습 중 흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li><strong>블록아웃 없이 에셋부터 놓고 있다면?</strong> → Modeling Mode &gt; Box로 구조부터 잡으세요</li>
+<li><strong>컨셉 없이 시작했다면?</strong> → 테마 표에서 A를 고르세요. 먼저 시작점을 정하는 것이 중요합니다</li>
+<li><strong>Modeling Mode를 찾기 어렵다면?</strong> → 에디터 상단 모드 드롭다운 → Modeling → Create → Box</li>
+<li><strong>에셋이 같은 크기/간격으로 배치되어 있다면?</strong> → Scale, Rotation을 각각 다르게 바꾸세요</li>
+<li><strong>깊이감이 안 느껴진다면?</strong> → 바위를 Scale 5~10배로 키워서 멀리 놓으세요. 원경이 됩니다</li>
+<li><strong>Fab 에셋을 받기 어렵다면?</strong> → 5주차에서 받아놓은 에셋을 재활용하세요</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="다음-주-예고">다음 주 예고</h2>
+<p>다음 주에는 <strong>시네마틱 스토리보드</strong>를 만듭니다.</p>
+<p>오늘 만든 레벨이 스토리보드의 <strong>무대</strong>가 됩니다. 카메라가 이 레벨 안에서 어떻게 움직일지, 어떤 장면을 찍을지를 다음 주에 설계합니다.</p>
+<p><strong>카메라가 들어갈 공간</strong>과 <strong>카메라가 바라볼 방향</strong>을 의식하면서 마무리하세요.</p>
+<p>전체를 완성하지 못한 경우에도 <strong>블록아웃 + 에셋 교체 진행 중인 상태</strong>를 제출할 수 있습니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#실습-제약-조건">실습 제약 조건</a></li><li><a href="#테마-선택">테마 선택</a></li><li><a href="#진행-순서">진행 순서</a></li><li><a href="#과제-3-안내">과제 3 안내</a></li><li><a href="#다음-주-예고">다음 주 예고</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>

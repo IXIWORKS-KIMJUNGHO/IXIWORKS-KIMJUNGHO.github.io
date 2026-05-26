@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6주차 1교시 — 콜리전과 시네마틱 컨셉 개발</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+</style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 06 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Unreal Engine 5 / Collision and Concept Development</p>
+        <h1>6주차 1교시 — 콜리전과 시네마틱 컨셉 개발</h1>
+        <p class="lead">콜리전 설정과 시네마틱 컨셉 개발 4단계를 연결해 기말 프로젝트의 방향을 잡는 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 06</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">UE5</span>
+          <span class="hero-chip">COLLISION</span>
+          <span class="hero-chip">CONCEPT</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">6주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">1교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">콜리전과 시네마틱 컨셉 개발</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article"><h1 id="game-engine-ii-6주차-1교시-콜리전과-시네마틱-컨셉-개발-학생용">Game Engine II - 6주차 1교시: 콜리전과 시네마틱 컨셉 개발 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>관계</th>
+<th>문서</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="관계">강의 계획서</td>
+<td data-label="문서">강의계획서: Game Engine II</td>
+</tr>
+<tr>
+<td data-label="관계">강의 아웃라인</td>
+<td data-label="문서">6주차 아웃라인: 콜리전과 레벨 디자인 기초</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title">
+<span>학습 목표</span>
+</div>
+<div class="callout-body">
+<ul>
+<li>콜리전의 종류와 설정 방법을 이해합니다</li>
+<li>시네마틱 컨셉 개발 프로세스를 익힙니다</li>
+</ul>
+</div>
+</div>
+<hr />
+<h2 id="1교시-콜리전과-시네마틱-컨셉-개발">1교시 - 콜리전과 시네마틱 컨셉 개발</h2>
+<hr />
+<h3 id="도입">도입</h3>
+<p>지난 주까지 <strong>라이팅</strong>과 <strong>에셋 배치</strong>를 다뤘습니다. 레벨을 만들 수 있는 재료는 모두 갖춰졌습니다.</p>
+<p>오늘은 두 가지를 다룹니다.</p>
+<ul>
+<li><strong>콜리전</strong> — 캐릭터가 바닥을 뚫고 떨어지지 않게 하는 충돌 처리</li>
+<li><strong>시네마틱 컨셉 개발</strong> — 어떤 분위기와 이야기를 담을지 먼저 정하는 과정. 기말 프로젝트의 출발점</li>
+</ul>
+<hr />
+<h3 id="핵심-개념-1-콜리전">핵심 개념 1: 콜리전</h3>
+<h4 id="simple-vs-complex-collision">Simple vs Complex Collision</h4>
+<p>콜리전이 없으면 캐릭터가 바닥을 뚫고 떨어집니다. 메가스캔 에셋 중 콜리전이 안 맞는 경우가 종종 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>종류</th>
+<th>방식</th>
+<th>특징</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="종류"><strong>Simple Collision</strong></td>
+<td data-label="방식">박스, 구 같은 단순 도형</td>
+<td data-label="특징">빠르지만 대략적</td>
+</tr>
+<tr>
+<td data-label="종류"><strong>Complex Collision</strong></td>
+<td data-label="방식">메쉬 삼각형 그대로 사용</td>
+<td data-label="특징">정확하지만 느림</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote class="quote-note">
+<p>Simple Collision은 대략적인 물리 경계, Complex Collision은 실제 메쉬에 가까운 물리 경계라고 이해합니다.</p>
+</blockquote>
+<figure class="lecture-figure">
+<img src="assets/00_collision-simple-vs-complex.png" alt="00 collision simple vs complex" />
+<figcaption>Simple Collision과 Complex Collision의 차이</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>작업 팁</span>
+</div>
+<div class="callout-body">
+<p>시네마틱에서는 카메라만 움직이는 경우가 많으므로, 대부분은 Simple Collision만으로도 충분합니다.</p>
+</div>
+</div>
+<h4 id="콜리전-설정-방법">콜리전 설정 방법</h4>
+<p><strong>방법 1: 스태틱 메쉬 에디터</strong></p>
+<ol type="1">
+<li>Content Browser에서 스태틱 메쉬를 더블클릭하세요</li>
+<li>상단 메뉴 <strong>Collision</strong> → <strong>Auto Convex Collision</strong> 선택 — 메쉬 모양에 맞춰 자동 생성됩니다</li>
+<li>기본값으로 충분합니다</li>
+</ol>
+<blockquote class="quote-note">
+<p>스태틱 메쉬 에디터 상단의 Collision 메뉴에서 Auto Convex Collision을 찾을 수 있습니다.</p>
+</blockquote>
+<figure class="lecture-figure">
+<img src="assets/01_auto-convex-collision-concept.png" alt="01 auto convex collision concept" />
+<figcaption>Auto Convex Collision은 복잡한 메쉬를 여러 개의 단순 충돌 볼륨으로 근사합니다.</figcaption>
+</figure>
+<p><strong>방법 2: Details 패널에서 Collision Complexity 변경</strong></p>
+<p>이미 배치한 에셋의 콜리전이 이상할 때 사용합니다.</p>
+<ol type="1">
+<li>에셋 선택 → Details 패널 → <strong>Collision Complexity</strong> 드롭다운</li>
+<li><strong>Use Complex Collision As Simple</strong> 로 변경 — 메쉬 모양 그대로 충돌이 잡힙니다</li>
+</ol>
+<div class="callout callout-info">
+<div class="callout-title">
+<span>참고</span>
+</div>
+<div class="callout-body">
+<p>시네마틱에서는 플레이어 이동보다 카메라 연출이 중심이므로, 콜리전이 이상할 때 이 옵션을 임시로 사용할 수 있습니다. 다만 실제 게임 플레이용 레벨에서는 성능과 정확도를 함께 봐야 합니다.</p>
+</div>
+</div>
+<h4 id="콜리전-확인">콜리전 확인</h4>
+<ol type="1">
+<li>뷰포트 상단 <strong>Show</strong> 메뉴 → <strong>Collision</strong> 체크</li>
+<li><strong>녹색 와이어프레임</strong>이 보이면 콜리전이 있는 것입니다</li>
+</ol>
+<blockquote class="quote-note">
+<p>Show &gt; Collision을 켜면 녹색 와이어프레임으로 충돌 영역을 확인할 수 있습니다.</p>
+</blockquote>
+<figure class="lecture-figure">
+<img src="assets/02_collision-missing-vs-fixed.png" alt="02 collision missing vs fixed" />
+<figcaption>콜리전이 없거나 어긋난 상태와 수정 후 상태 비교</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>작업 팁</span>
+</div>
+<div class="callout-body">
+<p><strong>Show Collision으로 항상 확인하는 습관</strong>을 들이세요. 이것 하나만 기억해도 콜리전 문제의 대부분은 해결됩니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="시네마틱-영상-분석-ninety-days-in-ue5">시네마틱 영상 분석: Ninety Days in UE5</h3>
+<p>콜리전까지 배웠으니 레벨을 만들 수 있는 기술은 모두 갖춰졌습니다. 하지만 <strong>기술이 있다고 좋은 레벨이 나오는 것은 아닙니다.</strong></p>
+<p>아래 영상은 Quixel 팀에서 UE5로 90일 동안 만든 환경들입니다.</p>
+<p><strong>Ninety Days in Unreal Engine 5</strong> (<a href="https://www.youtube.com/watch?v=ca2ME4Wy0eM" target="_blank" rel="noopener">https://www.youtube.com/watch?v=ca2ME4Wy0eM</a>, 약 2분 30초)</p>
+<hr />
+<p><strong>장면 1 — 좁은 골목</strong> (약 0:10)</p>
+<ul>
+<li><strong>카메라</strong>: 앞으로 천천히 트래킹. 좁은 공간 → 느린 전진으로 <strong>밀착감</strong></li>
+<li><strong>색감</strong>: 어두운 톤 + 따뜻한 조명 하나 → 시선을 끌어당김</li>
+<li><strong>컨셉</strong>: &quot;아늑하고 신비로운 골목&quot;</li>
+</ul>
+<p><strong>장면 2 — 신전/대형 구조물</strong> (약 0:30)</p>
+<ul>
+<li><strong>카메라</strong>: 아래에서 위로 상승 → <strong>로우 앵글 상승 샷</strong></li>
+<li><strong>효과</strong>: 거대한 구조물의 <strong>웅장함</strong> 표현</li>
+<li><strong>비교</strong>: 골목(수평 전진) vs 신전(수직 상승). 공간의 성격이 카메라 움직임을 결정</li>
+</ul>
+<p><strong>장면 3 — 숲/자연환경</strong> (약 1:00)</p>
+<ul>
+<li><strong>카메라</strong>: 지면 레벨에서 숲 사이를 천천히 통과</li>
+<li><strong>조명</strong>: 나뭇잎 사이로 들어오는 <strong>갓레이</strong></li>
+<li><strong>레이어</strong>: 전경(풀) → 중경(나무 줄기) → 원경(빛). 세 레이어로 <strong>깊이감</strong> 생성</li>
+<li>2교시에서 이 개념을 자세히 다룹니다</li>
+</ul>
+<p><strong>장면 4 — 골든아워/석양</strong> (약 1:40)</p>
+<ul>
+<li><strong>색감</strong>: 따뜻한 골든아워 톤으로 확 전환</li>
+<li><strong>핵심</strong>: 같은 엔진, 같은 에셋이라도 <strong>시간대만 바꿔도</strong> 분위기가 완전히 달라짐</li>
+<li>모든 환경이 다른 분위기인 이유 → 각각 다른 <strong>'어디서, 언제, 어떤 느낌'</strong> 에서 출발</li>
+</ul>
+<p><strong>장면 5 — 마지막 장면</strong> (약 2:20)</p>
+<ul>
+<li>90일 동안 여러 환경을 빠르게 제작</li>
+<li>이렇게 빠르게 방향을 잡을 수 있었던 이유: <strong>컨셉이 확실</strong>했기 때문</li>
+<li>방향이 잡혀 있으니 에셋 선택, 라이팅, 카메라까지 빠르게 결정 가능</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>작업 팁</span>
+</div>
+<div class="callout-body">
+<p>지금까지 배운 기술로도 이런 결과물을 충분히 만들 수 있습니다. 다만 기술보다 먼저 <strong>컨셉</strong>을 잡는 것이 중요합니다.</p>
+</div>
+</div>
+<hr />
+<h4 id="추가-참고-영상">추가 참고 영상</h4>
+<p><strong>Electric Dreams — GDC 2023 UE5 데모</strong> (<a href="https://www.youtube.com/watch?v=Lcd6KhMPkq0)" target="_blank" rel="noopener">https://www.youtube.com/watch?v=Lcd6KhMPkq0)</a></p>
+<p>Epic Games가 GDC에서 보여준 숲 환경 데모입니다.</p>
+<ul>
+<li><strong>지면 레벨 카메라</strong>: 사람 눈높이로 숲 사이를 통과 → 높은 몰입감</li>
+<li><strong>갓레이</strong>: 나뭇잎 사이로 빛 → 5주차 Volumetric Fog와 연결</li>
+<li><strong>PCG(절차적 생성)</strong>: 나무와 풀이 자연스럽게 분포</li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title">
+<span>참고</span>
+</div>
+<div class="callout-body">
+<p>Ninety Days = '여러 곳을 짧게', Electric Dreams = '한 곳을 깊게'. 이것도 <strong>컨셉에서 결정</strong>되는 것입니다.</p>
+</div>
+</div>
+<p><strong>William Faucher — Capturing Lofoten in UE5</strong> (<a href="https://www.youtube.com/watch?v=ifryjffUJT8)" target="_blank" rel="noopener">https://www.youtube.com/watch?v=ifryjffUJT8)</a></p>
+<p>개인 아티스트가 노르웨이 해안을 UE5로 재현한 영상입니다.</p>
+<ul>
+<li><strong>슬라이딩 샷</strong>: 건물 측면을 낮게 수평 이동 → 공간의 폭을 보여줌</li>
+<li><strong>대기 원근감</strong>(Atmospheric Perspective): 멀수록 안개에 가려짐 → 깊이감. 5주차 Fog와 연결</li>
+<li><strong>피사계 심도</strong>(DOF): 앞의 풀은 흐리고, 뒤의 건물은 선명 → 시선을 중경으로 유도</li>
+<li><strong>레퍼런스</strong>: 실제 노르웨이 사진. 실제 장소를 레퍼런스로 쓰면 색감과 구조를 그대로 참고 가능</li>
+</ul>
+<p><strong>Senua's Saga: Hellblade 2 트레일러</strong> (<a href="https://www.youtube.com/watch?v=qJWI4bkD9ZM" target="_blank" rel="noopener"><a href="https://www.youtube.com/watch?v=ifryjffUJT8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=ifryjffUJT8</a></a>)</p>
+<p>현재 UE5로 만든 가장 높은 수준의 시네마틱 중 하나입니다.</p>
+<ul>
+<li><strong>스케일 대비</strong>: 거대한 절벽 앞에 작은 인물 → 환경이 캐릭터를 압도. &quot;경이로움&quot;을 표현</li>
+<li><strong>상승 샷</strong>: 천천히 상승하며 절벽 전체 노출 → Ninety Days 신전 장면과 같은 원리</li>
+<li><strong>포토그래메트리</strong>: 아이슬란드 화산 지형을 실제 스캔 → 현실감의 끝</li>
+<li><strong>카메라 속도</strong>: 매우 느림. 느린 카메라 = 웅장함/긴장감, 빠른 카메라 = 액션감. 7주차에서 상세히 다룸</li>
+</ul>
+<hr />
+<h3 id="핵심-개념-2-시네마틱-컨셉-개발">핵심 개념 2: 시네마틱 컨셉 개발</h3>
+<p>컨셉 개발은 <strong>4단계</strong>로 진행됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/03_concept-dev-process.png" alt="03 concept dev process" />
+<figcaption>컨셉 개발 4단계 프로세스</figcaption>
+</figure>
+<hr />
+<h4 id="1단계-아이디어-발상">1단계: 아이디어 발상</h4>
+<p><strong>'어디서, 언제, 어떤 느낌'</strong> 세 가지를 정하는 단계입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>질문</th>
+<th>예시 답변</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="질문"><strong>어디?</strong> (장소/공간)</td>
+<td data-label="예시 답변">사막 협곡, 숲속 폐허, 도시 옥상</td>
+</tr>
+<tr>
+<td data-label="질문"><strong>언제?</strong> (시간대/날씨)</td>
+<td data-label="예시 답변">새벽, 비 오는 밤, 석양</td>
+</tr>
+<tr>
+<td data-label="질문"><strong>어떤 느낌?</strong> (감정/분위기)</td>
+<td data-label="예시 답변">고독함, 경이로움, 긴장감</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>작업 팁</span>
+</div>
+<div class="callout-body">
+<p>이 세 가지만 정해도 <strong>컨셉의 80%</strong> 가 잡힙니다.</p>
+</div>
+</div>
+<p>같은 숲이라도 세 단어만 바꾸면 결과가 완전히 달라집니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>조합</th>
+<th>분위기</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="조합">숲속 폐허 + 새벽 안개 + 으스스한 느낌</td>
+<td data-label="분위기"><strong>호러</strong></td>
+</tr>
+<tr>
+<td data-label="조합">숲속 오두막 + 석양 + 따뜻한 느낌</td>
+<td data-label="분위기"><strong>힐링</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li><strong>세 가지를 안 정하고 시작</strong> → &quot;사막인데 밝은 건가? 무서운 건가?&quot; 방향이 흔들림</li>
+<li><strong>해결</strong>: 완벽하지 않아도 세 단어를 먼저 정하고 시작. 만들다가 바꿔도 됨</li>
+</ul>
+</div>
+</div>
+<hr />
+<h4 id="2단계-레퍼런스-수집">2단계: 레퍼런스 수집</h4>
+<p><strong>레퍼런스</strong> = 만들고 싶은 것과 비슷한 이미지/영상입니다. 머릿속 이미지는 만들다 보면 흐려지지만, 레퍼런스가 있으면 계속 돌아보며 확인할 수 있습니다.</p>
+<p><strong>레퍼런스 수집 채널:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>채널</th>
+<th>특징</th>
+<th>추천 검색어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="채널"><strong>ArtStation</strong></td>
+<td data-label="특징">프로 아티스트 포트폴리오. 게임/영화 컨셉아트</td>
+<td data-label="추천 검색어">&quot;unreal environment&quot;, &quot;cinematic landscape&quot;</td>
+</tr>
+<tr>
+<td data-label="채널"><strong>Pinterest</strong></td>
+<td data-label="특징">이미지 큐레이션. 한 장 찾으면 비슷한 것들 추천</td>
+<td data-label="추천 검색어">&quot;desert canyon reference&quot;, &quot;moody forest&quot;</td>
+</tr>
+<tr>
+<td data-label="채널"><strong>영화 스틸컷</strong></td>
+<td data-label="특징">실제 촬영 한 컷. 조명/구도가 이미 검증됨</td>
+<td data-label="추천 검색어">좋아하는 영화 이름 + &quot;cinematography&quot;</td>
+</tr>
+<tr>
+<td data-label="채널"><strong>Google 이미지</strong></td>
+<td data-label="특징">실제 장소 사진. 자연환경 레퍼런스에 좋음</td>
+<td data-label="추천 검색어">&quot;Utah canyon&quot;, &quot;Iceland black beach&quot;</td>
+</tr>
+<tr>
+<td data-label="채널"><strong>YouTube</strong></td>
+<td data-label="특징">시네마틱 영상 레퍼런스. 카메라 무빙/편집 리듬 참고</td>
+<td data-label="추천 검색어">&quot;UE5 cinematic showcase&quot;, &quot;game cinematic reel&quot;</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+<span>참고</span>
+</div>
+<div class="callout-body">
+<p>이미지뿐 아니라 <strong>영상</strong>도 찾아보세요. 카메라가 어떻게 움직이는지는 영상을 봐야 알 수 있습니다. 카메라 무빙은 7주차에서 본격 학습합니다.</p>
+</div>
+</div>
+<blockquote class="quote-note">
+<p>ArtStation이나 Pinterest에서는 검색어를 좁게 잡을수록 활용 가능한 레퍼런스를 효율적으로 찾을 수 있습니다. 예: <code>unreal cinematic landscape</code>, <code>desert canyon lighting</code>.</p>
+</blockquote>
+<p><strong>좋은 레퍼런스 vs 나쁜 레퍼런스:</strong></p>
+<figure class="lecture-figure">
+<img src="assets/04_reference-good-vs-bad.png" alt="04 reference good vs bad" />
+<figcaption>좋은 레퍼런스 vs 나쁜 레퍼런스</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>좋은 레퍼런스</th>
+<th>나쁜 레퍼런스</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="좋은 레퍼런스">내 컨셉의 특정 요소와 연결됨 (색감, 구도, 지형 등)</td>
+<td data-label="나쁜 레퍼런스">&quot;예쁘다&quot;는 이유만으로 수집</td>
+</tr>
+<tr>
+<td data-label="좋은 레퍼런스">한 장에서 배울 점이 명확함</td>
+<td data-label="나쁜 레퍼런스">너무 넓거나 요소가 많아서 무엇을 참고할지 모호</td>
+</tr>
+<tr>
+<td data-label="좋은 레퍼런스">내가 만들 수 있는 수준과 연결됨</td>
+<td data-label="나쁜 레퍼런스">현실 사진만 수집해 엔진 제작 조건과 연결되지 않음</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+<span>흔한 문제</span>
+</div>
+<div class="callout-body">
+<ul>
+<li><strong>레퍼런스 수집에 빠져서 시간 소모</strong> → 30분 안에 끊으세요</li>
+<li><strong>해결</strong>: 완벽한 레퍼런스를 찾으려 하지 말고, 방향만 잡히면 충분. 최소 5장, 가능하면 10장 이상</li>
+</ul>
+</div>
+</div>
+<hr />
+<h4 id="3단계-무드보드-제작">3단계: 무드보드 제작</h4>
+<p><strong>무드보드</strong> = 레퍼런스 이미지들을 한 장에 배치해서 전체 분위기를 한눈에 보는 것입니다.</p>
+<p>레퍼런스가 10장을 넘으면 폴더에 보관한 뒤 다시 확인하지 않기 쉽습니다. 무드보드로 한 장에 구성하면 작업 중 계속 참고할 수 있습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/05_moodboard-example-canyon.png" alt="05 moodboard example canyon" />
+<figcaption>협곡 테마 무드보드 예시 — 하나의 보드에 분위기/색감/지형/디테일이 정리되어 있음</figcaption>
+</figure>
+<figure class="lecture-figure">
+<img src="assets/06_utah-reference.png" alt="06 utah reference" />
+</figure>
+<p><strong>무드보드 구성 요소:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>분류</th>
+<th>담을 내용</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="분류"><strong>전체 분위기</strong></td>
+<td data-label="담을 내용">컨셉의 핵심 느낌 이미지 1~2장 (<strong>가장 크게</strong>)</td>
+<td data-label="예시">석양 아래 거대한 협곡 파노라마</td>
+</tr>
+<tr>
+<td data-label="분류"><strong>색감/조명</strong></td>
+<td data-label="담을 내용">원하는 색 톤, 빛의 방향, 시간대</td>
+<td data-label="예시">골든아워 따뜻한 톤, 역광</td>
+</tr>
+<tr>
+<td data-label="분류"><strong>지형/구조</strong></td>
+<td data-label="담을 내용">메인 지형, 건물, 자연물 형태</td>
+<td data-label="예시">층층이 쌓인 사암 절벽, 아치형 바위</td>
+</tr>
+<tr>
+<td data-label="분류"><strong>디테일</strong></td>
+<td data-label="담을 내용">바닥 질감, 식생, 소품</td>
+<td data-label="예시">마른 풀, 균열된 땅, 먼지</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>작업 팁</span>
+</div>
+<div class="callout-body">
+<p><strong>PureRef</strong>(무료)를 추천합니다. 이미지를 화면에 자유롭게 띄워놓을 수 있어서, 언리얼 엔진 작업 중 옆에 레퍼런스를 항상 볼 수 있습니다. 설치 후 웹에서 드래그 앤 드롭하면 완료됩니다.</p>
+</div>
+</div>
+<hr />
+<h4 id="4단계-컨셉-문서">4단계: 컨셉 문서</h4>
+<p>마지막으로 <strong>한 페이지짜리 컨셉 문서</strong>를 작성합니다. 기말 프로젝트 중간 점검 때도 사용하므로 지금부터 습관을 들이면 편합니다.</p>
+<p><strong>컨셉 문서 양식:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="항목"><strong>제목</strong></td>
+<td data-label="내용">(시네마틱 제목)</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>컨셉 한 줄</strong></td>
+<td data-label="내용">&quot;석양 아래 사막 협곡을 지나며 느끼는 경이감&quot;</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>장소/시간대</strong></td>
+<td data-label="내용">사막 협곡 / 석양 (골든아워)</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>핵심 감정</strong></td>
+<td data-label="내용">경이로움, 고독</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>주요 에셋</strong></td>
+<td data-label="내용">사암 절벽, 아치 바위, 마른 풀, 먼지 파티클</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>카메라 아이디어</strong></td>
+<td data-label="내용">협곡 사이를 천천히 전진, 위로 올려다보는 앵글</td>
+</tr>
+<tr>
+<td data-label="항목"><strong>레퍼런스</strong></td>
+<td data-label="내용">(무드보드 첨부 또는 링크)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+<span>참고</span>
+</div>
+<div class="callout-body">
+<p>이 한 장이 있으면 레벨을 만들 때 방향을 잃지 않습니다. 다른 사람에게 설명할 때도 이 한 장을 보여주면 충분합니다.</p>
+</div>
+</div>
+<hr />
+<h4 id="실제-사례-워크스루-협곡-레벨">실제 사례 워크스루: 협곡 레벨</h4>
+<p>4단계를 실제로 밟아서 만든 예시입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/07_concept-to-level-pipeline.png" alt="07 concept to level pipeline" />
+<figcaption>컨셉에서 레퍼런스, 블록아웃, 최종 레벨로 이어지는 흐름</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td data-label="단계"><strong>1. 아이디어</strong></td>
+<td data-label="내용">유타 사막 협곡 / 낮, 맑은 날 / 광활함, 경이로움</td>
+</tr>
+<tr>
+<td data-label="단계"><strong>2. 레퍼런스</strong></td>
+<td data-label="내용">유타주 실제 사진 (Bryce Canyon, Arches National Park). 사암 색깔, 절벽 형태, 빛 방향 참고</td>
+</tr>
+<tr>
+<td data-label="단계"><strong>3. 무드보드</strong></td>
+<td data-label="내용">한 장에 정리 — 색감(따뜻한 사암색), 구조(양쪽 절벽), 바닥(마른 모래)</td>
+</tr>
+<tr>
+<td data-label="단계"><strong>4. 결과물</strong></td>
+<td data-label="내용">레퍼런스와 색감/구조가 일치하는 레벨 완성</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+<span>작업 팁</span>
+</div>
+<div class="callout-body">
+<p>만드는 도중 &quot;나무를 넣을까?&quot; 고민이 있었지만, 레퍼런스를 보니 유타 사막에는 나무가 거의 없었습니다. <strong>레퍼런스가 판단 기준</strong>이 되는 것입니다. 컨셉 없이 만들면 사막인지 숲인지 애매한 레벨이 됩니다.</p>
+</div>
+</div>
+<hr />
+<h3 id="중간-점검-정리">중간 점검 + 정리</h3>
+<div class="callout callout-question">
+<div class="callout-title">
+<span>점검 질문</span>
+</div>
+<div class="callout-body">
+<p><strong>Simple Collision과 Complex Collision의 차이는?</strong></p>
+<ul>
+<li>Simple = 단순 도형, 가벼움 / Complex = 메쉬 삼각형 기반, 정확하지만 무거울 수 있음</li>
+<li>시네마틱에서는 <strong>Simple이면 충분</strong></li>
+</ul>
+<p><strong>컨셉 개발 4단계는?</strong></p>
+<ul>
+<li>아이디어 → 레퍼런스 수집 → 무드보드 → 컨셉 문서</li>
+</ul>
+</div>
+</div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+<span>핵심 요약</span>
+</div>
+<div class="callout-body">
+<ol type="1">
+<li><strong>콜리전</strong>은 Simple이 기본, 필요하면 Complex. <strong>Show Collision</strong>으로 항상 확인</li>
+<li>레벨을 만들기 전에 <strong>컨셉부터</strong>: 어디서, 언제, 어떤 느낌</li>
+<li>레퍼런스 최소 5장 → 무드보드 정리 → 컨셉 문서 한 장</li>
+</ol>
+</div>
+</div>
+<p>2교시에서는 이 컨셉을 실제 레벨로 옮기는 방법, <strong>레벨 디자인의 원칙</strong>을 배울 예정입니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol><li><a href="#1교시-콜리전과-시네마틱-컨셉-개발">1교시 - 콜리전과 시네마틱 컨셉 개발</a></li></ol>
+    </nav>
+  </main>
+  <p class="footer-note">GitHub Pages-ready lecture handout. External links open in a new tab.</p>
+</body>
+</html>
