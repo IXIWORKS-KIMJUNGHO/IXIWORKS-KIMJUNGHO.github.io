@@ -323,11 +323,19 @@ pre {
   border-left: 5px solid var(--cyan);
   border-radius: 8px;
   background: #f8fafc;
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
 }
 
-pre code { padding: 0; border: 0; background: transparent; }
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
 
 .table-wrap {
   width: 100%;
