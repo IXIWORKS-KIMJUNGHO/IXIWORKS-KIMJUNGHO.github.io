@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -604,14 +778,14 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">11주차 아웃라인: 시퀀서 카메라 워크</span></td></tr>
 <tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>격투씬 컷 편집의 세 가지 기준(Shot Size / Angle / Cut Timing)을 이해하고 본인 격투 시퀀스에 적용할 수 있다</li>
 <li>Cine Camera Actor 여러 대를 배치·명명하고 시퀀서에 한 번에 바인딩한 뒤 Spawnable Actor로 변환할 수 있다</li>
 <li>Camera Cut 트랙으로 카메라를 시간 구간별로 전환하고 Cinematic Viewport와 CrossHair로 프레이밍을 점검할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>지난주(10주차)에 Mixamo 격투 모션 3종을 본인 캐릭터에 입혀 10–15초짜리 격투 시퀀스(<code>LS_RetargetDemo</code>)를 만들었습니다. 11주차는 그 격투 시퀀스 위에 <strong>카메라를 얹는 시간</strong>입니다. 새 캐릭터나 새 동작을 만드는 시간이 아니라, 같은 안무를 어떻게 비출지 결정하는 시간입니다.</p>
@@ -625,6 +799,7 @@ h1, .lead, .material-title, .material-meta,
 </figure>
 <p>정답은 없습니다. 와이드가 더 박력 있게 느껴질 수도 있고, 멀티컷이 더 격렬하게 느껴질 수도 있습니다. 중요한 것은 <strong>카메라 선택이 격투의 인상을 바꾼다</strong>는 점입니다. 같은 안무라도 카메라가 달라지면 다른 영화가 됩니다.</p>
 <p><strong>오늘의 목표</strong>: 본인 격투 시퀀스를 와이드 한 샷으로만 두지 않고, 카메라 여러 대를 의도적으로 배치해 다른 영화처럼 보이게 만듭니다.</p>
+<section class="learning-card concept-card" aria-labelledby="핵심-개념-1-컷-편집의-세-가지-기준">
 <h2 id="핵심-개념-1-컷-편집의-세-가지-기준">핵심 개념 1 — 컷 편집의 세 가지 기준</h2>
 <p>카메라를 정할 때 고려할 변수는 많습니다. 화각, 조리개, 초점 거리, 카메라 위치와 움직임, 컷 길이, 트랜지션, 라이팅, 컬러 등입니다. 오늘은 격투씬에 필요한 요소를 세 가지 기준으로 단순화합니다.</p>
 <p><strong>Shot Size · Angle · Cut Timing.</strong></p>
@@ -684,6 +859,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>(예상 답: 캐릭터 가까이 + Focal Length 85mm 정도 망원 + 정면 또는 측면. 9주차 4대 파라미터 활용)</p>
+
+</section><section class="learning-card concept-card" aria-labelledby="핵심-개념-2-다중-카메라-셋업-spawnable-actor-변환">
 <h2 id="핵심-개념-2-다중-카메라-셋업-spawnable-actor-변환">핵심 개념 2 — 다중 카메라 셋업 + Spawnable Actor 변환</h2>
 <p>9주차에서는 카메라 1대만 사용했습니다. 11주차는 그 카메라를 <strong>여러 대로 확장</strong>합니다. 격투씬은 와이드 1대, 미디엄 1대, 클로즈업 1대를 기본으로 잡으면 구성하기 쉽습니다.</p>
 <p>자주 막히는 단계가 다섯 가지 있습니다. <strong>카메라를 미리 어디에 둘 것인가</strong>, <strong>이름을 어떻게 정리할 것인가</strong>, <strong>시퀀서에 어떻게 한 번에 등록할 것인가</strong>, <strong>시퀀서 카메라가 레벨에 영구 존재하지 않게 어떻게 분리할 것인가</strong>, <strong>viewport 미리보기를 영화 모드로 어떻게 바꿀 것인가</strong>. 이 5단계를 순서대로 봅니다.</p>
@@ -791,6 +968,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">Spawnable 변환 메뉴가 안 보임</td><td data-label="원인">카메라 바인딩이 아닌 일반 트랙 우클릭</td><td data-label="해결">시퀀서 좌측 <strong>카메라 바인딩 트랙</strong> (CC_*) 우클릭. 빈 공간이나 Animation 트랙 우클릭이면 메뉴가 다름</td></tr>
 <tr><td data-label="증상">Spawnable 변환 후 viewport 에서 카메라 안 보임</td><td data-label="원인">시퀀서 닫혀있음 (Spawnable 은 시퀀서 활성 시에만 존재)</td><td data-label="해결">시퀀서 다시 열기. 정상 동작 — Outliner 의 Spawnable 아이콘으로 spawnable 확인</td></tr>
 <tr><td data-label="증상">Spawnable 변환 후 카메라가 Camera Cut 트랙에 안 잡힘</td><td data-label="원인">Spawnable 은 시퀀서 안에서만 유효 — 외부 참조 끊김</td><td data-label="해결">Camera Cut 트랙의 + Camera 메뉴에서 spawnable 카메라 다시 선택. 자동 갱신됨</td></tr></tbody></table></div>
+
+</section><section class="learning-card concept-card" aria-labelledby="핵심-개념-3-camera-cut-트랙-cinematic-viewport">
 <h2 id="핵심-개념-3-camera-cut-트랙-cinematic-viewport">핵심 개념 3 — Camera Cut 트랙 + Cinematic Viewport</h2>
 <h3 id="camera-cut-트랙이-무엇인가">Camera Cut 트랙이 무엇인가</h3>
 <p>카메라 3대를 시퀀서에 등록했지만, 한 번에 한 화면에 보일 수 있는 카메라는 1대입니다. 시간 0–3초는 와이드, 3–7초는 클로즈업, 7–12초는 미디엄 — 이렇게 <strong>시간 구간별로 어느 카메라가 활성화될지 결정하는 트랙</strong>이 Camera Cut 트랙입니다.</p>
@@ -863,6 +1042,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">컷 구간이 의도와 다름</td><td data-label="원인">섹션 경계 또는 카메라 바인딩이 잘못됨</td><td data-label="해결">섹션 경계를 다시 드래그하고, 각 섹션의 카메라 이름이 맞는지 확인</td></tr>
 <tr><td data-label="증상">Cinematic Viewport 메뉴가 안 보임</td><td data-label="원인">Perspective 드롭다운이 아닌 다른 메뉴</td><td data-label="해결">viewport <strong>좌상단</strong> Perspective 드롭다운만 사용. 우상단 메뉴는 다른 기능</td></tr>
 <tr><td data-label="증상">CrossHair 가 너무 어두워서 안 보임</td><td data-label="원인">Composition Overlays Tint 너무 어두움</td><td data-label="해결">Composition Overlays 패널 우측 Tint 색상을 흰색·노란색 계열로 변경</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="예제-ls_retargetdemo-에-3컷-적용">
 <h2 id="예제-ls_retargetdemo-에-3컷-적용">예제 — LS_RetargetDemo 에 3컷 적용</h2>
 <p>핵심 개념 1·2·3 을 통합한 결과를 보여주는 예제입니다. 3교시 실습 4 절차의 미리보기로 활용합니다.</p>
 <h3 id="step-a-ls_retargetdemo-열기">Step A — LS_RetargetDemo 열기</h3>
@@ -885,6 +1066,8 @@ h1, .lead, .material-title, .material-meta,
 </figure>
 <p>핵심 개념 1 시작에서 본 멀티컷 영화 클립과 같은 구조입니다. 와이드 한 샷으로만 보던 격투가 컷 3개로 영화 문법이 들어갔습니다.</p>
 <p>본인 격투 시퀀스의 펀치 임팩트 프레임에 컷 경계를 정확히 맞추는 것이 격투씬 카메라 워크의 가장 중요한 지점입니다. 3교시 단계 2에서 본인 시퀀스의 임팩트 프레임을 찾고, Camera Cut 트랙 섹션 경계를 그 프레임 직전 1–2프레임에 맞추는 작업을 진행합니다.</p>
+
+</section><section class="takeaway-card" aria-labelledby="핵심-요약">
 <h2 id="핵심-요약">핵심 요약</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">1교시 한 줄 요약</div>
@@ -894,9 +1077,12 @@ h1, .lead, .material-title, .material-meta,
 </div>
 <p><strong>3줄 요약:</strong></p>
 <ol><li>격투씬을 다르게 보이게 하는 카메라 언어는 <strong>Shot Size (Wide/Medium/Close-up) · Angle (정면/측면/부감/앙각) · Cut Timing (임팩트 직전 1–2프레임)</strong> 의 세 가지 기준</li><li>카메라 여러 대를 시퀀서에 올리는 절차는 <strong>(1) 생성 · (2) 사전 배치 · (3) 명명 (CC_Wide 등) · (4) Outliner 다중 선택 → Actor to Sequencer 한 번에 바인딩 · (5) Spawnable Actor 변환 (Spawnable 아이콘)</strong></li><li><strong>Camera Cut 트랙</strong> 은 시퀀스당 1개. 각 섹션 = 컷 하나. 섹션 경계 = 컷 전환 시점. 영화적 프레이밍은 <strong>Cinematic Viewport + CrossHair</strong> 로 보조</li></ol>
+
+</section><section class="takeaway-card" aria-labelledby="다음-시간-예고">
 <h2 id="다음-시간-예고">다음 시간 예고</h2>
 <p>2교시는 카메라가 <strong>움직이는</strong> 시간입니다. 1교시에서 만든 카메라는 위치 고정이며, 2교시는 카메라가 스플라인을 따라 미끄러지는 Rail, 부감↔앙각 전환을 만드는 Crane, 펀치 임팩트에 카메라를 흔드는 Camera Shake, 그리고 점프 모션의 슬라이딩을 모션 데이터 수준에서 해결하는 <strong>FK Control Rig + forward 방향 이동 제거 + Bake Animation</strong> 을 다룹니다. 이 도구들은 3교시 실습 4의 제출 루브릭과 연결됩니다.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

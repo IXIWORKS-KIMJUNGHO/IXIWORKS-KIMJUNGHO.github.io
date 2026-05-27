@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -604,14 +778,14 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr>
 <tr><td data-label="관계">1교시 핸드아웃</td><td data-label="문서"><span class="wikilink">1교시: 리타겟팅 개념 + Mixamo</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>Mixamo FBX 2개를 Unreal 5.7에 import하고 네이밍 컨벤션(AS / PA / SK / SM)을 적용할 수 있다</li>
 <li>SK_Mannequin과 SK_Mixamo의 본 구조를 직접 비교하여 매핑 가능성을 확인할 수 있다</li>
 <li>IK Rig 에셋 2개와 IK Retargeter 에셋을 만들어 Walking 애니메이션을 ThirdPerson Mannequin으로 변환할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>1교시는 에셋 준비였고, 2교시는 그 에셋을 Unreal 로 가져와 매핑 에셋까지 만드는 단계이며, 3교시에 본인이 직접 다양한 동작으로 반복할 한 사이클을 시연으로 보여주는 시간입니다.</p>
@@ -633,6 +807,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>Import 와 Skeleton 비교는 다 같이 / IK_Mixamo 는 시연 / IK_Mannequin 은 본인이 직접 / RTG·Edit Pose·Export 는 함께 진행</strong>. chain 생성 절차를 한 번은 손으로 끝까지 해봐야 3교시 트러블슈팅이 가능하므로, 막힌 분은 수업용 백업 IK Rig 를 받아 다음 단계로 진행합니다.</p>
 </div>
 </div>
+<section class="learning-card workflow-card" aria-labelledby="1교시-핵심-빠른-점검">
 <h2 id="1교시-핵심-빠른-점검">1교시 핵심 빠른 점검</h2>
 <div class="callout callout-question">
 <div class="callout-title">확인 질문 3개 — 옆 사람과 답 맞춰보기</div>
@@ -643,6 +818,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>리타겟팅 = 한 캐릭터의 동작을 다른 캐릭터에 전이하는 작업. 가능 조건은 형태 유사성. Mixamo = T-Pose / Mannequin = A-Pose / MetaHuman = A-Pose. 본 이름은 모두 다르지만 위치 대응으로 매핑할 수 있습니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="1-import-네이밍-컨벤션">
 <h2 id="1-import-네이밍-컨벤션">1. Import + 네이밍 컨벤션</h2>
 <h3 id="1-1-thirdperson-템플릿-프로젝트-준비">1.1 ThirdPerson 템플릿 프로젝트 준비</h3>
 <p>본인 시네마틱 프로젝트가 있으면 그것을 열어도 되지만, ThirdPerson 의 SK_Mannequin 이 프로젝트 안에 있어야 하며 없으면 새로 ThirdPerson 템플릿 프로젝트를 만듭니다 (약 1분 소요).</p>
@@ -791,6 +968,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">애니메이션 import 후 새 <code>Walking_Skeleton</code> 에셋 추가</td><td data-label="원인">애니메이션 import 다이얼로그의 Skeleton 옵션 <code>None</code></td><td data-label="해결">잘못 생성된 에셋 삭제 후 Skeleton: SK_Mixamo 명시 지정하여 재import</td></tr></tbody></table></div>
 </div>
 </div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="2-skeleton-본-구조-비교-unreal-안에서">
 <h2 id="2-skeleton-본-구조-비교-unreal-안에서">2. Skeleton 본 구조 비교 — Unreal 안에서</h2>
 <p>1교시 슬라이드에서 살펴본 본 이름 비교 표를 이번에는 Unreal 안에서 직접 확인해봅니다.</p>
 <h3 id="2-1-sk_mannequin-skeleton-tree-열기">2.1 SK_Mannequin Skeleton Tree 열기</h3>
@@ -845,6 +1024,8 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>같은 인간형의 본은 이름·개수·길이가 달라도 위치·역할이 대응되며, IK Rig 는 이 대응을 에셋으로 명시적으로 적어두는 도구다.</strong></p>
 </div>
 </div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="3-ik-rig-ik-retargeter">
 <h2 id="3-ik-rig-ik-retargeter">3. IK Rig + IK Retargeter</h2>
 <h3 id="3-1-ik-rig-가-무엇인가">3.1 IK Rig 가 무엇인가</h3>
 <p>IK 는 <strong>Inverse Kinematics(역운동학)</strong> 의 약자로, 보통 애니메이션을 만들 때는 어깨 → 팔꿈치 → 손목처럼 부모 본부터 차례로 회전시키는 <strong>FK(Forward Kinematics)</strong> 방식이 기본이고, IK 는 반대로 &quot;손이 이 위치에 있어야 한다&quot; 또는 &quot;발이 바닥에 닿아야 한다&quot;처럼 <strong>끝점의 목표 위치</strong> 를 먼저 정한 뒤 중간의 팔꿈치나 무릎이 그 위치에 맞게 따라 계산되는 방식입니다.</p>
@@ -1096,6 +1277,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">변환 결과 길이·프레임 수가 원본과 다름</td><td data-label="원인">변환 시 손실 또는 잘못된 옵션</td><td data-label="해결">Export 다이얼로그에서 Frame Range 확인. 차이가 크면 원본 AS 다시 import</td></tr></tbody></table></div>
 </div>
 </div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="실습-소개-첫-힌트">
 <h2 id="실습-소개-첫-힌트">실습 소개 + 첫 힌트</h2>
 <h3 id="3교시-미션">3교시 미션</h3>
 <p>방금 본 한 사이클 — Mixamo 에서 받은 Walking 한 동작을 Mannequin 으로 변환 — 이걸 본인이 직접 반복하는 게 3교시입니다.</p>
@@ -1126,6 +1309,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="동작 유형">Jump / Fall</td><td data-label="변환 안정성">Pelvis 높이 변화 큼. Retarget Root height 조정 필요 가능</td></tr>
 <tr><td data-label="동작 유형">Lying / Crawl</td><td data-label="변환 안정성">어려움. Pelvis 가 바닥에 가까운 동작은 보정 어려움</td></tr></tbody></table></div>
 <p>처음에는 Walking / Idle / Boxing 처럼 안정적인 동작으로 시작하고, Dancing 같은 동작은 안정 동작으로 셋업이 잘 됐는지 확인한 뒤 시도합니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="2교시-마무리">
 <h2 id="2교시-마무리">2교시 마무리</h2>
 <div class="callout callout-question">
 <div class="callout-title">2교시 결과물 — Content Browser Mixamo 폴더에 다음 에셋이 있어야</div>
@@ -1142,7 +1327,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 <p>8개 에셋이 모두 갖춰지지 않았으면 손을 들어 알려주고, 3교시 시작 전 5분의 추가 정비 시간을 갖습니다.</p>
 <p>쉬는 시간 후 3교시 — <strong>본인이 선택한 다양한 Mixamo 동작들로 N번 변환</strong> 하는 실습입니다.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

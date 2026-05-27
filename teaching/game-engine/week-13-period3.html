@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -606,15 +780,15 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="관계">2교시 자료</td><td data-label="문서"><span class="wikilink">13주차 2교시: 컬러 그레이딩 + LUT + Movie Render Queue</span></td></tr>
 <tr><td data-label="관계">선행 12주차 3교시</td><td data-label="문서"><span class="wikilink">12주차 3교시: 기말 컨셉 환경 블록아웃</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>본인 시네마틱 시퀀스에 Post Process Volume과 분위기 이펙트를 적용할 수 있다</li>
 <li>컬러 그레이딩과 선택 LUT로 시네마틱 색 톤을 잡을 수 있다</li>
 <li>Movie Render Queue 기본 출력 설정으로 PNG 이미지 시퀀스를 출력하고 영상 인코딩 흐름을 설명할 수 있다</li>
 <li>이 렌더링 워크플로우로 14~16주차 기말 렌더링을 리허설할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>3교시는 1교시(Post Process Volume + 분위기 이펙트)와 2교시(컬러 그레이딩·LUT·Movie Render Queue)에서 배운 것을 <strong>본인 시네마틱 시퀀스</strong>에 적용하고, 영상 출력 흐름까지 확인하는 실습입니다.</p>
@@ -624,6 +798,7 @@ h1, .lead, .material-title, .material-meta,
 <p>13주차에는 별도 제출 과제가 없습니다. 3교시 산출물은 제출·채점 대상이 아니며, 14~16주차 기말 프로젝트에서 같은 렌더링 절차를 쓰므로 오늘은 그 <strong>렌더링 워크플로우를 한 번 통과해보는 리허설</strong>입니다. 오늘 손에 익혀두면 기말 영상 출력이 수월해집니다.</p>
 </div>
 </div>
+<section class="learning-card workflow-card" aria-labelledby="시작-시퀀스-확인-미션-환경-셋업">
 <h2 id="시작-시퀀스-확인-미션-환경-셋업">시작 — 시퀀스 확인 + 미션 + 환경 셋업</h2>
 <h3 id="3교시-미션">3교시 미션</h3>
 <figure class="lecture-figure">
@@ -652,6 +827,8 @@ h1, .lead, .material-title, .material-meta,
 <li>3. (선택) 12주차에 만든 환경이 있으면, 본인 시퀀스를 그 환경 안에 배치해두면 렌더 결과가 더 풍부해진다</li>
 </ul>
 <p>MRQ 플러그인이 비활성이면 단계 3 에서 MRQ 창 자체가 열리지 않습니다. 출력 폴더도 미리 만들어두면 렌더할 때 시간을 줄일 수 있습니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-1-post-process-volume-분위기-이펙트">
 <h2 id="단계-1-post-process-volume-분위기-이펙트">단계 1 — Post Process Volume + 분위기 이펙트</h2>
 <p>단계 1 은 1교시에 배운 <strong>Post Process Volume + 분위기 이펙트</strong>를 본인 시퀀스의 씬에 적용하는 단계입니다. 1교시 데모에서 본 순서 — PPV 배치 → 노출 고정 → 이펙트 — 를 본인 씬에 적용합니다.</p>
 <p><strong>단계 1 흐름 (1교시 복습)</strong></p>
@@ -681,6 +858,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">카메라가 움직일 때 밝기가 출렁임</td><td data-label="원인">Exposure 가 Auto 상태</td><td data-label="해결">Exposure 를 Manual 로 고정</td></tr>
 <tr><td data-label="증상">화면이 뿌옇게 떠 보임</td><td data-label="원인">Bloom Intensity 과다 / Threshold 낮음</td><td data-label="해결">Bloom 값을 줄이고 전/후 비교</td></tr>
 <tr><td data-label="증상">DoF 를 켰는데 배경이 안 흐려짐</td><td data-label="원인">카메라 초점 미설정</td><td data-label="해결">Cine Camera 의 Focus Distance·Aperture 조정 (9주차)</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-2-컬러-그레이딩-선택-lut">
 <h2 id="단계-2-컬러-그레이딩-선택-lut">단계 2 — 컬러 그레이딩 (+선택 LUT)</h2>
 <p>단계 2 는 2교시에 배운 <strong>컬러 그레이딩</strong>입니다. 같은 PPV 안의 Color Grading 섹션에서 본인 시네마틱의 <strong>색 톤</strong>을 결정합니다.</p>
 <p><strong>단계 2 흐름 (2교시 복습)</strong></p>
@@ -712,6 +891,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">Color Grading 섹션이 보이지 않음</td><td data-label="원인">PPV 디테일 패널 섹션 위치</td><td data-label="해결">PPV 선택 후 디테일 패널에서 Color Grading 검색</td></tr>
 <tr><td data-label="증상">인터넷에서 받은 LUT 가 적용되지 않음</td><td data-label="원인"><code>.cube</code> 는 UE 전용 텍스처 형식이 아님</td><td data-label="해결">강사 제공 LUT 텍스처 사용</td></tr>
 <tr><td data-label="증상">LUT 가 너무 강하게 적용됨</td><td data-label="원인">LUT Intensity 가 1 에 가까움</td><td data-label="해결">LUT Intensity 를 0.5 안팎으로 낮춤</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-3-movie-render-queue-설정-테스트-렌더">
 <h2 id="단계-3-movie-render-queue-설정-테스트-렌더">단계 3 — Movie Render Queue 설정 + 테스트 렌더</h2>
 <p>단계 3 은 오늘의 핵심입니다. 2교시에 배운 <strong>Movie Render Queue</strong> 로, PPV·컬러 그레이딩을 입힌 본인 시퀀스를 <strong>PNG 이미지 시퀀스</strong>로 출력합니다.</p>
 <p><strong>단계 3 흐름 (2교시 복습)</strong></p>
@@ -749,6 +930,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">출력 폴더에 파일이 없음</td><td data-label="원인">Output 폴더 경로 미지정</td><td data-label="해결">Output 설정에서 출력 폴더를 다시 지정하고 렌더</td></tr>
 <tr><td data-label="증상">큐에 시퀀스가 안 올라감</td><td data-label="원인">Level Sequence 가 아닌 것을 선택</td><td data-label="해결">카메라·컷이 든 Level Sequence 를 큐에 추가</td></tr>
 <tr><td data-label="증상">출력 화면이 viewport 와 약간 다름</td><td data-label="원인">viewport 는 실시간 미리보기</td><td data-label="해결">MRQ 출력이 최종 기준 — 정상</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-4-인코딩-이미지-시퀀스-영상">
 <h2 id="단계-4-인코딩-이미지-시퀀스-영상">단계 4 — 인코딩: 이미지 시퀀스 → 영상</h2>
 <p>단계 4 는 단계 3 에서 나온 <strong>PNG 이미지 시퀀스를 하나의 영상 파일로 만드는</strong> 작업으로, 이것을 <strong>인코딩</strong>이라고 합니다.</p>
 <p>2교시에서 미뤄둔 질문 — '왜 영상 파일이 아니라 PNG 낱장으로 출력하는가' — 의 답이 여기 있습니다. 이미지 시퀀스는 학생 PC 와 편집 도구에서 안정적으로 열리고, 렌더가 중간에 멈춰도 나온 프레임까지는 그대로 남습니다. 영상 파일로 바로 뽑으면 코덱 문제로 열리지 않거나, 렌더가 끊겼을 때 전체 파일이 손상될 수 있습니다. 그래서 'PNG 시퀀스로 출력 → 영상으로 인코딩' 두 단계로 나눕니다.</p>
@@ -773,6 +956,8 @@ h1, .lead, .material-title, .material-meta,
 </ul>
 <p><strong>기대 결과</strong>: 본인 PNG 이미지 시퀀스가 하나의 영상 파일로 인코딩된 상태.</p>
 <p>인코딩은 자기점검의 <strong>확장 기준</strong>입니다. 단계 3 까지가 기본 완성이며, 아직 테스트 렌더가 끝나지 않았다면 단계 3 을 계속 진행합니다. 전체 구간 렌더와 인코딩은 수업 후 자율로 해도 됩니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="자기점검">
 <h2 id="자기점검">자기점검</h2>
 <p>본인 작업을 점검합니다. <strong>채점용이 아니라 본인 확인용</strong>입니다 — 기말 렌더링에 들어가기 전 '내 렌더링 워크플로우가 어디까지 완료됐는지' 스스로 보는 것입니다.</p>
 <p><strong>기본 완성 기준</strong></p>
@@ -796,6 +981,8 @@ h1, .lead, .material-title, .material-meta,
 <p>본인 시퀀스·환경·렌더 설정을 <strong>저장(Ctrl+S)</strong> 해두세요. 이 워크플로우가 14~16주차 기말 렌더링에 그대로 이어집니다.</p>
 </div>
 </div>
+
+</section><section class="takeaway-card" aria-labelledby="마무리">
 <h2 id="마무리">마무리</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">3교시 한 줄 요약</div>
@@ -808,9 +995,12 @@ h1, .lead, .material-title, .material-meta,
 </figure>
 <p>오늘 흐름 — PPV+이펙트 → 컬러 그레이딩 → MRQ 로 PNG 이미지 시퀀스 출력 → 인코딩. 이 4단계가 13주차 전체이자, 14~16주차 기말 렌더링 절차입니다.</p>
 <p>13주차로 시네마틱 제작의 주요 기술을 한 번씩 다뤘습니다 — <strong>캐릭터(10주차) · 카메라(11주차) · 환경(12주차) · 렌더링(13주차).</strong> 본인 기말 시네마틱에 필요한 기본 워크플로우가 갖춰진 상태입니다.</p>
+
+</section><section class="takeaway-card" aria-labelledby="다음-시간-예고">
 <h2 id="다음-시간-예고">다음 시간 예고</h2>
 <p>14~15주차는 기말 프로젝트 제작과 피드백, 16주차는 시네마틱 영상 최종 제출입니다. 새 기능을 더 배우기보다, 지금까지 배운 내용을 통합해 본인 시네마틱 한 편을 완성하는 시간입니다. 오늘 익힌 Post Process · 컬러 그레이딩 · Movie Render Queue 워크플로우가 기말 영상 출력에 그대로 쓰입니다. 본인 시퀀스·환경·렌더 설정을 잘 저장해두면 14주차에 그대로 이어집니다.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

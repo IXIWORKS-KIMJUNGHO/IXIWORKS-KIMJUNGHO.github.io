@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -617,14 +791,14 @@ h1, .lead, .material-title, .material-meta,
 </tbody>
 </table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>폴리지 머티리얼의 바람(WPO)과 색상 변화 설정을 이해할 수 있다</li>
 <li>Landscape Mode로 지형을 생성하고 Sculpt 도구로 기본 지형을 만들 수 있다</li>
 <li>Nanite Foliage와 PCG의 역할을 이해하고 자연환경 제작 흐름에 연결할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <hr />
@@ -635,6 +809,7 @@ h1, .lead, .material-title, .material-meta,
 <li>폴리지에서 Density / 1Kuu는 1000×1000 Unreal Units 영역 기준 배치 개수이며, 이번 실습에서는 300~500 정도가 적당합니다.</li>
 </ul>
 <p>1교시에서 만든 풀밭은 풀이 움직이지 않고, 바닥이 평평한 Cube라는 한계가 있습니다. 2교시에서는 풀에 생명을 불어넣고, 실제 지형을 만들며, UE 5.7에서 새로 나온 기술도 살펴봅니다.</p>
+<section class="learning-card concept-card" aria-labelledby="심화-개념-1-폴리지-머테리얼-커스터마이징">
 <h2 id="심화-개념-1-폴리지-머테리얼-커스터마이징">심화 개념 1: 폴리지 머테리얼 커스터마이징</h2>
 <figure class="lecture-figure">
 <img src="assets/11_wind-season-color-variation.webp" alt="wind season color variation" />
@@ -873,7 +1048,9 @@ h1, .lead, .material-title, .material-meta,
 </ul>
 <p>베이스컬러를 바꾸면 전체가 한꺼번에 바뀌지만, ColorVariation은 식물마다, 부위마다 랜덤하게 다른 색을 적용하여 훨씬 자연스럽습니다.</p>
 <p><strong>학생 따라하기</strong>: 풀 MI를 열고 (Billboard 아닌 것!) Wind primary+secondary를 켜고, Seasons 가을빛을 넣어보세요. ColorVariation도 켜보세요.</p>
+</section>
 <hr />
+<section class="learning-card concept-card" aria-labelledby="심화-개념-2-랜드스케이프-시스템">
 <h2 id="심화-개념-2-랜드스케이프-시스템">심화 개념 2: 랜드스케이프 시스템</h2>
 <h3 id="왜-랜드스케이프가-필요한가">왜 랜드스케이프가 필요한가</h3>
 <p>자연에는 완벽하게 평평한 바닥이 없습니다. 언덕, 계곡, 경사면이 있고, Cube 바닥은 끝이 뚝 끊깁니다. 랜드스케이프는 이러한 자연 지형을 표현하기 위한 시스템입니다.</p>
@@ -1263,7 +1440,9 @@ Landscape 체크가 안 되어 있으면 랜드스케이프 위에 폴리지가 
 </p>
 </div>
 </div>
+</section>
 <hr />
+<section class="learning-card concept-card" aria-labelledby="심화-개념-3-ue-5.7-최신-기술-미리보기">
 <h2 id="심화-개념-3-ue-5.7-최신-기술-미리보기">심화 개념 3: UE 5.7 최신 기술 미리보기</h2>
 <p>UE 5.7에서 새로 나온 기술을 살펴봅니다. 아직 실험적(Experimental)이라 수업에서 직접 쓰지는 않지만, 방향성을 알아두면 좋습니다.</p>
 <h3 id="nanite-foliage-사례">Nanite Foliage 사례</h3>
@@ -1395,7 +1574,9 @@ Landscape 체크가 안 되어 있으면 랜드스케이프 위에 폴리지가 
 </ol>
 <p>브러시로 칠하지 않았는데 풀이 자동으로 깔리는 것입니다. Surface Sampler가 ‘어디에 배치할지’ 결정하고, Static Mesh Spawner가 ‘뭘 배치할지’ 결정합니다. 노드를 더 추가하면 ‘경사면에는 빼기’, ‘바위 주변은 비우기’ 같은 조건도 걸 수 있습니다.</p>
 <p>지금 수업에서는 브러시 Paint를 마스터하는 것이 우선이며, PCG는 ‘이런 방식도 있다’ 정도로 알아두면 됩니다. 관심 있는 분은 3교시 확장 과제에서 직접 해볼 수 있습니다.</p>
+</section>
 <hr />
+<section class="takeaway-card" aria-labelledby="정리-3교시-안내">
 <h2 id="정리-3교시-안내">정리 + 3교시 안내</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">
@@ -1431,7 +1612,8 @@ Cube 바닥으로도 기본 제출이 가능합니다. 먼저 완성하는 쪽�
 </div>
 </div>
 <p>기본 제출 기준 5가지: 나나이트 / 폴리지(나무+풀, Density/Scale) / Wind / 노말맵 / 저장+스크린샷 우수 기준: Landscape Sculpt / Landscape Material Layer / Seasons·ColorVariation / Preserve Area / Align to Normal</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol><li><a href="#심화-개념-1-폴리지-머테리얼-커스터마이징">심화 개념 1: 폴리지 머테리얼 커스터마이징</a></li><li><a href="#심화-개념-2-랜드스케이프-시스템">심화 개념 2: 랜드스케이프 시스템</a></li><li><a href="#심화-개념-3-ue-5.7-최신-기술-미리보기">심화 개념 3: UE 5.7 최신 기술 미리보기</a></li><li><a href="#정리-3교시-안내">정리 + 3교시 안내</a></li></ol>

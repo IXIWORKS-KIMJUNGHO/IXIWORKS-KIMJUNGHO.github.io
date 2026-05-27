@@ -503,6 +503,178 @@ hr {
   a { color: #000; text-decoration: none; }
   body { background: #fff; }
 }
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 </style>
 </head>
 <body>
@@ -532,6 +704,7 @@ hr {
 <aside class="callout callout-abstract"><div class="callout-title"><span>오늘의 학습 목표</span></div><div class="callout-body"><p>이 수업이 끝나면 여러분은:</p>
 <ul><li>16주간의 강의 로드맵과 시네마틱 영상 제작 파이프라인을 이해합니다</li><li>언리얼엔진 5의 핵심 기술(Nanite, Lumen, Megascans, 시퀀서)을 파악합니다</li><li>생성형 AI 도구의 시네마틱 제작 활용 가능성을 인식합니다</li></ul></div></aside>
 <hr>
+<section class="learning-card workflow-card" aria-labelledby="시네마틱-show-reel">
 <h2 id="시네마틱-show-reel"><span>시네마틱 SHOW REEL</span></h2>
 <aside class="callout callout-video"><div class="callout-title"><span>오늘 수업에서 함께 보는 영상</span></div><div class="callout-body"><p><strong>오프닝 쇼릴</strong></p>
 <ul><li><a href="https://www.youtube.com/watch?v=WU0gvPcc3jQ" target="_blank" rel="noopener noreferrer">The Matrix Awakens — Epic Games 공식</a> — 실사급 퀄리티의 UE5 기술 데모</li><li><a href="https://www.youtube.com/watch?v=WZbeTaG-8gg" target="_blank" rel="noopener noreferrer">ABYSS — UE5.5 인디 시네마틱 (2025)</a> — 2인 크리에이터가 MetaHuman + Mocap으로 제작</li></ul>
@@ -540,6 +713,8 @@ hr {
 <p><strong>UE5 기술 데모</strong></p>
 <ul><li><a href="https://www.youtube.com/watch?v=qC5KtatMcUw" target="_blank" rel="noopener noreferrer">Lumen in the Land of Nanite — Epic Games 공식</a> — Nanite + Lumen 기술 시연</li></ul></div></aside>
 <hr>
+
+</section><section class="learning-card concept-card" aria-labelledby="강의-개요">
 <h2 id="강의-개요"><span>강의 개요</span></h2>
 <h3 id="16주-로드맵"><span>16주 로드맵</span></h3>
 <p>이 수업은 <strong>언리얼엔진 5 + 생성형 AI</strong>를 활용하여 시네마틱 영상을 기획하고 제작하는 전 과정을 다룹니다.</p>
@@ -575,6 +750,8 @@ hr {
 <ul><li><strong>수업 구조</strong>: 주당 3시간 — 이론 2시간 + 실습 1시간 (2주차부터)</li><li><strong>생성형 AI 사용</strong>: 적극 권장 (구체적 규칙은 아래 AI 섹션 참고)</li><li><strong>자습 권장</strong>: 수업 외 주당 3~5시간</li></ul>
 <hr>
 <hr>
+
+</section><section class="learning-card concept-card" aria-labelledby="시네마틱-제작-파이프라인">
 <h2 id="시네마틱-제작-파이프라인"><span>시네마틱 제작 파이프라인</span></h2>
 <p>영상을 만드는 과정은 크게 <strong>세 단계</strong>로 나뉩니다. 이 파이프라인이 16주 커리큘럼의 뼈대입니다.</p>
 <h3 id="1단계-프리프로덕션-기획"><span>1단계: 프리프로덕션 — &quot;기획&quot;</span></h3>
@@ -606,6 +783,8 @@ hr {
 <tr><td data-label="관찰 포인트">&quot;전체적인 색감 톤은 어떻게?&quot;</td><td data-label="기술 요소"><strong>포스트 프로세스</strong> — 색보정 필터</td><td data-label="배우는 주차">13주차</td></tr></tbody></table></div>
 <hr>
 <hr>
+
+</section><section class="learning-card concept-card" aria-labelledby="언리얼엔진-5-핵심-기술">
 <h2 id="언리얼엔진-5-핵심-기술"><span>언리얼엔진 5 핵심 기술</span></h2>
 <h3 id="nanite-폴리곤-걱정-없는-세상"><span>Nanite — 폴리곤 걱정 없는 세상</span></h3>
 <p>수십억 개의 폴리곤을 가진 에셋을 씬에 배치해도, 엔진이 화면에 보이는 부분만 최적화하여 렌더링합니다. <strong>성능 때문에 디테일을 포기할 필요가 없습니다.</strong></p>
@@ -633,6 +812,8 @@ hr {
 <aside class="callout callout-tip"><div class="callout-title"><span>핵심 포인트</span></div><div class="callout-body"><p>Unity와 UE5는 용도가 다릅니다. <strong>&quot;시네마틱 영상 제작&quot;</strong>이라는 목적에서는 UE5가 훨씬 특화되어 있습니다.</p></div></aside>
 <hr>
 <hr>
+
+</section><section class="learning-card concept-card" aria-labelledby="생성형-ai-활용">
 <h2 id="생성형-ai-활용"><span>생성형 AI 활용</span></h2>
 <h3 id="파이프라인별-ai-활용"><span>파이프라인별 AI 활용</span></h3>
 <p>시네마틱 제작 파이프라인의 거의 모든 단계에서 생성형 AI를 활용할 수 있습니다.</p>
@@ -647,6 +828,8 @@ hr {
 <ul><li>AI 사용 자체는 감점이 아닙니다. <strong>적극 권장</strong>합니다.</li><li>단, 사용 도구와 방법을 기록하지 않고 제출하면 <strong>감점 대상</strong>입니다.</li><li>이는 실무에서도 동일하게 요구되는 투명성 원칙입니다.</li></ul></div></aside>
 <hr>
 <hr>
+
+</section><section class="learning-card workflow-card" aria-labelledby="시스템-요구사항-설치">
 <h2 id="시스템-요구사항-설치"><span>시스템 요구사항 &amp; 설치</span></h2>
 <h3 id="권장-사양"><span>권장 사양</span></h3>
 <div class="table-wrap"><table><thead><tr><th>항목</th><th>권장 사양</th><th>비고</th></tr></thead><tbody><tr><td data-label="항목">OS</td><td data-label="권장 사양">Windows 10/11 64-bit</td><td data-label="비고">Mac은 제한적 지원</td></tr>
@@ -662,12 +845,16 @@ hr {
 <p>설치 중 문제가 생기면: jungho1005@cau.ac.kr</p>
 <hr>
 <hr>
+
+</section><section class="learning-card reference-card" aria-labelledby="자주-묻는-질문">
 <h2 id="자주-묻는-질문"><span>자주 묻는 질문</span></h2>
 <aside class="callout callout-faq"><div class="callout-title"><span>&quot;Mac으로도 할 수 있나요?&quot;</span></div><div class="callout-body"><p>언리얼엔진 5는 Mac도 지원하지만, Apple Silicon(M1/M2/M3) 기준으로 일부 기능에 제한이 있습니다. 특히 <strong>Nanite와 Lumen이 제대로 동작하지 않을 수 있습니다.</strong> 가능하면 Windows를 권장하며, Mac밖에 없다면 교수와 상담하세요.</p></div></aside>
 <aside class="callout callout-faq"><div class="callout-title"><span>&quot;코딩을 못 해도 괜찮나요?&quot;</span></div><div class="callout-body"><p>괜찮습니다. 이 수업에서는 코드를 직접 작성하지 않습니다. <strong>블루프린트</strong>라는 비주얼 스크립팅 도구를 사용하며, 노드를 연결하는 방식이라 프로그래밍 경험이 없어도 할 수 있습니다.</p></div></aside>
 <aside class="callout callout-faq"><div class="callout-title"><span>&quot;기말 프로젝트 영상은 몇 분 정도인가요?&quot;</span></div><div class="callout-body"><p>길이보다 <strong>퀄리티</strong>가 중요합니다. 30초~1분 정도의 짧은 시네마틱이라도, 라이팅·카메라·분위기가 잘 잡혀있으면 높은 평가를 받을 수 있습니다.</p></div></aside>
 <aside class="callout callout-faq"><div class="callout-title"><span>&quot;팀 프로젝트인가요?&quot;</span></div><div class="callout-body"><p>아닙니다. <strong>개인 프로젝트</strong>입니다. 처음부터 끝까지 본인이 직접 제작합니다.</p></div></aside>
 <hr>
+
+</section><section class="learning-card workflow-card" aria-labelledby="시네마틱-장르-가이드">
 <h2 id="시네마틱-장르-가이드"><span>시네마틱 장르 가이드</span></h2>
 <p>레퍼런스를 모을 때 참고할 수 있는 주요 장르입니다. 관심 가는 방향을 미리 탐색해보세요.</p>
 <div class="table-wrap"><table><thead><tr><th>장르</th><th>특징</th><th>예시</th></tr></thead><tbody><tr><td data-label="장르">게임 트레일러</td><td data-label="특징">액션, 캐릭터 중심, 빠른 컷</td><td data-label="예시">LOL 시네마틱, Fortnite 이벤트</td></tr>
@@ -677,10 +864,14 @@ hr {
 <tr><td data-label="장르">환경 시네마틱</td><td data-label="특징">풍경, 자연, 분위기 몰입</td><td data-label="예시">&quot;Beautiful UE5 Environment&quot;</td></tr></tbody></table></div>
 <aside class="callout callout-tip"><div class="callout-title"><span>레퍼런스 수집 습관</span></div><div class="callout-body"><p>&quot;멋있다&quot;고 느끼는 영상이 있으면 핀터레스트, 유튜브 재생목록, 스크린샷 폴더 등 어디든 좋으니 틈틈이 수집해 두세요. 기말 프로젝트 때 큰 도움이 됩니다.</p></div></aside>
 <hr>
+
+</section><section class="learning-card workflow-card" aria-labelledby="다음-주-예고">
 <h2 id="다음-주-예고"><span>다음 주 예고</span></h2>
 <aside class="callout callout-important"><div class="callout-title"><span>2주차: 언리얼엔진 인터페이스 및 기초</span></div><div class="callout-body"><ul><li>에디터 화면 구성, 프로젝트 생성, 기본 오브젝트 배치</li><li><strong>실습과제 1</strong>이 있습니다</li><li><strong>준비물</strong>: <strong>언리얼엔진 5가 설치된 개인 PC</strong><ul><li>설치가 안 되면 수업을 따라가기 어렵습니다. 반드시 미리 설치하세요!</li><li>설치 문제 시: jungho1005@cau.ac.kr</li></ul></li></ul></div></aside>
 <hr>
 <hr>
+
+</section><section class="learning-card reference-card" aria-labelledby="참고-자료">
 <h2 id="참고-자료"><span>참고 자료</span></h2>
 <h3 id="학습-자료"><span>학습 자료</span></h3>
 <div class="table-wrap"><table><thead><tr><th>자료</th><th>설명</th></tr></thead><tbody><tr><td data-label="자료"><a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/" target="_blank" rel="noopener noreferrer">언리얼엔진 공식 문서</a></td><td data-label="설명">Epic Games 공식 레퍼런스</td></tr>
@@ -697,7 +888,8 @@ hr {
 <tr><td data-label="도구"><a href="https://www.tripo3d.ai/" target="_blank" rel="noopener noreferrer">Tripo</a></td><td data-label="설명">이미지 1장 → 20초 만에 3D 모델 생성</td></tr></tbody></table></div>
 <hr>
 <aside class="callout callout-abstract"><div class="callout-title"><span>오늘의 전체 요약</span></div><div class="callout-body"><ul><li><strong>로드맵</strong>: 전반부(1~7주)에서 UE5 환경을 구축하고, 후반부(9~13주)에서 시네마틱을 제작하여, 기말(14~16주)에 영상을 완성합니다</li><li><strong>파이프라인</strong>: 프리프로덕션(기획) → 프로덕션(제작) → 포스트프로덕션(후반 작업) 3단계가 커리큘럼의 뼈대입니다</li><li><strong>UE5 핵심 기술</strong>: Nanite(폴리곤 최적화), Lumen(실시간 라이팅), Megascans(무료 에셋), 시퀀서(영상 편집)</li><li><strong>다음 주 준비물</strong>: <strong>언리얼엔진 5가 설치된 개인 PC</strong></li></ul></div></aside>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol><li><a href="#시네마틱-show-reel">시네마틱 SHOW REEL</a></li><li><a href="#강의-개요">강의 개요</a></li><li><a href="#시네마틱-제작-파이프라인">시네마틱 제작 파이프라인</a></li><li><a href="#언리얼엔진-5-핵심-기술">언리얼엔진 5 핵심 기술</a></li><li><a href="#생성형-ai-활용">생성형 AI 활용</a></li><li><a href="#시스템-요구사항-설치">시스템 요구사항 &amp; 설치</a></li><li><a href="#자주-묻는-질문">자주 묻는 질문</a></li><li><a href="#시네마틱-장르-가이드">시네마틱 장르 가이드</a></li><li><a href="#다음-주-예고">다음 주 예고</a></li><li><a href="#참고-자료">참고 자료</a></li></ol>

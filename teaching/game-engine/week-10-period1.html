@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -603,18 +777,19 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>애니메이션 리타겟팅의 정의와 매핑 단계가 필요한 이유를 설명할 수 있다</li>
 <li>Rest Pose 3종(Scan / A / T)의 차이와 MetaHuman / Mixamo / ThirdPerson Mannequin의 Rest Pose를 구분할 수 있다</li>
 <li>Mixamo에서 캐릭터와 애니메이션을 적절한 옵션(T-Pose / Without Skin / In Place)으로 받아 다음 시간 import 준비를 완료할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>지난 주에 시네 카메라와 시퀀서로 카메라 워크를 만들었고, 오늘은 그 카메라가 비추는 캐릭터에게 동작을 입히는 방법을 배웁니다.</p>
 <p>MetaHuman, Mixamo, ThirdPerson Mannequin 은 각자 다른 형태를 가진 캐릭터인데, 한 동작 데이터를 만들었을 때 이 데이터를 다른 캐릭터에 그대로 입힐 수 있을까요? 답은 <strong>'경우에 따라'</strong> 이며, 그 '경우'를 결정하는 조건이 오늘의 핵심입니다.</p>
+<section class="learning-card concept-card" aria-labelledby="모캡-vs-핸드-키프레임">
 <h2 id="모캡-vs-핸드-키프레임">모캡 vs 핸드 키프레임</h2>
 <p>캐릭터 동작은 크게 두 방식으로 제작합니다.</p>
 <ul><li><strong>모션캡처(Motion Capture)</strong>: 실제 사람이 모캡 슈트를 입고 움직인 데이터를 캐릭터에 입히는 방식으로, 디테일이 풍부하고 자연스럽습니다.</li><li><strong>핸드 키프레임(Hand Keyframe)</strong>: 애니메이터가 본을 하나하나 손으로 회전시켜 키프레임으로 기록하는 방식으로, 의도가 명확하고 양식화된 동작이 만들어집니다.</li></ul>
@@ -628,6 +803,8 @@ h1, .lead, .material-title, .material-meta,
 <p>두 방식 모두 결과물은 <strong>본 위에 얹힌 키프레임 시퀀스</strong> 이며, 캐릭터가 다르더라도 본 구조가 비슷하면 그 키프레임을 옮겨 쓸 수 있다 — 이것이 오늘 주제의 출발점입니다.</p>
 </div>
 </div>
+
+</section><section class="learning-card concept-card" aria-labelledby="mixamo-라이브러리">
 <h2 id="mixamo-라이브러리">Mixamo 라이브러리</h2>
 <p>오늘 사용할 자산은 Adobe 가 운영하는 무료 캐릭터·모션캡처 라이브러리인 <strong>Mixamo</strong> 로, 회원가입만 하면 전부 받아서 사용할 수 있습니다.</p>
 <blockquote class="quote-note">
@@ -640,12 +817,16 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>라이브러리의 동작들을 우리 ThirdPerson 캐릭터에 입히려 해도, 본 구조가 다르기 때문에 단순히 import 만으로는 바로 적용되지 않고 <strong>리타겟팅</strong> 단계가 필요합니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="다음-시간-만날-우리-캐릭터">
 <h2 id="다음-시간-만날-우리-캐릭터">다음 시간 만날 우리 캐릭터</h2>
 <p>다음 시간부터 동작을 입힐 타깃 캐릭터는 <strong>ThirdPerson 템플릿의 Manny / Quinn</strong>, 줄여서 SK_Mannequin 으로, A-Pose 자세에 본 구조가 단순하여 학생 PC 에서도 가볍게 동작합니다.</p>
 <figure class="lecture-figure">
 <img src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
 <figcaption>왼쪽이 SK_Mannequin (A-Pose, 우리 타깃) / 오른쪽이 SK_Mixamo (T-Pose, 우리 소스) — 오늘 둘을 짝짓는 준비를 합니다</figcaption>
 </figure>
+
+</section><section class="learning-card workflow-card" aria-labelledby="1-리타겟팅이란">
 <h2 id="1-리타겟팅이란">1. 리타겟팅이란</h2>
 <h3 id="본-위에-얹힌-키프레임">본 위에 얹힌 키프레임</h3>
 <p>본격적으로 들어가기 전에 용어부터 정리합니다.</p>
@@ -701,6 +882,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="용어"><strong>Without Skin</strong> (Mixamo 옵션)</td><td data-label="한 줄 정의">새 캐릭터 메시 없이 <strong>애니메이션 데이터만</strong> 받는 옵션. 캐릭터 본체는 따로 받았으니 동작만 필요할 때</td></tr>
 <tr><td data-label="용어"><strong>FK</strong> (Forward Kinematics)</td><td data-label="한 줄 정의">부모 본부터 자식 본으로 회전이 전달되는 기본 방식. 어깨 돌리면 팔꿈치도 돌아감</td></tr>
 <tr><td data-label="용어"><strong>IK</strong> (Inverse Kinematics)</td><td data-label="한 줄 정의">손·발 같은 끝점을 맞추기 위해 관절을 <strong>역으로</strong> 계산하는 방식. 다음 시간 <strong>IK Rig</strong> 의 IK</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="2-rest-pose-와-본-구조">
 <h2 id="2-rest-pose-와-본-구조">2. Rest Pose 와 본 구조</h2>
 <h3 id="rest-pose-3종">Rest Pose 3종</h3>
 <p>본 구조를 매핑하려면 <strong>Rest Pose = 애니메이션이 적용되지 않은 기본 자세</strong> 도 알아야 하는데, 모든 캐릭터는 이 기본 자세에서 시작하며 같은 인간형이어도 어떤 rest pose 로 설정했는지에 따라 본 정렬이 미묘하게 달라집니다.</p>
@@ -764,6 +947,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="부위">얼굴</td><td data-label="SK_Mannequin">거의 없음</td><td data-label="MetaHuman">표정용 본 100+</td></tr>
 <tr><td data-label="부위">LOD</td><td data-label="SK_Mannequin">1단</td><td data-label="MetaHuman">다단 (LOD0~LOD8)</td></tr></tbody></table></div>
 <p>MetaHuman 은 정밀한 만큼 무거워 실습실 PC 에서는 강의 시간 안에 부드럽게 동작하지 않을 수 있으므로, 오늘은 Mannequin 으로 진행합니다. <strong>절차 자체는 동일하며</strong>, IK Rig 생성, retarget chain 매핑, 변환 결과를 새 애니메이션으로 내보내는 과정은 타깃이 Mannequin 이든 MetaHuman 이든 같은 방식으로 작동합니다. 본인 PC 사양이 충분하다면 기말 프로젝트에서 MetaHuman 으로 시도해도 좋습니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="3-데모-mixamo-자산-받기">
 <h2 id="3-데모-mixamo-자산-받기">3. 데모 — Mixamo 자산 받기</h2>
 <p>이제 직접 손을 움직여 작업을 시작하기 위해 브라우저에서 Mixamo 사이트를 엽니다.</p>
 <h3 id="3-1-mixamo-사이트-접속">3.1 Mixamo 사이트 접속</h3>
@@ -914,6 +1099,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">FBX 파일이 너무 큼 (5MB+)</td><td data-label="원인">With Skin 으로 받았거나 LOD 다단 포함</td><td data-label="해결">Without Skin + 단순 옵션으로 다시 다운로드</td></tr></tbody></table></div>
 </div>
 </div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="다운로드-검수-게이트">
 <h2 id="다운로드-검수-게이트">다운로드 검수 게이트</h2>
 <p>쉬는 시간 전에 본인 다운로드 폴더를 한 번 점검하여 다음 시간 import 가 막히지 않도록 미리 확인합니다.</p>
 <div class="callout callout-question">
@@ -923,6 +1110,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>체크되지 않은 항목이 있으면 손을 들어 알려주세요. 수업용 백업본을 받거나 다운로드를 다시 함께 진행합니다. 특히 두 번째 항목인 Walking.fbx 가 5MB 를 넘으면 Without Skin 옵션이 빠진 것이므로 다시 받아야 하며, 정상 파일은 대체로 1MB 미만입니다.</p>
+
+</section><section class="takeaway-card" aria-labelledby="핵심-요약">
 <h2 id="핵심-요약">핵심 요약</h2>
 <div class="table-wrap"><table><thead><tr><th>#</th><th>개념</th><th>핵심</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="개념"><strong>리타겟팅</strong></td><td data-label="핵심">한 캐릭터의 동작 데이터를 다른 캐릭터로 전이. 단순 복사가 아니라 Skeleton 이 이해할 수 있게 번역하는 것</td></tr>
 <tr><td data-label="#">2</td><td data-label="개념"><strong>가능 조건</strong></td><td data-label="핵심">형태 유사성. 인간형↔인간형 가능, 사람↔말 불가</td></tr>
@@ -935,6 +1124,8 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>본 위에 얹힌 키프레임을, 형태가 비슷한 다른 캐릭터의 본에 매핑해서 옮기는 것이 리타겟팅이다.</strong></p>
 </div>
 </div>
+
+</section><section class="takeaway-card" aria-labelledby="다음-시간-예고">
 <h2 id="다음-시간-예고">다음 시간 예고</h2>
 <p>2교시에는 방금 받은 두 FBX 파일을 Unreal 에 import 하고, 오늘 손으로 만들지 않은 마지막 단계인 본 매핑을 IK Rig 자산으로 명시적으로 정의합니다.</p>
 <p>IK Rig 의 핵심 메시지는 <em>'비슷한 조인트 위치를 연결하는 것'</em> 으로, 오늘 살펴본 매핑 표(Mannequin pelvis ↔ Mixamo Hips 등)를 그대로 자산으로 옮긴다고 이해하면 됩니다.</p>
@@ -945,7 +1136,8 @@ h1, .lead, .material-title, .material-meta,
 <p>다음 시간에 받은 FBX 두 파일을 가져와야 하므로 <strong>클라우드 백업하거나 USB 에 복사해두세요.</strong> 실습실 PC 가 매번 초기화되는 환경이면 더 중요합니다.</p>
 </div>
 </div>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

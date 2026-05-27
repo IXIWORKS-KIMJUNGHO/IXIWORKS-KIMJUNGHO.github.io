@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -605,18 +779,19 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="관계">1교시 교안</td><td data-label="문서"><span class="wikilink">1교시: 영상 문법 + 다중 카메라 + Camera Cut</span></td></tr>
 <tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>Animation 클립의 Keep State 옵션으로 클립 종료 후 마지막 포즈를 유지할 수 있다</li>
 <li>Camera Rig Rail과 Camera Rig Crane의 구조를 이해하고 키프레임으로 추적 샷과 부감↔앙각 전환을 구현할 수 있다</li>
 <li>Camera Shake와 FK Control Rig를 활용해 임팩트와 모션 슬라이딩 문제를 보정할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>1교시에서는 카메라 <strong>위치를 고정</strong>해두고 시간 구간별로 어느 카메라를 보여줄지 결정했습니다. 2교시는 그 카메라가 <strong>시간에 따라 움직이게</strong> 만들고, 격투 임팩트에 흔들림을 더하고, 마지막에는 <strong>모션 데이터 자체를 수정</strong>해서 점프 어택의 슬라이딩 문제를 줄입니다.</p>
 <p>1교시 = '여러 카메라 가운데 어느 카메라를 보여줄지'. 2교시 = '선택된 카메라가 어떻게 움직일지 + 모션 데이터를 어떻게 다듬을지'. 둘이 합쳐져야 격투 영상이 완성됩니다.</p>
+<section class="learning-card workflow-card" aria-labelledby="keep-state-animation-클립이-끝나도-마지막-포즈-유지">
 <h2 id="keep-state-animation-클립이-끝나도-마지막-포즈-유지">Keep State — Animation 클립이 끝나도 마지막 포즈 유지</h2>
 <p>본인 시퀀서를 재생해보면 격투 모션 클립이 끝나는 순간 <strong>캐릭터가 T-Pose 로 돌아가는</strong> 현상이 보일 수 있습니다. 10주차에서는 클립 끝을 시퀀서 끝까지 드래그해 임시로 해결했지만, 더 안정적인 해결책이 있습니다.</p>
 <p><strong>문제 인식:</strong></p>
@@ -630,6 +805,8 @@ h1, .lead, .material-title, .material-meta,
 <p>클립이 여러 개 있을 때는 마지막 클립에만 Keep State 를 적용해도 충분합니다. 중간 클립은 다음 클립이 이어서 받으므로 기본값을 그대로 두어도 괜찮습니다. 시간이 부족하면 마지막 클립 한 개만 적용합니다.</p>
 </div>
 </div>
+
+</section><section class="learning-card concept-card" aria-labelledby="심화-1-camera-rig-rail">
 <h2 id="심화-1-camera-rig-rail">심화 1 — Camera Rig Rail</h2>
 <p>Camera Rig Rail 은 카메라가 따라 미끄러지는 <strong>레일</strong>입니다. 영화 촬영장의 카메라 레일을 디지털로 옮긴 것입니다. 무거운 카메라를 손으로 들고 흔들리지 않게 인물을 따라가기는 어렵습니다. 바닥에 레일을 깔고 카메라를 그 위에 얹어서 부드럽게 추적합니다. Unreal 의 Camera Rig Rail 도 같습니다.</p>
 <p>격투씬에서 Rail 이 특히 효과적인 장면은 <strong>측면 추적 샷</strong>입니다. 캐릭터가 펀치·킥을 휘두를 때 옆에서 카메라가 좌→우 또는 우→좌로 함께 움직이면 동작의 궤적이 한 컷에 들어갑니다. 1교시에서 측면이 격투 궤적을 잘 보여준다고 다뤘고, Rail 은 그 측면 시점을 움직이는 카메라로 확장해주는 도구입니다.</p>
@@ -680,6 +857,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">Current Position On Rail 트랙이 + Track 메뉴에 안 보임</td><td data-label="원인">Rail 액터가 시퀀서에 바인딩 안 됨</td><td data-label="해결">Outliner 에서 Rail 다시 선택 → 시퀀서 + Add &gt; Actor to Sequencer</td></tr>
 <tr><td data-label="증상">카메라가 Rail 따라가긴 하는데 캐릭터 방향이 안 맞음</td><td data-label="원인">Look At Tracking 미설정</td><td data-label="해결">CC_Medium &gt; Details &gt; Look at Tracking Settings 활성화, 타깃 = 캐릭터 액터</td></tr>
 <tr><td data-label="증상">Rail 길이가 짧아서 추적이 금방 끝남</td><td data-label="원인">Spline 포인트 거리 부족</td><td data-label="해결">Spline 포인트 추가하거나 끝점을 더 멀리 드래그</td></tr></tbody></table></div>
+
+</section><section class="learning-card concept-card" aria-labelledby="심화-2-camera-rig-crane">
 <h2 id="심화-2-camera-rig-crane">심화 2 — Camera Rig Crane</h2>
 <p>Camera Rig Crane 은 영화 촬영장의 <strong>크레인 카메라</strong>를 디지털로 옮긴 것입니다. 긴 팔(arm) 끝에 카메라가 달려 있고, 그 팔이 위로 솟구치거나 회전하면서 부감↔앙각·좌↔우 카메라 움직임을 만듭니다.</p>
 <p>격투씬에서 Crane 의 자리는 <strong>부감 → 앙각 전환</strong>입니다. 1교시에서 부감은 캐릭터 압박감, 앙각은 영웅감을 만든다고 다뤘습니다. 정지 자세 부감으로 시작 → 캐릭터가 펀치 시작할 때 카메라가 아래로 내려오면서 앙각으로 끝나면, <strong>'위에서 노려보던 시점이 캐릭터의 힘에 의해 무너지고 캐릭터가 영웅이 되는'</strong> 감정이 한 컷에 들어갑니다.</p>
@@ -733,6 +912,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">부감 키프레임 줘도 카메라가 거의 안 움직임</td><td data-label="원인">Arm Length 가 너무 짧음</td><td data-label="해결">Arm Length 를 600–1000 정도로 늘려 크레인 팔 가시화</td></tr>
 <tr><td data-label="증상">시작 / 끝 키프레임 사이 움직임이 기계적</td><td data-label="원인">인터폴레이션 Linear</td><td data-label="해결">키프레임 우클릭 → Cubic / Auto</td></tr>
 <tr><td data-label="증상">Crane Yaw 회전 후 카메라가 캐릭터를 못 봄</td><td data-label="원인">카메라가 Crane 회전 따라가지만 Look At 미설정</td><td data-label="해결">CC_Wide &gt; Look at Tracking Settings 활성화, 타깃 = 캐릭터</td></tr></tbody></table></div>
+
+</section><section class="learning-card concept-card" aria-labelledby="심화-3-camera-shake">
 <h2 id="심화-3-camera-shake">심화 3 — Camera Shake</h2>
 <p>펀치 임팩트 순간에 카메라를 살짝 흔들어서 충격을 강조하는 기법입니다. 영화·게임 모두에서 자주 쓰는 기본기입니다.</p>
 <p><strong>Camera Shake 의 두 가지 방식:</strong></p>
@@ -767,6 +948,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">Shake 가 시퀀스 끝까지 흔들림</td><td data-label="원인">섹션 길이가 너무 김</td><td data-label="해결">섹션 양 끝을 드래그해 3–4프레임으로 축소</td></tr>
 <tr><td data-label="증상">너무 어지러움</td><td data-label="원인">Duration 또는 Amplitude 과다</td><td data-label="해결">Duration 0.1–0.2초, Amplitude 1–3 범위로 조정</td></tr>
 <tr><td data-label="증상">임팩트 프레임이 어딘지 모름</td><td data-label="원인">시퀀스 타임라인 스크럽 안 함</td><td data-label="해결">타임라인을 격투 클립 위에서 1프레임씩 이동하며 펀치·킥 정점 식별</td></tr></tbody></table></div>
+
+</section><section class="learning-card concept-card" aria-labelledby="심화-4-fk-control-rig-forward-방향-이동-정리-bake-animation">
 <h2 id="심화-4-fk-control-rig-forward-방향-이동-정리-bake-animation">심화 4 — FK Control Rig + forward 방향 이동 정리 + Bake Animation</h2>
 <h3 id="왜-모션-데이터를-직접-수정해야-하는가">왜 모션 데이터를 직접 수정해야 하는가</h3>
 <p>본인 격투 시퀀스에 <strong>점프 어택 (Jump Attack / Flying Kick / Forward Roll)</strong> 같은 이동 모션이 있으면, Mixamo In Place 옵션을 받았어도 캐릭터가 의도치 않게 앞으로 슬라이딩합니다.</p>
@@ -828,6 +1011,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">Bake Animation Sequence 메뉴 안 보임</td><td data-label="원인">캐릭터 바인딩 우클릭이 아니라 FKControlRig 트랙 우클릭</td><td data-label="해결">시퀀서 좌측 <strong>SKM_Manny 바인딩 트랙</strong> 우클릭. FKControlRig 자식 트랙 X</td></tr>
 <tr><td data-label="증상">저장 후 Bake 결과 AS 가 빈 상태</td><td data-label="원인">베이크 범위 (Sequencer Display Range) 가 0</td><td data-label="해결">시퀀서 시작·끝을 모션 길이에 맞춘 뒤 다시 Bake</td></tr>
 <tr><td data-label="증상">원본 시퀀서에서 교체 후 캐릭터가 T-Pose</td><td data-label="원인">교체된 AS 의 Skeleton 이 다름</td><td data-label="해결">19_JumpAttack_Edit 의 Skeleton = SK_Mannequin 확인. 다르면 베이크 재수행</td></tr></tbody></table></div>
+
+</section><section class="takeaway-card" aria-labelledby="핵심-요약">
 <h2 id="핵심-요약">핵심 요약</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">2교시 한 줄 요약</div>
@@ -841,9 +1026,12 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="도구">Camera Rig Crane</td><td data-label="핵심">부모-자식 구조 (Crane &gt; CameraMount &gt; 카메라). Pitch/Yaw/Arm Length 키프레임으로 부감↔앙각</td></tr>
 <tr><td data-label="도구">Camera Shake</td><td data-label="핵심">Legacy Camera Shake Blueprint. Duration 0.15 + Amplitude 1–3, 임팩트 ±2프레임</td></tr>
 <tr><td data-label="도구">FK Control Rig 6단계</td><td data-label="핵심">SE_AnimationEdit → Bake to Control Rig → 앞 방향 Location 키 정리 → Bake Animation Sequence → 원본 시퀀서 교체</td></tr></tbody></table></div>
+
+</section><section class="takeaway-card" aria-labelledby="다음-시간-예고">
 <h2 id="다음-시간-예고">다음 시간 예고</h2>
 <p>3교시는 실습 4 본격 작업 시간입니다. 도입에서 <strong>영화 사례 3종</strong>(존 윅 / 매트릭스 / 올드보이·마블)을 짧게 시청하고 본인 격투 인상을 결정한 뒤, 본인 <code>LS_RetargetDemo</code> 위에 1·2교시에서 배운 도구를 단계별로 적용합니다. 카메라 3-4대는 미리 만들어두면 시간이 절약됩니다. 본인 격투에 점프 모션이 있는 학생은 SE_AnimationEdit 새 시퀀서도 미리 만들어두면 3교시 작업 시간이 줄어듭니다.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

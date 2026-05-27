@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -613,15 +787,15 @@ h1, .lead, .material-title, .material-meta,
 </tbody>
 </table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>오브젝트 배치 3가지 방법(Place Actors 패널 / Content Browser 드래그 / Viewport 우클릭)을 직접 써서 씬에 액터를 넣을 수 있다</li>
 <li>이동·회전·스케일 트랜스폼을 단축키와 Details 패널 수치 입력 두 방식으로 조작할 수 있다</li>
 <li>World 좌표계와 Local 좌표계의 차이를 이해하고, 상황에 맞는 좌표계를 선택할 수 있다</li>
 <li>다중 선택·복제·이름 변경·폴더 정리로 씬을 처음부터 깔끔하게 관리하는 습관을 들인다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>1교시에서는 에디터 인터페이스와 패널 구성을 익혔습니다. 2교시는 그 위에서 <strong>씬에 오브젝트를 넣고 움직이는</strong> 시간입니다. 배치 3가지 방법, 이동·회전·스케일 트랜스폼, World vs Local 좌표계, 그리고 씬을 깔끔하게 정리하는 습관을 다룹니다.</p>
@@ -711,6 +885,7 @@ h1, .lead, .material-title, .material-meta,
 </ol></li>
 </ul>
 <hr />
+<section class="learning-card concept-card" aria-labelledby="핵심-개념-1-오브젝트-배치-방법-3가지">
 <h2 id="핵심-개념-1-오브젝트-배치-방법-3가지">핵심 개념 1 — 오브젝트 배치 방법 3가지</h2>
 <p>씬에 오브젝트를 넣는 방법은 3가지가 있으며, 상황에 따라 다르게 사용합니다. 전부 알아두세요. (직접 실습 3가지는 3교시에서 진행하며, 여기서는 배치 방법을 눈으로 익힙니다.)</p>
 <hr />
@@ -916,7 +1091,9 @@ h1, .lead, .material-title, .material-meta,
 </tr>
 </tbody>
 </table></div>
+</section>
 <hr />
+<section class="learning-card concept-card" aria-labelledby="핵심-개념-2-트랜스폼-이동회전스케일">
 <h2 id="핵심-개념-2-트랜스폼-이동회전스케일">핵심 개념 2 — 트랜스폼: 이동·회전·스케일</h2>
 <p>배치한 오브젝트를 움직이는 방법입니다. 트랜스폼은 3D 툴의 기본이자 핵심입니다.</p>
 <hr />
@@ -1127,7 +1304,9 @@ ue world local toggle
 <p>실습에서는 이동 스냅 10, 회전 스냅 10도가 기본값입니다. 세밀한 조정이 필요하면 스냅을 끄거나(아이콘 회색으로) 단위를 줄이세요.</p>
 </div>
 </div>
+</section>
 <hr />
+<section class="learning-card concept-card" aria-labelledby="핵심-개념-3-씬-구성-기초-팁">
 <h2 id="핵심-개념-3-씬-구성-기초-팁">핵심 개념 3 — 씬 구성 기초 팁</h2>
 <p>오브젝트가 많아지면 씬이 복잡해집니다. 처음부터 정리하는 습관이 필요합니다.</p>
 <hr />
@@ -1261,7 +1440,9 @@ ue world local toggle
 </tr>
 </tbody>
 </table></div>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="예제-간이-방-만들기">
 <h2 id="예제-간이-방-만들기">예제 — 간이 방 만들기</h2>
 <p>핵심 개념 1·2·3을 통합한 예제입니다. 3교시 실습의 미리보기로 활용합니다.</p>
 <h3 id="나쁜-씬-vs-좋은-씬">나쁜 씬 vs 좋은 씬</h3>
@@ -1343,7 +1524,9 @@ ue simple room demo
 </ol></li>
 </ul>
 <p>이렇게 정리하면 팀원이 봤을 때도, 한 달 뒤 본인이 다시 봤을 때도 바로 알 수 있습니다.</p>
+</section>
 <hr />
+<section class="takeaway-card" aria-labelledby="핵심-요약">
 <h2 id="핵심-요약">핵심 요약</h2>
 <div class="callout callout-abstract">
 <div class="callout-title"><span>2교시 한 줄 요약</span></div>
@@ -1357,7 +1540,9 @@ ue simple room demo
 <li><strong>트랜스폼</strong> — <code>W</code> 이동 / <code>E</code> 회전 / <code>R</code> 스케일. 정확한 값은 Details 패널 수치 입력</li>
 <li><strong>World vs Local</strong> — <code>Space Bar</code>로 전환. 오브젝트 기준으로 이동할 땐 Local</li>
 </ol>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="교시-실습-예고">
 <h2 id="교시-실습-예고">3교시 실습 예고</h2>
 <p>3교시에서는 여러분이 직접 공간을 만듭니다.</p>
 <p><strong>실습 과제: 기본 도형으로 공간 만들기</strong></p>
@@ -1381,7 +1566,8 @@ ue simple room demo
 <p>바닥(Plane)부터 먼저 깔고, 벽(Cube)으로 경계를 만드세요. 그 다음에 소품을 채워가면 자연스럽게 공간이 만들어집니다.</p>
 </div>
 </div>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol><li><a href="#관련-문서">관련 문서</a></li><li><a href="#교시-복습-패널-설정-점검">1교시 복습 + 패널 설정 점검</a></li><li><a href="#핵심-개념-1-오브젝트-배치-방법-3가지">핵심 개념 1 — 오브젝트 배치 방법 3가지</a></li><li><a href="#핵심-개념-2-트랜스폼-이동회전스케일">핵심 개념 2 — 트랜스폼: 이동·회전·스케일</a></li><li><a href="#핵심-개념-3-씬-구성-기초-팁">핵심 개념 3 — 씬 구성 기초 팁</a></li><li><a href="#예제-간이-방-만들기">예제 — 간이 방 만들기</a></li><li><a href="#핵심-요약">핵심 요약</a></li><li><a href="#교시-실습-예고">3교시 실습 예고</a></li></ol>

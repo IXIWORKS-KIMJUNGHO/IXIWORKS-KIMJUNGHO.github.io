@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -604,14 +778,14 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서">강의계획서: Game Engine II</td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서">9주차 아웃라인: 시퀀서 기초</td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>일반 Camera Actor와 Cine Camera Actor의 차이를 이해할 수 있다</li>
 <li>Cine Camera의 4대 파라미터(Filmback, Focal Length, Aperture, Focus Distance)를 직접 조작할 수 있다</li>
 <li>같은 씬에서도 카메라 파라미터에 따라 영화적 룩이 어떻게 달라지는지 체감할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>영화 한 장면을 떠올려보면, 광각으로 찍은 풍경 샷과 망원으로 찍은 인물 클로즈업은 완전히 다른 느낌을 줍니다. 색감이나 분위기 이전에 <strong>카메라가 어떻게 세팅됐는가</strong>가 가장 큰 차이를 만들어냅니다.</p>
@@ -623,6 +797,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="오늘-배울-4가지-한눈에-매핑">
 <h2 id="오늘-배울-4가지-한눈에-매핑">오늘 배울 4가지 — 한눈에 매핑</h2>
 <figure class="lecture-figure">
 <img src="assets/00_four-params-mapping.webp" alt="00_four-params-mapping">
@@ -633,7 +808,9 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="파라미터"><strong>Aperture</strong></td><td data-label="한 줄 역할">흐림의 강도 — 심도(배경이 얼마나 흐려지는가)</td></tr>
 <tr><td data-label="파라미터"><strong>Focus Distance</strong></td><td data-label="한 줄 역할">선명한 위치 — 어느 거리의 피사체에 초점이 맞는가</td></tr></tbody></table></div>
 <p>이 4개를 하나씩 직접 만져봅니다. 2교시에는 시간축에 키프레임으로 올리고, 3교시에는 본인 레벨에서 시네마틱 한 컷을 완성합니다.</p>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="1-레벨-준비-두-카메라-비교">
 <h2 id="1-레벨-준비-두-카메라-비교">1. 레벨 준비 + 두 카메라 비교</h2>
 <h3 id="본인-6주차-레벨-열기">본인 6주차 레벨 열기</h3>
 <p>오늘 실습은 본인이 6주차에 만든 레벨에서 진행합니다.</p>
@@ -675,7 +852,9 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>방법 2 (단축키):</strong> 시네 카메라 선택 후 <strong>Ctrl + Shift + P</strong></p>
 <p><strong>해제:</strong> 뷰포트 좌상단 <strong>Stop Piloting</strong> 버튼 또는 다시 Ctrl + Shift + P</p>
 <p>파일럿 모드에서 마우스 우클릭 + WASD로 시점을 움직이면 그게 카메라 위치/회전이 됩니다.</p>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="2-filmback-화면비-결정">
 <h2 id="2-filmback-화면비-결정">2. Filmback — 화면비 결정</h2>
 <p>Filmback은 카메라 센서 크기입니다. 화면비와 시야각이 여기서 결정됩니다. 비유하자면 카메라의 <strong>창문 크기와 모양</strong>입니다.</p>
 <h3 id="함께-실습-절차-filmback-5단계">함께 실습 절차 — Filmback 5단계</h3>
@@ -734,7 +913,9 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Filmback 드롭다운이 보이지 않음</td><td data-label="원인">Camera Actor를 선택했음</td><td data-label="해결">Outliner에서 <strong>Cine</strong>CameraActor 다시 선택</td></tr>
 <tr><td data-label="증상">화면비가 안 바뀜</td><td data-label="원인">파일럿 모드 꺼짐</td><td data-label="해결">Outliner에서 CineCameraActor 우클릭 → Pilot</td></tr>
 <tr><td data-label="증상">검색해도 Filmback이 안 나옴</td><td data-label="원인">검색 오타 또는 액터 미선택</td><td data-label="해결">&quot;filmback&quot; 정확히 타이핑, 액터 재선택</td></tr></tbody></table></div>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="3-focal-length-화각">
 <h2 id="3-focal-length-화각">3. Focal Length — 화각</h2>
 <p>Focal Length는 화각, '얼마나 좁게 보느냐'입니다. 줌과 비슷한 개념인데, 정확히는 렌즈의 화각을 정하는 값입니다. 시네 카메라에서 슬라이더를 움직이는 건 렌즈를 갈아끼는 것과 비슷합니다.</p>
 <h3 id="함께-실습-절차-focal-length-6단계">함께 실습 절차 — Focal Length 6단계</h3>
@@ -792,7 +973,9 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">슬라이더가 움직이지 않임</td><td data-label="원인">값 직접 입력 필요</td><td data-label="해결">슬라이더 우측 숫자 칸 클릭 후 키보드 입력</td></tr>
 <tr><td data-label="증상">85mm로 바꿨더니 지나치게 좁아 아무것도 보이지 않음</td><td data-label="원인">카메라가 피사체에 지나치게 가까움</td><td data-label="해결">우클릭 + S(뒤로)로 카메라를 멀리</td></tr>
 <tr><td data-label="증상">24mm가 지나치게 넓어 산만함</td><td data-label="원인">광각의 정상 특성</td><td data-label="해결">표준 50mm로 시작 후 조절</td></tr></tbody></table></div>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="4-aperture-조리개와-심도">
 <h2 id="4-aperture-조리개와-심도">4. Aperture — 조리개와 심도</h2>
 <p>Aperture는 조리개입니다. 빛 들어오는 구멍 크기인데, 우리는 <strong>심도(배경 흐림) 만드는 도구</strong>로 사용합니다.</p>
 <h3 id="시작-전-eye-adaptation-끄기">시작 전 — Eye Adaptation 끄기</h3>
@@ -880,7 +1063,9 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>f값 작게 + Focal Length 길게 + 피사체 가까이 + 배경 멀리</strong> 네 가지가 같이 작동합니다. 다 만족시키면 Bokeh가 확 나옵니다.</p>
 </div>
 </div>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="5-focus-distance-manual-tracking">
 <h2 id="5-focus-distance-manual-tracking">5. Focus Distance — Manual / Tracking</h2>
 <p>들어가기 전에 꼭 짚어야 할 구분이 있습니다.</p>
 <div class="table-wrap"><table><thead><tr><th>용어</th><th>의미</th></tr></thead><tbody><tr><td data-label="용어"><strong>Focus Distance</strong></td><td data-label="의미">가장 선명한 거리의 <strong>위치</strong> (한 점)</td></tr>
@@ -947,7 +1132,9 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Tracking으로 바꿨는데 초점이 안 맞음</td><td data-label="원인">Actor To Track이 None</td><td data-label="해결">액터 지정 필요</td></tr>
 <tr><td data-label="증상">액터 지정했는데도 흐릿함</td><td data-label="원인">Aperture가 지나치게 좁음(f/22)</td><td data-label="해결">Aperture를 f/2.8 이하로</td></tr>
 <tr><td data-label="증상">모든 게 다 선명함</td><td data-label="원인">Focus Method가 Disable</td><td data-label="해결">Manual 또는 Tracking으로</td></tr></tbody></table></div>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="6-내-영화-룩-만들기-4-파라미터-통합-미션">
 <h2 id="6-내-영화-룩-만들기-4-파라미터-통합-미션">6. 내 영화 룩 만들기 — 4 파라미터 통합 미션</h2>
 <p>지금까지 4 파라미터를 하나씩 따로 만져봤습니다. 이제 4개를 다 묶어서 본인 레벨에서 한 컷의 영화 룩을 직접 만듭니다.</p>
 <h3 id="미션-본인만의-영화-룩-한-컷-완성하기">미션 — 본인만의 영화 룩 한 컷 완성하기</h3>
@@ -981,7 +1168,9 @@ h1, .lead, .material-title, .material-meta,
 <p>완료되면 이대로 두세요. 2교시에 이 룩을 시간축에 올려서 키프레임으로 움직입니다.</p>
 </div>
 </div>
+</section>
 <hr />
+<section class="takeaway-card" aria-labelledby="정리">
 <h2 id="정리">정리</h2>
 <h3 id="4대-파라미터-통합-표">4대 파라미터 통합 표</h3>
 <div class="table-wrap"><table><thead><tr><th>#</th><th>파라미터</th><th>무엇을 바꾸는가</th><th>화면에서 어떻게 보이는가</th><th>실무 사용</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="파라미터"><strong>Filmback</strong></td><td data-label="무엇을 바꾸는가">화면비 / 센서 크기</td><td data-label="화면에서 어떻게 보이는가">프레임 모양과 시야 범위</td><td data-label="실무 사용">35mm Academy로 통일</td></tr>
@@ -990,11 +1179,14 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="#">4</td><td data-label="파라미터"><strong>Focus Distance</strong></td><td data-label="무엇을 바꾸는가">초점이 맞는 거리</td><td data-label="화면에서 어떻게 보이는가">어느 위치가 선명한가</td><td data-label="실무 사용">Manual: Rack Focus / Tracking: 추적</td></tr></tbody></table></div>
 <p>한 줄로 — <strong>Filmback은 프레임의 그릇, Focal은 보는 범위, Aperture는 흐림의 강도, Focus는 선명한 위치</strong>입니다.</p>
 <p>심도 만들기 공식: <strong>작은 f값 + 긴 Focal + 가까운 피사체 + 먼 배경</strong>. 이 넷이 같이 작동합니다.</p>
+</section>
 <hr />
+<section class="learning-card workflow-card" aria-labelledby="2교시-예고">
 <h2 id="2교시-예고">2교시 예고</h2>
 <p>1교시는 시네 카메라 정지 화면이었습니다. 2교시에는 이 파라미터들을 시간축에 키프레임으로 올립니다.</p>
 <p>예고 한 줄 — <strong>Dolly Zoom</strong>: 카메라를 이동시키면서 동시에 Focal Length를 반대로 변경해서, 피사체 크기는 유지되는데 배경 크기만 변하는 효과입니다. 히치콕이 〈현기증〉에서 처음 쓴 효과고, 3교시에 본인 레벨에서 직접 만듭니다.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

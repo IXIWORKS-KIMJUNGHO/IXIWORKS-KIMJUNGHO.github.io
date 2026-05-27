@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -605,15 +779,15 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="관계">1교시 핸드아웃</td><td data-label="문서"><span class="wikilink">12주차 1교시: 생성형 AI 에셋 워크플로우</span></td></tr>
 <tr><td data-label="관계">3교시 핸드아웃</td><td data-label="문서"><span class="wikilink">12주차 3교시: 기말 컨셉 환경 블록아웃</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>FBX와 OBJ의 차이를 이해하고 외부 3D 에셋을 언리얼에 Static Mesh로 임포트할 수 있다</li>
 <li>스케일이 제각각인 외부 에셋을 마네킹 기준으로 보정하고 머티리얼·텍스처를 재연결할 수 있다</li>
 <li>Nanite / LOD / Collision / 머티리얼 슬롯의 역할을 이해하고 에셋을 점검·최적화할 수 있다</li>
 <li>반복되는 구조물·소품을 필요할 때 Packed Level Actor로 묶고 원근 배치 룰로 씬에 통합할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>1교시는 'AI로 에셋을 만든다'까지였습니다. 2교시는 그 결과물 — FBX 파일 — 을 <strong>언리얼에 제대로 들여와서 다듬는 시간</strong>입니다. 1교시가 개념·도구 지형 위주였다면, 2교시는 언리얼을 직접 다루는 내용입니다.</p>
@@ -627,6 +801,7 @@ h1, .lead, .material-title, .material-meta,
 </ul>
 </div>
 </div>
+<section class="learning-card concept-card" aria-labelledby="심화-1-fbx-obj-임포트">
 <h2 id="심화-1-fbx-obj-임포트">심화 1 — FBX / OBJ 임포트</h2>
 <h3 id="fbx-와-obj-무엇이-다른가">FBX 와 OBJ, 무엇이 다른가</h3>
 <p>AI 3D 도구는 보통 FBX 또는 OBJ로 결과물을 내보냅니다. 두 포맷의 차이를 알고 가야 합니다.</p>
@@ -710,6 +885,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">텍스처가 늘어나거나 깨져 보임</td><td data-label="원인">UV가 어긋남 (AI 메시의 전형적 문제)</td><td data-label="해결">배경용이면 감수, 거슬리면 메시 정리 단계 필요 (본 수업 범위 밖)</td></tr>
 <tr><td data-label="증상">OBJ 임포트 후 텍스처가 아예 없음</td><td data-label="원인">.mtl·이미지 파일이 같은 폴더에 없음</td><td data-label="해결">OBJ·.mtl·텍스처를 한 폴더에 모은 뒤 다시 임포트</td></tr>
 <tr><td data-label="증상">임포트 다이얼로그가 튜토리얼과 달라 보임</td><td data-label="원인">UE 버전·프로젝트 설정에 따라 Interchange/기존 FBX 임포트 화면이 다를 수 있음</td><td data-label="해결">기능 기준으로 옵션 찾기 — Static Mesh / Nanite / Collision / Materials</td></tr></tbody></table></div>
+
+</section><section class="learning-card concept-card" aria-labelledby="심화-2-에셋-최적화">
 <h2 id="심화-2-에셋-최적화">심화 2 — 에셋 최적화</h2>
 <p>에셋이 씬에 들어왔다고 끝이 아닙니다. <strong>AI·외부 에셋은 사람이 모델링한 것보다 '무거운' 경우가 많습니다.</strong> 폴리곤이 고르지 않고 종종 과하게 많습니다(1교시의 '정돈되지 않은 와이어'). 씬에 그런 에셋을 수십 개 깔면 뷰포트가 느려지고 13주차 렌더링도 오래 걸립니다. 그래서 에셋을 점검하고 다듬는 <strong>최적화</strong> 단계가 필요합니다. 네 가지를 봅니다 — Nanite, LOD, Collision, 머티리얼 슬롯.</p>
 <h3 id="nanite-무거운-메시를-자동으로">Nanite — 무거운 메시를 자동으로</h3>
@@ -757,6 +934,8 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>Nanite</strong>(무거운 메시 자동 처리) · <strong>LOD</strong>(Nanite 미사용 메시의 백업) · <strong>Collision</strong>(장식 소품은 줄이고, 접촉 요소만 단순하게) · <strong>머티리얼 슬롯·삼각형 카운트</strong>(점검·정리). 핵심은 'AI 에셋은 무거울 수 있으니 Nanite를 검토하고, 콜리전은 필요한 것만, 슬롯은 정리한다'입니다.</p>
 </div>
 </div>
+
+</section><section class="learning-card concept-card" aria-labelledby="심화-3-씬-통합-packed-level-actor-배치-룰">
 <h2 id="심화-3-씬-통합-packed-level-actor-배치-룰">심화 3 — 씬 통합: Packed Level Actor + 배치 룰</h2>
 <h3 id="packed-level-actor-반복-소품이-있을-때-쓰는-도구">Packed Level Actor — 반복 소품이 있을 때 쓰는 도구</h3>
 <p>심화 3은 에셋을 <strong>씬에 통합</strong>하는 단계입니다. 먼저 짚을 점 — 이 도구는 <strong>'반복되는 구조물·소품 세트가 있을 때 쓰는 도구'</strong> 입니다. 본인 환경에 서로 다른 소품 5개만 있다면 쓰지 않아도 됩니다. 똑같은 박스 20개, 똑같은 기둥 10개처럼 <strong>같은 것이 여러 번</strong> 나올 때 진가가 나옵니다.</p>
@@ -801,6 +980,8 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>불규칙성</strong> — 박스를 자로 잰 듯 정렬하면 가짜처럼 보입니다. 살짝 돌리고, 살짝 밀어 어긋나게 두면 실제 공간처럼 보입니다.</p>
 <p><strong>스케일 기준자</strong> — 심화 1에서 한 마네킹 세우기를 배치 내내 유지합니다. '내가 이 공간에 서 있다면'을 상상하며, 사람 크기 대비 문이 적당한지 천장이 적당한지 계속 확인합니다.</p>
 <p>배치는 한 번에 완벽할 수 없습니다. 어색하면 과감하게 지우고 다시 배치합니다. 깔고 → 카메라로 보고 → 어색하면 고치고 — 이 반복이 정상입니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="3교시-실습-미리보기">
 <h2 id="3교시-실습-미리보기">3교시 실습 미리보기</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">3교시 미션</div>
@@ -821,6 +1002,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>스토리보드가 없거나 컨셉을 바꾸고 싶으면, 1교시에서 본 AI 이미지 생성으로 컨셉 이미지를 하나 생성해도 됩니다. 중요한 것은 3교시 시작 때 '어떤 공간을 만들지'가 한 줄이라도 정해져 있는 것입니다. 강사 에셋 팩(컨셉 2~3종의 배경·소품 FBX)은 LMS에 올라가며, 본인 컨셉에 가까운 팩을 받아두면 3교시에 바로 임포트부터 시작할 수 있습니다.</p>
+
+</section><section class="takeaway-card" aria-labelledby="다음-시간-예고">
 <h2 id="다음-시간-예고">다음 시간 예고</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">2교시 한 줄 요약</div>
@@ -829,7 +1012,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>오늘 흐름 — FBX 임포트 → 마네킹으로 스케일 보정 → 머티리얼 재연결 → Nanite로 최적화 → (반복 소품은) Packed Level로 묶기 → 원근 룰로 배치. 이것이 3교시에 본인 환경을 만들 때 그대로 쓰는 절차입니다. 쉬는 시간에 8주차 스토리보드에서 배경 컷 하나를 골라 공간 키워드 3개를 메모해두고, 강사 에셋 팩도 LMS에서 미리 받아두면 3교시가 빨라집니다.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>

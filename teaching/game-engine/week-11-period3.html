@@ -559,6 +559,180 @@ hr {
 .article blockquote.quote-note p:last-child {
   margin-bottom: 0;
 }
+
+
+/* Game Engine learning cards */
+h2, h3 { scroll-margin-top: 74px; }
+
+.learning-goals {
+  margin: 20px 0 28px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f8fafc;
+  overflow: hidden;
+}
+
+.learning-goals .callout-title {
+  padding: 12px 16px 9px;
+  border-bottom: 1px solid var(--line);
+  background: #fff;
+}
+
+.learning-goals .callout-body { padding: 0; }
+
+.goal-grid {
+  counter-reset: goal;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goal-grid li {
+  counter-increment: goal;
+  position: relative;
+  min-height: 104px;
+  margin: 0;
+  padding: 18px 18px 16px 58px;
+  border-top: 1px solid #e1e5ea;
+  color: #252b31;
+  font-size: .95rem;
+  line-height: 1.58;
+}
+
+.goal-grid li:nth-child(odd) { border-right: 1px solid #e1e5ea; }
+.goal-grid li:nth-child(1),
+.goal-grid li:nth-child(2) { border-top: 0; }
+
+.goal-grid li::before {
+  content: counter(goal, decimal-leading-zero);
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  color: #343a40;
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.learning-card {
+  margin: 46px 0 44px;
+  padding: 26px 0 8px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid #edf0f2;
+}
+
+.article .learning-card > h2 {
+  display: block;
+  margin: 0 0 18px;
+  padding-top: 0;
+  border-top: 0;
+  font-size: 1.42rem;
+}
+
+.article .learning-card > h2::before { display: none; }
+
+.learning-card > p:first-of-type {
+  max-width: 820px;
+  color: #2b3138;
+  font-size: 1.02rem;
+}
+
+.learning-card h3 {
+  margin: 28px 0 10px;
+  color: #26323d;
+  font-size: 1.05rem;
+}
+
+.learning-card .table-wrap {
+  max-width: 900px;
+  margin: 14px 0 22px;
+}
+
+.learning-card table {
+  border-color: #dde3ea;
+  font-size: .88rem;
+}
+
+.learning-card th {
+  background: #eef2f6;
+  color: #20262d;
+  font-weight: 850;
+}
+
+.learning-card tr:nth-child(even) td { background: #fbfcfd; }
+
+.learning-card .callout {
+  max-width: 880px;
+  margin: 16px 0 22px;
+  border-left-width: 3px;
+  background: #f8fafb;
+}
+
+.learning-card .callout-title {
+  padding: 9px 13px 7px;
+  font-size: .92rem;
+}
+
+.workflow-card h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.workflow-card h3::before {
+  content: "STEP";
+  flex: 0 0 auto;
+  color: #5b6470;
+  font-size: .7rem;
+  font-weight: 900;
+}
+
+.reference-card h3::before,
+.concept-card h3::before { display: none; }
+
+.takeaway-card {
+  margin: 42px 0 34px;
+  padding: 18px 18px 4px;
+  border: 1px solid #d9dde2;
+  border-left: 4px solid #323840;
+  border-radius: 8px;
+  background: #f7f8f9;
+}
+
+.article .takeaway-card h2 {
+  margin: 0 0 14px;
+  padding: 0;
+  border: 0;
+  font-size: 1.22rem;
+}
+
+.article .takeaway-card h2::before { display: none; }
+
+.takeaway-card .callout {
+  margin: 0 0 16px;
+  border: 0;
+  background: transparent;
+}
+
+.takeaway-card .callout-title,
+.takeaway-card .callout-body {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .goal-grid { grid-template-columns: 1fr; }
+  .goal-grid li,
+  .goal-grid li:nth-child(odd) {
+    border-right: 0;
+    border-top: 1px solid #e1e5ea;
+  }
+  .goal-grid li:first-child { border-top: 0; }
+  .article .learning-card > h2 { font-size: 1.18rem; }
+}
+/* End Game Engine learning cards */
 h1, .lead, .material-title, .material-meta,
 .article h2, .article h3, .article h4,
 .article p, .article li, .callout-title, .callout-body {
@@ -606,17 +780,18 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="관계">2교시 핸드아웃</td><td data-label="문서"><span class="wikilink">2교시: Rail/Crane + Camera Shake + FK Control Rig</span></td></tr>
 <tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
 <hr />
-<div class="callout callout-abstract">
+<div class="learning-goals callout-abstract">
 <div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<ul>
+<ol class="goal-grid">
 <li>본인이 10주차에 만든 LS_RetargetDemo 위에 4–5컷 격투 시네마틱을 구성할 수 있다</li>
 <li>Cine Camera 여러 대를 시퀀서에 바인딩하고 Camera Cuts 트랙으로 컷 전환을 만들 수 있다</li>
 <li>Rail 또는 Crane 움직임, Camera Shake, Keep State를 적용해 10–15초 화면 녹화 파일로 제출할 수 있다</li>
-</ul>
+</ol>
 </div>
 </div>
 <p>1·2교시에서 배운 도구를 한 번에 적용합니다. 1교시는 <strong>어느 카메라를 보여줄지</strong>, 2교시는 <strong>그 카메라가 어떻게 움직일지</strong>를 다뤘습니다. 3교시는 그 둘을 합쳐 본인 격투 시퀀스를 짧은 액션 시네마틱으로 완성하는 시간입니다.</p>
+<section class="learning-card workflow-card" aria-labelledby="오늘의-결과물">
 <h2 id="오늘의-결과물">오늘의 결과물</h2>
 <p>본인이 10주차에 만든 <strong><code>LS_RetargetDemo</code></strong> 격투 시퀀스 위에 다음 요소를 적용합니다.</p>
 <div class="table-wrap"><table><thead><tr><th>요소</th><th>목표</th></tr></thead><tbody><tr><td data-label="요소">다중 카메라</td><td data-label="목표">Cine Camera 3–5대 배치, 이름 정리, 시퀀서 바인딩</td></tr>
@@ -626,12 +801,16 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="요소">Camera Shake</td><td data-label="목표">펀치/킥 임팩트 프레임에 짧은 흔들림 추가</td></tr>
 <tr><td data-label="요소">Keep State</td><td data-label="목표">마지막 Animation 클립의 마지막 포즈 유지</td></tr>
 <tr><td data-label="요소">제출</td><td data-label="목표">10–15초 mp4 또는 mov 화면 녹화</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="방향-정하기-어떤-격투-인상을-만들-것인가">
 <h2 id="방향-정하기-어떤-격투-인상을-만들-것인가">방향 정하기 — 어떤 격투 인상을 만들 것인가</h2>
 <p>카메라를 놓기 전에 본인 격투 시퀀스가 어떤 인상으로 보이면 좋을지 먼저 정합니다.</p>
 <div class="table-wrap"><table><thead><tr><th>인상</th><th>어울리는 카메라 방식</th><th>예시</th></tr></thead><tbody><tr><td data-label="인상">안무가 잘 보이는 격투</td><td data-label="어울리는 카메라 방식">Wide + Rail 추적</td><td data-label="예시">〈존 윅〉 스타일</td></tr>
 <tr><td data-label="인상">빠르고 강한 격투</td><td data-label="어울리는 카메라 방식">짧은 멀티컷 + Closeup + Shake</td><td data-label="예시">〈매트릭스〉, 마블 액션 스타일</td></tr>
 <tr><td data-label="인상">캐릭터가 강해 보이는 격투</td><td data-label="어울리는 카메라 방식">Crane 부감→앙각 전환</td><td data-label="예시">영웅 등장, 보스 등장 스타일</td></tr></tbody></table></div>
 <p>정답은 없습니다. 중요한 것은 <strong>본인 격투 시퀀스의 인상에 맞게 카메라를 선택하는 것</strong>입니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="준비-확인">
 <h2 id="준비-확인">준비 확인</h2>
 <p>작업을 시작하기 전에 다음 자산이 있는지 확인합니다.</p>
 <div class="table-wrap"><table><thead><tr><th>#</th><th>자산</th><th>위치</th><th>확인</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="자산"><strong>LS_RetargetDemo</strong></td><td data-label="위치">Content &gt; Cinematics</td><td data-label="확인">확인</td></tr>
@@ -648,6 +827,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="구간">임팩트</td><td data-label="확인할 것">공격이 닿는 순간</td><td data-label="예시">3초 12프레임</td></tr>
 <tr><td data-label="구간">마무리</td><td data-label="확인할 것">공격 후 정지 자세 또는 거리 회복</td><td data-label="예시">4초 이후</td></tr></tbody></table></div>
 <p>이 네 지점이 Camera Cuts 섹션을 나누는 기준이 됩니다.</p>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-1-cine-camera-35대-배치">
 <h2 id="단계-1-cine-camera-35대-배치">단계 1 — Cine Camera 3–5대 배치</h2>
 <h3 id="카메라-수-정하기">카메라 수 정하기</h3>
 <p>10–15초 격투 시퀀스에는 <strong>4대</strong>가 가장 다루기 좋습니다. 3대도 가능하고, 콤보가 많은 경우 5대까지 늘릴 수 있습니다.</p>
@@ -670,6 +851,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 <p><strong>작업 5 — 시퀀서에 4대 동시 바인딩 + Spawnable 변환</strong></p>
 <ul><li>Outliner 검색창에 <code>CC</code> 입력</li><li><code>CC_Wide</code>, <code>CC_Medium</code>, <code>CC_Closeup</code>, <code>CC_SideWide</code> 4대 선택</li><li>LS_RetargetDemo 시퀀서에서 <strong>+ Add</strong> → <strong>Actor to Sequencer</strong></li><li>카메라 바인딩 4개가 추가되면, 4개 바인딩을 모두 선택</li><li>우클릭 → <strong>Convert Selected Binding(s) To &gt; Spawnable Actor</strong></li><li>시퀀서 트랙과 Outliner 의 카메라에 Spawnable 아이콘이 보이는지 확인</li></ul>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-2-camera-cuts-cinematic-viewport-4컷-구성">
 <h2 id="단계-2-camera-cuts-cinematic-viewport-4컷-구성">단계 2 — Camera Cuts + Cinematic Viewport + 4컷 구성</h2>
 <h3 id="격투-흐름을-컷으로-나누기">격투 흐름을 컷으로 나누기</h3>
 <p>가장 안정적인 기본 패턴은 다음과 같습니다.</p>
@@ -700,6 +883,8 @@ h1, .lead, .material-title, .material-meta,
 <ul><li>Closeup 컷 직후 <strong>+ Camera</strong> → <code>CC_Wide</code> 또는 별도 Reaction 카메라 선택</li><li>0.5–1초 정도 짧게 배치</li><li>이후 다시 마무리 컷으로 전환</li></ul>
 <h3 id="단계-2-자기점검">단계 2 자기점검</h3>
 <ul><li>[ ] Camera Cuts 트랙에 컷 4개 이상이 있다</li><li>[ ] Closeup 컷이 임팩트 직전 1–2프레임에 시작한다</li><li>[ ] 컷 사이에 빈 공간이 없다</li><li>[ ] Cinematic Viewport 에서 재생했을 때 카메라 전환이 따라온다</li></ul>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-3-rail-또는-crane-1개-선택">
 <h2 id="단계-3-rail-또는-crane-1개-선택">단계 3 — Rail 또는 Crane 1개 선택</h2>
 <p>Rail 과 Crane 을 둘 다 할 필요는 없습니다. 본인 격투 흐름에 맞는 것 하나를 선택합니다.</p>
 <div class="table-wrap"><table><thead><tr><th>본인 격투 흐름</th><th>추천</th><th>이유</th></tr></thead><tbody><tr><td data-label="본인 격투 흐름">펀치·킥 콤보가 좌우로 이어짐</td><td data-label="추천"><strong>Rail</strong></td><td data-label="이유">측면 추적 샷으로 동작 궤적이 잘 보임</td></tr>
@@ -729,6 +914,8 @@ h1, .lead, .material-title, .material-meta,
 <ul><li>Outliner 에서 <code>Crane_FightImpact</code> 선택</li><li>시퀀서 <strong>+ Add</strong> → <strong>Actor to Sequencer</strong></li><li>Crane 바인딩 트랙 옆 <strong>+ Track</strong> → <strong>Crane Pitch / Crane Yaw / Crane Arm Length</strong></li><li>Wide 컷 시작 프레임에 다음 값으로 키프레임</li><li>Crane Pitch = <strong>+60</strong></li><li>Crane Yaw = 0</li><li>Crane Arm Length = <strong>600</strong></li><li>공격 시작 프레임에 다음 값으로 키프레임</li><li>Crane Pitch = <strong>-20</strong></li><li>Crane Arm Length = <strong>300</strong></li><li>키프레임 우클릭 → <strong>Cubic</strong></li></ul>
 <p><strong>작업 15C — Crane 재생 확인</strong></p>
 <ul><li>Play(Play)로 Wide 컷 구간 확인</li><li>카메라가 위에서 아래로 내려오며 캐릭터에 가까워지는지 확인</li><li>캐릭터를 놓치면 CC_Wide 의 <strong>Look at Tracking Settings</strong> 를 켜고 타깃을 캐릭터로 지정</li></ul>
+
+</section><section class="learning-card workflow-card" aria-labelledby="단계-4-keep-state-camera-shake-선택-보너스">
 <h2 id="단계-4-keep-state-camera-shake-선택-보너스">단계 4 — Keep State + Camera Shake + 선택 보너스</h2>
 <h3 id="keep-state-적용">Keep State 적용</h3>
 <p><strong>작업 16 — 마지막 Animation 클립 Keep State</strong></p>
@@ -751,6 +938,8 @@ h1, .lead, .material-title, .material-meta,
 <ul><li>Content Browser 우클릭 → Cinematics &gt; Level Sequence → <code>SE_AnimationEdit</code> 생성</li><li>SKM_Manny + 슬라이딩이 있는 문제 모션만 단독 배치</li><li>SKM_Manny 바인딩 우클릭 → <strong>Bake To Control Rig &gt; FK Control Rig</strong></li><li>FKControlRig 트랙에서 pelvis/root 계열 본의 앞 방향 Location 키 확인</li><li>앞 방향으로 크게 변하는 Location 키프레임을 선택 후 Delete</li><li>SKM_Manny 바인딩 우클릭 → <strong>Bake Animation Sequence</strong> → <code>_Edit</code> 버전 AS 저장</li><li>원본 LS_RetargetDemo 로 돌아와 Animation 클립을 <code>_Edit</code> AS 로 교체</li></ul>
 <p><strong>선택 B — Transform Quick Fix</strong></p>
 <ul><li>시퀀서의 <strong>SKM_Manny 바인딩 트랙</strong> 옆 <strong>+ Track</strong> → <strong>Transform</strong></li><li>이동 모션 시작 프레임에 현재 위치 키프레임</li><li>이동 모션 끝 프레임에 반대 방향 Location 키프레임</li><li>예: 캐릭터가 X 방향으로 +200cm 밀리면, 끝 프레임에 X=-200 보정</li><li>Play(Play)로 캐릭터가 화면 안에 머무는지 확인</li></ul>
+
+</section><section class="learning-card workflow-card" aria-labelledby="자기점검">
 <h2 id="자기점검">자기점검</h2>
 <p>캡처 전에 아래 항목을 확인합니다.</p>
 <div class="table-wrap"><table><thead><tr><th>항목</th><th>체크</th></tr></thead><tbody><tr><td data-label="항목">Cine Camera 3대 이상을 만들었다</td><td data-label="체크">확인</td></tr>
@@ -762,6 +951,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="항목">임팩트 컷에 Camera Shake 가 적용되어 있다</td><td data-label="체크">확인</td></tr>
 <tr><td data-label="항목">마지막 Animation 클립에 Keep State 를 적용했다</td><td data-label="체크">확인</td></tr>
 <tr><td data-label="항목">전체 길이가 10–15초 안팎이다</td><td data-label="체크">확인</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="캡처와-제출">
 <h2 id="캡처와-제출">캡처와 제출</h2>
 <p><strong>작업 19 — 녹화 준비</strong></p>
 <ul><li>Camera Cuts 트랙의 카메라 잠금 아이콘 또는 시퀀서 상단 카메라 아이콘 확인</li><li>타임라인을 0초로 이동</li><li>viewport 가 잘 보이도록 불필요한 패널을 줄임</li><li>CrossHair 가 거슬리면 캡처 전에 꺼도 됩니다</li></ul>
@@ -774,6 +965,8 @@ h1, .lead, .material-title, .material-meta,
 <ul><li>녹화 시작</li><li>시퀀서 Play(Play)로 처음부터 끝까지 재생</li><li>재생이 끝나면 녹화 종료</li><li>mp4 또는 mov 파일로 저장</li></ul>
 <p><strong>작업 22 — LMS 제출</strong></p>
 <ul><li>LMS 의 실습 4 제출란에 영상 업로드</li><li>파일명 예시: <code>Week11_실습4_본인이름.mp4</code></li><li>FK Control Rig 보너스를 적용했다면 파일명 뒤에 <code>_FKRig</code> 를 붙여도 됩니다</li></ul>
+
+</section><section class="learning-card reference-card" aria-labelledby="제출-루브릭">
 <h2 id="제출-루브릭">제출 루브릭</h2>
 <p>제출물은 아래 요소를 중심으로 점수화됩니다. 모든 요소가 완벽해야만 제출 가능한 것은 아니며, 구현된 요소가 많고 의도가 분명할수록 좋습니다.</p>
 <div class="table-wrap"><table><thead><tr><th>#</th><th>요소</th><th>확인 기준</th><th>본인 체크</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="요소"><strong>Cine Camera 여러 대 + Spawnable</strong></td><td data-label="확인 기준">카메라 3대 이상, 이름 정리, 9주차 카메라 파라미터 활용, 시퀀서 Spawnable 아이콘</td><td data-label="본인 체크">확인</td></tr>
@@ -782,6 +975,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="#">4</td><td data-label="요소"><strong>Camera Shake + 길이</strong></td><td data-label="확인 기준">임팩트 프레임에 Shake, 전체 길이 10–15초 안팎</td><td data-label="본인 체크">확인</td></tr>
 <tr><td data-label="#">5</td><td data-label="요소"><strong>화면 녹화 제출</strong></td><td data-label="확인 기준">mp4/mov 영상 업로드</td><td data-label="본인 체크">확인</td></tr>
 <tr><td data-label="#">중요</td><td data-label="요소"><strong>선택 보너스: FK Control Rig + Bake</strong></td><td data-label="확인 기준">점프·돌진 모션이 있는 경우 <code>_Edit</code> AS 생성 후 원본 시퀀서 클립 교체</td><td data-label="본인 체크">확인</td></tr></tbody></table></div>
+
+</section><section class="learning-card workflow-card" aria-labelledby="흔한-문제">
 <h2 id="흔한-문제">흔한 문제</h2>
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">임팩트 프레임을 못 찾겠음</td><td data-label="원인">타임라인을 크게만 이동함</td><td data-label="해결">좌/우 키로 1프레임씩 이동하며 펀치·킥 정점 확인</td></tr>
 <tr><td data-label="증상">컷 사이에 T-Pose 가 보임</td><td data-label="원인">Camera Cuts 섹션 사이가 비어 있음</td><td data-label="해결">두 섹션 경계를 맞닿게 드래그</td></tr>
@@ -793,6 +988,8 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="증상">Camera Shake 가 너무 오래 흔들림</td><td data-label="원인">섹션 길이가 김</td><td data-label="해결">섹션 길이를 3–4프레임으로 축소</td></tr>
 <tr><td data-label="증상">영상 끝에 T-Pose 가 나옴</td><td data-label="원인">Keep State 미적용</td><td data-label="해결">마지막 Animation 클립 우클릭 &gt; Properties &gt; When Finished = Keep State</td></tr>
 <tr><td data-label="증상">녹화 영상에 UI 가 너무 많이 찍힘</td><td data-label="원인">전체 화면 녹화</td><td data-label="해결">QuickTime/OBS 의 영역 녹화로 viewport 중심 캡처</td></tr></tbody></table></div>
+
+</section><section class="takeaway-card" aria-labelledby="핵심-요약">
 <h2 id="핵심-요약">핵심 요약</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">3교시 한 줄 요약</div>
@@ -801,7 +998,8 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <p>오늘 만든 <code>LS_RetargetDemo</code> 기반 격투 시네마틱은 기말 프로젝트의 액션 시퀀스 후보가 될 수 있습니다. 프로젝트 파일과 제출 영상을 둘 다 보관해두세요.</p>
-    </article>
+
+</section></article>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>
