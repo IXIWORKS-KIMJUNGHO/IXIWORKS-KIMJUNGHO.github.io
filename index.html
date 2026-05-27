@@ -642,9 +642,62 @@
       text-align: right;
     }
 
+    .publication-archive {
+      counter-reset: pub 1;
+    }
+
     .grid-list {
       display: grid;
       gap: 14px;
+    }
+
+    .archive-panel {
+      margin-top: 14px;
+    }
+
+    .archive-panel summary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 34px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--accent);
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      user-select: none;
+    }
+
+    .archive-panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .archive-panel summary::after {
+      content: "+";
+      display: inline-grid;
+      place-items: center;
+      width: 17px;
+      height: 17px;
+      border-radius: 999px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-size: 13px;
+      line-height: 1;
+    }
+
+    .archive-panel[open] summary::after {
+      content: "-";
+    }
+
+    .archive-panel > .publication-list,
+    .archive-panel > .grid-list,
+    .archive-panel > .timeline {
+      margin-top: 14px;
     }
 
     .project-card {
@@ -1186,6 +1239,10 @@
         <h2 class="section-title">Publications</h2>
         <ol class="publication-list">
           <li><span class="paper-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System. Springer Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024, pp. 75-91. DOI: 10.1007/978-981-97-8093-8_6.</span><span class="pub-type">Springer</span><span class="pub-year">2025</span></li>
+        </ol>
+        <details class="archive-panel">
+          <summary>Show older publications</summary>
+          <ol class="publication-list publication-archive">
           <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Human Digitizing System.</span><span class="pub-type">Ph.D.</span><span class="pub-year">2024</span></li>
           <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Facial Appearance Digitizing System. Journal of Broadcast Engineering, Vol. 28 No. 5, pp. 530-544. DOI: 10.5909/JBE.2023.28.5.530.</span><span class="pub-type">KCI</span><span class="pub-year">2023</span></li>
           <li><span class="paper-title">Detecting Branches in Silent Films Using a Center-of-Gravity Algorithm: Focusing on Dziga Vertov's &lt;Man with a Movie Camera&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
@@ -1196,7 +1253,8 @@
           <li><span class="paper-title">A Study on Out-of-Register Expression in Real-Time Rendering Environments.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
           <li><span class="paper-title">A Study on Storyboarding for Pre-Production on Virtual Reality Platforms.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
           <li><span class="paper-title">A Study on Directing Methods for VR Animation: Focusing on the VR Animation &lt;DreamTherapy&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2019</span></li>
-        </ol>
+          </ol>
+        </details>
       </section>
 
       <section class="section">
@@ -1224,6 +1282,10 @@
               <ul class="card-tags"><li>Generative AI</li><li>Cloud Pipeline</li><li>R&amp;D Training</li></ul>
             </div>
           </article>
+        </div>
+        <details class="archive-panel">
+          <summary>Show older research projects</summary>
+          <div class="grid-list">
           <article class="project-card">
             <div class="date">2023.01 &mdash; 2023.12</div>
             <div>
@@ -1240,7 +1302,8 @@
               <ul class="card-tags"><li>Virtual Production</li><li>Metaverse</li><li>Content R&amp;D</li></ul>
             </div>
           </article>
-        </div>
+          </div>
+        </details>
       </section>
 
       <section class="section" id="projects">
@@ -1254,6 +1317,10 @@
               <ul class="card-tags"><li>AI Media Art</li><li>Visual Content</li><li>Production</li></ul>
             </div>
           </article>
+        </div>
+        <details class="archive-panel">
+          <summary>Show older portfolio works</summary>
+          <div class="grid-list">
           <article class="project-card">
             <div class="date">2025.09 &mdash; 2025.11</div>
             <div>
@@ -1294,7 +1361,8 @@
               <ul class="card-tags"><li>Live System</li><li>Sketch Tool</li><li>Creative Coding</li></ul>
             </div>
           </article>
-        </div>
+          </div>
+        </details>
         <div class="section-actions">
           <a class="button" href="portfolio.html">View portfolio archive</a>
         </div>
@@ -1304,13 +1372,18 @@
         <h2 class="section-title">Exhibitions &amp; Screenings</h2>
         <div class="timeline">
           <article class="entry"><div class="date">2025</div><div><h3 class="entry-title">Korea-Canada Convergence Art Special Exhibition, &lt;Spectrum of Humanity&gt;</h3><p class="entry-meta">KOFICE × MMCA, Montréal · VR Supervisor / Film AI Engineer</p></div></article>
+        </div>
+        <details class="archive-panel">
+          <summary>Show older exhibitions and screenings</summary>
+          <div class="timeline">
           <article class="entry"><div class="date">2024 &mdash; 2025</div><div><h3 class="entry-title">&lt;Transport to Another World&gt;</h3><p class="entry-meta">MMCA × National Film Board of Canada · VR Supervisor / Film AI Engineer</p></div></article>
           <article class="entry"><div class="date">2023</div><div><h3 class="entry-title">BIFAN 2023 Beyond Reality Official Selection</h3><p class="entry-meta">Bucheon International Fantastic Film Festival · VR Supervisor / Film AI Engineer</p></div></article>
           <article class="entry"><div class="date">2022</div><div><h3 class="entry-title">Perception of War: AI Data Universe</h3><p class="entry-meta">ACM SIGGRAPH Art Gallery · AI Developer / Content Developer</p></div></article>
           <article class="entry"><div class="date">2022</div><div><h3 class="entry-title">Deep.Photoplay II VR Silent Film</h3><p class="entry-meta">Korean Film Archive · Film AI Engineer / VR Supervisor</p></div></article>
           <article class="entry"><div class="date">2021</div><div><h3 class="entry-title">Deep.Photoplay I</h3><p class="entry-meta">Korean Film Archive · Film AI Engineer</p></div></article>
           <article class="entry"><div class="date">2020</div><div><h3 class="entry-title">Nebula GO</h3><p class="entry-meta">ACM SIGGRAPH Art Gallery · Content Developer</p></div></article>
-        </div>
+          </div>
+        </details>
       </section>
 
       <section class="section" id="teaching">
