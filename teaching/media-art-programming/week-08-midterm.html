@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>중간고사 안내 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 08 · Midterm Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>중간고사 안내</h1>
+        <p class="lead">1~7주차 P5.js 기초 범위를 정리하고 중간고사 응시 방식, 제출물, 핵심 개념 체크리스트를 안내합니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 08</span>
+          <span class="hero-chip">MIDTERM</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">8주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Midterm</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Midterm Exam</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="중간고사-안내">중간고사 안내</h1>
+<div class="callout callout-abstract">
+<div class="callout-title">
+시험 개요
+</div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>시험명</strong></td>
+<td>중간고사</td>
+</tr>
+<tr>
+<td><strong>범위</strong></td>
+<td>1~7주차 전체</td>
+</tr>
+<tr>
+<td><strong>시험 일시</strong></td>
+<td>8주차 수업 시간</td>
+</tr>
+<tr>
+<td><strong>시험 시간</strong></td>
+<td><strong>1시간 20분 (80분)</strong></td>
+</tr>
+<tr>
+<td><strong>시험 방식</strong></td>
+<td><strong>재택 시험</strong> (각자 집에서 응시)</td>
+</tr>
+<tr>
+<td><strong>배점</strong></td>
+<td>전체 성적의 <strong>20%</strong></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr />
+<h2 id="시험-방식">시험 방식</h2>
+<ul>
+<li><strong>재택 시험</strong>입니다. 각자 편한 장소에서 시험 시간에
+맞춰 응시합니다.</li>
+<li>시험 시작 시간에 문제가 공개되며, <strong>1시간 20분(80분)</strong>
+이내에 제출해야 합니다.</li>
+<li>모든 문제는 <strong>P5.js Web Editor</strong>에서 스케치를 작성하여
+제출합니다.</li>
+</ul>
+<hr />
+<h2 id="제출-방법">제출 방법</h2>
+<div class="callout callout-warning">
+<div class="callout-title">
+제출물: zip 파일 1개
+</div>
+<p>다음 파일들을 <strong>하나의 zip 파일</strong>로 묶어 LMS에
+제출합니다.</p>
+<pre><code>midterm_홍길동.zip
+├── urls.txt          ← 문제별 P5.js Public URL 목록
+├── problem1.png      ← 1번 코드 스크린샷
+├── problem2.png      ← 2번 코드 스크린샷
+├── problem3.png      ← 3번 코드 스크린샷
+├── problem4.png      ← 4번 코드 스크린샷
+├── problem5.png      ← 5번 코드 스크린샷
+└── problem6.png      ← 6번 코드 스크린샷</code></pre>
+<p>⚠️ URL 또는 스크린샷이 누락된 문제는 <strong>채점하지
+않습니다.</strong></p>
+</div>
+<h3 id="urls.txt-작성법">urls.txt 작성법</h3>
+<p>메모장이나 텍스트 편집기에서 아래 형식으로 작성합니다.</p>
+<pre><code>문제1: https://editor.p5js.org/student/sketches/xxxxx
+문제2: https://editor.p5js.org/student/sketches/xxxxx
+문제3: https://editor.p5js.org/student/sketches/xxxxx
+문제4: https://editor.p5js.org/student/sketches/xxxxx
+문제5: https://editor.p5js.org/student/sketches/xxxxx
+문제6: https://editor.p5js.org/student/sketches/xxxxx</code></pre>
+<h3 id="p5.js-public-url-만드는-법">P5.js Public URL 만드는 법</h3>
+<ol type="1">
+<li>P5.js Web Editor에서 스케치 저장 (Ctrl+S / Cmd+S)</li>
+<li>상단 메뉴 File → Share → 링크 복사</li>
+<li>복사한 링크를 <code>urls.txt</code>에 붙여넣기</li>
+</ol>
+<h3 id="코드-스크린샷-촬영-방법">코드 스크린샷 촬영 방법</h3>
+<ol type="1">
+<li>P5.js Web Editor에서 <strong>코드 전체</strong>가 보이도록 화면
+조정</li>
+<li>스크린샷 촬영 (Windows: Win+Shift+S / Mac: Cmd+Shift+4)</li>
+<li>코드가 길면 <strong>여러 장</strong> 캡처해도 됩니다
+(problem5_1.png, problem5_2.png 등)</li>
+<li>파일명에 <strong>문제 번호</strong>를 넣어주세요</li>
+</ol>
+<h3 id="zip-파일-만드는-법">zip 파일 만드는 법</h3>
+<ul>
+<li><strong>Windows</strong>: 파일들을 선택 → 우클릭 → “압축(zip) 폴더로
+보내기”</li>
+<li><strong>Mac</strong>: 파일들을 선택 → 우클릭 → “압축”</li>
+<li>파일명: <code>midterm_본인이름.zip</code></li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title">
+왜 스크린샷도 필요한가요?
+</div>
+<p>시험 종료 후 URL의 코드를 수정하는 것을 방지하기 위해서입니다. 제출
+시점의 코드를 스크린샷으로 기록합니다.</p>
+</div>
+<hr />
+<h2 id="llm-사용-허용">LLM 사용 허용</h2>
+<div class="callout callout-info">
+<div class="callout-title">
+AI 도구 사용 정책
+</div>
+<p><strong>ChatGPT, Gemini, Claude 등 LLM 사용을
+허용합니다.</strong></p>
+<p>단, 다음을 유의하세요: - LLM이 만들어준 코드가 <strong>조건을 전부
+충족하는지 확인하는 건 여러분의 몫</strong>입니다 - 조건이 여러 개인
+문제에서 LLM은 <strong>일부 조건을 빠뜨리거나 잘못 구현</strong>하는
+경우가 많습니다 - 반드시 <strong>P5.js에서 직접 실행하고, 조건을 하나씩
+체크</strong>한 후 제출하세요</p>
+<p>수업 내용을 이해하고 있다면 LLM은 좋은 도우미가 됩니다. 이해하지
+못하고 있다면 LLM의 답을 검증할 수 없습니다.</p>
+</div>
+<hr />
+<h2 id="시험-범위-및-핵심-개념">시험 범위 및 핵심 개념</h2>
+<h3 id="주차-도형과-좌표">1~2주차: 도형과 좌표</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 62%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr>
+<th>핵심 개념</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createCanvas()</code>, 좌표계 (왼쪽 위가 0,0)</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>도형 함수: <code>ellipse()</code>, <code>rect()</code>,
+<code>line()</code>, <code>triangle()</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>색상: <code>fill()</code>, <code>stroke()</code>,
+<code>noStroke()</code>, <code>noFill()</code>,
+<code>background()</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>RGB 색상 모델, 투명도 (4번째 인자)</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>setup()</code>과 <code>draw()</code>의 역할과 차이</td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="주차-반복문과-패턴">3주차: 반복문과 패턴</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>핵심 개념</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>for</code>문 구조:
+<code>for (let i = 0; i &lt; n; i++)</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>중첩 <code>for</code>문으로 격자 패턴</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>colorMode(HSB)</code>, HSB 색상 모델</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>map()</code> 함수: 값의 범위 변환</td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="주차-조건문과-인터랙션">4주차: 조건문과 인터랙션</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>핵심 개념</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>if / else if / else</code> 조건문</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>mouseX</code>, <code>mouseY</code>,
+<code>mouseIsPressed</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>mousePressed()</code>, <code>keyPressed()</code> 이벤트
+함수</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>비교 연산자: <code>===</code>, <code>!==</code>, <code>&lt;</code>,
+<code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>논리 연산자: <code>&amp;&amp;</code>, <code>\|\|</code>,
+<code>!</code></td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="주차-움직임과-애니메이션">5주차: 움직임과 애니메이션</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>핵심 개념</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>변수 갱신으로 움직임: <code>x += speed;</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>바운싱: <code>if (x &gt; width) speed *= -1;</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>random()</code> 함수</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>frameCount</code> 활용</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>좌표 변환: <code>translate()</code>, <code>rotate()</code>,
+<code>push()</code>/<code>pop()</code></td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="주차-함수와-배열">6주차: 함수와 배열</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>핵심 개념</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사용자 정의 함수: <code>function 이름(매개변수) { }</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>매개변수와 인자의 관계</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>배열 선언: <code>let arr = [];</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>배열 접근: <code>arr[0]</code>, <code>arr.length</code>,
+<code>arr.push()</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>배열 + <code>for</code>문으로 다수의 오브젝트 관리</td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="주차-클래스와-객체">7주차: 클래스와 객체</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>핵심 개념</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>class</code> 선언, <code>constructor()</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>this</code>의 의미: “이 객체 자신의”</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>프로퍼티와 메서드</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td><code>new</code> 키워드로 객체 생성</td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>객체 배열:
+<code>let balls = []; balls.push(new Ball(...));</code></td>
+<td>[ ]</td>
+</tr>
+<tr>
+<td>배열 방식(6주차) vs 클래스 방식(7주차)의 차이</td>
+<td>[ ]</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="출제-유형">출제 유형</h2>
+<p>총 <strong>6문제</strong>, 만점 <strong>20점</strong>입니다.</p>
+<p>모든 문제는 <strong>“다음 조건을 모두 만족하는 P5.js 스케치를
+작성하시오”</strong> 형식입니다. 문제마다 4~10개의 구체적 조건이
+주어지며, <strong>조건별 부분 점수</strong>로 채점합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>난이도</th>
+<th>조건 수</th>
+<th>주요 범위</th>
+<th>배점</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>쉬움</td>
+<td>4~5개</td>
+<td>1~3주차 (도형, 색상, 반복문)</td>
+<td>2점</td>
+</tr>
+<tr>
+<td>2</td>
+<td>쉬움</td>
+<td>4~5개</td>
+<td>3~4주차 (반복문, 조건문, 인터랙션)</td>
+<td>2점</td>
+</tr>
+<tr>
+<td>3</td>
+<td>보통</td>
+<td>6~7개</td>
+<td>4~5주차 (조건문, 움직임, 바운싱)</td>
+<td>3점</td>
+</tr>
+<tr>
+<td>4</td>
+<td>보통</td>
+<td>6~7개</td>
+<td>5~6주차 (함수, 배열, 다중 오브젝트)</td>
+<td>3점</td>
+</tr>
+<tr>
+<td>5</td>
+<td>어려움</td>
+<td>8~10개</td>
+<td>6~7주차 (배열 + 클래스 + 인터랙션)</td>
+<td>5점</td>
+</tr>
+<tr>
+<td>6</td>
+<td>어려움</td>
+<td>8~10개</td>
+<td>1~7주차 통합</td>
+<td>5점</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+채점 방식
+</div>
+<p>조건별 부분 점수입니다. 예를 들어 3점짜리 문제에 조건 6개이면, 조건
+1개당 0.5점입니다. 4개를 충족하면 2점을 받습니다. <strong>완벽하지
+않아도 부분 점수를 받을 수 있으니, 일단 제출하세요.</strong></p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+시험 준비 팁
+</div>
+<ol type="1">
+<li><strong>1~7주차 학생용 핸드아웃</strong>을 다시 읽어보세요</li>
+<li><strong>코드를 직접 P5.js 에디터에서 실행</strong>해보세요 — 조건을
+하나씩 추가하며 확인하는 연습</li>
+<li>각 주차의 <strong>핵심 코드 패턴</strong>을 이해하세요:
+<ul>
+<li><code>for</code>문 + 배열 순회</li>
+<li><code>if</code>문 + 바운싱/조건 분기</li>
+<li><code>class</code> + <code>constructor</code> + 메서드 + 객체
+배열</li>
+</ul></li>
+<li><strong>7주차 Ball 클래스 코드</strong>를 완전히 이해하면 1~7주차가
+정리됩니다</li>
+<li>LLM을 활용하더라도 <strong>조건을 하나씩 실행해서 확인하는
+습관</strong>이 중요합니다</li>
+</ol>
+</div>
+<hr />
+<h2 id="핵심-줄거리-이것만-기억하세요">핵심 줄거리 — 이것만
+기억하세요</h2>
+<pre><code>도형을 그리고 (1~2주)
+→ 반복해서 패턴을 만들고 (3주)
+→ 클릭/키보드에 반응하고 (4주)
+→ 변수를 바꿔서 움직이고 (5주)
+→ 함수와 배열로 정리하고 (6주)
+→ 클래스로 하나로 묶는다 (7주)</code></pre>
+<p>이 흐름을 이해하고 있으면 시험 준비의 큰 그림이 잡힙니다.</p>
+<hr />
+<h2 id="문의">문의</h2>
+<p>시험 관련 질문은 수업 시간 또는 개별 연락을 통해 문의해주세요.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#시험-방식">시험 방식</a></li><li class="toc-level-2"><a href="#제출-방법">제출 방법</a></li><li class="toc-level-3"><a href="#urls.txt-작성법">urls.txt 작성법</a></li><li class="toc-level-3"><a href="#p5.js-public-url-만드는-법">P5.js Public URL 만드는 법</a></li><li class="toc-level-3"><a href="#코드-스크린샷-촬영-방법">코드 스크린샷 촬영 방법</a></li><li class="toc-level-3"><a href="#zip-파일-만드는-법">zip 파일 만드는 법</a></li><li class="toc-level-2"><a href="#llm-사용-허용">LLM 사용 허용</a></li><li class="toc-level-2"><a href="#시험-범위-및-핵심-개념">시험 범위 및 핵심 개념</a></li><li class="toc-level-3"><a href="#주차-도형과-좌표">1~2주차: 도형과 좌표</a></li><li class="toc-level-3"><a href="#주차-반복문과-패턴">3주차: 반복문과 패턴</a></li><li class="toc-level-3"><a href="#주차-조건문과-인터랙션">4주차: 조건문과 인터랙션</a></li><li class="toc-level-3"><a href="#주차-움직임과-애니메이션">5주차: 움직임과 애니메이션</a></li><li class="toc-level-3"><a href="#주차-함수와-배열">6주차: 함수와 배열</a></li><li class="toc-level-3"><a href="#주차-클래스와-객체">7주차: 클래스와 객체</a></li><li class="toc-level-2"><a href="#출제-유형">출제 유형</a></li><li class="toc-level-2"><a href="#핵심-줄거리-이것만-기억하세요">핵심 줄거리 — 이것만 기억하세요</a></li><li class="toc-level-2"><a href="#문의">문의</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12주차: 노이즈와 자연스러운 움직임 (1교시 · 학생용) | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 12 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>12주차: 노이즈와 자연스러운 움직임 (1교시 · 학생용)</h1>
+        <p class="lead">Noise and Organic Motion 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 12</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">12주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">: 노이즈와 자연스러운 움직임 (1교시 · 학생용)</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-노이즈와-자연스러운-움직임-1교시-학생용">12주차: 노이즈와
+자연스러운 움직임 (1교시 · 학생용)</h1>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>링크</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>강의 아웃라인</td>
+<td>week-12-outline</td>
+</tr>
+<tr>
+<td>강사용 교안</td>
+<td>week-12-period1-content</td>
+</tr>
+<tr>
+<td>다음 교시 학생용</td>
+<td><a href="week-12-period2.html">week-12-period2-student</a></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<p>이번 시간이 끝나면 다음을 할 수 있습니다. - <code>noise()</code>와
+<code>random()</code>의 차이를 설명할 수 있습니다. - 오프셋(offset)과
+증가값(step)의 역할을 이해할 수 있습니다. - <code>map()</code>으로
+노이즈 값을 원하는 범위로 바꿀 수 있습니다. - 1D 노이즈로 부드럽게
+떠다니는 움직임과 풍경 실루엣을 만들 수 있습니다.</p>
+</div>
+<hr />
+<h2 id="noise의-본질-random과-다른-1d-노이즈">noise()의 본질: random()과
+다른 1D 노이즈</h2>
+<h3 id="도입">도입</h3>
+<h4 id="주차에서-이어서">11주차에서 이어서</h4>
+<p>지난주에는 <code>loadJSON()</code>, <code>loadTable()</code>로
+JSON·CSV 파일에서 숫자를 읽어와 도형의 크기·위치·색에 매핑했습니다. 그
+숫자들은 모두 <strong>외부에서 가져온, 누군가가 미리 만들어 둔
+데이터</strong>였습니다.</p>
+<p>이번 시간에는 반대로, <strong>컴퓨터가 스스로 만들어내는, 자연을 닮은
+숫자</strong>를 다룹니다. 그 숫자를 만들어 주는 함수가 오늘의 주제
+<code>noise()</code>입니다.</p>
+<h4 id="자연의-움직임-관찰">자연의 움직임 관찰</h4>
+<p>자연의 움직임을 떠올려 봅니다. 바람에 흔들리는 풀은 한쪽으로 쏠렸다가
+천천히 반대쪽으로 돌아옵니다. 갑자기 반대편으로 뚝 꺾이지 않습니다.
+물결도 부드럽게 오르내리고, 연기도 좌우로 천천히 흔들리며
+올라갑니다.</p>
+<figure class="lecture-figure">
+<img src="assets/12week/09-natural-motion-reference.png"
+alt="09 natural motion reference" />
+<figcaption aria-hidden="true">09 natural motion reference</figcaption>
+</figure>
+<p>이 현상들의 공통점은 <strong>완전히 규칙적이지도 않고, 완전히
+무작위도 아니라는 것</strong>입니다. 다음에 무엇이 올지 정확히 예측할
+수는 없지만, <strong>부드럽게 이어지는</strong> 변화입니다.</p>
+<p>5주차에서 <code>random()</code>으로 만든 Random
+Walker(<code>x += random(-3, 3)</code>)는 매 프레임 방향이 갑자기 바뀌어
+움직임이 끊겨 보였습니다. <code>noise()</code>를 쓰면 이런 급격한 변화가
+줄어들고 <strong>자연처럼 부드럽게 이어지는</strong> 움직임을 만들 수
+있습니다. <code>noise()</code>는 <code>random()</code>을 대체하는
+함수라기보다, 부드러운 자연 현상에 어울리는 <strong>다른 성격의
+무작위</strong>입니다.</p>
+<h3 id="핵심-개념-1-random의-특성-독립적인-무작위">핵심 개념 1:
+random()의 특성 — 독립적인 무작위</h3>
+<p><code>random()</code>의 특성을 먼저 짚어 봅니다. 어떤 움직임에
+<code>random()</code>이 잘 맞고, 어떤 움직임에 <code>noise()</code>가 더
+잘 맞는지 구분하기 위해서입니다.</p>
+<p><code>random(min, max)</code>는 min 이상 max 미만의 무작위 소수를
+돌려줍니다. 핵심은 <strong>매번 부를 때마다 완전히 독립적인 새
+값</strong>이 나온다는 점입니다. 직전에 어떤 값이 나왔든 전혀 영향을
+주지 않습니다.</p>
+<p>이 특성을 그래프로 확인합니다. x축은 시간(프레임), y축은
+<code>random()</code>이 만든 값입니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strokeWeight</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> frameCount<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> y <span class="op">=</span> <span class="fu">random</span>(height)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">point</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width) {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 점이 위아래로 불규칙하게 바뀌는 그래프가 나옵니다. 직전 값이
+30이든 180이든, 다음 값은 0~200 중 아무 곳에나 나옵니다. 앞 값과 뒤 값
+사이에 <strong>아무런 관계가 없기 때문</strong>입니다.</p>
+<p>이 특성을 자연 현상에 그대로 쓰면 어색합니다. 바람 세기가 매 순간
+약함→강함→약함으로 갑자기 바뀌고, 기온이 1초마다 20도→5도→35도로
+오르내리는 셈입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>random(100, 200)</code>을 연달아 10번 부르면, 그 10개 값
+사이에는 어떤 관계가 있을까요?</p>
+<p><strong>답:</strong> 아무 관계도 없습니다. 10개 전부 독립적인 무작위
+값입니다.</p>
+</div>
+<h3 id="핵심-개념-2-noise-연속적인-무작위">핵심 개념 2: noise() —
+연속적인 무작위</h3>
+<p>앞에서 본 특성 — ‘앞뒤 값이 서로 독립적이다’ — 과 다른 방식으로 값을
+만드는 함수가 <code>noise()</code>입니다. 정식 이름은 <strong>Perlin
+Noise(펄린 노이즈)</strong>입니다.</p>
+<p>1983년, Ken Perlin은 영화 <트론>의 컴퓨터 그래픽 작업에서 돌 표면,
+나무 결, 구름 같은 자연스러운 질감을 만들어야 했습니다.
+<code>random()</code>만으로는 결과가 너무 인공적이고 불연속적으로 보였기
+때문에, ’규칙적이지는 않지만 부드럽게 이어지는 무작위’가 필요했습니다.
+그래서 Perlin Noise를 발명했고, 이 공로로 <strong>아카데미
+과학기술상</strong>을 받았습니다. 지금도 영화 VFX, 게임, 미디어아트
+전반에서 쓰이며, 교재 Nature of Code의 핵심 개념이기도 합니다.</p>
+<p><code>noise()</code>에 숫자를 하나 넣으면 <strong>0 이상 1
+이하</strong>의 값이 나옵니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> value <span class="op">=</span> <span class="fu">noise</span>(<span class="fl">0.5</span>)<span class="op">;</span>  <span class="co">// 0~1 사이의 부드러운 값</span></span></code></pre></div>
+<p>입력값을 조금씩 바꿔 가며 불러보면 다음과 같습니다. -
+<code>noise(0.50)</code> → 예: 0.43 - <code>noise(0.51)</code> → 예:
+0.44 — 거의 비슷 - <code>noise(0.52)</code> → 예: 0.46 — 역시 비슷 -
+<code>noise(5.00)</code> → 예: 0.71 — 멀리 떨어진 입력이라 전혀 다른
+값</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+noise()와 random()의 결정적 차이
+</div>
+<p>입력값이 <strong>조금</strong> 변하면 출력값도
+<strong>조금만</strong> 변합니다. <code>random()</code>은 직전 값을
+기억하지 못하지만, <code>noise()</code>는 직전 값을 <strong>‘기억하는
+것처럼’</strong> 움직입니다. 실제로 무언가를 저장하는 것은 아니고,
+’입력이 가까우면 출력도 가깝다’는 성질을 ’기억한다’고 빗대어 표현한
+것입니다.</p>
+</div>
+<p><code>random()</code>과 <code>noise()</code>를 한 화면 위아래에
+동시에 그려 비교해 봅니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> xOff <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">300</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 위/아래 영역 구분선</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">line</span>(<span class="dv">0</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> width<span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 라벨</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;random()&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;noise()&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> frameCount<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 위쪽: random()</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">220</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strokeWeight</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">point</span>(x<span class="op">,</span> <span class="fu">random</span>(height <span class="op">/</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 아래쪽: noise()</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">90</span><span class="op">,</span> <span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">point</span>(x<span class="op">,</span> <span class="fu">noise</span>(xOff) <span class="op">*</span> (height <span class="op">/</span> <span class="dv">2</span>) <span class="op">+</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  xOff <span class="op">+=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width) {</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/12week/01-random-vs-noise-graph.png"
+alt="01 random vs noise graph" />
+<figcaption aria-hidden="true">01 random vs noise graph</figcaption>
+</figure>
+<p><code>random()</code>은 프레임마다 값이 끊기고,
+<code>noise()</code>는 앞뒤 값이 이어져 자연 현상 표현에 더
+적합합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>noise(0.50)</code>이 0.43이었다면, <code>noise(0.51)</code>은
+0.43과 비슷할까요, 완전히 다를까요?</p>
+<p><strong>답:</strong> 비슷합니다. 입력이 0.01밖에 차이 나지 않으므로
+출력도 거의 변하지 않습니다.</p>
+</div>
+<h3 id="핵심-개념-3-오프셋과-증가값-부드러움을-조절하는-값">핵심 개념 3:
+오프셋과 증가값 — 부드러움을 조절하는 값</h3>
+<p><code>noise()</code>에 넣는 입력값을
+<strong>오프셋(offset)</strong>이라고 부릅니다.</p>
+<p>노이즈를 산맥 위를 걷는 이미지로 생각해 봅니다.</p>
+<figure class="lecture-figure">
+<img src="assets/12week/02-noise-offset-step-mountain.png"
+alt="02 noise offset step mountain" />
+<figcaption aria-hidden="true">02 noise offset step
+mountain</figcaption>
+</figure>
+<p>오프셋은 현재 위치, 증가값은 다음 프레임으로 이동하는 간격입니다.
+조금씩 이동하면 값도 부드럽게 바뀝니다.</p>
+<p>노이즈를 쓸 때는 항상 다음 세 줄 구조를 따릅니다. 1.
+<code>draw()</code> <strong>밖</strong>에 <code>let xOff = 0;</code>으로
+오프셋을 선언합니다. 2. <code>draw()</code> <strong>안</strong>에서
+<code>noise(xOff)</code>로 값을 읽습니다. 3. <code>draw()</code>
+<strong>안</strong>에서 <code>xOff += 0.01;</code>로 오프셋을 조금씩
+늘립니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> xOff <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>             <span class="co">// draw() 밖에서 선언</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> value <span class="op">=</span> <span class="fu">noise</span>(xOff)<span class="op">;</span>   <span class="co">// 오프셋 위치의 값을 읽음 (0~1)</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// value 활용...</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  xOff <span class="op">+=</span> <span class="fl">0.01</span><span class="op">;</span>              <span class="co">// 다음 프레임을 위해 한 걸음 이동</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+자주 하는 실수
+</div>
+<p><code>let xOff = 0;</code>을 <code>draw()</code>
+<strong>안</strong>에 쓰면 매 프레임 0으로 리셋되어
+<code>noise(0)</code>만 반복 호출됩니다. 항상 같은 값이 나와 아무 변화도
+생기지 않습니다. 5주차에서 <code>let x = 0</code>을 <code>draw()</code>
+안에 두면 도형이 움직이지 않던 것과 같은 원리입니다. 오프셋은 반드시
+<code>draw()</code> 밖에 선언합니다.</p>
+</div>
+<p><code>xOff += 0.01;</code>의 <code>0.01</code>은 <strong>부드러움을
+조절하는 값</strong>입니다. 산맥 위에서 <strong>한 걸음의
+크기</strong>라고 생각하면 됩니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>증가값</th>
+<th>비유</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>xOff += 0.005</code></td>
+<td>매우 작은 이동</td>
+<td>아주 부드러운 변화</td>
+</tr>
+<tr>
+<td><code>xOff += 0.01</code></td>
+<td>천천히 걷기</td>
+<td>부드러운 변화 (가장 일반적)</td>
+</tr>
+<tr>
+<td><code>xOff += 0.05</code></td>
+<td>보통 걷기</td>
+<td>적당한 변화</td>
+</tr>
+<tr>
+<td><code>xOff += 0.1</code></td>
+<td>빠르게 이동</td>
+<td>빠르고 거친 변화</td>
+</tr>
+<tr>
+<td><code>xOff += 1.0</code></td>
+<td>큰 폭으로 이동</td>
+<td><code>random()</code>과 거의 같아짐</td>
+</tr>
+</tbody>
+</table></div>
+<p>걸음이 작으면 산 높이가 조금씩만 달라져 부드럽고, 걸음이 크면 한 번에
+멀리 가서 높이가 확 달라져 거칠어집니다. 걸음이 <code>1.0</code>처럼
+너무 크면 매번 산맥의 완전히 다른 곳에 떨어져 <code>random()</code>과
+구별이 안 됩니다.</p>
+<p><code>step</code> 값을 <code>0.005</code> → <code>0.01</code> →
+<code>0.05</code> → <code>0.1</code> → <code>1.0</code>로 바꿔 가며
+실행하면 차이를 확인할 수 있습니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> xOff <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> step <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span>   <span class="co">// 이 값에 따라 부드러움이 달라짐</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> y <span class="op">=</span> <span class="fu">noise</span>(xOff) <span class="op">*</span> height<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> y<span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  xOff <span class="op">+=</span> step<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;step: &quot;</span> <span class="op">+</span> step<span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>0.005</code>면 거의 멈춘 듯 부드럽고, <code>0.05</code>쯤이면
+꽤 빠르며, <code>1.0</code>이면 움직임이 급격하게 변합니다.
+<strong>증가값 하나로 작품 분위기 전체가 바뀝니다.</strong> 보통
+<code>0.01</code>~<code>0.05</code> 사이에서 시작하면 무난합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>바람에 천천히 흔들리는 풀을 표현하려면 증가값을 크게 할까요, 작게
+할까요?</p>
+<p><strong>답:</strong> 작게 합니다(<code>0.01</code> 정도). 풀은 느리고
+부드럽게 흔들리기 때문입니다.</p>
+</div>
+<h3 id="핵심-개념-4-map으로-노이즈-값-길들이기">핵심 개념 4: map()으로
+노이즈 값 길들이기</h3>
+<p><code>noise()</code>가 돌려주는 값은 <strong>항상 0 이상 1
+이하</strong>입니다. 그런데 실제로 필요한 범위는 0~1이 아닌 경우가
+많습니다. 좌표는 0~400, 크기는 20~80, 색은 0~255처럼요.</p>
+<p>그래서 <code>noise()</code> 옆에는 거의 항상 <code>map()</code>이
+따라옵니다. 5주차에서 배운 값을 다른 범위로 바꾸는 함수입니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// noise()는 0~1 → map()으로 원하는 범위로 번역</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> y <span class="op">=</span> <span class="fu">map</span>(<span class="fu">noise</span>(xOff)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">300</span>)<span class="op">;</span>      <span class="co">// 0~1 을 100~300 으로</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(<span class="fu">noise</span>(sizeOff)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span>  <span class="co">// 0~1 을 20~80 으로</span></span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/12week/03-noise-map-range.png"
+alt="03 noise map range" />
+<figcaption aria-hidden="true">03 noise map range</figcaption>
+</figure>
+<p><code>noise()</code> 값은 그대로 쓰기보다 <code>map()</code>으로
+좌표·크기·색 범위에 맞춰 바꿔 씁니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+noise()와 map()은 함께 자주 쓰인다
+</div>
+<p><code>noise()</code>는 항상 0~1을 돌려줍니다. 원하는
+범위(좌표·크기·색 등)로 쓰려면 <code>map()</code>으로 번역합니다.
+<strong><code>noise()</code> 값을 화면 요소에 연결할 때는
+<code>map()</code>을 함께 확인한다</strong>고 기억해 둡니다.</p>
+</div>
+<p>크기를 노이즈로 맥동시키는 예제로 <code>map()</code>을
+확인합니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> sizeOff <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(<span class="fu">noise</span>(sizeOff)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  sizeOff <span class="op">+=</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>원의 크기가 부드럽게 커졌다 작아졌다 합니다. <code>noise()</code>로
+크기를 정하고 <code>map()</code>으로 20~80 범위로 번역했을 뿐인데
+유기적인 느낌이 납니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>noise()</code>가 0.5를 돌려줬습니다.
+<code>map(그 값, 0, 1, 20, 80)</code>을 거치면 크기는 얼마가 될까요?</p>
+<p><strong>답:</strong> 50입니다. 0.5는 0~1의 한가운데이므로, 20~80의
+한가운데인 50이 됩니다.</p>
+</div>
+<h3 id="예제-1-부드럽게-떠다니는-원-독립적인-두-축">예제 1: 부드럽게
+떠다니는 원 — 독립적인 두 축</h3>
+<p>배운 내용을 합쳐 첫 작품을 만듭니다. <code>noise()</code>로 x좌표와
+y좌표를 모두 정해, 화면을 부드럽게 떠다니는 원입니다.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> xOff <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> yOff <span class="op">=</span> <span class="dv">1000</span><span class="op">;</span>   <span class="co">// x와 다른 시작점!</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="fu">noise</span>(xOff) <span class="op">*</span> width<span class="op">;</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> y <span class="op">=</span> <span class="fu">noise</span>(yOff) <span class="op">*</span> height<span class="op">;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  xOff <span class="op">+=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  yOff <span class="op">+=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>원이 직선이 아니라 곡선을 그리며 캔버스 안을 부드럽게 이동합니다.
+5주차 <code>random()</code> 워커의 불규칙한 움직임과 달리, 이 원은
+천천히 떠다니는 물체처럼 보입니다.</p>
+<p><strong>왜 <code>yOff</code>를 0이 아니라 1000으로
+시작할까요?</strong> <code>yOff</code>도 <code>0</code>으로 두면 원이
+<strong>대각선 직선</strong>으로만 움직입니다. <code>xOff</code>와
+<code>yOff</code>가 똑같이 0에서 출발해 똑같은 속도로 증가하므로
+<code>noise(xOff)</code>와 <code>noise(yOff)</code>가 <strong>항상 같은
+값</strong>이 되고, x와 y가 같으면 대각선이 되기 때문입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/12week/04-independent-offsets-walker.png"
+alt="04 independent offsets walker" />
+<figcaption aria-hidden="true">04 independent offsets
+walker</figcaption>
+</figure>
+<p>x와 y가 서로 다른 경로를 가지려면 오프셋 시작점도 달라야 합니다.
+1000이 특별한 값은 아니며, 충분히 떨어져 있기만 하면 됩니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>5주차 Random Walker</th>
+<th>12주차 Noise Walker</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>핵심 함수</td>
+<td><code>random(-3, 3)</code></td>
+<td><code>noise(xOff) * width</code></td>
+</tr>
+<tr>
+<td>움직임</td>
+<td>불연속적이고 갑작스러움</td>
+<td>부드럽고 유기적</td>
+</tr>
+<tr>
+<td>방향 전환</td>
+<td>매 프레임 랜덤</td>
+<td>천천히 곡선으로</td>
+</tr>
+<tr>
+<td>어울리는 표현</td>
+<td>분자 운동, 불규칙하게 튀는 입자</td>
+<td>연기, 물결, 떠다니는 물체</td>
+</tr>
+</tbody>
+</table></div>
+<p>어느 쪽이 더 좋다기보다, <strong>표현하려는 대상</strong>에 따라 골라
+씁니다.</p>
+<h3 id="예제-2-1d-노이즈-풍경-실루엣-옆에서-본-언덕파도">예제 2: 1D
+노이즈 풍경 실루엣 — 옆에서 본 언덕/파도</h3>
+<p>이번에는 점이나 원이 아니라 <strong>풍경</strong>을 그립니다.
+노이즈로 언덕 능선을 만드는 예제입니다.</p>
+<p>원리는 이렇습니다. 화면의 x좌표를 0부터 끝까지 훑으면서, 각 x마다
+<code>noise(x)</code>로 언덕의 높이를 정합니다. 그 높이들을 선으로
+이으면 산 능선이 됩니다.</p>
+<p>선을 잇는 데는 <code>beginShape()</code> / <code>vertex()</code> /
+<code>endShape()</code>를 씁니다. 1. <code>beginShape()</code> — 꼭짓점
+모으기를 시작합니다. 2. <code>vertex(x, y)</code> — 꼭짓점을 하나씩
+찍습니다. for문으로 x를 훑으며 반복합니다. 3.
+<code>endShape(CLOSE)</code> — 꼭짓점 모으기를 끝내고, 시작점까지 선으로
+닫습니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">300</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">135</span><span class="op">,</span> <span class="dv">206</span><span class="op">,</span> <span class="dv">235</span>)<span class="op">;</span>   <span class="co">// 하늘색</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> scl <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span>              <span class="co">// 노이즈 스케일 (작을수록 완만한 언덕)</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> t <span class="op">=</span> frameCount <span class="op">*</span> <span class="fl">0.005</span><span class="op">;</span>  <span class="co">// 시간에 따라 능선이 흐르도록</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">80</span><span class="op">,</span> <span class="dv">140</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span>           <span class="co">// 언덕 색</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">beginShape</span>()<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;=</span> width<span class="op">;</span> x<span class="op">++</span>) {</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="fu">map</span>(<span class="fu">noise</span>(x <span class="op">*</span> scl <span class="op">+</span> t)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">120</span><span class="op">,</span> <span class="dv">280</span>)<span class="op">;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vertex</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vertex</span>(width<span class="op">,</span> height)<span class="op">;</span>       <span class="co">// 오른쪽 아래 모서리</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vertex</span>(<span class="dv">0</span><span class="op">,</span> height)<span class="op">;</span>           <span class="co">// 왼쪽 아래 모서리</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">endShape</span>(CLOSE)<span class="op">;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>언덕 능선이 부드럽게 출렁이며 천천히 흘러갑니다. x를 따라가며
+<code>noise(x * scl + t)</code>로 높이를 읽고, <code>map()</code>으로
+화면 높이에 맞춰 번역한 결과입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/12week/05-1d-landscape-vs-2d-map.png"
+alt="05 1d landscape vs 2d map" />
+<figcaption aria-hidden="true">05 1d landscape vs 2d map</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+화면을 채워도 1D일 수 있다
+</div>
+<p>입력이 하나면 1D(옆에서 본 풍경), 입력이 둘이면 2D(위에서 내려다본
+지도)입니다.</p>
+</div>
+<h3 id="정리">정리</h3>
+<h4 id="핵심-요약">핵심 요약</h4>
+<p>오늘의 핵심은 네 가지입니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>개념</th>
+<th>핵심 한 줄</th>
+<th>기억할 코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>random()</code> vs <code>noise()</code></td>
+<td><code>random()</code>=앞뒤 값이 독립적인 무작위 /
+<code>noise()</code>=부드럽게 이어지는 무작위</td>
+<td><code>noise(xOff)</code></td>
+</tr>
+<tr>
+<td>오프셋과 증가값</td>
+<td>오프셋=산맥 위 현재 위치 / 증가값 작을수록 부드러움</td>
+<td><code>xOff += 0.01;</code></td>
+</tr>
+<tr>
+<td><code>map()</code> 활용</td>
+<td><code>noise()</code>는 늘 0~1 → 원하는 범위로 번역</td>
+<td><code>map(noise(xOff), 0, 1, a, b)</code></td>
+</tr>
+<tr>
+<td>독립적인 축</td>
+<td>x·y는 서로 다른 오프셋에서 출발</td>
+<td><code>xOff = 0; yOff = 1000;</code></td>
+</tr>
+</tbody>
+</table></div>
+<h4 id="자주-묻는-질문">자주 묻는 질문</h4>
+<blockquote>
+<p><strong>Q.</strong> <code>noise()</code>가 정확히 0이나 1을 돌려줄
+수도 있나요? <strong>A.</strong> <code>noise()</code>의 반환값은 0~1
+범위입니다. 다만 정확히 0이나 1 같은 극단값에 의존해서 코드를 짜지는
+않는 편이 좋습니다. 원하는 좌표·크기·색 범위가 있으면
+<code>map()</code>으로 다시 번역하면 됩니다.</p>
+</blockquote>
+<blockquote>
+<p><strong>Q.</strong> <code>xOff</code>를 0이 아닌 값에서 시작해도
+되나요? <strong>A.</strong> 네, 아무 값이나 괜찮습니다. 0이든 42든
+상관없으며, 산맥의 다른 지점에서 출발하는 것뿐입니다. 중요한 것은 x·y
+오프셋이 <strong>서로 충분히 떨어져 있는 것</strong>입니다.</p>
+</blockquote>
+<blockquote>
+<p><strong>Q.</strong> <code>noise()</code>와 <code>random()</code>을
+같이 써도 되나요? <strong>A.</strong> 됩니다. 기본 움직임은
+<code>noise()</code>로 부드럽게 만들고, 마우스 클릭 같은 이벤트가 생기면
+<code>random()</code>으로 갑작스러운 변화를 주는 식으로 섞을 수
+있습니다.</p>
+</blockquote>
+<h4 id="다음-시간-예고">다음 시간 예고</h4>
+<p>오늘은 <code>noise()</code>에 입력을 하나만 주어 점을 움직이고 풍경
+능선을 그렸습니다. 모두 <strong>1D 노이즈</strong>였습니다. 2교시에는
+입력을 두 개 주어 <code>noise(x, y)</code>로 화면 전체의 텍스처와 밀도
+지도를 만들고, 노이즈로 방향을 정하는 <strong>Flow Field</strong>까지
+다룹니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#noise의-본질-random과-다른-1d-노이즈">noise()의 본질: random()과 다른 1D 노이즈</a></li><li class="toc-level-3"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#핵심-개념-1-random의-특성-독립적인-무작위">핵심 개념 1: random()의 특성 — 독립적인 무작위</a></li><li class="toc-level-3"><a href="#핵심-개념-2-noise-연속적인-무작위">핵심 개념 2: noise() — 연속적인 무작위</a></li><li class="toc-level-3"><a href="#핵심-개념-3-오프셋과-증가값-부드러움을-조절하는-값">핵심 개념 3: 오프셋과 증가값 — 부드러움을 조절하는 값</a></li><li class="toc-level-3"><a href="#핵심-개념-4-map으로-노이즈-값-길들이기">핵심 개념 4: map()으로 노이즈 값 길들이기</a></li><li class="toc-level-3"><a href="#예제-1-부드럽게-떠다니는-원-독립적인-두-축">예제 1: 부드럽게 떠다니는 원 — 독립적인 두 축</a></li><li class="toc-level-3"><a href="#예제-2-1d-노이즈-풍경-실루엣-옆에서-본-언덕파도">예제 2: 1D 노이즈 풍경 실루엣 — 옆에서 본 언덕/파도</a></li><li class="toc-level-3"><a href="#정리">정리</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 2교시 — 객체 배열과 클래스 확장 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 07 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>7주차 2교시 — 객체 배열과 클래스 확장</h1>
+        <p class="lead">Classes and Objects 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 07</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">7주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">객체 배열과 클래스 확장</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-객체-배열과-클래스-확장">7주차 2교시 — 객체 배열과
+클래스 확장</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-07-outline <strong>이전
+교시</strong>: <a
+href="week-07-period1.html">week-07-period1-student</a> (왜 클래스가
+필요한가 + class 기본 문법) <strong>다음 교시</strong>: <a
+href="week-07-period3.html">week-07-period3-student</a> (학생 주도
+실습)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 class 기본 문법 (constructor·this·메서드)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ 객체 배열을 활용하여 수십~수백 개의 객체를 동시에 생성·관리할 수
+있습니다</li>
+<li>✅ 클래스에 바운싱, 색상 등 기능을 확장할 수 있습니다</li>
+<li>✅ 마우스/키보드 인터랙션으로 객체를 동적으로 추가할 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<h3 id="빠른-퀴즈">빠른 퀴즈</h3>
+<div class="callout callout-question">
+<div class="callout-title">
+퀴즈 1
+</div>
+<p>클래스 안에서 자기 자신의 x좌표를 참조하려면?</p>
+<p><strong>답</strong>: <code>this.x</code>입니다. <code>this</code>는
+’이 객체 자신’이라는 뜻입니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+퀴즈 2
+</div>
+<p>설계도(클래스)로 실제 객체를 만드는 키워드는?</p>
+<p><strong>답</strong>: <code>new</code>입니다.
+<code>new Ball(200, 100)</code> 이렇게 사용합니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+퀴즈 3
+</div>
+<p><code>ball.move()</code>에서 <code>move()</code>는 뭐라고
+부르나요?</p>
+<p><strong>답</strong>: <strong>메서드</strong>입니다. 클래스 안에
+정의된 함수입니다.</p>
+</div>
+<h3 id="교시-전환">2교시 전환</h3>
+<p>1교시에서 공 1개를 만들어 보았습니다. 실제로 작품을 만들려면 공이
+<strong>수십 개, 수백 개</strong> 필요합니다.
+<code>let ball1, ball2, ball3, ..., ball100</code>처럼 변수 100개를
+선언할 수는 없습니다.</p>
+<p>6주차에서는 이런 문제를 <strong>배열</strong>로 해결했습니다. 오늘은
+숫자 대신 <strong>객체</strong>를 배열에 넣습니다.</p>
+<hr />
+<h2 id="심화-개념-1-객체-배열-단계적으로-만들어보기">💡 심화 개념 1 —
+객체 배열: 단계적으로 만들어보기</h2>
+<h3 id="step-a-먼저-공-3개를-변수로-만들어보기">Step A: 먼저 공 3개를
+변수로 만들어보기</h3>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig05-object-array-steps.png"
+alt="w07 fig05 object array steps" />
+<figcaption aria-hidden="true">w07 fig05 object array steps</figcaption>
+</figure>
+<p>1교시에서 공 1개는 <code>let ball = new Ball(...)</code>로
+만들었습니다. 이를 3개로 늘려 보겠습니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">250</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball3 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">350</span><span class="op">,</span> <span class="dv">300</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="op">-</span><span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  ball1<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span> ball1<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  ball2<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span> ball2<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  ball3<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span> ball3<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>3개까지는 이렇게 관리할 수 있습니다. 하지만 10개, 50개가 되면
+<code>ball1</code>부터 <code>ball50</code>까지 변수를 만들고,
+<code>draw()</code>에서도 50줄을 써야 합니다.</p>
+<p>이럴 때 <strong>배열</strong>을 사용합니다. 6주차에서 했던 것처럼
+동일한 원리입니다.</p>
+<h3 id="step-b-변수-3개를-배열-1개로-바꾸기">Step B: 변수 3개를 배열
+1개로 바꾸기</h3>
+<p>위 코드를 배열로 바꾸면 다음과 같습니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> balls <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  balls[<span class="dv">0</span>] <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  balls[<span class="dv">1</span>] <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">250</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  balls[<span class="dv">2</span>] <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">350</span><span class="op">,</span> <span class="dv">300</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="op">-</span><span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> balls<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>let balls = [];</code> — 빈 배열 선언입니다. 6주차에서 했던
+것과 <strong>똑같습니다</strong>.</p>
+<p><code>balls[0]</code>, <code>balls[1]</code>, <code>balls[2]</code>에
+Ball 객체를 넣었습니다. 6주차에서 <code>x[0] = 100;</code>처럼 숫자를
+넣었던 것과 같은 원리입니다. 숫자 대신 <strong>객체</strong>가 들어갈
+뿐입니다.</p>
+<p><code>balls[i].move()</code> — ‘i번째 공아, 움직여라.’ for문으로
+0번째부터 마지막까지 순회하면서 모든 공을 움직이고 그립니다.</p>
+<h3 id="step-c-push로-50개-대량-생성">Step C: push()로 50개 대량
+생성</h3>
+<p>3개는 수동으로 넣었지만, 50개를 만들 때는 for문 +
+<code>push()</code>를 사용하면 됩니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> balls <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">50</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    ))<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> balls<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 50개의 파란 원이 각각 다른 위치에서
+시작, 각각 다른 방향과 속도로 이동 - 전부 화면 밖으로 나감 (바운싱 아직
+없음)</p>
+<figure class="lecture-figure">
+<img src="assets/7week/03_push-objects-50-balls-result.png"
+alt="03 push objects 50 balls result" />
+<figcaption aria-hidden="true">03 push objects 50 balls
+result</figcaption>
+</figure>
+<p><code>balls.push(new Ball(...))</code> — <code>push()</code>로 배열에
+추가하는 방식은 6주차와 같습니다. <code>random(width)</code>,
+<code>random(-3, 3)</code>처럼 매번 다른 랜덤 값이 들어가므로 각 공이
+다른 위치와 속도를 가집니다.</p>
+<h3 id="주차-배열-6개-vs-7주차-객체-배열-비교">6주차 배열 6개 vs 7주차
+객체 배열 비교</h3>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig06-object-array-structure.png"
+alt="w07 fig06 object array structure" />
+<figcaption aria-hidden="true">w07 fig06 object array
+structure</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>6주차: 배열 6개 방식</th>
+<th>7주차: 객체 배열 방식</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>let x = [], y = [], speedX = [], speedY = [], size = [], c = [];</code></td>
+<td><code>let balls = [];</code></td>
+</tr>
+<tr>
+<td>변수가 <strong>6줄</strong></td>
+<td>변수가 <strong>1줄</strong></td>
+</tr>
+<tr>
+<td><code>x[i] += speedX[i];</code></td>
+<td><code>balls[i].move();</code></td>
+</tr>
+<tr>
+<td>데이터가 <strong>흩어져</strong> 있음</td>
+<td>데이터가 <strong>하나로 묶여</strong> 있음</td>
+</tr>
+<tr>
+<td>속성 추가 시 배열 추가 필요</td>
+<td>클래스에 프로퍼티만 추가</td>
+</tr>
+</tbody>
+</table></div>
+<p>배열 6개가 배열 1개로 줄었습니다. 공 하나의 모든 데이터가
+<strong>하나의 객체 안에</strong> 들어 있기 때문입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>공에 투명도(alpha) 속성을 추가하고 싶으면 배열 방식과 클래스 방식은
+각각 어떻게 다를까요?</p>
+<p><strong>답</strong>: 배열 방식에서는 <code>alpha[]</code> 배열을 하나
+더 만들어야 하고, 클래스 방식에서는 constructor에
+<code>this.alpha = 255;</code> 한 줄만 추가하면 됩니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-2-바운싱-색상-클래스-확장">💡 심화 개념 2 — 바운싱 +
+색상: 클래스 확장</h2>
+<p>지금 공들이 전부 화면 밖으로 나가고, 다 같은 파란색이라 심심합니다.
+클래스에 기능을 추가해서 한 번에 해결할 수 있습니다.</p>
+<h3 id="완성된-ball-클래스">완성된 Ball 클래스</h3>
+<p>5주차 바운싱 코드를 <code>bounce()</code> 메서드로, 색상과 크기를
+constructor에 추가합니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY) {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> speedX<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> speedY<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>                            <span class="co">// 랜덤 크기</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span> <span class="co">// 랜덤 색상</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">move</span>() {</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bounce</span>() {</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>this.size = random(20, 50)</code> — 20에서 50 사이 랜덤
+크기입니다. <code>new Ball()</code>을 할 때마다 <code>random()</code>이
+실행되어 <strong>매번 다른 크기</strong>가 됩니다.</p>
+<p><code>this.c = color(random(255), random(255), random(255))</code> —
+랜덤 RGB 색상입니다. <code>display()</code>에서
+<code>fill(this.c)</code> — <strong>자기 자신의 색상</strong>으로
+그립니다.</p>
+<p><code>bounce()</code> — 5주차 바운싱 코드가 <strong>그대로</strong>
+메서드 안에 들어갔습니다. <code>x</code>가 <code>this.x</code>로,
+<code>speed</code>가 <code>this.speedX</code>로 바뀌었을 뿐입니다.</p>
+<h3 id="draw에서-사용">draw()에서 사용</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> balls<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">bounce</span>()<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 50개의 공이 각각 <strong>다른
+크기</strong>, <strong>다른 색상</strong>으로 벽에 튕기며 움직임</p>
+<figure class="lecture-figure">
+<img src="assets/7week/04_bounce-method-before-after.png"
+alt="04 bounce method before after" />
+<figcaption aria-hidden="true">04 bounce method before
+after</figcaption>
+</figure>
+<p><code>balls[i].move()</code> — 움직이고,
+<code>balls[i].bounce()</code> — 벽 확인하고,
+<code>balls[i].display()</code> — 그립니다. 세 줄이면 공 하나의 전체
+동작입니다. 코드가 무엇을 하는지 <strong>바로 읽힙니다</strong>.</p>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig07-concept-integration.png"
+alt="w07 fig07 concept integration" />
+<figcaption aria-hidden="true">w07 fig07 concept
+integration</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+개념 통합
+</div>
+<p><strong>1~6주차의 모든 개념이 여기서 만납니다</strong>:
+변수(프로퍼티), 조건문(바운스 <code>if</code>), 함수(메서드), 배열(객체
+배열), 반복문(for문 순회). 오늘 배우는 클래스는 지금까지 배운 내용을
+<strong>하나로 묶는 구조</strong>입니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-3-마우스-인터랙션-클릭으로-공-추가">💡 심화 개념 3 —
+마우스 인터랙션: 클릭으로 공 추가</h2>
+<p>지금은 <code>setup()</code>에서 50개를 미리 만들어 놓았습니다.
+<strong>클릭할 때마다 새 공이 생기면</strong> 더 재미있어집니다.</p>
+<h3 id="mousepressed에서-객체-추가">mousePressed()에서 객체 추가</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    mouseX<span class="op">,</span> mouseY<span class="op">,</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  ))<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 마우스를 클릭할 때마다 클릭한 위치에
+새로운 공이 생성 - 각 공은 랜덤 속도, 랜덤 크기, 랜덤 색상</p>
+<figure class="lecture-figure">
+<img src="assets/7week/05_mousepressed-add-ball-at-click.png"
+alt="05 mousepressed add ball at click" />
+<figcaption aria-hidden="true">05 mousepressed add ball at
+click</figcaption>
+</figure>
+<p><code>mousePressed()</code> — 4주차에서 배운 클릭 이벤트입니다.
+<code>balls.push()</code> — 6주차에서 배운 배열 추가입니다.
+<code>new Ball(mouseX, mouseY, ...)</code> — 7주차 클래스로 객체
+생성입니다.</p>
+<p><strong>4주차 인터랙션 + 6주차 배열 + 7주차 클래스</strong>가 한 코드
+안에 결합됩니다. 세 줄에 세 주차의 개념이 모두 들어 있습니다.</p>
+<h3 id="바운스-시-색상-변경-보너스">바운스 시 색상 변경 보너스</h3>
+<p>벽에 부딪힐 때 색이 바뀌면 더 재미있습니다. <code>bounce()</code>
+메서드에 한 줄만 추가하면 됩니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bounce</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span>  <span class="co">// 색 변경!</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span>  <span class="co">// 색 변경!</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/7week/06_bounce-color-change-sequence.png"
+alt="06 bounce color change sequence" />
+<figcaption aria-hidden="true">06 bounce color change
+sequence</figcaption>
+</figure>
+<p>바운싱 <code>if</code>문 안에
+<code>this.c = color(random(...))</code> 한 줄을 추가합니다. 벽에 부딪힐
+때마다 색이 랜덤으로 바뀝니다.</p>
+<hr />
+<h2 id="미니-실습-코드-수정-체험">미니 실습 — 코드 수정 체험</h2>
+<p>에디터에 아래 전체 코드를 복사해서 넣어 보세요. 그리고 다음을 바꿔
+보세요.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> speedX<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> speedY<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">move</span>() {</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bounce</span>() {</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> balls <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>    balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>    ))<span class="op">;</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> balls<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">bounce</span>()<span class="op">;</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>  balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>    mouseX<span class="op">,</span> mouseY<span class="op">,</span></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>    <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>  ))<span class="op">;</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행되면 다음을 시도해 보세요.</p>
+<ol type="1">
+<li>setup의 <code>20</code>을 <code>100</code>으로 바꿔보기 — 공이
+100개로 늘어남</li>
+<li><code>random(-4, 4)</code>를 <code>random(-1, 1)</code>로 바꿔보기 —
+느리게 움직임</li>
+<li><code>this.size = random(20, 50)</code>을
+<code>this.size = random(5, 80)</code>으로 바꿔보기</li>
+<li><code>background(30)</code>을
+<code>background(30, 30, 30, 50)</code>으로 바꿔보기 — 잔상 효과!</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title">
+잔상 효과
+</div>
+<p>배경의 투명도를 낮추면 이전 프레임이 살짝 남아서 궤적이 보입니다.</p>
+</div>
+<hr />
+<h2 id="실전-사례-시연">실전 사례 시연</h2>
+<h3 id="사례-1-파티클-분수">사례 1: 파티클 분수</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Particle {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">8</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">5</span><span class="op">,</span> <span class="dv">12</span>)<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">+=</span> <span class="fl">0.15</span><span class="op">;</span>  <span class="co">// 중력!</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> particles <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">3</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>      particles<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Particle</span>(mouseX<span class="op">,</span> mouseY))<span class="op">;</span></span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> particles<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>    particles[i]<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>    particles[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-43"><a href="#cb9-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-44"><a href="#cb9-44" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 화면 밖 파티클 제거 (성능)</span></span>
+<span id="cb9-45"><a href="#cb9-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> particles<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb9-46"><a href="#cb9-46" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (particles[i]<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb9-47"><a href="#cb9-47" aria-hidden="true" tabindex="-1"></a>      particles<span class="op">.</span><span class="fu">splice</span>(i<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb9-48"><a href="#cb9-48" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-49"><a href="#cb9-49" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-50"><a href="#cb9-50" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/7week/07_particle-fountain-gravity-trail.png"
+alt="07 particle fountain gravity trail" />
+<figcaption aria-hidden="true">07 particle fountain gravity
+trail</figcaption>
+</figure>
+<p>마우스를 누르면 파티클이 분수처럼 솟아올랐다가 떨어집니다.</p>
+<p>핵심은 <strong>딱 한 줄</strong>입니다:
+<code>this.speedY += 0.15</code> — 매 프레임 y속도에 0.15를 더합니다.
+처음엔 위로 올라가지만, 속도가 점점 바뀌어 결국 아래로 떨어집니다. 이
+효과를 <strong>중력</strong>으로 볼 수 있습니다. 10주차에서 정식으로
+다룹니다.</p>
+<p><code>splice()</code>는 화면 밖 파티클을 지우는 코드입니다.
+13주차(파티클 시스템)에서 다시 다루므로, 지금은 개념만 알아두면
+됩니다.</p>
+<h3 id="사례-2-다양한-도형-맛보기">사례 2: 다양한 도형 — 맛보기</h3>
+<p>Ball 클래스의 <code>display()</code>에서 <code>ellipse()</code> 대신
+<code>rect()</code>를 쓰면 네모가 됩니다. 이름을 바꾸면
+<code>Square</code> 클래스로 확장할 수 있습니다. 같은 화면에 공과 네모를
+동시에 띄울 수도 있습니다.</p>
+<p>Ball과 Square 코드는 구조가 비슷합니다. 공통 부분을 자동으로 물려받는
+<strong>상속(inheritance)</strong>이라는 개념이 있지만, 이 수업에서는
+다루지 않습니다.</p>
+<hr />
+<h2 id="교시-실습-안내">3교시 실습 안내</h2>
+<h3 id="핵심-한-줄">핵심 한 줄</h3>
+<p>3교시 실습이 곧 <strong>실습과제 3</strong>입니다. <strong>제출 완료
+시 만점</strong>입니다. 중간고사(8주차) 전까지 P5.js 웹 에디터 링크로
+제출합니다.</p>
+<h3 id="필수-요구사항-4개">필수 요구사항 4개</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>요구사항</th>
+<th>한 줄 설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>class</code> 1개 이상 정의</td>
+<td>constructor + 메서드 2개 이상</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>객체 배열</strong>로 10개 이상 관리</td>
+<td><code>let balls = [];</code> + for문</td>
+</tr>
+<tr>
+<td>3</td>
+<td>각 객체가 <strong>독립적으로</strong> 움직이기</td>
+<td>move() + display()</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>인터랙션 1개</strong></td>
+<td>클릭 추가, 키보드 제어 등</td>
+</tr>
+</tbody>
+</table></div>
+<p>이 네 가지만 지키면 됩니다.</p>
+<h3 id="세-가지-방향">세 가지 방향</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방향</th>
+<th>한 줄 설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 바운싱 볼 월드</strong></td>
+<td>오늘 만든 코드에서 시작 — 가장 쉬움</td>
+</tr>
+<tr>
+<td><strong>B. 파티클 아트</strong></td>
+<td>마우스에서 파티클 생성 + 중력</td>
+</tr>
+<tr>
+<td><strong>C. 자유 주제</strong></td>
+<td>눈, 비, 별, 꽃잎 등 나만의 클래스</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/7week/08_project-directions-a-b-c-preview.png"
+alt="08 project directions a b c preview" />
+<figcaption aria-hidden="true">08 project directions a b c
+preview</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+방향 선택 팁
+</div>
+<p>무엇을 골라야 할지 모르겠으면 <strong>A(바운싱 볼)</strong>부터
+시작하세요. 2교시 미니 실습에서 이미 만들어 봤기 때문입니다.</p>
+</div>
+<p>3교시에서 자세한 스타터 코드와 단계별 가이드가 제공됩니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-3"><a href="#빠른-퀴즈">빠른 퀴즈</a></li><li class="toc-level-3"><a href="#교시-전환">2교시 전환</a></li><li class="toc-level-2"><a href="#심화-개념-1-객체-배열-단계적으로-만들어보기">심화 개념 1 — 객체 배열: 단계적으로 만들어보기</a></li><li class="toc-level-3"><a href="#step-a-먼저-공-3개를-변수로-만들어보기">Step A: 먼저 공 3개를 변수로 만들어보기</a></li><li class="toc-level-3"><a href="#step-b-변수-3개를-배열-1개로-바꾸기">Step B: 변수 3개를 배열 1개로 바꾸기</a></li><li class="toc-level-3"><a href="#step-c-push로-50개-대량-생성">Step C: push()로 50개 대량 생성</a></li><li class="toc-level-3"><a href="#주차-배열-6개-vs-7주차-객체-배열-비교">6주차 배열 6개 vs 7주차 객체 배열 비교</a></li><li class="toc-level-2"><a href="#심화-개념-2-바운싱-색상-클래스-확장">심화 개념 2 — 바운싱 + 색상: 클래스 확장</a></li><li class="toc-level-3"><a href="#완성된-ball-클래스">완성된 Ball 클래스</a></li><li class="toc-level-3"><a href="#draw에서-사용">draw()에서 사용</a></li><li class="toc-level-2"><a href="#심화-개념-3-마우스-인터랙션-클릭으로-공-추가">심화 개념 3 — 마우스 인터랙션: 클릭으로 공 추가</a></li><li class="toc-level-3"><a href="#mousepressed에서-객체-추가">mousePressed()에서 객체 추가</a></li><li class="toc-level-3"><a href="#바운스-시-색상-변경-보너스">바운스 시 색상 변경 보너스</a></li><li class="toc-level-2"><a href="#미니-실습-코드-수정-체험">미니 실습 — 코드 수정 체험</a></li><li class="toc-level-2"><a href="#실전-사례-시연">실전 사례 시연</a></li><li class="toc-level-3"><a href="#사례-1-파티클-분수">사례 1: 파티클 분수</a></li><li class="toc-level-3"><a href="#사례-2-다양한-도형-맛보기">사례 2: 다양한 도형 — 맛보기</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#핵심-한-줄">핵심 한 줄</a></li><li class="toc-level-3"><a href="#필수-요구사항-4개">필수 요구사항 4개</a></li><li class="toc-level-3"><a href="#세-가지-방향">세 가지 방향</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

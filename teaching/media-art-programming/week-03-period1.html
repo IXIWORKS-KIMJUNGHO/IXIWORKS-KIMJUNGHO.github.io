@@ -1,0 +1,819 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3주차 1교시 — 색상 체계: RGB, HSB, 투명도 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 03 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>3주차 1교시 — 색상 체계: RGB, HSB, 투명도</h1>
+        <p class="lead">Color and Repetition 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 03</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">3주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">색상 체계: RGB, HSB, 투명도</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-1교시-색상-체계-rgb-hsb-투명도">3주차 1교시 — 색상 체계:
+RGB, HSB, 투명도</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-03-outline <strong>다음
+교시</strong>: <a
+href="week-03-period2.html">week-03-period2-student</a> (for 반복문과
+패턴)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>P5.js Web Editor, 구글 Color Picker</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ RGB 색상 모드를 이해하고
+<code>fill()</code>·<code>stroke()</code>·<code>background()</code>에
+적용할 수 있습니다</li>
+<li>✅ alpha(투명도)의 원리를 이해하고 도형 겹치기·잔상 효과에 활용할 수
+있습니다</li>
+<li>✅ HSB 색상 모드를 이해하고 RGB와 상황에 맞게 선택해 쓸 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="도입">도입</h2>
+<h3 id="주차-연결">2주차 연결</h3>
+<p>지난 주에 마우스를 따라다니는 인터랙티브 캐릭터를 만들었습니다. 빨리
+끝낸 사람은 이런 코드도 써봤습니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">220</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 잔상 효과</span></span></code></pre></div>
+<p>여기서 마지막 숫자 <code>30</code>이 무엇인지, 이번 시간에 그 정체를
+배웁니다.</p>
+<p>그리고 지금까지 색상이라고 하면 <code>fill(255)</code>,
+<code>fill(0)</code> 같은 흑백 위주였습니다.
+<code>fill(255, 230, 200)</code> 같은 건 알려준 숫자를 그대로
+입력해봤습니다. 오늘부터는 <strong>원하는 색을 직접 골라서</strong> 쓸
+수 있게 됩니다.</p>
+<h3 id="미디어아트-속-색상-다섯-가지-접근">미디어아트 속 색상 — 다섯
+가지 접근</h3>
+<p>미디어아트에서 색상이 얼마나 중요한지, 다섯 가지 다른 접근을
+살펴봅니다.</p>
+<p><strong>① 흑백 / 미니멀 — Ryoji Ikeda, <em>test pattern</em></strong>
+데이터를 흑백 바코드 패턴으로 변환합니다. 색이 전혀 없는데도 압도적인
+강렬함이 있습니다. RGB로 치면 <code>(0,0,0)</code>과
+<code>(255,255,255)</code> 두 값만으로 이 모든 걸 만든 것입니다. 참고:
+<a href="https://www.ryojiikeda.com/project/testpattern/" target="_blank" rel="noopener noreferrer">test pattern
+(공식 사이트)</a> · <a
+href="https://vimeo.com/channels/702955/73812494">영상 (Vimeo)</a></p>
+<p><strong>② 풀컬러 / 몰입형 — teamLab, <em>Forest of Resonating Lamps -
+One Stroke</em></strong> 무라노 유리 램프 수백 개가 공간을 채우고,
+관람객이 가까이 가면 하나의 색이 켜지면서 인접한 램프로 색이
+퍼져나갑니다. 한 가지 색에서 시작해 그라데이션으로 변하며 공간 전체를
+물들이는 모습은, 우리가 배울 HSB에서 H(색상) 값을 연속으로 변화시키는
+것과 같은 원리입니다. 참고: <a
+href="https://www.teamlab.art/w/forest_of_resonating_lamps/">공식
+사이트</a></p>
+<p><strong>③ 빛과 색의 인지 — Kimsooja, <em>To Breathe — Coachella
+Valley</em> (2025)</strong> 유리 건물 전체를 회절 필름으로 감싸서,
+햇빛이 통과하면 무지개 스펙트럼으로 분해됩니다. 태양이 움직이면서 건물
+색이 분홍에서 초록, 보라로 계속 바뀝니다. 백색광이 스펙트럼으로 나뉘는
+것은, HSB 색상환에서 H를 0~360으로 변화시키는 것과 같은 원리입니다.
+참고: <a
+href="https://desertx.org/dx/dx-25-coachella-valley/kimsooja">Desert X
+공식 사이트</a> · <a
+href="https://mymodernmet.com/kimsooja-to-breath-desert-x-installation/">My
+Modern Met 소개</a></p>
+<p><strong>④ 인터랙티브 / 관객 참여 — Rafael Lozano-Hemmer, <em>Pulse
+Topology</em> (2024-2025)</strong> 수천 개의 전구가 천장에 매달려 있고,
+관람객이 다가가면 심장박동이 감지되어 빛의 밝기와 리듬으로 변환됩니다.
+새 관람객의 맥박이 추가될 때마다 가장 오래된 기록이 사라집니다. 생체
+데이터를 빛으로 바꾸는 것은, P5.js에서 <code>map()</code> 함수로 센서
+값을 색상·밝기에 매핑하는 것과 같은 원리입니다. 참고: <a
+href="https://www.lozano-hemmer.com/pulse_topology.php">작가 공식
+사이트</a> · <a
+href="https://www.superblue.com/miami/experience-guide/rafael-lozano-hemmer">Superblue
+Miami</a></p>
+<p><strong>⑤ 코드 기반 / 제너러티브 — Tyler Hobbs,
+<em>Fidenza</em></strong> 하나의 코드 알고리즘에서 999개의 서로 다른
+작품이 탄생합니다. 같은 코드인데 색상 팔레트만 바꾸면 완전히 다른 인상이
+나옵니다. 파스텔 톤은 부드럽고, 원색 팔레트는 강렬합니다. 참고: <a
+href="https://www.tylerxhobbs.com/words/fidenza">작가 기술 설명</a></p>
+<p>오늘 배우는 RGB와 HSB를 자유자재로 쓸 수 있으면, 여러분의 작품이
+표현할 수 있는 세계가 넓어집니다.</p>
+<hr />
+<h2 id="핵심-개념-1-rgb-색상-모드">💡 핵심 개념 1 — RGB 색상 모드</h2>
+<h3 id="빛의-삼원색-가산혼합">빛의 삼원색 — 가산혼합</h3>
+<p>컴퓨터 화면은 <strong>빨강(Red), 초록(Green), 파랑(Blue)</strong> 세
+가지 빛을 섞어서 모든 색을 만듭니다. 이것을 <strong>RGB</strong>라고
+합니다.</p>
+<p>미술 시간에 배운 삼원색은 빨강·노랑·파랑이었습니다. 그건
+<strong>물감의 삼원색(감산혼합)</strong>입니다. 물감은 섞을수록 빛을
+흡수해서 어두워집니다. 빨강+노랑+파랑을 다 섞으면 거무튀튀한 갈색이
+됩니다. 반면 컴퓨터 화면은 <strong>빛</strong>입니다. 빛은 섞을수록
+밝아지는 <strong>가산혼합</strong>입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>물감 (감산혼합)</th>
+<th>빛 (가산혼합)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>삼원색</td>
+<td>빨강, 노랑, 파랑</td>
+<td>빨강(R), 초록(G), 파랑(B)</td>
+</tr>
+<tr>
+<td>전부 섞으면</td>
+<td>어두운 갈색/검정</td>
+<td><strong>흰색</strong></td>
+</tr>
+<tr>
+<td>아무것도 없으면</td>
+<td>흰 종이 (밝음)</td>
+<td><strong>검정</strong> (빛이 없음)</td>
+</tr>
+<tr>
+<td>빨강 + 초록</td>
+<td>갈색 비슷</td>
+<td><strong>노랑</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 포인트
+</div>
+<p><code>(0, 0, 0)</code>이 <strong>검정</strong>인 이유는 빛이 하나도
+없기 때문이고, <code>(255, 255, 255)</code>가 <strong>흰색</strong>인
+이유는 세 가지 빛을 전부 최대로 켰기 때문입니다.</p>
+</div>
+<h3 id="왜-0255일까">왜 0~255일까?</h3>
+<p>컴퓨터는 모든 정보를 0과 1로 저장합니다. <strong>8자리의
+0/1</strong>(= 8비트 = 1바이트)로 표현할 수 있는 숫자가 0부터 255까지,
+총 <strong>256가지</strong>입니다. 하나의 색상 채널에 1바이트씩 배정한
+것입니다. 깊이 이해할 필요는 없습니다. 기억할 건 하나 — <strong>0이
+최소, 255가 최대</strong>.</p>
+<h3 id="fillr-g-b-기본-문법"><code>fill(r, g, b)</code> 기본 문법</h3>
+<p>각 색상 채널은 <strong>0~255</strong> 범위이고,
+<code>fill(빨강, 초록, 파랑)</code> 순서로 넣습니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 빨강</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 초록</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 파랑</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>첫 번째 숫자가 빨강, 두 번째가 초록, 세 번째가 파랑입니다. 순서를
+외우세요 — <strong>R-G-B</strong>.</p>
+<h3 id="색-혼합-예시">색 혼합 예시</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 빨강 + 초록 = 노랑</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 빨강 + 파랑 = 보라</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">180</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 초록 + 파랑 = 청록</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">280</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 전부 0 = 검정</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">130</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 전부 255 = 흰색</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">230</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span>  <span class="co">// 테두리 설정 복원</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>흰색 원은 배경과 구분되지 않아서 테두리를 넣었습니다. 모든 값이 255면
+흰색, 모든 값이 0이면 검정입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/3week/01_rgb-additive-mixing.png"
+alt="01 rgb additive mixing" />
+<figcaption aria-hidden="true">01 rgb additive mixing</figcaption>
+</figure>
+<h3 id="stroke와-background에도-동일-적용"><code>stroke()</code>와
+<code>background()</code>에도 동일 적용</h3>
+<p><code>fill()</code>만 색을 바꿀 수 있는 게 아닙니다.
+<code>stroke()</code>와 <code>background()</code>도 똑같이 RGB를
+받습니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">30</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span>  <span class="co">// 어두운 남색 배경</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 테두리 색도 RGB로 지정</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>     <span class="co">// 노란색 테두리</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strokeWeight</span>(<span class="dv">4</span>)<span class="op">;</span>         <span class="co">// 테두리 두께</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>     <span class="co">// 하늘색 채우기</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>채우기, 테두리, 배경 <strong>세 가지 모두</strong> RGB로 제어할 수
+있습니다.</p>
+<h3 id="fill-인자-개수-정리"><code>fill()</code> 인자 개수 정리</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">인자 수</th>
+<th>형태</th>
+<th>의미</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1개</td>
+<td><code>fill(v)</code></td>
+<td>회색 (0=검정, 255=흰)</td>
+<td><code>fill(128)</code> → 중간 회색</td>
+</tr>
+<tr>
+<td style="text-align: center;">3개</td>
+<td><code>fill(r, g, b)</code></td>
+<td>RGB 색상</td>
+<td><code>fill(255, 0, 0)</code> → 빨강</td>
+</tr>
+<tr>
+<td style="text-align: center;">4개</td>
+<td><code>fill(r, g, b, a)</code></td>
+<td>RGB + 투명도</td>
+<td><code>fill(255, 0, 0, 128)</code> → 반투명 빨강</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>stroke()</code>와 <code>background()</code>도 똑같은
+규칙입니다. 인자 수에 따라 동작이 달라집니다.</p>
+<h3 id="구글-color-picker">구글 Color Picker</h3>
+<p>원하는 색의 RGB 값은 외울 필요가 없습니다.</p>
+<ol type="1">
+<li>구글에서 <strong>“color picker”</strong> 검색</li>
+<li>색상 선택기에서 원하는 색 클릭</li>
+<li>RGB 값 확인 → 코드에 <code>fill(R, G, B)</code> 형태로 복사</li>
+</ol>
+<p>전문 디자이너도 이렇게 합니다. 색상값이 필요할 때 이 도구를
+쓰세요.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>fill(0, 128, 255)</code>를 쓰면 어떤 색이 나올까요?</p>
+<p><strong>답</strong>: 빨강은 0, 초록은 중간, 파랑은 최대 — 밝은
+하늘색입니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-2-투명도-alpha">💡 핵심 개념 2 — 투명도 (alpha)</h2>
+<h3 id="alpha란">alpha란?</h3>
+<p>RGB 뒤에 <strong>네 번째 숫자</strong>를 추가하면
+<strong>투명도(alpha)</strong>를 조절할 수 있습니다.
+<code>fill(255, 0, 0, 128)</code>은 반투명한 빨강입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: center;">alpha 값</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><code>0</code></td>
+<td>완전 투명 (안 보임)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>128</code></td>
+<td>반투명 (50%)</td>
+</tr>
+<tr>
+<td style="text-align: center;"><code>255</code></td>
+<td>완전 불투명 (기본값)</td>
+</tr>
+</tbody>
+</table></div>
+<p>alpha를 안 쓰면 기본값이 255입니다. 지금까지
+<code>fill(255, 0, 0)</code>이라 쓴 건 사실
+<code>fill(255, 0, 0, 255)</code>와 같았습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/3week/02_alpha-overlap-and-trail.png"
+alt="02 alpha overlap and trail" />
+<figcaption aria-hidden="true">02 alpha overlap and trail</figcaption>
+</figure>
+<h3 id="반투명-원-겹치기">반투명 원 겹치기</h3>
+<p>반투명 도형을 겹치면 빛이 섞이는 효과를 만들 수 있습니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 반투명 빨강</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">170</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">160</span>)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 반투명 초록</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">230</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">160</span>)<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 반투명 파랑</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">240</span><span class="op">,</span> <span class="dv">160</span><span class="op">,</span> <span class="dv">160</span>)<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>세 원이 겹치는 가운데 부분을 보세요. 빨+초+파가 섞여서 밝은 색이
+됩니다. 빛이니까 섞을수록 밝아지는 <strong>가산혼합</strong>입니다.
+alpha 값을 <code>100</code> 대신 <code>50</code>이나
+<code>200</code>으로 바꾸면 겹치는 부분의 색이 달라집니다.</p>
+<h3 id="stroke에도-alpha-적용"><code>stroke()</code>에도 alpha 적용</h3>
+<p><code>fill()</code>뿐만 아니라 <code>stroke()</code>에도 alpha를 넣을
+수 있습니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noFill</span>()<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strokeWeight</span>(<span class="dv">6</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 반투명 테두리 원 여러 개 겹치기</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">150</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">250</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">140</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>noFill()</code>로 채우기를 없애고 테두리만 남기면, 선만으로
+색이 섞이는 효과를 만들 수 있습니다. 올림픽 로고 같은 느낌입니다.</p>
+<h3 id="주차-잔상-효과의-원리">2주차 잔상 효과의 원리</h3>
+<p>2주차에서 <code>background(255, 220, 180, 30)</code>을 쓰면 잔상이
+남았습니다. <code>background()</code>에 alpha를 넣으면, 매 프레임마다
+<strong>반투명한 배경을 덮는 방식</strong>입니다. 완전히 지우는 게
+아니라 살짝만 덮으니까, 이전 프레임의 그림이 서서히 사라집니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>background()</code> 설정</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>background(220)</code></td>
+<td>매 프레임 <strong>완전히</strong> 덮음 → 잔상 없음</td>
+</tr>
+<tr>
+<td><code>background(220, 30)</code></td>
+<td>매 프레임 <strong>살짝만</strong> 덮음 → 잔상 있음</td>
+</tr>
+<tr>
+<td><code>background()</code> 없음</td>
+<td>안 덮음 → 이전 그림 전부 남음</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>fill(0, 0, 255, 0)</code>을 쓰면 어떻게 될까요?</p>
+<p><strong>답</strong>: alpha가 0이니까 <strong>완전 투명</strong> —
+그려도 아무것도 안 나타납니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-3-hsb-색상-모드">💡 핵심 개념 3 — HSB 색상 모드</h2>
+<h3 id="rgb의-한계">RGB의 한계</h3>
+<p>RGB로 하늘색 <code>fill(0, 100, 255)</code>를 만들었다고 합시다. 이
+색을 <strong>좀 더 어둡게</strong> 만들려면 세 숫자를 각각 얼마나 줄여야
+할까요? 감이 잘 오지 않습니다. <strong>파스텔 톤</strong>으로 바꾸려면
+R을 올릴지 G를 올릴지도 막막합니다.</p>
+<p>HSB 색상 모드는 이 문제를 해결합니다. ‘어둡게 하고 싶으면 밝기 숫자
+하나만 줄이면 된다’ — 이렇게 직관적으로 색을 다룰 수 있습니다.</p>
+<h3 id="colormodehsb-선언">colorMode(HSB) 선언</h3>
+<p>HSB를 쓰려면 <code>setup()</code> 안에 한 줄만 추가합니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// ⭐ HSB 모드 전환</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이 한 줄 이후로 <code>fill()</code>, <code>stroke()</code>,
+<code>background()</code>가 전부 HSB 기준으로 동작합니다. 숫자 네 개는
+순서대로 <strong>H 범위(360), S 범위(100), B 범위(100), alpha
+범위(255)</strong>입니다. 마지막 255를 넣어야 투명도가 RGB와 똑같이
+0~255로 동작합니다.</p>
+<h3 id="h-s-b-각각의-의미">H, S, B 각각의 의미</h3>
+<p>HSB는 <strong>색상환(Color Wheel)</strong>을 기반으로 합니다. 모든
+색을 원형으로 배치한 것으로, 빨강에서 시작해 주황·노랑·초록·파랑·보라를
+거쳐 다시 빨강으로 돌아옵니다.</p>
+<figure class="lecture-figure">
+<img src="assets/3week/03_hsb-color-wheel.png"
+alt="03 hsb color wheel" />
+<figcaption aria-hidden="true">03 hsb color wheel</figcaption>
+</figure>
+<p><strong>H (Hue, 색상) — 0~360</strong></p>
+<p>색상환을 시계처럼 생각하세요. 0도부터 한 바퀴(360도) 돌면 원래 색으로
+돌아옵니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: center;">H 값</th>
+<th>색상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">0 (= 360)</td>
+<td>빨강</td>
+</tr>
+<tr>
+<td style="text-align: center;">30</td>
+<td>주황</td>
+</tr>
+<tr>
+<td style="text-align: center;">60</td>
+<td>노랑</td>
+</tr>
+<tr>
+<td style="text-align: center;">120</td>
+<td>초록</td>
+</tr>
+<tr>
+<td style="text-align: center;">180</td>
+<td>청록</td>
+</tr>
+<tr>
+<td style="text-align: center;">240</td>
+<td>파랑</td>
+</tr>
+<tr>
+<td style="text-align: center;">270</td>
+<td>보라</td>
+</tr>
+<tr>
+<td style="text-align: center;">300</td>
+<td>분홍</td>
+</tr>
+</tbody>
+</table></div>
+<p>색상환의 <strong>구간별 분위기</strong>도 알아두면 좋습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>H 구간</th>
+<th>분위기</th>
+<th>대표 색</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0 ~ 60</td>
+<td><strong>따뜻한 색 (warm)</strong></td>
+<td>빨강, 주황, 노랑</td>
+</tr>
+<tr>
+<td>60 ~ 180</td>
+<td><strong>자연/차가운 전환</strong></td>
+<td>초록, 청록</td>
+</tr>
+<tr>
+<td>180 ~ 270</td>
+<td><strong>차가운 색 (cool)</strong></td>
+<td>파랑, 보라</td>
+</tr>
+<tr>
+<td>270 ~ 360</td>
+<td><strong>따뜻한 쪽으로 회귀</strong></td>
+<td>분홍, 마젠타</td>
+</tr>
+</tbody>
+</table></div>
+<p>작품의 분위기를 정할 때 H 구간을 먼저 정하면 컬러 톤이 자연스럽게
+잡힙니다.</p>
+<p><strong>S (Saturation, 채도) — 0~100</strong></p>
+<p>채도는 색이 얼마나 선명한지입니다. 100이면 원색 그대로, 0이면 색이
+빠져서 회색입니다. 파스텔 톤을 만들고 싶으면 S를 낮춥니다. H는 그대로
+두고 S만 바꾸면 같은 색 계열에서 톤만 달라집니다.</p>
+<p><strong>B (Brightness, 밝기) — 0~100</strong></p>
+<p>밝기는 밝고 어두운 정도입니다. 100이면 밝고, 0이면 항상 검정입니다.
+어두운 분위기를 만들고 싶으면 B를 낮춥니다.</p>
+<p><strong>미술 용어와의 연결</strong></p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>미술 용어</th>
+<th>의미</th>
+<th>HSB에서는</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tint</strong> (틴트)</td>
+<td>원색에 <strong>흰색</strong>을 섞음</td>
+<td><strong>S를 낮추면</strong> 됨 (파스텔)</td>
+</tr>
+<tr>
+<td><strong>Shade</strong> (셰이드)</td>
+<td>원색에 <strong>검정</strong>을 섞음</td>
+<td><strong>B를 낮추면</strong> 됨 (어두운 톤)</td>
+</tr>
+<tr>
+<td><strong>Tone</strong> (톤)</td>
+<td>원색에 <strong>회색</strong>을 섞음</td>
+<td><strong>S와 B를 함께</strong> 조절</td>
+</tr>
+</tbody>
+</table></div>
+<p>미술에서 배운 개념이 HSB에서는 숫자 하나 바꾸는 것으로 그대로
+옮겨옵니다.</p>
+<h3 id="hsb-색상-비교">HSB 색상 비교</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// 흰 배경 (HSB에서 B=100)</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 같은 빨강, 채도만 다르게</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// 선명한 빨강</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>   <span class="co">// 중간 채도 빨강</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">170</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>   <span class="co">// 파스텔 빨강 (연분홍)</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">260</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 같은 파랑, 밝기만 다르게</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// 밝은 파랑</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">80</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span>   <span class="co">// 중간 파랑</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">170</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>   <span class="co">// 어두운 파랑 (남색)</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">260</span><span class="op">,</span> <span class="dv">250</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>위 줄은 빨강의 채도만, 아래 줄은 파랑의 밝기만 바꾼 것입니다. RGB로
+하려면 세 숫자를 다 건드려야 하는데, HSB는 한 숫자만 바꾸면 됩니다.</p>
+<h3 id="hsb의-실용-색상-팔레트-만들기">HSB의 실용: 색상 팔레트
+만들기</h3>
+<p>HSB의 진짜 장점은 같은 색 계열의 팔레트를 쉽게 만들 수 있다는
+것입니다. H를 고정하고 S나 B만 바꾸면 됩니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// H=200(하늘색 계열)을 고정하고 S와 B 조합</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// 선명하고 밝은</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>   <span class="co">// 파스텔 밝은</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">110</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span>   <span class="co">// 선명하고 어두운</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span>    <span class="co">// 부드럽고 중간</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">290</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>H=200 하나만 고정했는데 네 가지 다른 톤이 나옵니다. RGB로는 이
+규칙성이 보이지 않습니다.</p>
+<h3 id="rgb-vs-hsb">RGB vs HSB</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>상황</th>
+<th>RGB</th>
+<th>HSB</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>주황색 만들기</td>
+<td><code>fill(255, 165, 0)</code> — 외워야 함</td>
+<td><code>fill(30, 100, 100)</code> — 색상환 30도</td>
+</tr>
+<tr>
+<td>파스텔 톤으로 바꾸기</td>
+<td>R, G, B 각각 조절 — 감 필요</td>
+<td><strong>S만</strong> 낮추면 됨</td>
+</tr>
+<tr>
+<td>어둡게 만들기</td>
+<td>R, G, B 각각 낮추기</td>
+<td><strong>B만</strong> 낮추면 됨</td>
+</tr>
+<tr>
+<td>무지개 만들기</td>
+<td>각 색마다 R,G,B 직접 지정</td>
+<td><strong>H를 0~360으로</strong> 변화</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/3week/04_rgb-vs-hsb-palette.png"
+alt="04 rgb vs hsb palette" />
+<figcaption aria-hidden="true">04 rgb vs hsb palette</figcaption>
+</figure>
+<p>HSB가 항상 좋은 건 아닙니다. 정확한 색이 정해져 있을 때(브랜드 색상
+등)는 RGB가 낫고, 색을 규칙적으로 변화시킬 때는 HSB가 훨씬 편합니다.
+2교시에서 <code>for</code> 반복문을 배우면 H 값을 0~360으로 변화시켜
+무지개를 코드 한 줄로 만들 수 있습니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">
+구글 Color Picker에서 HSB 확인
+</div>
+<p>Color Picker에서 색을 고르면 <strong>HSV 값</strong>도 표시됩니다.
+HSV는 HSB와 같습니다 (V = Value = Brightness). HSL이라는 비슷한 모드도
+보이는데, P5.js에서는 HSB를 쓰니까 <strong>HSV 탭</strong>을 보세요.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>HSB에서 <code>fill(120, 100, 100)</code>은 무슨 색일까요?</p>
+<p><strong>답</strong>: H=120이니까 색상환에서 초록, S=100 선명, B=100
+밝음 → <strong>선명한 초록</strong>입니다.</p>
+</div>
+<hr />
+<h2 id="예제">예제</h2>
+<h3 id="예제-1-rgb-hsb-같은-색-만들기">예제 1 — RGB ↔︎ HSB 같은 색
+만들기</h3>
+<p>같은 색을 RGB와 HSB 두 방식으로 만듭니다.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 왼쪽: RGB 모드 (기본)</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(RGB<span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>  <span class="co">// RGB로 주황 비슷한 색</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// RGB로 하늘색</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 오른쪽: HSB 모드</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// HSB로 주황 비슷한 색</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// HSB로 하늘색</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>왼쪽이 RGB, 오른쪽이 HSB로 만든 비슷한 색입니다. RGB는 숫자 세 개를
+조합해야 하고, HSB는 색상환에서 각도를 잡으면 되니까 더
+직관적입니다.</p>
+<h3 id="예제-2-반투명-겹치기">예제 2 — 반투명 겹치기</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">95</span>)<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 반투명 빨강, 초록, 파랑 원</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span>    <span class="co">// ⭐ alpha 128 = 반투명 (RGB와 동일한 0~255 범위)</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">160</span><span class="op">,</span> <span class="dv">170</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">120</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">170</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">260</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>겹치는 부분에서 색이 자연스럽게 섞입니다. 이런 효과를 만들 수 있는
+것이 alpha의 힘입니다.</p>
+<h3 id="예제-3-구글-color-picker로-색-찾기">예제 3 — 구글 Color Picker로
+색 찾기</h3>
+<p>원하는 색을 찾아서 코드에 적용하는 과정입니다.</p>
+<ol type="1">
+<li>구글에서 “color picker” 검색 → 색상 선택기 열기</li>
+<li>원하는 색 클릭 (예: 산호색)</li>
+<li><strong>RGB 값 확인</strong>: <code>(255, 127, 80)</code> →
+<code>fill(255, 127, 80)</code> 입력</li>
+<li><strong>HSV 탭으로 전환</strong>: 같은 색이
+<code>H=16, S=69, V=100</code>인 것을 확인</li>
+<li><code>colorMode(HSB, 360, 100, 100, 255)</code> 선언 후
+<code>fill(16, 69, 100)</code> 입력</li>
+<li>두 결과가 같은 색인지 비교</li>
+</ol>
+<p>RGB든 HSB든 Color Picker에서 바로 값을 복사하면 됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+언제 무엇을 쓸까
+</div>
+<ul>
+<li><strong>RGB</strong>: 숫자 세 개로 <strong>정확한 색</strong> 지정에
+유리</li>
+<li><strong>HSB</strong>: <strong>색의 변화</strong>(그라데이션, 무지개,
+밝기 조절)에 유리</li>
+<li><strong>alpha</strong>: <strong>겹침과 투명도</strong> 효과</li>
+<li><strong>Color Picker</strong>: 원하는 색의 값을 찾는 실용 도구</li>
+</ul>
+</div>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">
+1교시 핵심 요약
+</div>
+<ol type="1">
+<li><strong>RGB</strong> — 빨강(R), 초록(G), 파랑(B)을 각각 0~255로
+조합. 빛의 삼원색</li>
+<li><strong>HSB</strong> — 색상환(H, 0~360), 채도(S, 0~100), 밝기(B,
+0~100). 색의 변화를 다룰 때 직관적</li>
+<li><strong>alpha</strong> — 네 번째 인자로 투명도 조절. 0=투명,
+255=불투명 (RGB·HSB 모두 동일)</li>
+</ol>
+</div>
+<h3 id="교시-예고">🔥 2교시 예고</h3>
+<p>이제 색상을 자유롭게 다룰 수 있습니다. 2교시에서는 <strong>같은
+코드를 수백 번 반복</strong>하는 <code>for</code> 반복문을 배웁니다.
+반복문과 HSB를 결합하면 <strong>코드 3줄로 무지개</strong>를 만들 수
+있습니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#주차-연결">2주차 연결</a></li><li class="toc-level-3"><a href="#미디어아트-속-색상-다섯-가지-접근">미디어아트 속 색상 — 다섯 가지 접근</a></li><li class="toc-level-2"><a href="#핵심-개념-1-rgb-색상-모드">핵심 개념 1 — RGB 색상 모드</a></li><li class="toc-level-3"><a href="#빛의-삼원색-가산혼합">빛의 삼원색 — 가산혼합</a></li><li class="toc-level-3"><a href="#왜-0255일까">왜 0~255일까?</a></li><li class="toc-level-3"><a href="#fillr-g-b-기본-문법">fill(r, g, b) 기본 문법</a></li><li class="toc-level-3"><a href="#색-혼합-예시">색 혼합 예시</a></li><li class="toc-level-3"><a href="#stroke와-background에도-동일-적용">stroke()와 background()에도 동일 적용</a></li><li class="toc-level-3"><a href="#fill-인자-개수-정리">fill() 인자 개수 정리</a></li><li class="toc-level-3"><a href="#구글-color-picker">구글 Color Picker</a></li><li class="toc-level-2"><a href="#핵심-개념-2-투명도-alpha">핵심 개념 2 — 투명도 (alpha)</a></li><li class="toc-level-3"><a href="#alpha란">alpha란?</a></li><li class="toc-level-3"><a href="#반투명-원-겹치기">반투명 원 겹치기</a></li><li class="toc-level-3"><a href="#stroke에도-alpha-적용">stroke()에도 alpha 적용</a></li><li class="toc-level-3"><a href="#주차-잔상-효과의-원리">2주차 잔상 효과의 원리</a></li><li class="toc-level-2"><a href="#핵심-개념-3-hsb-색상-모드">핵심 개념 3 — HSB 색상 모드</a></li><li class="toc-level-3"><a href="#rgb의-한계">RGB의 한계</a></li><li class="toc-level-3"><a href="#colormodehsb-선언">colorMode(HSB) 선언</a></li><li class="toc-level-3"><a href="#h-s-b-각각의-의미">H, S, B 각각의 의미</a></li><li class="toc-level-3"><a href="#hsb-색상-비교">HSB 색상 비교</a></li><li class="toc-level-3"><a href="#hsb의-실용-색상-팔레트-만들기">HSB의 실용: 색상 팔레트 만들기</a></li><li class="toc-level-3"><a href="#rgb-vs-hsb">RGB vs HSB</a></li><li class="toc-level-2"><a href="#예제">예제</a></li><li class="toc-level-3"><a href="#예제-1-rgb-hsb-같은-색-만들기">예제 1 — RGB ↔︎ HSB 같은 색 만들기</a></li><li class="toc-level-3"><a href="#예제-2-반투명-겹치기">예제 2 — 반투명 겹치기</a></li><li class="toc-level-3"><a href="#예제-3-구글-color-picker로-색-찾기">예제 3 — 구글 Color Picker로 색 찾기</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

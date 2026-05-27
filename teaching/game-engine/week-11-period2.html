@@ -587,28 +587,32 @@ h1, .lead, .material-title, .material-meta,
           <span class="hero-chip">Camera Shake</span>
         </div>
       </div>
-      <aside class="doc-card">
-        <p class="doc-card-title">문서 정보</p>
-        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 11</span></div>
-        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
-        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Dynamic Camera Movement</span></div>
-        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-05-19</span></div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">11주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">2교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Rail, Crane, Camera Shake, FK Control Rig</span></div>
       </aside>
     </div>
   </header>
 
   <main class="layout">
     <article class="article">
-<h1 id="11주차-2교시-동적-무빙-rail-crane-camera-shake-fk-control-rig-모션-편집">11주차 2교시 — 동적 무빙 (Rail/Crane) + Camera Shake + FK Control Rig 모션 편집</h1>
+<h1 id="11주차-2교시-rail-crane-camera-shake-fk-control-rig-학생용">11주차 2교시 — Rail, Crane, Camera Shake, FK Control Rig (학생용)</h1>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">11주차 아웃라인: 시퀀서 카메라 워크</span></td></tr>
 <tr><td data-label="관계">1교시 교안</td><td data-label="문서"><span class="wikilink">1교시: 영상 문법 + 다중 카메라 + Camera Cut</span></td></tr>
 <tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
+<hr />
 <div class="callout callout-abstract">
-<div class="callout-title">학습 목표</div>
+<div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<p>Animation 클립의 Keep State 옵션으로 클립 종료 후 마지막 포즈를 유지할 수 있다 Camera Rig Rail 액터의 Spline 을 배치하고 Cine Camera 를 Rail Mount 에 연결해 Current Position On Rail 키프레임으로 추적 샷을 만들 수 있다 Camera Rig Crane 의 부모-자식 구조를 이해하고 Crane Pitch / Yaw / Arm Length 키프레임으로 부감↔앙각 전환을 구현할 수 있다 Cine Camera 바인딩에 Camera Shake 트랙을 추가해 임팩트 프레임에 흔들림을 트리거할 수 있다 FK Control Rig + pelvis 계열 forward 방향 이동 키프레임 정리 + Bake Animation Sequence 흐름으로 점프·돌진 모션의 슬라이딩을 모션 데이터 수준에서 줄이고, 수정본 AS 로 원본 시퀀서 클립을 교체할 수 있다</p>
+<ul>
+<li>Animation 클립의 Keep State 옵션으로 클립 종료 후 마지막 포즈를 유지할 수 있다</li>
+<li>Camera Rig Rail과 Camera Rig Crane의 구조를 이해하고 키프레임으로 추적 샷과 부감↔앙각 전환을 구현할 수 있다</li>
+<li>Camera Shake와 FK Control Rig를 활용해 임팩트와 모션 슬라이딩 문제를 보정할 수 있다</li>
+</ul>
 </div>
 </div>
 <p>1교시에서는 카메라 <strong>위치를 고정</strong>해두고 시간 구간별로 어느 카메라를 보여줄지 결정했습니다. 2교시는 그 카메라가 <strong>시간에 따라 움직이게</strong> 만들고, 격투 임팩트에 흔들림을 더하고, 마지막에는 <strong>모션 데이터 자체를 수정</strong>해서 점프 어택의 슬라이딩 문제를 줄입니다.</p>

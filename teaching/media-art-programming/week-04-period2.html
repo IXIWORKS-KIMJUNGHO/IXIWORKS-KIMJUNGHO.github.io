@@ -1,0 +1,996 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4주차 2교시 — 마우스·키보드 인터랙션 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 04 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>4주차 2교시 — 마우스·키보드 인터랙션</h1>
+        <p class="lead">Conditionals and Interaction 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 04</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">4주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">마우스·키보드 인터랙션</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-마우스키보드-인터랙션">4주차 2교시 — 마우스·키보드
+인터랙션</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-04-outline <strong>이전
+교시</strong>: <a
+href="week-04-period1.html">week-04-period1-student</a> (if/else 조건문)
+<strong>다음 교시</strong>: <a
+href="week-04-period3.html">week-04-period3-student</a> (학생 주도 실습:
+인터랙티브 스케치)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 조건문 (<code>if/else</code>, 비교·논리 연산자,
+<code>dist()</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>mouseIsPressed</code>와 <code>mousePressed()</code>의
+차이를 이해하고 활용할 수 있습니다</li>
+<li>✅ <code>keyPressed()</code>·<code>key</code>·<code>keyCode</code>로
+키보드 입력을 처리할 수 있습니다</li>
+<li>✅ 상태 변수와 <code>!</code> 연산자로 토글 패턴을 구현할 수
+있습니다</li>
+<li>✅ 조건문·인터랙션·반복문을 결합해 인터랙티브 스케치를 설계할 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<p>1교시에서 <strong>조건 판단</strong>을 배웠습니다. 두 가지를 짚고
+갑니다.</p>
+<ul>
+<li><code>if (mouseX &gt; width / 2) { 빨강 } else { 파랑 }</code> —
+마우스가 캔버스 오른쪽 절반에 있으면 빨강, 왼쪽이면 파랑. 마우스를
+움직이면 배경색이 실시간으로 바뀝니다.</li>
+<li><code>===</code>는 <strong>비교</strong>(같은지 확인),
+<code>=</code>는 <strong>대입</strong>(값을 넣기). 등호 3개가
+비교입니다.</li>
+</ul>
+<p>지금까지는 마우스를 <strong>움직이기만</strong> 했습니다. 2교시에서는
+<strong>클릭</strong>하거나 <strong>키보드를 누르면</strong> 반응하는
+방법을 배웁니다. 1교시의 조건문 + 2교시의 이벤트 = <strong>본격적인
+인터랙티브 작품</strong>입니다.</p>
+<hr />
+<h2 id="심화-개념-1-마우스-인터랙션">💡 심화 개념 1 — 마우스
+인터랙션</h2>
+<h3 id="mouseispressed-누르고-있는-동안"><code>mouseIsPressed</code> —
+누르고 있는 동안</h3>
+<p><code>mouseIsPressed</code>는 마우스 버튼이 눌려 있는지를 나타내는
+값입니다. <code>mouseX</code>, <code>mouseY</code>처럼 P5.js가 자동으로
+관리하는 <strong>시스템 변수</strong>인데, 숫자가 아니라
+<strong>boolean</strong>입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>상태</th>
+<th><code>mouseIsPressed</code> 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>마우스 버튼을 <strong>누르고 있는 동안</strong></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>마우스 버튼을 <strong>안 누르고 있을 때</strong></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>draw()</code>는 1초에 약 60번 실행되므로,
+<code>if (mouseIsPressed)</code> 체크도 1초에 60번 일어납니다. 그래서
+누르고 있는 동안 매 프레임 반응할 수 있습니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ⭐ 마우스를 누르고 있는 동안 원 그리기</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>원이 한 개만 보이고 사라집니다. <code>background(220)</code>이 매
+프레임 덮어쓰니까요. <code>background()</code>를
+<code>setup()</code>으로 옮기면 그린 원이 쌓입니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>  <span class="co">// ⭐ setup()으로 이동: 한 번만 실행</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// background() 없음 → 이전 프레임이 남아있음 (잔상)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>마우스를 누르면서 움직이면 파란 원이 <strong>쌓여서</strong> 그림이
+그려집니다. 간단한 <strong>드로잉 도구</strong>입니다.</p>
+<h3
+id="console.log-값을-눈으로-확인하기-디버깅-도구"><code>console.log()</code>
+— 값을 눈으로 확인하기 (디버깅 도구)</h3>
+<p><code>console.log()</code>는 변수에 어떤 값이 들어 있는지
+<strong>콘솔 창에 출력하는</strong> 함수입니다. P5.js Web Editor 코드
+아래쪽에 콘솔 창이 있습니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 콘솔에 마우스 정보 출력</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;mouseX:&quot;</span><span class="op">,</span> mouseX<span class="op">,</span> <span class="st">&quot;mouseY:&quot;</span><span class="op">,</span> mouseY<span class="op">,</span> <span class="st">&quot;눌림:&quot;</span><span class="op">,</span> mouseIsPressed)<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>콘솔 출력 예시:</strong></p>
+<pre><code>mouseX: 152 mouseY: 203 눌림: false
+mouseX: 155 mouseY: 201 눌림: false
+mouseX: 160 mouseY: 198 눌림: true    ← 클릭하니까 true!
+mouseX: 162 mouseY: 195 눌림: true</code></pre>
+<p>마우스를 움직이면 숫자가 바뀌고, 클릭하면
+<code>mouseIsPressed</code>가 <code>true</code>로 바뀌는 것을 확인할 수
+있습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+디버깅 습관
+</div>
+<p>새로운 변수를 만나면 <strong>먼저 <code>console.log()</code>로
+확인하는 습관</strong>을 들이세요. 코드가 작동하지 않을 때 값을 출력해
+보면 원인을 찾기 쉽습니다. 단, <code>draw()</code> 안에 넣으면 1초에 약
+60줄이 출력되니, 확인이 끝나면 주석 처리하세요.</p>
+</div>
+<h3
+id="pmousexpmousey-부드러운-선-드로잉"><code>pmouseX</code>/<code>pmouseY</code>
+— 부드러운 선 드로잉</h3>
+<p>원이 뚝뚝 끊겨서 그려집니다. 빠르게 움직이면 점 사이가 벌어집니다.
+<strong>부드러운 선</strong>으로 그리려면 <code>pmouseX</code>,
+<code>pmouseY</code>를 씁니다. <code>pmouseX</code>는 <strong>이전
+프레임(previous)</strong>에서의 마우스 x좌표입니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">strokeWeight</span>(<span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ⭐ 이전 위치 → 현재 위치로 선 긋기</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">line</span>(pmouseX<span class="op">,</span> pmouseY<span class="op">,</span> mouseX<span class="op">,</span> mouseY)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>P5.js가 매 프레임 ’지난 위치’와 ’지금 위치’를 기억하므로, 둘을
+이어주면 연속적인 선이 됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+생각해보기
+</div>
+<p>빠르게 움직이면 선이 굵어지고, 느리게 움직이면 가늘어지게 하려면
+어떻게 할까요? 힌트:
+<code>dist(mouseX, mouseY, pmouseX, pmouseY)</code>로 속도를 구할 수
+있습니다. 3교시에서 시도합니다.</p>
+</div>
+<h3 id="mousepressed-클릭-한-번"><code>mousePressed()</code> — 클릭 한
+번</h3>
+<p><code>mousePressed()</code>는 <strong>함수</strong>입니다. 마우스를
+<strong>한 번 클릭</strong>할 때 <strong>한 번만</strong> 실행됩니다.
+<code>mouseIsPressed</code>는 <code>draw()</code> 안에서
+<code>if</code>문으로 쓰지만, <code>mousePressed()</code>는
+<strong><code>draw()</code> 밖에</strong> 별도 함수로 작성합니다.</p>
+<p>비유하자면, <code>mouseIsPressed</code>는 매 프레임 직접 ’지금
+눌렸는가?’를 확인하는 방식이고, <code>mousePressed()</code>는 P5.js가
+클릭 순간에 자동으로 호출해주는 이벤트 함수입니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// draw()에서는 특별히 할 일 없음</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// ⭐ draw() 밖에 별도로 작성!</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>클릭할 때마다 배경색이 무작위로 바뀝니다. 꾹 눌러도 한 번만
+실행됩니다. (<code>random(255)</code>는 0~255 사이 무작위 숫자를 만드는
+함수입니다. 5주차에서 자세히 배웁니다.)</p>
+<h3 id="mouseispressed-vs-mousepressed-비교"><code>mouseIsPressed</code>
+vs <code>mousePressed()</code> 비교</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th><code>mouseIsPressed</code></th>
+<th><code>mousePressed()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>유형</strong></td>
+<td>시스템 변수 (boolean)</td>
+<td>이벤트 함수</td>
+</tr>
+<tr>
+<td><strong>위치</strong></td>
+<td><code>draw()</code> 안에서 <code>if</code>문으로</td>
+<td><code>draw()</code> <strong>밖</strong>에 별도 정의</td>
+</tr>
+<tr>
+<td><strong>동작</strong></td>
+<td>누르는 <strong>동안 계속</strong> 실행</td>
+<td>클릭 시 <strong>1회</strong> 실행</td>
+</tr>
+<tr>
+<td><strong>용도</strong></td>
+<td>드로잉, 연속 동작</td>
+<td>색상 전환, 토글</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/4week/mouseIsPressed-vs-mousePressed-timeline.png"
+alt="mouseIsPressed vs mousePressed timeline" />
+<figcaption aria-hidden="true">mouseIsPressed vs mousePressed
+timeline</figcaption>
+</figure>
+<p><code>draw()</code>가 1초에 60번 돌면서 매번
+<code>mouseIsPressed</code>를 체크합니다. 누르고 있는 동안은 계속
+<code>true</code>. 반면 <code>mousePressed()</code> 함수는 누르는
+<strong>그 순간 한 번만</strong> 호출됩니다. 연속 동작은
+<code>mouseIsPressed</code>, 한 번씩 전환은
+<code>mousePressed()</code>.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>마우스를 꾹 누르고 있으면, <code>mousePressed()</code> 함수는 계속
+실행될까요 아니면 한 번만 실행될까요?</p>
+<p><strong>답</strong>: <strong>한 번만</strong> 실행됩니다. 꾹 누르고
+있어도 한 번. 떼고 다시 눌러야 또 한 번 실행됩니다.</p>
+</div>
+<h3 id="mousebutton-왼쪽오른쪽-클릭-구분"><code>mouseButton</code> —
+왼쪽/오른쪽 클릭 구분</h3>
+<p>왼쪽 클릭과 오른쪽 클릭을 구분하려면 <code>mouseButton</code>을
+씁니다. 왼쪽은 <code>LEFT</code>, 오른쪽은 <code>RIGHT</code>.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (mouseButton <span class="op">===</span> LEFT) {</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>                      <span class="co">// 왼쪽 클릭: 파란색 그리기</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (mouseButton <span class="op">===</span> RIGHT) {</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">220</span>)<span class="op">;</span>                               <span class="co">// 오른쪽 클릭: 지우기</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>LEFT</code>, <code>RIGHT</code>는 P5.js가 제공하는 상수입니다.
+왼쪽은 그리기, 오른쪽은 지우기.</p>
+<hr />
+<h2 id="심화-개념-2-키보드-인터랙션">💡 심화 개념 2 — 키보드
+인터랙션</h2>
+<p>키보드는 마우스와 패턴이 거의 같습니다.</p>
+<h3 id="keypressed-키를-누를-때-1회-실행"><code>keyPressed()</code> —
+키를 누를 때 1회 실행</h3>
+<p><code>mousePressed()</code>와 같은 패턴입니다.
+<strong><code>draw()</code> 밖에</strong> 별도 함수로 작성하고, 키를
+누를 때 한 번 실행됩니다.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// draw()는 배경 유지</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 키를 누를 때마다 랜덤 위치에 원 그리기</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>mousePressed()</code> → <code>keyPressed()</code>. 같은
+패턴입니다.</p>
+<h3 id="key와-keycode-먼저-console.log로-확인하기"><code>key</code>와
+<code>keyCode</code> — 먼저 console.log()로 확인하기</h3>
+<p>어떤 키를 눌렀는지 알려면 <code>key</code>와 <code>keyCode</code>를
+씁니다. 어떤 값인지 <strong>먼저 콘솔에 출력해 보면</strong> 이해하기
+쉽습니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;key:&quot;</span><span class="op">,</span> key<span class="op">,</span> <span class="st">&quot;keyCode:&quot;</span><span class="op">,</span> keyCode)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>콘솔 출력 — 여러 키를 눌러보면:</strong></p>
+<pre><code>key: r       keyCode: 82        ← 문자 키: key에 글자가 들어옴
+key: g       keyCode: 71
+key: 1       keyCode: 49
+key: ArrowUp keyCode: 38        ← 화살표 키: key에 특수 키 이름 문자열
+key: Enter   keyCode: 13        ← 특수 키: keyCode 숫자로 구분</code></pre>
+<p>문자 키는 <code>key</code>에 글자가 깔끔하게 들어옵니다. 화살표·Enter
+같은 특수 키는 <code>key</code>에 긴 문자열이 들어오니,
+<strong><code>keyCode</code> 숫자</strong>로 비교하는 게 편합니다.</p>
+<h3 id="key-어떤-키를-눌렀는지"><code>key</code> — 어떤 키를
+눌렀는지</h3>
+<p>특정 키에만 반응하는 코드를 만들어봅니다. 키를 누를 때마다 배경색을
+바꾸려면 색상을 변수에 저장해야 하는데, <code>fill(255, 0, 0)</code>은
+바로 칠하는 명령이라 변수에 넣을 수 없습니다. 색상을 <strong>값으로
+만들어</strong> 저장하려면 <code>color()</code> 함수를 씁니다.</p>
+<pre><code>color(255, 0, 0)   // 빨간색을 &quot;값&quot;으로 만듦 → 변수에 저장 가능
+fill(255, 0, 0)    // 빨간색으로 바로 &quot;칠함&quot; → 저장 불가</code></pre>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> bgColor <span class="op">=</span> <span class="dv">220</span><span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(bgColor)<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    bgColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">// r키: 빨강</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;g&#39;</span>) {</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    bgColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">// g키: 초록</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;b&#39;</span>) {</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>    bgColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>   <span class="co">// b키: 파랑</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>key === 'r'</code> — 1교시에서 배운 <code>===</code>가 문자
+비교에도 쓰입니다. <strong>소문자</strong>로 비교하세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+CapsLock 주의
+</div>
+<p>CapsLock이 켜져 있으면 <code>key</code>에 대문자가 들어가서
+<code>key === 'r'</code>이 반응하지 않을 수 있습니다. 코드가 맞아
+보이는데 키 입력이 동작하지 않을 때는 CapsLock이 꺼져 있는지
+확인하세요.</p>
+</div>
+<h3 id="keycode-특수-키-화살표-등"><code>keyCode</code> — 특수 키
+(화살표 등)</h3>
+<p>문자 키는 <code>key</code>로 되지만, <strong>화살표 키</strong> 같은
+특수 키는 <code>keyCode</code>를 씁니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>키 종류</th>
+<th>사용할 것</th>
+<th>이유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>글자/숫자 키 (<code>a</code>, <code>r</code>, <code>1</code>)</td>
+<td><code>key</code></td>
+<td>문자로 직접 비교 가능</td>
+</tr>
+<tr>
+<td>화살표, Enter, Shift 등</td>
+<td><code>keyCode</code></td>
+<td>화면에 표시되는 문자가 없음</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> y <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// ⭐ 위로 10px 이동</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    y <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> LEFT_ARROW) {</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    x <span class="op">-=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> RIGHT_ARROW) {</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>    x <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>UP_ARROW</code>, <code>DOWN_ARROW</code>,
+<code>LEFT_ARROW</code>, <code>RIGHT_ARROW</code>는 P5.js가 제공하는
+<strong>상수</strong>입니다. 숫자를 외울 필요 없이 이름으로 씁니다
+(따옴표 없이, 대문자에 밑줄).</p>
+<h3 id="마우스와-키보드-이벤트-정리표">마우스와 키보드 이벤트
+정리표</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 28%" />
+<col style="width: 24%" />
+<col style="width: 47%" />
+</colgroup>
+<thead>
+<tr>
+<th>마우스</th>
+<th>키보드</th>
+<th>동작</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mouseIsPressed</code></td>
+<td><code>keyIsPressed</code></td>
+<td>누르고 있는 <strong>동안</strong> true</td>
+</tr>
+<tr>
+<td><code>mousePressed()</code></td>
+<td><code>keyPressed()</code></td>
+<td>누를 때 <strong>1회</strong> 실행</td>
+</tr>
+<tr>
+<td><code>mouseButton</code></td>
+<td><code>key</code></td>
+<td>어떤 <strong>버튼/키</strong>를 눌렀는지</td>
+</tr>
+<tr>
+<td>—</td>
+<td><code>keyCode</code></td>
+<td>누른 키의 <strong>코드</strong> (<code>UP_ARROW</code> 등)</td>
+</tr>
+</tbody>
+</table></div>
+<p>마우스와 키보드가 <strong>대칭</strong> 구조입니다. 마우스 패턴을
+알면 키보드도 바로 이해됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>화살표 키로 원을 움직이는 코드에서, <code>keyPressed()</code> 대신
+<code>keyIsPressed</code>와 <code>keyCode</code>를 <code>draw()</code>
+안에 쓰면 어떻게 달라질까요?</p>
+<p><strong>답</strong>: 키를 누르고 있는 <strong>동안 계속</strong>
+이동합니다. <code>keyPressed()</code>는 한 번 눌러야 한 번 이동하지만,
+<code>draw()</code> 안에서 <code>keyIsPressed</code>로 확인하면 키를
+누르는 동안 계속 이동합니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-3-상태-변수로-토글-구현">💡 심화 개념 3 — 상태 변수로
+토글 구현</h2>
+<p><strong>토글</strong> — 클릭할 때마다 모드가 바뀌는 것.</p>
+<h3 id="boolean-토글">boolean 토글</h3>
+<p>‘클릭하면 빨강 ↔︎ 파랑이 전환되는’ 기능을 만듭니다. 직관적으로는
+이렇게 쓸 수 있습니다.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 직관적이지만 긴 버전</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (isRed <span class="op">===</span> <span class="kw">false</span>) {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    isRed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    isRed <span class="op">=</span> <span class="kw">false</span><span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이것을 <strong>한 줄</strong>로 줄일 수 있습니다.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✅ 간단한 버전</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  isRed <span class="op">=</span> <span class="op">!</span>isRed<span class="op">;</span>  <span class="co">// true ↔ false 토글!</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>isRed = !isRed</code>. 1교시에서 배운 <code>!</code>(NOT
+연산자)로 <code>true</code>면 <code>false</code>, <code>false</code>면
+<code>true</code>로 뒤집습니다. 전체 코드:</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> isRed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>  <span class="co">// ⭐ 상태 변수: draw() 밖에 선언</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (isRed) {</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// isRed가 true → 빨강</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// isRed가 false → 파랑</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  isRed <span class="op">=</span> <span class="op">!</span>isRed<span class="op">;</span>  <span class="co">// ⭐ true ↔ false 토글!</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>isRed</code> 변수를 <strong><code>draw()</code> 밖</strong> 맨
+위에 선언했습니다. <code>draw()</code> 안에 쓰면 매 프레임
+<code>true</code>로 초기화돼서 토글이 안 됩니다.</p>
+<h3 id="숫자-상태-변수-방향키로-브러시-크기-변경">숫자 상태 변수:
+방향키로 브러시 크기 변경</h3>
+<p>boolean 말고 <strong>숫자 변수</strong>도 상태로 쓸 수 있습니다.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> brushSize <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>  <span class="co">// 상태 변수: 브러시 크기</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> brushSize<span class="op">,</span> brushSize)<span class="op">;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>   <span class="co">// ⭐ 위 방향키: 크기 증가</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">-=</span> <span class="dv">5</span><span class="op">;</span>   <span class="co">// ⭐ 아래 방향키: 크기 감소</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 최소 크기 보장</span></span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (brushSize <span class="op">&lt;</span> <span class="dv">5</span>) {</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>마우스(드로잉) + 키보드(크기 조절) + 조건문(상태 판단)이 결합돼
+<strong>상태 관리</strong>를 합니다.</p>
+<h3 id="숫자-상태-변수-확장-클릭-카운터">숫자 상태 변수 확장: 클릭
+카운터</h3>
+<p>클릭할 때마다 숫자가 올라가는 패턴입니다.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> count <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textAlign</span>(CENTER<span class="op">,</span> CENTER)<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">64</span>)<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(count<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span>  <span class="co">// ⭐ 화면에 숫자 표시</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// ⭐ 클릭할 때마다 1 증가</span></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>토글은 <code>true ↔︎ false</code> 두 값을 오가고, 카운터는 <strong>한
+방향으로 계속 쌓입니다</strong>. 이 ‘누적’ 패턴은 다음 주
+<strong>애니메이션</strong>에서 핵심이 됩니다
+(<code>x = x + speed</code>도 같은 구조).</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+인터랙티브 프로그래밍의 기본 구조
+</div>
+<p><strong>변수로 상태 저장 → 이벤트로 상태 변경 → draw()에서 상태 기반
+렌더링</strong> — 이 패턴이 P5.js 인터랙티브 코딩의 기초입니다. 앞으로
+계속 씁니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-4-2교시-핵심-정리">심화 개념 4 — 2교시 핵심 정리</h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>주차</th>
+<th>배운 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2주차</td>
+<td>변수 (<code>let</code>), 도형,
+<code>mouseX</code>/<code>mouseY</code></td>
+</tr>
+<tr>
+<td>3주차</td>
+<td><code>for</code>문 (반복), HSB 색상</td>
+</tr>
+<tr>
+<td>4주차 1교시</td>
+<td><code>if/else</code>, 비교·논리 연산자, <code>dist()</code></td>
+</tr>
+<tr>
+<td>4주차 2교시</td>
+<td>마우스/키보드 이벤트, 상태 변수</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+2교시 핵심 3줄 요약
+</div>
+<ol type="1">
+<li><strong>변수 vs 이벤트 함수</strong>: <code>mouseIsPressed</code>(매
+프레임 체크)와 <code>mousePressed()</code>(한 번 호출)는 다르다</li>
+<li><strong>상태 변수 패턴</strong>: 변수 선언(draw 밖) → 이벤트로 변경
+→ draw()에서 렌더링</li>
+<li><strong>마우스와 키보드는 대칭</strong>: 마우스 패턴을 알면 키보드도
+같은 구조</li>
+</ol>
+</div>
+<hr />
+<h2 id="실전-사례">실전 사례</h2>
+<h3 id="사례-1-인터랙티브-드로잉">사례 1: 인터랙티브 드로잉</h3>
+<p><code>mouseIsPressed</code>로 그리기 + <code>key</code>로 색상
+전환.</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> brushColor<span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  brushColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// 기본: 파랑</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(brushColor)<span class="op">;</span></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    brushColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>    <span class="co">// r: 빨강</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;g&#39;</span>) {</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    brushColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>    <span class="co">// g: 초록</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;b&#39;</span>) {</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    brushColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// b: 파랑</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;c&#39;</span>) {</span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span>                  <span class="co">// c: 캔버스 지우기</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>마우스 드래그로 그리고,
+<code>r</code>/<code>g</code>/<code>b</code>로 색상 변경,
+<code>c</code>로 화면 초기화. 심화 개념 1의 드로잉 + 심화 개념 2의
+키보드 색상 전환의 조합입니다.</p>
+<h3 id="사례-2-리액티브-패턴">사례 2: 리액티브 패턴</h3>
+<p>3주차 for문 패턴이 마우스 위치에 반응합니다.</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> j <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> j <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> j<span class="op">++</span>) {</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> x <span class="op">=</span> i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> y <span class="op">=</span> j <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">;</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> d <span class="op">=</span> <span class="fu">dist</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ⭐ 마우스 가까이: 크고 밝게 / 멀리: 작고 어둡게</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (d <span class="op">&lt;</span> <span class="dv">100</span>) {</span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(d<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">35</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> brightness <span class="op">=</span> <span class="fu">map</span>(d<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fill</span>((i <span class="op">+</span> j) <span class="op">*</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> brightness)<span class="op">;</span></span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>코드를 한 줄씩 읽어봅니다.</p>
+<ol type="1">
+<li><strong>격자 만들기</strong> (3주차): <code>for</code>문 두 개를
+중첩해 10×10 = 100개 점 위치를 계산.</li>
+<li><strong>거리 재기</strong> (4주차 1교시):
+<code>dist(mouseX, mouseY, x, y)</code>로 마우스에서 각 점까지의 거리를
+구함.</li>
+<li><strong>조건 분기</strong> (4주차 1교시):
+<code>if (d &lt; 100)</code>로 가까운 것/먼 것을 구분.</li>
+<li><strong>크기·밝기 변환</strong>:
+<code>map(d, 0, 100, 35, 10)</code>로 거리(0~100)를 크기(35~10)로 변환.
+<code>map()</code>은 “숫자 범위를 다른 범위로 바꿔주는 변환기”입니다
+(5주차에서 정식으로 배움).</li>
+<li><strong>결과</strong>: 마우스 근처 원은 크고 밝고, 먼 원은 작고
+어둡게 — 빛이 퍼지는 효과.</li>
+</ol>
+<p>3주차 for문 격자 + 4주차 <code>dist()</code> 조건 + HSB 색상. 새로운
+건 <code>map()</code> 하나뿐입니다.</p>
+<h3 id="사례-3-간단한-버튼-ui">사례 3: 간단한 버튼 UI</h3>
+<p>1교시에서 배운 <code>dist()</code>로 <strong>원형 버튼</strong>을
+만듭니다. 이 원을 클릭하면 배경색이 바뀝니다.</p>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> bgColor <span class="op">=</span> <span class="dv">220</span><span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(bgColor)<span class="op">;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 버튼 그리기</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">dist</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>) <span class="op">&lt;</span> <span class="dv">40</span>) {</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// 마우스 올리면: 밝은 빨강 (hover)</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>    <span class="co">// 평소: 어두운 빨강</span></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 버튼 위에 텍스트</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textAlign</span>(CENTER<span class="op">,</span> CENTER)<span class="op">;</span></span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;Click!&quot;</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 버튼 영역 안에서 클릭했는지 확인</span></span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">dist</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>) <span class="op">&lt;</span> <span class="dv">40</span>) {</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>    bgColor <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>1교시의 <code>dist()</code> + 2교시의 <code>mousePressed()</code>.
+<code>dist()</code>로 ‘이 원 안에 마우스가 있는지’ 판별하고,
+<code>mousePressed()</code>에서 ‘클릭했을 때 원 안이면 배경색 변경’. 이
+패턴이 <strong>버튼</strong>의 기본입니다. hover 효과는
+<code>draw()</code> 안에서 매 프레임 체크, 클릭 반응은
+<code>mousePressed()</code>에서 한 번 체크합니다.</p>
+<hr />
+<h2 id="흔한-실수-트러블슈팅">흔한 실수 &amp; 트러블슈팅</h2>
+<p>실습 전에 자주 하는 실수들을 미리 알아둡니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>실수</th>
+<th>증상</th>
+<th>해결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mouseIsPressed</code>와 <code>mousePressed()</code> 혼동</td>
+<td>한 번만 동작해야 하는데 계속 실행됨, 또는 그 반대</td>
+<td>연속 동작 = <code>mouseIsPressed</code> (draw 안), 1회 =
+<code>mousePressed()</code> (draw 밖)</td>
+</tr>
+<tr>
+<td><code>draw()</code> 안에 이벤트 함수 작성</td>
+<td>오류가 나거나 동작하지 않음</td>
+<td><code>mousePressed()</code>, <code>keyPressed()</code>는 반드시
+<code>draw()</code> <strong>밖에</strong> 별도 함수로</td>
+</tr>
+<tr>
+<td>상태 변수를 <code>draw()</code> 안에 선언</td>
+<td>토글이 작동하지 않음, 값이 매 프레임 초기화</td>
+<td><code>let</code> 선언은 반드시 <code>draw()</code>
+<strong>밖</strong> 맨 위에</td>
+</tr>
+<tr>
+<td>CapsLock 켜짐</td>
+<td><code>key === 'r'</code>이 반응하지 않음</td>
+<td>CapsLock 끄기, 또는 <code>key === 'r' \|\| key === 'R'</code>로 둘
+다 체크</td>
+</tr>
+<tr>
+<td><code>keyCode</code>에 <code>'UP_ARROW'</code> (따옴표)</td>
+<td>작동하지 않음</td>
+<td><code>UP_ARROW</code>는 문자열이 아니라 <strong>상수</strong> —
+따옴표 없이</td>
+</tr>
+</tbody>
+</table></div>
+<p>특히 — <code>draw()</code> 안에
+<code>function mousePressed()</code>를 쓰는 실수가 많습니다. 반드시
+<code>draw()</code>의 <strong>중괄호 밖</strong>, 같은 들여쓰기 레벨에
+나란히 써야 합니다.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 잘못된 예</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">mousePressed</span>() {  <span class="co">// draw 안에 작성하지 않습니다!</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">// ✅ 올바른 예</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {  <span class="co">// draw와 같은 레벨!</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="교시-실습-안내">3교시 실습 안내</h2>
+<p>3교시에서 오늘 배운 <strong>조건문 + 마우스/키보드
+인터랙션</strong>으로 <strong>인터랙티브 스케치</strong>를 만듭니다.</p>
+<h3 id="실습-과제">실습 과제</h3>
+<p>세 가지 방향 중 하나를 골라 시작합니다 (자유롭게 섞어도 됩니다).</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>방향</th>
+<th>설명</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 인터랙티브 드로잉 도구</strong></td>
+<td>마우스로 그리기 + 키보드로 도구 전환</td>
+<td><code>mouseIsPressed</code>, <code>keyPressed()</code>,
+<code>key</code></td>
+</tr>
+<tr>
+<td><strong>B. 인터랙티브 패턴</strong></td>
+<td>3주차 패턴에 마우스/키보드 반응 추가</td>
+<td><code>for</code>문, <code>dist()</code>,
+<code>mousePressed()</code></td>
+</tr>
+<tr>
+<td><strong>C. 리액티브 비주얼</strong></td>
+<td>마우스 위치에 실시간 반응하는 그래픽</td>
+<td><code>mouseX/Y</code>, <code>dist()</code>,
+<code>if/else</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>어떤 방향이든 핵심은 같습니다 — <strong>입력 → 조건 판단 → 시각
+변화</strong>.</p>
+<h3 id="필수-요구사항">필수 요구사항</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>요구사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>if/else</code> 조건문 <strong>1개 이상</strong> 사용</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>마우스 또는 키보드</strong> 인터랙션 1개 이상</td>
+</tr>
+<tr>
+<td>3</td>
+<td>사용자 입력에 따라 <strong>시각적 변화</strong>가 발생</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>draw()</code>를 사용하여 <strong>실시간 반응</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>4주차에는 실습과제 제출이 없으니 부담 없이 실험해보세요.</p>
+<h3 id="도전-과제-선택">도전 과제 (선택)</h3>
+<ul>
+<li><code>pmouseX</code>/<code>pmouseY</code>와 <code>dist()</code>로
+<strong>마우스 속도에 따라 선 굵기가 바뀌는</strong> 필압 드로잉</li>
+<li><code>mouseButton</code>으로 <strong>왼쪽=그리기,
+오른쪽=지우기</strong> 기능 추가</li>
+<li>클릭 카운터(<code>count++</code>)를 화면에 표시하면서 클릭 횟수에
+따라 비주얼 변화</li>
+</ul>
+<h3 id="스타터-코드">스타터 코드</h3>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">// === 상태 변수 (draw() 밖에 선언) ===</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> brushColor<span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="co">// === setup(): 한 번 실행 ===</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  brushColor <span class="op">=</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a><span class="co">// === draw(): 매 프레임 실행 (1초에 약 60번) ===</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 그리기 코드</span></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 예: 마우스를 누르면 원 그리기</span></span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(brushColor)<span class="op">;</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a><span class="co">// === mousePressed(): 클릭 시 1회 ===</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 클릭 이벤트 코드</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a><span class="co">// === keyPressed(): 키 누를 때 1회 ===</span></span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 키보드 이벤트 코드</span></span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 예: if (key === &#39;r&#39;) { brushColor = color(255, 0, 0); }</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>setup()</code>, <code>draw()</code>,
+<code>mousePressed()</code>, <code>keyPressed()</code> 네 영역에 코드를
+채워넣는 구조입니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-마우스-인터랙션">심화 개념 1 — 마우스 인터랙션</a></li><li class="toc-level-3"><a href="#mouseispressed-누르고-있는-동안">mouseIsPressed — 누르고 있는 동안</a></li><li class="toc-level-3"><a href="#mousepressed-클릭-한-번">mousePressed() — 클릭 한 번</a></li><li class="toc-level-3"><a href="#mouseispressed-vs-mousepressed-비교">mouseIsPressed vs mousePressed() 비교</a></li><li class="toc-level-3"><a href="#mousebutton-왼쪽오른쪽-클릭-구분">mouseButton — 왼쪽/오른쪽 클릭 구분</a></li><li class="toc-level-2"><a href="#심화-개념-2-키보드-인터랙션">심화 개념 2 — 키보드 인터랙션</a></li><li class="toc-level-3"><a href="#keypressed-키를-누를-때-1회-실행">keyPressed() — 키를 누를 때 1회 실행</a></li><li class="toc-level-3"><a href="#key와-keycode-먼저-console.log로-확인하기">key와 keyCode — 먼저 console.log()로 확인하기</a></li><li class="toc-level-3"><a href="#key-어떤-키를-눌렀는지">key — 어떤 키를 눌렀는지</a></li><li class="toc-level-3"><a href="#keycode-특수-키-화살표-등">keyCode — 특수 키 (화살표 등)</a></li><li class="toc-level-3"><a href="#마우스와-키보드-이벤트-정리표">마우스와 키보드 이벤트 정리표</a></li><li class="toc-level-2"><a href="#심화-개념-3-상태-변수로-토글-구현">심화 개념 3 — 상태 변수로 토글 구현</a></li><li class="toc-level-3"><a href="#boolean-토글">boolean 토글</a></li><li class="toc-level-3"><a href="#숫자-상태-변수-방향키로-브러시-크기-변경">숫자 상태 변수: 방향키로 브러시 크기 변경</a></li><li class="toc-level-3"><a href="#숫자-상태-변수-확장-클릭-카운터">숫자 상태 변수 확장: 클릭 카운터</a></li><li class="toc-level-2"><a href="#심화-개념-4-2교시-핵심-정리">심화 개념 4 — 2교시 핵심 정리</a></li><li class="toc-level-2"><a href="#실전-사례">실전 사례</a></li><li class="toc-level-3"><a href="#사례-1-인터랙티브-드로잉">사례 1: 인터랙티브 드로잉</a></li><li class="toc-level-3"><a href="#사례-2-리액티브-패턴">사례 2: 리액티브 패턴</a></li><li class="toc-level-3"><a href="#사례-3-간단한-버튼-ui">사례 3: 간단한 버튼 UI</a></li><li class="toc-level-2"><a href="#흔한-실수-트러블슈팅">흔한 실수 &amp; 트러블슈팅</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-과제">실습 과제</a></li><li class="toc-level-3"><a href="#필수-요구사항">필수 요구사항</a></li><li class="toc-level-3"><a href="#도전-과제-선택">도전 과제 (선택)</a></li><li class="toc-level-3"><a href="#스타터-코드">스타터 코드</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

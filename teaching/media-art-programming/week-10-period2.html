@@ -1,0 +1,1134 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 2교시 — 다중 힘, 질량 차이, 마찰력 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 10 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>10주차 2교시 — 다중 힘, 질량 차이, 마찰력</h1>
+        <p class="lead">Forces and Physics Simulation 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 10</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">10주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">다중 힘, 질량 차이, 마찰력</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-다중-힘-질량-차이-마찰력">10주차 2교시 — 다중 힘,
+질량 차이, 마찰력</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-10-outline <strong>이전
+교시</strong>: <a
+href="week-10-period1.html">week-10-period1-student</a> (뉴턴 제2법칙과
+applyForce() 패턴) <strong>다음 교시</strong>: <a
+href="week-10-period3.html">week-10-period3-student</a> (학생 주도
+실습)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 applyForce 패턴 + 중력</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>applyForce()</code>를 두 번 이상 호출하여 <strong>여러 힘을
+동시에</strong> 적용하고, 합력 개념을 이해한다</li>
+<li>✅ 질량(mass)이 다른 객체들이 같은 힘에 다르게 반응하는 시뮬레이션을
+만든다</li>
+<li>✅ 마찰력(friction)을 ‘브레이크’ 비유로 이해하고 코드로
+구현한다</li>
+<li>✅ 9주차 정적 메서드 패턴(<code>p5.Vector.mult/sub/div</code>)을
+일관되게 사용한다</li>
+</ul>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">
+오늘의 확장
+</div>
+<p>1교시에서 만든 “applyForce + 중력 하나” 구조에 <strong>바람 + 질량 +
+마찰력</strong>을 차례로 더해 더 복합적인 물리 시뮬레이션으로
+확장합니다.</p>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<p>본격적으로 새 내용에 들어가기 전에, 1교시 핵심을 간단한 퀴즈로 점검해
+봅시다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+Q1. 뉴턴 제2법칙을 코드로 쓰면?
+</div>
+<p><em>답: <code>a = F / m</code> 또는
+<code>let f = p5.Vector.div(force, this.mass)</code>.</em></p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+Q2. 힘을 적용하는 메서드 이름은?
+</div>
+<p><em>답: <code>applyForce()</code>.</em></p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+Q3. p5.Vector.div(force, this.mass)로 쓰는 이유는?
+</div>
+<p><em>답: 9주차처럼 정적 메서드로 통일하기 위함입니다. 원본
+<code>force</code>를 변경하지 않고 새 벡터를 반환받기 위해
+사용합니다.</em></p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+Q4. 가속도를 매 프레임 왜 초기화하나요?
+</div>
+<p><em>답: 이 코드에서는 힘을 매 프레임 acc에 새로 누적합니다.
+초기화하지 않으면 이전 프레임의 acc가 남아 속도가 비정상적으로
+커집니다.</em></p>
+</div>
+<p>1교시에서는 <strong>중력 하나, 질량 1</strong>까지 다뤘습니다. 오늘은
+다음 세 가지를 차례로 추가합니다.</p>
+<ul>
+<li>1️⃣ <strong>바람</strong> — <code>applyForce()</code>를 두 번
+호출하면 힘이 누적된다는 의미를 확인합니다.</li>
+<li>2️⃣ <strong>질량 차이</strong> — 같은 힘에 다르게 반응하는 객체들을
+동시에 만듭니다.</li>
+<li>3️⃣ <strong>마찰력</strong> — ‘브레이크’ 비유로 속도를 줄이는 힘을
+구현합니다.</li>
+</ul>
+<p>이 세 가지를 마치면 움직임이 더 자연스럽고 복합적으로 보입니다.
+<strong><code>applyForce()</code> 메서드는 1교시 그대로
+사용</strong>하며, 본체를 수정하지 않습니다. 새 힘을 추가해도
+<code>applyForce()</code> 본체는 그대로라는 점이 이 패턴의
+강점입니다.</p>
+<h3 id="짧은-9주차-벡터-복습-오늘-사용할-도구">짧은 9주차 벡터 복습 —
+오늘 사용할 도구</h3>
+<p>오늘 마찰력 구현에서는 9주차에 처음 배운 벡터 연산을 한꺼번에
+사용합니다. 표로 미리 복습해 둘 테니, 막히면 이 표로 돌아옵시다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 19%" />
+<col style="width: 45%" />
+</colgroup>
+<thead>
+<tr>
+<th>9주차 연산</th>
+<th>의미</th>
+<th>오늘 사용처</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createVector(x, y)</code></td>
+<td>벡터 생성</td>
+<td>gravity, wind 생성</td>
+</tr>
+<tr>
+<td><code>vec.add(other)</code></td>
+<td>누적 (자기 자신 변경)</td>
+<td><code>acc.add(f)</code> — 가속도 누적</td>
+</tr>
+<tr>
+<td><code>p5.Vector.sub(a, b)</code></td>
+<td>도착-출발 벡터 (정적, 새 벡터 반환)</td>
+<td>마우스 향한 방향 계산</td>
+</tr>
+<tr>
+<td><code>p5.Vector.mult(vec, n)</code></td>
+<td>n배 벡터 (정적)</td>
+<td><code>mult(vel, -1)</code> — 마찰 반대 방향</td>
+</tr>
+<tr>
+<td><code>p5.Vector.div(vec, n)</code></td>
+<td>n으로 나눈 벡터 (정적)</td>
+<td><code>div(force, mass)</code> — F/m=a</td>
+</tr>
+<tr>
+<td><code>vec.normalize()</code></td>
+<td>크기를 1로 (자기 자신 변경)</td>
+<td>마찰력 방향만 추출</td>
+</tr>
+<tr>
+<td><code>vec.mag()</code></td>
+<td>벡터 길이 (스칼라 반환)</td>
+<td>속도 크기, 거리 계산</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+정적 vs 인스턴스 한 줄 규칙
+</div>
+<p>9주차에서 통일한 원칙대로, 새 벡터가 필요할 때는
+<strong><code>p5.Vector.~</code> 정적
+메서드</strong>(<code>mult/div/sub</code>)를 사용합니다. 자기 자신을
+변경할 때는 <code>.add() / .normalize() / .mult()</code> 인스턴스
+메서드를 사용합니다. 이 구분만 지켜도 자주 발생하는 실수의 상당수를
+예방할 수 있습니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-1-바람-추가-여러-힘의-누적">💡 심화 개념 1 — 바람
+추가: 여러 힘의 누적</h2>
+<p>1교시에서는 중력 하나만 적용했습니다. 이제
+<strong>바람(wind)</strong>을 추가합니다. 핵심 질문은 이것입니다.
+<code>applyForce()</code>를 <strong>두 번</strong> 호출하면 어떻게
+될까요?</p>
+<p>이번에도 <strong>단계적으로</strong> 진행합니다. 1교시 코드에서
+출발해 한 줄, 다시 한 줄을 추가하는 방식입니다.</p>
+<h3 id="step-1.-출발점-1교시-마지막-코드-중력만">Step 1. 출발점 — 1교시
+마지막 코드 (중력만)</h3>
+<p>1교시 끝에서 만든 코드 그대로입니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>공이 아래로 떨어지며 바닥에서 튕깁니다. 여기에
+<strong>바람</strong>을 추가해 봅시다.</p>
+<h3 id="step-2.-바람-벡터-만들기">Step 2. 바람 벡터 만들기</h3>
+<p>중력과 마찬가지로 바람도 단순한 벡터입니다. 차이는 미는
+방향뿐입니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.1</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>x = 0.1</strong>(오른쪽으로 약간), <strong>y =
+0</strong>(위아래로는 작용하지 않음). 이는 ’오른쪽으로 부는 약한 바람’을
+뜻합니다.</p>
+<p>수치는 자유롭게 정할 수 있습니다. <code>0.5</code>는 강한 바람,
+<code>-0.1</code>은 왼쪽 바람을 의미합니다. 9주차의
+<code>createVector</code>를 그대로 사용합니다.</p>
+<h3 id="step-3.-바람-적용-applyforce-한-줄-추가">Step 3. 바람 적용 —
+<code>applyForce()</code> 한 줄 추가</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.1</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>       <span class="co">// ← 새 줄</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span>                <span class="co">// ← 새 줄</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>applyForce()</code>를 두 번 호출했습니다. 중력과 바람이
+<strong>동시에</strong> 작용하는 구조입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/02-multiple-forces.png"
+alt="02 multiple forces" />
+<figcaption aria-hidden="true">02 multiple forces</figcaption>
+</figure>
+<p>내부에서 어떤 일이 일어나는지 한 줄씩 따라가 봅시다. 1교시
+<code>applyForce</code> 메서드의 핵심은
+<code>this.acc.add(f)</code>였습니다.</p>
+<ol type="1">
+<li><code>applyForce(gravity)</code> 호출 → acc에 (0, 0.2)
+<strong>누적</strong>. 현재 acc = (0, 0.2)</li>
+<li><code>applyForce(wind)</code> 호출 → acc에 (0.1, 0)이 추가로
+<strong>누적</strong>. 현재 acc = (0.1, 0.2)</li>
+<li>update() → 합쳐진 가속도 (0.1, 0.2)로 속도가 변경됨</li>
+</ol>
+<p>최종 가속도는 (0.1, 0.2)이며 <strong>오른쪽 아래 대각선
+방향</strong>입니다. 중력(아래) + 바람(오른쪽)이 합쳐져 오른쪽 아래로
+기울어진 포물선 운동이 됩니다. 공을 옆으로 던졌을 때의 궤적과
+유사합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+add 패턴의 의미
+</div>
+<p>이것이 <code>add</code> 패턴의 의미입니다. 새 힘을 추가해도
+<code>Mover</code>의 핵심 코드는 그대로 유지됩니다. 실제로
+<code>applyForce</code> 안의 4줄은 <strong>수정하지 않고</strong>,
+<code>applyForce(wind)</code> 한 줄만 추가했습니다.</p>
+</div>
+<p>물리학에서는 이를 <strong>합력(net force)</strong>이라 부릅니다. 여러
+힘을 벡터로 더한 결과이며, <code>applyForce()</code>를 호출할 때마다
+자동으로 계산됩니다.</p>
+<h3 id="마우스-클릭으로-바람-방향-전환">마우스 클릭으로 바람 방향
+전환</h3>
+<p>간단한 인터랙션을 추가해 봅시다. 마우스를 클릭할 때마다 바람 방향이
+반대로 전환됩니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> windDirection <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// 1 = 오른쪽, -1 = 왼쪽</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.1</span> <span class="op">*</span> windDirection<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  windDirection <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>  <span class="co">// 클릭할 때마다 방향 반전</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>클릭할 때마다 <code>windDirection</code>이 1과 -1을 오가며 바람
+방향이 전환됩니다. 4주차에서 배운 <code>mousePressed()</code>를 활용한
+형태입니다.</p>
+<p>힘을 3개, 4개 추가해도 동일한 방식입니다. <code>applyForce()</code>를
+추가로 호출하기만 하면 됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>중력 <code>(0, 0.2)</code>와 바람 <code>(0.1, 0)</code>을 동시에
+적용하면, 최종 가속도는 어떻게 될까요?</p>
+<p><em>답: (0.1, 0.2). 두 벡터를 더한 값입니다.</em></p>
+</div>
+<hr />
+<h2 id="심화-개념-2-질량mass에-따른-차이">💡 심화 개념 2 — 질량(mass)에
+따른 차이</h2>
+<p>1교시에서는 <code>mass</code>를 1로 고정했습니다.
+<code>a = F / 1 = F</code>이므로 사실상 <code>F = a</code>인 단순한
+상태였습니다. 이제 <code>mass</code>를 다양하게 부여해 본격적인 차이를
+만들어 봅시다.</p>
+<p>볼링공과 탁구공을 같은 세기로 밀면 탁구공이 훨씬 많이 움직입니다.
+같은 힘이라도 질량이 다르므로 가속도가 달라지기 때문입니다. 1교시에서
+표로 살펴본 그 차이를 이제 코드로 구현해 봅시다.</p>
+<p>이번 변경은 <strong>네 곳</strong>입니다. 한 곳씩 짚어 가며
+진행합니다.</p>
+<h3 id="step-1.-constructor에-mass-매개변수-추가">Step 1. constructor에
+mass 매개변수 추가</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mover {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> mass) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span> <span class="op">=</span> <span class="fu">createVector</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">=</span> mass<span class="op">;</span>  <span class="co">// 질량을 매개변수로 받음</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyForce</span>(force) {</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">div</span>(force<span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span>)<span class="op">;</span>  <span class="co">// a = F / m (그대로)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">add</span>(f)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">acc</span>)<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span>)<span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">edges</span>() {</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> r <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">8</span><span class="op">;</span>        <span class="co">// display()의 지름(this.mass * 16)에 맞춘 반지름</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">-</span> r) { <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> width <span class="op">-</span> r<span class="op">;</span> <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> }</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> r)         { <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> r<span class="op">;</span>         <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> }</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> floor <span class="op">=</span> height <span class="op">-</span> r<span class="op">;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> floor) {</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> floor<span class="op">;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">abs</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span>) <span class="op">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">*=</span> <span class="op">-</span><span class="fl">0.9</span><span class="op">;</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">175</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">16</span>)<span class="op">;</span>  <span class="co">// 질량에 비례하는 크기</span></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>달라진 부분을 한 군데씩 살펴봅시다.</p>
+<p><strong>변경 1 — constructor 시그니처</strong>:
+<code>constructor(x, y)</code> → <code>constructor(x, y, mass)</code>.
+새 객체를 만들 때 질량을 매개변수로 받기 위함입니다. 7주차 클래스에서
+배운 매개변수 추가 패턴입니다.</p>
+<p><strong>변경 2 — 질량 저장</strong>: <code>this.mass = mass</code>.
+받은 <code>mass</code> 값을 객체의 속성으로 저장합니다. 각 객체가 자신의
+질량을 기억하게 됩니다.</p>
+<p><strong>변경 3 — 시각화에 질량 반영</strong>:
+<code>display()</code>에서
+<code>ellipse(this.pos.x, this.pos.y, this.mass * 16)</code>. 질량 1인
+공은 지름 16px, 질량 5인 공은 80px이 됩니다. <strong>무거운 객체는 큰
+원, 가벼운 객체는 작은 원</strong>으로 보여 주어 질량 차이가 시각적으로
+드러나게 합니다.</p>
+<p><strong>변경 4 — edges 좌우 추가</strong>: 1교시에서는 바닥(y)만
+체크했지만, 바람이 좌우로 밀면 화면 좌우로도 벗어날 수 있습니다. 따라서
+좌우 벽 처리 두 줄을 추가합니다. 또한 원의 중심이 아닌 <strong>원의
+가장자리</strong>가 벽과 바닥에 닿도록 <code>r = this.mass * 8</code>로
+보정합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+applyForce 본체는 한 줄도 변경되지 않음
+</div>
+<p><code>applyForce()</code> 본체는 한 줄도 변경되지 않았습니다. 1교시에
+만든 그대로입니다. 다만 <code>mass</code>가 다양해진 시점부터는
+<code>applyForce()</code> 안의
+<code>p5.Vector.div(force, this.mass)</code>가 객체마다 다른
+<code>mass</code>로 나누므로, <strong>같은 <code>force</code>를 적용해도
+객체마다 다른 가속도</strong>가 나옵니다. 이것이 1교시에서 준비한 구조의
+의미입니다. 클래스 본체는 그대로 두고, <code>mass</code> 데이터만
+다양해져도 움직임의 차이가 드러납니다.</p>
+</div>
+<h3 id="step-2.-질량이-다른-객체-여러-개-만들기">Step 2. 질량이 다른
+객체 여러 개 만들기</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">5</span>)))<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.05</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>7주차에서 배운 <strong>객체 배열</strong>이 여기서 다시 등장합니다.
+<code>movers = []</code>에 <code>Mover</code> 객체 5개를 담고,
+<code>for...of</code>로 모두 업데이트합니다.</p>
+<p>핵심은 <strong>같은 gravity, 같은 wind를 모든 객체에
+적용</strong>하지만 질량이 다르므로 <strong>각각 다르게
+반응</strong>한다는 점입니다.</p>
+<p><strong>실행 결과:</strong> - 작은 원(가벼운 객체): 바람에 많이
+밀리고 빠르게 떨어짐 → 가속도가 큼 - 큰 원(무거운 객체): 바람에 조금만
+밀리고 느리게 떨어짐 → 가속도가 작음 - 각 원이 서로 다른 궤적으로
+움직임</p>
+<p>같은 힘인데 다르게 움직이는 모습을 관찰할 수 있습니다. 이것이 바로
+<strong>a = F / m</strong>의 의미입니다. m이 크면 a가 작아지므로 반응이
+둔해집니다. 1교시에서 표로 살펴본 볼링공/탁구공의 차이가 코드로 구현된
+형태입니다.</p>
+<h3 id="한-줄-메모-현실-중력은-다르다">한 줄 메모 — 현실 중력은
+다르다</h3>
+<div class="callout callout-info">
+<div class="callout-title">
+단순 모델 vs 현실 모델
+</div>
+<p>현실 중력에 대해 짧게 보충합니다. 진공에서 깃털과 볼링공을 떨어뜨리면
+같은 속도로 떨어집니다. 아폴로 우주인이 달에서 실험한 유명한 영상에서
+확인할 수 있습니다.</p>
+<p>이는 <strong>중력의 크기가 질량에 비례</strong>하기 때문입니다. F =
+mg → a = F/m = mg/m = g. 질량이 약분되어 동일한 가속도가 됩니다.</p>
+<p>코드에서는
+<code>let gravityForce = p5.Vector.mult(gravity, mover.mass); mover.applyForce(gravityForce);</code>처럼
+중력 벡터에 질량을 곱한 <strong>새 벡터</strong>를 적용하면 현실 모델에
+가까워집니다. 원본 <code>gravity</code>를 직접 변경하는
+<code>gravity.mult(...)</code>는 여러 객체를 순회하는 루프에서 값이 계속
+변할 수 있으므로 피합니다.</p>
+<p>다만 미디어아트에서는 <strong>’무거우면 천천히 떨어진다’는 단순
+모델</strong>이 시각적으로 더 흥미롭습니다. 이 자료에서는 이 단순 모델을
+사용합니다. 더 실험해 보고 싶다면
+<code>p5.Vector.mult(gravity, mover.mass)</code> 방식을 시도해 보아도
+좋습니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>질량이 5인 무거운 공과 질량이 1인 가벼운 공에 같은 wind
+<code>(0.1, 0)</code>을 적용하면, 가속도는 각각 얼마일까요?</p>
+<p><em>답: 무거운 공은 0.1/5 = 0.02, 가벼운 공은 0.1/1 = 0.1. 가벼운
+공이 5배 빠르게 옆으로 밀립니다.</em></p>
+</div>
+<h3 id="이미지로-비교-mass1-vs-mass5">이미지로 비교 — mass=1 vs
+mass=5</h3>
+<p>둘 다 출발점은 (200, 50), 초기 속도는 (0, 0)입니다. gravity = (0,
+0.2), wind = (0.1, 0)이고, 마찰력은 아직 없는 상태에서 두 궤적을
+비교합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/07-mass-response-comparison.png"
+alt="07 mass response comparison" />
+<figcaption aria-hidden="true">07 mass response comparison</figcaption>
+</figure>
+<p>이미지에서 보이는 핵심은 두 공이 <strong>같은 힘을 받지만 서로 다른
+궤적</strong>을 만든다는 점입니다. 가벼운 공은 합산 가속도
+<code>(0.1, 0.2)</code>, 무거운 공은 <code>(0.02, 0.04)</code>가 되어
+5배 차이가 납니다. 이 차이가 매 프레임 누적되면서 60프레임 뒤 위치
+차이로 크게 드러납니다.</p>
+<p>가장 중요한 점은 <code>applyForce()</code> 메서드가 <strong>한 줄도
+변경되지 않았다</strong>는 것입니다. <code>mass</code> 데이터 하나만
+달라진 결과입니다.</p>
+<hr />
+<h2 id="심화-개념-3-마찰력-브레이크-비유로-풀이">💡 심화 개념 3 —
+마찰력: ‘브레이크’ 비유로 풀이</h2>
+<p>지금까지 중력과 바람을 살펴봤습니다. 둘 다 <strong>한 방향으로 미는
+힘</strong>입니다. 마찰력은 성격이 조금 다릅니다. 비유 → 코드 → 실험, 세
+단계로 풀어 봅니다. 9주차에서 <code>sub()</code>를 설명할 때 사용한
+방식과 동일합니다.</p>
+<h3 id="step-3-1.-비유로-시작-마찰력은-브레이크">Step 3-1. 비유로 시작 —
+마찰력은 ‘브레이크’</h3>
+<p>마찰력은 <strong>브레이크</strong>에 비유할 수 있습니다. 차가 어느
+방향으로 달리든 브레이크는 <strong>그 반대 방향</strong>으로
+작용합니다.</p>
+<p>오른쪽으로 가던 공을 멈추려면 왼쪽으로 잡아당겨야 합니다. 위로 던진
+공은 단순히 아래로 잡아당기는 것이 아니라, <strong>공이 가는 방향의
+반대</strong>로 잡아당기는 것이 마찰입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/03-friction-brake.png"
+alt="03 friction brake" />
+<figcaption aria-hidden="true">03 friction brake</figcaption>
+</figure>
+<p>마찰력의 두 가지 핵심 특성은 다음과 같습니다.</p>
+<ol type="1">
+<li><strong>방향</strong>: 항상 <code>vel</code>(속도)의
+<strong>반대</strong> 방향. 어디로 향하든 그 반대로 작용합니다.</li>
+<li><strong>크기</strong>: 마찰계수 <code>c</code>로 결정됩니다. 얼음
+위에서는 작고, 모래 위에서는 큽니다.</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title">
+마찰력의 결정적 차이
+</div>
+<p>중력은 항상 아래로, 바람은 항상 한 방향으로 작용했지만
+<strong>마찰력은 물체마다 방향이 다를 수 있습니다</strong>. 오른쪽으로
+가는 물체에는 왼쪽 방향의 마찰력, 왼쪽으로 가는 물체에는 오른쪽 방향의
+마찰력이 작용합니다. 따라서 마찰력은 매 프레임마다, 매 객체마다
+<strong>새로 계산</strong>해야 합니다.</p>
+</div>
+<h3 id="step-3-2.-코드로-옮기기-한-줄씩-빌드업">Step 3-2. 코드로 옮기기
+— 한 줄씩 빌드업</h3>
+<p>비유를 코드로 옮기면 4줄입니다. 9주차에서 통일한 <strong>정적
+메서드</strong> 패턴(<code>p5.Vector.~</code>)을 사용하며, 이번에도
+<strong>한 줄씩 추가</strong>하면서 각 줄이 왜 필요한지 함께
+살펴봅니다.</p>
+<h4 id="v1.-vel을-그대로-사용하기-문제-확인용">v1. vel을 그대로 사용하기
+(문제 확인용)</h4>
+<p>단순하게 시작합니다. 마찰력이 vel과 관련 있으니 vel을 그대로 사용하면
+어떻게 될까요?</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> friction <span class="op">=</span> mover<span class="op">.</span><span class="at">vel</span><span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>mover<span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span></code></pre></div>
+<p>여기에는 두 가지 문제가 있습니다. 첫째, <strong>방향이
+같습니다</strong> — 진행 방향과 같은 방향으로 미는 것은 가속이지 마찰이
+아닙니다. 둘째, <strong><code>mover.vel</code>을 직접 참조하면</strong>
+이후 코드에서 수정될 위험이 있습니다.</p>
+<p>문제를 하나씩 해결해 봅시다.</p>
+<h4 id="v2.-반대-방향으로--1-곱하기">v2. 반대 방향으로 — <code>-1</code>
+곱하기</h4>
+<p>마찰의 핵심은 <code>vel</code>의 <strong>반대 방향</strong>이므로
+<code>-1</code>을 곱해야 합니다. 다만 <code>vel.mult(-1)</code>로
+처리하면 <code>vel</code> 원본이 반대로 뒤집히는 문제가 있습니다.
+9주차에서 배운 <strong>정적 메서드</strong>로 안전하게 새 벡터를
+만듭니다.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(mover<span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>mover<span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span></code></pre></div>
+<p><code>p5.Vector.mult(mover.vel, -1)</code>는 <code>vel</code>에 -1을
+곱한 <strong>새 벡터</strong>를 만들어 friction에 담습니다.
+<strong><code>mover.vel</code>은 변경되지 않습니다.</strong> 1교시의
+<code>p5.Vector.div</code>, 9주차의 <code>p5.Vector.sub</code>와 동일한
+안전 패턴입니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">
+다른 책의 표기법
+</div>
+<p>다른 책에서는 <code>mover.vel.copy().mult(-1)</code>처럼 쓰기도
+합니다. 결과는 같지만, 이 자료에서는 9주차부터 통일한 정적 메서드를
+사용합니다. 기억해야 할 표기가 줄어듭니다.</p>
+</div>
+<p>이제 방향은 정확히 <code>vel</code>의 반대입니다. 다만 <strong>크기가
+너무 큽니다</strong> — 빠르게 움직이는 공일수록 마찰력도 비례해 커지므로
+거의 즉시 정지해 버립니다. 자연스러운 마찰은 일정한 크기를 유지해야
+합니다.</p>
+<h4 id="v3.-방향만-남기기-normalize">v3. 방향만 남기기 —
+<code>normalize()</code></h4>
+<p>9주차에서 배운 <code>normalize()</code>를 사용합니다. 벡터의
+<strong>크기를 1로</strong> 만들어 방향만 남깁니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(mover<span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>mover<span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span></code></pre></div>
+<p>이제 friction은 방향만 있고 크기는 1인 단위벡터입니다. 어떤 속도이든
+일정한 크기 1짜리 마찰이 작용합니다.</p>
+<p>다만 크기 1은 너무 강합니다. 한 프레임에 1만큼 줄어들면 속도가 급격히
+꺾여 부자연스러울 수 있습니다. <strong>마찰계수</strong>로 적절히
+축소해야 합니다.</p>
+<h4 id="v4.-마찰계수로-크기-조절-multc">v4. 마찰계수로 크기 조절 —
+<code>mult(c)</code></h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> c <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span>                                  <span class="co">// 마찰계수</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(mover<span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span>  <span class="co">// 반대 방향</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span>                          <span class="co">// 크기 1</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>friction<span class="op">.</span><span class="fu">mult</span>(c)<span class="op">;</span>                              <span class="co">// 크기 c로 축소</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>mover<span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span>                    <span class="co">// 힘으로 적용</span></span></code></pre></div>
+<p><code>c = 0.05</code>이면 friction의 크기는 0.05입니다. 한 프레임에
+미세하게만 작용하므로 자연스럽게 감속되는 움직임이 만들어집니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+마찰력 4단계 정리
+</div>
+<p><strong>반대 → 정규화 → 강도 조절 → 적용</strong>. 네 단계 모두
+의미가 있습니다. 한 단계라도 빠지면 동작은 하지만
+부자연스러워집니다.</p>
+</div>
+<p>마지막 줄은 <code>mover.applyForce(friction)</code>입니다.
+<strong>마찰력도 결국 하나의 힘일 뿐입니다.</strong> 1교시의
+<code>applyForce</code> 메서드가 그대로 동작합니다. 내부에서
+<code>this.acc.add(f)</code>로 누적되어 중력·바람과 함께 합력을
+이룹니다.</p>
+<h4 id="숫자로-보는-마찰-vel3-4-c0.05일-때">숫자로 보는 마찰 — vel=(3,
+4), c=0.05일 때</h4>
+<p>좀 더 구체적으로 살펴봅시다. 어떤 객체의 속도가 (3, 4)이고 마찰계수
+c=0.05라면 마찰력 벡터는 어떻게 계산될까요?</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>단계</th>
+<th>연산</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0. 시작</td>
+<td>mover.vel = (3, 4), 길이 √(9+16) = 5</td>
+<td>—</td>
+</tr>
+<tr>
+<td>1. p5.Vector.mult(vel, -1)</td>
+<td>(3, 4) × -1 = (-3, -4)</td>
+<td>friction = (-3, -4) (길이 5)</td>
+</tr>
+<tr>
+<td>2. .normalize()</td>
+<td>(-3/5, -4/5) = (-0.6, -0.8)</td>
+<td>friction = (-0.6, -0.8) (길이 1)</td>
+</tr>
+<tr>
+<td>3. .mult(0.05)</td>
+<td>(-0.6 × 0.05, -0.8 × 0.05)</td>
+<td>friction = (-0.03, -0.04)</td>
+</tr>
+<tr>
+<td>4. applyForce(friction)</td>
+<td>acc.add(friction / mass) → mass=1이면 acc에 (-0.03, -0.04) 누적</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>관찰:</strong></p>
+<ol type="1">
+<li><strong>방향</strong>: friction = (-0.03, -0.04). vel (3, 4)와
+정확히 반대 방향이며, 비율도 동일합니다 (-3:-4 = 3:4).</li>
+<li><strong>크기</strong>: vel의 길이가 5였지만 friction의 길이는 0.05 —
+<strong>c와 정확히 일치합니다</strong>. 어떤 vel이 입력되어도 normalize
+처리 덕분에 friction의 크기는 항상 c가 됩니다.</li>
+<li><strong>감속 효과</strong>: 매 프레임 acc에 (-0.03, -0.04)가
+누적되므로 vel이 (3, 4)에서 (2.97, 3.96), (2.94, 3.92)로 천천히
+줄어듭니다. <strong>방향은 거의 유지되지만 크기가 점차 작아지는
+형태</strong>입니다.</li>
+<li><strong>정지 시점</strong>: vel 크기가 c와 비슷해지면 한 프레임 만에
+vel 부호가 반전될 수 있으며, 작은 떨림이 발생합니다. 따라서 실제
+코드에서는 vel 크기가 너무 작을 때 별도
+처리(<code>if (vel.mag() &lt; c) vel.set(0, 0)</code>)를 추가해 정지
+상태를 만듭니다.</li>
+</ol>
+<h3 id="draw에-마찰력-적용-합쳐-보기">draw()에 마찰력 적용 — 합쳐
+보기</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.05</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 마찰력 계산 (객체마다 속도가 다르니까 각자 따로 계산)</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> c <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (mover<span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">mag</span>() <span class="op">&lt;</span> c) {</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>      mover<span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(mover<span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      friction<span class="op">.</span><span class="fu">mult</span>(c)<span class="op">;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      mover<span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span>  <span class="co">// 마찰력</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span>   <span class="co">// 중력</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span>      <span class="co">// 바람</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>applyForce()</code>를 <strong>세 번</strong> 호출했습니다.
+마찰력 + 중력 + 바람이 동시에 작용하는 구조입니다. 이것이 합력의 실제
+모습입니다. 그리고 힘은 매 프레임 새로 적용되고, <code>acc</code>는
+<code>acc.set(0, 0)</code>으로 매 프레임 초기화됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/03-friction-vectors.png"
+alt="03 friction vectors" />
+<figcaption aria-hidden="true">03 friction vectors</figcaption>
+</figure>
+<p>이미지에서 파란 화살표는 속도, 빨간 화살표는 마찰력입니다. 핵심은
+<code>friction = -normalize(vel) * c</code>: 속도 방향을 반대로 뒤집고,
+크기는 마찰계수 <code>c</code>로 맞춥니다.</p>
+<p><strong>실행 결과:</strong> - 마찰력이 없을 때: 공이 바닥에서 계속
+튕기며 옆으로 밀림 - 마찰력이 있을 때: 공의 속도와 튀는 높이가
+<strong>서서히 줄어듦</strong> - 속도가 매우 작아지면 임계값 처리로
+떨림을 억제 - 다만 중력과 바람이 계속 적용되면 완전 정지가 아니라 다시
+힘을 받을 수 있음</p>
+<p>마찰력이 없으면 한 번 힘을 받은 물체는 계속 움직이려 합니다(뉴턴
+제1법칙). 마찰력이 있어야 자연스럽게 감속합니다. <strong>완전한 정지처럼
+보이게 하려면</strong> 작은 속도를 0으로 고정하는 임계값 처리가
+필요합니다.</p>
+<h3 id="step-3-3.-마찰계수-실험">Step 3-3. 마찰계수 실험</h3>
+<p>마찰계수 <code>c</code>를 조절하면 표면 조건이 달라진 것처럼
+보입니다. <strong><code>c</code> 값 한 줄만 변경하면
+됩니다.</strong></p>
+<figure class="lecture-figure">
+<img src="assets/10week/08-friction-coefficients-surfaces.png"
+alt="08 friction coefficients surfaces" />
+<figcaption aria-hidden="true">08 friction coefficients
+surfaces</figcaption>
+</figure>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// try: 0.01 ice, 0.05 floor, 0.1 sand, 0.3 mud</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> c <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span></span></code></pre></div>
+<p>마찰력 계산 코드는 그대로 두고 <code>c</code> 값만 바꿉니다.
+<code>c</code>가 커질수록 더 빨리 멈춥니다.</p>
+<p><strong>보너스 — 키보드로 표면 전환하기.</strong>
+<code>keyPressed()</code>를 사용하면 1·2·3·4 키로 마찰계수를 바꿀 수
+있습니다.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 보너스: 1·2·3·4 키로 표면 전환</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> frictionC <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span>  <span class="co">// 전역 변수로 두고 draw()에서 사용</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;1&#39;</span>) frictionC <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span>  <span class="co">// 아이스링크</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;2&#39;</span>) frictionC <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span>  <span class="co">// 바닥</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;3&#39;</span>) frictionC <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span>   <span class="co">// 모래</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;4&#39;</span>) frictionC <span class="op">=</span> <span class="fl">0.3</span><span class="op">;</span>   <span class="co">// 진흙</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이 값을 이후에 정의할 <code>mover.applyFriction(frictionC)</code>에
+연결하면, 키를 누를 때마다 표면 재질이 전환됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>마찰력의 방향이 항상 <code>vel</code>의 반대인 이유는?</p>
+<p><em>답: 어느 방향으로 진행하든 속도를 줄이는 것이 마찰의 역할이기
+때문입니다. 브레이크가 항상 진행 방향의 반대로 작용하는 것과 같은
+원리입니다.</em></p>
+</div>
+<hr />
+<h2 id="심화-개념-4-applyfriction-메서드화-마우스-인터랙션">💡 심화 개념
+4 — applyFriction() 메서드화 + 마우스 인터랙션</h2>
+<p>draw() 안에 마찰력 4줄이 들어 있어 코드가 다소 산만해졌습니다.
+7주차에서 배운 것처럼, 복잡한 로직은 <strong>메서드 안으로
+옮기면</strong> 읽기 좋아집니다.</p>
+<h3 id="mover-클래스에-applyfriction-메서드-추가"><code>Mover</code>
+클래스에 applyFriction() 메서드 추가</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">applyFriction</span>(c) {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">mag</span>() <span class="op">&lt;</span> c) {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  friction<span class="op">.</span><span class="fu">mult</span>(c)<span class="op">;</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">this</span><span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>마찰계수 <code>c</code>를 매개변수로 받아 내부에서 마찰력 벡터를
+만들고, <code>this.applyForce(friction)</code>로 <strong>자기
+자신에게</strong> 힘을 적용합니다. 메서드 안에서 다른 메서드를 호출하는
+구조이며, 7주차에서 배운 <code>this</code>가 다시 등장합니다.</p>
+<p>앞부분의 <code>if (this.vel.mag() &lt; c)</code>는 작은 속도에서
+방향이 계속 반전되며 떨리는 현상을 방지하는 정지 처리입니다.</p>
+<p>앞서 풀이한 4줄을 메서드 안에 그대로 넣은 형태입니다. 새 로직을
+추가한 것이 아니라 <strong>메서드로 묶은 것</strong>입니다.</p>
+<h3 id="draw-코드가-간결해짐">draw() 코드가 간결해짐</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.05</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyFriction</span>(frictionC)<span class="op">;</span> <span class="co">// 마찰력 (위 keyPressed 예제의 전역값)</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span>      <span class="co">// 중력</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span>         <span class="co">// 바람</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>마찰력 4줄이 <code>mover.applyFriction(frictionC)</code> <strong>한
+줄</strong>로 축약되었습니다.</p>
+<p>코드를 읽어 보면 ’mover에 마찰력을 적용하고, 중력을 적용하고, 바람을
+적용하고, 업데이트하고, 가장자리를 처리하고, 표시한다’와 같이 자연스러운
+문장처럼 읽힙니다. 이것이 7주차에서 배운 OOP의 장점입니다.</p>
+<h3 id="마우스-인터랙션-클릭-시-마우스-방향으로-끌어당기기">마우스
+인터랙션 — 클릭 시 마우스 방향으로 끌어당기기</h3>
+<p>9주차 <code>sub()</code>를 복습할 겸, 클릭하면 모든 공이
+<strong>마우스 위치를 향해 한 번 끌리는</strong> 인터랙션을
+추가합니다.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 9주차 sub: 도착(마우스) - 출발(공)</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> dir <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(<span class="fu">createVector</span>(mouseX<span class="op">,</span> mouseY)<span class="op">,</span> mover<span class="op">.</span><span class="at">pos</span>)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>    dir<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    dir<span class="op">.</span><span class="fu">mult</span>(<span class="dv">2</span>)<span class="op">;</span>  <span class="co">// 한 번에 가하는 충격(impulse)의 크기</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(dir)<span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>9주차 벡터 연산이 그대로 사용됩니다. <code>sub()</code>로 방향을
+구하고 → <code>normalize()</code>로 방향만 남기고 →
+<code>mult()</code>로 크기를 설정한 뒤 → <code>applyForce()</code>로
+힘을 적용합니다. <strong>9주차에서 배운 <code>sub()</code>의 도착·출발
+순서</strong>에도 유의합시다 — <code>sub(도착, 출발)</code>
+형태입니다.</p>
+<p>클릭할 때마다 모든 공이 마우스 쪽으로 한 번씩 밀려 이동합니다. 가벼운
+공은 많이, 무거운 공은 적게 밀립니다 — 질량 차이가 이 인터랙션에서도
+드러납니다.</p>
+<hr />
+<h2 id="응용-예제">응용 예제</h2>
+<p>지금까지 구축한 <code>Mover</code> 클래스를 활용해 실제 작품에 가까운
+결과물을 만들 수 있습니다. 세 가지 사례를 살펴봅니다.</p>
+<h3 id="사례-1-질량이-다른-공-10개-중력-바람-마찰력">사례 1: 질량이 다른
+공 10개 — 중력 + 바람 + 마찰력</h3>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">5</span>)))<span class="op">;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.02</span>)<span class="op">;</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> dir <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(<span class="fu">createVector</span>(mouseX<span class="op">,</span> mouseY)<span class="op">,</span> mover<span class="op">.</span><span class="at">pos</span>)<span class="op">;</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>    dir<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>    dir<span class="op">.</span><span class="fu">mult</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(dir)<span class="op">;</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>공 10개가 각각 다른 질량을 가지고 중력·바람·마찰력을 받습니다. 큰
+공은 무게감 있게 천천히, 작은 공은 가볍게 빠르게 움직입니다. 마우스를
+클릭하면 모든 공이 마우스 쪽으로 한 번씩 끌리며, 가벼운 공이 더 많이
+밀립니다.</p>
+<p>지금까지 배운 내용이 한 화면에 모두 담겨 있습니다 — 9주차 벡터 +
+<code>applyForce</code> + 질량 + 마찰력 + 마우스 인터랙션.</p>
+<h3 id="사례-2-인터랙티브-만유인력-마우스를-향한-끌림">사례 2:
+인터랙티브 만유인력 — 마우스를 향한 끌림</h3>
+<p>이번에는 클릭이 아니라 <strong>항상</strong> 마우스 쪽으로 끌어당기는
+힘을 적용합니다.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">15</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">4</span>)))<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">30</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 잔상 효과 (5주차 복습)</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 마우스를 향한 인력(끌림) — 매 프레임 갱신</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> attraction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">createVector</span>(mouseX<span class="op">,</span> mouseY)<span class="op">,</span></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>      mover<span class="op">.</span><span class="at">pos</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>    )<span class="op">;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>    attraction<span class="op">.</span><span class="fu">setMag</span>(<span class="fl">0.5</span>)<span class="op">;</span>  <span class="co">// 크기를 0.5로 고정</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(attraction)<span class="op">;</span></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.02</span>)<span class="op">;</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 시각 효과: 밝은 색 원</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mover<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> mover<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> mover<span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/10week/04-attraction-mouse.png"
+alt="04 attraction mouse" />
+<figcaption aria-hidden="true">04 attraction mouse</figcaption>
+</figure>
+<p>마우스를 움직이면 모든 공이 마우스를 <strong>따라옵니다</strong>.
+<code>p5.Vector.sub()</code>로 마우스 방향을 구하고,
+<code>setMag(0.5)</code>로 힘의 크기를 일정하게 유지합니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">
+setMag란?
+</div>
+<p><code>setMag()</code>는 9주차에서 다루지 않은 메서드로, 간단히
+설명하면 <code>normalize()</code> + <code>mult()</code> 두 단계를 합친
+형태입니다. ‘벡터의 크기를 X로 맞춘다’는 의미입니다.
+여기서는’<code>setMag(0.5)</code>가 방향은 유지하되 크기를 0.5로
+맞춘다’는 정도로 이해하면 충분합니다.</p>
+</div>
+<p>마찰력이 있으므로 마우스 주변에서 서서히 모이고, 마우스를 움직이면
+부드럽게 따라옵니다. 이는 Nature of Code 2장 후반부의
+<strong>만유인력</strong> 개념을 단순화한 버전입니다. 인터랙티브 설치
+작품에서 ‘관객을 따라가는 파티클’ 효과를 이러한 방식으로 구현합니다.</p>
+<h3 id="사례-3-비-내리는-풍경-미리보기-3교시-방향-b-예고">사례 3: 비
+내리는 풍경 미리보기 (3교시 방향 B 예고)</h3>
+<p>3교시에서 직접 만들 ’비 내리는 풍경’의 미리보기 형태입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/10-rain-world-preview.png"
+alt="10 rain world preview" />
+<figcaption aria-hidden="true">10 rain world preview</figcaption>
+</figure>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> drops <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">80</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    drops<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span> <span class="fu">random</span>(<span class="fl">0.5</span><span class="op">,</span> <span class="dv">2</span>)))<span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">40</span><span class="op">,</span> <span class="dv">45</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span>)<span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.02</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> drop <span class="kw">of</span> drops) {</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 화면 아래로 나가면 위에서 다시 시작 (래핑)</span></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>      drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a>      drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="fu">random</span>(width)<span class="op">;</span></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>      drop<span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>))<span class="op">;</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width) drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 빗방울처럼 보이게: 가는 선</span></span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">150</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">strokeWeight</span>(<span class="fu">map</span>(drop<span class="op">.</span><span class="at">mass</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">line</span>(drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">+</span> drop<span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*</span> <span class="dv">2</span><span class="op">,</span> drop<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">+</span> drop<span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">*</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>80개의 빗방울이 중력과 바람을 받으며 떨어집니다. 큰 빗방울은 굵은 선,
+작은 빗방울은 가는 선으로 표현됩니다. 화면 밖으로 나가면 위에서 다시
+떨어지는 형태로 반복됩니다. <strong>방향 B를 선택한다면 이 코드를
+출발점으로 삼아도 좋습니다.</strong></p>
+<hr />
+<h2 id="교시-실습-안내">3교시 실습 안내</h2>
+<h3 id="실습-과제-힘으로-움직이는-물리-세계">실습 과제: ‘힘으로 움직이는
+물리 세계’</h3>
+<p>1·2교시에서 배운 <code>applyForce</code> 패턴과 물리 개념을 활용해
+<strong>여러 물체에 다양한 힘이 작용하는 인터랙티브 물리 세계</strong>를
+구현합니다.</p>
+<h3 id="세-가지-방향-난이도-표시">세 가지 방향 (난이도 표시)</h3>
+<p>세 방향 중 하나를 선택해 시작합시다. 아래 이미지는 각 방향의 결과와
+필요한 힘을 한눈에 비교한 미리보기입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/09-practice-directions-preview.png"
+alt="09 practice directions preview" />
+<figcaption aria-hidden="true">09 practice directions
+preview</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+어디서부터 시작할지
+</div>
+<p><strong>힘과 패턴이 처음이라면 방향 A부터</strong> 시작합니다. 1교시
+내용(applyForce + 중력)만으로 완성할 수 있습니다. B, C는 2교시
+내용(질량·바람·마찰력)이 추가로 필요합니다.</p>
+</div>
+<p>어떤 방향을 선택하든 클래스 + 벡터 + <code>applyForce</code> + 다중
+객체라는 구조는 동일합니다.</p>
+<h3 id="필수-요구사항">필수 요구사항</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 43%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>요구사항</th>
+<th>관련 개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>Mover</code> 클래스에 <code>applyForce()</code> 메서드
+포함</td>
+<td>1교시: applyForce 패턴</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>2가지 이상의 힘</strong> 적용 (중력, 바람, 마찰력 중)</td>
+<td>1·2교시: 힘의 종류</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>질량이 다른</strong> 객체 5개 이상 동시 관리</td>
+<td>2교시: 질량과 배열</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>인터랙션 1개 이상</strong> (마우스/키보드)</td>
+<td>2교시: 인터랙션</td>
+</tr>
+</tbody>
+</table></div>
+<p>이 4가지를 충족하면 1·2교시 핵심을 모두 활용한 결과물이 됩니다.</p>
+<h3 id="시작-힌트">시작 힌트</h3>
+<p>어디서부터 시작할지 모르겠다면 <strong>2교시 사례 1 코드를 복사해
+시작합시다.</strong> 거기서 색상을 바꾸거나, 바람 방향을 변경하거나,
+마우스 인터랙션을 다르게 구성하는 식으로 발전시킬 수 있습니다. 처음부터
+모두 만들 필요는 없습니다. <strong>변형</strong>이 더 빠른
+경로입니다.</p>
+<hr />
+<h2 id="흔한-실수-3가지-12교시-통합">흔한 실수 3가지 (1·2교시 통합)</h2>
+<div class="callout callout-warning">
+<div class="callout-title">
+자주 발생하는 오류
+</div>
+<p>실습 중 자주 마주치는 오류 패턴입니다. 아래 표에서 원인과 수정 방법을
+확인합니다.</p>
+</div>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>증상</th>
+<th>원인</th>
+<th>수정 방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>공의 속도가 점점 빨라지다 화면 밖으로 사라짐</td>
+<td><code>update()</code> 끝의 <code>this.acc.set(0, 0)</code> 누락 → 매
+프레임 가속도 누적</td>
+<td><code>update()</code> 마지막 줄에 <code>this.acc.set(0, 0)</code>을
+추가합니다. 매 프레임 장부를 초기화하는 코드입니다</td>
+</tr>
+<tr>
+<td>2</td>
+<td>모든 공이 동일하게 움직임 (질량 차이 무시)</td>
+<td><code>constructor</code>에서 <code>this.mass = mass</code>를
+누락했거나, 모든 객체에 같은 <code>mass</code>(예: 1)를 부여</td>
+<td>클래스에 <code>this.mass = mass</code>가 있는지 확인하고,
+<code>new Mover(x, y, random(1, 5))</code>처럼 <code>mass</code>를
+무작위로 부여</td>
+</tr>
+<tr>
+<td>3</td>
+<td>“Cannot read properties of undefined” 또는 NaN으로 화면이 비어
+보임</td>
+<td><code>force.div(this.mass)</code>처럼 인스턴스 메서드를 사용해
+<code>force</code> 원본이 손상되거나, <code>mass = 0</code>으로 분모가
+0이 됨</td>
+<td><code>p5.Vector.div(force, this.mass)</code> 정적 메서드를 사용하고,
+<code>mass</code>에 0을 부여하지 않음 (최소 0.1)</td>
+</tr>
+</tbody>
+</table>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-3"><a href="#짧은-9주차-벡터-복습-오늘-사용할-도구">짧은 9주차 벡터 복습 — 오늘 사용할 도구</a></li><li class="toc-level-2"><a href="#심화-개념-1-바람-추가-여러-힘의-누적">심화 개념 1 — 바람 추가: 여러 힘의 누적</a></li><li class="toc-level-3"><a href="#step-1.-출발점-1교시-마지막-코드-중력만">Step 1. 출발점 — 1교시 마지막 코드 (중력만)</a></li><li class="toc-level-3"><a href="#step-2.-바람-벡터-만들기">Step 2. 바람 벡터 만들기</a></li><li class="toc-level-3"><a href="#step-3.-바람-적용-applyforce-한-줄-추가">Step 3. 바람 적용 — applyForce() 한 줄 추가</a></li><li class="toc-level-3"><a href="#마우스-클릭으로-바람-방향-전환">마우스 클릭으로 바람 방향 전환</a></li><li class="toc-level-2"><a href="#심화-개념-2-질량mass에-따른-차이">심화 개념 2 — 질량(mass)에 따른 차이</a></li><li class="toc-level-3"><a href="#step-1.-constructor에-mass-매개변수-추가">Step 1. constructor에 mass 매개변수 추가</a></li><li class="toc-level-3"><a href="#step-2.-질량이-다른-객체-여러-개-만들기">Step 2. 질량이 다른 객체 여러 개 만들기</a></li><li class="toc-level-3"><a href="#한-줄-메모-현실-중력은-다르다">한 줄 메모 — 현실 중력은 다르다</a></li><li class="toc-level-3"><a href="#이미지로-비교-mass1-vs-mass5">이미지로 비교 — mass=1 vs mass=5</a></li><li class="toc-level-2"><a href="#심화-개념-3-마찰력-브레이크-비유로-풀이">심화 개념 3 — 마찰력: ‘브레이크’ 비유로 풀이</a></li><li class="toc-level-3"><a href="#step-3-1.-비유로-시작-마찰력은-브레이크">Step 3-1. 비유로 시작 — 마찰력은 ‘브레이크’</a></li><li class="toc-level-3"><a href="#step-3-2.-코드로-옮기기-한-줄씩-빌드업">Step 3-2. 코드로 옮기기 — 한 줄씩 빌드업</a></li><li class="toc-level-3"><a href="#draw에-마찰력-적용-합쳐-보기">draw()에 마찰력 적용 — 합쳐 보기</a></li><li class="toc-level-3"><a href="#step-3-3.-마찰계수-실험">Step 3-3. 마찰계수 실험</a></li><li class="toc-level-2"><a href="#심화-개념-4-applyfriction-메서드화-마우스-인터랙션">심화 개념 4 — applyFriction() 메서드화 + 마우스 인터랙션</a></li><li class="toc-level-3"><a href="#mover-클래스에-applyfriction-메서드-추가">Mover 클래스에 applyFriction() 메서드 추가</a></li><li class="toc-level-3"><a href="#draw-코드가-간결해짐">draw() 코드가 간결해짐</a></li><li class="toc-level-3"><a href="#마우스-인터랙션-클릭-시-마우스-방향으로-끌어당기기">마우스 인터랙션 — 클릭 시 마우스 방향으로 끌어당기기</a></li><li class="toc-level-2"><a href="#응용-예제">응용 예제</a></li><li class="toc-level-3"><a href="#사례-1-질량이-다른-공-10개-중력-바람-마찰력">사례 1: 질량이 다른 공 10개 — 중력 + 바람 + 마찰력</a></li><li class="toc-level-3"><a href="#사례-2-인터랙티브-만유인력-마우스를-향한-끌림">사례 2: 인터랙티브 만유인력 — 마우스를 향한 끌림</a></li><li class="toc-level-3"><a href="#사례-3-비-내리는-풍경-미리보기-3교시-방향-b-예고">사례 3: 비 내리는 풍경 미리보기 (3교시 방향 B 예고)</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-과제-힘으로-움직이는-물리-세계">실습 과제: ‘힘으로 움직이는 물리 세계’</a></li><li class="toc-level-3"><a href="#세-가지-방향-난이도-표시">세 가지 방향 (난이도 표시)</a></li><li class="toc-level-3"><a href="#필수-요구사항">필수 요구사항</a></li><li class="toc-level-3"><a href="#시작-힌트">시작 힌트</a></li><li class="toc-level-2"><a href="#흔한-실수-3가지-12교시-통합">흔한 실수 3가지 (1·2교시 통합)</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

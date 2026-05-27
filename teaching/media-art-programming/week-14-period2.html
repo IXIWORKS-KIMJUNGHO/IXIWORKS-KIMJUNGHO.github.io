@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14주차 2교시 — FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 14 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>14주차 2교시 — FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내</h1>
+        <p class="lead">Sound, Media, and Final Project 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 14</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">14주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-fft-주파수-분석-이미지영상-기말-프로젝트-안내">14주차
+2교시 — FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-14-outline <strong>이전
+교시</strong>: <a
+href="week-14-period1.html">week-14-period1-student</a> (사운드
+로드·재생·Amplitude·마이크) <strong>다음 교시</strong>: <a
+href="week-14-period3.html">week-14-period3-student</a> (사운드 비주얼
+실습 + 기말 구상)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공, 1교시 Amplitude·마이크 학습 완료)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>P5.js Web Editor, p5.sound (FFT), <code>loadImage</code>,
+<code>createCapture</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>p5.FFT</code>로 주파수 스펙트럼을 분석하고 이퀄라이저를
+만들 수 있습니다</li>
+<li>✅ <code>loadImage()</code>·<code>createCapture()</code>로
+이미지·웹캠을 통합할 수 있습니다</li>
+<li>✅ 사운드+파티클 결합 패턴으로 1교시 도입의 약속을 회수합니다</li>
+<li>✅ 기말 프로젝트의 제출물·일정·평가 기준을 이해할 수 있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<div class="callout callout-question">
+<div class="callout-title">
+복습 질문
+</div>
+<ol type="1">
+<li>사운드 파일을 로드할 때 사용하는 함수는? →
+<strong><code>loadSound()</code></strong></li>
+<li>사운드를 <code>preload()</code>에 넣는 이유는? → <strong>용량이
+크니까 <code>setup()</code> 전에 완전히 로드해야 해서</strong></li>
+<li>브라우저에서 소리가 안 나올 때 해결 방법은? →
+<strong><code>userStartAudio()</code> + 클릭</strong></li>
+<li><code>amp.getLevel()</code>은 어떤 값을 돌려주나? →
+<strong><code>0~1</code> 사이의 음량</strong></li>
+</ol>
+</div>
+<p>핵심 5번에서 마이크 입력도 다뤘습니다.
+<strong><code>setInput()</code> 한 줄로 같은 Amplitude 패턴</strong>이
+파일/마이크 둘 다 통한다는 점이 핵심입니다.</p>
+<p><strong>1교시 → 2교시 연결</strong></p>
+<p>1교시는 <strong>전체 음량</strong> 분석이었습니다. 숫자 하나 — 지금
+이 순간 전체적으로 얼마나 큰지. 음악에는 <strong>저음(베이스 드럼,
+쿵쿵)</strong>, <strong>중음(보컬, 기타)</strong>, <strong>고음(심벌,
+찌이잉)</strong>이 있습니다. 이걸 따로 분석하면 훨씬 풍부한 비주얼이
+가능합니다.</p>
+<p>2교시는 <strong>FFT(주파수 분석)</strong> → <strong>이미지·웹캠
+통합</strong> → <strong>사운드+파티클 통합 사례</strong> → <strong>기말
+프로젝트 안내</strong> 순서로 진행합니다.</p>
+<hr />
+<h2 id="심화-개념-1-p5.fft로-주파수-스펙트럼-분석">💡 심화 개념 1 —
+<code>p5.FFT</code>로 주파수 스펙트럼 분석</h2>
+<p><strong>FFT란? (개념만 간단히)</strong></p>
+<p>FFT — Fast Fourier Transform. 수학적으로는 복잡하지만, 수학을 몰라도
+됩니다. P5.js가 다 해줍니다.</p>
+<p><strong>이퀄라이저(EQ)</strong> 보신 적 있으면 떠올려 보세요. 음악
+앱이나 스피커에 있는 막대 그래프. 저음 막대가 쿵쿵 움직이고, 고음 막대가
+찌이잉 움직이고. FFT가 바로 그것입니다. 소리를 <strong>주파수별로
+분해</strong>해서 지금 이 순간 저음·중음·고음이 각각 얼마인지 숫자로
+알려줍니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>1교시 <code>p5.Amplitude</code></th>
+<th>2교시 <code>p5.FFT</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>소리의 <strong>전체 크기</strong></td>
+<td>소리의 <strong>주파수별 크기</strong></td>
+</tr>
+<tr>
+<td>숫자 1개 (<code>0~1</code>)</td>
+<td>숫자 1024개 (배열, 각 <code>0~255</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<p>6주차에서 배운 <strong>배열</strong>이 여기서 쓰입니다. 1024개의
+숫자가 담긴 배열입니다.</p>
+<p><strong>기본 사용법 — 이퀄라이저 바 차트</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> fft<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span> <span class="co">// 3주차 HSB 색상</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  fft <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">FFT</span>()<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> spectrum <span class="op">=</span> fft<span class="op">.</span><span class="fu">analyze</span>()<span class="op">;</span> <span class="co">// 배열 (길이 1024)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> spectrum<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 인덱스 → x 위치</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> spectrum<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width)<span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 값(0~255) → 막대 높이</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> h <span class="op">=</span> <span class="fu">map</span>(spectrum[i]<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 인덱스 → 색상 (저주파=빨강, 고주파=보라)</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> spectrum<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(x<span class="op">,</span> height <span class="op">-</span> h<span class="op">,</span> width <span class="op">/</span> spectrum<span class="op">.</span><span class="at">length</span><span class="op">,</span> h)<span class="op">;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>코드 한 줄씩.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>코드</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>colorMode(HSB, 255)</code></td>
+<td>3주차 HSB 색상 모드</td>
+</tr>
+<tr>
+<td><code>fft = new p5.FFT()</code></td>
+<td>FFT 분석기 생성</td>
+</tr>
+<tr>
+<td><code>let spectrum = fft.analyze()</code></td>
+<td><strong>1024개 주파수 대역 에너지를 배열로 반환</strong> (각 값
+<code>0~255</code>)</td>
+</tr>
+<tr>
+<td><code>map(i, 0, spectrum.length, 0, width)</code></td>
+<td>배열 인덱스 → x 좌표</td>
+</tr>
+<tr>
+<td><code>map(spectrum[i], 0, 255, 0, height)</code></td>
+<td>에너지 값 → 막대 높이</td>
+</tr>
+<tr>
+<td><code>fill(map(i, 0, spectrum.length, 0, 255), 255, 255)</code></td>
+<td>HSB의 Hue만 변화 → 무지개 색</td>
+</tr>
+<tr>
+<td><code>rect(x, height - h, width/spectrum.length, h)</code></td>
+<td>아래에서 위로 자라는 막대</td>
+</tr>
+</tbody>
+</table></div>
+<p>3주차 <code>for</code>문 + 5주차 <code>map()</code> + 2주차
+<code>rect()</code> + 3주차 <code>colorMode(HSB)</code>. 지금까지 배운
+것들이 전부 동원됩니다.</p>
+<p>배열의 <strong>앞쪽(인덱스 0~100)이 저주파</strong>(베이스),
+<strong>뒤쪽(인덱스 900~1023)이 고주파</strong>(심벌)입니다. 그래서 왼쪽
+막대가 베이스에 반응하고, 오른쪽이 고음에 반응합니다.</p>
+<p>실행하면 이퀄라이저 바 차트가 실시간으로 움직이고, 저음이 강한
+구간에서는 왼쪽 빨간 막대가 높아지며, 고음이 강한 구간에서는 오른쪽
+보라색 막대가 높아집니다.</p>
+<p><strong>에너지 밴드 추출 — <code>getEnergy()</code> (더 직관적인
+방법)</strong></p>
+<p>1024개를 전부 다루기 부담스러우면, p5.sound가 미리 나눠놓은 밴드를 쓸
+수 있습니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(RGB<span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span> <span class="co">// 앞선 HSB 예제와 이어 작성할 때 색상 기준 복귀</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  fft<span class="op">.</span><span class="fu">analyze</span>()<span class="op">;</span> <span class="co">// 반드시 먼저 호출!</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> bass <span class="op">=</span> fft<span class="op">.</span><span class="fu">getEnergy</span>(<span class="st">&quot;bass&quot;</span>)<span class="op">;</span>       <span class="co">// 저음 (0~255)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> mid <span class="op">=</span> fft<span class="op">.</span><span class="fu">getEnergy</span>(<span class="st">&quot;mid&quot;</span>)<span class="op">;</span>         <span class="co">// 중음 (0~255)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> treble <span class="op">=</span> fft<span class="op">.</span><span class="fu">getEnergy</span>(<span class="st">&quot;treble&quot;</span>)<span class="op">;</span>   <span class="co">// 고음 (0~255)</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 저음 → 빨간 원</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> bassSize <span class="op">=</span> <span class="fu">map</span>(bass<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">100</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> bassSize<span class="op">,</span> bassSize)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 중음 → 초록 사각형</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> midSize <span class="op">=</span> <span class="fu">map</span>(mid<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rectMode</span>(CENTER)<span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">200</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> midSize<span class="op">,</span> midSize)<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 고음 → 파란 삼각형</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> trebleSize <span class="op">=</span> <span class="fu">map</span>(treble<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">triangle</span>(</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="dv">300</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span> <span class="op">-</span> trebleSize <span class="op">/</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="dv">300</span> <span class="op">-</span> trebleSize <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> trebleSize <span class="op">/</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="dv">300</span> <span class="op">+</span> trebleSize <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> trebleSize <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>저음 → 큰 빨간 원, 중음 → 초록 사각형, 고음 → 파란
+삼각형.</strong> 각각 독립적으로 반응합니다.</p>
+<p><code>getEnergy()</code>에 넣을 수 있는 밴드.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>밴드</th>
+<th>주파수 범위</th>
+<th>대응하는 소리</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"bass"</code></td>
+<td>20-140 Hz</td>
+<td>베이스 드럼, 베이스 기타</td>
+</tr>
+<tr>
+<td><code>"lowMid"</code></td>
+<td>140-400 Hz</td>
+<td>보컬 낮은 음역</td>
+</tr>
+<tr>
+<td><code>"mid"</code></td>
+<td>400-2600 Hz</td>
+<td>보컬, 기타 멜로디</td>
+</tr>
+<tr>
+<td><code>"highMid"</code></td>
+<td>2600-5200 Hz</td>
+<td>보컬 높은 음역</td>
+</tr>
+<tr>
+<td><code>"treble"</code></td>
+<td>5200-14000 Hz</td>
+<td>심벌, 하이햇</td>
+</tr>
+</tbody>
+</table></div>
+<p>전부 쓸 필요는 없습니다. 보통 <code>bass</code>, <code>mid</code>,
+<code>treble</code> 세 개면 충분합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>1교시의 <code>p5.Amplitude</code>와 2교시의 <code>p5.FFT</code>는
+어떤 차이가 있나요?</p>
+<p><strong>답</strong>: Amplitude는 전체 음량 숫자 하나, FFT는
+주파수별로 나눠 분석.</p>
+</div>
+<hr />
+<h2 id="심화-개념-2-이미지-활용-loadimage">💡 심화 개념 2 — 이미지 활용:
+<code>loadImage()</code></h2>
+<p>사운드 다음으로, 이미지를 P5.js에 가져오는 방법입니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> img<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  img <span class="op">=</span> <span class="fu">loadImage</span>(<span class="st">&#39;assets/photo.jpg&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(img<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>11주차 <code>preload()</code> 패턴과 완전히 같습니다.
+<code>loadJSON()</code> → <code>loadSound()</code> →
+<code>loadImage()</code>. 전부 같은 구조입니다.</p>
+<ul>
+<li><code>image(img, x, y)</code> — 원래 크기로 표시</li>
+<li><code>image(img, x, y, w, h)</code> — 지정한 크기로 표시</li>
+</ul>
+<p><strong><code>tint()</code>로 이미지 색조 변경</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tint</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>     <span class="co">// 빨간 틴트</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(img<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tint</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span>      <span class="co">// 반투명 (알파값)</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(img<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>사운드 + 이미지 결합 — 음량에 따라 이미지가 펄럭이는
+효과</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">,</span> amp<span class="op">,</span> img<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  img <span class="op">=</span> <span class="fu">loadImage</span>(<span class="st">&#39;assets/photo.jpg&#39;</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  amp <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">Amplitude</span>()<span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> s <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> alpha <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tint</span>(<span class="dv">255</span><span class="op">,</span> alpha)<span class="op">;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(img<span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span> <span class="op">-</span> s <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span> <span class="op">-</span> s <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> s<span class="op">,</span> s)<span class="op">;</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>음량이 크면 이미지가 커지고 선명해지고, 작으면 작아지고 투명해집니다.
+사진이 <strong>숨 쉬는 것처럼</strong> 펄럭거리는 효과입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+13주차 연결 — 이미지 파티클
+</div>
+<p>13주차 파티클 시스템의 <code>display()</code>에서
+<code>ellipse(this.position.x, this.position.y, 12)</code>를
+<code>image(img, this.position.x - 8, this.position.y - 8, 16, 16)</code>로
+교체하면, 작은 그림이 분수처럼 쏟아지는 <strong>이미지 파티클</strong>이
+됩니다. 13주차 2교시에서 예고했던 그것입니다. 기말에서 별·하트·로고
+이미지로 바꾸면 곧장 작품이 됩니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-3-웹캠-활용-createcapture">💡 심화 개념 3 — 웹캠 활용:
+<code>createCapture()</code></h2>
+<p>이미지는 정적인 파일이었는데, <strong>실시간 영상</strong>도 가져올
+수 있습니다. 바로 웹캠입니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> video<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  video <span class="op">=</span> <span class="fu">createCapture</span>(VIDEO)<span class="op">;</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  video<span class="op">.</span><span class="fu">size</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  video<span class="op">.</span><span class="fu">hide</span>()<span class="op">;</span> <span class="co">// 캔버스 밑에 별도로 표시되는 HTML 요소 숨기기</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(video<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 브라우저가 <strong>카메라 접근 권한</strong>을 묻습니다.
+’허용’을 눌러야 동작합니다.</p>
+<p><strong><code>video.hide()</code>가 필요한 이유</strong></p>
+<p><code>createCapture()</code>는 캔버스 외에 HTML
+<code>&lt;video&gt;</code> 요소를 하나 더 만듭니다.
+<code>video.hide()</code>를 안 넣으면 캔버스 밑에 영상이 하나 더
+보입니다. <code>hide()</code>로 숨기고 <code>draw()</code> 안에서
+<code>image()</code>로만 표시합니다.</p>
+<p><strong>웹캠 + 사운드 결합</strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">image</span>(video<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">300</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>웹캠 영상 위에 음량에 따라 도형을 오버레이하면 — 자기 모습 위에
+사운드 이펙트가 올라가는 <strong>인터랙티브 미디어아트</strong>가
+됩니다.</p>
+<hr />
+<h2 id="심화-개념-4-사운드파티클-통합-사례">💡 심화 개념 4 —
+사운드+파티클 통합 사례</h2>
+<p>1교시 도입에서 본 ‘음악에 반응하는 파티클’ 데모, 어떻게 만들어지는지
+풀어 봅니다. <strong>13주차 파티클 시스템 + 1교시 Amplitude의
+결합</strong>입니다.</p>
+<p>핵심 아이디어는 <strong>Emitter의 <code>addParticle()</code> 호출
+빈도를 음량에 비례</strong>시키는 것입니다. 13주차 Emitter는
+<code>run()</code> 안에서 <code>addParticle()</code>을 매 프레임 한 번
+부르는데, 이번 버전에서는 <code>run()</code> 안의 자동 생성 한 줄만
+빼고, 외부에서 음량만큼 <code>addParticle()</code>을 호출합니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Emitter {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ... 13주차와 동일: constructor, addParticle ...</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 13주차 run()에서 this.addParticle() 자동 호출만 제거</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">run</span>() {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">particles</span><span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">particles</span>[i]<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">particles</span>[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">particles</span>[i]<span class="op">.</span><span class="fu">isDead</span>()) {</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">particles</span><span class="op">.</span><span class="fu">splice</span>(i<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>draw()</code>는 음량에 비례해 파티클을 방출한 뒤,
+<code>run()</code>으로 업데이트·표시·소멸 처리를 이어갑니다.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">,</span> amp<span class="op">,</span> emitter<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">640</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  amp <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">Amplitude</span>()<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  emitter <span class="op">=</span> <span class="kw">new</span> <span class="fu">Emitter</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">25</span>)<span class="op">;</span> <span class="co">// 잔상 효과</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> count <span class="op">=</span> <span class="fu">floor</span>(<span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>))<span class="op">;</span> <span class="co">// 음량 비례 방출량</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> count<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>    emitter<span class="op">.</span><span class="fu">addParticle</span>()<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  emitter<span class="op">.</span><span class="fu">run</span>()<span class="op">;</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>비트가 강할 때 파티클이 폭발하듯 쏟아지고, 조용해지면 잦아드는 화면이
+나옵니다. 1교시 도입에서 본 그 데모가 이렇게 만들어진 것입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+베이스 추출로 더 인상적으로
+</div>
+<p><strong>베이스만 추출</strong>해서 파티클 크기·속도에 매핑하면 더
+인상적입니다 — <code>fft.getEnergy("bass")</code> (심화 1번에서 다룬
+그것).</p>
+</div>
+<p>기말 프로젝트의 가장 강력한 조합 중 하나 — <strong>사운드 리액티브
+파티클</strong>입니다. 13주차 + 14주차 두 주차 내용 결합의 모범 사례라,
+기말 평가 기준의 ’기술 2가지 이상 활용’이 자연스럽게 충족됩니다.</p>
+<hr />
+<h2 id="기말-프로젝트-안내">🏆 기말 프로젝트 안내</h2>
+<p><strong>1. 기말 프로젝트 개요</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>과제명</td>
+<td>인터랙티브 미디어 콘텐츠 제작</td>
+</tr>
+<tr>
+<td>비중</td>
+<td><strong>40%</strong> (학기 전체 성적의 가장 큰 부분)</td>
+</tr>
+<tr>
+<td>주제</td>
+<td>자유 (1~14주차 내용 활용)</td>
+</tr>
+<tr>
+<td>15주차</td>
+<td>프로젝트 작업 + <strong>1:1 피드백</strong></td>
+</tr>
+<tr>
+<td>16주차</td>
+<td><strong>최종 제출</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>제출물.</p>
+<ol type="1">
+<li><strong>P5.js 소스코드</strong> — Web Editor 링크 또는 파일</li>
+<li><strong>시연영상</strong> — 30초~1분 길이, 화면 녹화</li>
+</ol>
+<p>15주차에 개별 피드백 시간이 있습니다. <strong>완성하고 오지 않아도
+됩니다.</strong> 진행 중인 상태로 가져오면 같이 방향을 잡고 기술적
+도움을 드립니다. 16주차에 최종 제출 — 시연영상과 소스코드 두 개를
+제출합니다.</p>
+<p><strong>2. 주제 선정 가이드 — 1~14주차 총정리</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: center;">주차</th>
+<th>핵심 기술</th>
+<th>기말 활용 예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1-2</td>
+<td>setup/draw, 도형, 변수</td>
+<td>기본 캔버스 구성, 움직이는 도형</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td>색상(RGB/HSB), for문</td>
+<td>패턴 생성, 그라데이션, 반복 도형</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td>조건문, 마우스/키보드</td>
+<td>인터랙티브 반응, 상태 전환</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td>애니메이션, random, map</td>
+<td>움직임, 랜덤 효과, 값 매핑</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td>함수, 배열</td>
+<td>코드 구조화, 다수 요소 관리</td>
+</tr>
+<tr>
+<td style="text-align: center;">7</td>
+<td>클래스, 객체 배열</td>
+<td>독립 객체 설계, 대량 생성</td>
+</tr>
+<tr>
+<td style="text-align: center;">9</td>
+<td>벡터, 삼각함수</td>
+<td>물리 기반 움직임, 원운동</td>
+</tr>
+<tr>
+<td style="text-align: center;">10</td>
+<td>힘, 물리 시뮬레이션</td>
+<td>중력, 마찰, 바람 효과</td>
+</tr>
+<tr>
+<td style="text-align: center;">11</td>
+<td>JSON/CSV 데이터</td>
+<td>데이터 시각화</td>
+</tr>
+<tr>
+<td style="text-align: center;">12</td>
+<td>Perlin Noise, Flow Field</td>
+<td>유기적·자연스러운 움직임</td>
+</tr>
+<tr>
+<td style="text-align: center;">13</td>
+<td>파티클 시스템</td>
+<td>폭발·비·눈·불꽃 이펙트</td>
+</tr>
+<tr>
+<td style="text-align: center;">14</td>
+<td>사운드·이미지·웹캠</td>
+<td>멀티미디어 결합</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+권장
+</div>
+<p><strong>2가지 이상의 주차 내용을 결합</strong>하세요. 하나만 쓰면
+실습과제 수준입니다. 두 가지 이상을 조합해야 기말 프로젝트의 깊이가
+나옵니다.</p>
+</div>
+<p>주제 방향 예시.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>방향</th>
+<th>설명</th>
+<th>활용 주차</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. 사운드 리액티브 비주얼</td>
+<td>음악에 반응하는 파티클·도형·패턴</td>
+<td>14 + 13 + 3</td>
+</tr>
+<tr>
+<td>B. 인터랙티브 시뮬레이션</td>
+<td>물리 법칙 기반 놀이·작품</td>
+<td>9-10 + 4 + 7</td>
+</tr>
+<tr>
+<td>C. 데이터 아트</td>
+<td>데이터를 활용한 시각화 작품</td>
+<td>11 + 3 + 5</td>
+</tr>
+<tr>
+<td>D. 제너러티브 아트</td>
+<td>노이즈·알고리즘으로 생성되는 작품</td>
+<td>12 + 5 + 7</td>
+</tr>
+<tr>
+<td>E. 자유 주제</td>
+<td>위 내용을 자유롭게 조합</td>
+<td>자유</td>
+</tr>
+</tbody>
+</table></div>
+<p>A~D는 예시일 뿐입니다. 여기 없는 조합도 얼마든지 가능합니다. 핵심은
+<strong>본인이 흥미로운 주제</strong>를 찾는 것입니다.</p>
+<p><strong>3. 평가 기준</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th style="text-align: center;">비중</th>
+<th>세부 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>기술 구현</td>
+<td style="text-align: center;">40%</td>
+<td>수업에서 배운 기법 <strong>2가지 이상</strong> 활용</td>
+</tr>
+<tr>
+<td>인터랙션</td>
+<td style="text-align: center;">20%</td>
+<td>마우스·키보드·사운드 등 사용자 상호작용 포함</td>
+</tr>
+<tr>
+<td>작품성</td>
+<td style="text-align: center;">20%</td>
+<td>시각적 완성도, 컨셉의 일관성</td>
+</tr>
+<tr>
+<td>발표 자료</td>
+<td style="text-align: center;">20%</td>
+<td>시연영상 품질, 코드 정리 상태</td>
+</tr>
+</tbody>
+</table></div>
+<p>기술 구현이 40%로 가장 크지만, ’코드가 완벽해야 한다’는 뜻이
+아닙니다. <strong>수업에서 배운 기법을 실제로 활용했는지</strong>가
+중요합니다.</p>
+<p><strong>완벽한 코드보다 본인만의 아이디어</strong>가 중요합니다.
+기술적으로 완벽하지 않아도, 컨셉이 흥미롭고 직접 시도한 흔적이 보이면
+좋은 점수를 받을 수 있습니다.</p>
+<p>인터랙션 20% — 반드시 사용자가 무언가를 할 수 있어야 합니다. 그냥
+자동으로 돌아가는 영상이 아니라, 클릭·키보드·소리 등으로 작품에 관여할
+수 있어야 합니다.</p>
+<p>시연영상은 화면 녹화 30초~1분이면 됩니다. 별도 편집은 필요 없고,
+작품이 어떻게 동작하는지 보여주면 됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+15주차 마음가짐
+</div>
+<p><strong>완성 안 해도</strong> 됩니다. 진행 중인 상태로 가져오면 1:1
+피드백을 받을 수 있습니다. 방향이 안 잡혔어도 괜찮습니다. 핵심은
+<strong>다음 주에 무언가를 가져오는 것</strong>입니다.</p>
+</div>
+<hr />
+<h2 id="교시-실습-안내">🔥 3교시 실습 안내</h2>
+<p>3교시는 세 부분입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>파트</th>
+<th>시간</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Part A</td>
+<td>25분</td>
+<td>사운드 비주얼 실습 — 1~2교시 내용 직접 구현</td>
+</tr>
+<tr>
+<td>Part B</td>
+<td>15분</td>
+<td>기말 프로젝트 구상 — 주제·방향·기술 선정</td>
+</tr>
+<tr>
+<td>마무리</td>
+<td>5분</td>
+<td>저장 + 일정 재확인 + 학기 회고</td>
+</tr>
+</tbody>
+</table></div>
+<p>Part A는 세 가지 방향 중 하나를 골라 시작합니다.</p>
+<ul>
+<li><strong>방향 A</strong>: 음량 반응 비주얼
+(<code>p5.Amplitude</code>) — 가장 쉬움, 막막하면 여기서 시작</li>
+<li><strong>방향 B</strong>: 이퀄라이저 바 차트 (<code>p5.FFT</code> +
+<code>fft.analyze()</code>) — 중간 난이도</li>
+<li><strong>방향 C</strong>: 저음/중음/고음 분리 비주얼
+(<code>fft.getEnergy()</code>) — 도전</li>
+</ul>
+<p>먼저 A부터 시작하고, 잘 되면 B나 C로 넘어갑니다. 스타터 코드는
+3교시에서 받습니다. 사운드 파일은 강사가 준비한 샘플을 쓰거나, 자기
+곡(MP3, 30초~1분)을 가져와도 됩니다.</p>
+<p>Part B는 기말 주제를 구체적으로 구상하는 시간입니다. 종이에
+스케치하고, 쓸 기술을 정하고, 여유가 되면 프로토타입을 시작합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+시작 힌트
+</div>
+<p>Part A에서는 먼저 1교시 완성 코드를 복사해 붙여넣고, 거기서
+시작합니다. 코드가 돌아가는 상태에서 수정하는 게 가장 안전합니다.</p>
+</div>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-p5.fft로-주파수-스펙트럼-분석">심화 개념 1 — p5.FFT로 주파수 스펙트럼 분석</a></li><li class="toc-level-2"><a href="#심화-개념-2-이미지-활용-loadimage">심화 개념 2 — 이미지 활용: loadImage()</a></li><li class="toc-level-2"><a href="#심화-개념-3-웹캠-활용-createcapture">심화 개념 3 — 웹캠 활용: createCapture()</a></li><li class="toc-level-2"><a href="#심화-개념-4-사운드파티클-통합-사례">심화 개념 4 — 사운드+파티클 통합 사례</a></li><li class="toc-level-2"><a href="#기말-프로젝트-안내">기말 프로젝트 안내</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

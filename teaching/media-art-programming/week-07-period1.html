@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 1교시 — 왜 클래스가 필요한가 + class 기본 문법 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 07 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>7주차 1교시 — 왜 클래스가 필요한가 + class 기본 문법</h1>
+        <p class="lead">Classes and Objects 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 07</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">7주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">왜 클래스가 필요한가 + class 기본 문법</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-1교시-왜-클래스가-필요한가-class-기본-문법">7주차 1교시 —
+왜 클래스가 필요한가 + class 기본 문법</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-07-outline <strong>다음
+교시</strong>: <a
+href="week-07-period2.html">week-07-period2-student</a> (객체 배열과
+클래스 확장)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>P5.js Web Editor</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ 객체지향 프로그래밍(OOP)의 핵심 개념을 이해하고, 왜 클래스가
+필요한지 설명할 수 있습니다</li>
+<li>✅ <code>class</code> 문법(constructor, 프로퍼티, 메서드)을 사용하여
+독립적인 객체를 정의할 수 있습니다</li>
+<li>✅ 클래스로 바운싱 볼 객체를 만들고 화면에 표시할 수 있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="도입-배열의-한계-단계별-체험">도입 — “배열의 한계” 단계별
+체험</h2>
+<h3 id="공-1개를-변수로-관리하기">공 1개를 변수로 관리하기</h3>
+<p>6주차에서 공 하나를 움직이려면 변수가 6개 필요했습니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY<span class="op">,</span> size<span class="op">,</span> c<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  size <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  c <span class="op">=</span> <span class="fu">color</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(c)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> speedX<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> speedY<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width <span class="op">||</span> x <span class="op">&lt;</span> <span class="dv">0</span>) speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y <span class="op">&gt;</span> height <span class="op">||</span> y <span class="op">&lt;</span> <span class="dv">0</span>) speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>공 <strong>하나</strong>에 변수 <strong>6개</strong>입니다. x, y,
+speedX, speedY, size, c.</p>
+<p>공 <strong>3개</strong>를 만들려면 변수 <strong>18개</strong>가
+필요합니다.
+<code>x1, y1, speedX1, ..., x2, y2, speedX2, ..., x3, y3, speedX3, ...</code>처럼
+계속 늘어납니다. 그래서 6주차에서 <strong>배열</strong>을
+배웠습니다.</p>
+<h3 id="배열로-관리하면">배열로 관리하면?</h3>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig01-array-vs-class.png"
+alt="w07 fig01 array vs class" />
+<figcaption aria-hidden="true">w07 fig01 array vs class</figcaption>
+</figure>
+<p>배열을 쓰면 다음과 같이 됩니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> y <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedX <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedY <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> size <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> c <span class="op">=</span> []<span class="op">;</span></span></code></pre></div>
+<p>변수 18개 대신 배열 6개로 줄었습니다. 하지만 공마다
+<strong>투명도</strong>를 다르게 하려면 <code>let alpha = [];</code>,
+<strong>회전 각도</strong>를 주려면 <code>let angle = [];</code>,
+<strong>수명</strong>을 넣으려면 <code>let life = [];</code>처럼 배열이
+계속 늘어납니다.</p>
+<p>배열이 6개, 7개, 8개, 9개로 늘어나면 <code>x[i]</code>와
+<code>speedY[i]</code>가 같은 공의 데이터라는 사실을 <strong>코드만 보고
+바로 알기 어렵습니다.</strong></p>
+<p>이 문제를 해결하는 방법이 바로 오늘 배울
+<strong>클래스(class)</strong>입니다.</p>
+<h3 id="동기부여">동기부여</h3>
+<p>클래스는 <strong>설계도</strong>입니다. 공의 설계도를 한 번 만들면,
+그 설계도로 공을 100개든 1000개든 찍어낼 수 있습니다.</p>
+<p>미디어아트의 파티클 효과, 새떼 시뮬레이션, 인터랙티브 요소는 모두
+클래스로 표현할 수 있습니다. 후반부(9~14주차)에서 배울 벡터, 힘, 파티클
+시스템도 클래스 기반입니다. 오늘 내용은 이후 수업의
+<strong>기반</strong>입니다.</p>
+<hr />
+<h2 id="핵심-개념-1-설계도와-제품">💡 핵심 개념 1 — 설계도와 제품</h2>
+<h3 id="붕어빵-비유">붕어빵 비유</h3>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig02-blueprint-analogy.png"
+alt="w07 fig02 blueprint analogy" />
+<figcaption aria-hidden="true">w07 fig02 blueprint analogy</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>비유</th>
+<th>프로그래밍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>붕어빵 틀</td>
+<td><strong>클래스(class)</strong> — 설계도</td>
+</tr>
+<tr>
+<td>찍어낸 붕어빵</td>
+<td><strong>객체(object)</strong> — 설계도로 만든 실제 물건</td>
+</tr>
+<tr>
+<td>팥, 슈크림, 피자 속</td>
+<td>각 객체의 <strong>데이터</strong> — 위치, 크기, 색상</td>
+</tr>
+<tr>
+<td>먹는다, 따뜻하게 데운다</td>
+<td>객체의 <strong>동작</strong> — 이동, 그리기, 바운스</td>
+</tr>
+</tbody>
+</table></div>
+<p>틀은 하나지만 붕어빵은 여러 개 찍어낼 수 있습니다. 각 붕어빵은 팥,
+슈크림, 피자처럼 서로 다른 속을 가질 수 있습니다.</p>
+<p>프로그래밍으로 옮기면: <strong>클래스(class)</strong> = 설계도, 틀.
+<strong>객체(object)</strong> = 설계도로 찍어낸 실제 물건입니다.</p>
+<p>6주차에서 배열 6개로 흩어져 있던 데이터(x, y, speed…)를
+<strong>하나의 설계도 안에 묶는 것</strong>이 클래스입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>배열 코드에서 공 하나의 x좌표는 <code>x[i]</code>, 속도는
+<code>speedX[i]</code>로 따로 관리했습니다. 이걸 클래스로 바꾸면 어떻게
+될까요?</p>
+<p><strong>답</strong>: 하나의 Ball 객체 안에 x, speedX가 함께
+들어갑니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-2-class-기본-문법-점진적으로-만들기">💡 핵심 개념 2 —
+class 기본 문법: 점진적으로 만들기</h2>
+<p>공(Ball)의 설계도를 처음부터 <strong>한 줄씩</strong> 만들어
+보겠습니다.</p>
+<h3 id="step-a-빈-클래스-껍데기부터">Step A: 빈 클래스 — 껍데기부터</h3>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig03-class-syntax-anatomy.png"
+alt="w07 fig03 class syntax anatomy" />
+<figcaption aria-hidden="true">w07 fig03 class syntax
+anatomy</figcaption>
+</figure>
+<p>먼저 아무것도 없는 빈 설계도를 만들어 봅니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>가장 단순한 클래스는
+<strong><code>class Ball { }</code></strong>입니다. ’Ball이라는 설계도를
+만들겠다’는 뜻입니다.</p>
+<p>구조를 보면 <code>class 이름 { }</code> — 중괄호 <code>{ }</code>
+안에 설계도의 내용을 넣습니다. 지금은 비어 있으니까 아무 기능도 없는 빈
+설계도입니다.</p>
+<p>클래스 이름은 <strong>대문자로 시작</strong>하는 것이 관례입니다.
+<code>ball</code>이 아니라 <code>Ball</code>로 쓰면, 나중에
+<code>let ball = new Ball();</code>처럼 클래스(대문자)와 변수(소문자)를
+구분하기 쉽습니다.</p>
+<p>이 상태에서도 <code>let ball = new Ball();</code>로 객체를 만들 수
+있습니다. 다만 아직 데이터와 동작이 없는 빈 객체입니다.</p>
+<h3 id="step-b-constructor-추가-이-객체의-setup">Step B: constructor
+추가 — “이 객체의 setup()”</h3>
+<p>빈 설계도에 초기화 코드를 넣어 봅니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>() {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>constructor() { }</code>를 설계도 안에 넣었습니다.
+<strong>constructor</strong>는 객체가 만들어질 때 실행되는
+<strong>생성자</strong>입니다.</p>
+<p>P5.js에서 <code>setup()</code> 함수는 프로그램이 시작될 때 <strong>딱
+한 번</strong> 실행되는 함수입니다. <code>constructor()</code>도
+똑같습니다 — 객체가 만들어질 때 <strong>딱 한 번</strong> 실행되는
+함수입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>여러분이 아는 것</th>
+<th>오늘 배울 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>function setup() { }</code></td>
+<td><code>constructor() { }</code></td>
+</tr>
+<tr>
+<td>프로그램 시작 시 <strong>1번</strong> 실행</td>
+<td>객체 생성 시 <strong>1번</strong> 실행</td>
+</tr>
+<tr>
+<td>캔버스 크기, 초기값 설정</td>
+<td>이 공의 위치, 크기, 속도 설정</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 비유
+</div>
+<p><strong><code>constructor()</code> = 이 객체의
+<code>setup()</code></strong>입니다. 이 비유만 기억하면 됩니다.</p>
+</div>
+<p>6주차에서 함수에 매개변수를 넣었던 것처럼 constructor에도 똑같이 넣을
+수 있습니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 여기에 초기화 코드를 작성</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>constructor(x, y)</code> — 공을 만들 때 x좌표와 y좌표를
+받겠다는 뜻입니다. 6주차에서
+<code>function drawFlower(x, y) { }</code>에 매개변수를 넣은 것과
+<strong>같은 원리</strong>입니다.</p>
+<h3 id="step-c-this가-왜-필요한지-실패-체험">Step C: <code>this</code>가
+왜 필요한지 — 실패 체험</h3>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig04-this-drawer.png"
+alt="w07 fig04 this drawer" />
+<figcaption aria-hidden="true">w07 fig04 this drawer</figcaption>
+</figure>
+<p>constructor 안에 코드를 넣어 봅니다. <strong>일부러 틀린
+코드</strong>부터 살펴봅니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> x<span class="op">;</span>  <span class="co">// this 없이!</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball<span class="op">.</span><span class="at">x</span>)<span class="op">;</span>  <span class="co">// undefined ← 저장 안 됐음!</span></span></code></pre></div>
+<p>콘솔에 <code>undefined</code>가 나옵니다. ’정의되지 않았다’는
+뜻입니다. 200을 넣었는데 왜 그럴까요?</p>
+<p><code>x = x;</code>는 매개변수 x를 자기 자신에 대입한 코드입니다.
+<strong>공의 서랍에 값을 넣지 않습니다.</strong> 매개변수 x는
+constructor가 끝나면 사라집니다.</p>
+<p>이제 <code>this</code>를 붙여 봅니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span>   <span class="co">// ← this 붙임!</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball<span class="op">.</span><span class="at">x</span>)<span class="op">;</span>  <span class="co">// 200 ← 저장됐다!</span></span></code></pre></div>
+<p><code>this</code>를 붙이면 200이 출력됩니다.</p>
+<p><code>this</code>는 <strong>‘이 객체 자신’</strong>이라는
+뜻입니다.</p>
+<p>일상에서 자기소개할 때 ‘<strong>내</strong> 이름은 OO입니다’라고
+말하듯, 코드에서는 <code>this.name = 'OO'</code>라고 씁니다.
+<code>this</code>는’<strong>나 자신</strong>’입니다.</p>
+<p><code>this.x = x</code>는 ’<strong>이 공의</strong>
+x좌표(<code>this.x</code>)를 매개변수로 받은 값(<code>x</code>)으로
+설정한다’는 뜻입니다. <code>this</code>가 ’이 공의 서랍’을 열어주는
+열쇠입니다. <strong><code>this</code> 없으면 서랍에 저장이 안
+됩니다.</strong></p>
+<p><code>=</code> 기호 왼쪽의 <code>this.x</code>는 <strong>저장할
+장소</strong>(이 공의 서랍), 오른쪽의 <code>x</code>는 <strong>넣을
+값</strong>(밖에서 받아온 값)입니다. 이름이 헷갈리면 왼쪽은 저장 위치,
+오른쪽은 값으로 구분하세요.</p>
+<h3 id="step-d-고정값-프로퍼티-추가">Step D: 고정값 프로퍼티 추가</h3>
+<p>x, y는 매개변수로 받았습니다. 그런데 <strong>매번 같은 값</strong>인
+데이터는 어떻게 할까요? 예를 들어 공 크기를 항상 30으로 하고 싶다면
+다음과 같이 합니다.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span>    <span class="co">// ← 매개변수 없이 고정값!</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>this.size = 30;</code> — 매개변수로 받지 않고, 그냥 30을 직접
+넣었습니다. 모든 공이 처음에는 크기 30으로 만들어집니다.</p>
+<p>매개변수로 받을지, 고정값으로 둘지는 <strong>우리가
+정합니다</strong>. 위치는 공마다 다르게 하고 싶으므로 매개변수로 받고,
+크기는 같게 하고 싶으므로 고정값으로 둘 수 있습니다.</p>
+<p>이렇게 객체에 저장된 데이터 — <code>this.x</code>,
+<code>this.y</code>, <code>this.size</code> — 를 공식 용어로
+<strong>프로퍼티(property)</strong>라고 부릅니다. ’속성’이라는
+뜻입니다.</p>
+<h3 id="step-e-객체-만들기-new-키워드">Step E: 객체 만들기 —
+<code>new</code> 키워드</h3>
+<p>설계도가 완성되었으니, 이제 실제 공을 찍어 봅니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball2 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">250</span>)<span class="op">;</span></span></code></pre></div>
+<p><code>new Ball(200, 100)</code> — ‘<strong>Ball 설계도로 새 객체를
+만들어라</strong>. x는 200, y는 100으로.’</p>
+<p><code>new</code>는 설계도로 <strong>새 객체를 만드는
+동작</strong>입니다. <code>new</code>를 쓰면 constructor가 실행되고, 그
+안에서 <code>this.x = 200</code>, <code>this.y = 100</code>,
+<code>this.size = 30</code>이 설정됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/7week/w07-fig03-class-syntax-anatomy.png"
+alt="class syntax anatomy" />
+<figcaption aria-hidden="true">class syntax anatomy</figcaption>
+</figure>
+<p><code>ball1</code>과 <code>ball2</code>는 같은 설계도(Ball)에서
+나왔지만, <strong>서로 다른 위치</strong>를 가진 별개의 객체입니다.</p>
+<h3 id="step-f-데이터-확인하기-점.-표기법">Step F: 데이터 확인하기 —
+점(<code>.</code>) 표기법</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball1<span class="op">.</span><span class="at">x</span>)<span class="op">;</span>     <span class="co">// 200</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball2<span class="op">.</span><span class="at">x</span>)<span class="op">;</span>     <span class="co">// 300</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball1<span class="op">.</span><span class="at">size</span>)<span class="op">;</span>  <span class="co">// 30</span></span></code></pre></div>
+<p>객체의 프로퍼티에 접근할 때는 <strong>점(<code>.</code>)</strong>을
+씁니다. <code>ball1.x</code> — ‘ball1의 x좌표’. <code>ball2.x</code> —
+‘ball2의 x좌표’. 각각 독립적인 값입니다.</p>
+<p>값을 바꿀 수도 있습니다. <code>ball1.size = 80;</code>을 하면 ball1만
+커지고, ball2는 여전히 30입니다. <strong>각 객체는 자기만의 저장 공간을
+가집니다.</strong></p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>new Ball(50, 300)</code>으로 ball3를 만들면,
+<code>ball3.x</code>와 <code>ball3.y</code>는 각각 무엇일까요?</p>
+<p><strong>답</strong>: 50과 300입니다. constructor에서
+<code>this.x = x</code>, <code>this.y = y</code>를 실행하기
+때문입니다.</p>
+</div>
+<hr />
+<h2 id="미니-실습-직접-따라-쳐보기">미니 실습 — 직접 따라 쳐보기</h2>
+<p>P5.js 웹 에디터를 열고 다음 코드를 한 줄씩 따라 쳐 봅니다.</p>
+<ol type="1">
+<li><code>class Ball {</code> 작성 — 엔터</li>
+<li><code>constructor(x, y) {</code> 작성 — 엔터</li>
+<li><code>this.x = x;</code> 작성 — 엔터</li>
+<li><code>this.y = y;</code> 작성 — 엔터</li>
+<li><code>this.size = 30;</code> 작성 — 엔터</li>
+<li><code>}</code> 작성 — constructor 닫기 — 엔터</li>
+<li><code>}</code> 작성 — class 닫기 — 엔터 두 번</li>
+<li><code>let ball = new Ball(200, 100);</code> 작성 — 엔터</li>
+<li><code>console.log(ball.x);</code> 작성 — 엔터</li>
+<li><code>console.log(ball.size);</code> 작성</li>
+</ol>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball<span class="op">.</span><span class="at">x</span>)<span class="op">;</span>     <span class="co">// 200이 나오면 성공!</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(ball<span class="op">.</span><span class="at">size</span>)<span class="op">;</span>   <span class="co">// 30이 나오면 성공!</span></span></code></pre></div>
+<p>실행하여 콘솔에 200, 30이 나오면 성공입니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+자주 하는 실수
+</div>
+<p><code>class ball</code>(소문자), <code>contructor</code> 오타,
+<code>this</code> 빠뜨림, 중괄호 <code>}</code> 빠뜨림 — 이 네 가지가
+가장 흔합니다. 에러가 나면 먼저 이 부분을 확인하세요.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-3-메서드-동작-추가하기">💡 핵심 개념 3 — 메서드: 동작
+추가하기</h2>
+<p>지금 Ball 클래스에는 <strong>데이터(프로퍼티)</strong>만 있습니다. 이
+공이 <strong>할 수 있는 동작</strong>을 추가해 봅니다.</p>
+<h3 id="display-자기-자신을-그리기"><code>display()</code> — 자기 자신을
+그리기</h3>
+<p>6주차에서는 <code>function drawFlower(x, y, size) { ... }</code>처럼
+함수를 만들었습니다. 클래스 안에도 함수를 넣을 수 있으며, 이를
+<strong>메서드(method)</strong>라고 부릅니다.</p>
+<p>차이점은 <code>function</code> 키워드를 <strong>쓰지 않고</strong>,
+매개변수 대신 <strong><code>this</code>에 저장된 데이터</strong>를
+사용한다는 점입니다.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {                                    <span class="co">// ← 여기 추가!</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>display()</code> — 이 공을 화면에 그리는 메서드입니다.
+<code>ellipse(this.x, this.y, this.size)</code> — <strong>자기
+자신의</strong> 위치와 크기로 원을 그립니다.</p>
+<p>6주차에서 <code>drawFlower(x, y, size)</code>처럼 매개변수를
+넘겼습니다. 클래스에서는 <code>this</code>에 이미 저장되어 있으니까
+<strong>매개변수 없이</strong> <code>display()</code>만 호출하면
+됩니다.</p>
+<h3 id="move-자기-자신을-이동시키기"><code>move()</code> — 자기 자신을
+이동시키기</h3>
+<p>이동 기능도 추가합니다. constructor에 속도 매개변수도 같이
+추가합니다.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY) {            <span class="co">// ← 속도 추가!</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> speedX<span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> speedY<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">move</span>() {                                       <span class="co">// ← 여기 추가!</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>move()</code>는 <strong>자기 자신의</strong> 위치를
+<strong>자기 자신의</strong> 속도만큼 이동시킵니다. 5주차의
+<code>x += speed;</code>가 <code>this.x += this.speedX;</code>로 바뀐
+형태입니다. <code>this</code>가 붙었을 뿐, 논리는 같습니다.</p>
+<h3 id="메서드-호출">메서드 호출</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball1 <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>ball1<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span>       <span class="co">// ball1이 이동</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>ball1<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span>    <span class="co">// ball1이 화면에 그려짐</span></span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/7week/02_method-call-move-display-before-after.png"
+alt="02 method call move display before after" />
+<figcaption aria-hidden="true">02 method call move display before
+after</figcaption>
+</figure>
+<p>메서드 호출도 <strong>점(<code>.</code>)</strong>을 씁니다.
+<code>ball1.move()</code> — ‘ball1아, 움직여라.’
+<code>ball1.display()</code> — ‘ball1아, 너를 그려라.’ 마치
+<strong>명령을 내리는 것</strong>처럼 읽힙니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>클래스 안에서 함수를 정의할 때 <code>function</code> 키워드를 쓸까요
+안 쓸까요?</p>
+<p><strong>답</strong>: 안 씁니다! 그냥 <code>move() { ... }</code>로
+바로 씁니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-4-setupdraw에서-조립하기">💡 핵심 개념 4 —
+setup()/draw()에서 조립하기</h2>
+<p>이제 전체 코드를 조립해서 실제 움직임을 확인합니다.</p>
+<h3 id="전체-코드-ball-클래스-setupdraw">전체 코드 — Ball 클래스 +
+setup/draw</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> speedX<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> speedY<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">move</span>() {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ball<span class="op">;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  ball <span class="op">=</span> <span class="kw">new</span> <span class="fu">Ball</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>  ball<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>  ball<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 파란 원이 오른쪽 아래로 움직입니다. 화면 밖으로 나가는
+문제는 2교시에서 바운싱을 추가해 해결합니다.</p>
+<p><code>draw()</code> 안에는 <code>ball.move()</code>,
+<code>ball.display()</code> <strong>두 줄</strong>만 있으면 됩니다. 이동
+논리와 그리기 논리는 <strong>클래스 안에</strong> 들어 있습니다.</p>
+<h3 id="배열-코드-vs-클래스-코드-비교">배열 코드 vs 클래스 코드
+비교</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>배열 방식 (6주차)</th>
+<th>클래스 방식 (7주차)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x[i] += speedX[i];</code></td>
+<td><code>ball.move();</code></td>
+</tr>
+<tr>
+<td>“i번째의 x에 i번째의 속도를 더해라”</td>
+<td>“공아, 움직여라”</td>
+</tr>
+<tr>
+<td>데이터와 동작이 <strong>분리</strong>됨</td>
+<td>데이터와 동작이 <strong>하나로 묶임</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>클래스를 쓰면 코드가 <strong>영어 문장처럼</strong> 읽힙니다.</p>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<h3 id="핵심-3줄-요약">핵심 3줄 요약</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>개념</th>
+<th>핵심</th>
+<th>코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>클래스와 객체</td>
+<td>클래스 = 설계도, 객체 = 제품</td>
+<td><code>class Ball { }</code> / <code>new Ball()</code></td>
+</tr>
+<tr>
+<td>constructor와 this</td>
+<td>constructor = 초기화, this = “이 객체의”</td>
+<td><code>constructor(x) { this.x = x; }</code></td>
+</tr>
+<tr>
+<td>메서드</td>
+<td>클래스 안의 함수 = 동작</td>
+<td><code>move() { this.x += this.speedX; }</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="자주-하는-실수-top-3">자주 하는 실수 Top 3</h3>
+<div class="callout callout-tip">
+<div class="callout-title">
+실수 1: this 빼먹기
+</div>
+<p><code>this.x = x;</code>를 <code>x = x;</code>로 쓰면 → 객체에 저장
+안 됨 → <code>undefined</code></p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+실수 2: 메서드에 function 붙이기
+</div>
+<p>클래스 밖에서는 <code>function draw() { }</code>, 클래스 안에서는
+<code>move() { }</code> — <code>function</code>은 쓰지 않습니다.</p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+실수 3: new 빼먹기
+</div>
+<p><code>let ball = Ball(200, 100);</code>이라고 쓰면 에러. 반드시
+<code>new Ball(200, 100)</code>.</p>
+</div>
+<p>이 세 가지만 주의하면 에러의 80%는 피할 수 있습니다.</p>
+<h3 id="교시-예고">2교시 예고</h3>
+<p>공 2개까지 만들었습니다. 100개를 만들려면 <strong>6주차에서 배운
+배열</strong>과 클래스를 결합하면 됩니다. 2교시에서는 바운싱을 추가하고,
+클릭하면 공이 생기는 인터랙션도 넣어 봅니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입-배열의-한계-단계별-체험">도입 — “배열의 한계” 단계별 체험</a></li><li class="toc-level-3"><a href="#공-1개를-변수로-관리하기">공 1개를 변수로 관리하기</a></li><li class="toc-level-3"><a href="#배열로-관리하면">배열로 관리하면?</a></li><li class="toc-level-3"><a href="#동기부여">동기부여</a></li><li class="toc-level-2"><a href="#핵심-개념-1-설계도와-제품">핵심 개념 1 — 설계도와 제품</a></li><li class="toc-level-3"><a href="#붕어빵-비유">붕어빵 비유</a></li><li class="toc-level-2"><a href="#핵심-개념-2-class-기본-문법-점진적으로-만들기">핵심 개념 2 — class 기본 문법: 점진적으로 만들기</a></li><li class="toc-level-3"><a href="#step-a-빈-클래스-껍데기부터">Step A: 빈 클래스 — 껍데기부터</a></li><li class="toc-level-3"><a href="#step-b-constructor-추가-이-객체의-setup">Step B: constructor 추가 — “이 객체의 setup()”</a></li><li class="toc-level-3"><a href="#step-c-this가-왜-필요한지-실패-체험">Step C: this가 왜 필요한지 — 실패 체험</a></li><li class="toc-level-3"><a href="#step-d-고정값-프로퍼티-추가">Step D: 고정값 프로퍼티 추가</a></li><li class="toc-level-3"><a href="#step-e-객체-만들기-new-키워드">Step E: 객체 만들기 — new 키워드</a></li><li class="toc-level-3"><a href="#step-f-데이터-확인하기-점.-표기법">Step F: 데이터 확인하기 — 점(.) 표기법</a></li><li class="toc-level-2"><a href="#미니-실습-직접-따라-쳐보기">미니 실습 — 직접 따라 쳐보기</a></li><li class="toc-level-2"><a href="#핵심-개념-3-메서드-동작-추가하기">핵심 개념 3 — 메서드: 동작 추가하기</a></li><li class="toc-level-3"><a href="#display-자기-자신을-그리기">display() — 자기 자신을 그리기</a></li><li class="toc-level-3"><a href="#move-자기-자신을-이동시키기">move() — 자기 자신을 이동시키기</a></li><li class="toc-level-3"><a href="#메서드-호출">메서드 호출</a></li><li class="toc-level-2"><a href="#핵심-개념-4-setupdraw에서-조립하기">핵심 개념 4 — setup()/draw()에서 조립하기</a></li><li class="toc-level-3"><a href="#전체-코드-ball-클래스-setupdraw">전체 코드 — Ball 클래스 + setup/draw</a></li><li class="toc-level-3"><a href="#배열-코드-vs-클래스-코드-비교">배열 코드 vs 클래스 코드 비교</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#핵심-3줄-요약">핵심 3줄 요약</a></li><li class="toc-level-3"><a href="#자주-하는-실수-top-3">자주 하는 실수 Top 3</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

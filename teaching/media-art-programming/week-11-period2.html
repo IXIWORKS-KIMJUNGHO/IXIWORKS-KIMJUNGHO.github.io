@@ -1,0 +1,663 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11주차 2교시 — 데이터를 시각으로 매핑하기 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 11 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>11주차 2교시 — 데이터를 시각으로 매핑하기</h1>
+        <p class="lead">External Data and Data Art 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 11</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">11주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">데이터를 시각으로 매핑하기</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-데이터를-시각으로-매핑하기">11주차 2교시 — 데이터를
+시각으로 매핑하기</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-11-outline <strong>이전
+교시</strong>: <a
+href="week-11-period1.html">week-11-period1-student</a> (preload,
+loadJSON, loadTable) <strong>다음 교시</strong>: <a
+href="week-11-period3.html">week-11-period3-student</a> (학생 주도
+실습)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시에서 만든 <code>data.json</code> / <code>data.csv</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>map()</code>으로 데이터 값을 시각 요소(위치·크기·색)에
+매핑할 수 있습니다</li>
+<li>✅ 막대 차트와 나선 배치로 같은 데이터의 두 표현을 만들 수
+있습니다</li>
+<li>✅ 데이터 시각화와 데이터 아트의 차이를 사례로 구분할 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<h3 id="빠른-퀴즈-3문항">빠른 퀴즈 3문항</h3>
+<div class="callout callout-question">
+<div class="callout-title">
+Q1
+</div>
+<p>데이터 파일이 다 준비될 때까지 <code>setup()</code>을 기다리게 하는
+함수는?</p>
+<p><strong>답</strong>: <code>preload()</code>.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+Q2
+</div>
+<p>JSON에서 첫 번째 도시의 인구를 꺼내는 코드는?</p>
+<p><strong>답</strong>: <code>cityData.cities[0].population</code>.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+Q3
+</div>
+<p>CSV에서 숫자를 꺼낼 때 <code>getString</code> 대신 무엇을 써야
+했나요?</p>
+<p><strong>답</strong>: <code>getNum</code>. 글자가 아니라 진짜 숫자로
+변환되니까.</p>
+</div>
+<h3 id="교시에서-2교시로">1교시에서 2교시로</h3>
+<p>1교시에서는 데이터를 콘솔에 찍는 단계까지 진행했습니다. 콘솔에
+<code>'서울 — 9736027'</code>이 찍히면 일단 성공입니다. 2교시에서는 그
+숫자를 화면 위의 이미지로 바꿔봅니다.</p>
+<p>미디어아트 수업이므로, 숫자를 콘솔로 <em>읽는</em> 게 아니라 화면에서
+<em>보게</em> 만드는 것이 목표입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+2교시 한 줄 요약
+</div>
+<p>데이터의 숫자를 시각 요소로 번역하기. 그 번역기가 5주차에서 배운
+<code>map()</code>.</p>
+</div>
+<hr />
+<h2 id="심화-개념-1-map으로-데이터를-시각-요소에-매핑하기">💡 심화 개념
+1 — <code>map()</code>으로 데이터를 시각 요소에 매핑하기</h2>
+<h3 id="map-복습"><code>map()</code> 복습</h3>
+<p>5주차에서 한 번 만났던 함수입니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(value<span class="op">,</span> start1<span class="op">,</span> stop1<span class="op">,</span> start2<span class="op">,</span> stop2)</span></code></pre></div>
+<p><strong>한 범위의 숫자를 다른 범위로 환산</strong>하는 함수입니다.
+5주차에선 <code>mouseX</code>(0~400)를 색상값(0~255)으로 바꿨습니다.
+마우스를 오른쪽으로 보내면 색이 밝아지는 구조였습니다.</p>
+<p>오늘 바뀌는 것은 입력값 하나뿐입니다. <code>mouseX</code> 대신
+<strong>데이터의 숫자</strong>를 넣습니다.</p>
+<h3 id="데이터-매핑이-뭔지-한-표로">데이터 매핑이 뭔지 한 표로</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>데이터 (원래 범위)</th>
+<th>시각 요소 (목표 범위)</th>
+<th><code>map()</code> 호출</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인구 (0 ~ 10,000,000)</td>
+<td>원 크기 (20 ~ 150)</td>
+<td><code>map(pop, 0, 10000000, 20, 150)</code></td>
+</tr>
+<tr>
+<td>면적 (500 ~ 1100)</td>
+<td>x 위치 (50 ~ 450)</td>
+<td><code>map(area, 500, 1100, 50, 450)</code></td>
+</tr>
+<tr>
+<td>인덱스 (0 ~ 4)</td>
+<td>색상 (파랑 → 빨강)</td>
+<td><code>map(i, 0, 4, 100, 255)</code></td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/11week/03_map-translator.png"
+alt="03 map translator" />
+<figcaption aria-hidden="true">03 map translator</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+map의 역할
+</div>
+<p><code>map</code>은 <strong>숫자 번역기</strong>입니다. 그대로는
+체감하기 어려운 9,736,027이라는 값을 화면 위의 원 크기로 바꿔주는
+역할.</p>
+</div>
+<h3 id="첫-번째-시각화-인구로-원-크기-결정">첫 번째 시각화 — 인구로 원
+크기 결정</h3>
+<p>1교시에서 만든 <code>data.json</code>을 그대로 사용합니다. 이번엔
+콘솔이 아니라 화면에 그립니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">500</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> width <span class="op">-</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> bright <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(bright<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textAlign</span>(CENTER)<span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textSize</span>(<span class="dv">12</span>)<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(city<span class="op">.</span><span class="at">name</span><span class="op">,</span> x<span class="op">,</span> y <span class="op">+</span> size <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">18</span>)<span class="op">;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>구조는 1교시 for문 그대로입니다. <code>let city = cities[i]</code>로
+i번째 도시를 받고, 안에서 <code>map</code>을 세 번 부르는
+형태입니다.</p>
+<p>핵심 줄을 짚어 봅니다.</p>
+<ul>
+<li><code>x = map(i, 0, cities.length - 1, 80, width - 80)</code> —
+인덱스 → 가로 위치. 5개 도시가 화면에 균등 분포</li>
+<li><code>size = map(city.population, 0, 10000000, 20, 150)</code> —
+인구 → 원 크기. 서울은 거의 150, 광주는 40 근처</li>
+<li><code>bright = map(...)</code> — 인구 → 빨강 성분. 인구가 많을수록
+붉은빛이 강해짐</li>
+<li><code>noLoop()</code> — 정적 시각화이므로 <code>draw()</code> 반복을
+멈춤. 한 번만 그리고 끝</li>
+</ul>
+<p>실행하면 5개 도시가 인구 크기에 따라 다른 원으로 일렬 배치됩니다.
+서울이 압도적으로 큰 것이 한눈에 보입니다. 이것이 <strong>데이터
+시각화의 가장 기본 형태</strong>입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/04_population-circles.png"
+alt="04 population circles" />
+<figcaption aria-hidden="true">04 population circles</figcaption>
+</figure>
+<div class="callout callout-warning">
+<div class="callout-title">
+흔한 실수 — 매핑 범위 잘못 잡기
+</div>
+<p>만약 <code>size</code> 범위를
+<code>map(city.population, 0, 100, 20, 150)</code>처럼 잘못 적으면 모든
+도시가 <code>150</code>을 훌쩍 넘어서 화면 밖으로 나갑니다. <strong>원래
+데이터의 실제 범위</strong>를 콘솔로 한번 확인하고 매핑 범위를 잡는
+습관이 중요합니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>원 크기를 인구가 아니라 <strong>면적</strong>으로 바꾸려면 어느 줄을
+어떻게 고치면 될까요?</p>
+<p><strong>답</strong>:
+<code>map(city.population, 0, 10000000, ...)</code> 자리를
+<code>map(city.area, 0, 1200, ...)</code>으로. 데이터 키와 범위를 바꾸면
+됩니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-2-csv로-막대-차트-만들기">💡 심화 개념 2 — CSV로 막대
+차트 만들기</h2>
+<p>이번엔 CSV 데이터를 막대 그래프로 그립니다. 같은 데이터, 다른
+표현입니다.</p>
+<h3 id="왜-막대-차트인가">왜 막대 차트인가</h3>
+<p>원 크기로 표현하면 직관적이긴 하지만, <strong>정확한 비교</strong>는
+어렵습니다. ’서울이 광주의 몇 배인지’는 원 크기만으로 잘 잡히지
+않습니다. 막대는 길이가 곧 수치라서 비교가 더 명확합니다.</p>
+<h3 id="코드-막대-차트-전체">코드 — 막대 차트 전체</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> table<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  table <span class="op">=</span> <span class="fu">loadTable</span>(<span class="st">&quot;data.csv&quot;</span><span class="op">,</span> <span class="st">&quot;csv&quot;</span><span class="op">,</span> <span class="st">&quot;header&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">500</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> rowCount <span class="op">=</span> table<span class="op">.</span><span class="fu">getRowCount</span>()<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> slot <span class="op">=</span> width <span class="op">/</span> (rowCount <span class="op">+</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> r <span class="op">&lt;</span> rowCount<span class="op">;</span> r<span class="op">++</span>) {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> name <span class="op">=</span> table<span class="op">.</span><span class="fu">getString</span>(r<span class="op">,</span> <span class="st">&quot;name&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> pop <span class="op">=</span> table<span class="op">.</span><span class="fu">getNum</span>(r<span class="op">,</span> <span class="st">&quot;population&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> (r <span class="op">+</span> <span class="fl">0.5</span>) <span class="op">*</span> slot<span class="op">;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> barHeight <span class="op">=</span> <span class="fu">map</span>(pop<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> barWidth <span class="op">=</span> slot <span class="op">*</span> <span class="fl">0.6</span><span class="op">;</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">70</span><span class="op">,</span> <span class="dv">130</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(x<span class="op">,</span> height <span class="op">-</span> <span class="dv">40</span> <span class="op">-</span> barHeight<span class="op">,</span> barWidth<span class="op">,</span> barHeight)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textAlign</span>(CENTER)<span class="op">;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textSize</span>(<span class="dv">11</span>)<span class="op">;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(name<span class="op">,</span> x <span class="op">+</span> barWidth <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">22</span>)<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textSize</span>(<span class="dv">9</span>)<span class="op">;</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(<span class="fu">nf</span>(pop<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">,</span> x <span class="op">+</span> barWidth <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">-</span> <span class="dv">48</span> <span class="op">-</span> barHeight)<span class="op">;</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textAlign</span>(CENTER)<span class="op">;</span></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;한국 주요 도시 인구&quot;</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="핵심-짚기">핵심 짚기</h3>
+<p>이전 코드와 비교해서 새로 들어온 것이 두 가지입니다.</p>
+<p><strong>(1) 슬롯 폭 계산.</strong></p>
+<p><code>let slot = width / (rowCount + 1)</code>로 캔버스 가로를
+6등분(=행 5개 + 여백 1)했습니다. 각 막대는 자기 슬롯의 60%만 차지하니까
+사이 간격이 자동으로 생깁니다.</p>
+<p><strong>(2) <code>nf()</code> — 숫자 포맷팅.</strong></p>
+<p><code>nf(pop, 0, 0)</code>은 숫자를 보기 좋게 출력하는 함수입니다.
+<code>9736027</code>을 그대로 다루면 읽기 부담이 있는데, 소수점 없이
+정수 형태로 깔끔하게 표시해줍니다. 세 자리 콤마는 아직 안 들어가지만,
+데이터 시각화에서 자주 쓰는 유틸입니다.</p>
+<p>막대 높이 계산도 다시 봅니다.
+<code>barHeight = map(pop, 0, 10000000, 0, height - 100)</code>. 인구
+0이면 막대 길이 0, 1000만이면 height-100까지. 막대는 화면 아래(height -
+40)에서 시작해서 위로 자랍니다. 그래서
+<code>rect(x, height - 40 - barHeight, ...)</code>로 좌상단 좌표를
+빼주는 것입니다.</p>
+<p>실행하면 막대 5개가 도시 순서대로 나란히 그려집니다. <strong>서울의
+인구가 다른 도시보다 훨씬 크다</strong>는 점이 길이로 확연히 보입니다.
+원 크기로는 잘 안 보였던 비교가 막대에서는 또렷해집니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/05_population-bars.png"
+alt="05 population bars" />
+<figcaption aria-hidden="true">05 population bars</figcaption>
+</figure>
+<div class="callout callout-warning">
+<div class="callout-title">
+흔한 실수 — y 좌표 헷갈림
+</div>
+<p>P5.js는 좌상단이 (0,0)이라서 y가 커질수록 아래로 갑니다. 막대를
+아래에서 위로 그리려면 <code>y = height - 40 - barHeight</code>처럼 빼야
+합니다. 처음엔 거꾸로 그려져서 화면 위쪽에서 거꾸로 자라는 막대를 만나기
+쉽습니다. 그럼 빼기 부호를 확인합니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>같은 데이터를 인구가 아니라 <strong>면적</strong>으로 막대로
+그리려면?</p>
+<p><strong>답</strong>: <code>getNum(r, "population")</code>을
+<code>getNum(r, "area")</code>로 바꾸고, <code>map</code>의 입력 범위를
+<code>0, 1200</code>처럼 면적 범위로 바꿉니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-3-같은-데이터-예술적으로-나선-배치">💡 심화 개념 3 —
+같은 데이터, 예술적으로 — 나선 배치</h2>
+<p>지금까지는 데이터를 <em>정보 전달</em> 목적으로 시각화했습니다.
+이번엔 같은 데이터를 <strong>느낌으로</strong> 표현합니다. 막대 차트처럼
+정확한 비교가 목적은 아니지만, 이미지의 인상이 더 강하게 남는
+표현입니다.</p>
+<h3 id="아이디어-나선-위에-도시-배치">아이디어 — 나선 위에 도시
+배치</h3>
+<p>5개 도시를 가로로 줄 세우는 대신, 원형으로 둘러서 배치합니다. 9주차
+<code>sin()</code>/<code>cos()</code> 기억나죠? 그때 원 위의 점 좌표를
+구했었습니다.</p>
+<pre><code>x = centerX + cos(angle) * radius
+y = centerY + sin(angle) * radius</code></pre>
+<p>각 도시마다 <code>angle</code>을 다르게 주면 원 둘레에 점이 찍힙니다.
+거기에 <code>radius</code>도 도시마다 다르게 주면, 원이 아니라
+<strong>나선</strong>처럼 흩어집니다.</p>
+<h3 id="코드-나선-데이터-아트">코드 — 나선 데이터 아트</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">500</span><span class="op">,</span> <span class="dv">500</span>)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> centerX <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> centerY <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> angle <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> TWO_PI)<span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> radius <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">area</span><span class="op">,</span> <span class="dv">500</span><span class="op">,</span> <span class="dv">1100</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> centerX <span class="op">+</span> <span class="fu">cos</span>(angle) <span class="op">*</span> radius<span class="op">;</span></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> centerY <span class="op">+</span> <span class="fu">sin</span>(angle) <span class="op">*</span> radius<span class="op">;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(hue<span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">90</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">strokeWeight</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">line</span>(centerX<span class="op">,</span> centerY<span class="op">,</span> x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">90</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="핵심-짚기-1">핵심 짚기</h3>
+<p>한 줄 한 줄 매핑이 데이터에서 시각으로 어떻게 번역되는지 봅니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>줄</th>
+<th>매핑 의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>angle = map(i, 0, cities.length, 0, TWO_PI)</code></td>
+<td>인덱스 → 원 둘레의 각도. 5개 도시가 360°에 균등 분포</td>
+</tr>
+<tr>
+<td><code>radius = map(city.area, 500, 1100, 60, 200)</code></td>
+<td>면적 → 중심에서의 거리. 면적 클수록 중심에서 멀어짐</td>
+</tr>
+<tr>
+<td><code>size = map(city.population, 0, 10000000, 20, 100)</code></td>
+<td>인구 → 원 크기</td>
+</tr>
+<tr>
+<td><code>hue = map(i, 0, cities.length, 0, 360)</code></td>
+<td>인덱스 → 색조. 5개 도시에 색의 무지개를 입힘</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong><code>colorMode(HSB, 360, 100, 100, 100)</code></strong> —
+색상을 RGB가 아니라 HSB(색조·채도·명도)로 다루겠다고 선언하는 줄입니다.
+<code>hue</code>를 각도(0~360)로 직접 다룰 수 있어서 무지개 그라데이션이
+쉽습니다.</p>
+<p><strong>중심에서 점까지 선 그리기</strong> —
+<code>line(centerX, centerY, x, y)</code>. 데이터가 중심에서 뻗어나가는
+줄기처럼 보이게 해주는 시각 장치입니다.</p>
+<p>실행하면 어두운 배경 위에 다섯 색의 원이 나선처럼 흩어지고, 중심에서
+가는 선이 뻗어 나옵니다. <strong>같은 인구 데이터</strong>인데, 막대
+차트와는 완전히 다른 인상입니다. 정확한 비교는 어렵지만, 보고 있으면
+’서울이 무겁고 색이 강하다’는 <em>느낌</em>이 남습니다. 이것이 데이터
+아트에 가까운 표현입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/06_spiral-data-art.png"
+alt="06 spiral data art" />
+<figcaption aria-hidden="true">06 spiral data art</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+시각화 vs 아트의 한 줄 정의
+</div>
+<p>읽히게 만들면 시각화, 느끼게 만들면 아트. 같은 데이터로 다른 답을
+내는 두 가지 태도.</p>
+</div>
+<figure class="lecture-figure">
+<img src="assets/11week/15_data-visualization-vs-data-art.png"
+alt="15 data visualization vs data art" />
+<figcaption aria-hidden="true">15 data visualization vs data
+art</figcaption>
+</figure>
+<div class="callout callout-warning">
+<div class="callout-title">
+흔한 실수 — colorMode 안 바꾸고 hue 0~360 쓰기
+</div>
+<p>기본 컬러 모드는 RGB(0~255)입니다. 거기에
+<code>fill(360, 70, 90)</code>처럼 hue를 넣으면 색이 엉뚱하게 나옵니다.
+HSB로 hue를 다룰 거면 <code>setup()</code>에서
+<code>colorMode(HSB, ...)</code>를 반드시 먼저 호출.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>이 코드를 막대 차트 코드와 비교했을 때, <strong>데이터를 꺼내는
+부분</strong>(for문 + map)은 다른가요, 같은가요?</p>
+<p><strong>답</strong>: 거의 같습니다. for문 돌고,
+<code>city.population</code>/<code>city.area</code>를
+<code>map</code>으로 환산하는 패턴이 똑같습니다. 다른 건 좌표 계산
+방식뿐.</p>
+</div>
+<hr />
+<h2 id="실전-사례-분석">실전 사례 분석</h2>
+<p>직접 그린 다섯 도시짜리 작은 사례를 넘어, 실제 작가들이 진짜 데이터로
+만든 작품을 둘러봅니다.</p>
+<h3 id="사례-1-gapminder-한스-로슬링-데이터-시각화">사례 1 — Gapminder
+(한스 로슬링) — 데이터 시각화</h3>
+<p>스웨덴 통계학자 한스 로슬링의 작업입니다. 국가별 소득(x축) vs
+기대수명(y축), 인구(원 크기), 대륙(색)을 한 화면에 담은 버블 차트.</p>
+<p>오늘 직접 한 일이 4번 반복되는 구조입니다.
+<code>map(소득, ...)</code>, <code>map(수명, ...)</code>,
+<code>map(인구, ...)</code>, 그리고 색은 카테고리 매핑. 거기에 연도
+슬라이더가 붙어서 ’시간에 따라 어떻게 변하는가’까지 보여줍니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/11_gapminder-bubble-chart.png"
+alt="11 gapminder bubble chart" />
+<figcaption aria-hidden="true">11 gapminder bubble chart</figcaption>
+</figure>
+<p>TED 강연을 한 번 찾아보세요. 데이터 시각화로 청중을 울리는 것이
+가능하다는 것을 보여주는 강연입니다.</p>
+<h3 id="사례-2-dear-data-조지아-루피스테파니-포사베츠-데이터-아트">사례
+2 — Dear Data (조지아 루피·스테파니 포사베츠) — 데이터 아트</h3>
+<p>1교시 도입에서 한 번 만났던 작품입니다. 두 디자이너가 1년 동안 매주
+일상 데이터를 수집해서 엽서로 손그림 그려 보냈습니다. ‘이번 주 칭찬 받은
+횟수’, ‘거울 본 횟수’, ‘문 손잡이 잡은 횟수’ 같은 것.</p>
+<p>여기서 데이터는 도시 인구처럼 <em>큰 숫자</em>가 아닙니다. 굉장히
+<em>사소한 일상</em>입니다. 그런데 그것이 색·기호·패턴으로 변환되면 한
+사람의 한 주가 한 장의 그림이 됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/09_dear-data-postcards.png"
+alt="09 dear data postcards" />
+<figcaption aria-hidden="true">09 dear data postcards</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+데이터 아트가 보여주는 가능성
+</div>
+<p>데이터의 종류가 작품의 종류를 정한다.</p>
+</div>
+<p>참고도서 <em>데이터 도상학</em> (2017)을 한 번 펼쳐보면 좋습니다.
+’데이터를 어떤 시각 기호로 변환할 것인가’라는 질문을 본격적으로 다루는
+책입니다.</p>
+<h3
+id="사례-3-wind-map-fernanda-viégas-martin-wattenberg-인터랙티브-데이터-아트">사례
+3 — Wind Map (Fernanda Viégas &amp; Martin Wattenberg) — 인터랙티브
+데이터 아트</h3>
+<p>미국 전역의 실시간 바람 데이터를 흐름선으로 시각화한 작품입니다.
+화면에서 끊임없이 선들이 움직이는데, 그 움직임 하나하나가 실제 측정된
+풍속·풍향입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/12_wind-map-flow-lines.png"
+alt="12 wind map flow lines" />
+<figcaption aria-hidden="true">12 wind map flow lines</figcaption>
+</figure>
+<p>오늘 배운 <code>loadJSON</code> + <code>map</code> +
+<code>draw()</code> 애니메이션을 합치면 이런 작품의
+<strong>기초</strong>를 만들 수 있습니다. 3교시 확장 활동에 비슷한
+방향이 있으니, 흥미 있으면 거기서 시도해보세요.</p>
+<h3 id="사례-4-coding-train-데이터-시각화">사례 4 — Coding Train 데이터
+시각화</h3>
+<p>학습용 사례입니다. Daniel Shiffman의 Coding Train 채널에 P5.js로
+데이터를 시각화하는 영상이 잔뜩 있습니다. 오늘 배운 것을 더 확장하고
+싶으면 거기서 한두 개 따라해보면 좋습니다. 링크는 참고자료에 정리되어
+있습니다.</p>
+<h3 id="데이터를-어디서-구하나-공공-데이터-포털">데이터를 어디서 구하나
+— 공공 데이터 포털</h3>
+<p>실습이나 기말 프로젝트에서 <em>자기 관심사의 데이터</em>를 쓰고
+싶다면 두 군데를 기억해주세요.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>사이트</th>
+<th>어떤 데이터</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.data.go.kr" target="_blank" rel="noopener noreferrer">공공데이터포털</a></td>
+<td>국가 단위 공공 데이터 (교통·환경·복지 등) — CSV/JSON 다운로드</td>
+</tr>
+<tr>
+<td><a href="https://data.seoul.go.kr" target="_blank" rel="noopener noreferrer">서울 열린 데이터 광장</a></td>
+<td>서울시 데이터 — 따릉이, 미세먼지, 인구 이동 등</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/11week/13_public-data-to-p5-flow.png"
+alt="13 public data to p5 flow" />
+<figcaption aria-hidden="true">13 public data to p5 flow</figcaption>
+</figure>
+<p>관심 주제 검색 → CSV 다운로드 → 오늘 만든 코드에 파일명만 바꿔서
+넣으면 바로 시각화 시작입니다. 수업 활동이나 기말 프로젝트에서 자기
+데이터를 쓰고 싶을 때 첫 번째로 들를 곳.</p>
+<hr />
+<h2 id="교시-실습-안내">🔥 3교시 실습 안내</h2>
+<h3 id="실습-활동-한-줄-소개">실습 활동 한 줄 소개</h3>
+<p>3교시는 학생 주도 실습입니다. 도시 인구 JSON 데이터를 가지고
+<strong>각자 한 점의 작품</strong>을 완성합니다.</p>
+<h3 id="기본-트랙-전원-공통">기본 트랙 — 전원 공통</h3>
+<p>방향은 자유입니다. 막대 차트처럼 명확하게 보여줘도, 나선처럼
+예술적으로 표현해도 모두 OK. 단, 다음 파이프라인은 모두 거쳐야
+합니다.</p>
+<pre><code>preload → loadJSON → for문 순회 → map() 매핑 → 시각 요소 그리기</code></pre>
+<p>기본 트랙 완료 기준은 4가지입니다.</p>
+<ul>
+<li>✅ <code>preload()</code>에서 <code>data.json</code>을 로드한다</li>
+<li>✅ for문으로 5개 도시를 순회한다</li>
+<li>✅ <code>map()</code>으로 데이터를 시각 속성에 매핑한다</li>
+<li>✅ <strong>최소 2개 이상</strong>의 시각 속성(위치·크기·색상 등)이
+데이터에 의해 결정된다</li>
+</ul>
+<h3 id="선택-확장-활동-기본-트랙-완료-후">선택 확장 활동 — 기본 트랙
+완료 후</h3>
+<p>다 끝낸 사람은 같은 파이프라인을 변주해봅니다. 하나만 골라도 좋고,
+여러 개 시도해도 좋습니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>확장 활동</th>
+<th>무엇을 할까</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(a) 데이터 아트 변주</td>
+<td>막대 → 나선으로 표현 방식 바꾸기. 2교시 나선 코드 참고</td>
+</tr>
+<tr>
+<td>(b) 기온 데이터로 교체</td>
+<td>월별 평균기온 CSV를 <code>loadTable</code>로 불러와 차트 만들기 →
+<code>getNum</code> 사용 연습</td>
+</tr>
+<tr>
+<td>(c) 자기 데이터 가져오기</td>
+<td>공공데이터포털·서울 열린 데이터 광장에서 관심 주제 CSV 다운로드 →
+본인 파이프라인에 연결</td>
+</tr>
+<tr>
+<td>(d) 실시간 애니메이션</td>
+<td><code>noLoop()</code> 제거하고 <code>draw()</code> 반복 살려서,
+인구가 많은 도시일수록 빠르게 진동하게</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="첫-번째-힌트">첫 번째 힌트</h3>
+<p>막막하면 다음 순서로 시작합니다.</p>
+<ol type="1">
+<li>P5.js Web Editor에서 새 스케치 열기</li>
+<li>1교시에 만든 <code>data.json</code>을 그대로 새 스케치로 복사</li>
+<li><code>preload</code>와 <code>for문</code> 골격까지만 먼저 작성 →
+실행해서 콘솔에 도시 이름 5개 찍히는지 확인</li>
+<li>그 다음에 시각 요소 그리기 시작</li>
+</ol>
+<div class="callout callout-tip">
+<div class="callout-title">
+실습 순서의 핵심
+</div>
+<p>그림보다 데이터 흐름이 먼저입니다. 데이터를 콘솔로 확인하는 단계를
+건너뛰면 나중에 어디서 문제가 생긴 건지 찾기 힘듭니다.</p>
+</div>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-3"><a href="#빠른-퀴즈-3문항">빠른 퀴즈 3문항</a></li><li class="toc-level-3"><a href="#교시에서-2교시로">1교시에서 2교시로</a></li><li class="toc-level-2"><a href="#심화-개념-1-map으로-데이터를-시각-요소에-매핑하기">심화 개념 1 — map()으로 데이터를 시각 요소에 매핑하기</a></li><li class="toc-level-3"><a href="#map-복습">map() 복습</a></li><li class="toc-level-3"><a href="#데이터-매핑이-뭔지-한-표로">데이터 매핑이 뭔지 한 표로</a></li><li class="toc-level-3"><a href="#첫-번째-시각화-인구로-원-크기-결정">첫 번째 시각화 — 인구로 원 크기 결정</a></li><li class="toc-level-2"><a href="#심화-개념-2-csv로-막대-차트-만들기">심화 개념 2 — CSV로 막대 차트 만들기</a></li><li class="toc-level-3"><a href="#왜-막대-차트인가">왜 막대 차트인가</a></li><li class="toc-level-3"><a href="#코드-막대-차트-전체">코드 — 막대 차트 전체</a></li><li class="toc-level-3"><a href="#핵심-짚기">핵심 짚기</a></li><li class="toc-level-2"><a href="#심화-개념-3-같은-데이터-예술적으로-나선-배치">심화 개념 3 — 같은 데이터, 예술적으로 — 나선 배치</a></li><li class="toc-level-3"><a href="#아이디어-나선-위에-도시-배치">아이디어 — 나선 위에 도시 배치</a></li><li class="toc-level-3"><a href="#코드-나선-데이터-아트">코드 — 나선 데이터 아트</a></li><li class="toc-level-3"><a href="#핵심-짚기-1">핵심 짚기</a></li><li class="toc-level-2"><a href="#실전-사례-분석">실전 사례 분석</a></li><li class="toc-level-3"><a href="#사례-1-gapminder-한스-로슬링-데이터-시각화">사례 1 — Gapminder (한스 로슬링) — 데이터 시각화</a></li><li class="toc-level-3"><a href="#사례-2-dear-data-조지아-루피스테파니-포사베츠-데이터-아트">사례 2 — Dear Data (조지아 루피·스테파니 포사베츠) — 데이터 아트</a></li><li class="toc-level-3"><a href="#사례-4-coding-train-데이터-시각화">사례 4 — Coding Train 데이터 시각화</a></li><li class="toc-level-3"><a href="#데이터를-어디서-구하나-공공-데이터-포털">데이터를 어디서 구하나 — 공공 데이터 포털</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-활동-한-줄-소개">실습 활동 한 줄 소개</a></li><li class="toc-level-3"><a href="#기본-트랙-전원-공통">기본 트랙 — 전원 공통</a></li><li class="toc-level-3"><a href="#선택-확장-활동-기본-트랙-완료-후">선택 확장 활동 — 기본 트랙 완료 후</a></li><li class="toc-level-3"><a href="#첫-번째-힌트">첫 번째 힌트</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

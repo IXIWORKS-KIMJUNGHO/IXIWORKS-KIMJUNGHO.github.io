@@ -1,0 +1,754 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 2교시 — 시스템 변수와 인터랙션 첫걸음 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 02 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>2주차 2교시 — 시스템 변수와 인터랙션 첫걸음</h1>
+        <p class="lead">Coordinates and Variables 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 02</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">2주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">시스템 변수와 인터랙션 첫걸음</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-시스템-변수와-인터랙션-첫걸음">2주차 2교시 — 시스템
+변수와 인터랙션 첫걸음</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-02-outline <strong>이전
+교시</strong>: <a
+href="week-02-period1.html">week-02-period1-student</a> (좌표계와 변수의
+이해) <strong>다음 교시</strong>: <a
+href="week-02-period3.html">week-02-period3-student</a> (학생 주도
+실습)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>이전 작업</td>
+<td>1교시에서 만든 얼굴 변수 코드 (<code>faceX</code> /
+<code>faceY</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>mouseX</code>·<code>mouseY</code> 시스템 변수로 마우스에
+반응하는 스케치를 만들 수 있습니다</li>
+<li>✅ <code>background()</code> 유무·alpha로 추적·드로잉·잔상 효과를
+구분할 수 있습니다</li>
+<li>✅ <code>width</code>·<code>height</code>로 반응형 배치를 하고, 변수
+선언 위치로 움직임을 만들 수 있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<p>1교시에서 두 가지를 배웠습니다.</p>
+<ul>
+<li><strong>좌표계</strong>: P5.js에서 <code>(0, 0)</code>은 캔버스
+<strong>왼쪽 위</strong>에 있고, y값이 커질수록 <strong>아래로</strong>
+내려갑니다.</li>
+<li><strong>변수</strong>: <code>let size = 80;</code>처럼 변수를 쓰면,
+한 곳만 바꿔도 그 변수를 쓴 모든 곳이 같이 바뀝니다. 1교시 마지막에 얼굴
+코드를 변수로 바꿔, <code>faceX</code> 하나만 수정해도 얼굴 전체가
+이동했습니다.</li>
+</ul>
+<p>1교시에서는 변수에 <code>200</code>이라는 <strong>고정된
+숫자</strong>를 넣어서 얼굴이 한 자리에 멈춰 있었습니다. 2교시에서는
+<strong>실시간으로 변하는 값</strong>을 다룹니다. 그 결과 도형이
+<strong>움직이거나</strong>, <strong>마우스에 반응</strong>하게
+됩니다.</p>
+<hr />
+<h2 id="심화-개념-1-mousex-mousey-마우스-위치-변수">💡 심화 개념 1 —
+mouseX, mouseY: 마우스 위치 변수</h2>
+<p>P5.js에는 우리가 <code>let</code>으로 만들지 않아도 <strong>처음부터
+존재하는 변수</strong>들이 있습니다. 이것을 <strong>시스템
+변수</strong>라고 부릅니다.</p>
+<h3 id="시스템-변수란">시스템 변수란?</h3>
+<p>P5.js가 자동으로 관리하는 특별한 변수입니다. 직접 값을 넣지 않아도
+P5.js가 알아서 업데이트합니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>시스템 변수</th>
+<th>담고 있는 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mouseX</code></td>
+<td>마우스의 <strong>현재 x좌표</strong></td>
+</tr>
+<tr>
+<td><code>mouseY</code></td>
+<td>마우스의 <strong>현재 y좌표</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>draw()</code>가 1초에 60번 반복되면서, 매 반복마다 P5.js가 현재
+마우스 위치를 확인해 <code>mouseX</code>, <code>mouseY</code>에
+넣어줍니다. 우리는 가져다 쓰기만 하면 됩니다.</p>
+<h3 id="기본-예시-마우스를-따라다니는-원">기본 예시: 마우스를 따라다니는
+원</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>  <span class="co">// ⭐ 마우스 위치에 원 그리기</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 마우스를 움직일 때 원이 따라옵니다. <code>mouseX</code>에는
+마우스의 x좌표가, <code>mouseY</code>에는 y좌표가 실시간으로
+들어갑니다.</p>
+<p>매 프레임마다 ’배경 지우기 → 마우스 위치에 원 그리기’를 1초에 60번
+반복하기 때문에, 원이 부드럽게 따라오는 것처럼 보입니다.</p>
+<h3 id="교시-얼굴-코드에-적용하기">1교시 얼굴 코드에 적용하기</h3>
+<p>1교시에서 만든 변수 버전 얼굴 코드에서 <code>faceX = 200</code>을
+<code>faceX = mouseX</code>로 바꾸면 어떻게 될까요?</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceX <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceY <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">220</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  faceX <span class="op">=</span> mouseX<span class="op">;</span>  <span class="co">// ⭐ 마우스 x좌표를 얼굴 x좌표에 넣기</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  faceY <span class="op">=</span> mouseY<span class="op">;</span>  <span class="co">// ⭐ 마우스 y좌표를 얼굴 y좌표에 넣기</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 얼굴</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">230</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX<span class="op">,</span> faceY<span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 왼쪽 눈</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX <span class="op">-</span> <span class="dv">40</span><span class="op">,</span> faceY <span class="op">-</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX <span class="op">-</span> <span class="dv">40</span><span class="op">,</span> faceY <span class="op">-</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 오른쪽 눈</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX <span class="op">+</span> <span class="dv">40</span><span class="op">,</span> faceY <span class="op">-</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX <span class="op">+</span> <span class="dv">40</span><span class="op">,</span> faceY <span class="op">-</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 코</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">170</span>)<span class="op">;</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX<span class="op">,</span> faceY <span class="op">+</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 입</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX<span class="op">,</span> faceY <span class="op">+</span> <span class="dv">45</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 얼굴이 마우스를 <strong>따라다닙니다</strong>. 1교시에서
+변수로 리팩토링해 둔 덕분에 <strong>두 줄만 추가</strong>하면 됩니다.
+변수 없이 숫자를 하드코딩했다면 훨씬 힘들었을 것입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>faceX = mouseX;</code>에서 <code>let</code>을 안 썼는데 왜
+그럴까요?</p>
+<p><strong>답</strong>: <code>let</code>은 변수를 <strong>처음 만들
+때만</strong> 씁니다. <code>faceX</code>는 이미 맨 위에서
+<code>let faceX = 200;</code>으로 만들었으니, 여기서는 <strong>값만
+바꾸는 것</strong>이라 <code>let</code> 없이
+<code>faceX = mouseX;</code>로 씁니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-2-console.log-디버깅-첫걸음">💡 심화 개념 2 —
+console.log(): 디버깅 첫걸음</h2>
+<p>코드를 짜다 보면 ‘왜 안 되지?’ 하는 순간이 옵니다. 그때 쓰는 것이
+<code>console.log()</code>입니다.</p>
+<h3 id="console.log란">console.log()란?</h3>
+<p>변수 안에 무엇이 들어있는지 <strong>콘솔 창에 출력</strong>해주는
+함수입니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;x:&quot;</span><span class="op">,</span> mouseX<span class="op">,</span> <span class="st">&quot;y:&quot;</span><span class="op">,</span> mouseY)<span class="op">;</span>  <span class="co">// ⭐ 콘솔에 마우스 좌표 출력</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하고 아래 <strong>콘솔 패널</strong>을 보면, 마우스를 움직일
+때마다 숫자가 바뀝니다.</p>
+<pre><code>x: 142 y: 203
+x: 145 y: 198
+x: 150 y: 195
+...</code></pre>
+<p>마우스를 왼쪽으로 옮기면 x 숫자가 줄어들고, 아래로 내리면 y 숫자가
+커집니다. 이렇게 <strong>변수 값을 눈으로 확인</strong>하는 것이
+디버깅의 기본입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+디버깅 습관
+</div>
+<p>코드가 이상하게 동작하면, 의심되는 변수에
+<code>console.log()</code>를 찍어 값을 확인하세요. 콘솔 패널이 접혀
+있으면 에디터 아래쪽 <code>Console</code> 탭을 클릭해 펼칩니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-3-background-유무에-따른-차이">💡 심화 개념 3 —
+background() 유무에 따른 차이</h2>
+<p>마우스를 따라다니는 원 코드에서 <code>background(220);</code>이 매
+프레임 배경을 지워주고 있었습니다. 이것을 빼면 어떻게 될까요?</p>
+<figure class="lecture-figure">
+<img src="assets/2week/05_background-trail-modes.png"
+alt="05 background trail modes" />
+<figcaption aria-hidden="true">05 background trail modes</figcaption>
+</figure>
+<h3 id="비교-1-background-있음-추적-모드">비교 1: background() 있음 —
+추적 모드</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>                     <span class="co">// 매 프레임 지우고 다시 그림</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>매 프레임 배경을 새로 칠하므로, 이전에 그린 원은 사라지고 새 위치에만
+원이 보입니다. 원이 마우스를 깔끔하게 따라다닙니다.</p>
+<h3 id="비교-2-background-없음-드로잉-모드">비교 2: background() 없음 —
+드로잉 모드</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>  <span class="co">// setup()에서 한 번만 배경 칠하기</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// background() 없음! 이전 그림이 지워지지 않음</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>background()</code>를 <code>setup()</code>으로 옮기면 한 번만
+실행되므로, <code>draw()</code>에서 그린 원들이 지워지지 않고 쌓입니다.
+마우스를 움직이면 궤적이 남는 <strong>드로잉 도구</strong>가 됩니다.
+지우는 것과 안 지우는 것, 코드 한 줄 차이로 완전히 다른 결과가
+나옵니다.</p>
+<h3 id="비교-3-background-투명도alpha-잔상-모드">비교 3: background()
+투명도(alpha) — 잔상 모드</h3>
+<p>완전히 지우는 것(배경 있음)과 전혀 안 지우는 것(배경 없음)의
+<strong>중간</strong>도 가능합니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ⭐ 두 번째 숫자 = 투명도 (0~255)</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>background(220, 30)</code>에서 두 번째 숫자 <code>30</code>이
+<strong>투명도</strong>입니다. 배경을 살짝만 칠하므로 이전 프레임이
+완전히 가려지지 않고 <strong>서서히 사라집니다</strong>. 잔상이 남는
+효과입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th><code>background()</code> 설정</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>background(220)</code></td>
+<td>매 프레임 완전히 지움 → 깔끔한 추적</td>
+</tr>
+<tr>
+<td><code>background(220, 30)</code></td>
+<td>살짝만 덮음 → <strong>잔상</strong> 효과</td>
+</tr>
+<tr>
+<td><code>background(220, 100)</code></td>
+<td>좀 더 빨리 사라짐</td>
+</tr>
+<tr>
+<td><code>background()</code> 없음</td>
+<td>전혀 안 지움 → <strong>드로잉</strong> 효과</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 포인트
+</div>
+<p>alpha 값이 <strong>작을수록 잔상이 오래</strong> 남고, <strong>클수록
+빨리</strong> 사라집니다. 255를 넣으면 완전히 지우는 것과 같습니다.
+(색상의 투명도 개념은 3주차에서 자세히 다룹니다.)</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>잔상 효과를 만들려면 <code>background()</code> 두 번째 숫자를 크게
+해야 할까요, 작게 해야 할까요?</p>
+<p><strong>답</strong>: 작게 해야 합니다. 작을수록 배경이 살짝만
+덮이니까 이전 그림이 오래 남습니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-4-width-height-캔버스-크기-변수">💡 심화 개념 4 —
+width, height: 캔버스 크기 변수</h2>
+<p>시스템 변수를 두 개 더 배웁니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>시스템 변수</th>
+<th>담고 있는 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>width</code></td>
+<td>캔버스의 <strong>가로 크기</strong></td>
+</tr>
+<tr>
+<td><code>height</code></td>
+<td>캔버스의 <strong>세로 크기</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><code>createCanvas(400, 400)</code>을 하면 <code>width</code>에 400,
+<code>height</code>에 400이 자동으로 들어갑니다.</p>
+<h3 id="왜-필요할까-캔버스-중앙에-원-그리기">왜 필요할까? — 캔버스
+중앙에 원 그리기</h3>
+<p>캔버스 정중앙에 원을 그릴 때 <code>ellipse(200, 200, ...)</code>처럼
+직접 숫자를 넣었습니다. 그런데 캔버스를
+<code>createCanvas(600, 400)</code>으로 바꾸면 200은 더 이상 중앙이
+아닙니다.</p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 숫자 하드코딩 — 캔버스 크기 바뀌면 중앙이 안 맞음</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이것을 <code>width</code>와 <code>height</code>로 바꿉니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 캔버스 크기에 맞춰 항상 중앙!</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>width / 2</code>는 가로의 절반, <code>height / 2</code>는
+세로의 절반 — 항상 <strong>정중앙</strong>입니다. 이제
+<code>createCanvas(600, 400)</code>으로 바꿔도 원은 여전히 중앙에
+있습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+반응형 레이아웃
+</div>
+<p>캔버스 크기가 바뀌어도 코드를 수정할 필요가 없는 구조를
+<strong>반응형 레이아웃</strong>이라고 합니다. 프로젝트가 복잡해질수록
+이 습관이 중요해집니다.</p>
+</div>
+<h3 id="활용-예시-캔버스를-4등분하는-선">활용 예시: 캔버스를 4등분하는
+선</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 가로 중앙선</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">line</span>(<span class="dv">0</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> width<span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 세로 중앙선</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">line</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>가로선은 y좌표를 <code>height / 2</code>로, 세로선은 x좌표를
+<code>width / 2</code>로 잡았습니다. <code>createCanvas</code>를 어떤
+숫자로 바꿔도 정확히 4등분됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>캔버스 오른쪽 아래 모서리의 좌표를 숫자 없이 쓰려면?</p>
+<p><strong>답</strong>: <code>(width, height)</code>입니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-5-변수로-움직임-만들기">💡 심화 개념 5 — 변수로 움직임
+만들기</h2>
+<p>지금까지 변수에 넣은 값은 두 종류였습니다 — 고정된
+숫자(<code>let faceX = 200</code>), 그리고 시스템
+변수(<code>faceX = mouseX</code>). 이번에는 <strong>직접 값을
+바꾸는</strong> 방법을 배웁니다.</p>
+<h3 id="매-프레임-변수-값-변경하기">매 프레임 변수 값 변경하기</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// 공의 시작 위치</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>  <span class="co">// x 위치에 원 그리기</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> x <span class="op">+</span> <span class="dv">2</span><span class="op">;</span>                 <span class="co">// ⭐ 매 프레임 x를 2씩 증가</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 원이 <strong>왼쪽에서 오른쪽으로</strong> 이동합니다.
+<code>draw()</code>가 반복될 때마다 <code>x</code>가 2씩 커지므로, 원의
+x좌표가 0 → 2 → 4 → 6…으로 계속 증가합니다.</p>
+<p><code>x = x + 2</code>는 수학의 등식으로 보면 어색하지만,
+프로그래밍에서는 ’<strong>현재 x값에 2를 더한 결과를 다시 x에
+넣어라</strong>’라는 뜻입니다. 상자 안의 숫자를 꺼내서, 2를 더하고, 다시
+상자에 넣는 것입니다.</p>
+<pre><code>프레임 1: x = 0   → 원 위치: 0     → x = 0 + 2 = 2
+프레임 2: x = 2   → 원 위치: 2     → x = 2 + 2 = 4
+프레임 3: x = 4   → 원 위치: 4     → x = 4 + 2 = 6
+프레임 4: x = 6   → 원 위치: 6     → x = 6 + 2 = 8
+...</code></pre>
+<p>숫자 <code>2</code>를 <code>5</code>로 바꾸면 더 빨리,
+<code>0.5</code>로 바꾸면 느리게 움직입니다. 이 숫자가
+<strong>속도</strong>입니다.</p>
+<h3 id="변수-선언-위치의-중요성-전역-vs-지역">변수 선언 위치의 중요성 —
+전역 vs 지역</h3>
+<p>1교시에서 ’변수는 코드 맨 위에 쓴다’고 했습니다. 그 이유를 봅니다.
+<code>let x = 0;</code>을 <code>draw()</code> <strong>안에</strong>
+넣으면 어떻게 될까요?</p>
+<figure class="lecture-figure">
+<img src="assets/2week/06_global-vs-local-variable-timeline.png"
+alt="06 global vs local variable timeline" />
+<figcaption aria-hidden="true">06 global vs local variable
+timeline</figcaption>
+</figure>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>                 <span class="co">// ⚠️ draw() 안에서 매번 새로 만듦</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> x <span class="op">+</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 원이 <strong>움직이지 않습니다</strong>.
+<code>draw()</code>가 반복될 때마다 <code>let x = 0;</code>이 실행되어
+x가 <strong>매번 0으로 돌아가기</strong> 때문입니다.</p>
+<pre><code>프레임 1: let x = 0 (새로 만듦) → 원 위치: 0 → x = 2 → 프레임 끝
+프레임 2: let x = 0 (또 새로 만듦!) → 원 위치: 0 → x = 2 → 프레임 끝
+프레임 3: let x = 0 (또 새로 만듦!) → 원 위치: 0 → x = 2 → 프레임 끝</code></pre>
+<p><strong>올바른 방법: <code>draw()</code> 바깥에 선언</strong></p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// ⭐ draw() 바깥 = 한 번만 만들어지고, 값이 유지됨</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> x <span class="op">+</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">// 매 프레임 값이 누적됨</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>위치</th>
+<th>동작</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>draw()</code> <strong>바깥</strong> (전역)</td>
+<td>한 번 만들어지고 값 유지</td>
+<td>원이 이동함</td>
+</tr>
+<tr>
+<td><code>draw()</code> <strong>안</strong> (지역)</td>
+<td>매 프레임 새로 만들어짐</td>
+<td>원이 제자리</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 포인트
+</div>
+<p><code>draw()</code> 바깥에 쓰면 프로그램 시작 시 <strong>한
+번만</strong> 만들어지고 값이 계속 유지됩니다. 1교시에서
+<code>let faceX = 200;</code>을 맨 위에 쓴 이유가 이것입니다.
+<code>draw()</code> 안에 넣으면 매 프레임 200으로 돌아가서 마우스를
+따라갈 수 없습니다.</p>
+</div>
+<hr />
+<h2 id="실전-사례">실전 사례</h2>
+<p>지금까지 배운 것들을 조합하면 다양한 표현을 만들 수 있습니다. 세 가지
+사례를 봅니다.</p>
+<h3 id="사례-1-마우스를-따라보는-눈">사례 1: 마우스를 따라보는 눈</h3>
+<p>얼굴 전체가 아니라 <strong>눈동자만</strong> 마우스를 따라가게
+만듭니다.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceX <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceY <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">220</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 얼굴 (고정)</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">230</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX<span class="op">,</span> faceY<span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 왼쪽 눈 — 흰자는 고정, 눈동자는 마우스 방향으로 살짝 이동</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX <span class="op">-</span> <span class="dv">40</span><span class="op">,</span> faceY <span class="op">-</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(                                       <span class="co">// ⭐ 눈 중심 + 마우스 방향 오프셋</span></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>    faceX <span class="op">-</span> <span class="dv">40</span> <span class="op">+</span> (mouseX <span class="op">-</span> faceX) <span class="op">/</span> <span class="dv">15</span><span class="op">,</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>    faceY <span class="op">-</span> <span class="dv">20</span> <span class="op">+</span> (mouseY <span class="op">-</span> faceY) <span class="op">/</span> <span class="dv">15</span><span class="op">,</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>    <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 오른쪽 눈 — 흰자는 고정, 눈동자는 마우스 방향으로 살짝 이동</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX <span class="op">+</span> <span class="dv">40</span><span class="op">,</span> faceY <span class="op">-</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(                                       <span class="co">// ⭐ 눈 중심 + 마우스 방향 오프셋</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>    faceX <span class="op">+</span> <span class="dv">40</span> <span class="op">+</span> (mouseX <span class="op">-</span> faceX) <span class="op">/</span> <span class="dv">15</span><span class="op">,</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>    faceY <span class="op">-</span> <span class="dv">20</span> <span class="op">+</span> (mouseY <span class="op">-</span> faceY) <span class="op">/</span> <span class="dv">15</span><span class="op">,</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>    <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb16-34"><a href="#cb16-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-35"><a href="#cb16-35" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 코</span></span>
+<span id="cb16-36"><a href="#cb16-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">170</span>)<span class="op">;</span></span>
+<span id="cb16-37"><a href="#cb16-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX<span class="op">,</span> faceY <span class="op">+</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb16-38"><a href="#cb16-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-39"><a href="#cb16-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 입</span></span>
+<span id="cb16-40"><a href="#cb16-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb16-41"><a href="#cb16-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(faceX<span class="op">,</span> faceY <span class="op">+</span> <span class="dv">45</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
+<span id="cb16-42"><a href="#cb16-42" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>핵심은 <code>(mouseX - faceX) / 15</code> 부분입니다. ’마우스가 얼굴
+중심에서 얼마나 떨어져 있는지’를 구한 다음, 15로 나눠서 <strong>아주
+조금만</strong> 움직이게 합니다. 그래서 눈동자가 눈의 흰 부분 안에서
+자연스럽게 움직입니다. <code>/15</code>를 <code>/5</code>로 바꾸면 더
+크게, <code>/30</code>으로 바꾸면 더 미세하게 움직입니다.</p>
+<h3 id="사례-2-화면을-가로지르는-공">사례 2: 화면을 가로지르는 공</h3>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ballX <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(ballX<span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  ballX <span class="op">=</span> ballX <span class="op">+</span> <span class="dv">3</span><span class="op">;</span>  <span class="co">// 오른쪽으로 이동</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>빨간 공이 왼쪽에서 오른쪽으로 이동합니다. 화면 밖으로 나가면 보이지
+않게 될 뿐, 에러는 나지 않습니다. 조건문을 배우면 벽에 부딪혀 튕기는
+것도 만들 수 있습니다. <code>height / 2</code>를 썼으므로
+<code>createCanvas</code>를 바꿔도 공은 항상 세로 중앙에서
+움직입니다.</p>
+<h3 id="사례-3-잔상-드로잉-도구">사례 3: 잔상 드로잉 도구</h3>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 어두운 배경</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// background() 없음 → 이전 그림 유지</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>background()</code>를 <code>draw()</code>에서 뺐으므로 원들이
+사라지지 않고 쌓여 궤적이 남습니다. 간단한 드로잉 도구입니다. 여기에
+잔상 효과를 더하면:</p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">30</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span>  <span class="co">// ⭐ 잔상 효과 — 서서히 사라짐</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>궤적이 서서히 사라져, 빛이 꼬리를 끄는 듯한 효과가 됩니다.
+미디어아트에서 자주 쓰이는 표현입니다.</p>
+<h3 id="세-사례-정리">세 사례 정리</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>사례</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>마우스를 따라보는 눈</td>
+<td><code>mouseX</code>, <code>mouseY</code> → 도형 일부에만 적용</td>
+</tr>
+<tr>
+<td>화면 가로지르는 공</td>
+<td><code>x = x + 3</code> → 변수 값 매 프레임 변경</td>
+</tr>
+<tr>
+<td>잔상 드로잉</td>
+<td><code>background()</code> 없음/alpha → 잔상 효과</td>
+</tr>
+</tbody>
+</table></div>
+<p>이 세 가지를 조합하면 ‘마우스로 조종하는 캐릭터가 잔상을 남기며
+이동하는’ 스케치도 만들 수 있습니다. 3교시에 직접 만들어봅니다.</p>
+<hr />
+<h2 id="교시-실습-안내">3교시 실습 안내</h2>
+<h3 id="실습-과제-마우스를-따라다니는-나만의-캐릭터">실습 과제: 마우스를
+따라다니는 나만의 캐릭터</h3>
+<p>1주차에 만든 얼굴(또는 새 캐릭터)을 <strong>변수로
+리팩토링</strong>하고, <strong>마우스에 반응</strong>하도록
+업그레이드합니다.</p>
+<p><strong>최소 요구사항</strong></p>
+<ol type="1">
+<li>하드코딩된 좌표가 <code>faceX</code>, <code>faceY</code> 같은
+<strong>변수로 교체</strong></li>
+<li><code>mouseX</code>, <code>mouseY</code>를 활용해 <strong>마우스에
+반응</strong></li>
+<li><code>triangle()</code>이나 새 도형 <strong>1개 이상
+추가</strong></li>
+<li><code>stroke()</code> 또는 <code>strokeWeight()</code>로
+<strong>테두리 스타일링</strong></li>
+</ol>
+<h3 id="단계별-진행">단계별 진행</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>내용</th>
+<th>예상 시간</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Step 1</td>
+<td>1주차 얼굴 코드를 변수로 리팩토링</td>
+<td>10분</td>
+</tr>
+<tr>
+<td>Step 2</td>
+<td><code>mouseX</code>/<code>mouseY</code>로 마우스 따라다니기</td>
+<td>10분</td>
+</tr>
+<tr>
+<td>Step 3</td>
+<td>도형 추가 + 꾸미기</td>
+<td>10분</td>
+</tr>
+<tr>
+<td>Step 4 (선택)</td>
+<td>잔상 효과 실험</td>
+<td>남는 시간</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+시작 힌트
+</div>
+<p>어디서부터 시작할지 모르겠으면, 1교시 얼굴 변수 코드를 에디터에
+복사하고 <code>draw()</code> 맨 앞에
+<code>faceX = mouseX; faceY = mouseY;</code> 두 줄을 추가해보세요. Step
+1과 2를 한 번에 해결하는 방법입니다. 잘 안 되면
+<code>console.log(faceX, faceY);</code>로 값을 확인하세요.</p>
+</div>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">
+2교시 핵심 요약
+</div>
+<ol type="1">
+<li><code>mouseX</code>, <code>mouseY</code>는 P5.js가 자동으로
+업데이트하는 <strong>시스템 변수</strong> — 마우스 위치를 실시간으로 알
+수 있다</li>
+<li><code>background()</code>를 빼거나 alpha를 주면 <strong>잔상
+효과</strong> — 미디어아트의 핵심 표현 기법</li>
+<li>변수를 <code>draw()</code> <strong>바깥에 선언</strong>해야 매
+프레임 값이 유지되어 <strong>움직임을 만들 수 있다</strong></li>
+</ol>
+</div>
+<h3 id="교시-안내">🔥 3교시 안내</h3>
+<p>3교시에는 지금까지 배운 모든 것을 써서 <strong>나만의 인터랙티브
+캐릭터</strong>를 만듭니다. 단계별 가이드를 따라 진행합니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-mousex-mousey-마우스-위치-변수">심화 개념 1 — mouseX, mouseY: 마우스 위치 변수</a></li><li class="toc-level-3"><a href="#시스템-변수란">시스템 변수란?</a></li><li class="toc-level-3"><a href="#기본-예시-마우스를-따라다니는-원">기본 예시: 마우스를 따라다니는 원</a></li><li class="toc-level-3"><a href="#교시-얼굴-코드에-적용하기">1교시 얼굴 코드에 적용하기</a></li><li class="toc-level-2"><a href="#심화-개념-2-console.log-디버깅-첫걸음">심화 개념 2 — console.log(): 디버깅 첫걸음</a></li><li class="toc-level-3"><a href="#console.log란">console.log()란?</a></li><li class="toc-level-2"><a href="#심화-개념-3-background-유무에-따른-차이">심화 개념 3 — background() 유무에 따른 차이</a></li><li class="toc-level-3"><a href="#비교-1-background-있음-추적-모드">비교 1: background() 있음 — 추적 모드</a></li><li class="toc-level-3"><a href="#비교-2-background-없음-드로잉-모드">비교 2: background() 없음 — 드로잉 모드</a></li><li class="toc-level-3"><a href="#비교-3-background-투명도alpha-잔상-모드">비교 3: background() 투명도(alpha) — 잔상 모드</a></li><li class="toc-level-2"><a href="#심화-개념-4-width-height-캔버스-크기-변수">심화 개념 4 — width, height: 캔버스 크기 변수</a></li><li class="toc-level-3"><a href="#왜-필요할까-캔버스-중앙에-원-그리기">왜 필요할까? — 캔버스 중앙에 원 그리기</a></li><li class="toc-level-3"><a href="#활용-예시-캔버스를-4등분하는-선">활용 예시: 캔버스를 4등분하는 선</a></li><li class="toc-level-2"><a href="#심화-개념-5-변수로-움직임-만들기">심화 개념 5 — 변수로 움직임 만들기</a></li><li class="toc-level-3"><a href="#매-프레임-변수-값-변경하기">매 프레임 변수 값 변경하기</a></li><li class="toc-level-3"><a href="#변수-선언-위치의-중요성-전역-vs-지역">변수 선언 위치의 중요성 — 전역 vs 지역</a></li><li class="toc-level-2"><a href="#실전-사례">실전 사례</a></li><li class="toc-level-3"><a href="#사례-1-마우스를-따라보는-눈">사례 1: 마우스를 따라보는 눈</a></li><li class="toc-level-3"><a href="#사례-2-화면을-가로지르는-공">사례 2: 화면을 가로지르는 공</a></li><li class="toc-level-3"><a href="#사례-3-잔상-드로잉-도구">사례 3: 잔상 드로잉 도구</a></li><li class="toc-level-3"><a href="#세-사례-정리">세 사례 정리</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-과제-마우스를-따라다니는-나만의-캐릭터">실습 과제: 마우스를 따라다니는 나만의 캐릭터</a></li><li class="toc-level-3"><a href="#단계별-진행">단계별 진행</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#교시-안내">3교시 안내</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

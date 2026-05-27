@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 3교시 — 학생 주도 실습: 힘으로 움직이는 물리 세계 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 10 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>10주차 3교시 — 학생 주도 실습: 힘으로 움직이는 물리 세계</h1>
+        <p class="lead">Forces and Physics Simulation 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 10</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">10주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 03</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">학생 주도 실습: 힘으로 움직이는 물리 세계</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-3교시-학생-주도-실습-힘으로-움직이는-물리-세계">10주차
+3교시 — 학생 주도 실습: 힘으로 움직이는 물리 세계</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-10-outline <strong>이전
+교시</strong>: <a
+href="week-10-period2.html">week-10-period2-student</a> (다중 힘, 질량
+차이, 마찰력) <strong>다음 주차</strong>: week-11-outline (외부 데이터와
+데이터 시각화)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 applyForce + 중력, 2교시 다중 힘·질량·마찰력</td>
+</tr>
+<tr>
+<td>결과물</td>
+<td>applyForce 기반 인터랙티브 물리 시뮬레이션 1점</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+실습 목표
+</div>
+<ul>
+<li>✅ <code>applyForce()</code> 패턴으로 중력, 바람, 마찰력 중 2가지
+이상의 힘을 구현하는 물리 시뮬레이션을 만든다</li>
+<li>✅ 질량이 다른 여러 객체가 동시에 존재하는 장면을 만들고, 힘과
+질량의 관계를 시각적으로 확인한다</li>
+<li>✅ 9주차의 정적 메서드 패턴(<code>p5.Vector.~</code>)을 일관되게
+사용한다</li>
+</ul>
+</div>
+<hr />
+<h2 id="환경-설정-방향-선택">환경 설정 + 방향 선택</h2>
+<p>p5.js Web Editor(<a
+href="https://editor.p5js.org">editor.p5js.org</a>)를 열고 새 스케치를
+만듭니다. 파일 제목은 ‘10주차-물리세계’ 같은 이름으로 바꿔 둡니다.</p>
+<p>2교시 마지막에 안내한 세 방향 중 하나를 골라 진행합니다. 아래
+이미지는 각 방향의 결과와 필요한 힘을 한눈에 비교한 미리보기입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10week/09-practice-directions-preview.png"
+alt="09 practice directions preview" />
+<figcaption aria-hidden="true">09 practice directions
+preview</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+방향 선택 가이드
+</div>
+<p><strong>처음이라면 방향 A를 권장합니다.</strong> Step 1·2까지는 모든
+방향이 동일하고, Step 3에서 분기됩니다. 방향은 도중에 바꿔도
+괜찮습니다.</p>
+</div>
+<p>방향이 정해졌다면 아래 스타터 코드를 복사해 시작합니다.</p>
+<hr />
+<h2 id="스타터-코드">스타터 코드</h2>
+<p>아래 코드를 복사해 시작합니다. 2교시에서 완성한 <code>Mover</code>
+클래스와 기본 <code>setup()</code>/<code>draw()</code> 구조입니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// === Mover 클래스 ===</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mover {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> mass) {</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span> <span class="op">=</span> <span class="fu">createVector</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="fu">random</span>(<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">=</span> mass<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyForce</span>(force) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">div</span>(force<span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span>)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">add</span>(f)<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyFriction</span>(c) {</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">mag</span>() <span class="op">&lt;</span> c) {</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 9주차 정적 메서드 패턴으로 통일</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    friction<span class="op">.</span><span class="fu">mult</span>(c)<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">acc</span>)<span class="op">;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span>)<span class="op">;</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">edges</span>() {</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width)  { <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> width<span class="op">;</span>  <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> }</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>)      { <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>      <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> }</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> height<span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">abs</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span>) <span class="op">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">*=</span> <span class="op">-</span><span class="fl">0.9</span><span class="op">;</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">175</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">// === 메인 코드 ===</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>  <span class="co">// </span><span class="al">TODO</span><span class="co">: Step 1에서 객체 1개 추가, Step 2에서 배열로 확장</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>  <span class="co">// </span><span class="al">TODO</span><span class="co">: Step 1에서 중력 적용, Step 2에서 다중 객체, Step 3에서 추가 힘</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="step-1-단일-객체로-동작-확인">Step 1 — 단일 객체로 동작
+확인</h2>
+<p><strong>목표:</strong> <code>Mover</code> 객체 1개에 중력을 적용해
+자유낙하 + 바닥 바운스가 정상적으로 동작하는지 확인</p>
+<p>먼저 공 1개로 기본 동작을 확인합니다. 한 번에 많이 만들지 말고, 1개가
+정상 동작하는 것을 확인한 뒤 확장합니다.</p>
+<p><strong>작성할 코드:</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 공 1개 생성 (x: 300, y: 50, mass: 2)</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 중력 벡터</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span>    <span class="co">// 중력 적용</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span>                <span class="co">// 위치 업데이트</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span>                 <span class="co">// 바닥 처리</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span>               <span class="co">// 화면에 그리기</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>예상 결과:</strong> - 회색 원이 위에서 떨어짐 - 바닥에서 튕김
+- 튈 때마다 점점 낮아짐 (에너지 손실) - 작은 튐은 정지 처리되어 바닥에서
+멈춘 것처럼 보임</p>
+<p><strong>확인 사항:</strong> - [ ] 공이 떨어지는가? - [ ] 바닥에서
+튕기는가? - [ ] 점점 낮아지다가 멈추는가?</p>
+<details>
+<summary>
+힌트 (막히면 펼쳐 보세요)
+</summary>
+<ul>
+<li>공이 안 보일 때: <code>createCanvas</code> 크기와 Mover의 초기
+위치를 확인합니다. x=300이 캔버스 안에 있는지 점검합니다.</li>
+<li>공이 떨어지지 않을 때: <code>mover.applyForce(gravity)</code>가
+<code>draw()</code> 안에서 호출되는지 확인합니다.</li>
+<li>바닥을 뚫고 나갈 때: <code>mover.edges()</code>가 호출되는지
+확인합니다.</li>
+</ul>
+</details>
+<hr />
+<h2 id="step-2-다중-객체-질량-차이">Step 2 — 다중 객체 + 질량 차이</h2>
+<p><strong>목표:</strong> 질량이 다른 <code>Mover</code> 5개 이상을
+배열로 만들어, 같은 중력에 다르게 반응하는 모습을 확인</p>
+<p>Step 1에서 공 1개가 정상 동작하면 이제 여러 개를 만듭니다. 질량을
+다르게 설정해 크기와 움직임이 어떻게 달라지는지 확인합니다.</p>
+<p><strong>수정할 코드 (setup 부분):</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 질량이 다른 Mover 8개 생성</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">8</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="fu">random</span>(<span class="dv">50</span><span class="op">,</span> width <span class="op">-</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="fu">random</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> mass <span class="op">=</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(x<span class="op">,</span> y<span class="op">,</span> mass))<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>draw()에 바람 추가:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.05</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>    <span class="co">// 약한 오른쪽 바람 추가</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span>            <span class="co">// 바람 적용 추가!</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>예상 결과:</strong> - 크기가 다른 원 8개가 떨어짐 -
+작은(가벼운) 원은 바람에 많이 밀리고 빠르게 반응 - 큰(무거운) 원은
+바람에 적게 밀리고 둔하게 반응 - 각 원이 서로 다른 궤적으로 움직임</p>
+<p><strong>확인 사항:</strong> - [ ] 8개 이상의 원이 화면에 보이는가? -
+[ ] 원의 크기가 각각 다른가? (질량 차이) - [ ] 작은 원과 큰 원의
+움직임이 다른가?</p>
+<details>
+<summary>
+힌트 (막히면 펼쳐 보세요)
+</summary>
+<ul>
+<li>공이 모두 같은 크기일 때: <code>new Mover(x, y, mass)</code>의
+mass에 <code>random(1, 5)</code> 등으로 다른 값을 넣고 있는지
+확인합니다.</li>
+<li>공이 모두 동일하게 움직일 때: <code>applyForce()</code> 안에서
+<code>this.mass</code>로 나누는 코드가 있는지 확인합니다.</li>
+<li>바람 효과가 보이지 않을 때: <code>wind</code> 값을
+<code>(0.1, 0)</code> 정도로 키워서 다시 실행합니다.</li>
+</ul>
+</details>
+<hr />
+<h2 id="step-3-두-번째-힘-추가-인터랙션">Step 3 — 두 번째 힘 추가 +
+인터랙션</h2>
+<p><strong>목표:</strong> 중력 외에 <strong>두 번째 힘</strong>(바람
+또는 마찰력) 추가 + 마우스/키보드 인터랙션 1개</p>
+<p>Step 2까지는 기본 물리 구조를 확인하는 과정입니다. Step 3부터는 추가
+힘과 인터랙션을 선택하면서 결과가 서로 달라집니다.</p>
+<p>스타터 코드의 <code>Mover</code> 클래스에는
+<code>applyFriction()</code> 메서드가 이미 들어 있습니다.
+<code>draw()</code> 안에서 <strong>호출만 하면</strong> 마찰력이
+적용됩니다. 여기에 인터랙션을 더합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+한 가지만 선택
+</div>
+<p>세 가지 방법 중 <strong>하나만</strong> 선택해 시도합니다. 모두
+해보려 하면 시간이 부족합니다. 한 가지가 정상 동작하면 Step 4로
+넘어갑니다.</p>
+</div>
+<h3 id="방법-a-마찰력-마우스-클릭-바람">방법 A — 마찰력 + 마우스 클릭
+바람</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.03</span>)<span class="op">;</span>     <span class="co">// 마찰력 추가!</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 클릭하면 마우스 x 위치에 따라 좌우 바람</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(mouseX <span class="op">-</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  wind<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  wind<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="방법-b-키보드로-바람-제어">방법 B — 키보드로 바람 제어</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> LEFT_ARROW) {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// 왼쪽 바람</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> RIGHT_ARROW) {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="fl">0.5</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">// 오른쪽 바람</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    wind <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="op">-</span><span class="fl">0.5</span>)<span class="op">;</span>  <span class="co">// 위쪽 바람</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (wind) {</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>      mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="방법-c-마우스-위치로-지속적인-바람-만들기-draw-안에서">방법 C —
+마우스 위치로 지속적인 바람 만들기 (<code>draw()</code> 안에서)</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 마우스를 누르고 있으면 바람 적용</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(mouseX <span class="op">-</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> mouseY <span class="op">-</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    wind<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    wind<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.1</span>)<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.02</span>)<span class="op">;</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>예상 결과:</strong> - 마찰력으로 공들이 서서히 멈춤 - 마우스
+클릭/키보드로 바람을 일으키면 공들이 반응함 - 가벼운 공은 크게 밀리고,
+무거운 공은 조금만 밀림</p>
+<p><strong>확인 사항:</strong> - [ ] 마찰력이 적용되어 공이 서서히
+멈추는가? - [ ] 마우스/키보드 인터랙션이 동작하는가? - [ ] 인터랙션 시
+질량에 따라 반응이 다른가?</p>
+<details>
+<summary>
+힌트 (막히면 펼쳐 보세요)
+</summary>
+<ul>
+<li>마찰력이 너무 강해 공이 움직이지 않을 때: 마찰계수를 0.01로
+줄입니다.</li>
+<li>마찰력이 체감되지 않을 때: 마찰계수를 0.1로 키웁니다.</li>
+<li>키보드 인터랙션이 동작하지 않을 때: 캔버스를 한 번 클릭한 후 키를
+눌러 봅니다. p5.js에서 키보드 입력은 캔버스에 포커스가 있어야
+동작합니다.</li>
+</ul>
+</details>
+<hr />
+<h2 id="step-4-시각-효과-및-확장-선택">Step 4 — 시각 효과 및 확장
+(선택)</h2>
+<p><strong>목표:</strong> Step 1~3까지 동작을 확인한 뒤, 시각 요소를
+다듬기</p>
+<p>Step 3까지 완료했다면 필수 요구사항은 모두 충족했습니다. 남는
+시간에는 작품의 시각적 완성도를 높여 봅니다. 아래 옵션 중 1~2개만
+선택해도 충분하므로, 모두 시도하지 않아도 됩니다.</p>
+<h3 id="옵션-a-질량에-따라-색상-다르게">옵션 A — 질량에 따라 색상
+다르게</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 질량이 작으면 밝고, 크면 어두운 색</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> c <span class="op">=</span> <span class="fu">map</span>(<span class="kw">this</span><span class="op">.</span><span class="at">mass</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(c<span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="옵션-b-hsb-색상-모드-속도에-따른-색-변화">옵션 B — HSB 색상 모드
++ 속도에 따른 색 변화</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// HSB 모드</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ... movers 생성</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">// Mover 클래스의 display() 수정</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>() {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> speed <span class="op">=</span> <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">mag</span>()<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(speed<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// 빠르면 빨간색, 느리면 파란색</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">90</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="옵션-c-잔상-효과-5주차-복습">옵션 C — 잔상 효과 (5주차
+복습)</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// background(220) 대신:</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">220</span><span class="op">,</span> <span class="dv">220</span><span class="op">,</span> <span class="dv">220</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ... 나머지 코드</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>배경을 완전히 지우는 대신 반투명하게 덮으면 이전 프레임의 잔상이 남아
+궤적이 보입니다.</p>
+<h3 id="옵션-d-마우스-클릭으로-새-객체-추가">옵션 D — 마우스 클릭으로 새
+객체 추가</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">4</span>)))<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="옵션-e-힘의-방향-화살표-시각화">옵션 E — 힘의 방향 화살표
+시각화</h3>
+<figure class="lecture-figure">
+<img src="assets/10week/11-force-debug-arrows.png"
+alt="11 force debug arrows" />
+<figcaption aria-hidden="true">11 force debug arrows</figcaption>
+</figure>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 안에서 힘의 방향을 화살표로 표시</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">drawArrow</span>(base<span class="op">,</span> vec<span class="op">,</span> myColor) {</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">push</span>()<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(myColor)<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">strokeWeight</span>(<span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(myColor)<span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(base<span class="op">.</span><span class="at">x</span><span class="op">,</span> base<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">line</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> vec<span class="op">.</span><span class="at">x</span> <span class="op">*</span> <span class="dv">50</span><span class="op">,</span> vec<span class="op">.</span><span class="at">y</span> <span class="op">*</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rotate</span>(vec<span class="op">.</span><span class="fu">heading</span>())<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> arrowSize <span class="op">=</span> <span class="dv">7</span><span class="op">;</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(vec<span class="op">.</span><span class="fu">mag</span>() <span class="op">*</span> <span class="dv">50</span> <span class="op">-</span> arrowSize<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">triangle</span>(<span class="dv">0</span><span class="op">,</span> arrowSize <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="op">-</span>arrowSize <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> arrowSize<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">// 사용 예: draw() 안에서</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="fu">drawArrow</span>(mover<span class="op">.</span><span class="at">pos</span><span class="op">,</span> gravity<span class="op">,</span> <span class="fu">color</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>))<span class="op">;</span>    <span class="co">// 중력: 파란 화살표</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="fu">drawArrow</span>(mover<span class="op">.</span><span class="at">pos</span><span class="op">,</span> friction<span class="op">,</span> <span class="fu">color</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>))<span class="op">;</span>    <span class="co">// 마찰력: 빨간 화살표</span></span></code></pre></div>
+<p>힘의 방향과 크기를 화살표로 표시하면 어떤 힘이 작용하는지 한눈에 볼
+수 있습니다.</p>
+<hr />
+<h2 id="완성-예시">완성 예시</h2>
+<figure class="lecture-figure">
+<img src="assets/10week/12-finished-examples-gallery.png"
+alt="12 finished examples gallery" />
+<figcaption aria-hidden="true">12 finished examples gallery</figcaption>
+</figure>
+<h3 id="방향-a-완성-물리-놀이터">방향 A 완성 — 물리 놀이터</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mover {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> mass) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span> <span class="op">=</span> <span class="fu">createVector</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="fu">random</span>(<span class="op">-</span><span class="dv">1</span><span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">=</span> mass<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(mass<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">,</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">map</span>(mass<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>      <span class="dv">255</span><span class="op">,</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">200</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    )<span class="op">;</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyForce</span>(force) {</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">div</span>(force<span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span>)<span class="op">;</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">add</span>(f)<span class="op">;</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyFriction</span>(c) {</span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">mag</span>() <span class="op">&lt;</span> c) {</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a>    friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>    friction<span class="op">.</span><span class="fu">mult</span>(c)<span class="op">;</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">acc</span>)<span class="op">;</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span>)<span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">edges</span>() {</span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width)  { <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> width<span class="op">;</span>  <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> }</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>)      { <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>      <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span> }</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> height<span class="op">;</span></span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (<span class="fu">abs</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span>) <span class="op">&gt;</span> <span class="dv">1</span>) {</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">*=</span> <span class="op">-</span><span class="fl">0.9</span><span class="op">;</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>      } <span class="cf">else</span> {</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>        <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-50"><a href="#cb13-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-51"><a href="#cb13-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb13-52"><a href="#cb13-52" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb13-53"><a href="#cb13-53" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span>
+<span id="cb13-54"><a href="#cb13-54" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">16</span>)<span class="op">;</span></span>
+<span id="cb13-55"><a href="#cb13-55" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-56"><a href="#cb13-56" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-57"><a href="#cb13-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-58"><a href="#cb13-58" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb13-59"><a href="#cb13-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-60"><a href="#cb13-60" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb13-61"><a href="#cb13-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb13-62"><a href="#cb13-62" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb13-63"><a href="#cb13-63" aria-hidden="true" tabindex="-1"></a>    movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="fu">random</span>(<span class="dv">50</span><span class="op">,</span> width <span class="op">-</span> <span class="dv">50</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">5</span>)))<span class="op">;</span></span>
+<span id="cb13-64"><a href="#cb13-64" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-65"><a href="#cb13-65" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-66"><a href="#cb13-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-67"><a href="#cb13-67" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb13-68"><a href="#cb13-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb13-69"><a href="#cb13-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-70"><a href="#cb13-70" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.2</span>)<span class="op">;</span></span>
+<span id="cb13-71"><a href="#cb13-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-72"><a href="#cb13-72" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb13-73"><a href="#cb13-73" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.02</span>)<span class="op">;</span></span>
+<span id="cb13-74"><a href="#cb13-74" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb13-75"><a href="#cb13-75" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb13-76"><a href="#cb13-76" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb13-77"><a href="#cb13-77" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb13-78"><a href="#cb13-78" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-79"><a href="#cb13-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-80"><a href="#cb13-80" aria-hidden="true" tabindex="-1"></a>  <span class="co">// UI 텍스트</span></span>
+<span id="cb13-81"><a href="#cb13-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-82"><a href="#cb13-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb13-83"><a href="#cb13-83" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb13-84"><a href="#cb13-84" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textAlign</span>(LEFT)<span class="op">;</span></span>
+<span id="cb13-85"><a href="#cb13-85" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;클릭: 바람 불기 | 방향은 마우스 위치에 따라&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb13-86"><a href="#cb13-86" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-87"><a href="#cb13-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-88"><a href="#cb13-88" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb13-89"><a href="#cb13-89" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(mouseX <span class="op">-</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb13-90"><a href="#cb13-90" aria-hidden="true" tabindex="-1"></a>  wind<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb13-91"><a href="#cb13-91" aria-hidden="true" tabindex="-1"></a>  wind<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb13-92"><a href="#cb13-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-93"><a href="#cb13-93" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> mover <span class="kw">of</span> movers) {</span>
+<span id="cb13-94"><a href="#cb13-94" aria-hidden="true" tabindex="-1"></a>    mover<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb13-95"><a href="#cb13-95" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-96"><a href="#cb13-96" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="방향-b-완성-비-내리는-풍경">방향 B 완성 — 비 내리는 풍경</h3>
+<figure class="lecture-figure">
+<img src="assets/10week/10-rain-world-preview.png"
+alt="10 rain world preview" />
+<figcaption aria-hidden="true">10 rain world preview</figcaption>
+</figure>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Raindrop {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> mass) {</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span> <span class="op">=</span> <span class="fu">createVector</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>))<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">=</span> mass<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">len</span> <span class="op">=</span> mass <span class="op">*</span> <span class="dv">8</span><span class="op">;</span>  <span class="co">// 빗방울 길이 (질량에 비례)</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyForce</span>(force) {</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">div</span>(force<span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span>)<span class="op">;</span></span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">add</span>(f)<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyFriction</span>(c) {</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">mag</span>() <span class="op">&lt;</span> c) {</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>      <span class="cf">return</span><span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> friction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    friction<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    friction<span class="op">.</span><span class="fu">mult</span>(c)<span class="op">;</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="fu">applyForce</span>(friction)<span class="op">;</span></span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">acc</span>)<span class="op">;</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span>)<span class="op">;</span></span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">edges</span>() {</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 바닥에 닿으면 위에서 다시 시작</span></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="fu">random</span>(width)<span class="op">;</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>))<span class="op">;</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> width<span class="op">;</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">150</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">strokeWeight</span>(<span class="fu">map</span>(<span class="kw">this</span><span class="op">.</span><span class="at">mass</span><span class="op">,</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>))<span class="op">;</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 빗방울은 속도 방향으로 선을 그림</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> endPos <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">,</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">mult</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a>    <span class="fu">line</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> endPos<span class="op">.</span><span class="at">x</span><span class="op">,</span> endPos<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> drops <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> windStrength <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">100</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a>    drops<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Raindrop</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span> <span class="fu">random</span>(<span class="fl">0.5</span><span class="op">,</span> <span class="dv">3</span>)))<span class="op">;</span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">40</span><span class="op">,</span> <span class="dv">45</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span>)<span class="op">;</span></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> wind <span class="op">=</span> <span class="fu">createVector</span>(windStrength<span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> drop <span class="kw">of</span> drops) {</span>
+<span id="cb14-70"><a href="#cb14-70" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb14-71"><a href="#cb14-71" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">applyForce</span>(wind)<span class="op">;</span></span>
+<span id="cb14-72"><a href="#cb14-72" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb14-73"><a href="#cb14-73" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb14-74"><a href="#cb14-74" aria-hidden="true" tabindex="-1"></a>    drop<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb14-75"><a href="#cb14-75" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-76"><a href="#cb14-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-77"><a href="#cb14-77" aria-hidden="true" tabindex="-1"></a>  <span class="co">// UI</span></span>
+<span id="cb14-78"><a href="#cb14-78" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb14-79"><a href="#cb14-79" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb14-80"><a href="#cb14-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb14-81"><a href="#cb14-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;좌/우 화살표: 바람 방향 변경&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb14-82"><a href="#cb14-82" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;바람: &quot;</span> <span class="op">+</span> windStrength<span class="op">.</span><span class="fu">toFixed</span>(<span class="dv">2</span>)<span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb14-83"><a href="#cb14-83" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-84"><a href="#cb14-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-85"><a href="#cb14-85" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb14-86"><a href="#cb14-86" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> LEFT_ARROW)  windStrength <span class="op">-=</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb14-87"><a href="#cb14-87" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> RIGHT_ARROW) windStrength <span class="op">+=</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb14-88"><a href="#cb14-88" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="방향-c-완성-우주-공간">방향 C 완성 — 우주 공간</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SpaceObject {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> mass) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span> <span class="op">=</span> <span class="fu">createVector</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="fu">random</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">,</span> <span class="fl">0.5</span>))<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">=</span> mass<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">hue</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">applyForce</span>(force) {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> f <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">div</span>(force<span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span>)<span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">add</span>(f)<span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">acc</span>)<span class="op">;</span></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span>)<span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">set</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">edges</span>() {</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 화면 반대편에서 나타남 (토러스 공간)</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width)  <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>)      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> width<span class="op">;</span></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>)      <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> height<span class="op">;</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">hue</span><span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">95</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">12</span>)<span class="op">;</span></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 작은 광채 효과</span></span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">hue</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">mass</span> <span class="op">*</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> objects <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a>    objects<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">SpaceObject</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">4</span>)))<span class="op">;</span></span>
+<span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-50"><a href="#cb15-50" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb15-51"><a href="#cb15-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 잔상 효과</span></span>
+<span id="cb15-52"><a href="#cb15-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-53"><a href="#cb15-53" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 아주 약한 중력 (우주이므로)</span></span>
+<span id="cb15-54"><a href="#cb15-54" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.01</span>)<span class="op">;</span></span>
+<span id="cb15-55"><a href="#cb15-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-56"><a href="#cb15-56" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> obj <span class="kw">of</span> objects) {</span>
+<span id="cb15-57"><a href="#cb15-57" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 마우스를 향한 인력</span></span>
+<span id="cb15-58"><a href="#cb15-58" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb15-59"><a href="#cb15-59" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> attraction <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(</span>
+<span id="cb15-60"><a href="#cb15-60" aria-hidden="true" tabindex="-1"></a>        <span class="fu">createVector</span>(mouseX<span class="op">,</span> mouseY)<span class="op">,</span></span>
+<span id="cb15-61"><a href="#cb15-61" aria-hidden="true" tabindex="-1"></a>        obj<span class="op">.</span><span class="at">pos</span></span>
+<span id="cb15-62"><a href="#cb15-62" aria-hidden="true" tabindex="-1"></a>      )<span class="op">;</span></span>
+<span id="cb15-63"><a href="#cb15-63" aria-hidden="true" tabindex="-1"></a>      attraction<span class="op">.</span><span class="fu">setMag</span>(<span class="fl">0.3</span>)<span class="op">;</span></span>
+<span id="cb15-64"><a href="#cb15-64" aria-hidden="true" tabindex="-1"></a>      obj<span class="op">.</span><span class="fu">applyForce</span>(attraction)<span class="op">;</span></span>
+<span id="cb15-65"><a href="#cb15-65" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb15-66"><a href="#cb15-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-67"><a href="#cb15-67" aria-hidden="true" tabindex="-1"></a>    obj<span class="op">.</span><span class="fu">applyForce</span>(gravity)<span class="op">;</span></span>
+<span id="cb15-68"><a href="#cb15-68" aria-hidden="true" tabindex="-1"></a>    obj<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb15-69"><a href="#cb15-69" aria-hidden="true" tabindex="-1"></a>    obj<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb15-70"><a href="#cb15-70" aria-hidden="true" tabindex="-1"></a>    obj<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb15-71"><a href="#cb15-71" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-72"><a href="#cb15-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-73"><a href="#cb15-73" aria-hidden="true" tabindex="-1"></a>  <span class="co">// UI</span></span>
+<span id="cb15-74"><a href="#cb15-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb15-75"><a href="#cb15-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;마우스 클릭 &amp; 드래그: 끌어당기기&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="선택-확장-과제">선택 확장 과제</h2>
+<p>필수 요구사항을 모두 충족했다면 아래 중 하나에 도전해 봅니다.</p>
+<ol type="1">
+<li><p><strong>마우스 인력(Attraction)</strong>: 마우스를 중력원으로
+삼아 모든 객체가 마우스를 향해 끌려오도록 만들기 (2교시 사례 2
+참고)</p></li>
+<li><p><strong>파티클 생성</strong>: 마우스 클릭 시 그 위치에서 작은
+파티클 5개가 사방으로 퍼지도록 만들기</p></li>
+<li><p><strong>슬라이더로 힘 조절</strong>:
+<code>createSlider()</code>를 사용해 중력, 마찰계수를 실시간으로
+조절하는 슬라이더 추가</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> gravitySlider<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  gravitySlider <span class="op">=</span> <span class="fu">createSlider</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="fl">0.2</span><span class="op">,</span> <span class="fl">0.01</span>)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  gravitySlider<span class="op">.</span><span class="fu">position</span>(<span class="dv">10</span><span class="op">,</span> height <span class="op">+</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> gravity <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> gravitySlider<span class="op">.</span><span class="fu">value</span>())<span class="op">;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div></li>
+<li><p><strong>유체 저항 영역</strong>: 화면 하단 절반을 ‘물’ 영역으로
+설정하고, 그 안에서는 마찰계수를 크게 적용하기</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 안에서</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (mover<span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">/</span> <span class="dv">2</span>) {</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.15</span>)<span class="op">;</span>  <span class="co">// 물속: 강한 저항</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">applyFriction</span>(<span class="fl">0.01</span>)<span class="op">;</span>  <span class="co">// 공중: 약한 저항</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div></li>
+</ol>
+<hr />
+<h2 id="마무리">마무리</h2>
+<p>스케치를 저장합니다. Windows는 Ctrl+S, Mac은 Cmd+S를 사용합니다.</p>
+<h3 id="오늘의-핵심-한-문장">오늘의 핵심 한 문장</h3>
+<div class="callout callout-abstract">
+<div class="callout-title">
+한 줄 요약
+</div>
+<p><strong>힘이 가속도를 만들고, 가속도가 속도를 바꾸고, 속도가 위치를
+바꾼다.</strong> <code>applyForce()</code> 하나로 자연스러운 움직임을
+코드로 표현할 수 있습니다.</p>
+</div>
+<h3 id="오늘-배운-것-정리">오늘 배운 것 정리</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>개념</th>
+<th>핵심</th>
+<th>코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>뉴턴 제2법칙</td>
+<td>a = F / m</td>
+<td><code>p5.Vector.div(force, this.mass)</code></td>
+</tr>
+<tr>
+<td>applyForce 패턴</td>
+<td>힘 → 가속도 누적</td>
+<td><code>this.acc.add(f)</code></td>
+</tr>
+<tr>
+<td>매 프레임 초기화</td>
+<td>acc를 다음 프레임 전에 비움</td>
+<td><code>this.acc.set(0, 0)</code></td>
+</tr>
+<tr>
+<td>중력</td>
+<td>일정한 아래 방향 힘</td>
+<td><code>createVector(0, 0.2)</code></td>
+</tr>
+<tr>
+<td>바람</td>
+<td>수평 방향 힘</td>
+<td><code>createVector(0.1, 0)</code></td>
+</tr>
+<tr>
+<td>마찰력 (브레이크)</td>
+<td>속도 반대 방향, 감속</td>
+<td><code>p5.Vector.mult(vel, -1).normalize().mult(c)</code></td>
+</tr>
+<tr>
+<td>질량</td>
+<td>같은 힘에 다른 반응</td>
+<td><code>applyForce</code> 안에서 <code>force / mass</code></td>
+</tr>
+<tr>
+<td>바운스 손실</td>
+<td>에너지 일부 잃음</td>
+<td><code>this.vel.y *= -0.9</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="주차-예고">11주차 예고</h3>
+<p>다음 주에는 <strong>외부 데이터(JSON, CSV)</strong>를 불러와
+시각화하는 방법을 학습합니다.</p>
+<p><code>loadJSON()</code>, <code>loadTable()</code>,
+<code>preload()</code>를 배우고, 데이터를 시각적으로 표현하는
+<strong>데이터 아트</strong>를 제작합니다.</p>
+<p>물리 시뮬레이션과는 주제가 다르지만 벡터와 클래스는 계속 활용되므로,
+오늘 배운 내용을 잘 기억해 둡니다.</p>
+<h3 id="선택-사전-학습-영상-안내">(선택) 사전 학습 영상 안내</h3>
+<p>더 보고 싶다면 아래 영상을 참고합니다.</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=Mz4hQwMJhYM" target="_blank" rel="noopener noreferrer">The Coding
+Train - 2.1 Forces (약 15분)</a></li>
+<li><a href="https://www.youtube.com/watch?v=WBdhAuWS6X8" target="_blank" rel="noopener noreferrer">The Coding
+Train - 2.3 Friction Force (약 12분)</a></li>
+<li><a href="https://natureofcode.com/forces/" target="_blank" rel="noopener noreferrer">Nature of Code - Chapter
+2: Forces</a></li>
+</ul>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#환경-설정-방향-선택">환경 설정 + 방향 선택</a></li><li class="toc-level-2"><a href="#스타터-코드">스타터 코드</a></li><li class="toc-level-2"><a href="#step-1-단일-객체로-동작-확인">Step 1 — 단일 객체로 동작 확인</a></li><li class="toc-level-2"><a href="#step-2-다중-객체-질량-차이">Step 2 — 다중 객체 + 질량 차이</a></li><li class="toc-level-2"><a href="#step-3-두-번째-힘-추가-인터랙션">Step 3 — 두 번째 힘 추가 + 인터랙션</a></li><li class="toc-level-3"><a href="#방법-a-마찰력-마우스-클릭-바람">방법 A — 마찰력 + 마우스 클릭 바람</a></li><li class="toc-level-3"><a href="#방법-b-키보드로-바람-제어">방법 B — 키보드로 바람 제어</a></li><li class="toc-level-3"><a href="#방법-c-마우스-위치로-지속적인-바람-만들기-draw-안에서">방법 C — 마우스 위치로 지속적인 바람 만들기 (draw() 안에서)</a></li><li class="toc-level-2"><a href="#step-4-시각-효과-및-확장-선택">Step 4 — 시각 효과 및 확장 (선택)</a></li><li class="toc-level-3"><a href="#옵션-a-질량에-따라-색상-다르게">옵션 A — 질량에 따라 색상 다르게</a></li><li class="toc-level-3"><a href="#옵션-b-hsb-색상-모드-속도에-따른-색-변화">옵션 B — HSB 색상 모드 + 속도에 따른 색 변화</a></li><li class="toc-level-3"><a href="#옵션-c-잔상-효과-5주차-복습">옵션 C — 잔상 효과 (5주차 복습)</a></li><li class="toc-level-3"><a href="#옵션-d-마우스-클릭으로-새-객체-추가">옵션 D — 마우스 클릭으로 새 객체 추가</a></li><li class="toc-level-3"><a href="#옵션-e-힘의-방향-화살표-시각화">옵션 E — 힘의 방향 화살표 시각화</a></li><li class="toc-level-2"><a href="#완성-예시">완성 예시</a></li><li class="toc-level-3"><a href="#방향-a-완성-물리-놀이터">방향 A 완성 — 물리 놀이터</a></li><li class="toc-level-3"><a href="#방향-b-완성-비-내리는-풍경">방향 B 완성 — 비 내리는 풍경</a></li><li class="toc-level-3"><a href="#방향-c-완성-우주-공간">방향 C 완성 — 우주 공간</a></li><li class="toc-level-2"><a href="#선택-확장-과제">선택 확장 과제</a></li><li class="toc-level-2"><a href="#마무리">마무리</a></li><li class="toc-level-3"><a href="#오늘의-핵심-한-문장">오늘의 핵심 한 문장</a></li><li class="toc-level-3"><a href="#오늘-배운-것-정리">오늘 배운 것 정리</a></li><li class="toc-level-3"><a href="#주차-예고">11주차 예고</a></li><li class="toc-level-3"><a href="#선택-사전-학습-영상-안내">(선택) 사전 학습 영상 안내</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 11 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV</h1>
+        <p class="lead">External Data and Data Art 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 11</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">11주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">데이터를 코드로 불러오기: preload, JSON, CSV</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-1교시-데이터를-코드로-불러오기-preload-json-csv">11주차
+1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-11-outline <strong>다음
+교시</strong>: <a
+href="week-11-period2.html">week-11-period2-student</a> (데이터를
+시각으로 매핑)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>P5.js Web Editor, <code>data.json</code>, <code>data.csv</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>preload</code> → <code>setup</code> → <code>draw</code>의
+실행 순서를 설명할 수 있습니다</li>
+<li>✅ <code>loadJSON</code>으로 JSON 파일을 불러오고 점 표기법으로
+데이터에 접근할 수 있습니다</li>
+<li>✅ <code>loadTable</code>로 CSV 파일을 불러오고
+<code>getString</code> / <code>getNum</code>으로 값을 꺼낼 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="도입">도입</h2>
+<h3 id="주차에서-11주차로">10주차에서 11주차로</h3>
+<p>지난주에는 힘과 물리 시뮬레이션을 다루며 중력 0.1, 바람 0.05 같은
+숫자를 코드에 <strong>직접</strong> 적었습니다. 손으로 쓴 숫자가
+시뮬레이션을 움직였습니다.</p>
+<p>이번 주는 한 발 더 나아갑니다. 그 숫자가 <strong>현실의
+데이터</strong>라면 어떻게 될까요?</p>
+<p>예를 들어, 오늘 서울의 실제 기온이 18도라면 파티클 색상이 미지근한
+주황으로, 내일 5도로 떨어지면 자동으로 파란색으로 바뀌게 만들 수
+있습니다. 코드는 그대로 두고 <strong>데이터 파일만 바꾸면</strong>
+그림이 따라 바뀌는 구조입니다.</p>
+<p>전 세계 지진 데이터를 점으로 표현한 시각화에서, 지진이 큰 곳은 큰 원,
+작은 곳은 작은 원으로 그려지는 예시를 떠올려보세요. 이 그림에서
+<strong>숫자를 손으로 입력한 것은 한 개도 없습니다</strong>. 전부 데이터
+파일에서 자동으로 가져온 값입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/08_earthquake-data-map.png"
+alt="08 earthquake data map" />
+<figcaption aria-hidden="true">08 earthquake data map</figcaption>
+</figure>
+<p>오늘 배우는 것은 바로 이것입니다 — <strong>외부 데이터 파일을 P5.js로
+불러와서, 데이터가 그림을 만들게 하기</strong>.</p>
+<h3 id="오늘-할-일">오늘 할 일</h3>
+<p>이번 시간이 끝나면 다음 세 가지를 할 수 있게 됩니다.</p>
+<ol type="1">
+<li>JSON 파일과 CSV 파일을 구분하고, 메모장으로 열어서 읽을 수 있다</li>
+<li><code>preload()</code>가 왜 필요한지 30초 안에 설명할 수 있다</li>
+<li>JSON과 CSV 양쪽에서 도시 인구 데이터를 꺼낼 수 있다</li>
+</ol>
+<h3 id="데이터를-다루는-두-가지-태도">데이터를 다루는 두 가지 태도</h3>
+<p>본격적으로 들어가기 전에, ’데이터로 무언가를 한다’는 것이 어떤
+의미인지 정리합니다. 크게 두 가지 태도가 있습니다.</p>
+<p><strong>데이터 시각화</strong> — 데이터를 <em>읽히게</em> 만드는
+일입니다. 막대 그래프, 선 그래프, 지도 위의 점이 대표적인 예입니다.
+목적은 <em>정보 전달</em>입니다. “이 도시 인구가 저 도시보다 두 배
+많다”가 한눈에 보여야 성공한 시각화입니다.</p>
+<p><strong>데이터 아트</strong> — 데이터를 <em>느끼게</em> 만드는
+일입니다. 정확한 비교는 어려워도, 보면서 어떤 인상이나 감정이 남는
+표현입니다. <em>경험</em>이 목적입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/15_data-visualization-vs-data-art.png"
+alt="15 data visualization vs data art" />
+<figcaption aria-hidden="true">15 data visualization vs data
+art</figcaption>
+</figure>
+<p>두 작품을 짧게 살펴봅니다.</p>
+<p><strong>Dear Data (조지아 루피·스테파니 포사베츠)</strong> — 두
+디자이너가 1년 동안 매주 자기 일상을 데이터로 기록해서, ‘이번 주에 웃은
+횟수’, ‘잠을 못 잔 시간’, ‘거울 본 횟수’ 같은 일상의 숫자를 엽서에
+손으로 그려 서로 보낸 작업입니다. 숫자가 색·선·도형으로
+바뀌었습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/09_dear-data-postcards.png"
+alt="09 dear data postcards" />
+<figcaption aria-hidden="true">09 dear data postcards</figcaption>
+</figure>
+<p><strong>Aaron Koblin “Flight Patterns”</strong> — 미국의 모든
+항공편을 선으로 그린 작품입니다. 데이터가 수십만 건인데, 자동으로
+그렸더니 미국 지도의 윤곽이 저절로 떠올랐습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/10_flight-patterns-style.png"
+alt="10 flight patterns style" />
+<figcaption aria-hidden="true">10 flight patterns style</figcaption>
+</figure>
+<p>두 사례 모두 <strong>데이터가 색, 선, 위치 같은 시각 요소로
+번역됐다</strong>는 점이 같습니다. 오늘 배우는 기술이 이 과정을 코드로
+가능하게 합니다. 표현 방향은 작업자의 선택입니다.</p>
+<hr />
+<h2 id="핵심-개념-1-json과-csv-두-가지-데이터-파일-형식">💡 핵심 개념 1
+— JSON과 CSV, 두 가지 데이터 파일 형식</h2>
+<p>오늘 다룰 파일 형식은 두 가지입니다. 코드로 들어가기 전에 파일 자체의
+모양을 봅니다.</p>
+<h3 id="json">JSON</h3>
+<p>첫 번째는 JSON입니다. 풀어쓰면 <strong>JavaScript Object
+Notation</strong>. 이름에 JavaScript가 들어 있고, P5.js도 JavaScript
+기반이라 둘의 궁합이 좋습니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;cities&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;서울&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">9736027</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">605</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;부산&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">3359527</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">770</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;대구&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">2385412</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">883</span> <span class="fu">}</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>세 가지 기호만 알면 구조를 읽을 수 있습니다.</p>
+<ul>
+<li><strong>중괄호 <code>{ }</code></strong> — 하나의 묶음 (객체). 7주차
+클래스로 만든 객체와 같은 모양입니다</li>
+<li><strong><code>"키": 값</code></strong> — 이름표와 내용.
+<code>"name": "서울"</code>은 “name이라는 이름표 아래 서울이 있다”는
+의미입니다</li>
+<li><strong>대괄호 <code>[ ]</code></strong> — 같은 종류 여러 개를 줄
+세운 것 (배열). <code>"cities": [ ... ]</code>는 도시들이 줄 서 있는
+모양입니다</li>
+</ul>
+<p>7주차에서 <code>ball.x</code>, <code>ball.size</code>로 객체의 값을
+꺼냈던 것과 같이, JSON에서도 점(<code>.</code>)으로 값을 꺼냅니다.</p>
+<h3 id="csv">CSV</h3>
+<p>두 번째는 CSV입니다. <strong>Comma-Separated Values</strong>, 쉼표로
+구분된 값. JSON보다 훨씬 단순합니다.</p>
+<pre><code>name,population,area
+서울,9736027,605
+부산,3359527,770
+대구,2385412,883</code></pre>
+<p>표 형태입니다. 첫 줄은 <strong>열 이름</strong>(header)이고, 그
+아래는 <strong>각 행</strong>입니다. 쉼표가 칸막이 역할을 합니다.</p>
+<p>엑셀이나 구글 시트에서 ’다른 이름으로 저장 → CSV’를 누르면 정확히 이
+형태가 됩니다. 스프레드시트에서 만든 데이터를 그대로 P5.js로 가져올 수
+있습니다.</p>
+<h3 id="둘을-언제-쓸까">둘을 언제 쓸까</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>항목</th>
+<th>JSON</th>
+<th>CSV</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>모양</td>
+<td>중괄호 + 키-값, 중첩 가능</td>
+<td>쉼표 구분 표, 단순</td>
+</tr>
+<tr>
+<td>접근 방법</td>
+<td>키 이름으로 (<code>data.cities[0].name</code>)</td>
+<td>행 번호 + 열 이름 (<code>table.getString(0, "name")</code>)</td>
+</tr>
+<tr>
+<td>어울리는 데이터</td>
+<td>웹 API, 설정 파일, 중첩 구조</td>
+<td>엑셀에서 내보낸 통계, 단순 표</td>
+</tr>
+<tr>
+<td>공통점</td>
+<td>둘 다 <strong>그냥 텍스트 파일</strong>. 메모장으로 열 수
+있습니다</td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/11week/02_json-vs-csv.png" alt="02 json vs csv" />
+<figcaption aria-hidden="true">02 json vs csv</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+기억할 한 줄
+</div>
+<p>표 형태면 CSV, 중첩 구조면 JSON. 오늘은 둘 다 다룹니다. 실습에서는
+JSON으로 진행하지만, CSV도 같이 알면 어디서 데이터를 가져와도 대응할 수
+있습니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>엑셀에서 만든 가게 매출 표를 P5.js로 가져오려면 어떤 형식이 더
+자연스러울까요?</p>
+<p><strong>답</strong>: CSV. 엑셀에서 바로 내보내기 가능하고, 표
+구조라서 잘 맞습니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-2-preload가-왜-따로-있을까">💡 핵심 개념 2 —
+<code>preload()</code>가 왜 따로 있을까</h2>
+<h3 id="지금까지의-실행-순서">지금까지의 실행 순서</h3>
+<p>지금까지 사용한 P5.js의 흐름은 다음과 같았습니다.</p>
+<pre><code>setup() → draw() → draw() → draw() → ...</code></pre>
+<p><code>setup()</code>이 한 번, <code>draw()</code>가 매 프레임
+반복되는 구조입니다. 오늘부터는 여기에 <strong>하나가 더
+추가</strong>됩니다.</p>
+<pre><code>preload() → setup() → draw() → draw() → ...</code></pre>
+<p><code>preload()</code>가 가장 앞에 있고, <code>preload()</code> 안의
+일이 <strong>완전히 끝날 때까지</strong> <code>setup()</code>은 시작되지
+않습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/01_preload-flow.png" alt="01 preload flow" />
+<figcaption aria-hidden="true">01 preload flow</figcaption>
+</figure>
+<h3 id="왜-따로-있는가">왜 따로 있는가</h3>
+<p>이유는 한 가지 사실 때문입니다 — <strong>데이터 파일을 읽는 데는
+시간이 걸립니다</strong>.</p>
+<p>파일이 크면 더 오래 걸리고, 인터넷에서 가져오면 네트워크 속도에 따라
+들쭉날쭉합니다. 만약 <code>setup()</code> 안에서 <code>loadJSON</code>을
+호출하면 다음과 같은 일이 벌어집니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> data<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span>  <span class="co">// 읽기 시작 (끝날 때까지 안 기다림)</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(data)<span class="op">;</span>             <span class="co">// 아직 비어 있음 → undefined</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>loadJSON</code>은 <strong>읽기를 시작만</strong> 하고 바로 다음
+줄로 넘어갑니다. 그 다음 줄에서 <code>data</code>를 쓰려고 하면 아직
+비어 있어서 에러가 발생합니다.</p>
+<p><code>preload()</code>는 이 문제를 해결합니다. P5.js에게 ‘이 안의
+일이 다 끝날 때까지 <code>setup()</code> 시작하지 마’ 라고 알려주는
+자리입니다.</p>
+<h3 id="식당-비유">식당 비유</h3>
+<p><code>preload()</code>는 식당의 <strong>재료 준비 단계</strong>에
+해당합니다. 셰프(<code>setup</code>)가 요리를 시작하기 전에 재료가 다
+배달되어야 합니다. 채소도 안 왔는데 도마부터 두드리면 진행이 막힙니다.
+그래서 P5.js는 ’재료 다 왔어요’라는 신호를 받을 때까지 셰프를
+잡아둡니다.</p>
+<h3 id="기본-구조">기본 구조</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> data<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  data <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span>  <span class="co">// 데이터 준비</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(data)<span class="op">;</span>  <span class="co">// 여기에선 data가 준비되어 있음</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+주의
+</div>
+<p>이번 수업에서는 <code>preload()</code> 안에 <strong>로드
+함수만</strong> 둡니다. <code>loadJSON</code>, <code>loadTable</code>,
+<code>loadImage</code>, <code>loadFont</code> 같은 함수들입니다.
+<code>createCanvas</code>나 도형 그리기는 <code>setup()</code>에서 해야
+합니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>P5.js의 실행 순서를 세 단계로 말해볼까요?</p>
+<p><strong>답</strong>: <code>preload()</code> → <code>setup()</code> →
+<code>draw()</code> 반복.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-3-loadjson으로-json-불러오기">💡 핵심 개념 3 —
+<code>loadJSON()</code>으로 JSON 불러오기</h2>
+<h3 id="파일-준비">파일 준비</h3>
+<p>P5.js Web Editor에서 데이터 파일을 추가합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/14_p5-file-upload-steps.png"
+alt="14 p5 file upload steps" />
+<figcaption aria-hidden="true">14 p5 file upload steps</figcaption>
+</figure>
+<ol type="1">
+<li>화면 왼쪽 위 화살표(▶) 클릭해서 파일 패널 열기</li>
+<li>파일 목록 위쪽의 <strong>▼</strong> 클릭 → <strong>“Create
+File”</strong> 선택</li>
+<li>파일명 <code>data.json</code> 입력 후 생성</li>
+<li>아래 내용을 그대로 붙여넣고 저장 (Ctrl/Cmd + S)</li>
+</ol>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;cities&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;서울&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">9736027</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">605</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;부산&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">3359527</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">770</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;대구&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">2385412</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">883</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;인천&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">2948375</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">1063</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;광주&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">1455048</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">501</span> <span class="fu">}</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>한국 5개 도시의 이름·인구·면적 데이터입니다. 곧 이 데이터를 코드로
+꺼냅니다.</p>
+<h3 id="로드하고-콘솔로-확인">로드하고 콘솔로 확인</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData)<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이게 전부입니다. <code>preload()</code>에서 한 줄,
+<code>setup()</code>에서 콘솔 확인 한 줄.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+작업 습관
+</div>
+<p>데이터를 시각화하기 전에 항상 <code>console.log</code>로 데이터
+모양을 먼저 봅니다. 데이터를 안 보고 그림부터 그리면, 버그가 났을 때
+무엇이 잘못된 것인지 찾기 어렵습니다.</p>
+</div>
+<h3 id="점-표기법-한-단계만-깊이-가보기">점 표기법 — 한 단계만 깊이
+가보기</h3>
+<p>데이터 안의 값을 꺼낼 때는 점(<code>.</code>)을 써서 단계별로
+들어갑니다.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>)<span class="op">;</span>          <span class="co">// 도시 배열 5개</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>[<span class="dv">0</span>])<span class="op">;</span>       <span class="co">// 첫 번째 도시 객체</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span>)<span class="op">;</span>  <span class="co">// &quot;서울&quot;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>세 줄에서 점이 한 단계씩 깊어집니다. <code>cityData</code> → 그 안의
+<code>cities</code> 배열 → 0번째 → 그 객체의 <code>name</code>.</p>
+<p>7주차에 <code>ball.x</code>로 객체 프로퍼티 꺼냈던 그 문법,
+그대로입니다. 새 문법이 아닙니다.</p>
+<h3 id="모든-도시-꺼내기-for문">모든 도시 꺼내기 — for문</h3>
+<p>도시 5개를 <code>cities[0]</code>, <code>cities[1]</code>처럼 다섯
+줄로 쓰는 대신, 6주차 <code>for문</code>을 그대로 가져옵니다.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(city<span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">&quot; — 인구 &quot;</span> <span class="op">+</span> city<span class="op">.</span><span class="at">population</span>)<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>기대 콘솔 출력.</p>
+<pre><code>서울 — 인구 9736027
+부산 — 인구 3359527
+대구 — 인구 2385412
+인천 — 인구 2948375
+광주 — 인구 1455048</code></pre>
+<p><code>let city = cities[i]</code> 한 줄이 핵심입니다. i번째 도시를
+<code>city</code>라는 짧은 이름으로 받아두면, 그 다음부터
+<code>city.name</code>, <code>city.population</code>로 깔끔하게 쓸 수
+있습니다. <code>cities[i].name</code>을 반복하는 것보다 읽기
+좋습니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>cityData.cities[2].name</code>은 어떤 도시일까요?</p>
+<p><strong>답</strong>: 대구. 인덱스 0이 서울이니까 2면 세 번째,
+대구.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-4-loadtable로-csv-불러오기">💡 핵심 개념 4 —
+<code>loadTable()</code>로 CSV 불러오기</h2>
+<h3 id="파일-준비-1">파일 준비</h3>
+<p>P5.js Web Editor에서 <code>data.csv</code> 파일을 새로 만들고 아래
+내용을 붙여넣습니다.</p>
+<pre><code>name,population,area
+서울,9736027,605
+부산,3359527,770
+대구,2385412,883
+인천,2948375,1063
+광주,1455048,501</code></pre>
+<p>JSON과 똑같은 데이터, 형식만 표입니다.</p>
+<h3 id="로드-인자-세-개">로드 — 인자 세 개</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> table<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  table <span class="op">=</span> <span class="fu">loadTable</span>(<span class="st">&quot;data.csv&quot;</span><span class="op">,</span> <span class="st">&quot;csv&quot;</span><span class="op">,</span> <span class="st">&quot;header&quot;</span>)<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(table<span class="op">.</span><span class="fu">getRowCount</span>())<span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>loadTable</code>의 인자가 세 개입니다.</p>
+<ol type="1">
+<li><code>"data.csv"</code> — 파일 이름</li>
+<li><code>"csv"</code> — 형식이 CSV라고 알려주는 표시</li>
+<li><code>"header"</code> — 첫 줄을 데이터가 아니라 <strong>열
+이름</strong>으로 인식하라는 지시. 이걸 빼면 “name, population, area”도
+데이터로 들어가서 결과가 망가집니다</li>
+</ol>
+<p><code>table.getRowCount()</code>로 행 수를 찍어보면
+<strong>5</strong>가 나옵니다. 헤더 빼고 5줄.</p>
+<h3 id="값-꺼내기-두-메서드만-기억">값 꺼내기 — 두 메서드만 기억</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(table<span class="op">.</span><span class="fu">getString</span>(<span class="dv">0</span><span class="op">,</span> <span class="st">&quot;name&quot;</span>))<span class="op">;</span>        <span class="co">// &quot;서울&quot;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(table<span class="op">.</span><span class="fu">getNum</span>(<span class="dv">0</span><span class="op">,</span> <span class="st">&quot;population&quot;</span>))<span class="op">;</span>     <span class="co">// 9736027</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>메서드 두 개만 알면 됩니다.</p>
+<ul>
+<li><strong><code>getString(행번호, "열이름")</code></strong> —
+글자(이름·문자) 가져오기</li>
+<li><strong><code>getNum(행번호, "열이름")</code></strong> — 숫자
+가져오기</li>
+</ul>
+<p>CSV 파일에서는 모든 값이 일단 <strong>글자로</strong> 저장됩니다.
+숫자도 <code>"9736027"</code>이라는 글자로 들어 있습니다.
+<code>getNum</code>은 그걸 진짜 숫자로 바꿔주는 함수입니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+흔한 실수
+</div>
+<p>인구를 <code>getString</code>으로 꺼내서 더하면?
+<code>9736027 + 3359527 = 13095554</code>가 아니라, 글자 이어붙이기
+<code>"97360273359527"</code>이 됩니다. 숫자는 반드시
+<code>getNum</code>.</p>
+</div>
+<h3 id="전체-행-순회">전체 행 순회</h3>
+<p>for문으로 행 번호를 돌립니다.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> r <span class="op">&lt;</span> table<span class="op">.</span><span class="fu">getRowCount</span>()<span class="op">;</span> r<span class="op">++</span>) {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> name <span class="op">=</span> table<span class="op">.</span><span class="fu">getString</span>(r<span class="op">,</span> <span class="st">&quot;name&quot;</span>)<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> pop <span class="op">=</span> table<span class="op">.</span><span class="fu">getNum</span>(r<span class="op">,</span> <span class="st">&quot;population&quot;</span>)<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(name <span class="op">+</span> <span class="st">&quot; — 인구 &quot;</span> <span class="op">+</span> pop)<span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>JSON에서 <code>cities[i].name</code>을 꺼냈던 것과 패턴이 똑같습니다.
+<strong>for문으로 인덱스 돌리고, 각 항목에서 값 두 개 꺼내고,
+사용</strong>. JSON이든 CSV든 이 패턴만 익히면 됩니다.</p>
+<h3 id="json과-csv-비교">JSON과 CSV 비교</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>작업</th>
+<th>JSON</th>
+<th>CSV</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>로드</td>
+<td><code>loadJSON("file.json")</code></td>
+<td><code>loadTable("file.csv", "csv", "header")</code></td>
+</tr>
+<tr>
+<td>전체 개수</td>
+<td><code>data.cities.length</code></td>
+<td><code>table.getRowCount()</code></td>
+</tr>
+<tr>
+<td>i번째 이름</td>
+<td><code>data.cities[i].name</code></td>
+<td><code>table.getString(i, "name")</code></td>
+</tr>
+<tr>
+<td>i번째 인구</td>
+<td><code>data.cities[i].population</code></td>
+<td><code>table.getNum(i, "population")</code></td>
+</tr>
+<tr>
+<td>핵심 패턴</td>
+<td>for문으로 인덱스 돌리기</td>
+<td>for문으로 인덱스 돌리기</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+기억할 한 줄
+</div>
+<p>JSON은 점으로, CSV는 메서드로. for문 순회 패턴은 똑같다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>CSV에서 인구 숫자를 가져올 때 <code>getString</code> 쓰면 어떻게
+될까요?</p>
+<p><strong>답</strong>: 글자로 와서 숫자 계산이 안 됩니다.
+<code>getNum</code>을 써야 합니다.</p>
+</div>
+<hr />
+<h2 id="예제-처음부터-끝까지-한-번에">예제 — 처음부터 끝까지 한
+번에</h2>
+<p>지금까지 본 내용을 P5.js Web Editor에서 처음부터 끝까지 이어
+봅니다.</p>
+<h3 id="예제-1-json-로드">예제 1 — JSON 로드</h3>
+<ol type="1">
+<li>P5.js Web Editor에서 새 스케치 열기</li>
+<li>파일 패널에서 <code>data.json</code> 새로 만들고, 도시 5개 데이터
+붙여넣기 → 저장</li>
+<li><code>sketch.js</code>에 아래 코드 입력</li>
+</ol>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData)<span class="op">;</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span>)<span class="op">;</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<ol start="4" type="1">
+<li>▶ 실행 → 콘솔 열기</li>
+<li>첫 줄에 객체, 두 번째 줄에 <code>"서울"</code>이 찍히는지 확인</li>
+<li>콘솔에서 객체 옆 화살표(▶)를 클릭해 펼쳐 보면 데이터 구조가 한눈에
+들어옵니다</li>
+</ol>
+<p>시각화 들어가기 전에 항상 이 단계를 거치는 습관을 들이세요.</p>
+<h3 id="예제-2-csv-로드">예제 2 — CSV 로드</h3>
+<ol type="1">
+<li>파일 패널에서 <code>data.csv</code> 새로 만들고, 같은 데이터를 CSV로
+붙여넣기 → 저장</li>
+<li><code>sketch.js</code>를 아래로 교체</li>
+</ol>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> table<span class="op">;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  table <span class="op">=</span> <span class="fu">loadTable</span>(<span class="st">&quot;data.csv&quot;</span><span class="op">,</span> <span class="st">&quot;csv&quot;</span><span class="op">,</span> <span class="st">&quot;header&quot;</span>)<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;행 수: &quot;</span> <span class="op">+</span> table<span class="op">.</span><span class="fu">getRowCount</span>())<span class="op">;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> r <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> r <span class="op">&lt;</span> table<span class="op">.</span><span class="fu">getRowCount</span>()<span class="op">;</span> r<span class="op">++</span>) {</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(table<span class="op">.</span><span class="fu">getString</span>(r<span class="op">,</span> <span class="st">&quot;name&quot;</span>) <span class="op">+</span> <span class="st">&quot; — &quot;</span> <span class="op">+</span> table<span class="op">.</span><span class="fu">getNum</span>(r<span class="op">,</span> <span class="st">&quot;population&quot;</span>))<span class="op">;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<ol start="3" type="1">
+<li>실행 → 콘솔에서 5개 도시 출력 확인</li>
+</ol>
+<p>JSON과 모양은 다르지만, 콘솔에 찍히는 결과는 똑같습니다. 도구만 다른
+것입니다.</p>
+<h3 id="예제-3-preload를-빼면-어떻게-되는가">예제 3 —
+<code>preload()</code>를 빼면 어떻게 되는가</h3>
+<p>JSON 스케치로 돌아가서, <code>preload</code>를 통째로 주석 처리하거나
+삭제하고, <code>loadJSON</code> 호출을 <code>setup()</code> 안 첫 줄로
+옮깁니다.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="co">// function preload() {</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="co">//   cityData = loadJSON(&quot;data.json&quot;);</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="co">// }</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span>)<span class="op">;</span>  <span class="co">// 에러 예정</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 콘솔에 다음 에러가 출력됩니다.</p>
+<pre><code>TypeError: Cannot read properties of undefined (reading &#39;cities&#39;)</code></pre>
+<p><code>cityData</code>가 아직 안 채워진 상태에서
+<code>.cities</code>를 꺼내려고 하니까 에러입니다. 비유로만 설명했던
+식당 이야기가 실제 코드에서 그대로 나타나는 장면입니다.</p>
+<p>다시 <code>preload</code>로 옮기고 실행하면 정상 출력됩니다. 앞으로
+같은 에러를 만나면 ‘<code>preload</code> 빼먹었구나’ 떠올리면
+됩니다.</p>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<h3 id="한-화면-요약">한 화면 요약</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 정의</th>
+<th>핵심 코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JSON</td>
+<td>중괄호 + 키-값, 중첩 가능</td>
+<td><code>loadJSON("file.json")</code> /
+<code>data.cities[i].name</code></td>
+</tr>
+<tr>
+<td>CSV</td>
+<td>쉼표 구분 표, 단순</td>
+<td><code>loadTable("file.csv", "csv", "header")</code> /
+<code>table.getNum(i, "population")</code></td>
+</tr>
+<tr>
+<td><code>preload()</code></td>
+<td>데이터 다 준비될 때까지 <code>setup</code> 대기</td>
+<td><code>preload → setup → draw</code> 순서</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+한 문장 요약
+</div>
+<p>JSON은 점으로, CSV는 메서드로, 데이터를 불러올 땐 항상
+<code>preload()</code>로.</p>
+</div>
+<h3 id="교시-예고">🔥 2교시 예고</h3>
+<p>1교시에서는 데이터를 불러와서 <strong>콘솔에 찍는 단계</strong>까지
+진행했습니다. 2교시에서는 이 데이터를 <strong>그림</strong>으로
+바꿉니다.</p>
+<p>핵심은 5주차에서 배운 <code>map()</code>입니다. 인구 → 원 크기, 면적
+→ 위치, 인덱스 → 색상. 데이터의 숫자를 시각 요소로 번역하는 작업이
+데이터 시각화·데이터 아트의 출발점입니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#주차에서-11주차로">10주차에서 11주차로</a></li><li class="toc-level-3"><a href="#오늘-할-일">오늘 할 일</a></li><li class="toc-level-3"><a href="#데이터를-다루는-두-가지-태도">데이터를 다루는 두 가지 태도</a></li><li class="toc-level-2"><a href="#핵심-개념-1-json과-csv-두-가지-데이터-파일-형식">핵심 개념 1 — JSON과 CSV, 두 가지 데이터 파일 형식</a></li><li class="toc-level-3"><a href="#json">JSON</a></li><li class="toc-level-3"><a href="#csv">CSV</a></li><li class="toc-level-3"><a href="#둘을-언제-쓸까">둘을 언제 쓸까</a></li><li class="toc-level-2"><a href="#핵심-개념-2-preload가-왜-따로-있을까">핵심 개념 2 — preload()가 왜 따로 있을까</a></li><li class="toc-level-3"><a href="#지금까지의-실행-순서">지금까지의 실행 순서</a></li><li class="toc-level-3"><a href="#왜-따로-있는가">왜 따로 있는가</a></li><li class="toc-level-3"><a href="#식당-비유">식당 비유</a></li><li class="toc-level-3"><a href="#기본-구조">기본 구조</a></li><li class="toc-level-2"><a href="#핵심-개념-3-loadjson으로-json-불러오기">핵심 개념 3 — loadJSON()으로 JSON 불러오기</a></li><li class="toc-level-3"><a href="#파일-준비">파일 준비</a></li><li class="toc-level-3"><a href="#로드하고-콘솔로-확인">로드하고 콘솔로 확인</a></li><li class="toc-level-3"><a href="#점-표기법-한-단계만-깊이-가보기">점 표기법 — 한 단계만 깊이 가보기</a></li><li class="toc-level-3"><a href="#모든-도시-꺼내기-for문">모든 도시 꺼내기 — for문</a></li><li class="toc-level-2"><a href="#핵심-개념-4-loadtable로-csv-불러오기">핵심 개념 4 — loadTable()로 CSV 불러오기</a></li><li class="toc-level-3"><a href="#파일-준비-1">파일 준비</a></li><li class="toc-level-3"><a href="#로드-인자-세-개">로드 — 인자 세 개</a></li><li class="toc-level-3"><a href="#값-꺼내기-두-메서드만-기억">값 꺼내기 — 두 메서드만 기억</a></li><li class="toc-level-3"><a href="#전체-행-순회">전체 행 순회</a></li><li class="toc-level-3"><a href="#json과-csv-비교">JSON과 CSV 비교</a></li><li class="toc-level-2"><a href="#예제-처음부터-끝까지-한-번에">예제 — 처음부터 끝까지 한 번에</a></li><li class="toc-level-3"><a href="#예제-1-json-로드">예제 1 — JSON 로드</a></li><li class="toc-level-3"><a href="#예제-2-csv-로드">예제 2 — CSV 로드</a></li><li class="toc-level-3"><a href="#예제-3-preload를-빼면-어떻게-되는가">예제 3 — preload()를 빼면 어떻게 되는가</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#한-화면-요약">한 화면 요약</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

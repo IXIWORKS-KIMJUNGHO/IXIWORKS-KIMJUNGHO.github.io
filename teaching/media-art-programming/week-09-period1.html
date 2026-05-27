@@ -1,0 +1,786 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 1교시 — 벡터란 무엇인가 + p5.Vector 기본 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 09 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>9주차 1교시 — 벡터란 무엇인가 + p5.Vector 기본</h1>
+        <p class="lead">Vectors and Motion 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 09</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">9주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">벡터란 무엇인가 + p5.Vector 기본</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-1교시-벡터란-무엇인가-p5.vector-기본">9주차 1교시 — 벡터란
+무엇인가 + p5.Vector 기본</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-09-outline <strong>다음
+교시</strong>: <a
+href="week-09-period2.html">week-09-period2-student</a> (가속도,
+삼각함수, 클래스 결합)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>p5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>p5.js Web Editor</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ 벡터(Vector)의 개념을 이해하고, 왜 x/y 변수 대신 벡터를
+사용하는지 설명할 수 있습니다</li>
+<li>✅ <code>createVector()</code>와 <code>p5.Vector</code> 클래스를
+사용하여 위치와 속도를 벡터로 표현할 수 있습니다</li>
+<li>✅ 벡터 연산(<code>add()</code>, <code>sub()</code>,
+<code>mult()</code>, <code>normalize()</code>, <code>dist()</code>)의
+의미를 이해하고 활용할 수 있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="이번-시간-핵심">이번 시간 핵심</h2>
+<ul>
+<li>5주차 바운싱 볼에서는 위치 <code>x, y</code>와 속도
+<code>speedX, speedY</code>를 따로 관리했습니다.</li>
+<li>벡터는 <code>x, y</code>를 한 묶음으로 다루어 위치, 속도, 가속도를
+표현합니다.</li>
+<li>벡터는 이후 힘, 파티클, 시뮬레이션을 구현하는 기본 도구입니다.</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">200</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedX <span class="op">=</span> <span class="dv">3</span><span class="op">,</span> speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> speedX<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> speedY<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width <span class="op">||</span> x <span class="op">&lt;</span> <span class="dv">0</span>) speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y <span class="op">&gt;</span> height <span class="op">||</span> y <span class="op">&lt;</span> <span class="dv">0</span>) speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>위 코드의 변수 4개는 벡터 2개로 묶을 수 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>5주차 변수</th>
+<th>9주차 벡터</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x</code>, <code>y</code></td>
+<td><code>pos</code></td>
+<td>위치</td>
+</tr>
+<tr>
+<td><code>speedX</code>, <code>speedY</code></td>
+<td><code>vel</code></td>
+<td>속도</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="핵심-개념-1-벡터란-화살표로-시작하자">💡 핵심 개념 1 — 벡터란?
+화살표로 시작하자</h2>
+<h3 id="step-1.-벡터-방향과-길이를-가진-화살표">Step 1. 벡터 = 방향과
+길이를 가진 화살표</h3>
+<p>벡터는 <strong>방향과 길이를 가진 값</strong>입니다. 처음에는
+화살표로 이해하면 가장 직관적입니다.</p>
+<p>화살표 하나에는 두 가지 정보가 들어있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>화살표의 정보</th>
+<th>벡터에서의 이름</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>어디를 가리키는가</td>
+<td><strong>방향</strong></td>
+</tr>
+<tr>
+<td>얼마나 긴가</td>
+<td><strong>길이</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+용어
+</div>
+<p>벡터의 길이는 영어 자료에서 <strong>magnitude</strong>라고
+부릅니다.</p>
+</div>
+<p>짧은 화살표, 긴 화살표, 오른쪽으로 뻗은 화살표, 왼쪽 대각선으로 뻗은
+화살표는 모두 <strong>서로 다른 벡터</strong>입니다. 방향이나 길이가
+다르면 다른 벡터로 봅니다.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/05-various-vectors.png"
+alt="05 various vectors" />
+<figcaption aria-hidden="true">05 various vectors</figcaption>
+</figure>
+<h3 id="step-2.-스칼라-vs-벡터-일상-예시로-구분">Step 2. 스칼라 vs 벡터
+— 일상 예시로 구분</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>일상 예시</th>
+<th>어떻게 말하는가</th>
+<th>분류</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>오늘 기온</td>
+<td>“23도”</td>
+<td><strong>스칼라</strong> — 숫자 하나로 표현</td>
+</tr>
+<tr>
+<td>내 키</td>
+<td>“175cm”</td>
+<td>스칼라</td>
+</tr>
+<tr>
+<td>바람</td>
+<td>“북서쪽으로 4m/s”</td>
+<td><strong>벡터</strong> — 방향 + 세기</td>
+</tr>
+<tr>
+<td>공의 속도</td>
+<td>“오른쪽 위로 5m/s”</td>
+<td>벡터</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li><strong>스칼라</strong>: 숫자 하나로 충분한 값</li>
+<li><strong>벡터</strong>: 방향과 길이가 함께 필요한 값</li>
+<li>p5.js 움직임에서 위치, 속도, 가속도는 모두 벡터로 다룰 수
+있습니다.</li>
+</ul>
+<h3 id="step-3.-좌표평면-위의-벡터-두-개의-숫자가-화살표를-만든다">Step
+3. 좌표평면 위의 벡터 — 두 개의 숫자가 화살표를 만든다</h3>
+<div class="callout callout-warning">
+<div class="callout-title">
+p5.js 좌표 주의
+</div>
+<p>캔버스의 <strong>좌상단</strong>이 (0, 0)이고, <strong>오른쪽으로
+갈수록 x가 커지고</strong>, <strong>아래로 갈수록 y가
+커집니다</strong>.</p>
+</div>
+<p>위치 <code>(200, 150)</code>은 캔버스의 한 지점이면서, 원점
+<code>(0, 0)</code>에서 그 지점까지 가는 화살표로도 볼 수 있습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/01-vector-as-arrow.png"
+alt="01 vector as arrow" />
+<figcaption aria-hidden="true">01 vector as arrow</figcaption>
+</figure>
+<p><strong>두 개의 숫자 (x, y) = 화살표 하나 = 벡터 하나</strong>.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>벡터</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(3, 0)</code></td>
+<td>오른쪽으로 3</td>
+</tr>
+<tr>
+<td><code>(0, 4)</code></td>
+<td>아래로 4</td>
+</tr>
+<tr>
+<td><code>(3, 4)</code></td>
+<td>오른쪽 3, 아래 4</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="step-4.-프로그래밍에서의-벡터">Step 4. 프로그래밍에서의
+벡터</h3>
+<p>프로그래밍에서 벡터는 <strong>(x, y) 두 값을 한 묶음으로 다루는
+것</strong>입니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>변수 2개 (5주차 방식)</th>
+<th>벡터 1개 (9주차 방식)</th>
+<th>의미 (화살표 해석)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>x = 200, y = 150</code></td>
+<td><code>pos = (200, 150)</code></td>
+<td><strong>위치</strong>: 원점에서 (200, 150)까지 가는 화살표</td>
+</tr>
+<tr>
+<td><code>speedX = 3, speedY = -2</code></td>
+<td><code>vel = (3, -2)</code></td>
+<td><strong>속도</strong>: 매 프레임 오른쪽 3, 위 2만큼 이동시키는
+화살표</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>위치 벡터</strong>는 ’어디에 있는가’를 원점으로부터의
+화살표로 표현하고, <strong>속도 벡터</strong>는 ’매 프레임 어느 방향으로
+얼마나 이동하는가’를 나타내는 화살표입니다.</p>
+<p>7주차 클래스 안에서 <code>x</code>, <code>y</code>,
+<code>speedX</code>, <code>speedY</code> 대신 <code>pos</code>,
+<code>vel</code> 같은 벡터를 사용할 수 있습니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>5주차 바운싱 볼에서
+<code>x = 200, y = 200, speedX = 3, speedY = 2</code> — 이 4개 변수를
+벡터로 묶으면 몇 개의 벡터가 필요할까요?</p>
+<p><strong>답</strong>: 2개. 위치 벡터 (200, 200)과 속도 벡터 (3,
+2)입니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-2-createvector와-p5.vector">💡 핵심 개념 2 —
+createVector()와 p5.Vector</h2>
+<h3 id="p5.vector-p5.js가-미리-만들어준-클래스">p5.Vector — p5.js가 미리
+만들어준 클래스</h3>
+<p>p5.js에는 벡터를 위한 <code>p5.Vector</code> 클래스가 이미 준비되어
+있습니다.</p>
+<h3 id="createvectorx-y-벡터-생성"><code>createVector(x, y)</code> —
+벡터 생성</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(pos<span class="op">.</span><span class="at">x</span>)<span class="op">;</span>  <span class="co">// 200</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(pos<span class="op">.</span><span class="at">y</span>)<span class="op">;</span>  <span class="co">// 150</span></span></code></pre></div>
+<p><code>createVector(200, 150)</code>은 x가 200, y가 150인 벡터를
+만듭니다. 값은 <code>pos.x</code>, <code>pos.y</code>로 접근합니다.</p>
+<h3 id="주차-코드를-벡터로-변환">5주차 코드를 벡터로 변환</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 5주차 방식 (변수 4개)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> <span class="dv">200</span><span class="op">,</span> y <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedX <span class="op">=</span> <span class="dv">3</span><span class="op">,</span> speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">// 9주차 방식 (벡터 2개)</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> vel <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span></code></pre></div>
+<p>변수 4개가 벡터 2개로 줄었습니다. <code>pos</code>는 위치(position),
+<code>vel</code>은 속도(velocity)라서 이름만 봐도 역할을 바로 알 수
+있습니다.</p>
+<h3 id="관례적인-이름">관례적인 이름</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>영어</th>
+<th>약자</th>
+<th>한국어</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>position</td>
+<td><code>pos</code></td>
+<td>위치</td>
+</tr>
+<tr>
+<td>velocity</td>
+<td><code>vel</code></td>
+<td>속도</td>
+</tr>
+<tr>
+<td>acceleration</td>
+<td><code>acc</code></td>
+<td>가속도</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>pos</code>는 위치, <code>vel</code>은 속도, <code>acc</code>는
+가속도를 뜻합니다.</p>
+<hr />
+<h2 id="핵심-개념-3-벡터-연산-add-sub-dist">💡 핵심 개념 3 — 벡터 연산:
+add(), sub(), dist()</h2>
+<h3 id="주차-방식-vs-벡터-방식">5주차 방식 vs 벡터 방식</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 5주차: 줄이 2개 필요</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">+=</span> speedX<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">+=</span> speedY<span class="op">;</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 9주차: 한 줄로 표현</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span></span></code></pre></div>
+<p><code>pos.add(vel)</code>은 <strong>위치에 속도를 더한다</strong>는
+뜻입니다. 내부적으로는 <code>pos.x += vel.x; pos.y += vel.y;</code>를
+수행합니다.</p>
+<h3 id="전체-코드로-확인">전체 코드로 확인</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos<span class="op">,</span> vel<span class="op">;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  vel <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span>  <span class="co">// x += speedX; y += speedY;를 한 줄로!</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 원이 오른쪽 아래 방향으로 이동 (화면
+밖으로 나감 — 바운싱은 아직 없음)</p>
+<h3 id="벡터-덧셈의-시각적-이해">벡터 덧셈의 시각적 이해</h3>
+<div class="callout callout-tip">
+<div class="callout-title">
+벡터 덧셈의 핵심
+</div>
+<p>벡터 덧셈 = <strong>화살표 두 개를 이어붙이기</strong>.</p>
+</div>
+<figure class="lecture-figure">
+<img src="assets/9week/02-vector-addition.png"
+alt="02 vector addition" />
+<figcaption aria-hidden="true">02 vector addition</figcaption>
+</figure>
+<p>위치 화살표의 <strong>끝</strong>에 속도 화살표를 붙이면 그 끝점이
+<strong>새로운 위치</strong>가 됩니다.</p>
+<p>숫자로 확인: 위치 (200, 200) + 속도 (3, 2) = (203, 202).</p>
+<h3 id="sub-벡터-뺄셈으로-방향-구하기"><code>sub()</code> — 벡터
+뺄셈으로 방향 구하기</h3>
+<p>뺄셈은 <strong>두 점 사이의 방향</strong>을 구하는 연산입니다.</p>
+<h4 id="왜-뺄셈-방향인가-놀이터-비유">왜 ’뺄셈 = 방향’인가? — 놀이터
+비유</h4>
+<p>내 위치가 (100, 100)이고, 목표 위치가 (300, 200)이라고
+가정합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/03-sub-playground-analogy.png"
+alt="03 sub playground analogy" />
+<figcaption aria-hidden="true">03 sub playground analogy</figcaption>
+</figure>
+<pre><code>목표 x - 현재 x = 300 - 100 = 200
+목표 y - 현재 y = 200 - 100 = 100
+→ (200, 100) : 현재에서 목표로 가는 이동 벡터</code></pre>
+<div class="callout callout-note">
+<div class="callout-title">
+(200, 100)은 위치일 수도, 이동량일 수도 있습니다
+</div>
+<p>같은 숫자라도 <code>pos = createVector(200, 100)</code>이면 화면의
+<strong>위치</strong>를 뜻합니다.</p>
+<p>하지만 <code>toFriend = p5.Vector.sub(friend, me)</code>의 결과가
+<code>(200, 100)</code>이라면, 이것은 <strong>오른쪽으로 200, 아래로
+100만큼 이동하라</strong>는 방향/이동량입니다.</p>
+<p>이 화살표를 원점에 놓으면 (0, 0)에서 (200, 100)으로 가고, 내 위치
+(100, 100)에 붙이면 (100, 100)에서 (300, 200)으로 갑니다. 벡터는 방향과
+길이가 같으면 어디에 옮겨 놓아도 같은 벡터로 볼 수 있습니다.</p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+한 줄 규칙
+</div>
+<p><strong><code>목표 위치 - 현재 위치 = 현재에서 목표로 가는 화살표</code></strong></p>
+</div>
+<h4 id="코드로-확인">코드로 확인</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> me <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> friend <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> toFriend <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(friend<span class="op">,</span> me)<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(toFriend<span class="op">.</span><span class="at">x</span><span class="op">,</span> toFriend<span class="op">.</span><span class="at">y</span>)<span class="op">;</span>  <span class="co">// 200, 100</span></span></code></pre></div>
+<p><code>p5.Vector.sub(friend, me)</code> = <strong>친구 위치 - 내
+위치</strong> = <strong>나에서 친구로 가는 화살표</strong>.</p>
+<h4 id="순서가-반대면-가장-흔한-실수">순서가 반대면? — 가장 흔한
+실수</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> wrong <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(me<span class="op">,</span> friend)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(wrong<span class="op">.</span><span class="at">x</span><span class="op">,</span> wrong<span class="op">.</span><span class="at">y</span>)<span class="op">;</span>  <span class="co">// -200, -100</span></span></code></pre></div>
+<p>결과가 <strong>(-200, -100)</strong>으로 부호가 다 뒤집혔습니다. 이건
+<strong>친구에서 나로 오는</strong> 화살표라서 내가 원하던 것과 반대
+방향입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/03-sub-direction.png" alt="03 sub direction" />
+<figcaption aria-hidden="true">03 sub direction</figcaption>
+</figure>
+<div class="callout callout-warning">
+<div class="callout-title">
+기억법
+</div>
+<p><strong><code>sub(도착, 출발)</code>. 도착을 앞에 둡니다.</strong>
+내가 가고 싶은 쪽을 첫 번째 인자로 사용합니다.</p>
+</div>
+<h4 id="실전-마우스-추적-미니-예제">실전: 마우스 추적 미니 예제</h4>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> mousePos <span class="op">=</span> <span class="fu">createVector</span>(mouseX<span class="op">,</span> mouseY)<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> dir <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(mousePos<span class="op">,</span> pos)<span class="op">;</span>  <span class="co">// ① 공 → 마우스 방향 (뺄셈)</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  dir<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.05</span>)<span class="op">;</span>                          <span class="co">// ② 이동량이 너무 크지 않도록 5%만 사용</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(dir)<span class="op">;</span>                            <span class="co">// ③ 그만큼 이동 (덧셈)</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>연산 3개가 연결됩니다</strong>: 뺄셈(방향 구하기) → 곱셈(속도
+조절) → 덧셈(이동).</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+자연스러운 감속의 비밀
+</div>
+<p>멀면 <code>dir</code> 벡터가 길고(거리가 크니까), 가까워지면
+짧아집니다. 그래서 <code>mult(0.05)</code>한 이동 거리도 함께
+줄어듭니다. 거리 계산이나 조건문을 따로 쓰지 않아도 <strong>자연스러운
+감속</strong> 효과가 생깁니다.</p>
+</div>
+<h4 id="방향-벡터의-길이-거리">방향 벡터의 길이 = 거리</h4>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> toFriend <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(friend<span class="op">,</span> me)<span class="op">;</span>  <span class="co">// (200, 100)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(toFriend<span class="op">.</span><span class="fu">mag</span>())<span class="op">;</span>  <span class="co">// √(200² + 100²) ≈ 223.6</span></span></code></pre></div>
+<p>방향 벡터의 길이(<code>mag()</code>)는 두 점 사이의 직선
+거리입니다.</p>
+<h4 id="sub-한-줄-요약"><code>sub()</code> 한 줄 요약</h4>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>원하는 것</th>
+<th>코드</th>
+<th>의미</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A에서 B로 가는 화살표</td>
+<td><code>p5.Vector.sub(B, A)</code></td>
+<td>“도착 - 출발”</td>
+</tr>
+<tr>
+<td>A와 B 사이 거리</td>
+<td><code>p5.Vector.sub(B, A).mag()</code> 또는
+<code>A.dist(B)</code></td>
+<td>화살표 길이</td>
+</tr>
+<tr>
+<td>방향만 (순수 방향)</td>
+<td><code>sub</code> 후 <code>normalize()</code></td>
+<td>길이 1 화살표</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>공이 (50, 50)에 있고, 마우스가 (200, 150)에 있습니다. 공에서 마우스로
+가는 방향 벡터는?</p>
+<p><strong>답</strong>: <code>sub(mouse, pos)</code> = (200-50, 150-50)
+= (150, 100)입니다.</p>
+</div>
+<h3 id="dist-두-벡터-사이의-거리"><code>dist()</code> — 두 벡터 사이의
+거리</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> a <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> b <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">500</span>)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">dist</span>(a<span class="op">,</span> b))<span class="op">;</span>  <span class="co">// 500</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(a<span class="op">.</span><span class="fu">dist</span>(b))<span class="op">;</span>             <span class="co">// 500 (같은 결과)</span></span></code></pre></div>
+<p><code>dist()</code>는 두 벡터 사이의 거리만 필요할 때 사용합니다.
+충돌 감지나 중력 계산에서 자주 쓰입니다.</p>
+<hr />
+<h2 id="핵심-개념-4-mult와-normalize">💡 핵심 개념 4 — mult()와
+normalize()</h2>
+<h3 id="multn-벡터에-숫자를-곱하기"><code>mult(n)</code> — 벡터에 숫자를
+곱하기</h3>
+<p>벡터에 숫자를 곱하면 <strong>크기가 바뀌고 방향은
+유지</strong>됩니다.</p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> v <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>v<span class="op">.</span><span class="fu">mult</span>(<span class="dv">2</span>)<span class="op">;</span>   <span class="co">// (6, 8) — 크기가 두 배가 됨</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> v <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>v<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.5</span>)<span class="op">;</span> <span class="co">// (1.5, 2) — 크기가 절반이 됨</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> v <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>v<span class="op">.</span><span class="fu">mult</span>(<span class="op">-</span><span class="dv">1</span>)<span class="op">;</span>  <span class="co">// (-3, -4) — 방향 반전</span></span></code></pre></div>
+<p><code>vel.mult(-1)</code>은 x, y 방향을 모두 반대로 뒤집습니다.</p>
+<h3 id="주차-바운싱-코드-vs-벡터-바운싱-코드">5주차 바운싱 코드 vs 벡터
+바운싱 코드</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>5주차</th>
+<th>9주차 (벡터)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>speedX *= -1;</code></td>
+<td><code>vel.x *= -1;</code></td>
+</tr>
+<tr>
+<td><code>speedY *= -1;</code></td>
+<td><code>vel.y *= -1;</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+바운싱 주의
+</div>
+<p>벽에 부딪힐 때는 <code>vel.x *= -1</code> 또는
+<code>vel.y *= -1</code>처럼 한 축만 바꿉니다.
+<code>vel.mult(-1)</code>은 양쪽을 모두 뒤집습니다.</p>
+</div>
+<h3 id="mag-벡터의-길이빠르기-구하기"><code>mag()</code> — 벡터의
+길이(빠르기) 구하기</h3>
+<p>화살표의 <strong>길이</strong>를 알고 싶을 때 <code>mag()</code>를
+씁니다.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> v <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(v<span class="op">.</span><span class="fu">mag</span>())<span class="op">;</span>  <span class="co">// 5</span></span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/9week/04-mag-triangle.png" alt="04 mag triangle" />
+<figcaption aria-hidden="true">04 mag triangle</figcaption>
+</figure>
+<p>오른쪽 3칸, 아래 4칸이면 직각삼각형이고, 빗변이 화살표의 길이입니다.
+실제 계산은 <code>v.mag()</code>가 처리합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심
+</div>
+<p><strong><code>mag()</code> = 화살표 길이 = 속도 벡터라면
+‘빠르기’</strong>. 속도 벡터의 <code>mag()</code>가 크면 빠르고, 작으면
+느린 것입니다.</p>
+</div>
+<h3
+id="normalize-크기를-1로-만들기-방향만-남기기"><code>normalize()</code>
+— 크기를 1로 만들기 (“방향만 남기기”)</h3>
+<p><code>normalize()</code>는 <strong>방향은 그대로 두고 길이만 1로
+줄이는 것</strong>입니다.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> v <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span>   <span class="co">// 길이 5짜리 화살표</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>v<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span>                <span class="co">// 같은 방향, 길이만 1</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(v<span class="op">.</span><span class="fu">mag</span>())<span class="op">;</span>         <span class="co">// 1</span></span></code></pre></div>
+<p>직관적 계산: (3, 4)는 길이가 5이므로 각 숫자를 5로 나누면 (0.6,
+0.8)이 됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/06-normalize.png" alt="06 normalize" />
+<figcaption aria-hidden="true">06 normalize</figcaption>
+</figure>
+<p>길이가 1인 벡터를 <strong>단위 벡터(unit vector)</strong>라고
+합니다.</p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> v <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>v<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span>   <span class="co">// 방향만 남기기 (길이 = 1)</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>v<span class="op">.</span><span class="fu">mult</span>(<span class="dv">5</span>)<span class="op">;</span>       <span class="co">// 원하는 속도로 설정 (길이 = 5)</span></span></code></pre></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 패턴
+</div>
+<p><strong><code>normalize()</code> →
+<code>mult(원하는속도)</code></strong>: 방향은 유지하고 속도만 원하는
+값으로 맞추는 패턴.</p>
+</div>
+<hr />
+<h2 id="실습-예시">실습 예시</h2>
+<h3 id="예시-1-5주차-코드-벡터-코드-리팩토링">예시 1: 5주차 코드 → 벡터
+코드 리팩토링</h3>
+<p><strong>리팩토링 순서:</strong> 1. <code>let x = 200, y = 200;</code>
+→ <code>let pos = createVector(200, 200);</code> 2.
+<code>let speedX = 3, speedY = 2;</code> →
+<code>let vel = createVector(3, 2);</code> 3.
+<code>x += speedX; y += speedY;</code> → <code>pos.add(vel);</code> 4.
+<code>ellipse(x, y, 30)</code> → <code>ellipse(pos.x, pos.y, 30)</code>
+5. <code>if (x &gt; width || x &lt; 0) speedX *= -1;</code> →
+<code>if (pos.x &gt; width || pos.x &lt; 0) vel.x *= -1;</code> 6.
+<code>if (y &gt; height || y &lt; 0) speedY *= -1;</code> →
+<code>if (pos.y &gt; height || pos.y &lt; 0) vel.y *= -1;</code></p>
+<p><strong>변환 완료 코드:</strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos<span class="op">,</span> vel<span class="op">;</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  vel <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span></span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pos<span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> pos<span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) vel<span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pos<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> pos<span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) vel<span class="op">.</span><span class="at">y</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>동작은 동일하지만, 변수가 4개에서 2개로 줄고
+<code>x += speedX; y += speedY;</code>가 <code>pos.add(vel)</code> 한
+줄이 되었습니다.</p>
+<h3 id="예시-2-속도-증가">예시 2: 속도 증가</h3>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  vel<span class="op">.</span><span class="fu">mult</span>(<span class="fl">1.005</span>)<span class="op">;</span>  <span class="co">// 매 프레임 속도가 0.5%씩 증가</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pos<span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> pos<span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) vel<span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pos<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> pos<span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) vel<span class="op">.</span><span class="at">y</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>vel.mult(1.005)</code>를 쓰면 매 프레임 속도가 0.5%씩
+증가합니다. 이 예시는 속도가 계속 커지는 효과를 보여 주기 위한 간단한
+방법입니다. 가속도를 별도 벡터로 다루는 방식은 2교시에서 구현합니다.</p>
+<h3 id="예시-3-normalize-mult-활용">예시 3: <code>normalize()</code> +
+<code>mult()</code> 활용</h3>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos<span class="op">,</span> vel<span class="op">;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  vel <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">7</span>)<span class="op">;</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  vel<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span>   <span class="co">// 방향만 남기기</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  vel<span class="op">.</span><span class="fu">mult</span>(<span class="dv">4</span>)<span class="op">;</span>       <span class="co">// 속도 4로 통일</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pos<span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> pos<span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) vel<span class="op">.</span><span class="at">x</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pos<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> pos<span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) vel<span class="op">.</span><span class="at">y</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>(3, 7) 방향으로 가되 속도는 4로 맞추는 <code>normalize()</code> →
+<code>mult(4)</code> 패턴입니다. 방향과 속도를 <strong>따로
+제어</strong>할 수 있습니다.</p>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<h3 id="핵심-요약">핵심 요약</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>개념</th>
+<th>핵심</th>
+<th>코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>벡터</td>
+<td>x, y를 하나로 묶은 것</td>
+<td><code>createVector(x, y)</code></td>
+</tr>
+<tr>
+<td>벡터 접근</td>
+<td>점(<code>.</code>) 표기법</td>
+<td><code>pos.x</code>, <code>pos.y</code></td>
+</tr>
+<tr>
+<td>덧셈/뺄셈</td>
+<td>위치 + 속도 = 이동</td>
+<td><code>pos.add(vel)</code>, <code>p5.Vector.sub(a, b)</code></td>
+</tr>
+<tr>
+<td>거리</td>
+<td>두 벡터 사이의 거리</td>
+<td><code>p5.Vector.dist(a, b)</code>, <code>a.dist(b)</code></td>
+</tr>
+<tr>
+<td>스칼라 곱</td>
+<td>크기 변경, 방향 유지</td>
+<td><code>vel.mult(2)</code>, <code>vel.mult(-1)</code></td>
+</tr>
+<tr>
+<td>길이</td>
+<td>벡터의 빠르기(크기)</td>
+<td><code>vel.mag()</code></td>
+</tr>
+<tr>
+<td>정규화</td>
+<td>크기를 1로 (방향만 유지)</td>
+<td><code>vel.normalize()</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+한 줄 요약
+</div>
+<p><strong>벡터 = x, y 묶음. <code>pos.add(vel)</code> =
+움직임.</strong></p>
+</div>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#이번-시간-핵심">이번 시간 핵심</a></li><li class="toc-level-2"><a href="#핵심-개념-1-벡터란-화살표로-시작하자">핵심 개념 1 — 벡터란? 화살표로 시작하자</a></li><li class="toc-level-3"><a href="#step-1.-벡터-방향과-길이를-가진-화살표">Step 1. 벡터 = 방향과 길이를 가진 화살표</a></li><li class="toc-level-3"><a href="#step-2.-스칼라-vs-벡터-일상-예시로-구분">Step 2. 스칼라 vs 벡터 — 일상 예시로 구분</a></li><li class="toc-level-3"><a href="#step-3.-좌표평면-위의-벡터-두-개의-숫자가-화살표를-만든다">Step 3. 좌표평면 위의 벡터 — 두 개의 숫자가 화살표를 만든다</a></li><li class="toc-level-3"><a href="#step-4.-프로그래밍에서의-벡터">Step 4. 프로그래밍에서의 벡터</a></li><li class="toc-level-2"><a href="#핵심-개념-2-createvector와-p5.vector">핵심 개념 2 — createVector()와 p5.Vector</a></li><li class="toc-level-3"><a href="#p5.vector-p5.js가-미리-만들어준-클래스">p5.Vector — p5.js가 미리 만들어준 클래스</a></li><li class="toc-level-3"><a href="#createvectorx-y-벡터-생성">createVector(x, y) — 벡터 생성</a></li><li class="toc-level-3"><a href="#주차-코드를-벡터로-변환">5주차 코드를 벡터로 변환</a></li><li class="toc-level-3"><a href="#관례적인-이름">관례적인 이름</a></li><li class="toc-level-2"><a href="#핵심-개념-3-벡터-연산-add-sub-dist">핵심 개념 3 — 벡터 연산: add(), sub(), dist()</a></li><li class="toc-level-3"><a href="#주차-방식-vs-벡터-방식">5주차 방식 vs 벡터 방식</a></li><li class="toc-level-3"><a href="#전체-코드로-확인">전체 코드로 확인</a></li><li class="toc-level-3"><a href="#벡터-덧셈의-시각적-이해">벡터 덧셈의 시각적 이해</a></li><li class="toc-level-3"><a href="#sub-벡터-뺄셈으로-방향-구하기">sub() — 벡터 뺄셈으로 방향 구하기</a></li><li class="toc-level-3"><a href="#dist-두-벡터-사이의-거리">dist() — 두 벡터 사이의 거리</a></li><li class="toc-level-2"><a href="#핵심-개념-4-mult와-normalize">핵심 개념 4 — mult()와 normalize()</a></li><li class="toc-level-3"><a href="#multn-벡터에-숫자를-곱하기">mult(n) — 벡터에 숫자를 곱하기</a></li><li class="toc-level-3"><a href="#주차-바운싱-코드-vs-벡터-바운싱-코드">5주차 바운싱 코드 vs 벡터 바운싱 코드</a></li><li class="toc-level-3"><a href="#mag-벡터의-길이빠르기-구하기">mag() — 벡터의 길이(빠르기) 구하기</a></li><li class="toc-level-2"><a href="#실습-예시">실습 예시</a></li><li class="toc-level-3"><a href="#예시-1-5주차-코드-벡터-코드-리팩토링">예시 1: 5주차 코드 → 벡터 코드 리팩토링</a></li><li class="toc-level-3"><a href="#예시-2-속도-증가">예시 2: 속도 증가</a></li><li class="toc-level-3"><a href="#예시-3-normalize-mult-활용">예시 3: normalize() + mult() 활용</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#핵심-요약">핵심 요약</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

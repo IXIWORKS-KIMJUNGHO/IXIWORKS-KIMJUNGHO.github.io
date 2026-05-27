@@ -1,0 +1,647 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14주차 1교시 — p5.sound: 사운드 로드, 재생, 음량 분석 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 14 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>14주차 1교시 — p5.sound: 사운드 로드, 재생, 음량 분석</h1>
+        <p class="lead">Sound, Media, and Final Project 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 14</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">14주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">p5.sound: 사운드 로드, 재생, 음량 분석</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-1교시-p5.sound-사운드-로드-재생-음량-분석">14주차 1교시 —
+p5.sound: 사운드 로드, 재생, 음량 분석</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-14-outline <strong>다음
+교시</strong>: <a
+href="week-14-period2.html">week-14-period2-student</a> (FFT +
+이미지/웹캠 + 기말 안내)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공, 13주차 파티클 시스템 학습 완료)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>P5.js Web Editor, p5.sound 라이브러리, MP3 음악 파일</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ p5.sound 라이브러리의 역할과 기능을 설명할 수 있습니다</li>
+<li>✅ <code>loadSound()</code>로 로드하고 재생/일시정지를 제어할 수
+있습니다</li>
+<li>✅ <code>p5.Amplitude</code>로 음량을 분석해 <code>map()</code>으로
+비주얼에 매핑할 수 있습니다</li>
+<li>✅ <code>p5.AudioIn</code>으로 마이크 입력을 같은 패턴으로 분석할 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="도입">도입</h2>
+<h3 id="파티클에-소리를-입히면">“파티클에 소리를 입히면?”</h3>
+<p>지난 시간에 파티클 시스템을 만들었습니다. 수백 개의 입자가 분출되고
+사라지는 작품 — 직접 Emitter를 만들고, 파티클에 수명을 주고,
+페이드아웃까지 구현했습니다.</p>
+<p>그런데 만약 여기에 음악이 흘러나오면서, <strong>소리의 크기에 따라
+파티클이 폭발하듯 쏟아진다면</strong> 어떨까요?</p>
+<p>이런 작품을 만들려면 세 가지가 필요합니다.</p>
+<ol type="1">
+<li>소리를 P5.js에 가져오기</li>
+<li>소리의 크기를 <strong>숫자</strong>로 바꾸기</li>
+<li>그 숫자를 파티클의 개수나 크기에 <strong>연결</strong>하기</li>
+</ol>
+<p>오늘은 이 세 가지를 배웁니다. P5.js에서 소리를 다루는 방법 — 소리를
+로드하고, 재생하고, 분석해서 지금까지 만들어 온 비주얼에 연결합니다.</p>
+<h3 id="오늘-할-일">오늘 할 일</h3>
+<p>이번 시간이 끝나면 다음 네 가지를 할 수 있게 됩니다.</p>
+<ol type="1">
+<li>p5.sound 라이브러리가 무엇이고 어떤 기능을 제공하는지 설명할 수
+있다</li>
+<li><code>loadSound()</code>로 사운드 파일을 로드하고 재생/일시정지를
+제어할 수 있다</li>
+<li><code>p5.Amplitude</code> + <code>getLevel()</code>로 음량을 숫자로
+받아 <code>map()</code>으로 비주얼에 연결할 수 있다</li>
+<li><code>p5.AudioIn</code>으로 파일 대신 마이크 소리를 같은 패턴으로
+분석할 수 있다</li>
+</ol>
+<h3 id="동기부여-미디어아트-사운드-비주얼">동기부여 — 미디어아트 사운드
+비주얼</h3>
+<p>사운드 비주얼라이제이션은 미디어아트의 핵심 영역 중 하나입니다.</p>
+<ul>
+<li><strong>Ryoji Ikeda</strong> — 데이터와 사운드를 극도로 정밀한 시각
+요소로 변환. 거대한 스크린에 데이터가 쏟아지면서 소리와 동기화</li>
+<li><strong>클럽/공연장의 VJ 비주얼</strong> — DJ가 음악을 틀면 VJ가
+실시간으로 비주얼을 조작. 음악의 비트에 맞춰 영상이 반응</li>
+<li><strong>뮤직 비디오 모션 그래픽</strong> — 비트에 맞춘 도형 변화,
+파티클 폭발</li>
+</ul>
+<p>이런 작업의 공통점은 <strong>소리를 숫자로 바꾸고, 그 숫자를 시각적
+요소에 연결</strong>하는 것입니다. 오늘 우리가 그것을 합니다.</p>
+<hr />
+<h2 id="핵심-개념-1-p5.sound-라이브러리-소개">💡 핵심 개념 1 — p5.sound
+라이브러리 소개</h2>
+<p>P5.js 본체만으로는 소리를 다룰 수 없습니다.
+<strong>p5.sound</strong>라는 별도 라이브러리가 필요합니다.</p>
+<p>p5.sound는 P5.js의 공식 사운드 라이브러리입니다. P5.js
+본체(<code>p5.min.js</code>)와 별도의
+파일(<code>p5.sound.min.js</code>)이지만, <strong>P5.js Web Editor에서는
+이미 포함되어 있어</strong> 별도 설치나 설정이 필요 없습니다.</p>
+<p>p5.sound가 제공하는 주요 기능은 다음과 같습니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>기능</th>
+<th>클래스/함수</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>사운드 로드/재생</td>
+<td><code>loadSound()</code>, <code>p5.SoundFile</code></td>
+<td>음악 파일 불러오기 + 재생 제어</td>
+</tr>
+<tr>
+<td>음량 분석</td>
+<td><code>p5.Amplitude</code></td>
+<td>전체 볼륨 레벨 측정</td>
+</tr>
+<tr>
+<td>주파수 분석</td>
+<td><code>p5.FFT</code></td>
+<td>저음/중음/고음 분리 분석</td>
+</tr>
+<tr>
+<td>마이크 입력</td>
+<td><code>p5.AudioIn</code></td>
+<td>실시간 마이크 소리 캡처</td>
+</tr>
+<tr>
+<td>사운드 생성</td>
+<td><code>p5.Oscillator</code></td>
+<td>사인파, 사각파 등 소리 직접 생성</td>
+</tr>
+</tbody>
+</table></div>
+<p>1교시에서는 <strong>로드/재생 + Amplitude + 마이크 입력</strong>까지,
+2교시에서는 <strong>FFT + 이미지/웹캠 + 기말 프로젝트 안내</strong>를
+다룹니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+브라우저 보안 정책 — 가장 중요한 주의사항
+</div>
+<p>최신 브라우저(Chrome, Firefox, Safari)는 <strong>사용자가 화면을
+클릭하거나 키를 누르기 전에는 소리를 재생하지 않습니다.</strong> 보안
+정책입니다 — 웹사이트에 들어갔는데 갑자기 소리가 나면 불쾌하기
+때문입니다.</p>
+</div>
+<p>해결 방법은 한 줄입니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span> <span class="co">// 오디오 컨텍스트 활성화</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>userStartAudio()</code> — 이 한 줄이 ’사용자가 클릭했으니 소리
+재생해도 괜찮다’고 브라우저에 알려줍니다. <strong>화면을 한 번 클릭해야
+소리가 나온다</strong> — 잊지 마세요.</p>
+<hr />
+<h2 id="핵심-개념-2-사운드-로드와-재생">💡 핵심 개념 2 — 사운드 로드와
+재생</h2>
+<p><strong><code>preload()</code>로 사운드 로드하기</strong></p>
+<p>11주차에서 JSON 파일을 불러올 때 <code>preload()</code>를 썼습니다.
+<code>loadJSON()</code>을 <code>preload()</code> 안에 넣으면 파일이
+완전히 로드된 후에 <code>setup()</code>이 실행됐습니다. 사운드도
+똑같습니다. 음악 파일은 용량이 크므로(수 MB), <code>setup()</code> 전에
+완전히 로드해야 합니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>P5.js Web Editor에서 파일 업로드는 다음 순서로 합니다.</p>
+<ol type="1">
+<li>왼쪽 상단의 <code>&gt;</code> 화살표를 클릭하여 파일 탭을 연다</li>
+<li><code>Sketch Files</code> 아래의 화살표 메뉴에서
+<code>Upload file</code> 선택</li>
+<li>음악 파일(MP3, WAV, OGG)을 드래그하거나 선택</li>
+<li>코드에서는 <code>'파일명.mp3'</code> 형식으로 참조 (assets 폴더에
+넣으면 <code>'assets/파일명.mp3'</code>)</li>
+</ol>
+<p><strong>기본 재생 제어 — 클릭으로 재생/일시정지</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textAlign</span>(CENTER<span class="op">,</span> CENTER)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&#39;클릭하면 재생/일시정지&#39;</span><span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span> <span class="co">// 브라우저 오디오 활성화</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (song<span class="op">.</span><span class="fu">isPlaying</span>()) {</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>    song<span class="op">.</span><span class="fu">pause</span>()<span class="op">;</span> <span class="co">// 재생 중이면 일시정지</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    song<span class="op">.</span><span class="fu">play</span>()<span class="op">;</span> <span class="co">// 정지 상태면 재생</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>4주차에서 배운 <code>if/else</code>와 <code>mousePressed()</code>가
+여기서 그대로 쓰입니다. <code>song.isPlaying()</code>이
+<code>true</code>면 재생 중이니까 <code>pause()</code>, 아니면
+<code>play()</code>.</p>
+<p>주요 메서드.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>메서드</th>
+<th>기능</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>song.play()</code></td>
+<td>재생 (처음부터 또는 일시정지 위치에서)</td>
+<td><code>song.play()</code></td>
+</tr>
+<tr>
+<td><code>song.pause()</code></td>
+<td>일시정지 (현재 위치 기억)</td>
+<td><code>song.pause()</code></td>
+</tr>
+<tr>
+<td><code>song.stop()</code></td>
+<td>정지 (처음으로 돌아감)</td>
+<td><code>song.stop()</code></td>
+</tr>
+<tr>
+<td><code>song.loop()</code></td>
+<td>반복 재생</td>
+<td><code>song.loop()</code></td>
+</tr>
+<tr>
+<td><code>song.isPlaying()</code></td>
+<td>재생 중인지 확인 (boolean)</td>
+<td><code>if (song.isPlaying()) { ... }</code></td>
+</tr>
+<tr>
+<td><code>song.setVolume(v)</code></td>
+<td>볼륨 조절 (0.0~1.0)</td>
+<td><code>song.setVolume(0.5)</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+play vs loop
+</div>
+<p><code>play()</code>는 한 번만 재생, <code>loop()</code>는 끝까지 가면
+다시 처음부터 반복. 비주얼라이제이션할 때는 보통 <code>loop()</code>를
+씁니다.</p>
+</div>
+<p>위 코드를 실행하면 캔버스를 클릭할 때마다 재생/일시정지/재개가
+토글됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>사운드 파일을 <code>setup()</code> 안에서 <code>loadSound()</code>로
+불러오면 안 될까요? 왜 <code>preload()</code>에 넣어야 하죠?</p>
+<p><strong>답</strong>: 파일 로드가 끝나기 전에 <code>setup()</code>이
+실행될 수 있어서. 11주차 <code>loadJSON()</code>과 같은 이유.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-3-p5.amplitude로-음량-분석">💡 핵심 개념 3 —
+<code>p5.Amplitude</code>로 음량 분석</h2>
+<p>이제 소리를 재생할 수 있게 됐습니다. 목표는 <strong>소리에 반응하는
+비주얼</strong>을 만드는 것이므로 소리를 <strong>숫자</strong>로 바꿔야
+합니다. 지금 이 순간의 음량이 얼마인지 숫자로 알아야 도형의 크기나
+색상에 연결할 수 있습니다.</p>
+<p><code>p5.Amplitude</code>는 현재 재생 중인 사운드의 <strong>전체
+음량(볼륨 레벨)</strong>을 실시간으로 측정해 숫자로 알려줍니다.</p>
+<ul>
+<li><code>amp.getLevel()</code> → 현재 프레임의 음량을
+<code>0.0</code>(무음) ~ <code>1.0</code>(최대) 사이 값으로 반환</li>
+<li>보통 조용한 부분은 <code>0.01~0.1</code>, 큰 부분은
+<code>0.3~0.8</code> 정도</li>
+</ul>
+<p><strong>기본 사용법 — 음량에 따라 원 크기 변하기</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> amp<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  amp <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">Amplitude</span>()<span class="op">;</span> <span class="co">// 음량 분석기 생성</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span> <span class="co">// 현재 음량 (0.0 ~ 1.0)</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 음량을 원의 크기로 변환</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>코드 한 줄씩.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>코드</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>let amp;</code></td>
+<td>음량 분석기를 담을 변수</td>
+</tr>
+<tr>
+<td><code>amp = new p5.Amplitude();</code></td>
+<td>음량 분석기 객체 생성 (7주차 <code>new</code> 키워드)</td>
+</tr>
+<tr>
+<td><code>let level = amp.getLevel();</code></td>
+<td>현재 프레임의 음량을 0~1로 받아옴</td>
+</tr>
+<tr>
+<td><code>let size = map(level, 0, 1, 10, 400);</code></td>
+<td>음량(0~1) → 크기(10~400)로 변환</td>
+</tr>
+<tr>
+<td><code>ellipse(width/2, height/2, size, size);</code></td>
+<td>변환된 크기로 원 그리기</td>
+</tr>
+</tbody>
+</table></div>
+<p>5주차에서 배운 <code>map()</code>이 여기서 활용됩니다. 음량이라는
+숫자(0~1)를 원의 크기(10~400)로 <strong>번역</strong>하는 것입니다.
+그리고 <code>new p5.Amplitude()</code> — 7주차에서
+<code>new Ball()</code>로 객체를 만들었듯, p5.sound가 미리 만들어놓은
+클래스를 <code>new</code>로 생성합니다.</p>
+<p>위 코드를 실행하면 음량에 따라 원이 커졌다 작아집니다.
+<code>console.log(level)</code>을 추가하면 실제 숫자값도 같이 확인할 수
+있습니다.</p>
+<p><strong>음량 → 색상도 같이 매핑하기</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 음량 → 크기</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 음량 → 빨간색 강도</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> r <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 음량 → 파란색 강도 (반대로)</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> b <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(r<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> b)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>음량이 크면 빨간색, 작으면 파란색. <code>map()</code>을 여러 번 쓰면
+하나의 숫자(음량)를 <strong>여러 가지 시각적 속성</strong>에 동시에
+연결할 수 있습니다.</p>
+<p><strong>13주차 파티클과의 연결 (개념만)</strong></p>
+<p>13주차 파티클 시스템에서 Emitter가 매 프레임 파티클을 생성했는데, 그
+개수를 음량에 따라 조절하면 됩니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 안에서</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> particleCount <span class="op">=</span> <span class="fu">int</span>(<span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">20</span>))<span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> particleCount<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  emitter<span class="op">.</span><span class="fu">addParticle</span>()<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>음량이 클 때 파티클이 20개씩 뿜어져 나오고, 조용할 때는 0~2개만.
+도입에서 본 데모가 이렇게 만들어집니다. 이 코드는 2교시 실전 사례에서
+직접 다룹니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>amp.getLevel()</code>이 <code>0.3</code>을 반환했습니다.
+<code>map(0.3, 0, 1, 10, 400)</code>의 결과는 대략 얼마일까요?</p>
+<p><strong>답</strong>: 약 127 —
+<code>10 + (400-10) * 0.3 = 127</code>.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-4-완성-예제">💡 핵심 개념 4 — 완성 예제</h2>
+<p>지금까지 배운 걸 처음부터 조립합니다.</p>
+<p><strong>Step 1 — 빈 스케치에서 사운드 로드</strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>아직 아무것도 안 보입니다. 검은 캔버스. 하지만 사운드 파일은
+로드됐습니다.</p>
+<p><strong>Step 2 — 클릭으로 재생</strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>클릭하면 음악이 시작됩니다. 아직 비주얼은 없지만, 소리는
+들립니다.</p>
+<p><strong>Step 3 — Amplitude 추가, 숫자 확인</strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> amp<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  amp <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">Amplitude</span>()<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&#39;Level: &#39;</span> <span class="op">+</span> <span class="fu">nf</span>(level<span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span> <span class="co">// 확인용 출력</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>nf(level, 1, 3)</code> — 소수점 3자리까지 표시. 화면에 숫자가
+실시간으로 바뀝니다.</p>
+<p><strong>Step 4 — 원 크기 + 색상 매핑</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> r <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> b <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(r<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> b)<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>완성. 코드 총 25줄 정도로 <strong>소리에 반응하는 비주얼</strong>이
+만들어졌습니다. 조용한 부분은 작고 파란 원, 큰 부분은 크고 빨간 원.
+소리가 <strong>눈에 보이게</strong> 됐습니다.</p>
+<p>전체 완성 코드.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> song<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> amp<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  song <span class="op">=</span> <span class="fu">loadSound</span>(<span class="st">&#39;assets/music.mp3&#39;</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  amp <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">Amplitude</span>()<span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> r <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> b <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(r<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> b)<span class="op">;</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="핵심-개념-5-마이크-입력-p5.audioin-같은-패턴-입력만-바꾸기">💡
+핵심 개념 5 — 마이크 입력 (p5.AudioIn): 같은 패턴, 입력만 바꾸기</h2>
+<p>지금까지는 음악 <strong>파일</strong>을 재생해서 분석했습니다. 그런데
+<strong>파일 없이</strong>, 지금 이 교실의 소리에 반응하게 만들 수도
+있습니다. 입력 소스를 마이크로 바꾸면 됩니다.</p>
+<p>핵심은 단 두 줄입니다. <code>p5.AudioIn</code>을 만들고,
+<code>amp.setInput(mic)</code>로 Amplitude의 분석 대상을 마이크로
+지정하면 나머지는 4번 완성 예제와 <strong>완전히 같습니다</strong>.</p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> mic<span class="op">;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> amp<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  mic <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">AudioIn</span>()<span class="op">;</span>        <span class="co">// 마이크 입력 생성</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  amp <span class="op">=</span> <span class="kw">new</span> p5<span class="op">.</span><span class="fu">Amplitude</span>()<span class="op">;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  amp<span class="op">.</span><span class="fu">setInput</span>(mic)<span class="op">;</span>             <span class="co">// 핵심 — Amplitude의 입력을 마이크로</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">userStartAudio</span>()<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  mic<span class="op">.</span><span class="fu">start</span>()<span class="op">;</span>                   <span class="co">// 마이크 입력 시작</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> level <span class="op">=</span> amp<span class="op">.</span><span class="fu">getLevel</span>()<span class="op">;</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(level<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>핵심 포인트.</p>
+<ul>
+<li><code>new p5.AudioIn()</code> — 마이크 입력 객체 생성</li>
+<li><code>mic.start()</code> — 마이크 입력 시작 (역시 사용자 인터랙션
+후에)</li>
+<li><code>amp.setInput(mic)</code> — Amplitude가 분석할 입력을 마이크로
+지정</li>
+<li><code>draw()</code> 안의 비주얼 코드는 4번 완성 예제와 동일</li>
+</ul>
+<p>캔버스를 클릭하고 손뼉을 치면 원이 커지고, 조용하면 작아집니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심
+</div>
+<p><strong>파일이든 마이크든 Amplitude 패턴은 똑같습니다.</strong>
+<code>setInput()</code> 한 줄로 입력 소스만 바꾸면, 같은 시각화 코드가
+다른 작품이 됩니다.</p>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">
+주의
+</div>
+<p>브라우저가 마이크 권한을 요청합니다. ’허용’을 눌러야 동작합니다.
+노이즈가 많은 환경에서는 파일 기반이 더 안정적입니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>4번 완성 예제 코드를 마이크 입력으로 바꾸려면 어디를 고쳐야
+할까요?</p>
+<p><strong>답</strong>: <code>preload</code>/<code>song</code> 부분을
+빼고, <code>setup</code>에
+<code>mic = new p5.AudioIn(); amp.setInput(mic);</code> 추가,
+<code>mousePressed</code>에서 <code>song.loop()</code> 대신
+<code>mic.start()</code>.</p>
+</div>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<p><strong>핵심 3줄 요약</strong></p>
+<ol type="1">
+<li><strong>p5.sound</strong> = P5.js의 사운드 확장 라이브러리. Web
+Editor에서는 이미 포함되어 있음</li>
+<li><strong><code>preload()</code> + <code>loadSound()</code></strong>로
+사운드 로드, <strong><code>userStartAudio()</code></strong>로 브라우저
+보안 해제 후 재생</li>
+<li><strong><code>p5.Amplitude</code> +
+<code>getLevel()</code></strong>로 음량을 숫자(0~1)로 받아
+<strong><code>map()</code></strong>으로 크기/색상에 연결. <strong>입력만
+바꾸면 마이크도 동일 패턴</strong> (<code>setInput()</code>)</li>
+</ol>
+<p><strong>이전 주차와의 연결</strong></p>
+<ul>
+<li>11주차 <code>preload()</code> → 사운드 로드에 재활용</li>
+<li>4주차 <code>if/else</code> + <code>mousePressed()</code> →
+재생/일시정지 제어</li>
+<li>5주차 <code>map()</code> → 음량을 시각적 속성으로 변환</li>
+<li>7주차 <code>new</code> 키워드 → <code>new p5.Amplitude()</code>,
+<code>new p5.AudioIn()</code> 객체 생성</li>
+</ul>
+<h3 id="교시-예고">🔥 2교시 예고</h3>
+<p>1교시에서는 <strong>전체 음량</strong>을 분석했습니다. 소리가 크면
+원이 크고, 작으면 원이 작고. 그런데 음악에는 <strong>저음(베이스
+드럼)</strong>, <strong>중음(보컬)</strong>,
+<strong>고음(심벌)</strong>이 있습니다. 이걸 따로 분석하면 훨씬 풍부한
+비주얼이 가능합니다.</p>
+<p>2교시에서는 <strong>FFT 주파수 분석</strong>, <strong>13주차 파티클 +
+사운드 통합 사례</strong>, 이미지와 웹캠 활용, 그리고 <strong>기말
+프로젝트 안내</strong>까지 다룹니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#파티클에-소리를-입히면">“파티클에 소리를 입히면?”</a></li><li class="toc-level-3"><a href="#오늘-할-일">오늘 할 일</a></li><li class="toc-level-3"><a href="#동기부여-미디어아트-사운드-비주얼">동기부여 — 미디어아트 사운드 비주얼</a></li><li class="toc-level-2"><a href="#핵심-개념-1-p5.sound-라이브러리-소개">핵심 개념 1 — p5.sound 라이브러리 소개</a></li><li class="toc-level-2"><a href="#핵심-개념-2-사운드-로드와-재생">핵심 개념 2 — 사운드 로드와 재생</a></li><li class="toc-level-2"><a href="#핵심-개념-3-p5.amplitude로-음량-분석">핵심 개념 3 — p5.Amplitude로 음량 분석</a></li><li class="toc-level-2"><a href="#핵심-개념-4-완성-예제">핵심 개념 4 — 완성 예제</a></li><li class="toc-level-2"><a href="#핵심-개념-5-마이크-입력-p5.audioin-같은-패턴-입력만-바꾸기">핵심 개념 5 — 마이크 입력 (p5.AudioIn): 같은 패턴, 입력만 바꾸기</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

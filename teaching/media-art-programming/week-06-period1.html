@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6주차 1교시 — 사용자 정의 함수: 코드를 정리하는 도구 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 06 · Period 01 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>6주차 1교시 — 사용자 정의 함수: 코드를 정리하는 도구</h1>
+        <p class="lead">Functions and Arrays 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 06</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">6주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">사용자 정의 함수: 코드를 정리하는 도구</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-1교시-사용자-정의-함수-코드를-정리하는-도구">6주차 1교시 —
+사용자 정의 함수: 코드를 정리하는 도구</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-06-outline <strong>다음
+교시</strong>: <a
+href="week-06-period2.html">week-06-period2-student</a> (배열: 데이터를
+한꺼번에 관리하자)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>핵심 도구</td>
+<td>P5.js Web Editor</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ 사용자 정의 함수를 선언하고 호출할 수 있습니다</li>
+<li>✅ 매개변수를 활용하여 재사용 가능한 함수를 만들 수 있습니다</li>
+<li>✅ 반환값(<code>return</code>)의 개념을 이해하고 활용할 수
+있습니다</li>
+<li>✅ 5주차 바운싱 볼 코드를 함수로 리팩토링할 수 있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="도입">도입</h2>
+<h3 id="주차-연결-코드가-길어지는-문제">5주차 연결 — 코드가 길어지는
+문제</h3>
+<p>5주차에서 만든 바운싱 볼은 원 하나가 화면 안에서 튕기는 코드였습니다.
+그런데 <strong>공 2개</strong>를 만들려면 같은 코드를 복사-붙여넣기 해야
+합니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x1<span class="op">,</span> y1<span class="op">,</span> speedX1<span class="op">,</span> speedY1<span class="op">;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x2<span class="op">,</span> y2<span class="op">,</span> speedX2<span class="op">,</span> speedY2<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 공 1</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x1<span class="op">,</span> y1<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  x1 <span class="op">+=</span> speedX1<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  y1 <span class="op">+=</span> speedY1<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x1 <span class="op">&gt;</span> width <span class="op">||</span> x1 <span class="op">&lt;</span> <span class="dv">0</span>) speedX1 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y1 <span class="op">&gt;</span> height <span class="op">||</span> y1 <span class="op">&lt;</span> <span class="dv">0</span>) speedY1 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 공 2 — 같은 코드를 복사-붙여넣기!</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x2<span class="op">,</span> y2<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  x2 <span class="op">+=</span> speedX2<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  y2 <span class="op">+=</span> speedY2<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x2 <span class="op">&gt;</span> width <span class="op">||</span> x2 <span class="op">&lt;</span> <span class="dv">0</span>) speedX2 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y2 <span class="op">&gt;</span> height <span class="op">||</span> y2 <span class="op">&lt;</span> <span class="dv">0</span>) speedY2 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="직접-해보기-공-색깔을-바꿔보세요">직접 해보기 — 공 색깔을
+바꿔보세요</h3>
+<div class="callout callout-question">
+<div class="callout-title">
+미션
+</div>
+<ol type="1">
+<li>위 공 2개 코드를 에디터에 넣고 실행하세요.</li>
+<li>공의 크기를 50에서 30으로 바꿔보세요. —
+<code>ellipse(x1, ...)</code>와 <code>ellipse(x2, ...)</code> <strong>두
+군데</strong>를 다 바꿔야 합니다.</li>
+<li>공 3개로 만들어보세요. — 변수 12개, 같은 코드 3번 반복.</li>
+</ol>
+</div>
+<p>공 10개면 변수 40개에 같은 코드 10번 복사. <strong>‘같은 걸 반복하고
+있다’</strong> — 이 느낌이 들면, 그게 바로 함수가 필요하다는
+신호입니다.</p>
+<h3 id="사실-우리는-이미-함수를-쓰고-있다">사실 우리는 이미 함수를 쓰고
+있다</h3>
+<p>함수라는 단어가 낯설 수 있지만, 우리는 1주차부터 매주 함수를 쓰고
+있었습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>우리가 쓰고 있는 함수</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setup()</code></td>
+<td>초기 설정 (P5.js가 자동 호출)</td>
+</tr>
+<tr>
+<td><code>draw()</code></td>
+<td>매 프레임 실행 (P5.js가 자동 호출)</td>
+</tr>
+<tr>
+<td><code>ellipse(x, y, w, h)</code></td>
+<td>원 그리기</td>
+</tr>
+<tr>
+<td><code>fill(r, g, b)</code></td>
+<td>색상 채우기</td>
+</tr>
+<tr>
+<td><code>random(min, max)</code></td>
+<td>랜덤 숫자 생성</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>ellipse()</code>라고 부르면 내부적으로 원을 그리는 코드가 수십
+줄 실행됩니다. 우리는 그 코드를 몰라도 <code>ellipse()</code>라는
+<strong>이름만 불러서</strong> 원을 그릴 수 있었습니다. 이번 시간에는
+<strong>내가 만드는 함수</strong>를 배웁니다.</p>
+<hr />
+<h2 id="핵심-개념-1-함수-이름-붙인-코드-묶음">💡 핵심 개념 1 — 함수 =
+이름 붙인 코드 묶음</h2>
+<h3 id="비유-레시피조리법">비유: 레시피(조리법)</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>요리</th>
+<th>프로그래밍</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>레시피를 노트에 적어둔다</td>
+<td>함수를 <strong>만든다</strong> (선언)</td>
+</tr>
+<tr>
+<td>“볶음밥 해줘”라고 말한다</td>
+<td>함수를 <strong>부른다</strong> (호출)</td>
+</tr>
+<tr>
+<td>재료를 바꾼다 (김치/새우)</td>
+<td><strong>매개변수</strong>를 바꾼다</td>
+</tr>
+<tr>
+<td>완성된 요리가 나온다</td>
+<td><strong>반환값</strong>이 돌아온다</td>
+</tr>
+</tbody>
+</table></div>
+<p>레시피를 한 번 적어두면 누가 언제든 그대로 만들 수 있습니다. 함수는
+<strong>이름 붙인 코드 묶음</strong>이에요. 한 번 만들어두면 이름만
+불러서 몇 번이든 실행할 수 있습니다.</p>
+<h3 id="함수-만드는-문법">함수 만드는 문법</h3>
+<pre><code>function 이름() {
+  실행할 코드
+}</code></pre>
+<p><code>setup()</code>과 <strong>완전히 같은 모양</strong>입니다.
+우리는 이미 <code>setup</code>, <code>draw</code>라는 함수를 만들 줄
+압니다. 이제 <strong>원하는 이름</strong>으로 함수를 만들어봅니다.</p>
+<h3 id="나만의-함수-만들기">나만의 함수 만들기</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>()<span class="op">;</span>    <span class="co">// 스마일을 그려줘!</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">// 스마일 이모지를 그리는 함수</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">drawSmiley</span>() {</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>              <span class="co">// 노란색</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>   <span class="co">// 얼굴</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span>                        <span class="co">// 검은색</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">185</span><span class="op">,</span> <span class="dv">190</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span>     <span class="co">// 왼쪽 눈</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">215</span><span class="op">,</span> <span class="dv">190</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span>     <span class="co">// 오른쪽 눈</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arc</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">210</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="cn">PI</span>)<span class="op">;</span>  <span class="co">// 입 (반원)</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>핵심은 두 가지입니다.</p>
+<ul>
+<li><code>drawSmiley()</code>를 <strong>만든 부분</strong>(아래쪽)과
+<strong>부르는 부분</strong>(<code>draw()</code> 안)이 따로
+있습니다.</li>
+<li><strong>만들기만 하면 아무 일도 안 일어나요. 불러야
+실행됩니다.</strong></li>
+<li><code>draw()</code> 안의 <code>drawSmiley()</code> 한 줄이 스마일을
+그리는 5줄의 코드를 <strong>이름 하나로</strong> 대체합니다.</li>
+</ul>
+<figure class="lecture-figure">
+<img src="assets/6week/01_declaration-vs-call.png"
+alt="01 declaration vs call" />
+<figcaption aria-hidden="true">01 declaration vs call</figcaption>
+</figure>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>drawSmiley()</code>를 <code>draw()</code> 안에 두 번 쓰면
+어떻게 될까요?</p>
+<p><strong>답</strong>: 같은 위치에 두 번 그려집니다. 겹쳐서 달라 보이진
+않지만 코드는 두 번 실행된 것입니다. 위치를 바꿀 수 있게 되면 진짜
+유용해집니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-2-매개변수-재료를-넘기기">💡 핵심 개념 2 — 매개변수:
+재료를 넘기기</h2>
+<p>위의 스마일은 항상 (200, 200)에만 그려집니다. 다른 위치에도 그리려면
+함수를 부를 때 <strong>‘어디에 그릴지’ 알려주면</strong> 됩니다. 이것이
+<strong>매개변수</strong>입니다.</p>
+<h3 id="매개변수-1개-x좌표">매개변수 1개 — x좌표</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">100</span>)<span class="op">;</span>    <span class="co">// x=100 위치에 그려줘</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">300</span>)<span class="op">;</span>    <span class="co">// x=300 위치에 그려줘</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">drawSmiley</span>(x) {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>     <span class="co">// x 사용!</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x <span class="op">-</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">190</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span>  <span class="co">// 왼쪽 눈도 x 기준</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x <span class="op">+</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">190</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span>  <span class="co">// 오른쪽 눈도 x 기준</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arc</span>(x<span class="op">,</span> <span class="dv">210</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="cn">PI</span>)<span class="op">;</span>    <span class="co">// 입도 x 기준</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>drawSmiley(100)</code> — 소괄호 안의 100이 함수 안의
+<code>x</code>로 들어갑니다. <code>drawSmiley(300)</code> — 이번엔 300이
+<code>x</code>로. <strong>같은 함수</strong>인데 넣어주는 값에 따라
+<strong>다른 위치</strong>에 그려집니다.</p>
+<p>소괄호 안의 <code>x</code>를 <strong>매개변수(parameter)</strong>,
+호출할 때 넣어주는 값(100, 300)을 <strong>인수(argument)</strong>라고
+합니다.</p>
+<h3 id="매개변수-2개-x-y">매개변수 2개 — x, y</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>    <span class="co">// 왼쪽 위</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>    <span class="co">// 오른쪽 위</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">300</span>)<span class="op">;</span>    <span class="co">// 아래 중앙</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">drawSmiley</span>(x<span class="op">,</span> y) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x <span class="op">-</span> <span class="dv">15</span><span class="op">,</span> y <span class="op">-</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x <span class="op">+</span> <span class="dv">15</span><span class="op">,</span> y <span class="op">-</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arc</span>(x<span class="op">,</span> y <span class="op">+</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="cn">PI</span>)<span class="op">;</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>스마일 3개, 위치가 전부 다릅니다. <strong>같은 함수, 다른 재료, 다른
+결과.</strong></p>
+<h3 id="매개변수-3개-크기도-조절">매개변수 3개 — 크기도 조절</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">120</span>)<span class="op">;</span>   <span class="co">// 큰 스마일</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span>    <span class="co">// 작은 스마일</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawSmiley</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">300</span><span class="op">,</span> <span class="dv">90</span>)<span class="op">;</span>    <span class="co">// 중간 스마일</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">drawSmiley</span>(x<span class="op">,</span> y<span class="op">,</span> size) {</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">255</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x <span class="op">-</span> size <span class="op">*</span> <span class="fl">0.15</span><span class="op">,</span> y <span class="op">-</span> size <span class="op">*</span> <span class="fl">0.1</span><span class="op">,</span> size <span class="op">*</span> <span class="fl">0.1</span><span class="op">,</span> size <span class="op">*</span> <span class="fl">0.1</span>)<span class="op">;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x <span class="op">+</span> size <span class="op">*</span> <span class="fl">0.15</span><span class="op">,</span> y <span class="op">-</span> size <span class="op">*</span> <span class="fl">0.1</span><span class="op">,</span> size <span class="op">*</span> <span class="fl">0.1</span><span class="op">,</span> size <span class="op">*</span> <span class="fl">0.1</span>)<span class="op">;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arc</span>(x<span class="op">,</span> y <span class="op">+</span> size <span class="op">*</span> <span class="fl">0.1</span><span class="op">,</span> size <span class="op">*</span> <span class="fl">0.4</span><span class="op">,</span> size <span class="op">*</span> <span class="fl">0.2</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="cn">PI</span>)<span class="op">;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/6week/02_parameter-flow.png" alt="02 parameter flow" />
+<figcaption aria-hidden="true">02 parameter flow</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+마우스를 따라다니는 스마일
+</div>
+<p><code>draw()</code> 안에 <code>drawSmiley(mouseX, mouseY, 50);</code>
+한 줄을 추가해보세요. 스마일이 마우스를 따라다닙니다. <strong>변수도
+매개변수로 넣을 수 있습니다.</strong> 함수 하나로 넣어주는 값만 바꿔
+다양한 결과를 만들 수 있습니다.</p>
+</div>
+<hr />
+<h2 id="핵심-개념-3-반환값-결과를-돌려주기">💡 핵심 개념 3 — 반환값:
+결과를 돌려주기</h2>
+<p><code>drawSmiley()</code>는 <strong>그리기만 하고
+끝</strong>이었습니다. 그런데 어떤 함수는 <strong>값을
+돌려주기도</strong> 합니다.</p>
+<h3 id="이미-반환값을-쓰고-있었다">이미 반환값을 쓰고 있었다</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> r <span class="op">=</span> <span class="fu">random</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// random()이 랜덤 숫자를 돌려줌 → r에 저장</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> d <span class="op">=</span> <span class="fu">dist</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> mouseX<span class="op">,</span> mouseY)<span class="op">;</span>  <span class="co">// dist()가 거리를 돌려줌 → d에 저장</span></span></code></pre></div>
+<p><code>random(0, 255)</code>가 실행되면 랜덤 숫자가 하나
+<strong>나옵니다</strong>. 그걸 <code>r</code>에 담는 것입니다. 반면
+<code>ellipse()</code>는 원을 <strong>그리기만</strong> 하고 뭔가를
+돌려주지 않습니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>종류</th>
+<th>하는 일</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>값을 돌려주는 함수</strong></td>
+<td>계산/처리 후 결과를 반환</td>
+<td><code>random()</code>, <code>dist()</code>, <code>map()</code></td>
+</tr>
+<tr>
+<td><strong>동작을 수행하는 함수</strong></td>
+<td>동작만 하고 끝</td>
+<td><code>ellipse()</code>, <code>fill()</code>,
+<code>background()</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="return-키워드"><code>return</code> 키워드</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">add</span>(a<span class="op">,</span> b) {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> a <span class="op">+</span> b<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> result <span class="op">=</span> <span class="fu">add</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">5</span>)<span class="op">;</span>   <span class="co">// result = 8</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(result)<span class="op">;</span>       <span class="co">// 콘솔에 8 출력</span></span></code></pre></div>
+<p><code>return a + b</code> — ’<code>a + b</code>의 결과를 돌려줘라’는
+뜻입니다. <code>add(3, 5)</code>를 호출하면 8이
+<strong>돌아와서</strong> <code>result</code>에 들어갑니다.</p>
+<h3 id="p5.js-활용-랜덤-색상-만드는-함수">P5.js 활용: 랜덤 색상 만드는
+함수</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> c <span class="op">=</span> <span class="fu">randomWarmColor</span>()<span class="op">;</span>      <span class="co">// 따뜻한 랜덤 색상을 돌려줘!</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(c)<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">// 따뜻한 계열 랜덤 색상을 돌려주는 함수</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">randomWarmColor</span>() {</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> r <span class="op">=</span> <span class="fu">random</span>(<span class="dv">180</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>   <span class="co">// 빨강 많이</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> g <span class="op">=</span> <span class="fu">random</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span>    <span class="co">// 초록 적당히</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> b <span class="op">=</span> <span class="fu">random</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span>      <span class="co">// 파랑 조금</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">color</span>(r<span class="op">,</span> g<span class="op">,</span> b)<span class="op">;</span>       <span class="co">// 색상을 만들어서 돌려줌!</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>randomWarmColor()</code>를 부르면 따뜻한 계열의 랜덤 색상이
+하나 <strong>돌아옵니다</strong>. 이런 식으로
+<code>randomCoolColor()</code>, <code>randomPastelColor()</code> 같은
+<strong>나만의 색상 팔레트</strong> 함수를 만들 수 있습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/6week/03_return-flow.png" alt="03 return flow" />
+<figcaption aria-hidden="true">03 return flow</figcaption>
+</figure>
+<hr />
+<h2 id="예제-바운싱-볼-리팩토링">예제 — 바운싱 볼 리팩토링</h2>
+<p>도입에서 본 바운싱 볼 코드를 <strong>함수로 리팩토링</strong>합니다.
+리팩토링이란 ’동작은 그대로인데 코드 구조를 개선하는 것’입니다.</p>
+<h3 id="리팩토링-전-5주차-원본">리팩토링 전: 5주차 원본</h3>
+<p><code>draw()</code> 안에 그리기·이동·바운싱이 <strong>한
+덩어리</strong>로 들어가 있습니다. 코드가 길어지면 읽기
+어려워집니다.</p>
+<h3 id="리팩토링-후-한-함수씩-분리">리팩토링 후: 한 함수씩 분리</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedX<span class="op">,</span> speedY<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drawBall</span>()<span class="op">;</span>       <span class="co">// 그리기</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">moveBall</span>()<span class="op">;</span>       <span class="co">// 이동</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bounceBall</span>()<span class="op">;</span>     <span class="co">// 바운싱</span></span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">drawBall</span>() {</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">moveBall</span>() {</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> speedX<span class="op">;</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> speedY<span class="op">;</span></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">bounceBall</span>() {</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width <span class="op">||</span> x <span class="op">&lt;</span> <span class="dv">0</span>) speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y <span class="op">&gt;</span> height <span class="op">||</span> y <span class="op">&lt;</span> <span class="dv">0</span>) speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 5주차와 <strong>완전히 동일하게</strong> 동작합니다. 바뀐 건
+<strong>코드의 구조</strong>뿐입니다. <code>draw()</code> 안이 세 줄로,
+무엇을 하는지 한눈에 보입니다. 바운싱 로직을 수정하려면
+<code>bounceBall()</code> 함수만 찾으면 됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/6week/04_refactoring-comparison.png"
+alt="04 refactoring comparison" />
+<figcaption aria-hidden="true">04 refactoring comparison</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+함수 이름 짓는 팁
+</div>
+<p><strong>동사로 시작</strong>하세요. <code>drawBall</code>(공을
+그리다), <code>moveBall</code>(공을 움직이다),
+<code>checkBounce</code>(바운싱을 체크하다). 이름만 봐도 뭘 하는
+함수인지 알 수 있도록.</p>
+</div>
+<hr />
+<h2 id="정리">🏆 정리</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">
+1교시 핵심 요약
+</div>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>개념</th>
+<th>한 줄 설명</th>
+<th>코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>함수</strong></td>
+<td>이름 붙인 코드 묶음. 몇 번이든 호출 가능</td>
+<td><code>function drawSmiley() { ... }</code></td>
+</tr>
+<tr>
+<td><strong>매개변수</strong></td>
+<td>함수에 값을 넘겨서 다른 결과를 만듦</td>
+<td><code>drawSmiley(x, y, size)</code></td>
+</tr>
+<tr>
+<td><strong>반환값</strong></td>
+<td><code>return</code>으로 결과를 돌려줌</td>
+<td><code>return color(r, g, b);</code></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<p><strong>함수의 3가지 쓸모</strong> — 반복 제거(복사-붙여넣기 대신
+호출), 코드 정리(긴 코드를 함수로 분리), 재사용(한 번 만든 함수를
+어디서나).</p>
+<h3 id="교시-예고">🔥 2교시 예고</h3>
+<p>함수로 코드를 정리하는 건 배웠지만, 공 여러 개의
+<strong>데이터</strong>는 어떻게 관리할까요? 2교시에서
+<strong>배열(Array)</strong>을 배우면 같은 종류의 데이터를 하나의 변수에
+묶어서 관리할 수 있습니다. 함수 + 배열을 합치면 공 100개도 코드 몇
+줄이면 충분합니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#주차-연결-코드가-길어지는-문제">5주차 연결 — 코드가 길어지는 문제</a></li><li class="toc-level-3"><a href="#직접-해보기-공-색깔을-바꿔보세요">직접 해보기 — 공 색깔을 바꿔보세요</a></li><li class="toc-level-3"><a href="#사실-우리는-이미-함수를-쓰고-있다">사실 우리는 이미 함수를 쓰고 있다</a></li><li class="toc-level-2"><a href="#핵심-개념-1-함수-이름-붙인-코드-묶음">핵심 개념 1 — 함수 = 이름 붙인 코드 묶음</a></li><li class="toc-level-3"><a href="#비유-레시피조리법">비유: 레시피(조리법)</a></li><li class="toc-level-3"><a href="#함수-만드는-문법">함수 만드는 문법</a></li><li class="toc-level-3"><a href="#나만의-함수-만들기">나만의 함수 만들기</a></li><li class="toc-level-2"><a href="#핵심-개념-2-매개변수-재료를-넘기기">핵심 개념 2 — 매개변수: 재료를 넘기기</a></li><li class="toc-level-3"><a href="#매개변수-1개-x좌표">매개변수 1개 — x좌표</a></li><li class="toc-level-3"><a href="#매개변수-2개-x-y">매개변수 2개 — x, y</a></li><li class="toc-level-3"><a href="#매개변수-3개-크기도-조절">매개변수 3개 — 크기도 조절</a></li><li class="toc-level-2"><a href="#핵심-개념-3-반환값-결과를-돌려주기">핵심 개념 3 — 반환값: 결과를 돌려주기</a></li><li class="toc-level-3"><a href="#이미-반환값을-쓰고-있었다">이미 반환값을 쓰고 있었다</a></li><li class="toc-level-3"><a href="#return-키워드">return 키워드</a></li><li class="toc-level-3"><a href="#p5.js-활용-랜덤-색상-만드는-함수">P5.js 활용: 랜덤 색상 만드는 함수</a></li><li class="toc-level-2"><a href="#예제-바운싱-볼-리팩토링">예제 — 바운싱 볼 리팩토링</a></li><li class="toc-level-3"><a href="#리팩토링-전-5주차-원본">리팩토링 전: 5주차 원본</a></li><li class="toc-level-3"><a href="#리팩토링-후-한-함수씩-분리">리팩토링 후: 한 함수씩 분리</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

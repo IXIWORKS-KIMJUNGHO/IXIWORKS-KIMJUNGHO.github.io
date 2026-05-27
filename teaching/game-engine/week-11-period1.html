@@ -587,27 +587,31 @@ h1, .lead, .material-title, .material-meta,
           <span class="hero-chip">Spawnable</span>
         </div>
       </div>
-      <aside class="doc-card">
-        <p class="doc-card-title">문서 정보</p>
-        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 11</span></div>
-        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
-        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Camera Cut and Spawnable</span></div>
-        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-05-19</span></div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">11주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">1교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">격투씬의 영상 문법과 다중 카메라 셋업</span></div>
       </aside>
     </div>
   </header>
 
   <main class="layout">
     <article class="article">
-<h1 id="11주차-1교시-격투씬의-영상-문법-다중-카메라-spawnable-camera-cut-트랙">11주차 1교시 — 격투씬의 영상 문법 + 다중 카메라 + Spawnable + Camera Cut 트랙</h1>
+<h1 id="11주차-1교시-격투씬의-영상-문법과-다중-카메라-셋업-학생용">11주차 1교시 — 격투씬의 영상 문법과 다중 카메라 셋업 (학생용)</h1>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">11주차 아웃라인: 시퀀서 카메라 워크</span></td></tr>
 <tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
+<hr />
 <div class="callout callout-abstract">
-<div class="callout-title">학습 목표</div>
+<div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<p>격투씬 컷 편집의 세 가지 기준(Shot Size / Angle / Cut Timing)을 이해하고, 본인 격투 시퀀스에 어디서 써야 할지 설명할 수 있다 Cine Camera Actor 여러 대를 배치·명명하고, 시퀀서에 한 번에 바인딩한 뒤 Spawnable Actor 로 변환할 수 있다 Camera Cut 트랙으로 카메라를 시간 구간별로 전환하고, Cinematic Viewport + CrossHair 로 프레이밍을 점검할 수 있다</p>
+<ul>
+<li>격투씬 컷 편집의 세 가지 기준(Shot Size / Angle / Cut Timing)을 이해하고 본인 격투 시퀀스에 적용할 수 있다</li>
+<li>Cine Camera Actor 여러 대를 배치·명명하고 시퀀서에 한 번에 바인딩한 뒤 Spawnable Actor로 변환할 수 있다</li>
+<li>Camera Cut 트랙으로 카메라를 시간 구간별로 전환하고 Cinematic Viewport와 CrossHair로 프레이밍을 점검할 수 있다</li>
+</ul>
 </div>
 </div>
 <p>지난주(10주차)에 Mixamo 격투 모션 3종을 본인 캐릭터에 입혀 10–15초짜리 격투 시퀀스(<code>LS_RetargetDemo</code>)를 만들었습니다. 11주차는 그 격투 시퀀스 위에 <strong>카메라를 얹는 시간</strong>입니다. 새 캐릭터나 새 동작을 만드는 시간이 아니라, 같은 안무를 어떻게 비출지 결정하는 시간입니다.</p>

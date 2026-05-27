@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" font-family="'Pretendard', 'Apple SD Gothic Neo', -apple-system, sans-serif">
+  <defs>
+    <pattern id="grid2" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ffffff" stroke-width="0.3" opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- 배경 -->
+  <rect width="700" height="400" rx="12" fill="#111111"/>
+  <rect width="700" height="400" rx="12" fill="url(#grid2)"/>
+
+  <!-- 상단 라인 -->
+  <rect x="0" y="0" width="700" height="2" fill="#333333"/>
+
+  <!-- 제목 (전체 중앙: 350) -->
+  <text x="350" y="36" text-anchor="middle" fill="#ffffff" font-size="18" font-weight="700" letter-spacing="0.3">dist()로 원형 영역 판별</text>
+  <text x="350" y="53" text-anchor="middle" fill="#666666" font-size="11" letter-spacing="1.5" font-weight="400">DISTANCE &lt; RADIUS → INSIDE  |  DISTANCE &gt; RADIUS → OUTSIDE</text>
+
+  <!--
+    레이아웃 기준:
+    - 왼쪽 패널: 0~350, 중심 = 175
+    - 오른쪽 패널: 350~700, 중심 = 525
+  -->
+
+  <!-- ======================== -->
+  <!-- 왼쪽: TRUE (안에 있음)    -->
+  <!-- 패널 중심: 175            -->
+  <!-- ======================== -->
+
+  <!-- 라벨 (중심 175) -->
+  <rect x="137" y="68" width="76" height="24" rx="4" fill="#222222" stroke="#444444" stroke-width="1"/>
+  <text x="175" y="85" text-anchor="middle" fill="#ffffff" font-size="12" font-weight="600">✓ TRUE</text>
+
+  <!-- 원 영역 (중심 175) -->
+  <circle cx="175" cy="200" r="85" fill="#ffffff" fill-opacity="0.02"/>
+  <circle cx="175" cy="200" r="85" fill="none" stroke="#555555" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- 반지름 표시 -->
+  <line x1="175" y1="200" x2="260" y2="200" stroke="#333333" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <rect x="203" y="189" width="48" height="16" rx="3" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="0.5"/>
+  <text x="227" y="201" text-anchor="middle" fill="#555555" font-size="9" font-weight="500">r = 50</text>
+
+  <!-- 중심점 -->
+  <circle cx="175" cy="200" r="4" fill="#444444"/>
+  <circle cx="175" cy="200" r="2" fill="#888888"/>
+  <text x="175" y="225" text-anchor="middle" fill="#444444" font-size="9">중심</text>
+
+  <!-- 마우스 -->
+  <circle cx="145" cy="175" r="5" fill="#ffffff"/>
+  <circle cx="145" cy="175" r="2.5" fill="#111111"/>
+  <text x="127" y="165" text-anchor="middle" fill="#888888" font-size="10" font-weight="500">마우스</text>
+
+  <!-- 거리선 -->
+  <line x1="175" y1="200" x2="145" y2="175" stroke="#ffffff" stroke-width="1.5" opacity="0.7"/>
+
+  <!-- 거리 라벨 -->
+  <rect x="140" y="190" width="40" height="18" rx="3" fill="#ffffff" fill-opacity="0.08" stroke="#444444" stroke-width="0.5"/>
+  <text x="160" y="203" text-anchor="middle" fill="#cccccc" font-size="11" font-weight="600">d=30</text>
+
+  <!-- 판정 카드 (중심 175, 너비 284) -->
+  <rect x="33" y="310" width="284" height="72" rx="8" fill="#181818" stroke="#282828" stroke-width="1"/>
+
+  <text x="175" y="338" text-anchor="middle" fill="#888888" font-size="13">
+    <tspan fill="#ffffff" font-weight="600">30</tspan>
+    <tspan fill="#444444">  &lt;  </tspan>
+    <tspan fill="#888888">50 (반지름)</tspan>
+  </text>
+
+  <rect x="93" y="350" width="164" height="24" rx="4" fill="#ffffff" fill-opacity="0.06"/>
+  <text x="175" y="368" text-anchor="middle" fill="#ffffff" font-size="14" font-weight="700">→ true → 초록 원!</text>
+
+  <!-- ======================== -->
+  <!-- 구분선 (x=350)           -->
+  <!-- ======================== -->
+
+  <line x1="350" y1="70" x2="350" y2="390" stroke="#222222" stroke-width="1"/>
+
+  <!-- ======================== -->
+  <!-- 오른쪽: FALSE (밖에 있음) -->
+  <!-- 패널 중심: 525            -->
+  <!-- ======================== -->
+
+  <!-- 라벨 (중심 525) -->
+  <rect x="487" y="68" width="76" height="24" rx="4" fill="#222222" stroke="#333333" stroke-width="1"/>
+  <text x="525" y="85" text-anchor="middle" fill="#666666" font-size="12" font-weight="600">✗ FALSE</text>
+
+  <!-- 원 영역 (중심 525) -->
+  <circle cx="525" cy="200" r="85" fill="#ffffff" fill-opacity="0.01"/>
+  <circle cx="525" cy="200" r="85" fill="none" stroke="#333333" stroke-width="1.5" stroke-dasharray="6,4"/>
+
+  <!-- 반지름 표시 -->
+  <line x1="525" y1="200" x2="610" y2="200" stroke="#333333" stroke-width="0.8" stroke-dasharray="3,3"/>
+  <rect x="553" y="189" width="48" height="16" rx="3" fill="#1a1a1a" stroke="#2a2a2a" stroke-width="0.5"/>
+  <text x="577" y="201" text-anchor="middle" fill="#555555" font-size="9" font-weight="500">r = 50</text>
+
+  <!-- 중심점 -->
+  <circle cx="525" cy="200" r="4" fill="#444444"/>
+  <circle cx="525" cy="200" r="2" fill="#888888"/>
+  <text x="525" y="225" text-anchor="middle" fill="#444444" font-size="9">중심</text>
+
+  <!-- 마우스 (바깥) -->
+  <circle cx="645" cy="135" r="5" fill="#666666"/>
+  <circle cx="645" cy="135" r="2.5" fill="#111111"/>
+  <text x="662" y="128" text-anchor="start" fill="#666666" font-size="10" font-weight="500">마우스</text>
+
+  <!-- 거리선 -->
+  <line x1="525" y1="200" x2="645" y2="135" stroke="#666666" stroke-width="1.5" opacity="0.5"/>
+
+  <!-- 경계 교차점 -->
+  <circle cx="585" cy="173" r="3" fill="#444444"/>
+
+  <!-- 거리 라벨 -->
+  <rect x="570" y="148" width="40" height="18" rx="3" fill="#ffffff" fill-opacity="0.05" stroke="#333333" stroke-width="0.5"/>
+  <text x="590" y="161" text-anchor="middle" fill="#888888" font-size="11" font-weight="600">d=80</text>
+
+  <!-- 판정 카드 (중심 525, 너비 284) -->
+  <rect x="383" y="310" width="284" height="72" rx="8" fill="#181818" stroke="#222222" stroke-width="1"/>
+
+  <text x="525" y="338" text-anchor="middle" fill="#888888" font-size="13">
+    <tspan fill="#888888" font-weight="600">80</tspan>
+    <tspan fill="#333333">  &gt;  </tspan>
+    <tspan fill="#666666">50 (반지름)</tspan>
+  </text>
+
+  <rect x="443" y="350" width="164" height="24" rx="4" fill="#ffffff" fill-opacity="0.03"/>
+  <text x="525" y="368" text-anchor="middle" fill="#666666" font-size="14" font-weight="700">→ false → 회색 원</text>
+</svg>

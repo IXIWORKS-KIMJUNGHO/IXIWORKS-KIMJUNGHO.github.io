@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 3교시 — 학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 07 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>7주차 3교시 — 학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품</h1>
+        <p class="lead">Classes and Objects 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 07</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">7주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 03</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1
+id="주차-3교시-학생-주도-실습-클래스를-활용한-다중-오브젝트-작품">7주차
+3교시 — 학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-07-outline <strong>이전
+교시</strong>: <a
+href="week-07-period2.html">week-07-period2-student</a> (객체 배열과
+클래스 확장) <strong>다음 주차</strong>: 8주차 — 중간고사 (1~7주차)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 class 기본 문법, 2교시 객체 배열·클래스 확장</td>
+</tr>
+<tr>
+<td>결과물</td>
+<td>클래스·객체 배열 기반 다중 오브젝트 스케치 1점 (실습과제 3)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+실습 목표
+</div>
+<ul>
+<li>✅ <code>class</code> 문법으로 독립 객체를 정의하고, 객체 배열로
+다수의 객체를 생성·관리하는 작품을 제작합니다</li>
+<li>✅ 1~6주차 개념(변수·조건문·반복문·함수·배열)이 클래스 안에서
+통합되는 것을 체감합니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="완성-기준-안내-실습-시작">완성 기준 안내 + 실습 시작</h2>
+<p>1-2교시에 배운 클래스와 객체 배열을 합쳐서 직접 작품을 만드는
+시간입니다. <strong>세 단계 완성 기준</strong>이 있습니다.</p>
+<h3 id="완성-기준">완성 기준</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>단계</th>
+<th>이름</th>
+<th>완성 기준</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥉 <strong>기본</strong></td>
+<td>클래스로 움직이는 객체</td>
+<td>class 정의(constructor + move + display) + 객체 배열로 10개 이상 +
+for문 순회</td>
+<td><strong>“클래스로 여러 개가 움직인다”</strong></td>
+</tr>
+<tr>
+<td>🥈 <strong>표준</strong></td>
+<td>기능 확장 + 인터랙션</td>
+<td>기본 + bounce() 메서드 + 랜덤 색상/크기 + mousePressed()로 클릭
+추가</td>
+<td><strong>“튕기고, 예쁘고, 반응한다”</strong></td>
+</tr>
+<tr>
+<td>🥇 <strong>심화</strong></td>
+<td>완성된 작품</td>
+<td>표준 + 시각 효과 (잔상, 바운스 색변경, HSB 등) + 키보드
+인터랙션</td>
+<td><strong>“보기 좋고, 인터랙션도 풍부하다”</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+완성 기준 팁
+</div>
+<p>🥉만 해도 오늘 목표 완료입니다. 🥇까지 가면 충분히 도전적인
+단계입니다. 자기 속도에 맞게 진행하세요!</p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+실습과제 3 안내
+</div>
+<p>이 스케치가 곧 <strong>실습과제 3</strong>입니다. 수업 중에 기본을
+만들고, 중간고사(8주차) 전까지 발전시켜서 P5.js 웹 에디터 링크로
+제출합니다. <strong>제출 완료 시 만점</strong>입니다.</p>
+</div>
+<h3 id="세-가지-방향">세 가지 방향</h3>
+<p>세 방향 중 <strong>하나를 골라</strong> 시작합니다. 자유롭게 섞어도
+됩니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>방향</th>
+<th>설명</th>
+<th>핵심 기술</th>
+<th>1-2교시 연결</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 바운싱 볼 월드</strong></td>
+<td>Ball 클래스 + 객체 배열 + 클릭으로 추가</td>
+<td>class, 배열, 바운싱, mousePressed</td>
+<td>2교시 미니 실습 확장</td>
+</tr>
+<tr>
+<td><strong>B. 파티클 아트</strong></td>
+<td>마우스에서 파티클 생성 + 중력 효과</td>
+<td>class, push, speedY += 0.1, 잔상</td>
+<td>2교시 사례 1 확장</td>
+</tr>
+<tr>
+<td><strong>C. 자유 주제</strong></td>
+<td>나만의 클래스 설계 (별, 꽃, 눈, 비 등)</td>
+<td>class 설계, 창의적 display()</td>
+<td>새로운 방향</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/7week/08_project-directions-a-b-c-preview.png"
+alt="08 project directions a b c preview" />
+<figcaption aria-hidden="true">08 project directions a b c
+preview</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">
+방향 선택
+</div>
+<p>무엇을 골라야 할지 모르겠으면 <strong>A(바운싱 볼 월드)</strong>부터
+시작하세요. 2교시에서 이미 만들어 봤으므로 가장 친숙합니다.</p>
+</div>
+<h3 id="환경-설정">환경 설정</h3>
+<ol type="1">
+<li><a href="https://editor.p5js.org/" target="_blank" rel="noopener noreferrer">P5.js Web Editor</a> 접속 (로그인
+확인)</li>
+<li>File → New → 스케치 이름을 <code>week07-class</code>로 변경</li>
+<li>아래 세 방향 중 하나를 골라 스타터 코드를 복사-붙여넣기</li>
+</ol>
+<hr />
+<h2 id="스타터-코드">스타터 코드</h2>
+<h3 id="방향-a-바운싱-볼-월드">방향 A: 바운싱 볼 월드</h3>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY) {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> speedX<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> speedY<span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">move</span>() {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> balls <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 시작할 때 공 5개 생성</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    ))<span class="op">;</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> balls<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="co">// </span><span class="al">TODO</span><span class="co">: balls[i].bounce(); ← 이 메서드를 만들어보세요!</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TODO</span><span class="co">: mousePressed()로 클릭하면 공 추가하기</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TODO</span><span class="co">: keyPressed()로 키보드 이벤트 추가하기</span></span></code></pre></div>
+<p>실행하면 파란 공 5개가 움직입니다. 바운싱이 아직 없어서 화면 밖으로
+나갑니다. 여기서부터 시작합니다.</p>
+<h3 id="방향-b-파티클-아트">방향 B: 파티클 아트</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Particle {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="op">-</span><span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">5</span><span class="op">,</span> <span class="dv">12</span>)<span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">+=</span> <span class="fl">0.1</span><span class="op">;</span>  <span class="co">// 중력</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> particles <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span>  <span class="co">// 잔상 효과</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 마우스 누르고 있으면 파티클 생성</span></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    particles<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Particle</span>(mouseX<span class="op">,</span> mouseY))<span class="op">;</span></span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> particles<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    particles[i]<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    particles[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 화면 밖 파티클 제거</span></span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> particles<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (particles[i]<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>      particles<span class="op">.</span><span class="fu">splice</span>(i<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TODO</span><span class="co">: 파티클에 색상 추가하기</span></span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TODO</span><span class="co">: 키보드로 중력 방향 바꾸기</span></span></code></pre></div>
+<p>마우스를 <strong>누르고 있으면</strong> 하얀 파티클이 위로 솟아올랐다
+떨어집니다. 여기서부터 시작합니다.</p>
+<h3 id="방향-c-자유-주제-눈-내리기-예시">방향 C: 자유 주제 (눈 내리기
+예시)</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Snowflake {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>() {</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="fu">random</span>(width)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">50</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">3</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speed</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">drift</span> <span class="op">=</span> <span class="fu">random</span>(<span class="op">-</span><span class="fl">0.5</span><span class="op">,</span> <span class="fl">0.5</span>)<span class="op">;</span>  <span class="co">// 좌우 흔들림</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speed</span><span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">drift</span><span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> snowflakes <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 매 프레임 눈 1개 생성</span></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  snowflakes<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Snowflake</span>())<span class="op">;</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> snowflakes<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    snowflakes[i]<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    snowflakes[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 화면 밖 눈 제거</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> snowflakes<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">;</span> i <span class="op">&gt;=</span> <span class="dv">0</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (snowflakes[i]<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>      snowflakes<span class="op">.</span><span class="fu">splice</span>(i<span class="op">,</span> <span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TODO</span><span class="co">: 눈 색상이나 크기를 바꿔 보세요</span></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TODO</span><span class="co">: 마우스 근처에서 눈이 밀려나게 만들어보세요</span></span></code></pre></div>
+<p>눈이 위에서 아래로 내립니다. 각 눈송이는 서로 다른 크기, 속도, 좌우
+흔들림을 가집니다. 이 코드를 바탕으로 자유롭게 바꿔 보세요.</p>
+<hr />
+<h2 id="step-1-스타터-코드-실행-숫자-바꿔보기-기본-달성">Step 1 — 스타터
+코드 실행 + 숫자 바꿔보기 → 🥉 기본 달성</h2>
+<p><strong>목표:</strong> 스타터 코드가 동작하는지 확인하고, 숫자를
+바꿔보며 클래스 구조를 체감합니다.</p>
+<p><strong>이 단계를 마치면 🥉 기본 달성!</strong></p>
+<h3 id="방향-a-기준">방향 A 기준</h3>
+<p><strong>코드 분석 포인트:</strong> 1. <code>class Ball { }</code> —
+설계도 전체 구조 2. <code>constructor(x, y, speedX, speedY)</code> —
+매개변수로 위치와 속도를 받음 3. <code>this.x</code>,
+<code>this.y</code>, <code>this.size</code> — 프로퍼티에 저장 4.
+<code>move()</code>, <code>display()</code> — 메서드로 동작 정의 5.
+<code>balls.push(new Ball(...))</code> — 배열에 객체 추가 6.
+<code>balls[i].move()</code>, <code>balls[i].display()</code> —
+for문으로 전체 순회</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+코드 읽기
+</div>
+<p>1-2교시에서 배운 내용이 모두 여기에 있습니다. 하나씩 확인해
+보세요.</p>
+</div>
+<p><strong>이 단계에서 할 것:</strong> - 공 개수를 5에서
+<strong>20으로</strong> 바꿔보기
+(<code>for (let i = 0; i &lt; 20; i++)</code>) - 실행해서 공 20개가
+되는지 확인 - <code>this.size = 30</code>을
+<code>this.size = random(20, 50)</code>으로 바꿔보기 - 속도 범위를
+<code>random(-3, 3)</code> → <code>random(-5, 5)</code>로 바꿔보기</p>
+<details>
+<summary>
+힌트 (막히면 펼쳐보세요)
+</summary>
+<p><code>setup()</code> 안의 <code>for</code>문에서
+<code>i &lt; 5</code>를 <code>i &lt; 20</code>으로 바꾸면 됩니다.
+<code>balls.length</code>가 자동으로 20이 되므로 <code>draw()</code>는
+수정할 필요 없습니다.</p>
+<p><code>this.size</code>는 <code>class Ball</code>의
+<code>constructor()</code> 안에서 바꾸면 됩니다. <code>30</code> 대신
+<code>random(20, 50)</code>을 넣으면 공마다 다른 크기가 됩니다.</p>
+</details>
+<h3 id="방향-b-기준">방향 B 기준</h3>
+<p><strong>이 단계에서 할 것:</strong> - 한 번에 생성하는 파티클 수
+바꾸기 (1개 → 3개) - <code>this.size</code>의 <code>random()</code>
+범위를 바꿔보기 - 중력 값 <code>0.1</code>을 <code>0.3</code>으로
+바꿔보기 — 더 빨리 떨어짐</p>
+<h3 id="방향-c-기준">방향 C 기준</h3>
+<p><strong>이 단계에서 할 것:</strong> - 눈 크기 범위를 바꿔보기
+(<code>random(3, 8)</code> → <code>random(2, 15)</code>) - 눈 속도를
+바꿔보기 (<code>random(1, 3)</code> → <code>random(0.5, 5)</code>) -
+배경색을 바꿔보기 — 밤하늘 색, 회색 하늘 등</p>
+<hr />
+<h2 id="step-2-기능-확장-인터랙션-추가-표준-달성">Step 2 — 기능 확장 +
+인터랙션 추가 → 🥈 표준 달성</h2>
+<p><strong>목표:</strong> 클래스에 메서드를 추가하고, 마우스 인터랙션을
+넣습니다.</p>
+<p><strong>이 단계를 마치면 🥈 표준 달성!</strong></p>
+<h3 id="방향-a-기준-bounce-추가-색상-클릭-인터랙션">방향 A 기준:
+bounce() 추가 + 색상 + 클릭 인터랙션</h3>
+<p>공이 화면 밖으로 나가는 문제를 해결하기 위해 <code>bounce()</code>
+메서드를 추가합니다. 이 메서드가 공을 벽에서 튕기게 만듭니다.</p>
+<p><strong>할 일 1 — bounce() 메서드 추가:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">// class Ball { } 안에 추가</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bounce</span>() {</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>draw()</code>에서 <code>balls[i].bounce();</code>를 호출합니다.
+주석 처리된 TODO 부분입니다.</p>
+<p><strong>할 일 2 — 랜덤 색상 추가:</strong></p>
+<p>constructor에서
+<code>this.c = color(random(255), random(255), random(255));</code>를
+추가하고, <code>display()</code>에서 <code>fill(100, 150, 255)</code>를
+<code>fill(this.c)</code>로 바꿉니다.</p>
+<p><strong>할 일 3 — 클릭으로 공 추가:</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    mouseX<span class="op">,</span> mouseY<span class="op">,</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  ))<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>마우스를 클릭한 위치에서 랜덤 속도의 공이 추가됩니다.</p>
+<details>
+<summary>
+힌트 (막히면 펼쳐보세요)
+</summary>
+<ol type="1">
+<li><code>bounce()</code> 메서드는 <code>display()</code> 아래에,
+class의 중괄호 <code>}</code> <strong>안에</strong> 넣으세요</li>
+<li><code>draw()</code>에서 <code>balls[i].move();</code> 다음 줄에
+<code>balls[i].bounce();</code>를 추가</li>
+<li><code>this.c</code>를 constructor에 추가할 때,
+<code>this.size</code> 다음 줄에 넣으면 됩니다</li>
+<li><code>mousePressed()</code> 함수는 <code>draw()</code>
+<strong>밖에</strong> 독립적으로 선언해야 합니다</li>
+</ol>
+<p>에러가 나면 확인할 것: - <code>bounce()</code> 안에
+<code>function</code>을 쓰지 않았는지 (클래스 안에서는 function 안 씀!)
+- <code>this.c</code>에서 <code>this</code>를 빠뜨리지 않았는지</p>
+</details>
+<h3 id="방향-b-기준-색상-추가-클릭-폭발">방향 B 기준: 색상 추가 + 클릭
+폭발</h3>
+<p><strong>할 일 1 — constructor에 색상 추가:</strong></p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">100</span>))<span class="op">;</span></span></code></pre></div>
+<p><strong>할 일 2 — display()에서 색상 사용:</strong></p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>할 일 3 — 클릭하면 한 번에 많은 파티클 폭발:</strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    particles<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Particle</span>(mouseX<span class="op">,</span> mouseY))<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="방향-c-기준-투명도-클릭-인터랙션">방향 C 기준: 투명도 + 클릭
+인터랙션</h3>
+<p><strong>할 일 1 — constructor에 투명도 추가:</strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">alpha</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>할 일 2 — display()에서 사용:</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">alpha</span>)<span class="op">;</span></span></code></pre></div>
+<p><strong>할 일 3 — 클릭하면 눈 폭풍 (한번에 30개):</strong></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">30</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    snowflakes<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Snowflake</span>())<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="step-3-시각-효과-키보드-심화-달성">Step 3 — 시각 효과 + 키보드 →
+🥇 심화 달성</h2>
+<p><strong>목표:</strong> 잔상, 색상 변경, HSB, 키보드 인터랙션 등으로
+작품을 발전시킵니다.</p>
+<p><strong>이 단계를 마치면 🥇 심화 달성!</strong></p>
+<figure class="lecture-figure">
+<img src="assets/7week/09_finished-examples-gallery.png"
+alt="09 finished examples gallery" />
+<figcaption aria-hidden="true">09 finished examples gallery</figcaption>
+</figure>
+<h3 id="잔상-효과-전-방향-공통">잔상 효과 (전 방향 공통)</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// background(30); 을 아래로 교체</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">background</span>(<span class="dv">30</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>  <span class="co">// 반투명 배경 → 잔상 효과</span></span></code></pre></div>
+<p>배경의 투명도를 낮추면 이전 프레임이 살짝 남아서 궤적이 보입니다.</p>
+<h3 id="바운스-시-색-변경-방향-a">바운스 시 색 변경 (방향 A)</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bounce</span>() {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span>  <span class="co">// 색 변경!</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="hsb-색상-모드-전-방향-공통">HSB 색상 모드 (전 방향 공통)</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// HSB 모드!</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co">// constructor에서 색상 생성 시:</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// 선명한 랜덤 색상</span></span></code></pre></div>
+<h3 id="키보드-인터랙션-방향-a">키보드 인터랙션 (방향 A)</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;c&#39;</span>) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    balls <span class="op">=</span> []<span class="op">;</span>  <span class="co">// 모든 공 삭제</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">// 공 10개 다시 생성</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>      balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>      ))<span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="정보-표시-전-방향-공통">정보 표시 (전 방향 공통)</h3>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 맨 마지막에 추가</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="fu">textSize</span>(<span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">text</span>(<span class="st">&quot;objects: &quot;</span> <span class="op">+</span> balls<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span></code></pre></div>
+<h3 id="파티클-크기-줄이기-방향-b-수명-효과">파티클 크기 줄이기 (방향 B
+— 수명 효과)</h3>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co">// update() 안에 추가</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">-=</span> <span class="fl">0.1</span><span class="op">;</span>  <span class="co">// 점점 작아짐</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co">// display() 수정 — 크기가 0 이하면 안 그림</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>() {</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="완성-예시-방향-a-바운싱-볼-월드-심화">완성 예시 — 방향 A 바운싱
+볼 월드 (🥇 심화)</h2>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Ball {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y<span class="op">,</span> speedX<span class="op">,</span> speedY) {</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> x<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> y<span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">=</span> speedX<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">=</span> speedY<span class="op">;</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="fu">random</span>(<span class="dv">15</span><span class="op">,</span> <span class="dv">45</span>)<span class="op">;</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">move</span>() {</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span><span class="op">;</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span><span class="op">;</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bounce</span>() {</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">speedX</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height <span class="op">||</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">speedY</span> <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>      <span class="kw">this</span><span class="op">.</span><span class="at">c</span> <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="kw">this</span><span class="op">.</span><span class="at">c</span>)<span class="op">;</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-32"><a href="#cb18-32" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-33"><a href="#cb18-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> balls <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb18-38"><a href="#cb18-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-39"><a href="#cb18-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a>    balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>      <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)</span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>    ))<span class="op">;</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span>  <span class="co">// 잔상 효과</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> balls<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">move</span>()<span class="op">;</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">bounce</span>()<span class="op">;</span></span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a>    balls[i]<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 정보 표시</span></span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">textSize</span>(<span class="dv">14</span>)<span class="op">;</span></span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;Bouncing Ball World&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb18-59"><a href="#cb18-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(<span class="st">&quot;balls: &quot;</span> <span class="op">+</span> balls<span class="op">.</span><span class="at">length</span> <span class="op">+</span> <span class="st">&quot; | click to add | &#39;c&#39; to clear&quot;</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">38</span>)<span class="op">;</span></span>
+<span id="cb18-60"><a href="#cb18-60" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>  balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>    mouseX<span class="op">,</span> mouseY<span class="op">,</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>    <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)</span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>  ))<span class="op">;</span></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;c&#39;</span>) {</span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>    balls <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>      balls<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Ball</span>(</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>        <span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span></span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>        <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>      ))<span class="op">;</span></span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 어두운 배경에 선명한 HSB 색상의 공들이
+잔상을 남기며 바운싱 - 벽에 닿으면 색상 변경 - 클릭하면 공 추가 -
+<code>c</code> 키로 전부 삭제, <code>r</code> 키로 10개 재생성 -
+좌상단에 공 개수 표시</p>
+<hr />
+<h2 id="마무리">마무리</h2>
+<h3 id="스케치-저장">스케치 저장</h3>
+<div class="callout callout-tip">
+<div class="callout-title">
+저장
+</div>
+<p>Ctrl+S (Mac: Cmd+S)로 스케치를 저장하세요. P5.js Web Editor에서
+저장하면 자동으로 계정에 연결됩니다.</p>
+</div>
+<h3 id="오늘-한-것-돌아보기">오늘 한 것 돌아보기</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>완성 기준</th>
+<th>핵심 기술</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥉 기본</td>
+<td>class 정의 + 객체 배열 + for문 순회</td>
+<td>“내 스케치에 클래스로 만든 객체가 여러 개 움직이고 있나?”</td>
+</tr>
+<tr>
+<td>🥈 표준</td>
+<td>bounce() + 랜덤 색상/크기 + mousePressed()</td>
+<td>“벽에서 튕기고, 색상이 다양하고, 클릭하면 추가되나?”</td>
+</tr>
+<tr>
+<td>🥇 심화</td>
+<td>잔상 + 바운스 색변경 + HSB + 키보드</td>
+<td>“시각적으로 완성도 있고, 인터랙션도 풍부한가?”</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심
+</div>
+<p>어디까지 갔든 괜찮습니다. 중요한 것은 <strong>클래스와 객체 배열을
+직접 써본 경험</strong>입니다.</p>
+</div>
+<h3 id="실습과제-3-제출-안내">실습과제 3 제출 안내</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>과제명</strong></td>
+<td>클래스를 활용한 다중 오브젝트 작품</td>
+</tr>
+<tr>
+<td><strong>제출 기한</strong></td>
+<td>8주차(중간고사) 수업 전까지</td>
+</tr>
+<tr>
+<td><strong>제출 방식</strong></td>
+<td>P5.js Web Editor 링크 공유</td>
+</tr>
+<tr>
+<td><strong>평가</strong></td>
+<td><strong>제출 완료 시 만점</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>필수 요구사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>class</code> 1개 이상 정의 (constructor + 메서드 2개
+이상)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>객체 배열로 10개 이상 관리</td>
+</tr>
+<tr>
+<td>3</td>
+<td>각 객체가 독립적으로 움직이거나 변화</td>
+</tr>
+<tr>
+<td>4</td>
+<td>인터랙션 1개 이상 (마우스 클릭, 키보드 등)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+제출 팁
+</div>
+<p>🥈까지 도달했다면 이미 요구사항 4개를 모두 충족합니다. 수업 중에 만든
+것을 다듬어서 제출하면 됩니다.</p>
+</div>
+<h3 id="중간고사8주차-예고">중간고사(8주차) 예고</h3>
+<p>다음 주는 <strong>중간고사</strong>입니다. 범위는 1~7주차입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+핵심 줄거리를 기억하고 있나요?
+</div>
+<p>도형을 그리고(1-2주) → 색을 칠하고 반복하고(3주) → 클릭/키보드에
+반응하고(4주) → 움직이고 튕기고(5주) → 함수와 배열로 정리하고(6주) →
+<strong>클래스로 하나로 묶는다</strong>(7주)</p>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+시험 준비
+</div>
+<p>오늘 만든 Ball 클래스 코드를 다시 한 번 읽어보세요. 1~7주차의 모든
+개념이 이 클래스 안에 다 들어 있습니다.</p>
+</div>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#완성-기준-안내-실습-시작">완성 기준 안내 + 실습 시작</a></li><li class="toc-level-3"><a href="#완성-기준">완성 기준</a></li><li class="toc-level-3"><a href="#세-가지-방향">세 가지 방향</a></li><li class="toc-level-3"><a href="#환경-설정">환경 설정</a></li><li class="toc-level-2"><a href="#스타터-코드">스타터 코드</a></li><li class="toc-level-3"><a href="#방향-a-바운싱-볼-월드">방향 A: 바운싱 볼 월드</a></li><li class="toc-level-3"><a href="#방향-b-파티클-아트">방향 B: 파티클 아트</a></li><li class="toc-level-3"><a href="#방향-c-자유-주제-눈-내리기-예시">방향 C: 자유 주제 (눈 내리기 예시)</a></li><li class="toc-level-2"><a href="#step-1-스타터-코드-실행-숫자-바꿔보기-기본-달성">Step 1 — 스타터 코드 실행 + 숫자 바꿔보기 → 🥉 기본 달성</a></li><li class="toc-level-3"><a href="#방향-a-기준">방향 A 기준</a></li><li class="toc-level-3"><a href="#방향-b-기준">방향 B 기준</a></li><li class="toc-level-3"><a href="#방향-c-기준">방향 C 기준</a></li><li class="toc-level-2"><a href="#step-2-기능-확장-인터랙션-추가-표준-달성">Step 2 — 기능 확장 + 인터랙션 추가 → 🥈 표준 달성</a></li><li class="toc-level-3"><a href="#방향-a-기준-bounce-추가-색상-클릭-인터랙션">방향 A 기준: bounce() 추가 + 색상 + 클릭 인터랙션</a></li><li class="toc-level-3"><a href="#방향-b-기준-색상-추가-클릭-폭발">방향 B 기준: 색상 추가 + 클릭 폭발</a></li><li class="toc-level-3"><a href="#방향-c-기준-투명도-클릭-인터랙션">방향 C 기준: 투명도 + 클릭 인터랙션</a></li><li class="toc-level-2"><a href="#step-3-시각-효과-키보드-심화-달성">Step 3 — 시각 효과 + 키보드 → 🥇 심화 달성</a></li><li class="toc-level-3"><a href="#잔상-효과-전-방향-공통">잔상 효과 (전 방향 공통)</a></li><li class="toc-level-3"><a href="#바운스-시-색-변경-방향-a">바운스 시 색 변경 (방향 A)</a></li><li class="toc-level-3"><a href="#hsb-색상-모드-전-방향-공통">HSB 색상 모드 (전 방향 공통)</a></li><li class="toc-level-3"><a href="#키보드-인터랙션-방향-a">키보드 인터랙션 (방향 A)</a></li><li class="toc-level-3"><a href="#정보-표시-전-방향-공통">정보 표시 (전 방향 공통)</a></li><li class="toc-level-3"><a href="#파티클-크기-줄이기-방향-b-수명-효과">파티클 크기 줄이기 (방향 B — 수명 효과)</a></li><li class="toc-level-2"><a href="#완성-예시-방향-a-바운싱-볼-월드-심화">완성 예시 — 방향 A 바운싱 볼 월드 (🥇 심화)</a></li><li class="toc-level-2"><a href="#마무리">마무리</a></li><li class="toc-level-3"><a href="#스케치-저장">스케치 저장</a></li><li class="toc-level-3"><a href="#오늘-한-것-돌아보기">오늘 한 것 돌아보기</a></li><li class="toc-level-3"><a href="#실습과제-3-제출-안내">실습과제 3 제출 안내</a></li><li class="toc-level-3"><a href="#중간고사8주차-예고">중간고사(8주차) 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

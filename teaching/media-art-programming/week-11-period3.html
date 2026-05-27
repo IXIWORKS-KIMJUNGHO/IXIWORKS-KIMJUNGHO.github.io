@@ -1,0 +1,594 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11주차 3교시 — 학생 주도 실습: 데이터 시각화 한 점 완성 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 11 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>11주차 3교시 — 학생 주도 실습: 데이터 시각화 한 점 완성</h1>
+        <p class="lead">External Data and Data Art 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 11</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">11주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 03</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">학생 주도 실습: 데이터 시각화 한 점 완성</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-3교시-학생-주도-실습-데이터-시각화-한-점-완성">11주차 3교시
+— 학생 주도 실습: 데이터 시각화 한 점 완성</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-11-outline <strong>이전
+교시</strong>: <a
+href="week-11-period2.html">week-11-period2-student</a> (map 매핑, 막대
+차트, 나선 아트) <strong>다음 주차</strong>: week-12-outline (Perlin
+Noise)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 <code>data.json</code>, 2교시 시각화·막대·나선 코드</td>
+</tr>
+<tr>
+<td>결과물</td>
+<td>도시 인구 JSON 기반 시각 작품 1점 (시각화 또는 아트 방향 자유)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+실습 목표
+</div>
+<ul>
+<li>✅ <code>preload → loadJSON → for → map → 시각 요소</code>
+파이프라인을 처음부터 끝까지 직접 완성합니다</li>
+<li>✅ 데이터 시각화 또는 데이터 아트 중 한 방향으로 한 점 작품을
+완성합니다</li>
+<li>✅ 시간이 남으면 같은 파이프라인을 다른 방식으로 변주합니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="실습-도입">실습 도입</h2>
+<h3 id="오늘-만들-것">오늘 만들 것</h3>
+<p>지금부터는 듣는 시간이 아니라 <strong>각자 만드는
+시간</strong>입니다. 수업이 끝날 때 화면에 데이터 기반 시각 작품 한 점이
+떠 있는 것이 목표.</p>
+<p>방향은 자유입니다. 막대 차트처럼 정확히 보여줘도 좋고, 나선처럼
+예술적으로 표현해도 좋습니다. 다만 반드시 거쳐야 하는 파이프라인은 모두
+같습니다.</p>
+<pre><code>preload → loadJSON → for문 순회 → map() 매핑 → 시각 요소 그리기</code></pre>
+<h3 id="환경-셋업">환경 셋업</h3>
+<p>P5.js Web Editor에 접속해서 실습 스케치를 준비합니다.</p>
+<ol type="1">
+<li><a href="https://editor.p5js.org/" target="_blank" rel="noopener noreferrer">P5.js Web Editor</a> 열고 로그인
+확인</li>
+<li><strong>File → New</strong>로 새 스케치 생성 → 이름을
+<code>week11-data</code>로 변경</li>
+<li>공유 링크를 열고, 스타터 코드와 <code>data.json</code>을 새 스케치로
+복사</li>
+<li><code>sketch.js</code>에 빈 <code>preload()</code>,
+<code>setup()</code>, <code>draw()</code> 골격이 들어 있는지 확인</li>
+<li>▶ 실행 → 빈 캔버스가 뜨면 준비 완료</li>
+</ol>
+<figure class="lecture-figure">
+<img src="assets/11week/14_p5-file-upload-steps.png"
+alt="14 p5 file upload steps" />
+<figcaption aria-hidden="true">14 p5 file upload steps</figcaption>
+</figure>
+<h3 id="데이터-한-번-확인">데이터 한 번 확인</h3>
+<p>스타터 <code>data.json</code>은 1교시에서 본 5개 도시 + 2개
+추가입니다.</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;cities&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;서울&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">9736027</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">605</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;부산&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">3359527</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">770</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;대구&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">2385412</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">883</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;인천&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">2948375</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">1063</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;광주&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">1455048</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">501</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;대전&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">1463882</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">539</span> <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;울산&quot;</span><span class="fu">,</span> <span class="dt">&quot;population&quot;</span><span class="fu">:</span> <span class="dv">1121592</span><span class="fu">,</span> <span class="dt">&quot;area&quot;</span><span class="fu">:</span> <span class="dv">1062</span> <span class="fu">}</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="ot">]</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+실습 약속
+</div>
+<p>막히면 5분 안에 손 들기. 혼자 오래 붙잡고 있지 말고 도움을 청하세요.
+옆 사람 화면을 참고하는 것도 OK — 다른 사람이 어떤 표현을 시도하는지
+보는 것만으로도 영감을 받을 수 있습니다.</p>
+</div>
+<hr />
+<h2 id="단계-1-데이터-로드와-콘솔-확인">단계 1 — 데이터 로드와 콘솔
+확인</h2>
+<h3 id="할-일">할 일</h3>
+<ol type="1">
+<li><code>preload()</code> 안에서 <code>data.json</code>을
+<code>loadJSON</code>으로 불러와 <code>cityData</code> 변수에 담기</li>
+<li><code>setup()</code>에서 캔버스 만들고,
+<code>console.log(cityData)</code>로 데이터 구조 확인</li>
+<li>▶ 실행 → 브라우저 콘솔(F12 또는 Web Editor 하단)에서 객체가
+출력되는지 확인</li>
+</ol>
+<h3 id="코드-스니펫">코드 스니펫</h3>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>[<span class="dv">0</span>])<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 단계 3에서 채울 예정</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="기대-결과">기대 결과</h3>
+<p>콘솔에 두 줄이 출력됩니다.</p>
+<pre><code>{cities: Array(7)}
+{name: &quot;서울&quot;, population: 9736027, area: 605}</code></pre>
+<h3 id="막혔을-때">막혔을 때</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>증상</th>
+<th>가능한 원인</th>
+<th>대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>콘솔에 <code>null</code></td>
+<td>파일명 오타</td>
+<td>파일 패널에서 <code>data.json</code> 정확히 확인</td>
+</tr>
+<tr>
+<td><code>undefined</code>만 출력</td>
+<td><code>preload</code> 누락 또는 <code>loadJSON</code>이
+<code>setup</code>에 있음</td>
+<td><code>preload</code>로 옮기기</td>
+</tr>
+<tr>
+<td>콘솔에 아무것도 없음</td>
+<td>콘솔 창이 안 열림</td>
+<td>Web Editor 하단 콘솔 펼치기 또는 F12</td>
+</tr>
+<tr>
+<td><code>Cannot read properties of undefined</code></td>
+<td><code>cityData.cities[0]</code>인데 데이터 구조가 다름</td>
+<td>첫 줄(<code>console.log(cityData)</code>)이 객체로 찍히는지부터
+확인</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+체크포인트
+</div>
+<p>콘솔에 <code>{cities: Array(7)}</code>이 보이면 단계 1 완료. 멈추지
+말고 바로 단계 2로 넘어갑니다.</p>
+</div>
+<hr />
+<h2 id="단계-2-for문으로-모든-도시-꺼내기">단계 2 — for문으로 모든 도시
+꺼내기</h2>
+<h3 id="할-일-1">할 일</h3>
+<ol type="1">
+<li><code>setup()</code> 안에 for문 추가</li>
+<li>각 도시의 <code>name</code>과 <code>population</code>을 콘솔에
+출력</li>
+<li>7개 도시가 모두 콘솔에 찍히는지 확인</li>
+</ol>
+<h3 id="코드-스니펫-1">코드 스니펫</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(city<span class="op">.</span><span class="at">name</span> <span class="op">+</span> <span class="st">&quot; — 인구 &quot;</span> <span class="op">+</span> city<span class="op">.</span><span class="at">population</span>)<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="기대-결과-1">기대 결과</h3>
+<pre><code>서울 — 인구 9736027
+부산 — 인구 3359527
+대구 — 인구 2385412
+인천 — 인구 2948375
+광주 — 인구 1455048
+대전 — 인구 1463882
+울산 — 인구 1121592</code></pre>
+<h3 id="막혔을-때-1">막혔을 때</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>증상</th>
+<th>가능한 원인</th>
+<th>대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>한 줄만 출력</td>
+<td>for문 조건이 <code>i &lt; 1</code> 같이 잘못</td>
+<td><code>i &lt; cities.length</code> 확인</td>
+</tr>
+<tr>
+<td><code>undefined</code>가 섞임</td>
+<td>키 이름 오타 (<code>Population</code> 등)</td>
+<td>JSON 파일의 정확한 키 이름 다시 확인</td>
+</tr>
+<tr>
+<td><code>cities is not defined</code></td>
+<td><code>let cities = cityData.cities</code> 누락</td>
+<td>for문 직전에 한 줄 추가</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+체크포인트
+</div>
+<p>7줄이 콘솔에 깔끔하게 찍히면 단계 2 완료. 이제 화면에 그릴 차례.</p>
+</div>
+<hr />
+<h2 id="단계-3-시각-매핑-화면에-그리기">단계 3 — 시각 매핑: 화면에
+그리기</h2>
+<h3 id="할-일-2">할 일</h3>
+<ol type="1">
+<li>for문 안에 <code>map()</code>을 써서 데이터를 시각 속성으로
+환산</li>
+<li><strong>2개 이상</strong>의 시각 속성을 데이터에 매핑 (예: 위치 +
+크기)</li>
+<li>for문 안에서 <code>ellipse</code>나 <code>rect</code>로 도형
+그리기</li>
+<li><code>noLoop()</code>를 추가해서 정적 작품으로 마무리</li>
+</ol>
+<h3 id="매핑-결정-이렇게-시작해도-됩니다">매핑 결정 — 이렇게 시작해도
+됩니다</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>데이터</th>
+<th>시각 속성</th>
+<th><code>map()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>인덱스 <code>i</code></td>
+<td>가로 위치 x</td>
+<td><code>map(i, 0, cities.length - 1, 60, width - 60)</code></td>
+</tr>
+<tr>
+<td><code>population</code></td>
+<td>원 크기</td>
+<td><code>map(city.population, 0, 10000000, 20, 150)</code></td>
+</tr>
+<tr>
+<td><code>area</code> 또는 <code>i</code></td>
+<td>색상</td>
+<td><code>map(city.area, 500, 1100, 100, 255)</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="코드-스니펫-출발점">코드 스니펫 — 출발점</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> width <span class="op">-</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">70</span><span class="op">,</span> <span class="dv">130</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="기대-결과-2">기대 결과</h3>
+<p>화면에 도시별로 다른 크기의 원이 가로로 줄지어 표시됩니다. 서울이
+가장 크고, 울산·광주가 작은 원으로 보입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/07_basic-track-complete.png"
+alt="07 basic track complete" />
+<figcaption aria-hidden="true">07 basic track complete</figcaption>
+</figure>
+<h3 id="막혔을-때-2">막혔을 때</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>증상</th>
+<th>가능한 원인</th>
+<th>대응</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>원이 안 보임</td>
+<td><code>size</code>가 너무 작거나 음수</td>
+<td><code>console.log(size)</code>로 실제 값 찍어보기</td>
+</tr>
+<tr>
+<td>모든 원이 한 자리에 겹침</td>
+<td>x 매핑이 잘못 (모두 같은 값)</td>
+<td><code>map</code>의 첫 인자가 <code>i</code>인지 확인</td>
+</tr>
+<tr>
+<td>원이 화면 밖</td>
+<td>매핑 출력 범위 과다</td>
+<td><code>map(... , 20, 150)</code>의 마지막 두 값 줄이기</td>
+</tr>
+<tr>
+<td>캔버스가 매 프레임 깜빡임</td>
+<td><code>background</code>가 <code>draw</code>에 있어 매번 새로
+그림</td>
+<td><code>noLoop()</code> 추가하거나 <code>background</code>를
+<code>setup</code>으로</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+체크포인트
+</div>
+<p>화면에 7개 원이 데이터에 따라 다르게 보이면 단계 3 완료. 기본 트랙의
+핵심 흐름은 완성된 상태입니다.</p>
+</div>
+<hr />
+<h2 id="단계-4-표현-다듬기">단계 4 — 표현 다듬기</h2>
+<h3 id="할-일-3">할 일</h3>
+<p>기본 형태가 완성된 작품을 한 단계 다듬습니다. 아래 중 <strong>두 가지
+이상</strong> 적용을 권장합니다.</p>
+<ul>
+<li>도시 이름을 텍스트로 표시 (<code>text()</code>)</li>
+<li>배경색·도형 색을 직접 골라 분위기 정하기</li>
+<li>색상 모드를 HSB로 바꿔서 다채롭게
+(<code>colorMode(HSB, ...)</code>)</li>
+<li>도형을 원이 아닌 사각형·선·점으로 바꿔보기</li>
+<li>정렬 방식을 가로 일렬 외 다른 방식으로 (가운데 정렬, 하단 정렬,
+위아래 흔들기)</li>
+</ul>
+<h3 id="코드-스니펫-텍스트와-색-추가">코드 스니펫 — 텍스트와 색
+추가</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noLoop</span>()<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> width <span class="op">-</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">130</span>)<span class="op">;</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">90</span><span class="op">,</span> <span class="dv">70</span>)<span class="op">;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textAlign</span>(CENTER)<span class="op">;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">textSize</span>(<span class="dv">12</span>)<span class="op">;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">text</span>(city<span class="op">.</span><span class="at">name</span><span class="op">,</span> x<span class="op">,</span> y <span class="op">+</span> size <span class="op">/</span> <span class="dv">2</span> <span class="op">+</span> <span class="dv">18</span>)<span class="op">;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="체크포인트-기본-트랙-완료-기준">체크포인트 — 기본 트랙 완료
+기준</h3>
+<ul class="task-list">
+<li><label><input type="checkbox" /><code>preload()</code>에서
+<code>data.json</code>을 로드한다</label></li>
+<li><label><input type="checkbox" />for문으로 모든 도시를
+순회한다</label></li>
+<li><label><input type="checkbox" /><code>map()</code>으로 데이터를 시각
+속성에 매핑한다</label></li>
+<li><label><input type="checkbox" /><strong>2개 이상</strong>의 시각
+속성(위치·크기·색상 등)이 데이터에 의해 결정된다</label></li>
+</ul>
+<p>네 칸이 모두 체크되면 기본 트랙 완료입니다. 시간이 남으면 아래 확장
+활동 중 하나를 골라 도전해보세요.</p>
+<hr />
+<h2 id="선택-확장-활동">선택 확장 활동</h2>
+<p>기본 트랙을 완성했다면, 같은 파이프라인을 변주해보세요. 하나만 해도
+좋고, 여러 개를 섞어도 좋습니다.</p>
+<h3 id="확장-활동-a-데이터-아트-변주-나선-배치">확장 활동 (a) — 데이터
+아트 변주: 나선 배치</h3>
+<p>같은 데이터를 막대·일렬이 아니라 원형 둘레로 배치합니다. 2교시 나선
+코드 참고.</p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> angle <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> TWO_PI)<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> radius <span class="op">=</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">area</span><span class="op">,</span> <span class="dv">500</span><span class="op">,</span> <span class="dv">1100</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cx <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cy <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x <span class="op">=</span> cx <span class="op">+</span> <span class="fu">cos</span>(angle) <span class="op">*</span> radius<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> y <span class="op">=</span> cy <span class="op">+</span> <span class="fu">sin</span>(angle) <span class="op">*</span> radius<span class="op">;</span></span></code></pre></div>
+<h3 id="확장-활동-b-기온-데이터로-교체">확장 활동 (b) — 기온 데이터로
+교체</h3>
+<p>월별 평균기온 CSV를 <code>loadTable</code>로 불러와서, 인구 대신
+기온을 시각화합니다.</p>
+<p><code>temperature.csv</code>:</p>
+<pre><code>month,avg,max,min
+1,-2.4,1.5,-5.9
+2,0.4,4.7,-3.4
+3,5.7,10.4,1.6
+4,12.5,17.8,7.8
+5,17.8,23.0,13.2
+6,22.2,26.8,18.2
+7,24.9,28.8,21.8
+8,25.7,29.6,22.4
+9,21.2,25.6,17.3
+10,14.8,19.6,10.5
+11,7.2,11.4,3.3
+12,-0.4,3.7,-3.9</code></pre>
+<p><code>loadTable("temperature.csv", "csv", "header")</code> +
+<code>table.getNum(r, "avg")</code> 패턴으로 막대 또는 선 그래프
+만들기.</p>
+<h3 id="확장-활동-c-자기-데이터-가져오기">확장 활동 (c) — 자기 데이터
+가져오기</h3>
+<p><a href="https://www.data.go.kr" target="_blank" rel="noopener noreferrer">공공데이터포털</a> 또는 <a
+href="https://data.seoul.go.kr">서울 열린 데이터 광장</a>에서 관심 주제
+CSV를 다운로드해서 자기 파이프라인에 연결합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/11week/13_public-data-to-p5-flow.png"
+alt="13 public data to p5 flow" />
+<figcaption aria-hidden="true">13 public data to p5 flow</figcaption>
+</figure>
+<p>추천 검색어 예시: “지하철 승하차”, “미세먼지”, “공공자전거 따릉이
+대여”.</p>
+<h3 id="확장-활동-d-실시간-애니메이션">확장 활동 (d) — 실시간
+애니메이션</h3>
+<p>정적 시각화 위에 <code>draw()</code> 반복을 살려서, 인구가 많은
+도시일수록 더 빠르게 진동하도록 만들기. 10주차의 힘 시뮬레이션 +
+11주차의 데이터를 합친 표현입니다.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> cityData<span class="op">;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> particles <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">preload</span>() {</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  cityData <span class="op">=</span> <span class="fu">loadJSON</span>(<span class="st">&quot;data.json&quot;</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">600</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> cities <span class="op">=</span> cityData<span class="op">.</span><span class="at">cities</span><span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> cities<span class="op">.</span><span class="at">length</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> city <span class="op">=</span> cities[i]<span class="op">;</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    particles<span class="op">.</span><span class="fu">push</span>({</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      <span class="dt">x</span><span class="op">:</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> cities<span class="op">.</span><span class="at">length</span> <span class="op">-</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">60</span><span class="op">,</span> width <span class="op">-</span> <span class="dv">60</span>)<span class="op">,</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="dt">baseY</span><span class="op">:</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="dt">y</span><span class="op">:</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      <span class="dt">size</span><span class="op">:</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="dv">8</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">,</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      <span class="dt">speed</span><span class="op">:</span> <span class="fu">map</span>(city<span class="op">.</span><span class="at">population</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10000000</span><span class="op">,</span> <span class="fl">0.01</span><span class="op">,</span> <span class="fl">0.05</span>)<span class="op">,</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>      <span class="dt">name</span><span class="op">:</span> city<span class="op">.</span><span class="at">name</span><span class="op">,</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> p <span class="kw">of</span> particles) {</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>    p<span class="op">.</span><span class="at">y</span> <span class="op">=</span> p<span class="op">.</span><span class="at">baseY</span> <span class="op">+</span> <span class="fu">sin</span>(frameCount <span class="op">*</span> p<span class="op">.</span><span class="at">speed</span>) <span class="op">*</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">220</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span><span class="op">,</span> p<span class="op">.</span><span class="at">size</span>)<span class="op">;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+잔상 효과
+</div>
+<p><code>background(20, 30)</code>은 <em>반투명한 검정</em>입니다. 매
+프레임 약간씩만 덮으니까 잔상이 남아서 궤적 효과가 생깁니다.</p>
+</div>
+<hr />
+<h2 id="마무리">🏆 마무리</h2>
+<h3 id="오늘-만든-파이프라인-한-번-더">오늘 만든 파이프라인 한 번
+더</h3>
+<p>각자 화면에 그림 하나씩 떠 있을 것입니다. 표현 방향은 다 다르겠지만,
+통과한 길은 모두 같습니다.</p>
+<pre><code>preload() → loadJSON() → for문 순회 → map() 매핑 → 시각 요소</code></pre>
+<div class="callout callout-abstract">
+<div class="callout-title">
+핵심 한 줄
+</div>
+<p>이 다섯 단계가 오늘의 핵심. 데이터 종류가 바뀌어도, 시각화 방식이
+바뀌어도, 이 흐름은 똑같이 작동합니다. 기말 프로젝트에서 데이터를 쓰고
+싶을 때 이 순서를 떠올리세요.</p>
+</div>
+<h3 id="작품-저장-확인">작품 저장 확인</h3>
+<ol type="1">
+<li>P5.js Web Editor 상단의 <strong>저장 아이콘</strong> 클릭 또는
+Ctrl/Cmd + S</li>
+<li>스케치 이름이 <code>week11-data</code>로 저장됐는지 확인</li>
+<li>다음 시간에 다시 열 수 있도록 로그인 상태 유지</li>
+</ol>
+<h3 id="주차-예고">🔥 12주차 예고</h3>
+<p>다음 주는 <strong>Perlin Noise</strong>입니다. 5주차에 배운
+<code>random()</code>보다 더 <em>자연스러운</em> 움직임을 만드는 함수.
+바람에 흩날리는 잎, 구름의 모양, 산맥의 능선 같은 <em>유기적인
+패턴</em>을 코드로 만들 수 있게 됩니다. <code>noise()</code>는
+<code>random()</code>의 업그레이드 버전이라고 생각하면 됩니다.</p>
+<p>막힌 부분이나 잘 안 된 부분이 있으면 Discord 채널에 캡처와 함께
+올려주세요. 다음 시간에 만나요.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#실습-도입">실습 도입</a></li><li class="toc-level-3"><a href="#오늘-만들-것">오늘 만들 것</a></li><li class="toc-level-3"><a href="#환경-셋업">환경 셋업</a></li><li class="toc-level-3"><a href="#데이터-한-번-확인">데이터 한 번 확인</a></li><li class="toc-level-2"><a href="#단계-1-데이터-로드와-콘솔-확인">단계 1 — 데이터 로드와 콘솔 확인</a></li><li class="toc-level-3"><a href="#할-일">할 일</a></li><li class="toc-level-3"><a href="#코드-스니펫">코드 스니펫</a></li><li class="toc-level-3"><a href="#기대-결과">기대 결과</a></li><li class="toc-level-3"><a href="#막혔을-때">막혔을 때</a></li><li class="toc-level-2"><a href="#단계-2-for문으로-모든-도시-꺼내기">단계 2 — for문으로 모든 도시 꺼내기</a></li><li class="toc-level-3"><a href="#할-일-1">할 일</a></li><li class="toc-level-3"><a href="#코드-스니펫-1">코드 스니펫</a></li><li class="toc-level-3"><a href="#기대-결과-1">기대 결과</a></li><li class="toc-level-3"><a href="#막혔을-때-1">막혔을 때</a></li><li class="toc-level-2"><a href="#단계-3-시각-매핑-화면에-그리기">단계 3 — 시각 매핑: 화면에 그리기</a></li><li class="toc-level-3"><a href="#할-일-2">할 일</a></li><li class="toc-level-3"><a href="#매핑-결정-이렇게-시작해도-됩니다">매핑 결정 — 이렇게 시작해도 됩니다</a></li><li class="toc-level-3"><a href="#코드-스니펫-출발점">코드 스니펫 — 출발점</a></li><li class="toc-level-3"><a href="#기대-결과-2">기대 결과</a></li><li class="toc-level-3"><a href="#막혔을-때-2">막혔을 때</a></li><li class="toc-level-2"><a href="#단계-4-표현-다듬기">단계 4 — 표현 다듬기</a></li><li class="toc-level-3"><a href="#할-일-3">할 일</a></li><li class="toc-level-3"><a href="#코드-스니펫-텍스트와-색-추가">코드 스니펫 — 텍스트와 색 추가</a></li><li class="toc-level-3"><a href="#체크포인트-기본-트랙-완료-기준">체크포인트 — 기본 트랙 완료 기준</a></li><li class="toc-level-2"><a href="#선택-확장-활동">선택 확장 활동</a></li><li class="toc-level-3"><a href="#확장-활동-a-데이터-아트-변주-나선-배치">확장 활동 (a) — 데이터 아트 변주: 나선 배치</a></li><li class="toc-level-3"><a href="#확장-활동-b-기온-데이터로-교체">확장 활동 (b) — 기온 데이터로 교체</a></li><li class="toc-level-3"><a href="#확장-활동-c-자기-데이터-가져오기">확장 활동 (c) — 자기 데이터 가져오기</a></li><li class="toc-level-3"><a href="#확장-활동-d-실시간-애니메이션">확장 활동 (d) — 실시간 애니메이션</a></li><li class="toc-level-2"><a href="#마무리">마무리</a></li><li class="toc-level-3"><a href="#오늘-만든-파이프라인-한-번-더">오늘 만든 파이프라인 한 번 더</a></li><li class="toc-level-3"><a href="#작품-저장-확인">작품 저장 확인</a></li><li class="toc-level-3"><a href="#주차-예고">12주차 예고</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

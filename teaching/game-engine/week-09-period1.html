@@ -588,12 +588,11 @@ h1, .lead, .material-title, .material-meta,
           <span class="hero-chip">Sequencer</span>
         </div>
       </div>
-      <aside class="doc-card">
-        <p class="doc-card-title">문서 정보</p>
-        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 09</span></div>
-        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
-        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Cine Camera Parameters</span></div>
-        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-04-30</span></div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">9주차</span></div>
+        <div class="meta-row"><span class="meta-key">교시</span><span class="meta-value">1교시</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">시네 카메라의 영화 언어</span></div>
       </aside>
     </div>
   </header>
@@ -604,11 +603,15 @@ h1, .lead, .material-title, .material-meta,
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서">강의계획서: Game Engine II</td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서">9주차 아웃라인: 시퀀서 기초</td></tr></tbody></table></div>
-<p>---</p>
+<hr />
 <div class="callout callout-abstract">
-<div class="callout-title">학습 목표</div>
+<div class="callout-title"><span>학습 목표</span></div>
 <div class="callout-body">
-<p>일반 Camera Actor와 Cine Camera Actor의 차이를 이해해요 시네 카메라의 4대 파라미터(Filmback, Focal Length, Aperture, Focus Distance)를 직접 조작할 수 있어요 같은 씬에서도 카메라 파라미터에 따라 영화적 룩이 어떻게 달라지는지 체감해요</p>
+<ul>
+<li>일반 Camera Actor와 Cine Camera Actor의 차이를 이해할 수 있다</li>
+<li>Cine Camera의 4대 파라미터(Filmback, Focal Length, Aperture, Focus Distance)를 직접 조작할 수 있다</li>
+<li>같은 씬에서도 카메라 파라미터에 따라 영화적 룩이 어떻게 달라지는지 체감할 수 있다</li>
+</ul>
 </div>
 </div>
 <p>영화 한 장면을 떠올려보면, 광각으로 찍은 풍경 샷과 망원으로 찍은 인물 클로즈업은 완전히 다른 느낌을 줍니다. 색감이나 분위기 이전에 <strong>카메라가 어떻게 세팅됐는가</strong>가 가장 큰 차이를 만들어냅니다.</p>
@@ -619,7 +622,7 @@ h1, .lead, .material-title, .material-meta,
 <p>렌즈를 고른다는 건 &quot;정교하게 찍자&quot;가 아니라 <strong>관객이 무엇을 보게 할지 정한다</strong>는 의미입니다. 라이팅이 밝기로 시선을 유도한다면, 카메라는 프레이밍·심도·초점으로 시선을 유도합니다.</p>
 </div>
 </div>
-<p>---</p>
+<hr />
 <h2 id="오늘-배울-4가지-한눈에-매핑">오늘 배울 4가지 — 한눈에 매핑</h2>
 <figure class="lecture-figure">
 <img src="assets/00_four-params-mapping.webp" alt="00_four-params-mapping">
@@ -630,7 +633,7 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="파라미터"><strong>Aperture</strong></td><td data-label="한 줄 역할">흐림의 강도 — 심도(배경이 얼마나 흐려지는가)</td></tr>
 <tr><td data-label="파라미터"><strong>Focus Distance</strong></td><td data-label="한 줄 역할">선명한 위치 — 어느 거리의 피사체에 초점이 맞는가</td></tr></tbody></table></div>
 <p>이 4개를 하나씩 직접 만져봅니다. 2교시에는 시간축에 키프레임으로 올리고, 3교시에는 본인 레벨에서 시네마틱 한 컷을 완성합니다.</p>
-<p>---</p>
+<hr />
 <h2 id="1-레벨-준비-두-카메라-비교">1. 레벨 준비 + 두 카메라 비교</h2>
 <h3 id="본인-6주차-레벨-열기">본인 6주차 레벨 열기</h3>
 <p>오늘 실습은 본인이 6주차에 만든 레벨에서 진행합니다.</p>
@@ -641,12 +644,12 @@ h1, .lead, .material-title, .material-meta,
 <p>6주차 레벨이 없거나 지나치게 단조로운 경우 메가스캔 에셋 한두 개를 임의로 배치해서 깊이감 있는 씬을 만들어두세요. 평지에서는 시네 카메라 효과가 잘 보이지 않습니다.</p>
 </div>
 </div>
-<p>---</p>
+<hr />
 <h3 id="camera-actor-배치-비교-대상">Camera Actor 배치 — 비교 대상</h3>
 <p>먼저 일반 Camera Actor를 하나 넣습니다. 게임플레이용 기본 카메라입니다.</p>
 <ul><li>1. <strong>Place Actors 패널 열기</strong> (단축키 <strong>Shift+1</strong> 또는 Window &gt; Place Actors)</li><li>2. 좌측 카테고리에서 <strong>Cinematic</strong> 클릭</li><li>3. <strong>Camera Actor</strong>를 뷰포트로 드래그</li><li>4. 카메라 액터를 선택한 상태로 <strong>에디터 우측 Details 패널</strong> 확인</li></ul>
 <p>Details 패널 옵션이 적습니다. FOV(시야각), Aspect Ratio(화면비) 정도가 전부입니다. 게임에서 캐릭터 시점이나 빠른 디버그용입니다.</p>
-<p>---</p>
+<hr />
 <h3 id="cine-camera-actor-배치-실제-주인공">Cine Camera Actor 배치 — 실제 주인공</h3>
 <p>같은 자리에 Cine Camera Actor를 넣습니다. <strong>실제 영화 카메라처럼 렌즈, 센서, 초점, 조리개를 다루는 카메라</strong>입니다.</p>
 <ul><li>1. Place Actors 검색창에 <strong>&quot;cine&quot;</strong> 타이핑</li><li>2. <strong>Cine Camera Actor</strong>를 뷰포트로 드래그</li><li>3. 일반 Camera Actor 근처에 배치</li><li>4. Cine Camera Actor 선택 후 Details 패널 확인</li></ul>
@@ -664,7 +667,7 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="항목"><strong>현실 카메라 대응</strong></td><td data-label="Camera Actor">없음</td><td data-label="Cine Camera Actor">실제 영화 카메라와 동일한 파라미터</td></tr>
 <tr><td data-label="항목"><strong>사용 맥락</strong></td><td data-label="Camera Actor">게임 캐릭터 시점, 디버그 뷰</td><td data-label="Cine Camera Actor"><strong>시퀀서 컷 작업의 기본</strong></td></tr></tbody></table></div>
 <p>9주차부터 시퀀서 카메라 작업에서는 Cine Camera Actor를 기본으로 사용합니다. 일반 Camera Actor는 오늘 비교용으로만 간단히 봤습니다.</p>
-<p>---</p>
+<hr />
 <h3 id="카메라-시점-미리보기-pilot-모드">카메라 시점 미리보기 — Pilot 모드</h3>
 <p>지금 뷰포트는 일반 시점입니다. 시네 카메라가 무엇을 보고 있는지 확인하려면 <strong>파일럿 모드</strong>로 들어가야 합니다. 뷰포트를 카메라의 눈으로 직접 조종하는 상태입니다.</p>
 <p><strong>방법 1 (가장 쉬움):</strong></p>
@@ -672,7 +675,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>방법 2 (단축키):</strong> 시네 카메라 선택 후 <strong>Ctrl + Shift + P</strong></p>
 <p><strong>해제:</strong> 뷰포트 좌상단 <strong>Stop Piloting</strong> 버튼 또는 다시 Ctrl + Shift + P</p>
 <p>파일럿 모드에서 마우스 우클릭 + WASD로 시점을 움직이면 그게 카메라 위치/회전이 됩니다.</p>
-<p>---</p>
+<hr />
 <h2 id="2-filmback-화면비-결정">2. Filmback — 화면비 결정</h2>
 <p>Filmback은 카메라 센서 크기입니다. 화면비와 시야각이 여기서 결정됩니다. 비유하자면 카메라의 <strong>창문 크기와 모양</strong>입니다.</p>
 <h3 id="함께-실습-절차-filmback-5단계">함께 실습 절차 — Filmback 5단계</h3>
@@ -701,7 +704,7 @@ h1, .lead, .material-title, .material-meta,
 <p>우리 수업 내내 35mm Academy로 갑니다. 한번 정하면 바꾸지 않는 게 좋습니다. 화면비가 바뀌면 구도를 다시 잡아야 하기 때문입니다.</p>
 </div>
 </div>
-<p>---</p>
+<hr />
 <h3 id="filmback-정리">Filmback 정리</h3>
 <div class="table-wrap"><table><thead><tr><th>프리셋</th><th>화면비</th><th>실무 감각</th></tr></thead><tbody><tr><td data-label="프리셋"><strong>35mm Academy</strong></td><td data-label="화면비">1.375 : 1</td><td data-label="실무 감각">클래식 영화 프레임. 우리 수업 기본값</td></tr>
 <tr><td data-label="프리셋"><strong>16:9 DSLR</strong></td><td data-label="화면비">1.778 : 1</td><td data-label="실무 감각">유튜브, TV, 일반 디지털 영상</td></tr>
@@ -731,7 +734,7 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Filmback 드롭다운이 보이지 않음</td><td data-label="원인">Camera Actor를 선택했음</td><td data-label="해결">Outliner에서 <strong>Cine</strong>CameraActor 다시 선택</td></tr>
 <tr><td data-label="증상">화면비가 안 바뀜</td><td data-label="원인">파일럿 모드 꺼짐</td><td data-label="해결">Outliner에서 CineCameraActor 우클릭 → Pilot</td></tr>
 <tr><td data-label="증상">검색해도 Filmback이 안 나옴</td><td data-label="원인">검색 오타 또는 액터 미선택</td><td data-label="해결">&quot;filmback&quot; 정확히 타이핑, 액터 재선택</td></tr></tbody></table></div>
-<p>---</p>
+<hr />
 <h2 id="3-focal-length-화각">3. Focal Length — 화각</h2>
 <p>Focal Length는 화각, '얼마나 좁게 보느냐'입니다. 줌과 비슷한 개념인데, 정확히는 렌즈의 화각을 정하는 값입니다. 시네 카메라에서 슬라이더를 움직이는 건 렌즈를 갈아끼는 것과 비슷합니다.</p>
 <h3 id="함께-실습-절차-focal-length-6단계">함께 실습 절차 — Focal Length 6단계</h3>
@@ -758,7 +761,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>작업 6 — 원근 압축 체험</strong></p>
 <ul><li>1. Current Focal Length를 <strong>85</strong>로 변경</li><li>2. 카메라를 뒤로 빼서 같은 액터를 멀리서 잡음</li></ul>
 <p>피사체가 자연스럽고 배경이 인물 가까이 압축돼 보입니다. 이게 <strong>원근 압축(Perspective compression)</strong>입니다. 영화 인물 클로즈업이 거의 다 85mm 이상인 이유입니다.</p>
-<p>---</p>
+<hr />
 <h3 id="focal-length-정리">Focal Length 정리</h3>
 <div class="table-wrap"><table><thead><tr><th>화각</th><th>Focal Length</th><th>느낌</th><th>권장 사용 컷</th></tr></thead><tbody><tr><td data-label="화각"><strong>광각</strong></td><td data-label="Focal Length">14–28mm</td><td data-label="느낌">넓음, 공간감, 왜곡</td><td data-label="권장 사용 컷">공간 소개, 액션 동선, 풍경</td></tr>
 <tr><td data-label="화각"><strong>표준</strong></td><td data-label="Focal Length">35–50mm</td><td data-label="느낌">사람 눈과 유사</td><td data-label="권장 사용 컷">자연스러운 대화, 일반 컷</td></tr>
@@ -789,7 +792,7 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">슬라이더가 움직이지 않임</td><td data-label="원인">값 직접 입력 필요</td><td data-label="해결">슬라이더 우측 숫자 칸 클릭 후 키보드 입력</td></tr>
 <tr><td data-label="증상">85mm로 바꿨더니 지나치게 좁아 아무것도 보이지 않음</td><td data-label="원인">카메라가 피사체에 지나치게 가까움</td><td data-label="해결">우클릭 + S(뒤로)로 카메라를 멀리</td></tr>
 <tr><td data-label="증상">24mm가 지나치게 넓어 산만함</td><td data-label="원인">광각의 정상 특성</td><td data-label="해결">표준 50mm로 시작 후 조절</td></tr></tbody></table></div>
-<p>---</p>
+<hr />
 <h2 id="4-aperture-조리개와-심도">4. Aperture — 조리개와 심도</h2>
 <p>Aperture는 조리개입니다. 빛 들어오는 구멍 크기인데, 우리는 <strong>심도(배경 흐림) 만드는 도구</strong>로 사용합니다.</p>
 <h3 id="시작-전-eye-adaptation-끄기">시작 전 — Eye Adaptation 끄기</h3>
@@ -809,7 +812,7 @@ h1, .lead, .material-title, .material-meta,
 <p>Cine Camera에는 Eye Adaptation 외에도 Bloom, Vignette, Color Grading 등 Post Process 옵션이 더 있습니다. <strong>13주차 렌더링 수업에서 본격 다룹니다.</strong> 오늘은 이 한 가지만 짚고 갑니다.</p>
 </div>
 </div>
-<p>---</p>
+<hr />
 <h3 id="함께-실습-절차-aperture-6단계">함께 실습 절차 — Aperture 6단계</h3>
 <p><strong>작업 1 — Aperture 위치 찾기</strong></p>
 <ul><li>1. Details 패널 검색창에 <strong>&quot;aperture&quot;</strong> 타이핑</li><li>2. <strong>Current Aperture</strong> 슬라이더가 나타남</li></ul>
@@ -835,7 +838,7 @@ h1, .lead, .material-title, .material-meta,
 </figure>
 <p><strong>작업 6 — 본인 레벨에서 가장 강한 Bokeh 찾기</strong></p>
 <ul><li>1. 본인 레벨에서 Bokeh가 가장 잘 나오는 위치/각도 탐색</li><li>2. 카메라 위치, Focal Length, f값을 조합해 가장 마음에 드는 결과 만들기</li></ul>
-<p>---</p>
+<hr />
 <h3 id="aperture-광학-원리">Aperture 광학 원리</h3>
 <div class="callout callout-tip">
 <div class="callout-title">f값의 직관 함정</div>
@@ -853,7 +856,7 @@ h1, .lead, .material-title, .material-meta,
 <figcaption>사람 눈동자 비유 — 어두운 곳 동공 큼(f/1.4) vs 밝은 곳 동공 작음(f/22)</figcaption>
 </figure>
 <p>조리개가 작아지면 왜 심도가 깊어질까요? 구멍이 작을수록 빛이 좁은 경로로 들어와서 초점 앞뒤의 흐림 원이 작아집니다. 그래서 더 넓은 거리 범위가 선명해 보입니다.</p>
-<p>---</p>
+<hr />
 <h3 id="aperture-정리">Aperture 정리</h3>
 <div class="table-wrap"><table><thead><tr><th>f값</th><th>조리개 상태</th><th>심도</th><th>권장 사용 컷</th></tr></thead><tbody><tr><td data-label="f값"><strong>f/1.4</strong></td><td data-label="조리개 상태">활짝 열림</td><td data-label="심도">매우 얕음, 강한 Bokeh</td><td data-label="권장 사용 컷">인물 클로즈업, 감정 강조</td></tr>
 <tr><td data-label="f값"><strong>f/2.8</strong></td><td data-label="조리개 상태">열림</td><td data-label="심도">얕음</td><td data-label="권장 사용 컷">시네마틱 기본값</td></tr>
@@ -877,7 +880,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>f값 작게 + Focal Length 길게 + 피사체 가까이 + 배경 멀리</strong> 네 가지가 같이 작동합니다. 다 만족시키면 Bokeh가 확 나옵니다.</p>
 </div>
 </div>
-<p>---</p>
+<hr />
 <h2 id="5-focus-distance-manual-tracking">5. Focus Distance — Manual / Tracking</h2>
 <p>들어가기 전에 꼭 짚어야 할 구분이 있습니다.</p>
 <div class="table-wrap"><table><thead><tr><th>용어</th><th>의미</th></tr></thead><tbody><tr><td data-label="용어"><strong>Focus Distance</strong></td><td data-label="의미">가장 선명한 거리의 <strong>위치</strong> (한 점)</td></tr>
@@ -914,7 +917,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>작업 6 — Debug Plane 끄기</strong></p>
 <ul><li>1. Draw Debug Focus Plane 체크 해제</li></ul>
 <p>작업 중에는 Plane이 계속 보이면 방해될 수 있으므로 디버그용으로만 켰다 끕니다.</p>
-<p>---</p>
+<hr />
 <h3 id="focus-distance-정리">Focus Distance 정리</h3>
 <div class="table-wrap"><table><thead><tr><th>모드</th><th>사용 시점</th><th>연출 의미</th></tr></thead><tbody><tr><td data-label="모드"><strong>Manual</strong></td><td data-label="사용 시점">카메라/피사체 움직이지 않임, 의도적 초점 고정</td><td data-label="연출 의미"><strong>Rack Focus</strong> (한 피사체 → 다른 피사체 초점 이동)</td></tr>
 <tr><td data-label="모드"><strong>Tracking</strong></td><td data-label="사용 시점">피사체나 카메라가 움직임</td><td data-label="연출 의미">자동 추적, 캐릭터 따라가기</td></tr>
@@ -944,7 +947,7 @@ h1, .lead, .material-title, .material-meta,
 <div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Tracking으로 바꿨는데 초점이 안 맞음</td><td data-label="원인">Actor To Track이 None</td><td data-label="해결">액터 지정 필요</td></tr>
 <tr><td data-label="증상">액터 지정했는데도 흐릿함</td><td data-label="원인">Aperture가 지나치게 좁음(f/22)</td><td data-label="해결">Aperture를 f/2.8 이하로</td></tr>
 <tr><td data-label="증상">모든 게 다 선명함</td><td data-label="원인">Focus Method가 Disable</td><td data-label="해결">Manual 또는 Tracking으로</td></tr></tbody></table></div>
-<p>---</p>
+<hr />
 <h2 id="6-내-영화-룩-만들기-4-파라미터-통합-미션">6. 내 영화 룩 만들기 — 4 파라미터 통합 미션</h2>
 <p>지금까지 4 파라미터를 하나씩 따로 만져봤습니다. 이제 4개를 다 묶어서 본인 레벨에서 한 컷의 영화 룩을 직접 만듭니다.</p>
 <h3 id="미션-본인만의-영화-룩-한-컷-완성하기">미션 — 본인만의 영화 룩 한 컷 완성하기</h3>
@@ -978,7 +981,7 @@ h1, .lead, .material-title, .material-meta,
 <p>완료되면 이대로 두세요. 2교시에 이 룩을 시간축에 올려서 키프레임으로 움직입니다.</p>
 </div>
 </div>
-<p>---</p>
+<hr />
 <h2 id="정리">정리</h2>
 <h3 id="4대-파라미터-통합-표">4대 파라미터 통합 표</h3>
 <div class="table-wrap"><table><thead><tr><th>#</th><th>파라미터</th><th>무엇을 바꾸는가</th><th>화면에서 어떻게 보이는가</th><th>실무 사용</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="파라미터"><strong>Filmback</strong></td><td data-label="무엇을 바꾸는가">화면비 / 센서 크기</td><td data-label="화면에서 어떻게 보이는가">프레임 모양과 시야 범위</td><td data-label="실무 사용">35mm Academy로 통일</td></tr>
@@ -987,7 +990,7 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="#">4</td><td data-label="파라미터"><strong>Focus Distance</strong></td><td data-label="무엇을 바꾸는가">초점이 맞는 거리</td><td data-label="화면에서 어떻게 보이는가">어느 위치가 선명한가</td><td data-label="실무 사용">Manual: Rack Focus / Tracking: 추적</td></tr></tbody></table></div>
 <p>한 줄로 — <strong>Filmback은 프레임의 그릇, Focal은 보는 범위, Aperture는 흐림의 강도, Focus는 선명한 위치</strong>입니다.</p>
 <p>심도 만들기 공식: <strong>작은 f값 + 긴 Focal + 가까운 피사체 + 먼 배경</strong>. 이 넷이 같이 작동합니다.</p>
-<p>---</p>
+<hr />
 <h2 id="2교시-예고">2교시 예고</h2>
 <p>1교시는 시네 카메라 정지 화면이었습니다. 2교시에는 이 파라미터들을 시간축에 키프레임으로 올립니다.</p>
 <p>예고 한 줄 — <strong>Dolly Zoom</strong>: 카메라를 이동시키면서 동시에 Focal Length를 반대로 변경해서, 피사체 크기는 유지되는데 배경 크기만 변하는 효과입니다. 히치콕이 〈현기증〉에서 처음 쓴 효과고, 3교시에 본인 레벨에서 직접 만듭니다.</p>

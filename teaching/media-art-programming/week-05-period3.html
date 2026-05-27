@@ -1,0 +1,879 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 3교시 — 학생 주도 실습: 인터랙티브 애니메이션 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 05 · Period 03 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>5주차 3교시 — 학생 주도 실습: 인터랙티브 애니메이션</h1>
+        <p class="lead">Motion and Animation 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 05</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">5주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 03</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">학생 주도 실습: 인터랙티브 애니메이션</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-3교시-학생-주도-실습-인터랙티브-애니메이션">5주차 3교시 —
+학생 주도 실습: 인터랙티브 애니메이션</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-05-outline <strong>이전
+교시</strong>: <a
+href="week-05-period2.html">week-05-period2-student</a> (random,
+유틸리티 함수, 좌표 변환) <strong>다음 주차</strong>: week-06-outline
+(함수와 배열)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 변수 움직임·경계 처리, 2교시 random·map·좌표 변환</td>
+</tr>
+<tr>
+<td>결과물</td>
+<td>인터랙티브 애니메이션 스케치 1점 (실습과제 2 기초)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+실습 목표
+</div>
+<ul>
+<li>✅ 1·2교시의 변수 갱신·<code>random()</code>·<code>map()</code>·좌표
+변환·인터랙션을 결합해 인터랙티브 애니메이션을 제작합니다</li>
+<li>✅ 실습과제 2의 기초를 완성하고, 과제로 발전시킵니다</li>
+<li>✅ 4주차 인터랙션과 5주차 움직임을 통합해 자기만의 스타일이 드러나는
+작품을 만듭니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="완성-기준-안내-실습-시작">완성 기준 안내 + 실습 시작</h2>
+<p>3교시에서는 직접 인터랙티브 애니메이션을 만듭니다. <strong>세 단계
+완성 기준</strong>을 보고, 자신이 어느 단계에 있는지 스스로 판단할 수
+있습니다.</p>
+<h3 id="완성-기준">완성 기준</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>단계</th>
+<th>이름</th>
+<th>완성 기준</th>
+<th>핵심</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥉 <strong>기본</strong></td>
+<td>움직이는 스케치</td>
+<td>도형이 자동으로 움직임 + 경계 처리 + 마우스 또는 키보드 인터랙션
+1개</td>
+<td><strong>“움직이고, 부딪히고, 반응한다”</strong></td>
+</tr>
+<tr>
+<td>🥈 <strong>표준</strong></td>
+<td>화려한 스케치</td>
+<td>기본 + <code>random()</code> 또는 <code>map()</code> 활용 + 시각
+효과 1개 이상 (색상 변화, 잔상, 크기 변화 중 택1)</td>
+<td><strong>“보기에도 좋다”</strong></td>
+</tr>
+<tr>
+<td>🥇 <strong>심화</strong></td>
+<td>완성된 작품</td>
+<td>표준 + 복합 효과 조합 (HSB+잔상+map 등) 또는 좌표
+변환(<code>translate</code>/<code>rotate</code>) 활용</td>
+<td><strong>“자기만의 스타일이 있다”</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>🥉 기본만 달성해도 오늘 목표는 완료입니다. 🥇까지 가면 충분히
+훌륭합니다. 자기 속도에 맞게 진행하세요. 이 스케치가 곧 <strong>실습과제
+2</strong>입니다 — 수업 중에 시작하고, 다음 주까지 발전시켜 제출하면
+됩니다. <strong>제출하면 만점</strong>입니다.</p>
+<h3 id="세-가지-방향">세 가지 방향</h3>
+<p>세 방향 중 하나를 골라 시작합니다 (자유롭게 섞어도 됩니다).</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>방향</th>
+<th>설명</th>
+<th>핵심 기술</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 바운싱 볼 아트</strong></td>
+<td>바운싱 볼 + 색상/크기 변화 + 잔상</td>
+<td>변수 갱신, if문 바운싱, random/map</td>
+</tr>
+<tr>
+<td><strong>B. 랜덤 제너러티브 아트</strong></td>
+<td><code>random()</code> 워커 + 누적 그리기</td>
+<td>random(), constrain(), 잔상</td>
+</tr>
+<tr>
+<td><strong>C. 회전 만다라</strong></td>
+<td><code>translate()</code> + <code>rotate()</code> + for문</td>
+<td>push/pop, rotate, frameCount</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/5week/07_assignment-direction-preview.png"
+alt="07 assignment direction preview" />
+<figcaption aria-hidden="true">07 assignment direction
+preview</figcaption>
+</figure>
+<p>무엇을 골라야 할지 모르겠으면 <strong>A(바운싱 볼)</strong>부터
+시작하세요. 1교시에서 이미 만들어봤으니 가장 친숙합니다.</p>
+<h3 id="환경-설정-스타터-코드">환경 설정 + 스타터 코드</h3>
+<ol type="1">
+<li><a href="https://editor.p5js.org/" target="_blank" rel="noopener noreferrer">P5.js Web Editor</a> 접속 (로그인
+확인)</li>
+<li>File → New → 스케치 이름을 <code>week05-animation</code>으로
+변경</li>
+<li>아래 세 방향 중 하나를 골라 스타터 코드를 복사해 붙여넣기</li>
+</ol>
+<p><strong>방향 A: 바운싱 볼 아트</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">// === 상태 변수 (draw() 밖에 선언) ===</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedX<span class="op">,</span> speedY<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">// === setup(): 한 번 실행 ===</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">// === draw(): 매 프레임 실행 (1초에 약 60번) ===</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 도형 그리기</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 위치 갱신</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> speedX<span class="op">;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> speedY<span class="op">;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 바운싱</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width <span class="op">||</span> x <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y <span class="op">&gt;</span> height <span class="op">||</span> y <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="co">// === mousePressed(): 클릭 시 1회 ===</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 클릭 이벤트 코드</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">// === keyPressed(): 키 누를 때 1회 ===</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 키보드 이벤트 코드</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>방향 B: 랜덤 제너러티브 아트</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 랜덤 이동</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 화면 안에 유지</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> <span class="fu">constrain</span>(x<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width)<span class="op">;</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> <span class="fu">constrain</span>(y<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 도형 그리기</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 클릭 이벤트 코드</span></span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 키보드 이벤트 코드</span></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>방향 C: 회전 만다라</strong></p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">angleMode</span>(DEGREES)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rotate</span>(frameCount)<span class="op">;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 회전하는 사각형</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="op">-</span><span class="dv">25</span><span class="op">,</span> <span class="op">-</span><span class="dv">25</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 클릭 이벤트 코드</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 키보드 이벤트 코드</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행 버튼(▶)을 눌러보세요. A는 공이 튕기고, B는 점이 돌아다니고, C는
+사각형이 회전합니다. 여기서부터 시작합니다.</p>
+<hr />
+<h2 id="단계-1-기본-움직이고-부딪히고-반응한다">단계 1 — 🥉 기본:
+“움직이고, 부딪히고, 반응한다”</h2>
+<blockquote>
+<p><strong>이 단계가 끝나면</strong>: 도형이 자동으로 움직이고, 화면
+밖으로 나가지 않으며, 마우스 또는 키보드에 반응한다.</p>
+</blockquote>
+<p>스타터 코드가 실행되면 <strong>인터랙션을 추가</strong>해보세요.
+1교시에서 배운 움직임 + 인터랙션 결합입니다.</p>
+<h3 id="방향-a-바운싱-볼-클릭으로-속도-변경-키보드-초기화">방향 A:
+바운싱 볼 — 클릭으로 속도 변경 + 키보드 초기화</h3>
+<p>스타터 코드의 <code>mousePressed()</code>와
+<code>keyPressed()</code>를 채웁니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 클릭하면 속도 랜덤 변경</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">=</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  speedY <span class="op">=</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 50% 확률로 음수 방향</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">random</span>(<span class="dv">1</span>) <span class="op">&gt;</span> <span class="fl">0.5</span>) speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">random</span>(<span class="dv">1</span>) <span class="op">&gt;</span> <span class="fl">0.5</span>) speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="co">// r키: 중앙으로 초기화</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    speedX <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이제 클릭하면 속도가 랜덤으로 바뀌고, <code>r</code>을 누르면 처음
+상태로 돌아옵니다.</p>
+<h3 id="방향-b-랜덤-워커-클릭으로-위치-이동-캔버스-초기화">방향 B: 랜덤
+워커 — 클릭으로 위치 이동 + 캔버스 초기화</h3>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 클릭한 위치로 워커 이동</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> mouseX<span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> mouseY<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;c&#39;</span>) {</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span>  <span class="co">// 캔버스 초기화</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span>  <span class="co">// 중앙으로 초기화</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>클릭하면 워커가 그 위치로 순간이동합니다. <code>c</code>로 캔버스를
+지우고 새로 시작할 수 있습니다.</p>
+<h3 id="방향-c-회전-만다라-클릭으로-회전-속도-변경">방향 C: 회전 만다라
+— 클릭으로 회전 속도 변경</h3>
+<p><code>draw()</code> 밖에 변수를 추가하고, 스타터 코드를
+수정합니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> rotSpeed <span class="op">=</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// ⭐ draw() 밖에 추가</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rotate</span>(frameCount <span class="op">*</span> rotSpeed)<span class="op">;</span>  <span class="co">// ⭐ frameCount → frameCount * rotSpeed</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="op">-</span><span class="dv">25</span><span class="op">,</span> <span class="op">-</span><span class="dv">25</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  rotSpeed <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span>  <span class="co">// 클릭하면 회전 방향 반전!</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    rotSpeed <span class="op">+=</span> <span class="fl">0.5</span><span class="op">;</span>    <span class="co">// 빠르게</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    rotSpeed <span class="op">-=</span> <span class="fl">0.5</span><span class="op">;</span>    <span class="co">// 느리게</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>클릭하면 회전 방향이 반대로 바뀝니다. 방향키로 속도도 조절할 수
+있습니다.</p>
+<div class="callout callout-success">
+<div class="callout-title">
+🥉 달성 체크
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox" />도형이 <strong>자동으로
+움직이는가</strong>? (변수 갱신, 매 프레임)</label></li>
+<li><label><input type="checkbox" />화면 밖으로 <strong>나가지 않거나
+적절히 처리되는가</strong>? (바운싱/래핑/constrain)</label></li>
+<li><label><input type="checkbox" />마우스 <strong>또는</strong>
+키보드에 <strong>반응하는가</strong>?</label></li>
+</ul>
+<p>🎉 여기까지 하면 🥉 기본 달성 — “움직이고, 부딪히고, 반응한다”</p>
+</div>
+<hr />
+<h2 id="단계-2-표준-보기에도-좋다">단계 2 — 🥈 표준: “보기에도
+좋다”</h2>
+<blockquote>
+<p><strong>이 단계가 끝나면</strong>: <code>random()</code> 또는
+<code>map()</code>을 활용하고, 시각 효과(색상, 잔상, 크기 변화)를 1개
+이상 추가하여 <strong>보기 좋은</strong> 스케치를 만든다.</p>
+</blockquote>
+<p>🥉이 됐으면, <strong>시각적으로 화려하게</strong> 만들어보세요.
+2교시에서 배운 함수들을 활용할 차례입니다.</p>
+<h3 id="아이디어-1-hsb-무지개-색상-순환">아이디어 1: HSB 무지개 색상
+순환</h3>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">// setup()에 추가</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">// draw()에서 fill을 이렇게 변경</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="fu">fill</span>(frameCount <span class="op">%</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span></code></pre></div>
+<p>시간에 따라 색상이 빨강→주황→노랑→…→보라로 순환합니다. 한 줄이면
+무지개 효과!</p>
+<h3 id="아이디어-2-잔상-효과">아이디어 2: 잔상 효과</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 맨 위의 background()를 교체</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co">// HSB 모드일 때:</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>     <span class="co">// 반투명 어두운 배경 → 잔상 효과</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">// RGB 모드일 때:</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">// background(220, 220, 220, 30);</span></span></code></pre></div>
+<p>네 번째 값(30)이 투명도입니다. 낮을수록 잔상이 오래 남습니다.</p>
+<h3 id="아이디어-3-map으로-위치에-따른-크기-변화">아이디어 3: map()으로
+위치에 따른 크기 변화</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 방향 A: 바운싱 볼의 크기가 위치에 따라 변화</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(y<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span></code></pre></div>
+<p>위에 있으면 작고 아래에 있으면 큽니다. 원근감 느낌이 납니다.</p>
+<h3 id="아이디어-4-벽에-부딪힐-때-색상-변경">아이디어 4: 벽에 부딪힐 때
+색상 변경</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 방향 A: 바운싱할 때 색 변경</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (x <span class="op">&gt;</span> width <span class="op">||</span> x <span class="op">&lt;</span> <span class="dv">0</span>) {</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  ballColor <span class="op">=</span> <span class="fu">color</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span>  <span class="co">// ⭐ 부딪히면 색 변경!</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+변수 추가 필요
+</div>
+<p><code>ballColor</code>를 쓰려면 <code>draw()</code> 밖에
+<code>let ballColor;</code>를 추가하고, <code>setup()</code>에서
+<code>ballColor = color(100, 150, 255);</code>로 초기화하세요.
+<code>draw()</code>에서는 <code>fill(ballColor);</code>로 씁니다.</p>
+</div>
+<h3 id="아이디어-5-랜덤-워커-위치-색상-매핑">아이디어 5: 랜덤 워커 위치
+→ 색상 매핑</h3>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 방향 B: x좌표에 따라 색상이 변화하는 궤적</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">// setup()에 colorMode(HSB, 360, 100, 100, 255); 추가</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(x<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span></code></pre></div>
+<p><code>map()</code>으로 x좌표를 색상에 연결했습니다. 왼쪽은 빨강,
+오른쪽은 보라. 궤적이 쌓이면서 색상이 섞인 아트워크가 됩니다.</p>
+<h3 id="아이디어-6-회전-만다라-for문-확장">아이디어 6: 회전 만다라 for문
+확장</h3>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">// 방향 C: for문으로 도형을 원형 배치</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">// setup()에 colorMode(HSB, 360, 100, 100); 추가</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">8</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push</span>()<span class="op">;</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rotate</span>(frameCount <span class="op">*</span> rotSpeed <span class="op">+</span> i <span class="op">*</span> <span class="dv">45</span>)<span class="op">;</span>  <span class="co">// 45도 간격</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(i <span class="op">*</span> <span class="dv">45</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(<span class="dv">60</span><span class="op">,</span> <span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>for</code>문으로 8개 도형을 45도 간격으로 배치하면 만다라
+느낌이 납니다. 3주차 for문 + 2교시 좌표 변환의 조합!</p>
+<div class="callout callout-success">
+<div class="callout-title">
+🥈 달성 체크
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox" /><code>random()</code> 또는
+<code>map()</code>이 <strong>1개 이상</strong>
+활용되었는가?</label></li>
+<li><label><input type="checkbox" />시각 효과가 <strong>1개
+이상</strong> 있는가? (색상 변화, 잔상, 크기 변화 등)</label></li>
+<li><label><input type="checkbox" />보기에 <strong>재미있거나
+아름다운가</strong>?</label></li>
+</ul>
+<p>🎉 여기까지 하면 🥈 표준 달성 — “보기에도 좋다”</p>
+</div>
+<hr />
+<h2 id="단계-3-심화-자기만의-스타일이-있다">단계 3 — 🥇 심화: “자기만의
+스타일이 있다”</h2>
+<blockquote>
+<p><strong>이 단계가 끝나면</strong>: 여러 효과를 복합적으로 조합하거나,
+좌표 변환을 활용하여 <strong>자기만의 개성</strong>이 드러나는 작품을
+완성한다.</p>
+</blockquote>
+<p>기본 기능이 완성되고 시각적으로도 안정적이면, <strong>조합하고
+확장</strong>해보세요. 여러 아이디어를 섞으면 자기만의 작품이
+됩니다.</p>
+<h3 id="조합-예시-1-바운싱-잔상-무지개-크기-변화">조합 예시 1: 바운싱 +
+잔상 + 무지개 + 크기 변화</h3>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speedX<span class="op">,</span> speedY<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> ballSize <span class="op">=</span> <span class="dv">50</span><span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">=</span> <span class="dv">3</span><span class="op">;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  speedY <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 잔상 효과</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 무지개 색상 + 위치 기반 크기</span></span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> hue <span class="op">=</span> frameCount <span class="op">%</span> <span class="dv">360</span><span class="op">;</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(y<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height<span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> speedX<span class="op">;</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> speedY<span class="op">;</span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x <span class="op">&gt;</span> width <span class="op">||</span> x <span class="op">&lt;</span> <span class="dv">0</span>) speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y <span class="op">&gt;</span> height <span class="op">||</span> y <span class="op">&lt;</span> <span class="dv">0</span>) speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a>  speedX <span class="op">=</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a>  speedY <span class="op">=</span> <span class="fu">random</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">random</span>(<span class="dv">1</span>) <span class="op">&gt;</span> <span class="fl">0.5</span>) speedX <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">random</span>(<span class="dv">1</span>) <span class="op">&gt;</span> <span class="fl">0.5</span>) speedY <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;c&#39;</span>) {</span>
+<span id="cb13-41"><a href="#cb13-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb13-42"><a href="#cb13-42" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-43"><a href="#cb13-43" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
+<span id="cb13-44"><a href="#cb13-44" aria-hidden="true" tabindex="-1"></a>    ballSize <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb13-45"><a href="#cb13-45" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
+<span id="cb13-46"><a href="#cb13-46" aria-hidden="true" tabindex="-1"></a>    ballSize <span class="op">-=</span> <span class="dv">5</span><span class="op">;</span></span>
+<span id="cb13-47"><a href="#cb13-47" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (ballSize <span class="op">&lt;</span> <span class="dv">10</span>) ballSize <span class="op">=</span> <span class="dv">10</span><span class="op">;</span></span>
+<span id="cb13-48"><a href="#cb13-48" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-49"><a href="#cb13-49" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>잔상 + 무지개 + map 크기 변화 + 인터랙션. 오늘 배운 것의
+종합입니다.</p>
+<h3 id="조합-예시-2-랜덤-워커-위치-기반-색상-크기-잔상">조합 예시 2:
+랜덤 워커 + 위치 기반 색상 + 크기 + 잔상</h3>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x<span class="op">,</span> y<span class="op">;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  y <span class="op">+=</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">4</span><span class="op">,</span> <span class="dv">4</span>)<span class="op">;</span></span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> <span class="fu">constrain</span>(x<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width)<span class="op">;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> <span class="fu">constrain</span>(y<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height)<span class="op">;</span></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="co">// x → 색상, y → 크기</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(x<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(y<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> height<span class="op">,</span> <span class="dv">3</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> size<span class="op">,</span> size)<span class="op">;</span></span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  x <span class="op">=</span> mouseX<span class="op">;</span></span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  y <span class="op">=</span> mouseY<span class="op">;</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;c&#39;</span>) {</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;r&#39;</span>) {</span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> height <span class="op">/</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>map()</code> 두 개로 x좌표 → 색상, y좌표 → 크기. 위치가 곧 시각
+정보가 되니 궤적이 아트워크가 됩니다.</p>
+<h3 id="조합-예시-3-회전-만다라-for문-마우스-제어">조합 예시 3: 회전
+만다라 + for문 + 마우스 제어</h3>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> numShapes <span class="op">=</span> <span class="dv">8</span><span class="op">;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> rotSpeed <span class="op">=</span> <span class="dv">1</span><span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">angleMode</span>(DEGREES)<span class="op">;</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> spacing <span class="op">=</span> <span class="dv">360</span> <span class="op">/</span> numShapes<span class="op">;</span></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> numShapes<span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push</span>()<span class="op">;</span></span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rotate</span>(frameCount <span class="op">*</span> rotSpeed <span class="op">+</span> i <span class="op">*</span> spacing)<span class="op">;</span></span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(i <span class="op">*</span> spacing<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>      <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(<span class="dv">60</span><span class="op">,</span> <span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 마우스 거리에 따라 중심 원 크기 변화</span></span>
+<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> d <span class="op">=</span> <span class="fu">dist</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> centerSize <span class="op">=</span> <span class="fu">map</span>(d<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">300</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>  centerSize <span class="op">=</span> <span class="fu">constrain</span>(centerSize<span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> centerSize<span class="op">,</span> centerSize)<span class="op">;</span></span>
+<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
+<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>  numShapes <span class="op">+=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (numShapes <span class="op">&gt;</span> <span class="dv">24</span>) numShapes <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
+<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
+<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>    rotSpeed <span class="op">+=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
+<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    rotSpeed <span class="op">-=</span> <span class="fl">0.5</span><span class="op">;</span></span>
+<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (rotSpeed <span class="op">&lt;</span> <span class="fl">0.1</span>) rotSpeed <span class="op">=</span> <span class="fl">0.1</span><span class="op">;</span></span>
+<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>클릭으로 도형 수 변경, 방향키로 회전 속도 조절, 마우스 위치로 중심 원
+크기 변경. <code>map()</code> + <code>constrain()</code> +
+<code>dist()</code> + <code>push()</code>/<code>pop()</code>이 모두 들어
+있습니다.</p>
+<div class="callout callout-success">
+<div class="callout-title">
+🥇 달성 체크
+</div>
+<ul class="task-list">
+<li><label><input type="checkbox" /><strong>2가지 이상의 효과</strong>를
+복합적으로 조합했는가? (잔상+색상, map+random 등)</label></li>
+<li><label><input type="checkbox" /><strong>자기만의 스타일</strong>이나
+<strong>창의적 변형</strong>이 보이는가?</label></li>
+<li><label><input type="checkbox" />결과물이 <strong>반복해서 보고 싶을
+만큼</strong> 재밌는가?</label></li>
+</ul>
+<p>🎉 여기까지 하면 🥇 심화 달성 — “자기만의 스타일이 있다”</p>
+</div>
+<hr />
+<h2 id="단계-4-확장-선택-남는-시간">단계 4 — 확장 (선택, 남는 시간)</h2>
+<p>🥇까지 했다면, 더 도전해볼 수 있는 것들입니다.</p>
+<h3 id="확장-a-바운싱-볼-여러-개">확장 A: 바운싱 볼 여러 개</h3>
+<p>배열은 아직 안 배웠지만, 변수를 복붙하면 여러 개 만들 수
+있습니다.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x1 <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> y1 <span class="op">=</span> <span class="dv">100</span><span class="op">,</span> sx1 <span class="op">=</span> <span class="dv">3</span><span class="op">,</span> sy1 <span class="op">=</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x2 <span class="op">=</span> <span class="dv">300</span><span class="op">,</span> y2 <span class="op">=</span> <span class="dv">200</span><span class="op">,</span> sx2 <span class="op">=</span> <span class="op">-</span><span class="dv">2</span><span class="op">,</span> sy2 <span class="op">=</span> <span class="dv">4</span><span class="op">;</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> x3 <span class="op">=</span> <span class="dv">150</span><span class="op">,</span> y3 <span class="op">=</span> <span class="dv">300</span><span class="op">,</span> sx3 <span class="op">=</span> <span class="dv">4</span><span class="op">,</span> sy3 <span class="op">=</span> <span class="op">-</span><span class="dv">3</span><span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 볼 1: 빨강</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x1<span class="op">,</span> y1<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  x1 <span class="op">+=</span> sx1<span class="op">;</span> y1 <span class="op">+=</span> sy1<span class="op">;</span></span>
+<span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x1 <span class="op">&gt;</span> width <span class="op">||</span> x1 <span class="op">&lt;</span> <span class="dv">0</span>) sx1 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y1 <span class="op">&gt;</span> height <span class="op">||</span> y1 <span class="op">&lt;</span> <span class="dv">0</span>) sy1 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-20"><a href="#cb16-20" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 볼 2: 초록</span></span>
+<span id="cb16-21"><a href="#cb16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">120</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb16-22"><a href="#cb16-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x2<span class="op">,</span> y2<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb16-23"><a href="#cb16-23" aria-hidden="true" tabindex="-1"></a>  x2 <span class="op">+=</span> sx2<span class="op">;</span> y2 <span class="op">+=</span> sy2<span class="op">;</span></span>
+<span id="cb16-24"><a href="#cb16-24" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x2 <span class="op">&gt;</span> width <span class="op">||</span> x2 <span class="op">&lt;</span> <span class="dv">0</span>) sx2 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-25"><a href="#cb16-25" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y2 <span class="op">&gt;</span> height <span class="op">||</span> y2 <span class="op">&lt;</span> <span class="dv">0</span>) sy2 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-26"><a href="#cb16-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-27"><a href="#cb16-27" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 볼 3: 파랑</span></span>
+<span id="cb16-28"><a href="#cb16-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb16-29"><a href="#cb16-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x3<span class="op">,</span> y3<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb16-30"><a href="#cb16-30" aria-hidden="true" tabindex="-1"></a>  x3 <span class="op">+=</span> sx3<span class="op">;</span> y3 <span class="op">+=</span> sy3<span class="op">;</span></span>
+<span id="cb16-31"><a href="#cb16-31" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (x3 <span class="op">&gt;</span> width <span class="op">||</span> x3 <span class="op">&lt;</span> <span class="dv">0</span>) sx3 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-32"><a href="#cb16-32" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (y3 <span class="op">&gt;</span> height <span class="op">||</span> y3 <span class="op">&lt;</span> <span class="dv">0</span>) sy3 <span class="op">*=</span> <span class="op">-</span><span class="dv">1</span><span class="op">;</span></span>
+<span id="cb16-33"><a href="#cb16-33" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>코드가 반복됩니다. 6주차에서 <strong>배열</strong>을 배우면 같은
+구조를 훨씬 짧고 정리된 코드로 만들 수 있습니다.</p>
+<h3 id="확장-b-이중-회전-만다라">확장 B: 이중 회전 만다라</h3>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> height <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">12</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">push</span>()<span class="op">;</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rotate</span>(frameCount <span class="op">*</span> <span class="fl">0.5</span> <span class="op">+</span> i <span class="op">*</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(i <span class="op">*</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ellipse</span>(<span class="dv">80</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span>        <span class="co">// 바깥 원</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rotate</span>(frameCount <span class="op">*</span> <span class="op">-</span><span class="fl">0.3</span>)<span class="op">;</span>      <span class="co">// 역회전!</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(<span class="dv">120</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span>          <span class="co">// 더 바깥 사각형</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이중 회전입니다. 큰 회전 안에 작은 역회전. 복잡해 보이지만
+<code>push()</code>/<code>pop()</code> 패턴만 잘 쓰면 됩니다.</p>
+<h3 id="확장-c-속도-기반-선-굵기">확장 C: 속도 기반 선 굵기</h3>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 안 — 방향 B에서 활용</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> speed <span class="op">=</span> <span class="fu">dist</span>(x<span class="op">,</span> y<span class="op">,</span> x <span class="op">+</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">,</span> y <span class="op">+</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">3</span><span class="op">,</span> <span class="dv">3</span>))<span class="op">;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> weight <span class="op">=</span> <span class="fu">map</span>(speed<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="fu">strokeWeight</span>(weight)<span class="op">;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">stroke</span>(hue<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">150</span>)<span class="op">;</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="fu">point</span>(x<span class="op">,</span> y)<span class="op">;</span></span></code></pre></div>
+<p>빠르게 움직일수록 두꺼운 점. 궤적에 리듬감이 생깁니다.</p>
+<hr />
+<h2 id="마무리">마무리</h2>
+<h3 id="스케치-저장-확인">스케치 저장 확인</h3>
+<p>지금 바로 <strong>Ctrl+S</strong> (Mac은 <strong>Cmd+S</strong>)로
+저장하세요. 이 스케치가 실습과제 2입니다.</p>
+<h3 id="실습과제-2-제출-요건">실습과제 2 제출 요건</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>과제명</strong></td>
+<td>인터랙티브 애니메이션</td>
+</tr>
+<tr>
+<td><strong>제출 기한</strong></td>
+<td>6주차 수업 전까지</td>
+</tr>
+<tr>
+<td><strong>제출 방식</strong></td>
+<td>P5.js Web Editor 링크 공유</td>
+</tr>
+<tr>
+<td><strong>평가</strong></td>
+<td><strong>제출 완료 시 만점</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>완성도를 보는 게 아니라, 직접 시도하고 제출하는 것이 중요합니다.</p>
+<h3 id="필수-요구사항-최종-확인">필수 요구사항 최종 확인</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>요구사항</th>
+<th>확인</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>변수를 매 프레임 갱신하여 <strong>움직임</strong> 구현</td>
+<td>⬜</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>화면 경계 처리</strong> (바운싱/래핑/constrain)</td>
+<td>⬜</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>random()</code> 또는 <code>map()</code> <strong>1개
+이상</strong> 활용</td>
+<td>⬜</td>
+</tr>
+<tr>
+<td>4</td>
+<td>마우스 또는 키보드 <strong>인터랙션</strong> 1개 이상</td>
+<td>⬜</td>
+</tr>
+</tbody>
+</table></div>
+<p>🥈 이상이면 자동으로 다 만족합니다. 다음 주까지 더 발전시켜 제출해도
+좋습니다.</p>
+<h3 id="완성-기준-최종-확인">완성 기준 최종 확인</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>완성 기준</th>
+<th>체크</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🥉 기본</td>
+<td>움직이고 + 부딪히고 + 반응한다</td>
+<td>⬜</td>
+</tr>
+<tr>
+<td>🥈 표준</td>
+<td>random/map + 시각 효과 → 보기에도 좋다</td>
+<td>⬜</td>
+</tr>
+<tr>
+<td>🥇 심화</td>
+<td>복합 효과 + 자기만의 스타일</td>
+<td>⬜</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="오늘-배운-것-3줄-정리">오늘 배운 것 3줄 정리</h3>
+<div class="callout callout-abstract">
+<div class="callout-title">
+3교시 핵심 요약
+</div>
+<ol type="1">
+<li><strong>변수 갱신 = 움직임</strong>: <code>x += speed</code> 한 줄이
+Casey Reas의 수천 개 에이전트의 원리</li>
+<li><strong>random/map/constrain = 풍부한 표현</strong>: 규칙적인
+움직임에 변화를 더하는 도구들</li>
+<li><strong>인터랙션 + 움직임 = 인터랙티브 작품</strong>: 4주차 +
+5주차를 합치면 사용자가 개입하는 살아있는 작품</li>
+</ol>
+</div>
+<h3 id="주차-예고">🔥 6주차 예고</h3>
+<p>오늘 바운싱 볼을 1개 만들었는데, <strong>100개</strong> 만들고 싶으면
+변수 200개를 선언해야 할까요? 아닙니다. 6주차에서
+<strong>함수</strong>로 코드를 정리하고, <strong>배열</strong>로 같은
+종류의 데이터를 한 번에 관리하는 법을 배웁니다. 배열을 쓰면 많은 볼도
+훨씬 짧고 읽기 쉬운 코드로 만들 수 있습니다.</p>
+<h3 id="선택-사전-학습-영상">(선택) 사전 학습 영상</h3>
+<p>미리 보면 다음 주가 더 쉬워집니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>영상</th>
+<th>내용</th>
+<th>시간</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://www.youtube.com/watch?v=POn4cZ0jL-o" target="_blank" rel="noopener noreferrer">The Coding
+Train “3.4 Random”</a></td>
+<td>random() 함수 복습</td>
+<td>약 10분</td>
+</tr>
+<tr>
+<td><a href="https://www.youtube.com/watch?v=o9sgjuh-CBM" target="_blank" rel="noopener noreferrer">The Coding
+Train “9.1 Transformations Pt.1”</a></td>
+<td>translate, rotate, push/pop 복습</td>
+<td>약 22분</td>
+</tr>
+</tbody>
+</table></div>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#완성-기준-안내-실습-시작">완성 기준 안내 + 실습 시작</a></li><li class="toc-level-3"><a href="#완성-기준">완성 기준</a></li><li class="toc-level-3"><a href="#세-가지-방향">세 가지 방향</a></li><li class="toc-level-3"><a href="#환경-설정-스타터-코드">환경 설정 + 스타터 코드</a></li><li class="toc-level-2"><a href="#단계-1-기본-움직이고-부딪히고-반응한다">단계 1 — 🥉 기본: “움직이고, 부딪히고, 반응한다”</a></li><li class="toc-level-3"><a href="#방향-a-바운싱-볼-클릭으로-속도-변경-키보드-초기화">방향 A: 바운싱 볼 — 클릭으로 속도 변경 + 키보드 초기화</a></li><li class="toc-level-3"><a href="#방향-b-랜덤-워커-클릭으로-위치-이동-캔버스-초기화">방향 B: 랜덤 워커 — 클릭으로 위치 이동 + 캔버스 초기화</a></li><li class="toc-level-3"><a href="#방향-c-회전-만다라-클릭으로-회전-속도-변경">방향 C: 회전 만다라 — 클릭으로 회전 속도 변경</a></li><li class="toc-level-2"><a href="#단계-2-표준-보기에도-좋다">단계 2 — 🥈 표준: “보기에도 좋다”</a></li><li class="toc-level-3"><a href="#아이디어-1-hsb-무지개-색상-순환">아이디어 1: HSB 무지개 색상 순환</a></li><li class="toc-level-3"><a href="#아이디어-2-잔상-효과">아이디어 2: 잔상 효과</a></li><li class="toc-level-3"><a href="#아이디어-3-map으로-위치에-따른-크기-변화">아이디어 3: map()으로 위치에 따른 크기 변화</a></li><li class="toc-level-3"><a href="#아이디어-4-벽에-부딪힐-때-색상-변경">아이디어 4: 벽에 부딪힐 때 색상 변경</a></li><li class="toc-level-3"><a href="#아이디어-5-랜덤-워커-위치-색상-매핑">아이디어 5: 랜덤 워커 위치 → 색상 매핑</a></li><li class="toc-level-3"><a href="#아이디어-6-회전-만다라-for문-확장">아이디어 6: 회전 만다라 for문 확장</a></li><li class="toc-level-2"><a href="#단계-3-심화-자기만의-스타일이-있다">단계 3 — 🥇 심화: “자기만의 스타일이 있다”</a></li><li class="toc-level-3"><a href="#조합-예시-1-바운싱-잔상-무지개-크기-변화">조합 예시 1: 바운싱 + 잔상 + 무지개 + 크기 변화</a></li><li class="toc-level-3"><a href="#조합-예시-2-랜덤-워커-위치-기반-색상-크기-잔상">조합 예시 2: 랜덤 워커 + 위치 기반 색상 + 크기 + 잔상</a></li><li class="toc-level-3"><a href="#조합-예시-3-회전-만다라-for문-마우스-제어">조합 예시 3: 회전 만다라 + for문 + 마우스 제어</a></li><li class="toc-level-2"><a href="#단계-4-확장-선택-남는-시간">단계 4 — 확장 (선택, 남는 시간)</a></li><li class="toc-level-3"><a href="#확장-a-바운싱-볼-여러-개">확장 A: 바운싱 볼 여러 개</a></li><li class="toc-level-3"><a href="#확장-b-이중-회전-만다라">확장 B: 이중 회전 만다라</a></li><li class="toc-level-3"><a href="#확장-c-속도-기반-선-굵기">확장 C: 속도 기반 선 굵기</a></li><li class="toc-level-2"><a href="#마무리">마무리</a></li><li class="toc-level-3"><a href="#스케치-저장-확인">스케치 저장 확인</a></li><li class="toc-level-3"><a href="#실습과제-2-제출-요건">실습과제 2 제출 요건</a></li><li class="toc-level-3"><a href="#필수-요구사항-최종-확인">필수 요구사항 최종 확인</a></li><li class="toc-level-3"><a href="#완성-기준-최종-확인">완성 기준 최종 확인</a></li><li class="toc-level-3"><a href="#오늘-배운-것-3줄-정리">오늘 배운 것 3줄 정리</a></li><li class="toc-level-3"><a href="#주차-예고">6주차 예고</a></li><li class="toc-level-3"><a href="#선택-사전-학습-영상">(선택) 사전 학습 영상</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

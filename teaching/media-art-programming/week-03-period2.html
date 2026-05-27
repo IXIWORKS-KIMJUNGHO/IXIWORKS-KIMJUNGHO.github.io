@@ -1,0 +1,717 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3주차 2교시 — for 반복문과 패턴 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 03 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>3주차 2교시 — for 반복문과 패턴</h1>
+        <p class="lead">Color and Repetition 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 03</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">3주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">for 반복문과 패턴</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-for-반복문과-패턴">3주차 2교시 — for 반복문과
+패턴</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-03-outline <strong>이전
+교시</strong>: <a
+href="week-03-period1.html">week-03-period1-student</a> (색상 체계: RGB,
+HSB, 투명도) <strong>다음 교시</strong>: <a
+href="week-03-period3.html">week-03-period3-student</a> (학생 주도 실습:
+기하학적 패턴 아트)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>P5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 색상 체계 (RGB / HSB / alpha)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ <code>for</code> 반복문의 구조를 이해하고 반복 변수
+<code>i</code>를 활용할 수 있습니다</li>
+<li>✅ 반복문으로 도형을 패턴으로 배열할 수 있습니다</li>
+<li>✅ 반복문과 색상(RGB/HSB)을 결합해 그라데이션·무지개 패턴을 만들 수
+있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-복습">1교시 복습</h2>
+<p>1교시에서 색상을 자유롭게 다루는 법을 배웠습니다. 두 가지를 짚고
+갑니다.</p>
+<ul>
+<li><code>fill(255, 0, 0, 128)</code>에서 마지막 숫자 <code>128</code>은
+<strong>alpha(투명도)</strong>입니다. 0이면 투명, 255면 불투명, 128은
+반투명.</li>
+<li>HSB에서 <code>fill(0, 100, 100)</code>의 H=0은
+<strong>빨강</strong>입니다. 색상환에서 0도=빨강, 120도=초록,
+240도=파랑.</li>
+</ul>
+<p>색이 아무리 예뻐도 도형을 하나하나 손으로 그려야 한다면 작품을 만들기
+어렵습니다. 2교시에서는 <strong>같은 코드를 수백 번 반복</strong>하는
+법을 배워서, 도형을 여러 개 배치합니다.</p>
+<hr />
+<h2 id="심화-개념-1-왜-반복문이-필요한가">💡 심화 개념 1 — 왜 반복문이
+필요한가?</h2>
+<p>원 10개를 가로로 한 줄 나열한다고 합시다.</p>
+<p><strong>방법 A: 하나씩 직접 쓰기</strong></p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">60</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">140</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">180</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">220</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">260</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">340</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">380</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>10줄입니다. 100개를 그리려면 100줄, 1000개면 현실적으로
+어렵습니다.</p>
+<p><strong>방법 B: <code>for</code> 반복문 사용</strong></p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>3줄</strong>입니다. 결과는 똑같습니다. 100개를 그리려면
+<code>10</code>을 <code>100</code>으로 바꾸면 끝입니다. 프로그래밍의
+핵심은 <strong>반복되는 패턴을 찾아서 자동화</strong>하는 것입니다.
+위에서 반복된 건 <code>ellipse(?, 200, 30, 30)</code> — x좌표만 40씩
+증가하는 패턴입니다.</p>
+<h3 id="반복문의-진짜-장점-수정이-쉬워진다">반복문의 진짜 장점: 수정이
+쉬워진다</h3>
+<p>코드가 짧아지는 것만이 장점이 아닙니다. <strong>수정이 한 곳에서
+해결된다</strong>는 게 진짜 장점입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>방식</th>
+<th>‘원 크기를 30→50’ 수정할 곳</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>방법 A (복사-붙여넣기)</td>
+<td><strong>10줄</strong> 각각 수정 — 하나라도 빠뜨리면 버그</td>
+</tr>
+<tr>
+<td>방법 B (for문)</td>
+<td><strong>1곳</strong>만 수정 — <code>30</code>을
+<code>50</code>으로</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>i &lt; 10</code>을 <code>i &lt; 100</code>으로 숫자 하나만
+바꾸면 원이 100개가 됩니다. 이것이 반복문의 힘입니다.</p>
+<hr />
+<h2 id="심화-개념-2-for-반복문-기본-문법">💡 심화 개념 2 — for 반복문
+기본 문법</h2>
+<h3 id="구조-분해">구조 분해</h3>
+<pre><code>for (let i = 0; i &lt; 10; i++)
+     ─────────  ──────  ───
+        ①         ②     ③</code></pre>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: center;">부분</th>
+<th>코드</th>
+<th>의미</th>
+<th>비유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">① 초기화</td>
+<td><code>let i = 0</code></td>
+<td>시작값 설정</td>
+<td>“0번부터 시작!”</td>
+</tr>
+<tr>
+<td style="text-align: center;">② 조건</td>
+<td><code>i &lt; 10</code></td>
+<td>언제까지 반복?</td>
+<td>“10번 미만까지!”</td>
+</tr>
+<tr>
+<td style="text-align: center;">③ 증가</td>
+<td><code>i++</code></td>
+<td>매 반복 후 +1</td>
+<td>“한 번 끝나면 다음!”</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>i++</code>는 <code>i = i + 1</code>의 줄임말입니다. 매 반복이
+끝날 때마다 i가 1씩 증가합니다.</p>
+<h3 id="실행-흐름-추적">실행 흐름 추적</h3>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;i의 값:&quot;</span><span class="op">,</span> i)<span class="op">;</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>콘솔 출력:</strong></p>
+<pre><code>i의 값: 0
+i의 값: 1
+i의 값: 2
+i의 값: 3
+i의 값: 4</code></pre>
+<p>i=0 → 조건 확인(0 &lt; 5? 네) → 실행 → i++ → i=1 → … → i=5 → 조건
+확인(5 &lt; 5? 아니오) → <strong>종료</strong>.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+주의
+</div>
+<p>i는 0부터 시작해서 <strong>4까지</strong>입니다. 5가 아닙니다.
+<code>i &lt; 5</code>니까 5가 되는 순간 멈춥니다.</p>
+</div>
+<figure class="lecture-figure">
+<img src="assets/3week/05_for-loop-execution-flow.png"
+alt="05 for loop execution flow" />
+<figcaption aria-hidden="true">05 for loop execution flow</figcaption>
+</figure>
+<h3 id="주차-변수와의-연결">2주차 변수와의 연결</h3>
+<p>2주차에서 <code>let faceX = mouseX;</code>로 변수를 만들었습니다.
+<code>for</code>문의 <code>i</code>도 <code>let</code>으로 만든
+변수입니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th></th>
+<th>2주차 변수</th>
+<th>for문의 i</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>선언</td>
+<td><code>let faceX = mouseX;</code></td>
+<td><code>let i = 0;</code></td>
+</tr>
+<tr>
+<td>값 변화</td>
+<td>직접 대입</td>
+<td>매 반복마다 <strong>자동</strong> +1</td>
+</tr>
+<tr>
+<td>용도</td>
+<td>좌표 저장</td>
+<td>반복 횟수 세기 + 활용</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>for (let i = 0; i &lt; 3; i++)</code>이면 i는 몇 번 반복하고,
+마지막 i 값은 뭘까요?</p>
+<p><strong>답</strong>: <strong>3번</strong> 반복 (i=0, 1, 2), 마지막 i
+값은 <strong>2</strong>.</p>
+</div>
+<h3 id="증가값-바꾸기-i-말고-다른-것도-가능">증가값 바꾸기:
+<code>i++</code> 말고 다른 것도 가능</h3>
+<p><code>i++</code>는 1씩 증가하는 것인데, 2씩·3씩도 가능합니다.</p>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2씩 증가</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i <span class="op">+=</span> <span class="dv">2</span>) {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;i의 값:&quot;</span><span class="op">,</span> i)<span class="op">;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>콘솔 출력:</strong></p>
+<pre><code>i의 값: 0
+i의 값: 2
+i의 값: 4
+i의 값: 6
+i의 값: 8</code></pre>
+<p><code>i += 2</code>는 <code>i = i + 2</code>의 줄임말입니다. 0, 2, 4,
+6, 8 — 짝수만 나옵니다. 도형 간격이나 줄무늬에 활용할 수 있습니다.</p>
+<h3 id="흔한-실수-3가지">흔한 실수 3가지</h3>
+<p>실습 중 오류가 나면 아래 세 가지를 먼저 확인하세요.</p>
+<p><strong>실수 1: 무한 루프 — <code>i++</code> 대신
+<code>i--</code></strong></p>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 이렇게 하면 브라우저가 멈춤!</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">--</span>) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>  <span class="co">// 0, -1, -2, -3... 끝없이 감소</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>i가 점점 작아지니까 <code>i &lt; 10</code>은 영원히 참입니다.
+브라우저가 멈추면 <strong>탭을 닫고 다시 열면 됩니다</strong>.</p>
+<p><strong>실수 2: 중괄호 <code>{}</code> 빼먹기</strong></p>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 중괄호를 빼먹으면 첫 줄만 반복됨</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 이것만 반복</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 이건 반복 안 됨! (에러)</span></span></code></pre></div>
+<p>중괄호 <code>{}</code>가 없으면 <strong>바로 다음 한 줄만</strong>
+반복됩니다. 두 줄 이상 반복하려면 반드시 중괄호로 감싸세요.</p>
+<p><strong>실수 3: <code>i</code>를 for문 밖에서 쓰려고 함</strong></p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>  <span class="co">// ✅ for문 안에서는 사용 가능</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>    <span class="co">// ❌ 에러! i is not defined</span></span></code></pre></div>
+<p><code>let</code>으로 for문 안에서 만든 변수 <code>i</code>는
+<strong>중괄호 안에서만 존재</strong>합니다. 밖에서는 사라집니다. 지금은
+’for문 안의 i는 밖에서 쓸 수 없다’만 기억하세요.</p>
+<hr />
+<h2 id="심화-개념-3-반복문으로-도형-패턴-만들기">💡 심화 개념 3 —
+반복문으로 도형 패턴 만들기</h2>
+<h3 id="한-줄-원-나열-단계별로">한 줄 원 나열 — 단계별로</h3>
+<p><strong>Step 1: 원 하나 그리기</strong></p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 원 하나</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>Step 2: for문으로 감싸기 (아직 잘못된 상태)</strong></p>
+<div class="sourceCode" id="cb12"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ❌ 10번 반복하지만 같은 위치!</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>10번 그렸는데 전부 같은 자리라 원 1개로 보입니다. <strong>i를 아직 안
+쓰고 있기</strong> 때문입니다.</p>
+<p><strong>Step 3: i를 좌표에 연결</strong></p>
+<div class="sourceCode" id="cb13"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ⭐ i가 x좌표를 결정</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>i * 40</code>이 핵심입니다. i=0이면 x=20, i=1이면 x=60, i=2이면
+x=100… 40픽셀 간격으로 원이 나열됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+반복문의 핵심 질문
+</div>
+<p>반복문을 쓸 때 가장 중요한 질문은 <strong>“i를 어디에 연결할
+것인가?”</strong>입니다. 좌표, 크기, 색상 — 무엇이든 될 수 있습니다.</p>
+</div>
+<h3 id="간격-조절">간격 조절</h3>
+<p>곱하는 숫자를 바꾸면 간격이 달라집니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>코드</th>
+<th style="text-align: center;">간격</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>i * 40 + 20</code></td>
+<td style="text-align: center;">40px</td>
+<td>보통 간격 — 원끼리 딱 붙지 않음</td>
+</tr>
+<tr>
+<td><code>i * 20 + 10</code></td>
+<td style="text-align: center;">20px</td>
+<td>빽빽하게 — 원(30px)보다 좁아서 겹침</td>
+</tr>
+<tr>
+<td><code>i * 60 + 30</code></td>
+<td style="text-align: center;">60px</td>
+<td>넓게 — 원 사이에 빈 공간</td>
+</tr>
+</tbody>
+</table></div>
+<p>원 크기가 30px인데 간격이 20px이면 겹치고, 60px이면 빈 공간이
+생깁니다. 간격과 도형 크기의 관계를 생각해야 합니다.
+<code>i &lt; 10</code>을 <code>i &lt; 20</code>으로 바꾸면 원이
+캔버스(400px) 밖으로 나갈 수 있습니다.</p>
+<h3 id="크기-변화">크기 변화</h3>
+<p><code>i</code>를 <strong>크기에도</strong> 쓸 수 있습니다.</p>
+<div class="sourceCode" id="cb14"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span>)<span class="op">;</span>  <span class="co">// ⭐ 점점 커지는 원</span></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>i=0일 때 크기 5, i=9일 때 크기 50. <code>i + 1</code>을 쓰는 이유는,
+<code>i * 5</code>로 하면 i=0일 때 크기가 0이라 안 보이기
+때문입니다.</p>
+<h3 id="세로-줄">세로 줄</h3>
+<p>x 대신 <strong>y좌표</strong>에 i를 쓰면 세로 줄이 됩니다.</p>
+<div class="sourceCode" id="cb15"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ⭐ y좌표에 i 적용</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>x좌표와 y좌표 <strong>둘 다</strong> i를 쓰면 어떻게 될까요?</p>
+<p><strong>답</strong>:
+<code>ellipse(i * 40 + 20, i * 40 + 20, 30, 30)</code> →
+<strong>대각선</strong>으로 나열됩니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-4-반복문-색상-결합">💡 심화 개념 4 — 반복문 + 색상
+결합</h2>
+<p><code>i</code>를 <strong>좌표에도, 색상에도</strong> 동시에 쓸 수
+있습니다.</p>
+<h3 id="map-함수-먼저-배우고-가기"><code>map()</code> 함수 — 먼저 배우고
+가기</h3>
+<p>i는 0~9 범위인데 색상은 0~255 범위입니다. <code>fill(i)</code>로 하면
+0~9라서 거의 검정만 나옵니다. i의 범위를 색상 범위로
+<strong>변환</strong>해야 합니다.</p>
+<div class="sourceCode" id="cb16"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">// map(값, 현재최소, 현재최대, 목표최소, 목표최대)</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co">// i=0 → 0</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">// i=4 → 약 113 (중간)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co">// i=9 → 255 (최대)</span></span></code></pre></div>
+<p><code>map()</code>은 <strong>비례 계산</strong>을 해주는 함수입니다.
+‘0~9 범위의 숫자를 0~255 범위로 바꿔줘’ — 이 한 줄이면 됩니다.</p>
+<div class="sourceCode" id="cb17"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> gray <span class="op">=</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(gray)<span class="op">;</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>첫 원은 검정(0), 마지막 원은 흰색(255). 깔끔한 흑백
+그라데이션입니다.</p>
+<h3 id="rgb-그라데이션-단계별로">RGB 그라데이션 — 단계별로</h3>
+<p><strong>Step 1: 전부 같은 색</strong></p>
+<div class="sourceCode" id="cb18"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// 모든 원이 같은 어두운 빨강</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>Step 2: i를 빨강 채널에 연결</strong></p>
+<div class="sourceCode" id="cb19"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// ⭐ i가 커질수록 빨강이 진해짐</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>i=0이면 <code>fill(0, 0, 0)</code> 검정, i=9이면
+<code>fill(255, 0, 0)</code> 진한 빨강. 점점 빨개지는 원 10개입니다.</p>
+<h3 id="hsb-무지개">HSB 무지개</h3>
+<p>HSB의 H(색상)는 0~360 색상환입니다. for문과 결합하면
+<strong>무지개</strong>가 한 줄로 만들어집니다.</p>
+<div class="sourceCode" id="cb20"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// ⭐ H를 0~360으로 변화 → 무지개!</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>H 값이 0에서 360까지 변하면 색상환을 한 바퀴 돕니다.
+빨-주-노-초-파-보! RGB로 하려면 10개 색을 하나하나 지정해야 하는데,
+HSB는 <code>map()</code> 한 번이면 됩니다. <code>fill()</code>의 첫 번째
+인자가 이제 H(색상환 각도)입니다.</p>
+<h3 id="alpha-그라데이션">alpha 그라데이션</h3>
+<div class="sourceCode" id="cb21"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">240</span>)<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>))<span class="op">;</span>  <span class="co">// ⭐ alpha가 점점 커짐</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>첫 원은 alpha=0이라 <strong>완전 투명</strong> — 안 보입니다. 마지막
+원은 alpha=255로 진한 빨강입니다.</p>
+<h3 id="i를-여러-곳에-동시에-쓰기">i를 여러 곳에 동시에 쓰기</h3>
+<p>좌표, 색상, 크기, 투명도 — <code>i</code>를 <strong>여러 곳에
+동시에</strong> 쓸 수 있습니다.</p>
+<div class="sourceCode" id="cb22"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>          <span class="co">// 색상: 무지개</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span>)<span class="op">;</span>  <span class="co">// 크기: 점점 커짐</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>색도 바뀌고 크기도 바뀝니다. 반복 변수 <code>i</code>를
+<strong>좌표·색상·크기·투명도</strong> 어디에든 쓸 수 있다는 것이
+for문의 진짜 강점입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/3week/06_i-to-position-size-color.png"
+alt="06 i to position size color" />
+<figcaption aria-hidden="true">06 i to position size color</figcaption>
+</figure>
+<hr />
+<h2 id="실전-사례">실전 사례</h2>
+<figure class="lecture-figure">
+<img src="assets/3week/07_pattern-examples-basic-grid-radial.png"
+alt="07 pattern examples basic grid radial" />
+<figcaption aria-hidden="true">07 pattern examples basic grid
+radial</figcaption>
+</figure>
+<h3 id="사례-1-그라데이션-줄무늬">사례 1: 그라데이션 줄무늬</h3>
+<p><strong>Step 1: 같은 색 줄무늬</strong></p>
+<div class="sourceCode" id="cb23"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(i <span class="op">*</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span>  <span class="co">// 20px 너비 막대 20개</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>전부 같은 색이라 하나의 큰 사각형처럼 보입니다.</p>
+<p><strong>Step 2: HSB로 색상 변화 추가</strong></p>
+<div class="sourceCode" id="cb24"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">19</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// ⭐ H를 0~360으로 변화</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(i <span class="op">*</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>무지개 줄무늬입니다. <code>rect()</code> + <code>for</code> + HSB +
+<code>map()</code> — 오늘 배운 것들의 조합입니다.</p>
+<h3 id="사례-2-격자-패턴-중첩-for문">사례 2: 격자 패턴 (중첩 for문)</h3>
+<p>for문 안에 for문을 넣으면 <strong>2차원 격자</strong>를 만들 수
+있습니다.</p>
+<div class="sourceCode" id="cb25"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> y<span class="op">++</span>) {         <span class="co">// 바깥: 줄 반복 (세로)</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> x<span class="op">++</span>) {       <span class="co">// 안쪽: 각 줄 안에서 칸 반복 (가로)</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>((x <span class="op">+</span> y) <span class="op">*</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>      <span class="co">// ⭐ x+y로 대각선 그라데이션</span></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(x <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> y <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">35</span><span class="op">,</span> <span class="dv">35</span>)<span class="op">;</span></span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>바깥 for문이 y=0일 때 안쪽 for문이 x=0~9를 전부 실행해 <strong>첫
+번째 줄</strong>을 완성하고, 바깥이 y=1로 넘어가면 안쪽이 다시 x=0~9 →
+<strong>두 번째 줄</strong>. 10줄 × 10칸 = 100개. <code>(x + y)</code>를
+색상에 쓰면 대각선 방향으로 색이 변합니다.</p>
+<h3 id="사례-3-원형-패턴-5주차-예고">사례 3: 원형 패턴 (5주차 예고)</h3>
+<p>원형으로 배치하려면 <code>sin()</code>과 <code>cos()</code>가
+필요합니다. 5주차에서 배울 내용인데, 미리 결과만 봅니다.</p>
+<div class="sourceCode" id="cb26"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">12</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> angle <span class="op">=</span> i <span class="op">*</span> <span class="dv">30</span><span class="op">;</span>  <span class="co">// 360 / 12 = 30도 간격</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> x <span class="op">=</span> <span class="dv">200</span> <span class="op">+</span> <span class="fu">cos</span>(<span class="fu">radians</span>(angle)) <span class="op">*</span> <span class="dv">120</span><span class="op">;</span></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="dv">200</span> <span class="op">+</span> <span class="fu">sin</span>(<span class="fu">radians</span>(angle)) <span class="op">*</span> <span class="dv">120</span><span class="op">;</span></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(i <span class="op">*</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>시계처럼 12개 원이 둥글게 배치되고 각각 다른 색입니다. 지금은 ‘이런
+것도 가능하구나’ 정도만 기억하세요.</p>
+<hr />
+<h2 id="교시-실습-안내">3교시 실습 안내</h2>
+<h3 id="실습-과제-기하학적-패턴-아트">실습 과제: 기하학적 패턴 아트</h3>
+<p>3교시에서 <strong>반복문과 색상을 결합한 기하학적 패턴
+아트</strong>를 만듭니다.</p>
+<p><strong>필수 요구사항</strong></p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 40%" />
+<col style="width: 48%" />
+</colgroup>
+<thead>
+<tr>
+<th>#</th>
+<th>요구사항</th>
+<th>관련 개념</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>for</code> 반복문 <strong>1개 이상</strong> 사용</td>
+<td>2교시: for문</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>RGB 또는 HSB</strong> 색상 활용 (흑백 금지)</td>
+<td>1교시: 색상 체계</td>
+</tr>
+<tr>
+<td>3</td>
+<td>반복 변수 <code>i</code>를 <strong>좌표 또는 색상</strong>에
+활용</td>
+<td>2교시: 반복+색상 결합</td>
+</tr>
+<tr>
+<td>4</td>
+<td>도형 <strong>10개 이상</strong> 반복 생성</td>
+<td>2교시: 반복 패턴</td>
+</tr>
+</tbody>
+</table></div>
+<p>방금 본 코드들이 이미 이 조건을 충족합니다. 무엇을 만들지 막막하면
+OpenProcessing에서 “geometric pattern”을 검색해 레퍼런스를 살펴보세요.
+똑같이 따라할 필요 없이 아이디어만 참고하면 됩니다.</p>
+<h3 id="실습과제-1-안내">실습과제 1 안내</h3>
+<p>오늘 3교시에서 시작한 패턴 아트가 <strong>실습과제 1</strong>이
+됩니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>과제명</strong></td>
+<td>기하학적 패턴 아트</td>
+</tr>
+<tr>
+<td><strong>제출 기한</strong></td>
+<td>4주차 수업 전까지</td>
+</tr>
+<tr>
+<td><strong>제출 방식</strong></td>
+<td>P5.js Web Editor 링크 공유</td>
+</tr>
+<tr>
+<td><strong>평가</strong></td>
+<td><strong>제출 완료 시 만점</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>완성도는 평가하지 않습니다. <strong>직접 시도하고 제출하는
+과정</strong>이 중요합니다.</p>
+<h3 id="시작-힌트">시작 힌트</h3>
+<p>어디서부터 시작할지 막막하면 이 코드부터 시작하세요.</p>
+<div class="sourceCode" id="cb27"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(i <span class="op">*</span> <span class="dv">36</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>이 무지개 원 한 줄에서 출발해, 크기를 바꾸거나 줄을 추가하거나
+사각형으로 바꾸거나 배경색을 바꾸며 자유롭게 실험해보세요.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-왜-반복문이-필요한가">심화 개념 1 — 왜 반복문이 필요한가?</a></li><li class="toc-level-3"><a href="#반복문의-진짜-장점-수정이-쉬워진다">반복문의 진짜 장점: 수정이 쉬워진다</a></li><li class="toc-level-2"><a href="#심화-개념-2-for-반복문-기본-문법">심화 개념 2 — for 반복문 기본 문법</a></li><li class="toc-level-3"><a href="#구조-분해">구조 분해</a></li><li class="toc-level-3"><a href="#실행-흐름-추적">실행 흐름 추적</a></li><li class="toc-level-3"><a href="#주차-변수와의-연결">2주차 변수와의 연결</a></li><li class="toc-level-3"><a href="#증가값-바꾸기-i-말고-다른-것도-가능">증가값 바꾸기: i++ 말고 다른 것도 가능</a></li><li class="toc-level-3"><a href="#흔한-실수-3가지">흔한 실수 3가지</a></li><li class="toc-level-2"><a href="#심화-개념-3-반복문으로-도형-패턴-만들기">심화 개념 3 — 반복문으로 도형 패턴 만들기</a></li><li class="toc-level-3"><a href="#한-줄-원-나열-단계별로">한 줄 원 나열 — 단계별로</a></li><li class="toc-level-3"><a href="#간격-조절">간격 조절</a></li><li class="toc-level-3"><a href="#크기-변화">크기 변화</a></li><li class="toc-level-3"><a href="#세로-줄">세로 줄</a></li><li class="toc-level-2"><a href="#심화-개념-4-반복문-색상-결합">심화 개념 4 — 반복문 + 색상 결합</a></li><li class="toc-level-3"><a href="#map-함수-먼저-배우고-가기">map() 함수 — 먼저 배우고 가기</a></li><li class="toc-level-3"><a href="#rgb-그라데이션-단계별로">RGB 그라데이션 — 단계별로</a></li><li class="toc-level-3"><a href="#hsb-무지개">HSB 무지개</a></li><li class="toc-level-3"><a href="#alpha-그라데이션">alpha 그라데이션</a></li><li class="toc-level-3"><a href="#i를-여러-곳에-동시에-쓰기">i를 여러 곳에 동시에 쓰기</a></li><li class="toc-level-2"><a href="#실전-사례">실전 사례</a></li><li class="toc-level-3"><a href="#사례-1-그라데이션-줄무늬">사례 1: 그라데이션 줄무늬</a></li><li class="toc-level-3"><a href="#사례-2-격자-패턴-중첩-for문">사례 2: 격자 패턴 (중첩 for문)</a></li><li class="toc-level-3"><a href="#사례-3-원형-패턴-5주차-예고">사례 3: 원형 패턴 (5주차 예고)</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-과제-기하학적-패턴-아트">실습 과제: 기하학적 패턴 아트</a></li><li class="toc-level-3"><a href="#실습과제-1-안내">실습과제 1 안내</a></li><li class="toc-level-3"><a href="#시작-힌트">시작 힌트</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

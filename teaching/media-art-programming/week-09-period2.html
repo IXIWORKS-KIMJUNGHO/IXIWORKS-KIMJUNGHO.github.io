@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 2교시 — 가속도, 삼각함수, 클래스 결합 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 09 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>9주차 2교시 — 가속도, 삼각함수, 클래스 결합</h1>
+        <p class="lead">Vectors and Motion 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 09</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">9주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">가속도, 삼각함수, 클래스 결합</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-2교시-가속도-삼각함수-클래스-결합">9주차 2교시 — 가속도,
+삼각함수, 클래스 결합</h1>
+<blockquote>
+<p><strong>강의 아웃라인</strong>: week-09-outline <strong>이전
+교시</strong>: <a
+href="week-09-period1.html">week-09-period1-student</a> (벡터란 무엇인가
++ p5.Vector 기본) <strong>다음 교시</strong>: <a
+href="week-09-period3.html">week-09-period3-student</a> (학생 주도
+실습)</p>
+</blockquote>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>대상</td>
+<td>p5.js 입문자 (테크아트 전공)</td>
+</tr>
+<tr>
+<td>소요 시간</td>
+<td>45분</td>
+</tr>
+<tr>
+<td>사전 준비</td>
+<td>1교시 벡터 기본 (createVector·add·sub·normalize·mult)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<ul>
+<li>✅ 가속도(acceleration) 개념을 이해하고, <code>vel.add(acc)</code> →
+<code>pos.add(vel)</code> 패턴으로 자연스러운 움직임을 구현할 수
+있습니다</li>
+<li>✅ 마찰(<code>vel.mult(0.99)</code>)과 속도
+상한(<code>vel.limit()</code>)의 차이를 이해하고 상황에 맞게 쓸 수
+있습니다</li>
+<li>✅ 삼각함수(<code>sin()</code>, <code>cos()</code>)를 활용하여 진동,
+원운동, 리사주 곡선을 구현할 수 있습니다</li>
+<li>✅ 7주차 클래스와 벡터를 결합한 Mover 클래스를 설계하고, 배열로
+다수의 객체를 관리할 수 있습니다</li>
+</ul>
+</div>
+<hr />
+<h2 id="교시-핵심-복습">1교시 핵심 복습</h2>
+<ul>
+<li>벡터 생성: <code>createVector(x, y)</code></li>
+<li>위치 이동: <code>pos.add(vel)</code></li>
+<li>방향만 남기기: <code>normalize()</code></li>
+</ul>
+<p>1교시에서 <code>pos.add(vel)</code> 한 줄로 구현한 움직임은
+<strong>등속 직선 운동</strong>, 즉 항상 같은 속도와 같은 방향의
+움직임이었습니다.</p>
+<p>현실의 물체는 일정한 속도로만 움직이지 않습니다. 떨어지는 공은
+<strong>점점 빨라지고</strong>, 위로 던진 공은 <strong>점점
+느려집니다</strong>. 이렇게 속도를 계속 바꾸는 벡터가 가속도입니다.</p>
+<hr />
+<h2 id="심화-개념-1-가속도acceleration-속도를-바꾸는-벡터">💡 심화 개념
+1 — 가속도(Acceleration): 속도를 바꾸는 벡터</h2>
+<h3 id="일상-비유-자동차의-가속-페달과-브레이크">일상 비유: 자동차의
+가속 페달과 브레이크</h3>
+<p>가속도는 <strong>속도를 바꾸는 벡터</strong>입니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>자동차</th>
+<th>벡터 이름</th>
+<th>하는 일</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>현재 위치 (지도 위 좌표)</td>
+<td><strong>pos</strong></td>
+<td>어디에 있는가</td>
+</tr>
+<tr>
+<td>속도계 (시속 몇 km)</td>
+<td><strong>vel</strong></td>
+<td>얼마나 빨리, 어느 방향으로 움직이는가</td>
+</tr>
+<tr>
+<td>가속 페달 (얼마나 밟았나)</td>
+<td><strong>acc</strong></td>
+<td>속도를 얼마나 바꾸는가</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>가속 페달: 속도를 증가시키는 가속도</li>
+<li>브레이크: 속도를 줄이는 반대 방향 가속도</li>
+<li>중력: 아래 방향으로 계속 더해지는 가속도</li>
+</ul>
+<h3 id="위치-속도-가속도-3단계-사슬">위치 ← 속도 ← 가속도 (3단계
+사슬)</h3>
+<figure class="lecture-figure">
+<img src="assets/9week/07-accel-chain.png" alt="07 accel chain" />
+<figcaption aria-hidden="true">07 accel chain</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>물리</th>
+<th>역할</th>
+<th>코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>가속도(acceleration)</td>
+<td>속도를 바꾼다</td>
+<td><code>vel.add(acc)</code></td>
+</tr>
+<tr>
+<td>속도(velocity)</td>
+<td>위치를 바꾼다</td>
+<td><code>pos.add(vel)</code></td>
+</tr>
+<tr>
+<td>위치(position)</td>
+<td>화면에 그린다</td>
+<td><code>ellipse(pos.x, pos.y, 30)</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+자연스러운 움직임의 핵심
+</div>
+<p>가속도가 속도를 바꾸고 속도가 위치를 바꾸는 <strong>이 두 줄이
+자연스러운 움직임의 핵심</strong>입니다.</p>
+</div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>vel<span class="op">.</span><span class="fu">add</span>(acc)<span class="op">;</span>   <span class="co">// 가속도 → 속도에 반영</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span>   <span class="co">// 속도 → 위치에 반영</span></span></code></pre></div>
+<p>1교시의 <code>pos.add(vel)</code> 앞에 <code>vel.add(acc)</code>가
+추가됩니다.</p>
+<h3 id="중력-시뮬레이션">중력 시뮬레이션</h3>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos<span class="op">,</span> vel<span class="op">,</span> acc<span class="op">;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  vel <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>           <span class="co">// 처음에는 정지</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  acc <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="fl">0.1</span>)<span class="op">;</span>         <span class="co">// 아래 방향 가속도</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  vel<span class="op">.</span><span class="fu">add</span>(acc)<span class="op">;</span>   <span class="co">// 매 프레임 속도가 아래로 0.1씩 증가</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span>   <span class="co">// 바뀐 속도로 위치 이동</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 원이 위에서 아래로 떨어짐 - 처음에는
+느리다가 <strong>점점 빨라짐</strong> — 가속도가 적용된 낙하</p>
+<p>가속도 <code>(0, 0.1)</code>은 매 프레임 아래 방향 속도를 0.1씩
+증가시키며, 중력처럼 보이는 움직임을 만듭니다.</p>
+<p>벡터를 쓰면 x, y 방향 가속도를 동시에 다룰 수 있습니다.</p>
+<h3 id="가속도-값-변경-실험">가속도 값 변경 실험</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>acc 값</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(0, 0.1)</code></td>
+<td>부드러운 낙하</td>
+</tr>
+<tr>
+<td><code>(0, 0.5)</code></td>
+<td>빠른 낙하 (강한 아래 방향 가속)</td>
+</tr>
+<tr>
+<td><code>(0.05, 0.1)</code></td>
+<td>대각선 가속 — 아래 방향 가속 + 오른쪽 가속</td>
+</tr>
+<tr>
+<td><code>(0, -0.1)</code></td>
+<td>위로 떠오르는 효과 (위 방향 가속)</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>가속도를 (0.1, 0)으로 설정하면 공이 어떻게 움직일까요?</p>
+<p><strong>답</strong>: 오른쪽으로 점점 빨라집니다. x 방향으로만
+가속하기 때문입니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-2-마우스를-향해-가속하기">💡 심화 개념 2 — 마우스를
+향해 가속하기</h2>
+<p><code>sub()</code>, <code>normalize()</code>, <code>mult()</code>를
+조합해 <strong>마우스를 향해 따라가는 공</strong>을 만듭니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> pos<span class="op">,</span> vel<span class="op">,</span> acc<span class="op">;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  pos <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  vel <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  acc <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 1. 마우스 위치를 벡터로</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> mouse <span class="op">=</span> <span class="fu">createVector</span>(mouseX<span class="op">,</span> mouseY)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 2. 공 → 마우스 방향 벡터 구하기</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> dir <span class="op">=</span> p5<span class="op">.</span><span class="at">Vector</span><span class="op">.</span><span class="fu">sub</span>(mouse<span class="op">,</span> pos)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 3. 방향만 남기기 (크기 = 1)</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  dir<span class="op">.</span><span class="fu">normalize</span>()<span class="op">;</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 4. 가속 크기 조절</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  dir<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.5</span>)<span class="op">;</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 5. 가속도로 설정</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>  acc <span class="op">=</span> dir<span class="op">;</span></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 6. 물리 업데이트</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>  vel<span class="op">.</span><span class="fu">add</span>(acc)<span class="op">;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>  pos<span class="op">.</span><span class="fu">add</span>(vel)<span class="op">;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 7. 마찰 — 매 프레임 속도를 1% 줄임</span></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>  vel<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.99</span>)<span class="op">;</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(pos<span class="op">.</span><span class="at">x</span><span class="op">,</span> pos<span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 원이 마우스 방향으로
+<strong>이동함</strong> - 마우스를 빠르게 옮기면 관성으로 지나쳤다가
+다시 돌아옴 - 점차 마우스 위치에 수렴</p>
+<p>패턴: <code>sub()</code>로 방향 구하기 → <code>normalize()</code>로
+방향만 남기기 → <code>mult()</code>로 크기 조절 → 가속도에 반영.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/13-mouse-seek-vector-pipeline.png"
+alt="13 mouse seek vector pipeline" />
+<figcaption aria-hidden="true">13 mouse seek vector
+pipeline</figcaption>
+</figure>
+<h3 id="속도-제어-두-가지-방식-마찰-vs-상한">속도 제어 두 가지 방식 —
+마찰 vs 상한</h3>
+<p>가속도를 계속 더하면 속도가 커지므로 제어가 필요합니다.</p>
+<p><strong>방식 1: 마찰 — <code>vel.mult(0.99)</code></strong></p>
+<p><code>vel.mult(0.99)</code>는 매 프레임 속도를 <strong>1%씩
+줄여</strong>, 일정 속도 이상에서는 감속되고 정지에 가까울수록 움직임이
+잦아들게 합니다. <strong>부드러운 감속</strong>이 필요할 때 씁니다.</p>
+<p><strong>방식 2: 속도 상한 — <code>vel.limit(5)</code></strong></p>
+<p><code>vel.limit(5)</code>는 속도가 5를 넘지 않도록 <strong>상한을
+설정</strong>합니다. 5주차 <code>constrain()</code>을 벡터에 적용한
+방식으로 볼 수 있습니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>vel<span class="op">.</span><span class="fu">mult</span>(<span class="fl">0.99</span>)<span class="op">;</span>   <span class="co">// 마찰: 점점 느려지게</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>vel<span class="op">.</span><span class="fu">limit</span>(<span class="dv">5</span>)<span class="op">;</span>     <span class="co">// 상한: 너무 빨라지는 건 막되 느려지진 않음</span></span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/9week/17-friction-vs-limit.png"
+alt="17 friction vs limit" />
+<figcaption aria-hidden="true">17 friction vs limit</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>방식</th>
+<th>특징</th>
+<th>언제 쓰나</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vel.mult(0.99)</code></td>
+<td>점점 느려진다 (계속 깎임)</td>
+<td>관성 있는 추적, 자연스러운 정지</td>
+</tr>
+<tr>
+<td><code>vel.limit(5)</code></td>
+<td>최대 속도를 고정</td>
+<td>캐릭터 이동 속도 제한, 과도한 가속 방지</td>
+</tr>
+</tbody>
+</table></div>
+<p>두 방식을 함께 사용하면 감속과 속도 제한을 동시에 적용할 수
+있습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+10주차 연결
+</div>
+<p><code>sub()</code> → <code>normalize()</code> → <code>mult()</code> →
+가속도 패턴은 10주차에 <strong>힘(force)</strong>을 구현할 때도 다시
+사용합니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-3-삼각함수-sin과-cos로-원운동">💡 심화 개념 3 —
+삼각함수: sin()과 cos()로 원운동</h2>
+<h3 id="라디안과-속도-조절-값">라디안과 속도 조절 값</h3>
+<p>아래 코드의 <code>frameCount * 0.03</code>에서 0.03은 각도가 변하는
+속도를 조절하는 값입니다. 수학적으로는 라디안 단위와 연결되지만, 이번
+시간에는 속도 조절 값으로 사용합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+속도 조절 값
+</div>
+<p>핵심은 <strong>값이 작을수록 느리게, 클수록 빠르게</strong>
+움직인다는 점입니다. 0.01, 0.03, 0.05, 0.1처럼 값을 바꾸며 속도 차이를
+확인하면 됩니다.</p>
+</div>
+<h3 id="sin의-핵심--1-1-사이를-부드럽게-왕복"><code>sin()</code>의 핵심:
+-1 ~ 1 사이를 부드럽게 왕복</h3>
+<p><code>sin()</code>은 시간에 따라 <strong>-1에서 1 사이를 부드럽게
+왕복하는 값</strong>을 만든다고 이해하면 됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/9week/08-sin-wave.png" alt="08 sin wave" />
+<figcaption aria-hidden="true">08 sin wave</figcaption>
+</figure>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> y <span class="op">=</span> <span class="fu">sin</span>(frameCount <span class="op">*</span> <span class="fl">0.05</span>) <span class="op">*</span> <span class="dv">100</span> <span class="op">+</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> y<span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 원이 y축으로 <strong>위아래 부드럽게
+진동</strong> - 바운싱과 달리 벽에 부딪히지 않고도 자연스럽게 왕복</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>부분</th>
+<th>역할</th>
+<th>값의 범위</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sin(frameCount * 0.05)</code></td>
+<td>시간에 따라 -1~1 왕복</td>
+<td>-1 ~ 1</td>
+</tr>
+<tr>
+<td><code>* 100</code></td>
+<td>왕복 범위를 100으로 확대</td>
+<td>-100 ~ 100</td>
+</tr>
+<tr>
+<td><code>+ 200</code></td>
+<td>중심을 200으로 이동</td>
+<td>100 ~ 300</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>sin()</code> 값(-1~1)에 원하는 범위를 곱하고 중심을 더해주면
+되며, 5주차 <code>map()</code> 함수처럼 값의 범위를 바꾸는
+원리입니다.</p>
+<p><code>frameCount * 0.05</code>의 숫자가 움직임의 속도를 정합니다.
+값이 작을수록 느리고, 클수록 빠르게 왕복합니다.</p>
+<h3 id="cos-sin-원운동"><code>cos()</code> + <code>sin()</code> =
+원운동</h3>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="fu">cos</span>(frameCount <span class="op">*</span> <span class="fl">0.03</span>) <span class="op">*</span> <span class="dv">100</span> <span class="op">+</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> y <span class="op">=</span> <span class="fu">sin</span>(frameCount <span class="op">*</span> <span class="fl">0.03</span>) <span class="op">*</span> <span class="dv">100</span> <span class="op">+</span> <span class="dv">200</span><span class="op">;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 원이 (200, 200)을 중심으로 <strong>원형
+궤도</strong>를 따라 이동</p>
+<figure class="lecture-figure">
+<img src="assets/9week/09-circular-motion.png"
+alt="09 circular motion" />
+<figcaption aria-hidden="true">09 circular motion</figcaption>
+</figure>
+<p>x에 <code>cos()</code>, y에 <code>sin()</code>을 사용하면
+<strong>원운동</strong>이 됩니다. 행성 공전, 시계 바늘, 궤도
+애니메이션도 같은 구조로 설명할 수 있습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>조절</th>
+<th>값</th>
+<th>효과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>* 0.03</code></td>
+<td>주파수</td>
+<td>작으면 느리게, 크면 빠르게 회전</td>
+</tr>
+<tr>
+<td><code>* 100</code></td>
+<td>반지름</td>
+<td>작으면 작은 원, 크면 큰 원</td>
+</tr>
+<tr>
+<td><code>+ 200</code></td>
+<td>중심 좌표</td>
+<td>원운동의 중심점</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="진동과-원운동-비교">진동과 원운동 비교</h3>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>패턴</th>
+<th>코드</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>y축 진동</td>
+<td><code>y = sin(t) * r + cy</code></td>
+<td>위아래 왕복</td>
+</tr>
+<tr>
+<td>원운동</td>
+<td><code>x = cos(t) * r + cx</code>,
+<code>y = sin(t) * r + cy</code></td>
+<td>원형 궤도</td>
+</tr>
+<tr>
+<td>리사주 곡선</td>
+<td><code>x = cos(t * a) * r</code>,
+<code>y = sin(t * b) * r</code></td>
+<td>다양한 예술적 패턴</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="리사주-곡선-주파수-비율만-바꾸면-새로운-패턴">리사주 곡선 —
+주파수 비율만 바꾸면 새로운 패턴</h3>
+<p>방금 원운동에서는 x에 <code>cos(t)</code>, y에
+<code>sin(t)</code>처럼 <strong>같은 주파수</strong>를 썼습니다. 두
+주파수를 <strong>다르게</strong> 하면 다른 패턴이 나옵니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// background(220);  // 주석 처리 → 궤적이 쌓여 리사주 곡선이 그려짐</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> t <span class="op">=</span> frameCount <span class="op">*</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="fu">cos</span>(t <span class="op">*</span> <span class="dv">3</span>) <span class="op">*</span> <span class="dv">150</span> <span class="op">+</span> <span class="dv">200</span><span class="op">;</span>   <span class="co">// a = 3</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> y <span class="op">=</span> <span class="fu">sin</span>(t <span class="op">*</span> <span class="dv">2</span>) <span class="op">*</span> <span class="dv">150</span> <span class="op">+</span> <span class="dv">200</span><span class="op">;</span>   <span class="co">// b = 2</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(frameCount <span class="op">%</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">5</span>)<span class="op">;</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 단순한 원이 아니라 <strong>꼬인
+곡선(리사주 곡선)</strong>이 점점 그려짐 - <code>a:b = 3:2</code>면 특정
+패턴, <code>5:4</code>면 또 다른 패턴 — 다양한 변형</p>
+<figure class="lecture-figure">
+<img src="assets/9week/10-lissajous.png" alt="10 lissajous" />
+<figcaption aria-hidden="true">10 lissajous</figcaption>
+</figure>
+<p>이것이 <strong>리사주 곡선(Lissajous Curve)</strong>입니다.
+<code>cos</code>와 <code>sin</code>의 주파수 비율만 바꿔도 다양한 패턴이
+만들어지고, 배경을 지우지 않으면 궤적이 쌓여 작품처럼 보입니다.</p>
+<p><code>cos(t * a)</code>, <code>sin(t * b)</code>의 <strong>a,
+b</strong> 값을 조절하면 패턴이 달라집니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>sin(frameCount * 0.05) * 50 + 200</code>이면 y 좌표는 어느
+범위를 오갈까요?</p>
+<p><strong>답</strong>: 150에서 250 사이입니다. sin의 -1~1에 50을 곱하면
+-50~50이고, 200을 더하면 150~250입니다.</p>
+</div>
+<hr />
+<h2 id="심화-개념-4-mover-클래스-7주차-클래스-9주차-벡터-결합">💡 심화
+개념 4 — Mover 클래스: 7주차 클래스 + 9주차 벡터 결합</h2>
+<p>7주차 Ball 클래스를 벡터 기반 Mover 클래스로 확장합니다.</p>
+<h3 id="mover-클래스-전체-코드">Mover 클래스 전체 코드</h3>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Mover {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">constructor</span>(x<span class="op">,</span> y) {</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span> <span class="op">=</span> <span class="fu">createVector</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="fu">random</span>(<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="op">-</span><span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>))<span class="op">;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span> <span class="op">=</span> <span class="fu">createVector</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">update</span>() {</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">acc</span>)<span class="op">;</span>   <span class="co">// 가속도 → 속도</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="fu">add</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span>)<span class="op">;</span>   <span class="co">// 속도 → 위치</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">acc</span><span class="op">.</span><span class="fu">mult</span>(<span class="dv">0</span>)<span class="op">;</span>         <span class="co">// 가속도 초기화</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() {</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">127</span>)<span class="op">;</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">edges</span>() {</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span>) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span> <span class="op">=</span> width<span class="op">;</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span>) <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span> <span class="op">=</span> height<span class="op">;</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="주차-ball-vs-9주차-mover-비교">7주차 Ball vs 9주차 Mover
+비교</h3>
+<figure class="lecture-figure">
+<img src="assets/9week/11-ball-vs-mover.png" alt="11 ball vs mover" />
+<figcaption aria-hidden="true">11 ball vs mover</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th></th>
+<th>7주차 Ball</th>
+<th>9주차 Mover</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>위치</td>
+<td><code>this.x</code>, <code>this.y</code> (변수 2개)</td>
+<td><code>this.pos</code> (벡터 1개)</td>
+</tr>
+<tr>
+<td>속도</td>
+<td><code>this.speedX</code>, <code>this.speedY</code> (변수 2개)</td>
+<td><code>this.vel</code> (벡터 1개)</td>
+</tr>
+<tr>
+<td>가속도</td>
+<td>없음</td>
+<td><code>this.acc</code> (벡터 1개)</td>
+</tr>
+<tr>
+<td>이동</td>
+<td><code>this.x += this.speedX;</code> (2줄)</td>
+<td><code>this.pos.add(this.vel);</code> (1줄)</td>
+</tr>
+<tr>
+<td>변수 총</td>
+<td>4개</td>
+<td>벡터 3개 (가속도 포함)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Mover는 위치, 속도, 가속도를 각각 벡터로 관리합니다.</p>
+<h3
+id="this.acc.mult0-왜-가속도를-초기화하나"><code>this.acc.mult(0)</code>
+— 왜 가속도를 초기화하나?</h3>
+<p><code>update()</code> 마지막의 <code>this.acc.mult(0)</code>은
+가속도를 (0, 0)으로 초기화하는 코드입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+지금은 이것만
+</div>
+<p><code>this.acc.mult(0)</code>은 매 프레임 가속도를 초기화합니다. 이전
+프레임의 가속도가 계속 남지 않도록 하는 패턴입니다.</p>
+</div>
+<h3 id="setupdraw에서-사용하기">setup()/draw()에서 사용하기</h3>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> mover<span class="op">;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  mover <span class="op">=</span> <span class="kw">new</span> <span class="fu">Mover</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  mover<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<h3 id="배열로-다수-생성-7주차-패턴-활용">배열로 다수 생성 (7주차 패턴
+활용)</h3>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> movers <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    movers<span class="op">.</span><span class="fu">push</span>(<span class="kw">new</span> <span class="fu">Mover</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)))<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> m <span class="kw">of</span> movers) {</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    m<span class="op">.</span><span class="fu">update</span>()<span class="op">;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>    m<span class="op">.</span><span class="fu">edges</span>()<span class="op">;</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    m<span class="op">.</span><span class="fu">display</span>()<span class="op">;</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>실행 결과:</strong> - 20개의 회색 원이 각각 다른 방향, 다른
+속도로 화면에서 이동함 - 화면 밖으로 나가면 반대쪽에서 등장 (래핑)</p>
+<p>7주차 배열 + 클래스 패턴과 같고, 클래스 내부만 벡터 기반으로
+바뀝니다.</p>
+<h3 id="확장-heading으로-방향-시각화">확장: <code>heading()</code>으로
+방향 시각화</h3>
+<p>속도 벡터 <code>vel</code>의 방향을 그림의 회전에 반영할 때
+<code>heading()</code>을 사용합니다.</p>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">display</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">push</span>()<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">translate</span>(<span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> <span class="kw">this</span><span class="op">.</span><span class="at">pos</span><span class="op">.</span><span class="at">y</span>)<span class="op">;</span>      <span class="co">// 객체 위치로 이동</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rotate</span>(<span class="kw">this</span><span class="op">.</span><span class="at">vel</span><span class="op">.</span><span class="fu">heading</span>())<span class="op">;</span>             <span class="co">// 속도 방향으로 회전</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">127</span>)<span class="op">;</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">triangle</span>(<span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="op">-</span><span class="dv">5</span><span class="op">,</span> <span class="op">-</span><span class="dv">10</span><span class="op">,</span> <span class="dv">5</span><span class="op">,</span> <span class="dv">10</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>       <span class="co">// 오른쪽을 향한 삼각형</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/9week/16-heading-triangle-rotation.png"
+alt="16 heading triangle rotation" />
+<figcaption aria-hidden="true">16 heading triangle rotation</figcaption>
+</figure>
+<p><code>vel.heading()</code>은 속도 벡터의 <strong>각도</strong>를
+구합니다. <code>rotate()</code>로 그 각도만큼 돌리면, 원래 오른쪽을
+향하던 삼각형이 속도 방향을 가리키게 됩니다.</p>
+<p>순서: <code>translate()</code> →
+<code>rotate(this.vel.heading())</code> → 모양 그리기 →
+<code>pop()</code>.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>Mover 클래스에서 <code>update()</code> 메서드 안의 두 줄 순서를
+바꾸면(<code>pos.add(vel)</code> 먼저, <code>vel.add(acc)</code> 나중에)
+결과가 달라질까요?</p>
+<p><strong>답</strong>: 네, 달라집니다. 가속도가 적용된 속도로 위치를
+바꿔야 자연스럽습니다. 순서가 중요합니다.</p>
+</div>
+<hr />
+<h2 id="실전-사례-요약">실전 사례 요약</h2>
+<h3 id="사례-1-중력-낙하-바닥-바운싱">사례 1: 중력 낙하 + 바닥
+바운싱</h3>
+<ul>
+<li>핵심 코드: <code>acc = createVector(0, 0.2)</code>,
+<code>vel.y *= -0.8</code></li>
+<li>효과: 중력 낙하 + 에너지 손실이 있는 바운싱</li>
+</ul>
+<h3 id="사례-2-마우스-추적-mover-20개">사례 2: 마우스 추적 Mover
+20개</h3>
+<ul>
+<li>핵심 코드: <code>p5.Vector.sub(mouse, this.pos)</code>,
+<code>normalize()</code>, <code>mult(0.3)</code>,
+<code>vel.mult(0.98)</code></li>
+<li>효과: 마우스 방향 가속 + 마찰 + 잔상</li>
+</ul>
+<h3 id="사례-3-sincos-원운동-궤적-시각화">사례 3: sin/cos 원운동 + 궤적
+시각화</h3>
+<ul>
+<li>핵심 코드: <code>cos(angle)</code>, <code>sin(angle)</code>,
+<code>cos(angle * 3)</code>, <code>sin(angle * 3)</code></li>
+<li>효과: 중첩된 원운동 + 궤적 패턴</li>
+</ul>
+<hr />
+<h2 id="교시-실습-안내">3교시 실습 안내</h2>
+<h3 id="세-가지-방향-난이도-표시">세 가지 방향 (난이도 표시)</h3>
+<figure class="lecture-figure">
+<img src="assets/9week/12-practice-directions-preview.png"
+alt="12 practice directions preview" />
+<figcaption aria-hidden="true">12 practice directions
+preview</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>방향</th>
+<th style="text-align: center;">난이도</th>
+<th>설명</th>
+<th>핵심 기법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. 벡터 바운싱 월드</td>
+<td style="text-align: center;"><strong>기본</strong></td>
+<td>Mover 클래스 + 벽 바운싱 + 다양한 속도/크기</td>
+<td><code>pos.add(vel)</code>, <code>vel.x *= -1</code></td>
+</tr>
+<tr>
+<td>B. 마우스 추적 파티클</td>
+<td style="text-align: center;">중</td>
+<td>Mover 배열 + 마우스 방향 가속 + 마찰 / limit</td>
+<td><code>sub()</code>, <code>normalize()</code>, <code>mult()</code>,
+<code>limit()</code></td>
+</tr>
+<tr>
+<td>C. 삼각함수 궤도 아트</td>
+<td style="text-align: center;">중</td>
+<td>sin/cos 원운동 + 반지름 변화 + 리사주 + 궤적</td>
+<td><code>sin()</code>, <code>cos()</code>, 잔상 효과</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="필수-요구사항">필수 요구사항</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>요구사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>createVector()</code>로 위치와 속도를 벡터로 관리</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>add()</code> 등 벡터 연산 1개 이상 사용</td>
+</tr>
+<tr>
+<td>3</td>
+<td>클래스 정의 (벡터 프로퍼티 + 메서드 2개 이상)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>다수의 객체를 배열로 관리 (5개 이상)</td>
+</tr>
+</tbody>
+</table></div>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-핵심-복습">1교시 핵심 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-가속도acceleration-속도를-바꾸는-벡터">심화 개념 1 — 가속도(Acceleration): 속도를 바꾸는 벡터</a></li><li class="toc-level-3"><a href="#일상-비유-자동차의-가속-페달과-브레이크">일상 비유: 자동차의 가속 페달과 브레이크</a></li><li class="toc-level-3"><a href="#위치-속도-가속도-3단계-사슬">위치 ← 속도 ← 가속도 (3단계 사슬)</a></li><li class="toc-level-3"><a href="#중력-시뮬레이션">중력 시뮬레이션</a></li><li class="toc-level-3"><a href="#가속도-값-변경-실험">가속도 값 변경 실험</a></li><li class="toc-level-2"><a href="#심화-개념-2-마우스를-향해-가속하기">심화 개념 2 — 마우스를 향해 가속하기</a></li><li class="toc-level-3"><a href="#속도-제어-두-가지-방식-마찰-vs-상한">속도 제어 두 가지 방식 — 마찰 vs 상한</a></li><li class="toc-level-2"><a href="#심화-개념-3-삼각함수-sin과-cos로-원운동">심화 개념 3 — 삼각함수: sin()과 cos()로 원운동</a></li><li class="toc-level-3"><a href="#라디안과-속도-조절-값">라디안과 속도 조절 값</a></li><li class="toc-level-3"><a href="#sin의-핵심--1-1-사이를-부드럽게-왕복">sin()의 핵심: -1 ~ 1 사이를 부드럽게 왕복</a></li><li class="toc-level-3"><a href="#cos-sin-원운동">cos() + sin() = 원운동</a></li><li class="toc-level-3"><a href="#진동과-원운동-비교">진동과 원운동 비교</a></li><li class="toc-level-3"><a href="#리사주-곡선-주파수-비율만-바꾸면-새로운-패턴">리사주 곡선 — 주파수 비율만 바꾸면 새로운 패턴</a></li><li class="toc-level-2"><a href="#심화-개념-4-mover-클래스-7주차-클래스-9주차-벡터-결합">심화 개념 4 — Mover 클래스: 7주차 클래스 + 9주차 벡터 결합</a></li><li class="toc-level-3"><a href="#mover-클래스-전체-코드">Mover 클래스 전체 코드</a></li><li class="toc-level-3"><a href="#주차-ball-vs-9주차-mover-비교">7주차 Ball vs 9주차 Mover 비교</a></li><li class="toc-level-3"><a href="#setupdraw에서-사용하기">setup()/draw()에서 사용하기</a></li><li class="toc-level-3"><a href="#배열로-다수-생성-7주차-패턴-활용">배열로 다수 생성 (7주차 패턴 활용)</a></li><li class="toc-level-3"><a href="#확장-heading으로-방향-시각화">확장: heading()으로 방향 시각화</a></li><li class="toc-level-2"><a href="#실전-사례-요약">실전 사례 요약</a></li><li class="toc-level-3"><a href="#사례-1-중력-낙하-바닥-바운싱">사례 1: 중력 낙하 + 바닥 바운싱</a></li><li class="toc-level-3"><a href="#사례-2-마우스-추적-mover-20개">사례 2: 마우스 추적 Mover 20개</a></li><li class="toc-level-3"><a href="#사례-3-sincos-원운동-궤적-시각화">사례 3: sin/cos 원운동 + 궤적 시각화</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#세-가지-방향-난이도-표시">세 가지 방향 (난이도 표시)</a></li><li class="toc-level-3"><a href="#필수-요구사항">필수 요구사항</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

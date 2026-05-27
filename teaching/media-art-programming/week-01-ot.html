@@ -1,0 +1,914 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>1주차: OT 및 P5.js 소개 | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 01 · OT Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>1주차: OT 및 P5.js 소개</h1>
+        <p class="lead">수업 구조, 평가 방식, P5.js의 역할, 개발 환경, 첫 스케치 제작 흐름을 정리합니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 01</span>
+          <span class="hero-chip">OT</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">1주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">OT</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">OT and P5.js Introduction</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-ot-및-p5.js-소개">1주차: OT 및 P5.js 소개</h1>
+<div class="callout callout-abstract">
+<div class="callout-title">
+오늘의 학습 목표
+</div>
+<p>이 수업이 끝나면 여러분은: - ✅ 수업 전체 구조와 평가 방식을
+이해합니다 - ✅ P5.js가 무엇인지, 왜 미디어아트에 사용하는지 이해합니다
+- ✅ P5.js Web Editor에서 기본 도형을 그려볼 수 있습니다</p>
+</div>
+<hr />
+<h2 id="전반부-수업-소개와-p5.js란">📘 전반부 — 수업 소개와
+P5.js란?</h2>
+<h3 id="코딩으로-만든-예술">코딩으로 만든 예술</h3>
+<p>우리가 앞으로 배울 것은 <strong>코드로 시각적 예술 작품을 만드는
+것</strong>입니다.</p>
+<p><strong>대형 미디어아트 — 영감의 대상:</strong> - <a
+href="https://refikanadol.com/works/machine-hallucinations/"><strong>Refik
+Anadol</strong> - “Machine Hallucinations”</a>: AI가 수백만 장의
+이미지를 학습해서 만든 유동적 영상 조각 - <a
+href="https://www.teamlab.art/e/borderless-azabudai/"><strong>teamLab</strong>
+- “Borderless”</a>: 관객의 움직임에 반응하는 꽃, 물, 빛의 인터랙티브
+설치</p>
+<p><strong>P5.js 작품 — 여러분이 이번 학기에 만들 수 있는 것:</strong> -
+마우스를 따라 움직이는 <strong>파티클 시스템</strong> (13주차) - Perlin
+Noise 기반 <strong>흐르는 선 패턴</strong> (12주차) - 음악에 반응하는
+<strong>비주얼라이저</strong> (14주차)</p>
+<div class="callout callout-example">
+<div class="callout-title">
+직접 확인해보기
+</div>
+<ul>
+<li><a href="https://openprocessing.org/" target="_blank" rel="noopener noreferrer">OpenProcessing</a> — P5.js
+작품을 검색하고 브라우저에서 바로 실행해볼 수 있습니다</li>
+<li>검색 키워드: <code>particle mouse</code>,
+<code>perlin noise flow</code>, <code>audio visualizer</code></li>
+</ul>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 포인트
+</div>
+<p>위 대형 작품은 영감의 대상이고, P5.js 사례는 여러분이 <strong>이번
+학기 안에 실제로 만들 수 있는</strong> 수준입니다.</p>
+</div>
+<hr />
+<h3 id="수업-운영-안내">수업 운영 안내</h3>
+<p><strong>강의 구조:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th style="text-align: center;">교시</th>
+<th>내용</th>
+<th>형태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1교시</td>
+<td>새로운 개념과 이론</td>
+<td>강사 주도 강의</td>
+</tr>
+<tr>
+<td style="text-align: center;">2교시</td>
+<td>심화 내용과 실전 사례</td>
+<td>강사 주도 + 라이브 코딩</td>
+</tr>
+<tr>
+<td style="text-align: center;">3교시</td>
+<td>배운 내용으로 직접 만들기</td>
+<td>학생 주도 실습</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<p><strong>평가 방식:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th style="text-align: center;">비중</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>출석</strong></td>
+<td style="text-align: center;">20%</td>
+<td>매 수업 출석 체크</td>
+</tr>
+<tr>
+<td><strong>과제</strong></td>
+<td style="text-align: center;">20%</td>
+<td>실습과제 4회 + 개인과제 1회</td>
+</tr>
+<tr>
+<td><strong>중간고사</strong></td>
+<td style="text-align: center;">20%</td>
+<td>8주차, 1~7주차 범위 시험</td>
+</tr>
+<tr>
+<td><strong>기말고사</strong></td>
+<td style="text-align: center;">40%</td>
+<td>인터랙티브 미디어 콘텐츠 제작</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+기말 프로젝트
+</div>
+<p>기말은 시험이 아니라 <strong>인터랙티브 미디어 콘텐츠를 직접 만들어서
+제출</strong>하는 것입니다. 시연영상과 소스코드를 제출하면 됩니다.</p>
+</div>
+<hr />
+<p><strong>주차별 로드맵:</strong></p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>구간</th>
+<th style="text-align: center;">주차</th>
+<th>내용</th>
+<th>키워드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>전반부</strong></td>
+<td style="text-align: center;">1~7주</td>
+<td>P5.js 기초</td>
+<td>도형, 변수, 반복, 조건, 함수, 배열, 클래스</td>
+</tr>
+<tr>
+<td><strong>중간고사</strong></td>
+<td style="text-align: center;">8주</td>
+<td>시험</td>
+<td>1~7주 범위</td>
+</tr>
+<tr>
+<td><strong>후반부</strong></td>
+<td style="text-align: center;">9~14주</td>
+<td>Nature of Code 응용</td>
+<td>벡터, 물리, 데이터, 노이즈, 파티클, 사운드</td>
+</tr>
+<tr>
+<td><strong>기말</strong></td>
+<td style="text-align: center;">15~16주</td>
+<td>프로젝트</td>
+<td>인터랙티브 콘텐츠 제작 + 제출</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="p5.js란">P5.js란?</h3>
+<h4 id="processing에서-p5.js로">Processing에서 P5.js로</h4>
+<p>2001년, MIT Media Lab에서 <strong>시각 예술가와 디자이너가 코딩을
+쉽게 배울 수 있도록</strong> Processing이라는 언어가 탄생했습니다.
+2014년에는 Processing의 철학을 웹으로 가져온 <strong>P5.js</strong>가
+등장했습니다.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Processing</th>
+<th>P5.js</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Java 기반</td>
+<td>JavaScript 기반</td>
+</tr>
+<tr>
+<td>별도 프로그램 설치 필요</td>
+<td><strong>브라우저에서 바로 실행</strong></td>
+</tr>
+<tr>
+<td>결과물 공유 어려움</td>
+<td><strong>URL 하나로 즉시 공유</strong></td>
+</tr>
+<tr>
+<td>데스크톱 전용</td>
+<td>웹, 모바일 어디서든</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 포인트
+</div>
+<p>P5.js는 설치할 것이 없습니다. 브라우저만 열면 바로 코딩할 수 있고,
+만든 작품도 링크 하나로 바로 공유할 수 있습니다.</p>
+</div>
+<hr />
+<h4 id="왜-p5.js인가-다른-툴과-비교">왜 P5.js인가? — 다른 툴과 비교</h4>
+<p>P5.js는 TouchDesigner나 Unity 같은 최신 그래픽 툴에 비해 기능이
+제한적입니다. 3D 렌더링도 약하고, 대규모 실시간 처리엔 부족한 면이
+있습니다. <strong>그런데 바로 그게 장점입니다.</strong></p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 21%" />
+<col style="width: 35%" />
+<col style="width: 21%" />
+</colgroup>
+<thead>
+<tr>
+<th>도구</th>
+<th>특징</th>
+<th style="text-align: center;">진입장벽</th>
+<th>배우면 남는 것</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>TouchDesigner</strong></td>
+<td>노드 기반 실시간 비주얼</td>
+<td style="text-align: center;">높음</td>
+<td>TouchDesigner 사용법</td>
+</tr>
+<tr>
+<td><strong>Unity / Unreal</strong></td>
+<td>고성능 3D, 게임엔진</td>
+<td style="text-align: center;">매우 높음</td>
+<td>엔진 사용법</td>
+</tr>
+<tr>
+<td><strong>After Effects</strong></td>
+<td>모션 그래픽, 영상 합성</td>
+<td style="text-align: center;">중간</td>
+<td>AE 사용법</td>
+</tr>
+<tr>
+<td><strong>P5.js</strong></td>
+<td>코드 기반 크리에이티브</td>
+<td style="text-align: center;"><strong>낮음</strong></td>
+<td><strong>프로그래밍 사고력 + 웹 기술</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+툴 사용법 vs 프로그래밍 사고력
+</div>
+<p>TouchDesigner나 Unity는 <strong>“이 툴을 쓰는 방법”</strong> 을
+배우는 것입니다. 툴이 바뀌면 처음부터 다시 배워야 합니다. P5.js는
+<strong>프로그래밍 자체를 배우는 것</strong>입니다. 변수, 반복, 함수 —
+이 개념은 어떤 언어에서도 동일하게 쓰입니다.</p>
+</div>
+<p><strong>P5.js의 강점:</strong></p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 45%" />
+<col style="width: 27%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th>강점</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">1</td>
+<td><strong>설치 없이 바로 시작</strong></td>
+<td>브라우저 하나면 충분, 어디서든 실행 가능</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td><strong>즉각적인 피드백</strong></td>
+<td>코드 한 줄 바꾸면 결과가 바로 반영</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td><strong>코드 사고력</strong></td>
+<td>노드 기반 툴과 달리, 프로그래밍 논리 자체를 익힘</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td><strong>자연스러운 확장</strong></td>
+<td>WebGL, ml5.js(머신러닝), Tone.js(사운드)로 연결 가능</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td><strong>거대한 커뮤니티</strong></td>
+<td>OpenProcessing에 수십만 개 오픈소스 작품 공개</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+핵심 정리
+</div>
+<p>P5.js는 미디어아트 입문의 <strong>가장 좋은 첫 번째
+언어</strong>입니다. P5.js로 프로그래밍 기초를 익히면, 이후에
+TouchDesigner나 Unity를 배울 때 훨씬 수월합니다.</p>
+</div>
+<hr />
+<h4 id="코드-새로운-표현-도구">코드 = 새로운 표현 도구</h4>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>기존 도구</th>
+<th>코드</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>하나씩 직접 그림</td>
+<td><strong>규칙을 정하면 컴퓨터가 수천 개를 그림</strong></td>
+</tr>
+<tr>
+<td>같은 것 반복하기 힘듦</td>
+<td><strong>반복은 컴퓨터가 가장 잘하는 것</strong></td>
+</tr>
+<tr>
+<td>결과물이 고정</td>
+<td><strong>관객이 터치하면 반응하는 작품 가능</strong></td>
+</tr>
+<tr>
+<td>우연성 제한적</td>
+<td><strong>랜덤 요소로 매번 다른 결과</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+전반부 핵심 요약
+</div>
+<ol type="1">
+<li>이 수업은 <strong>코드로 시각적 예술 작품을 만드는</strong>
+수업입니다</li>
+<li>P5.js는 기능이 많은 툴은 아니지만, <strong>프로그래밍 사고력 자체를
+키워주는</strong> 도구입니다</li>
+<li>전반부에 기초를 쌓고, 후반부에 응용하고, 기말에 자기 작품을
+만듭니다</li>
+</ol>
+</div>
+<h2 id="후반부-p5.js-첫-체험">📗 후반부 — P5.js 첫 체험</h2>
+<h3 id="개발환경-설정">개발환경 설정</h3>
+<h4 id="p5.js-web-editor-접속-및-회원가입">P5.js Web Editor 접속 및
+회원가입</h4>
+<p><strong>접속 주소:</strong></p>
+<pre><code>https://editor.p5js.org</code></pre>
+<p>오른쪽 위 <strong>Sign Up</strong> 버튼을 눌러 회원가입합니다. 구글
+계정으로 하면 빠릅니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+주의사항
+</div>
+<p>회원가입을 하지 않으면 스케치를 저장할 수 없습니다. 브라우저를 닫는
+순간 코드가 사라집니다.</p>
+</div>
+<hr />
+<h4 id="에디터-화면-구성">에디터 화면 구성</h4>
+<pre><code>┌──────────────────────────────────────────────┐
+│  ▶ 재생  ■ 정지     [스케치 이름]    [저장]    │
+├────────────────────┬─────────────────────────┤
+│                    │                         │
+│   코드 영역         │    미리보기 (캔버스)      │
+│   (왼쪽)           │    (오른쪽)              │
+│                    │                         │
+├────────────────────┴─────────────────────────┤
+│   콘솔 (에러 메시지가 여기 나옵니다)             │
+└──────────────────────────────────────────────┘</code></pre>
+<ul>
+<li><strong>왼쪽</strong>: 코드를 작성하는 영역</li>
+<li><strong>오른쪽</strong>: 실행 결과가 표시되는 캔버스</li>
+<li><strong>아래</strong>: 에러 메시지가 나오는 콘솔</li>
+</ul>
+<hr />
+<h4 id="첫-실행">첫 실행</h4>
+<p>아무것도 수정하지 말고, 왼쪽 위 <strong>▶ 재생 버튼</strong>을
+눌러보세요.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>오른쪽에 회색 네모가 나타나면 성공입니다. 이것이 우리가 앞으로 그림을
+그릴 <strong>캔버스</strong>입니다.</p>
+<hr />
+<h3 id="선택-로컬-개발-환경-설정">💻 [선택] 로컬 개발 환경 설정</h3>
+<p>웹 에디터 없이 자기 컴퓨터에서 직접 p5.js를 실행하는 방법입니다.
+인터넷이 없을 때나 파일을 직접 관리하고 싶을 때 유용합니다.</p>
+<p><strong>1단계 — 프로젝트 폴더 만들기 &amp; 서버 실행:</strong></p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> my-sketch <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> my-sketch</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python3</span> <span class="at">-m</span> http.server 3000</span></code></pre></div>
+<p><strong>2단계 — <code>index.html</code> 파일 생성:</strong></p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode html"><code class="sourceCode html"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;!DOCTYPE</span> html<span class="dt">&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">html</span><span class="dt">&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.11.3/p5.min.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">head</span><span class="dt">&gt;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> src</span><span class="op">=</span><span class="st">&quot;sketch.js&quot;</span><span class="dt">&gt;&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">body</span><span class="dt">&gt;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;/</span><span class="kw">html</span><span class="dt">&gt;</span></span></code></pre></div>
+<p><strong>3단계 — 브라우저에서 확인:</strong></p>
+<p>브라우저 주소창에 <code>localhost:3000</code> 입력 → 파일 저장 후
+새로고침하면 변경사항이 반영됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+로컬 서버 실행 방법 비교
+</div>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>방법</th>
+<th>명령어</th>
+<th>비고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python (기본 설치됨)</td>
+<td><code>python3 -m http.server 3000</code></td>
+<td>대부분 별도 설치 불필요</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td><code>npx serve .</code></td>
+<td>Node.js 설치 필요</td>
+</tr>
+<tr>
+<td>Vite</td>
+<td><code>npx vite</code></td>
+<td>저장 시 자동 새로고침</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<hr />
+<h3 id="선택-바이브-코딩-ai와-함께-만들기">🤖 [선택] 바이브 코딩: AI와
+함께 만들기</h3>
+<p><strong>바이브 코딩</strong>이란 AI에게 원하는 결과를 설명하면 AI가
+코드를 작성해주고, 결과를 확인하면서 반복 수정하는 방식입니다.</p>
+<p><strong>기본 워크플로우:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>단계</th>
+<th>행동</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1️⃣ 요청</td>
+<td>AI(Claude Code, ChatGPT 등)에게 만들고 싶은 것 설명</td>
+</tr>
+<tr>
+<td>2️⃣ 생성</td>
+<td>AI가 <code>sketch.js</code> 코드 작성</td>
+</tr>
+<tr>
+<td>3️⃣ 확인</td>
+<td>로컬 서버 또는 웹 에디터에서 결과 확인</td>
+</tr>
+<tr>
+<td>4️⃣ 수정</td>
+<td><code>"색을 바꿔줘"</code>, <code>"더 빠르게 해줘"</code> 등으로
+피드백</td>
+</tr>
+<tr>
+<td>5️⃣ 반복</td>
+<td>만족할 때까지 3~4 반복</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-example">
+<div class="callout-title">
+프롬프트 예시
+</div>
+<ul>
+<li><code>"마우스를 따라 파티클이 생기는 p5.js 코드 만들어줘"</code></li>
+<li><code>"클릭하면 원이 퍼져나가는 인터랙션 효과 만들어줘"</code></li>
+<li><code>"Perlin Noise로 유기적으로 흐르는 선 패턴 만들어줘"</code></li>
+</ul>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">
+바이브 코딩의 함정
+</div>
+<p>AI가 코드를 써줘도 <strong>코드를 읽고 이해하는 노력</strong>이
+필요합니다. 변수, 반복, 함수 개념을 알아야 AI 코드를 내 아이디어대로
+수정하고 발전시킬 수 있습니다. <strong>AI는 도구이고, 예술적 판단은
+여러분이 합니다.</strong></p>
+</div>
+<hr />
+<h3 id="setup과-draw-p5.js의-핵심-구조">setup()과 draw() — P5.js의 핵심
+구조</h3>
+<p>P5.js 코드는 두 가지 핵심 함수로 구성됩니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr>
+<th>함수</th>
+<th>언제 실행?</th>
+<th>비유</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setup()</code></td>
+<td>프로그램 시작할 때 <strong>딱 한 번</strong></td>
+<td>도화지 준비하기</td>
+</tr>
+<tr>
+<td><code>draw()</code></td>
+<td>그 이후 <strong>계속 반복</strong> (1초에 약 60번)</td>
+<td>계속해서 그림 그리기</td>
+</tr>
+</tbody>
+</table></div>
+<div class="sourceCode" id="cb6"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span>  <span class="co">// 가로 400, 세로 400 캔버스 생성</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>  <span class="co">// 배경을 밝은 회색(220)으로 칠하기</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<ul>
+<li><code>createCanvas(400, 400)</code> → 가로 400, 세로 400 크기의
+도화지를 만듭니다</li>
+<li><code>background(220)</code> → 배경을 220번 회색으로 칠합니다
+(0=검정, 255=흰색)</li>
+</ul>
+<div class="callout callout-tip">
+<div class="callout-title">
+핵심 포인트
+</div>
+<p><code>draw()</code>는 1초에 60번씩 <strong>계속 반복</strong>됩니다.
+지금은 매번 같은 회색을 칠하고 있어서 변화가 보이지 않지만, 나중에
+움직이는 요소를 넣으면 애니메이션이 됩니다.</p>
+</div>
+<hr />
+<h3 id="기본-도형-그리기">기본 도형 그리기</h3>
+<h4 id="원-ellipse">원 (ellipse)</h4>
+<p><code>draw()</code> 함수 안에, <code>background(220);</code> 아래에
+한 줄을 추가합니다.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span>  <span class="co">// ⭐ 원 그리기</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>ellipse(x, y, 가로, 세로)</code> — 4개의 숫자 의미:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>매개변수</th>
+<th>의미</th>
+<th>위 코드에서의 값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>첫 번째</td>
+<td>x 위치 (왼쪽에서 얼마나 떨어진 곳)</td>
+<td>200</td>
+</tr>
+<tr>
+<td>두 번째</td>
+<td>y 위치 (위에서 얼마나 떨어진 곳)</td>
+<td>200</td>
+</tr>
+<tr>
+<td>세 번째</td>
+<td>가로 크기</td>
+<td>80</td>
+</tr>
+<tr>
+<td>네 번째</td>
+<td>세로 크기</td>
+<td>80</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-example">
+<div class="callout-title">
+예시로 이해하기
+</div>
+<p>가로와 세로가 같으면 <strong>원</strong>, 다르면
+<strong>타원</strong>이 됩니다. <code>ellipse(100, 300, 120, 60)</code>
+→ 위치가 바뀌고 납작한 타원이 됩니다. 숫자를 바꿔보면서 감을
+잡아보세요!</p>
+</div>
+<hr />
+<h4 id="사각형-rect">사각형 (rect)</h4>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span>  <span class="co">// ⭐ 사각형 그리기</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>rect(x, y, 가로, 세로)</code> — 사각형은 <strong>왼쪽 위
+꼭짓점</strong>의 위치를 지정합니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">
+주의사항
+</div>
+<p>원(<code>ellipse</code>)은 <strong>중심 위치</strong>를,
+사각형(<code>rect</code>)은 <strong>왼쪽 위 꼭짓점</strong> 위치를
+지정합니다. 이 차이를 기억하세요!</p>
+</div>
+<hr />
+<h4 id="선-line">선 (line)</h4>
+<div class="sourceCode" id="cb9"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">line</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span>  <span class="co">// ⭐ 대각선 그리기</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><code>line(x1, y1, x2, y2)</code> — <strong>시작점</strong>과
+<strong>끝점</strong> 좌표를 지정합니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">
+참고
+</div>
+<p>캔버스의 좌표계에서 <strong>(0, 0)은 왼쪽 위 모서리</strong>입니다.
+아래로 갈수록 y값이 커집니다. 수학에서 배운 좌표계와 y축 방향이
+반대입니다. 이것은 다음 주에 자세히 배웁니다.</p>
+</div>
+<hr />
+<h3 id="도형-함수-정리">도형 함수 정리</h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>함수</th>
+<th>설명</th>
+<th>매개변수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ellipse(x, y, w, h)</code></td>
+<td>타원/원</td>
+<td>중심 x, 중심 y, 가로, 세로</td>
+</tr>
+<tr>
+<td><code>rect(x, y, w, h)</code></td>
+<td>사각형</td>
+<td>왼쪽위 x, 왼쪽위 y, 가로, 세로</td>
+</tr>
+<tr>
+<td><code>line(x1, y1, x2, y2)</code></td>
+<td>선</td>
+<td>시작점 x, 시작점 y, 끝점 x, 끝점 y</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h3 id="색상-맛보기">색상 맛보기</h3>
+<p><code>fill(R, G, B)</code> 함수로 도형의 채우기 색을 지정합니다.</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>        <span class="co">// ⭐ 빨간색으로 채우기</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">80</span>)<span class="op">;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>        <span class="co">// ⭐ 파란색으로 채우기</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rect</span>(<span class="dv">50</span><span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">60</span>)<span class="op">;</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p><strong>RGB 색상표:</strong></p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>코드</th>
+<th>색상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fill(255, 0, 0)</code></td>
+<td>빨강</td>
+</tr>
+<tr>
+<td><code>fill(0, 255, 0)</code></td>
+<td>초록</td>
+</tr>
+<tr>
+<td><code>fill(0, 0, 255)</code></td>
+<td>파랑</td>
+</tr>
+<tr>
+<td><code>fill(255, 255, 0)</code></td>
+<td>노랑</td>
+</tr>
+<tr>
+<td><code>fill(0, 0, 0)</code></td>
+<td>검정</td>
+</tr>
+<tr>
+<td><code>fill(255, 255, 255)</code></td>
+<td>흰색</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-warning">
+<div class="callout-title">
+주의사항
+</div>
+<p><code>fill()</code>을 한번 쓰면 그 <strong>아래에 있는 모든
+도형</strong>에 적용됩니다. 색을 바꾸고 싶으면 다음 도형 전에
+<code>fill()</code>을 다시 써야 합니다. 물감을 묻히는 것과 비슷합니다 —
+빨간 물감을 묻히면 다른 색을 묻힐 때까지 계속 빨간색으로 그려집니다.</p>
+</div>
+<hr />
+<h3 id="같이-해보기-간단한-얼굴-그리기">같이 해보기: 간단한 얼굴
+그리기</h3>
+<p>오늘 배운 <code>ellipse()</code>와 <code>fill()</code>만으로 얼굴을
+그려봅시다.</p>
+<div class="callout callout-info">
+<div class="callout-title">
+참고
+</div>
+<p>코드를 치다 보면 에러가 날 수 있습니다. 아래 콘솔에 빨간 글씨가
+나오면 당황하지 말고 확인해보세요. 에러는 정상입니다!</p>
+</div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">220</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span>   <span class="co">// 살구색 배경</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 얼굴</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">230</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 왼쪽 눈</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">160</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">160</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 오른쪽 눈</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">240</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 코</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">170</span>)<span class="op">;</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">210</span><span class="op">,</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 입</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">245</span><span class="op">,</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">15</span>)<span class="op">;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<div class="callout callout-success">
+<div class="callout-title">
+완성!
+</div>
+<p><code>ellipse()</code>와 <code>fill()</code>만으로 얼굴이 완성됩니다.
+숫자를 바꿔서 <strong>나만의 얼굴</strong>로 만들어보세요. 눈 위치, 색,
+코 크기 등을 자유롭게 바꿔보세요!</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+생각해보기
+</div>
+<ul>
+<li>눈 크기를 더 키우면 어떤 느낌이 될까요?</li>
+<li>배경색을 바꾸면 전체 분위기가 어떻게 달라질까요?</li>
+<li><code>fill()</code> 없이 도형을 그리면 어떻게 될까요?</li>
+</ul>
+</div>
+<hr />
+<h3 id="스케치-저장하기">스케치 저장하기</h3>
+<p><strong>Ctrl+S</strong> (맥은 <strong>Cmd+S</strong>)를 눌러
+저장합니다. 위에 스케치 이름을 클릭해서 <code>Week1_MyFace</code> 같은
+이름으로 바꿀 수 있습니다.</p>
+<p>로그인한 상태라면 자동으로 계정에 저장됩니다. 다음에 접속해도
+<strong>My Sketches</strong>에서 찾을 수 있습니다.</p>
+<hr />
+<div class="callout callout-abstract">
+<div class="callout-title">
+오늘의 전체 요약
+</div>
+<p><strong>전반부</strong>: 이 수업은 P5.js로 코드 기반 미디어아트를
+만드는 수업입니다. 전반부 기초 → 후반부 응용 → 기말 프로젝트 구조입니다.
+<strong>후반부</strong>: P5.js Web Editor에서
+<code>setup()</code>/<code>draw()</code> 구조를 이해하고,
+<code>ellipse()</code>, <code>rect()</code>, <code>line()</code>,
+<code>fill()</code>로 기본 도형과 색상을 사용해보았습니다.
+<strong>[선택]</strong>: 로컬
+환경(<code>python3 -m http.server</code>)과 바이브 코딩(AI + 터미널)
+워크플로우를 소개했습니다.</p>
+</div>
+<hr />
+<h2 id="참고-자료">📚 참고 자료</h2>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>자료</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://p5js.org/reference/" target="_blank" rel="noopener noreferrer">P5.js 공식 레퍼런스</a></td>
+<td>함수가 궁금할 때 찾아보는 사전</td>
+</tr>
+<tr>
+<td><a href="https://www.youtube.com/@TheCodingTrain" target="_blank" rel="noopener noreferrer">The Coding
+Train</a></td>
+<td>Daniel Shiffman의 P5.js 유튜브 강좌</td>
+</tr>
+<tr>
+<td><a href="https://openprocessing.org/" target="_blank" rel="noopener noreferrer">OpenProcessing</a></td>
+<td>P5.js 작품 공유 커뮤니티</td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-info">
+<div class="callout-title">
+(선택) 다음 주 사전 학습 영상
+</div>
+<p>필수는 아니지만, 미리 보면 다음 주 수업이 더 수월합니다. - The Coding
+Train <strong>“1.2 p5.js Web Editor”</strong> (약 10분) - The Coding
+Train <strong>“1.3 Shapes &amp; Drawing”</strong> (약 10분)</p>
+</div>
+<hr />
+<p><strong>다음 주 예고:</strong> 좌표계를 제대로 배우고,
+<strong>변수</strong>를 사용해서 도형이 마우스를 따라다니게
+만들어봅니다!</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#전반부-수업-소개와-p5.js란">전반부 — 수업 소개와 P5.js란?</a></li><li class="toc-level-3"><a href="#코딩으로-만든-예술">코딩으로 만든 예술</a></li><li class="toc-level-3"><a href="#수업-운영-안내">수업 운영 안내</a></li><li class="toc-level-3"><a href="#p5.js란">P5.js란?</a></li><li class="toc-level-2"><a href="#후반부-p5.js-첫-체험">후반부 — P5.js 첫 체험</a></li><li class="toc-level-3"><a href="#개발환경-설정">개발환경 설정</a></li><li class="toc-level-3"><a href="#선택-로컬-개발-환경-설정">[선택] 로컬 개발 환경 설정</a></li><li class="toc-level-3"><a href="#선택-바이브-코딩-ai와-함께-만들기">🤖 [선택] 바이브 코딩: AI와 함께 만들기</a></li><li class="toc-level-3"><a href="#setup과-draw-p5.js의-핵심-구조">setup()과 draw() — P5.js의 핵심 구조</a></li><li class="toc-level-3"><a href="#기본-도형-그리기">기본 도형 그리기</a></li><li class="toc-level-3"><a href="#도형-함수-정리">도형 함수 정리</a></li><li class="toc-level-3"><a href="#색상-맛보기">색상 맛보기</a></li><li class="toc-level-3"><a href="#같이-해보기-간단한-얼굴-그리기">같이 해보기: 간단한 얼굴 그리기</a></li><li class="toc-level-3"><a href="#스케치-저장하기">스케치 저장하기</a></li><li class="toc-level-2"><a href="#참고-자료">참고 자료</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>

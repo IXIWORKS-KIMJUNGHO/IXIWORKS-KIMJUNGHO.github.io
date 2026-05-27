@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12주차: 노이즈와 자연스러운 움직임 (2교시 · 학생용) | Media Art Programming</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+  </style>
+</head>
+<body>
+  <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 12 · Period 02 Handout</span></div></div>
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">p5.js / Media Art Programming</p>
+        <h1>12주차: 노이즈와 자연스러운 움직임 (2교시 · 학생용)</h1>
+        <p class="lead">Noise and Organic Motion 주제의 학생용 강의 자료입니다.</p>
+        <div class="hero-meta" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 12</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">P5.JS</span>
+          <span class="hero-chip">MEDIA ART</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보"><p class="doc-card-title">Document Spec</p>
+        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">학생용 핸드아웃</span></div>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">12주차</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">: 노이즈와 자연스러운 움직임 (2교시 · 학생용)</span></div>
+      </aside>
+    </div>
+  </header>
+  <main class="layout">
+    <article class="article">
+<h1 id="주차-노이즈와-자연스러운-움직임-2교시-학생용">12주차: 노이즈와
+자연스러운 움직임 (2교시 · 학생용)</h1>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>항목</th>
+<th>링크</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>강의 아웃라인</td>
+<td>week-12-outline</td>
+</tr>
+<tr>
+<td>강사용 교안</td>
+<td>week-12-period2-content</td>
+</tr>
+<tr>
+<td>이전 교시 학생용</td>
+<td><a href="week-12-period1.html">week-12-period1-student</a></td>
+</tr>
+<tr>
+<td>다음 교시 학생용</td>
+<td><a href="week-12-period3.html">week-12-period3-student</a></td>
+</tr>
+</tbody>
+</table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">
+학습 목표
+</div>
+<p>이번 시간이 끝나면 다음을 할 수 있습니다. - 2D 노이즈
+<code>noise(x, y)</code>로 텍스처를 생성할 수 있습니다. - 세 번째 인자로
+움직이는 2D 노이즈를 만들 수 있습니다. - Flow Field 개념을 이해하고
+방향장을 시각화할 수 있습니다.</p>
+</div>
+<hr />
+<h2 id="공간의-노이즈-2d-텍스처와-flow-field">공간의 노이즈: 2D 텍스처와
+Flow Field</h2>
+<h3 id="교시-복습">1교시 복습</h3>
+<div class="callout callout-question">
+<div class="callout-title">
+1교시 복습 퀴즈
+</div>
+<ul>
+<li><code>noise()</code>가 돌려주는 값의 범위는? → <strong>0 이상 1
+이하</strong></li>
+<li>증가값(<code>step</code>)을 크게 하면? → <strong>변화가 거칠어지고,
+너무 크면 <code>random()</code>과 구별하기 어려움</strong></li>
+<li>원의 x와 y를 각각 노이즈로 움직이려면? → <strong>오프셋을 서로 다른
+값에서 출발 (예: <code>xOff = 0</code>,
+<code>yOff = 1000</code>)</strong></li>
+</ul>
+</div>
+<p>1교시에서 만든 것은 떠다니는 점, 그리고 옆에서 본 풍경
+능선이었습니다. 풍경은 화면을 가득 채워 2D처럼 보였지만,
+<code>noise()</code>에 넣은 입력은 <code>x</code>
+<strong>하나</strong>뿐이었습니다. 모두 <strong>1D
+노이즈</strong>였습니다.</p>
+<p>2교시에 다루는 코드는 <code>noise(x, y)</code>와
+<code>noise(x, y, t)</code>로, 입력이 <strong>둘 이상</strong>입니다.
+1교시가 한 줄짜리 산맥 능선이었다면, 2교시는 <strong>위에서 내려다본
+값의 지도</strong> 전체를 다룹니다.</p>
+<h3 id="심화-개념-1-2d-노이즈-noisex-y-위에서-내려다본-값의-지도">심화
+개념 1: 2D 노이즈 noise(x, y) — 위에서 내려다본 값의 지도</h3>
+<p>1교시 <code>noise(t)</code>는 입력이 하나, 시간 축 하나였습니다.
+거기에 입력을 하나 더 붙이면 <code>noise(x, y)</code> — 2D 노이즈가
+됩니다.</p>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<thead>
+<tr>
+<th>차원</th>
+<th>함수</th>
+<th>비유</th>
+<th>결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1D</td>
+<td><code>noise(t)</code> 또는 <code>noise(x)</code></td>
+<td>산맥 위를 한 줄로 걷기</td>
+<td>그래프·능선 (선)</td>
+</tr>
+<tr>
+<td>2D</td>
+<td><code>noise(x, y)</code></td>
+<td>하늘에서 땅을 내려다보기</td>
+<td>텍스처·지도 (면)</td>
+</tr>
+</tbody>
+</table></div>
+<figure class="lecture-figure">
+<img src="assets/12week/05-1d-landscape-vs-2d-map.png"
+alt="05 1d landscape vs 2d map" />
+<figcaption aria-hidden="true">05 1d landscape vs 2d map</figcaption>
+</figure>
+<p><code>noise(x, y)</code>는 좌표 <code>(x, y)</code>마다 0~1 값을
+돌려줍니다. 1D에서 ’가까운 입력끼리 비슷한 값’이었던 성질이 그대로
+2차원으로 퍼진 것입니다. 가까운 좌표끼리 비슷한 값이 나오므로 부드러운
+얼룩무늬가 됩니다.</p>
+<p>2D 노이즈의 가장 직관적인 활용은, 캔버스의 <strong>모든
+픽셀</strong>에 <code>noise(x, y)</code>를 물어보고 그 값을 밝기로
+칠하는 것입니다.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pixelDensity</span>(<span class="dv">1</span>)<span class="op">;</span>   <span class="co">// 픽셀 좌표와 화면 픽셀을 1:1로 맞춤</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noLoop</span>()<span class="op">;</span>          <span class="co">// 한 번만 그림</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> scl <span class="op">=</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> height<span class="op">;</span> y<span class="op">++</span>) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> width<span class="op">;</span> x<span class="op">++</span>) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> bright <span class="op">=</span> <span class="fu">noise</span>(x <span class="op">*</span> scl<span class="op">,</span> y <span class="op">*</span> scl) <span class="op">*</span> <span class="dv">255</span><span class="op">;</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">stroke</span>(bright)<span class="op">;</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>      <span class="fu">point</span>(x<span class="op">,</span> y)<span class="op">;</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>실행하면 흑백의 구름 같은 얼룩무늬가 캔버스를 채웁니다. 이중
+for문으로 모든 좌표를 방문하고, 각 좌표에서 <code>noise()</code>
+값(0~1)에 255를 곱해 밝기로 쓴 것입니다. Ken Perlin이 영화 <트론>에서
+만들고자 했던 자연스러운 질감이 바로 이런 모습입니다.</p>
+<p>코드의 <code>scl</code>(noiseScale)이 핵심입니다. 1교시의 증가값처럼
+노이즈 입력 간격을 조절하는 값입니다. 픽셀 좌표는 0, 1, 2, 3처럼 1씩
+늘어나는데, 스케일 조정 없이 <code>noise(x, y)</code>를 그대로 쓰면 옆
+픽셀끼리 값이 너무 달라 구름보다 거친 잡음에 가까워집니다. 좌표에 작은
+수(<code>scl</code>)를 곱해 간격을 좁히면 옆 픽셀끼리 비슷해져 부드러운
+무늬가 됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/12week/06-noise-scale-comparison.png"
+alt="06 noise scale comparison" />
+<figcaption aria-hidden="true">06 noise scale comparison</figcaption>
+</figure>
+<p><code>scl</code> 값을 작게 두면 큰 덩어리, 크게 두면 잘게 쪼개진
+질감이 됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+2D 노이즈는 ’값의 지도’다
+</div>
+<p>2D 노이즈 무늬는 그 자체로 ’지형’이나 ’구름’이 아닙니다. <strong>0~1
+값이 좌표마다 깔린 지도</strong>일 뿐입니다. 그 값을 밝기로 칠하면 구름,
+높이로 쓰면 지형, 투명도로 쓰면 안개가 됩니다. 위에서 내려다본
+<strong>값의 지도</strong>이며, 무엇으로 해석할지는 자유입니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>넓은 대륙과 넓은 바다가 있는 지도를 만들려면
+<code>noiseScale</code>을 크게 할까요, 작게 할까요?</p>
+<p><strong>답:</strong> 작게 합니다. 스케일이 작아야 큰 덩어리(넓은
+땅·넓은 바다)가 생깁니다.</p>
+</div>
+<h3 id="심화-개념-2-움직이는-2d-노이즈-세-번째-인자">심화 개념 2:
+움직이는 2D 노이즈 — 세 번째 인자</h3>
+<p>앞에서 만든 구름은 <code>noLoop()</code>으로 한 번만 그린
+<strong>정지 화면</strong>입니다. 흘러가게 하려면 <code>noise()</code>의
+세 번째 입력을 씁니다. <code>noise()</code>는 입력을 세 개까지 받을 수
+있습니다.</p>
+<ul>
+<li><code>noise(t)</code> — 1D, 시간 축 하나</li>
+<li><code>noise(x, y)</code> — 2D, 공간</li>
+<li><code>noise(x, y, t)</code> — 2D + 시간, <strong>흐르는
+공간</strong></li>
+</ul>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pixelDensity</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> scl <span class="op">=</span> <span class="fl">0.02</span><span class="op">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> height<span class="op">;</span> y <span class="op">+=</span> <span class="dv">2</span>) {</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> width<span class="op">;</span> x <span class="op">+=</span> <span class="dv">2</span>) {</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> bright <span class="op">=</span> <span class="fu">noise</span>(x <span class="op">*</span> scl<span class="op">,</span> y <span class="op">*</span> scl<span class="op">,</span> frameCount <span class="op">*</span> <span class="fl">0.01</span>) <span class="op">*</span> <span class="dv">255</span><span class="op">;</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(bright)<span class="op">;</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span>   <span class="co">// 2px씩 건너뛰므로 점 대신 2x2 사각형으로 빈틈 없이 채움</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/12week/10-noise-xy-time-slices.png"
+alt="10 noise xy time slices" />
+<figcaption aria-hidden="true">10 noise xy time slices</figcaption>
+</figure>
+<p>세 번째 입력은 시간 축입니다. <code>frameCount * 0.01</code>로 조금씩
+이동시키면 2D 노이즈 무늬가 부드럽게 바뀝니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">
+픽셀을 건너뛰면 빨라진다
+</div>
+<p><code>x += 2</code>, <code>y += 2</code>로 픽셀을 둘씩 건너뛰면
+200×200 캔버스에서 계산 횟수가 4만 번 → 1만 번으로 줄어 <strong>속도가
+약 4배</strong> 빨라집니다. 시각적으로는 큰 차이가 없습니다. 캔버스가
+크면 <code>x += 3</code>, <code>+= 4</code>로 더 건너뛸 수 있습니다.
+화질과 속도 사이의 균형을 조절하는 방식입니다.</p>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p><code>noise(x, y, frameCount * 0.01)</code>에서 <code>0.01</code>을
+<code>0.05</code>로 바꾸면 구름이 어떻게 될까요?</p>
+<p><strong>답:</strong> 더 빨리 흘러갑니다. 시간 축을 더 큰 걸음으로
+이동하기 때문입니다.</p>
+</div>
+<h3 id="심화-개념-3-flow-field-보이지-않는-바람의-길">심화 개념 3: Flow
+Field — 보이지 않는 바람의 길</h3>
+<p><strong>Flow Field(플로우 필드)</strong>는 노이즈의 대표적인 활용 중
+하나입니다.</p>
+<p>화면을 바둑판처럼 <strong>격자</strong>로 나누고, 각 칸에
+<strong>방향(각도)</strong>을 하나씩 정해 줍니다. 그 방향을
+<code>noise(x, y)</code>로 정하면 가까운 칸끼리 비슷한 값 → 가까운
+칸끼리 비슷한 방향이 되어, 전체적으로 <strong>자연스럽게 흐르는 방향의
+지도</strong>가 생깁니다.</p>
+<p>바람을 떠올려 봅니다. 내 칸의 바람과 바로 옆 칸의 바람이 정반대라면
+어색합니다. 노이즈로 정하면 옆 칸끼리 부드럽게 이어지는 바람의 길이
+됩니다.</p>
+<p>노이즈 값은 0~1입니다. 여기에 <code>TWO_PI</code>(한 바퀴, 360도)를
+곱하면, <code>noise(x, y) * TWO_PI</code>는 0도에서 360도 사이의 각도가
+노이즈로 부드럽게 정해집니다.</p>
+<div class="sourceCode" id="cb3"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stroke</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> grid <span class="op">=</span> <span class="dv">20</span><span class="op">;</span>     <span class="co">// 격자 한 칸 크기</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> scl <span class="op">=</span> <span class="fl">0.05</span><span class="op">;</span>    <span class="co">// 노이즈 스케일</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> width<span class="op">;</span> x <span class="op">+=</span> grid) {</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> height<span class="op">;</span> y <span class="op">+=</span> grid) {</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> angle <span class="op">=</span> <span class="fu">noise</span>(x <span class="op">*</span> scl<span class="op">,</span> y <span class="op">*</span> scl) <span class="op">*</span> TWO_PI<span class="op">;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="fu">push</span>()<span class="op">;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">translate</span>(x <span class="op">+</span> grid <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> y <span class="op">+</span> grid <span class="op">/</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rotate</span>(angle)<span class="op">;</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">line</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> grid <span class="op">*</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>             <span class="co">// 방향 막대</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">line</span>(grid <span class="op">*</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> grid <span class="op">*</span> <span class="fl">0.35</span><span class="op">,</span> <span class="op">-</span><span class="dv">3</span>)<span class="op">;</span>  <span class="co">// 화살촉</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">line</span>(grid <span class="op">*</span> <span class="fl">0.5</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> grid <span class="op">*</span> <span class="fl">0.35</span><span class="op">,</span> <span class="dv">3</span>)<span class="op">;</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">pop</span>()<span class="op">;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/12week/07-flow-field-arrow-grid.png"
+alt="07 flow field arrow grid" />
+<figcaption aria-hidden="true">07 flow field arrow grid</figcaption>
+</figure>
+<p>각 칸 중앙으로 좌표계를 옮기고(<code>translate</code>), 노이즈로 정한
+각도만큼 돌린 뒤(<code>rotate</code>), 화살표를 그립니다.</p>
+<p>점 하나를 이 화살표 방향대로 움직이면 보이지 않는 바람에 실려
+떠다니는 것처럼 보입니다. 점에 수명까지 붙이는 본격적인 파티클 시스템은
+13주차에서 다룹니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">
+확인 질문
+</div>
+<p>Flow Field에서 옆 칸끼리 방향이 비슷한 이유는 무엇일까요?</p>
+<p><strong>답:</strong> 방향을 <code>noise()</code>로 정했기 때문입니다.
+노이즈는 가까운 입력끼리 비슷한 값을 돌려줍니다.</p>
+</div>
+<h3 id="실전-사례">실전 사례</h3>
+<p>배운 내용을 합친 응용 예제 두 가지입니다.</p>
+<h4 id="사례-1-2d-노이즈-컬러-텍스처">사례 1: 2D 노이즈 컬러 텍스처</h4>
+<p>흑백 구름을 컬러로 바꾸면 색상 변화가 더 풍부해집니다. 노이즈 값을
+밝기 대신 <strong>색상(hue)</strong>에 연결하는 것입니다.</p>
+<div class="sourceCode" id="cb4"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">300</span><span class="op">,</span> <span class="dv">300</span>)<span class="op">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pixelDensity</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> scl <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> height<span class="op">;</span> y <span class="op">+=</span> <span class="dv">2</span>) {</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> width<span class="op">;</span> x <span class="op">+=</span> <span class="dv">2</span>) {</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> n <span class="op">=</span> <span class="fu">noise</span>(x <span class="op">*</span> scl<span class="op">,</span> y <span class="op">*</span> scl<span class="op">,</span> frameCount <span class="op">*</span> <span class="fl">0.005</span>)<span class="op">;</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(n<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>      <span class="fu">noStroke</span>()<span class="op">;</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">70</span><span class="op">,</span> <span class="dv">90</span>)<span class="op">;</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">2</span><span class="op">,</span> <span class="dv">2</span>)<span class="op">;</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>무지개 빛깔이 부드럽게 섞이며 천천히 흐릅니다. HSB 모드에서 노이즈
+값을 hue로 매핑했습니다. <code>map(n, 0, 1, 0, 360)</code>은 노이즈
+0~1을 색상 0~360도로 번역합니다. 1교시의 <code>noise()</code> +
+<code>map()</code> 공식이 여기서도 그대로 쓰입니다. 가까운 픽셀끼리 색이
+비슷해 무지개가 부드럽게 흐릅니다.</p>
+<h4 id="사례-2-flow-field-점-궤적">사례 2: Flow Field + 점 궤적</h4>
+<p>Flow Field 위로 점들이 흘러다니며 궤적을 남기는 작품입니다. 여기의
+점들은 아직 13주차의 Particle 클래스가 아니라, 위치만 가진 벡터
+배열입니다.</p>
+<div class="sourceCode" id="cb5"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> points <span class="op">=</span> []<span class="op">;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> scl <span class="op">=</span> <span class="fl">0.01</span><span class="op">;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span>)<span class="op">;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">200</span><span class="op">;</span> i<span class="op">++</span>) {</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    points<span class="op">.</span><span class="fu">push</span>(<span class="fu">createVector</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)))<span class="op">;</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">8</span>)<span class="op">;</span>   <span class="co">// 아주 옅게 덮어 잔상을 남김</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> p <span class="kw">of</span> points) {</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> angle <span class="op">=</span> <span class="fu">noise</span>(p<span class="op">.</span><span class="at">x</span> <span class="op">*</span> scl<span class="op">,</span> p<span class="op">.</span><span class="at">y</span> <span class="op">*</span> scl) <span class="op">*</span> TWO_PI <span class="op">*</span> <span class="dv">2</span><span class="op">;</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> prevX <span class="op">=</span> p<span class="op">.</span><span class="at">x</span><span class="op">;</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> prevY <span class="op">=</span> p<span class="op">.</span><span class="at">y</span><span class="op">;</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>    p<span class="op">.</span><span class="at">x</span> <span class="op">+=</span> <span class="fu">cos</span>(angle) <span class="op">*</span> <span class="fl">1.5</span><span class="op">;</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>    p<span class="op">.</span><span class="at">y</span> <span class="op">+=</span> <span class="fu">sin</span>(angle) <span class="op">*</span> <span class="fl">1.5</span><span class="op">;</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">40</span>)<span class="op">;</span></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">line</span>(prevX<span class="op">,</span> prevY<span class="op">,</span> p<span class="op">.</span><span class="at">x</span><span class="op">,</span> p<span class="op">.</span><span class="at">y</span>)<span class="op">;</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (p<span class="op">.</span><span class="at">x</span> <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> p<span class="op">.</span><span class="at">x</span> <span class="op">&gt;</span> width <span class="op">||</span> p<span class="op">.</span><span class="at">y</span> <span class="op">&lt;</span> <span class="dv">0</span> <span class="op">||</span> p<span class="op">.</span><span class="at">y</span> <span class="op">&gt;</span> height) {</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>      p<span class="op">.</span><span class="fu">set</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height))<span class="op">;</span></span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<figure class="lecture-figure">
+<img src="assets/12week/11-flow-field-trails-preview.png"
+alt="11 flow field trails preview" />
+<figcaption aria-hidden="true">11 flow field trails preview</figcaption>
+</figure>
+<p>핵심 아이디어는 하나입니다 — <strong>노이즈로 방향을 정하고 그
+방향으로 움직이면 자연스러운 흐름이 된다.</strong></p>
+<div class="callout callout-info">
+<div class="callout-title">
+Flow Field와 제너러티브 아트
+</div>
+<p>노이즈로 방향을 정해 점을 흐르게 하는 기법은 제너러티브 아트에서 널리
+쓰입니다. 아티스트 Tyler Hobbs의 Flow Field 기반 작품(Fidenza 시리즈)이
+대표적입니다. 모두 코드로, <code>noise()</code> 하나에서 출발해
+만들어집니다.</p>
+</div>
+<h3 id="교시-실습-안내">3교시 실습 안내</h3>
+<div class="callout callout-abstract">
+<div class="callout-title">
+2교시 요약
+</div>
+<ul>
+<li><code>noise(x, y)</code>는 화면 전체에 깔린 <strong>값의
+지도</strong>입니다.</li>
+<li>세 번째 입력을 더하면 그 지도가 <strong>흐릅니다</strong>.</li>
+<li>그 값으로 방향을 정하면 <strong>Flow Field</strong>가 됩니다.</li>
+</ul>
+</div>
+<p>3교시에는 한 작품을 단계별로 직접 만듭니다 — <strong>노이즈 워커
+작품</strong>입니다. 1교시에서 만든 떠다니는 원 하나에서 출발해, 여러
+개의 워커로 늘리고, 색과 잔상으로 질감을 입히고, 마우스 인터랙션까지
+4단계로 한 겹씩 쌓아 올립니다.</p>
+<p>3교시에 만든 작품을 <strong>13주차 수업 전까지</strong> 발전시켜
+제출하면 실습과제 4가 완료됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/12week/12-assignment-directions.png"
+alt="12 assignment directions" />
+<figcaption aria-hidden="true">12 assignment directions</figcaption>
+</figure>
+<div class="table-wrap"><table>
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr>
+<th>항목</th>
+<th>내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>과제명</td>
+<td>데이터 시각화 또는 노이즈 활용 작품</td>
+</tr>
+<tr>
+<td>제출 기한</td>
+<td>13주차 수업 전까지</td>
+</tr>
+<tr>
+<td>제출 방식</td>
+<td>P5.js Web Editor 링크 공유</td>
+</tr>
+<tr>
+<td>필수 요구사항</td>
+<td><code>noise()</code> 활용 + 유기적 움직임/패턴 + 인터랙션 1개
+이상</td>
+</tr>
+<tr>
+<td>평가</td>
+<td>제출 완료 시 만점 — 완성도보다 시도와 제출이 중요</td>
+</tr>
+</tbody>
+</table></div>
+<p>제출 방향은 둘 중 하나를 고릅니다. <strong>하나, 노이즈 활용
+작품</strong> — 3교시 결과물을 그대로 발전시키는 방향으로, 대부분의
+학생에게 권장합니다. <strong>둘, 데이터 시각화 작품</strong> — 11주차
+JSON·CSV 데이터에 노이즈 효과를 더하고 싶다면 이 방향으로 제출할 수
+있습니다.</p>
+<p>시작이 막막하면 1교시 <strong>떠다니는 원</strong> 코드를 그대로
+복사해 시작합니다. 그것이 3교시 1단계의 출발점입니다.</p>
+
+    </article>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#공간의-노이즈-2d-텍스처와-flow-field">공간의 노이즈: 2D 텍스처와 Flow Field</a></li><li class="toc-level-3"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-3"><a href="#심화-개념-1-2d-노이즈-noisex-y-위에서-내려다본-값의-지도">심화 개념 1: 2D 노이즈 noise(x, y) — 위에서 내려다본 값의 지도</a></li><li class="toc-level-3"><a href="#심화-개념-2-움직이는-2d-노이즈-세-번째-인자">심화 개념 2: 움직이는 2D 노이즈 — 세 번째 인자</a></li><li class="toc-level-3"><a href="#심화-개념-3-flow-field-보이지-않는-바람의-길">심화 개념 3: Flow Field — 보이지 않는 바람의 길</a></li><li class="toc-level-3"><a href="#실전-사례">실전 사례</a></li><li class="toc-level-3"><a href="#교시-실습-안내">3교시 실습 안내</a></li></ol></nav>
+  </main>
+  <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
+</body>
+</html>
