@@ -70,11 +70,11 @@ href="week-02-period2.html">week-02-period2-student</a> (시스템 변수와
 학습 목표
 </div>
 <ul>
-<li>✅ P5.js 좌표계의 원리를 이해하고, 캔버스의 원하는 위치에 도형을
+<li> P5.js 좌표계의 원리를 이해하고, 캔버스의 원하는 위치에 도형을
 배치할 수 있습니다</li>
-<li>✅ <code>triangle()</code>·<code>stroke()</code> 계열 함수로 도형
+<li> <code>triangle()</code>·<code>stroke()</code> 계열 함수로 도형
 표현을 확장할 수 있습니다</li>
-<li>✅ <code>let</code>으로 변수를 선언·활용해, 한 곳만 바꿔도 전체가
+<li> <code>let</code>으로 변수를 선언·활용해, 한 곳만 바꿔도 전체가
 바뀌는 유연한 코드를 작성할 수 있습니다</li>
 </ul>
 </div>
@@ -217,7 +217,7 @@ ellipse(200, 245, 40, 15);     ← 200 (x 위치)</code></pre>
 <p>이번 시간이 끝나면 <strong>딱 한 곳만 바꿔서</strong> 얼굴 전체를
 옮길 수 있게 됩니다.</p>
 <hr />
-<h2 id="핵심-개념-1-p5.js-좌표계">💡 핵심 개념 1 — P5.js 좌표계</h2>
+<h2 id="핵심-개념-1-p5.js-좌표계"> 핵심 개념 1 — P5.js 좌표계</h2>
 <h3 id="원점과-축-방향">원점과 축 방향</h3>
 <p>수학에서 배운 좌표계와 P5.js 좌표계에는 <strong>중요한
 차이</strong>가 있습니다.</p>
@@ -263,9 +263,9 @@ alt="01 p5 coordinate system" />
 <p>도형마다 좌표가 가리키는 지점이 다릅니다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -325,7 +325,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 증가합니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-좌표-미니-퀴즈">💡 핵심 개념 2 — 좌표 미니 퀴즈</h2>
+<h2 id="핵심-개념-2-좌표-미니-퀴즈"> 핵심 개념 2 — 좌표 미니 퀴즈</h2>
 <p>코드를 보고, 도형이 캔버스 <strong>어디에</strong> 그려질지
 머릿속으로 상상해보세요.</p>
 <p><strong>Q1</strong>: <code>ellipse(0, 0, 60, 60)</code> — 어디에
@@ -398,7 +398,7 @@ alt="03 coordinate quiz answers" />
 <figcaption aria-hidden="true">03 coordinate quiz answers</figcaption>
 </figure>
 <hr />
-<h2 id="핵심-개념-3-도형-확장-triangle과-stroke">💡 핵심 개념 3 — 도형
+<h2 id="핵심-개념-3-도형-확장-triangle과-stroke"> 핵심 개념 3 — 도형
 확장: triangle()과 stroke()</h2>
 <p>1주차에 <code>ellipse</code>, <code>rect</code>, <code>line</code>을
 배웠습니다. 이번 시간에는 두 가지를 더 배웁니다.</p>
@@ -494,7 +494,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12
 전에 다시 써줘야 합니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-4-변수란-let-키워드">💡 핵심 개념 4 — 변수란? let
+<h2 id="핵심-개념-4-변수란-let-키워드"> 핵심 개념 4 — 변수란? let
 키워드</h2>
 <p>이번 시간의 핵심입니다. 도입부에서 본 ’얼굴을 옮기려면 5곳을 고쳐야
 하는 문제’를 해결하는 것이 바로 <strong>변수</strong>입니다.</p>
@@ -538,7 +538,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 <code>300</code>으로 <strong>3군데</strong> 다 바꿔야 합니다.</p>
 <p><strong>변수를 사용한</strong> 같은 코드:</p>
 <div class="sourceCode" id="cb16"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> centerX <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>  <span class="co">// ⭐ 여기 한 곳만 바꾸면 됨!</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> centerX <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>  <span class="co">//  여기 한 곳만 바꾸면 됨!</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
@@ -627,8 +627,8 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 <p>거의 모든 좌표가 <strong>200 기준</strong>의 상대적 위치입니다.</p>
 <p><strong>After — 변수 버전</strong></p>
 <div class="sourceCode" id="cb18"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceX <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>  <span class="co">// ⭐ 얼굴 중심 x좌표</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceY <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>  <span class="co">// ⭐ 얼굴 중심 y좌표</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceX <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>  <span class="co">//  얼굴 중심 x좌표</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> faceY <span class="op">=</span> <span class="dv">200</span><span class="op">;</span>  <span class="co">//  얼굴 중심 y좌표</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
 <span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
@@ -684,7 +684,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 결과
 </div>
 <p><strong>한 줄만 바꿨는데 눈, 코, 입까지 전부 같이
-이동합니다.</strong> 이것이 변수의 진짜 의미입니다. 단순히 숫자를
+이동합니다.</strong> 이것이 변수의 핵심 의미입니다. 단순히 숫자를
 저장하는 게 아니라, <strong>코드를 유연하게 만드는
 도구</strong>입니다.</p>
 </div>
@@ -699,7 +699,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 </ul>
 </div>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">
 1교시 핵심 요약
@@ -713,7 +713,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 코드를 작성할 수 있다</li>
 </ol>
 </div>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>1교시에서는 변수에 <code>200</code> 같은 <strong>고정된
 숫자</strong>를 넣었습니다. 2교시에서는 <strong>실시간으로 변하는
 값</strong>을 넣습니다. 마우스를 움직이면 그 위치가 자동으로 변수에

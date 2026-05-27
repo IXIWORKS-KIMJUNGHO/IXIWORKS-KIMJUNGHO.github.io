@@ -72,10 +72,10 @@ href="week-03-period3.html">week-03-period3-student</a> (학생 주도 실습:
 학습 목표
 </div>
 <ul>
-<li>✅ <code>for</code> 반복문의 구조를 이해하고 반복 변수
+<li> <code>for</code> 반복문의 구조를 이해하고 반복 변수
 <code>i</code>를 활용할 수 있습니다</li>
-<li>✅ 반복문으로 도형을 패턴으로 배열할 수 있습니다</li>
-<li>✅ 반복문과 색상(RGB/HSB)을 결합해 그라데이션·무지개 패턴을 만들 수
+<li> 반복문으로 도형을 패턴으로 배열할 수 있습니다</li>
+<li> 반복문과 색상(RGB/HSB)을 결합해 그라데이션·무지개 패턴을 만들 수
 있습니다</li>
 </ul>
 </div>
@@ -95,7 +95,7 @@ href="week-03-period3.html">week-03-period3-student</a> (학생 주도 실습:
 어렵습니다. 2교시에서는 <strong>같은 코드를 수백 번 반복</strong>하는
 법을 배워서, 도형을 여러 개 배치합니다.</p>
 <hr />
-<h2 id="심화-개념-1-왜-반복문이-필요한가">💡 심화 개념 1 — 왜 반복문이
+<h2 id="심화-개념-1-왜-반복문이-필요한가"> 심화 개념 1 — 왜 반복문이
 필요한가?</h2>
 <p>원 10개를 가로로 한 줄 나열한다고 합시다.</p>
 <p><strong>방법 A: 하나씩 직접 쓰기</strong></p>
@@ -136,10 +136,10 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-
 핵심은 <strong>반복되는 패턴을 찾아서 자동화</strong>하는 것입니다.
 위에서 반복된 건 <code>ellipse(?, 200, 30, 30)</code> — x좌표만 40씩
 증가하는 패턴입니다.</p>
-<h3 id="반복문의-진짜-장점-수정이-쉬워진다">반복문의 진짜 장점: 수정이
+<h3 id="반복문의-진짜-장점-수정이-쉬워진다">반복문의 핵심 장점: 수정이
 쉬워진다</h3>
 <p>코드가 짧아지는 것만이 장점이 아닙니다. <strong>수정이 한 곳에서
-해결된다</strong>는 게 진짜 장점입니다.</p>
+해결된다</strong>는 점이 핵심 장점입니다.</p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
@@ -162,7 +162,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-
 <p><code>i &lt; 10</code>을 <code>i &lt; 100</code>으로 숫자 하나만
 바꾸면 원이 100개가 됩니다. 이것이 반복문의 힘입니다.</p>
 <hr />
-<h2 id="심화-개념-2-for-반복문-기본-문법">💡 심화 개념 2 — for 반복문
+<h2 id="심화-개념-2-for-반복문-기본-문법"> 심화 개념 2 — for 반복문
 기본 문법</h2>
 <h3 id="구조-분해">구조 분해</h3>
 <pre><code>for (let i = 0; i &lt; 10; i++)
@@ -171,7 +171,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">부분</th>
+<th>부분</th>
 <th>코드</th>
 <th>의미</th>
 <th>비유</th>
@@ -179,19 +179,19 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">① 초기화</td>
+<td>① 초기화</td>
 <td><code>let i = 0</code></td>
 <td>시작값 설정</td>
 <td>“0번부터 시작!”</td>
 </tr>
 <tr>
-<td style="text-align: center;">② 조건</td>
+<td>② 조건</td>
 <td><code>i &lt; 10</code></td>
 <td>언제까지 반복?</td>
 <td>“10번 미만까지!”</td>
 </tr>
 <tr>
-<td style="text-align: center;">③ 증가</td>
+<td>③ 증가</td>
 <td><code>i++</code></td>
 <td>매 반복 후 +1</td>
 <td>“한 번 끝나면 다음!”</td>
@@ -293,7 +293,7 @@ i의 값: 8</code></pre>
 <p><strong>실수 1: 무한 루프 — <code>i++</code> 대신
 <code>i--</code></strong></p>
 <div class="sourceCode" id="cb8"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 이렇게 하면 브라우저가 멈춤!</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  이렇게 하면 브라우저가 멈춤!</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">--</span>) {</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>  <span class="co">// 0, -1, -2, -3... 끝없이 감소</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -301,7 +301,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 브라우저가 멈추면 <strong>탭을 닫고 다시 열면 됩니다</strong>.</p>
 <p><strong>실수 2: 중괄호 <code>{}</code> 빼먹기</strong></p>
 <div class="sourceCode" id="cb9"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 중괄호를 빼먹으면 첫 줄만 반복됨</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  중괄호를 빼먹으면 첫 줄만 반복됨</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 이것만 반복</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// 이건 반복 안 됨! (에러)</span></span></code></pre></div>
@@ -310,14 +310,14 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-
 <p><strong>실수 3: <code>i</code>를 for문 밖에서 쓰려고 함</strong></p>
 <div class="sourceCode" id="cb10"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">5</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>  <span class="co">// ✅ for문 안에서는 사용 가능</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>  <span class="co">//  for문 안에서는 사용 가능</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>    <span class="co">// ❌ 에러! i is not defined</span></span></code></pre></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(i)<span class="op">;</span>    <span class="co">//  에러! i is not defined</span></span></code></pre></div>
 <p><code>let</code>으로 for문 안에서 만든 변수 <code>i</code>는
 <strong>중괄호 안에서만 존재</strong>합니다. 밖에서는 사라집니다. 지금은
 ’for문 안의 i는 밖에서 쓸 수 없다’만 기억하세요.</p>
 <hr />
-<h2 id="심화-개념-3-반복문으로-도형-패턴-만들기">💡 심화 개념 3 —
+<h2 id="심화-개념-3-반복문으로-도형-패턴-만들기"> 심화 개념 3 —
 반복문으로 도형 패턴 만들기</h2>
 <h3 id="한-줄-원-나열-단계별로">한 줄 원 나열 — 단계별로</h3>
 <p><strong>Step 1: 원 하나 그리기</strong></p>
@@ -339,7 +339,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ❌ 10번 반복하지만 같은 위치!</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">//  10번 반복하지만 같은 위치!</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>10번 그렸는데 전부 같은 자리라 원 1개로 보입니다. <strong>i를 아직 안
@@ -353,7 +353,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ⭐ i가 x좌표를 결정</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">//  i가 x좌표를 결정</span></span>
 <span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><code>i * 40</code>이 핵심입니다. i=0이면 x=20, i=1이면 x=60, i=2이면
@@ -371,24 +371,24 @@ x=100… 40픽셀 간격으로 원이 나열됩니다.</p>
 <thead>
 <tr>
 <th>코드</th>
-<th style="text-align: center;">간격</th>
+<th>간격</th>
 <th>결과</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>i * 40 + 20</code></td>
-<td style="text-align: center;">40px</td>
+<td>40px</td>
 <td>보통 간격 — 원끼리 딱 붙지 않음</td>
 </tr>
 <tr>
 <td><code>i * 20 + 10</code></td>
-<td style="text-align: center;">20px</td>
+<td>20px</td>
 <td>빽빽하게 — 원(30px)보다 좁아서 겹침</td>
 </tr>
 <tr>
 <td><code>i * 60 + 30</code></td>
-<td style="text-align: center;">60px</td>
+<td>60px</td>
 <td>넓게 — 원 사이에 빈 공간</td>
 </tr>
 </tbody>
@@ -407,7 +407,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span>)<span class="op">;</span>  <span class="co">// ⭐ 점점 커지는 원</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span><span class="op">,</span> (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">*</span> <span class="dv">5</span>)<span class="op">;</span>  <span class="co">//  점점 커지는 원</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>i=0일 때 크기 5, i=9일 때 크기 50. <code>i + 1</code>을 쓰는 이유는,
@@ -423,7 +423,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">100</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">// ⭐ y좌표에 i 적용</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(<span class="dv">200</span><span class="op">,</span> i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span>  <span class="co">//  y좌표에 i 적용</span></span>
 <span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <div class="callout callout-question">
@@ -436,7 +436,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 <strong>대각선</strong>으로 나열됩니다.</p>
 </div>
 <hr />
-<h2 id="심화-개념-4-반복문-색상-결합">💡 심화 개념 4 — 반복문 + 색상
+<h2 id="심화-개념-4-반복문-색상-결합"> 심화 개념 4 — 반복문 + 색상
 결합</h2>
 <p><code>i</code>를 <strong>좌표에도, 색상에도</strong> 동시에 쓸 수
 있습니다.</p>
@@ -478,7 +478,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 <p><strong>Step 2: i를 빨강 채널에 연결</strong></p>
 <div class="sourceCode" id="cb19"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// ⭐ i가 커질수록 빨강이 진해짐</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">//  i가 커질수록 빨강이 진해짐</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>i=0이면 <code>fill(0, 0, 0)</code> 검정, i=9이면
@@ -494,7 +494,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
 <span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// ⭐ H를 0~360으로 변화 → 무지개!</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">//  H를 0~360으로 변화 → 무지개!</span></span>
 <span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
 <span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -510,7 +510,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21
 <span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>))<span class="op">;</span>  <span class="co">// ⭐ alpha가 점점 커짐</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">9</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>))<span class="op">;</span>  <span class="co">//  alpha가 점점 커짐</span></span>
 <span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -533,7 +533,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>색도 바뀌고 크기도 바뀝니다. 반복 변수 <code>i</code>를
 <strong>좌표·색상·크기·투명도</strong> 어디에든 쓸 수 있다는 것이
-for문의 진짜 강점입니다.</p>
+for문의 핵심 강점입니다.</p>
 <figure class="lecture-figure">
 <img src="assets/3week/06_i-to-position-size-color.png"
 alt="06 i to position size color" />
@@ -568,7 +568,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb24
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
 <span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">20</span><span class="op">;</span> i<span class="op">++</span>) {</span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">19</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">// ⭐ H를 0~360으로 변화</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="fu">map</span>(i<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">19</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>  <span class="co">//  H를 0~360으로 변화</span></span>
 <span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rect</span>(i <span class="op">*</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
 <span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -586,7 +586,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb25
 <span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> y <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> y <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> y<span class="op">++</span>) {         <span class="co">// 바깥: 줄 반복 (세로)</span></span>
 <span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (<span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> x <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> x<span class="op">++</span>) {       <span class="co">// 안쪽: 각 줄 안에서 칸 반복 (가로)</span></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>((x <span class="op">+</span> y) <span class="op">*</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>      <span class="co">// ⭐ x+y로 대각선 그라데이션</span></span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>((x <span class="op">+</span> y) <span class="op">*</span> <span class="dv">18</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>      <span class="co">//  x+y로 대각선 그라데이션</span></span>
 <span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">rect</span>(x <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> y <span class="op">*</span> <span class="dv">40</span><span class="op">,</span> <span class="dv">35</span><span class="op">,</span> <span class="dv">35</span>)<span class="op">;</span></span>
 <span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>  }</span>
@@ -623,9 +623,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb26
 <p><strong>필수 요구사항</strong></p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 12%" />
-<col style="width: 40%" />
-<col style="width: 48%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -710,7 +710,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb27
 사각형으로 바꾸거나 배경색을 바꾸며 자유롭게 실험해보세요.</p>
 
     </article>
-    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-왜-반복문이-필요한가">심화 개념 1 — 왜 반복문이 필요한가?</a></li><li class="toc-level-3"><a href="#반복문의-진짜-장점-수정이-쉬워진다">반복문의 진짜 장점: 수정이 쉬워진다</a></li><li class="toc-level-2"><a href="#심화-개념-2-for-반복문-기본-문법">심화 개념 2 — for 반복문 기본 문법</a></li><li class="toc-level-3"><a href="#구조-분해">구조 분해</a></li><li class="toc-level-3"><a href="#실행-흐름-추적">실행 흐름 추적</a></li><li class="toc-level-3"><a href="#주차-변수와의-연결">2주차 변수와의 연결</a></li><li class="toc-level-3"><a href="#증가값-바꾸기-i-말고-다른-것도-가능">증가값 바꾸기: i++ 말고 다른 것도 가능</a></li><li class="toc-level-3"><a href="#흔한-실수-3가지">흔한 실수 3가지</a></li><li class="toc-level-2"><a href="#심화-개념-3-반복문으로-도형-패턴-만들기">심화 개념 3 — 반복문으로 도형 패턴 만들기</a></li><li class="toc-level-3"><a href="#한-줄-원-나열-단계별로">한 줄 원 나열 — 단계별로</a></li><li class="toc-level-3"><a href="#간격-조절">간격 조절</a></li><li class="toc-level-3"><a href="#크기-변화">크기 변화</a></li><li class="toc-level-3"><a href="#세로-줄">세로 줄</a></li><li class="toc-level-2"><a href="#심화-개념-4-반복문-색상-결합">심화 개념 4 — 반복문 + 색상 결합</a></li><li class="toc-level-3"><a href="#map-함수-먼저-배우고-가기">map() 함수 — 먼저 배우고 가기</a></li><li class="toc-level-3"><a href="#rgb-그라데이션-단계별로">RGB 그라데이션 — 단계별로</a></li><li class="toc-level-3"><a href="#hsb-무지개">HSB 무지개</a></li><li class="toc-level-3"><a href="#alpha-그라데이션">alpha 그라데이션</a></li><li class="toc-level-3"><a href="#i를-여러-곳에-동시에-쓰기">i를 여러 곳에 동시에 쓰기</a></li><li class="toc-level-2"><a href="#실전-사례">실전 사례</a></li><li class="toc-level-3"><a href="#사례-1-그라데이션-줄무늬">사례 1: 그라데이션 줄무늬</a></li><li class="toc-level-3"><a href="#사례-2-격자-패턴-중첩-for문">사례 2: 격자 패턴 (중첩 for문)</a></li><li class="toc-level-3"><a href="#사례-3-원형-패턴-5주차-예고">사례 3: 원형 패턴 (5주차 예고)</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-과제-기하학적-패턴-아트">실습 과제: 기하학적 패턴 아트</a></li><li class="toc-level-3"><a href="#실습과제-1-안내">실습과제 1 안내</a></li><li class="toc-level-3"><a href="#시작-힌트">시작 힌트</a></li></ol></nav>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#교시-복습">1교시 복습</a></li><li class="toc-level-2"><a href="#심화-개념-1-왜-반복문이-필요한가">심화 개념 1 — 왜 반복문이 필요한가?</a></li><li class="toc-level-3"><a href="#반복문의-진짜-장점-수정이-쉬워진다">반복문의 핵심 장점: 수정이 쉬워진다</a></li><li class="toc-level-2"><a href="#심화-개념-2-for-반복문-기본-문법">심화 개념 2 — for 반복문 기본 문법</a></li><li class="toc-level-3"><a href="#구조-분해">구조 분해</a></li><li class="toc-level-3"><a href="#실행-흐름-추적">실행 흐름 추적</a></li><li class="toc-level-3"><a href="#주차-변수와의-연결">2주차 변수와의 연결</a></li><li class="toc-level-3"><a href="#증가값-바꾸기-i-말고-다른-것도-가능">증가값 바꾸기: i++ 말고 다른 것도 가능</a></li><li class="toc-level-3"><a href="#흔한-실수-3가지">흔한 실수 3가지</a></li><li class="toc-level-2"><a href="#심화-개념-3-반복문으로-도형-패턴-만들기">심화 개념 3 — 반복문으로 도형 패턴 만들기</a></li><li class="toc-level-3"><a href="#한-줄-원-나열-단계별로">한 줄 원 나열 — 단계별로</a></li><li class="toc-level-3"><a href="#간격-조절">간격 조절</a></li><li class="toc-level-3"><a href="#크기-변화">크기 변화</a></li><li class="toc-level-3"><a href="#세로-줄">세로 줄</a></li><li class="toc-level-2"><a href="#심화-개념-4-반복문-색상-결합">심화 개념 4 — 반복문 + 색상 결합</a></li><li class="toc-level-3"><a href="#map-함수-먼저-배우고-가기">map() 함수 — 먼저 배우고 가기</a></li><li class="toc-level-3"><a href="#rgb-그라데이션-단계별로">RGB 그라데이션 — 단계별로</a></li><li class="toc-level-3"><a href="#hsb-무지개">HSB 무지개</a></li><li class="toc-level-3"><a href="#alpha-그라데이션">alpha 그라데이션</a></li><li class="toc-level-3"><a href="#i를-여러-곳에-동시에-쓰기">i를 여러 곳에 동시에 쓰기</a></li><li class="toc-level-2"><a href="#실전-사례">실전 사례</a></li><li class="toc-level-3"><a href="#사례-1-그라데이션-줄무늬">사례 1: 그라데이션 줄무늬</a></li><li class="toc-level-3"><a href="#사례-2-격자-패턴-중첩-for문">사례 2: 격자 패턴 (중첩 for문)</a></li><li class="toc-level-3"><a href="#사례-3-원형-패턴-5주차-예고">사례 3: 원형 패턴 (5주차 예고)</a></li><li class="toc-level-2"><a href="#교시-실습-안내">3교시 실습 안내</a></li><li class="toc-level-3"><a href="#실습-과제-기하학적-패턴-아트">실습 과제: 기하학적 패턴 아트</a></li><li class="toc-level-3"><a href="#실습과제-1-안내">실습과제 1 안내</a></li><li class="toc-level-3"><a href="#시작-힌트">시작 힌트</a></li></ol></nav>
   </main>
   <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
 </body>

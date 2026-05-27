@@ -75,11 +75,11 @@ random·map·constrain)</p>
 실습 목표
 </div>
 <ul>
-<li>✅ 1·2교시의 조건문·마우스/키보드 인터랙션·상태 변수를 결합해
+<li> 1·2교시의 조건문·마우스/키보드 인터랙션·상태 변수를 결합해
 인터랙티브 스케치를 제작합니다</li>
-<li>✅ <code>console.log()</code>로 값을 확인하며 스스로
+<li> <code>console.log()</code>로 값을 확인하며 스스로
 디버깅합니다</li>
-<li>✅ 3주차 기술(for문·HSB·잔상)을 인터랙션과 통합해 시각적으로
+<li> 3주차 기술(for문·HSB·잔상)을 인터랙션과 통합해 시각적으로
 완성합니다</li>
 </ul>
 </div>
@@ -88,13 +88,13 @@ random·map·constrain)</p>
 <p>3교시에서는 직접 인터랙티브 스케치를 만듭니다. <strong>세 단계 완성
 기준</strong>을 보고, 자신이 지금 어디쯤인지 스스로 판단할 수
 있습니다.</p>
-<h3 id="완성-기준">🏆 완성 기준</h3>
+<h3 id="완성-기준"> 완성 기준</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 21%" />
-<col style="width: 21%" />
-<col style="width: 35%" />
-<col style="width: 21%" />
+<col />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -106,20 +106,20 @@ random·map·constrain)</p>
 </thead>
 <tbody>
 <tr>
-<td>🥉 <strong>기본</strong></td>
+<td> <strong>기본</strong></td>
 <td>동작하는 스케치</td>
 <td>마우스로 그리기 + 키보드(r/g/b)로 색상 전환 + c로 초기화</td>
 <td><strong>“그리고, 바꾸고, 지울 수 있다”</strong></td>
 </tr>
 <tr>
-<td>🥈 <strong>표준</strong></td>
+<td> <strong>표준</strong></td>
 <td>모드가 있는 스케치</td>
 <td>기본 + 상태 변수로 모드 추가 (도형 전환, mouseButton 지우기,
 brushSize 조절 중 1개 이상)</td>
 <td><strong>“선택지가 있다”</strong></td>
 </tr>
 <tr>
-<td>🥇 <strong>심화</strong></td>
+<td> <strong>심화</strong></td>
 <td>시각적으로 완성된 스케치</td>
 <td>표준 + 3주차 기술 결합 (HSB 색상, 잔상 효과, for문 패턴, pmouseX 선
 드로잉 중 1개 이상)</td>
@@ -127,7 +127,7 @@ brushSize 조절 중 1개 이상)</td>
 </tr>
 </tbody>
 </table></div>
-<p>🥉만 해도 오늘 목표 완료입니다. 🥇까지 가면 충분히 훌륭합니다. 자기
+<p>만 해도 오늘 목표 완료입니다. 까지 가면 충분히 훌륭합니다. 자기
 속도에 맞게 진행하세요. 그리고 <strong>막히면
 <code>console.log()</code></strong>를 쓰세요. 변수에 어떤 값이 들어
 있는지 콘솔에서 확인하면 문제 원인을 찾기 쉽습니다.</p>
@@ -135,9 +135,9 @@ brushSize 조절 중 1개 이상)</td>
 <p>세 방향 중 하나를 골라 시작합니다 (자유롭게 섞어도 됩니다).</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -211,10 +211,10 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 여기에 키보드 이벤트 코드</span></span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>실행 버튼(▶)을 눌러 마우스를 누르면서 움직이면 파란 원이 그려집니다.
+<p>실행 버튼()을 눌러 마우스를 누르면서 움직이면 파란 원이 그려집니다.
 여기서부터 시작합니다.</p>
 <hr />
-<h2 id="step-1-기본-그리고-바꾸고-지울-수-있다">Step 1 — 🥉 기본:
+<h2 id="step-1-기본-그리고-바꾸고-지울-수-있다">Step 1 —  기본:
 “그리고, 바꾸고, 지울 수 있다”</h2>
 <blockquote>
 <p><strong>이 Step이 끝나면</strong>: 마우스로 그리고, 키보드로 색상을
@@ -286,7 +286,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 <span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
 <span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  isRainbow <span class="op">=</span> <span class="op">!</span>isRainbow<span class="op">;</span>  <span class="co">// 클릭으로 모드 토글</span></span>
 <span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>클릭할 때마다 무지개 ↔︎ 흑백이 전환됩니다. 3주차 패턴 + 토글의
+<p>클릭할 때마다 무지개 ↔ 흑백이 전환됩니다. 3주차 패턴 + 토글의
 결합입니다.</p>
 <h3 id="방향-c-리액티브-비주얼-마우스-반응-패턴">방향 C: 리액티브 비주얼
 — 마우스 반응 패턴</h3>
@@ -321,7 +321,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-
 <code>dist()</code>의 실전 활용입니다.</p>
 <div class="callout callout-success">
 <div class="callout-title">
-🥉 달성 체크
+ 달성 체크
 </div>
 <ul class="task-list">
 <li><label><input type="checkbox" />마우스 또는 키보드에
@@ -331,31 +331,31 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-
 <li><label><input type="checkbox" />화면에 <strong>시각적
 변화</strong>가 보이는가?</label></li>
 </ul>
-<p>🎉 여기까지 하면 🥉 기본 달성 — “그리고, 바꾸고, 지울 수 있다”</p>
+<p> 여기까지 하면  기본 달성 — “그리고, 바꾸고, 지울 수 있다”</p>
 </div>
 <hr />
-<h2 id="step-2-표준-선택지가-있다">Step 2 — 🥈 표준: “선택지가
+<h2 id="step-2-표준-선택지가-있다">Step 2 —  표준: “선택지가
 있다”</h2>
 <blockquote>
 <p><strong>이 Step이 끝나면</strong>: 상태 변수를 추가하여 사용자에게
 <strong>2가지 이상의 선택지</strong>(모드, 도구, 크기 등)를 제공할 수
 있다.</p>
 </blockquote>
-<p>🥉 기본을 완성했다면, <strong>상태 변수를 하나 더 추가</strong>해서
+<p> 기본을 완성했다면, <strong>상태 변수를 하나 더 추가</strong>해서
 모드나 옵션을 만듭니다.</p>
 <h3 id="방향-a-도형-전환-mousebutton-지우기">방향 A: 도형 전환 +
 mouseButton 지우기</h3>
 <p><strong>도형 전환</strong> — <code>shapeMode</code> 상태 변수를
 추가합니다.</p>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> shapeMode <span class="op">=</span> <span class="st">&#39;circle&#39;</span><span class="op">;</span>  <span class="co">// ⭐ 상태 변수 추가 (draw() 밖)</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> shapeMode <span class="op">=</span> <span class="st">&#39;circle&#39;</span><span class="op">;</span>  <span class="co">//  상태 변수 추가 (draw() 밖)</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
 <span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(brushColor)<span class="op">;</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ⭐ 도형 모드에 따라 다른 도형</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  도형 모드에 따라 다른 도형</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (shapeMode <span class="op">===</span> <span class="st">&#39;circle&#39;</span>) {</span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> brushSize<span class="op">,</span> brushSize)<span class="op">;</span></span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> <span class="cf">if</span> (shapeMode <span class="op">===</span> <span class="st">&#39;square&#39;</span>) {</span>
@@ -376,7 +376,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 <span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 도형 전환 추가</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="co">//  도형 전환 추가</span></span>
 <span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;1&#39;</span>) {</span>
 <span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    shapeMode <span class="op">=</span> <span class="st">&#39;circle&#39;</span><span class="op">;</span></span>
 <span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (key <span class="op">===</span> <span class="st">&#39;2&#39;</span>) {</span>
@@ -404,7 +404,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-
 전환</h3>
 <div class="sourceCode" id="cb8"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> isRainbow <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> palette <span class="op">=</span> <span class="st">&#39;warm&#39;</span><span class="op">;</span>  <span class="co">// ⭐ 상태 변수 추가</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> palette <span class="op">=</span> <span class="st">&#39;warm&#39;</span><span class="op">;</span>  <span class="co">//  상태 변수 추가</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
@@ -416,7 +416,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> y <span class="op">=</span> j <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">;</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (isRainbow) {</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">// ⭐ palette에 따라 색상 범위가 달라짐</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>        <span class="co">//  palette에 따라 색상 범위가 달라짐</span></span>
 <span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (palette <span class="op">===</span> <span class="st">&#39;warm&#39;</span>) {</span>
 <span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>          <span class="fu">fill</span>((i <span class="op">+</span> j) <span class="op">*</span> <span class="dv">15</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span>        <span class="co">// 빨강~노랑 계열</span></span>
 <span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>        } <span class="cf">else</span> {</span>
@@ -438,11 +438,11 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 <span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>클릭으로 무지개/흑백 토글, <code>w</code>/<code>p</code> 키로 따뜻한
-색↔︎차가운 색 팔레트 전환. 마우스와 키보드를 동시에 활용합니다.</p>
+색↔차가운 색 팔레트 전환. 마우스와 키보드를 동시에 활용합니다.</p>
 <h3 id="방향-c-마우스-클릭으로-반응-범위-변경">방향 C: 마우스 클릭으로
 반응 범위 변경</h3>
 <div class="sourceCode" id="cb9"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> radius <span class="op">=</span> <span class="dv">80</span><span class="op">;</span>  <span class="co">// ⭐ 상태 변수 추가</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> radius <span class="op">=</span> <span class="dv">80</span><span class="op">;</span>  <span class="co">//  상태 변수 추가</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  radius <span class="op">+=</span> <span class="dv">20</span><span class="op">;</span></span>
@@ -458,7 +458,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-
 </blockquote>
 <div class="sourceCode" id="cb10"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">// Step 1의 draw() 안 — 80을 radius로 교체</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (d <span class="op">&lt;</span> radius) {          <span class="co">// ⭐ 80 → radius로 변경!</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (d <span class="op">&lt;</span> radius) {          <span class="co">//  80 → radius로 변경!</span></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>((i <span class="op">+</span> j) <span class="op">*</span> <span class="dv">25</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(x<span class="op">,</span> y<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -472,7 +472,7 @@ radius 값이 바뀌는지 콘솔에서 확인할 수 있습니다.</p>
 </div>
 <div class="callout callout-success">
 <div class="callout-title">
-🥈 달성 체크
+ 달성 체크
 </div>
 <ul class="task-list">
 <li><label><input type="checkbox" /><strong>상태 변수</strong>를
@@ -485,10 +485,10 @@ radius 값이 바뀌는지 콘솔에서 확인할 수 있습니다.</p>
 <li><label><input type="checkbox" />사용자에게 2가지 이상의 선택지가
 있는가?</label></li>
 </ul>
-<p>🎉 여기까지 하면 🥈 표준 달성 — “선택지가 있다”</p>
+<p> 여기까지 하면  표준 달성 — “선택지가 있다”</p>
 </div>
 <hr />
-<h2 id="step-3-심화-보기에도-좋다">Step 3 — 🥇 심화: “보기에도
+<h2 id="step-3-심화-보기에도-좋다">Step 3 —  심화: “보기에도
 좋다”</h2>
 <blockquote>
 <p><strong>이 Step이 끝나면</strong>: 3주차 기술을 결합하여 시각적으로
@@ -516,7 +516,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 안 — mouseIsPressed 블록 내부</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (mouseIsPressed) {</span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 마우스 x좌표에 따라 hue가 0~360으로 변화</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">//  마우스 x좌표에 따라 hue가 0~360으로 변화</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> hue <span class="op">=</span> <span class="fu">map</span>(mouseX<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> width<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">360</span>)<span class="op">;</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(hue<span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span>)<span class="op">;</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> brushSize<span class="op">,</span> brushSize)<span class="op">;</span></span>
@@ -527,7 +527,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12
 <div class="sourceCode" id="cb13"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 완전히 지우지 않고 반투명으로 덮기 → 잔상 효과</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span>  <span class="co">// ⭐ 네 번째 값 = alpha (투명도)</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">20</span>)<span class="op">;</span>  <span class="co">//  네 번째 값 = alpha (투명도)</span></span>
 <span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
 <span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">noStroke</span>()<span class="op">;</span></span>
@@ -555,7 +555,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14
 납니다.</p>
 <div class="callout callout-success">
 <div class="callout-title">
-🥇 달성 체크
+ 달성 체크
 </div>
 <ul class="task-list">
 <li><label><input type="checkbox" />3주차 기술(HSB, 잔상, for문, pmouseX
@@ -565,11 +565,11 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14
 <li><label><input type="checkbox" />여러 아이디어를
 <strong>조합</strong>하여 풍성한 결과물이 나왔는가?</label></li>
 </ul>
-<p>🎉 여기까지 하면 🥇 심화 달성 — “보기에도 좋다”</p>
+<p> 여기까지 하면  심화 달성 — “보기에도 좋다”</p>
 </div>
 <hr />
 <h2 id="step-4-확장-선택-남는-시간">Step 4 — 확장 (선택, 남는 시간)</h2>
-<p>🥇까지 했다면, 더 도전해볼 수 있는 것들입니다.</p>
+<p>까지 했다면, 더 도전해볼 수 있는 것들입니다.</p>
 <h3 id="확장-a-속도-기반-필압-드로잉">확장 A: 속도 기반 필압 드로잉</h3>
 <div class="sourceCode" id="cb15"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// draw() 안</span></span>
@@ -614,7 +614,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  clickCount <span class="op">=</span> clickCount <span class="op">+</span> <span class="dv">1</span><span class="op">;</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;clicks:&quot;</span><span class="op">,</span> clickCount)<span class="op">;</span>  <span class="co">// ⭐ 콘솔에서 확인</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;clicks:&quot;</span><span class="op">,</span> clickCount)<span class="op">;</span>  <span class="co">//  콘솔에서 확인</span></span>
 <span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
@@ -641,23 +641,23 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 </thead>
 <tbody>
 <tr>
-<td>🥉 기본</td>
+<td> 기본</td>
 <td>그리고 + 바꾸고 + 지울 수 있다</td>
-<td>⬜</td>
+<td></td>
 </tr>
 <tr>
-<td>🥈 표준</td>
+<td> 표준</td>
 <td>상태 변수로 모드/옵션 추가</td>
-<td>⬜</td>
+<td></td>
 </tr>
 <tr>
-<td>🥇 심화</td>
+<td> 심화</td>
 <td>3주차 기술 결합으로 시각적 완성</td>
-<td>⬜</td>
+<td></td>
 </tr>
 </tbody>
 </table></div>
-<p>🥉만 했어도 오늘 목표 완료입니다. 다음에 이어서 발전시킬 수도
+<p>만 했어도 오늘 목표 완료입니다. 다음에 이어서 발전시킬 수도
 있습니다.</p>
 <h3 id="오늘-배운-것-3줄-정리">오늘 배운 것 3줄 정리</h3>
 <div class="callout callout-abstract">
@@ -673,7 +673,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 잘못됐는지 찾을 수 있다</li>
 </ol>
 </div>
-<h3 id="주차-예고">🔥 5주차 예고</h3>
+<h3 id="주차-예고"> 5주차 예고</h3>
 <p>오늘 인터랙션으로 <strong>‘반응하는 작품’</strong>을 만들었습니다.
 다음 주에는 <strong>‘스스로 움직이는 작품’</strong>을 만듭니다. 오늘
 <code>count = count + 1</code>로 카운터를 만들었습니다. 같은 원리로
@@ -685,9 +685,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 <p>미리 보면 다음 주 내용을 이해하기 쉬워집니다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -713,7 +713,7 @@ Train 3.3 — else, else if, AND, OR</a></td>
 </table></div>
 
     </article>
-    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#완성-기준-안내-실습-시작">완성 기준 안내 + 실습 시작</a></li><li class="toc-level-3"><a href="#완성-기준">완성 기준</a></li><li class="toc-level-3"><a href="#세-가지-방향">세 가지 방향</a></li><li class="toc-level-3"><a href="#환경-설정-스타터-코드">환경 설정 + 스타터 코드</a></li><li class="toc-level-2"><a href="#step-1-기본-그리고-바꾸고-지울-수-있다">Step 1 — 🥉 기본: “그리고, 바꾸고, 지울 수 있다”</a></li><li class="toc-level-3"><a href="#방향-a-드로잉-도구-색상-전환-추가">방향 A: 드로잉 도구 — 색상 전환 추가</a></li><li class="toc-level-3"><a href="#방향-b-인터랙티브-패턴-토글-추가">방향 B: 인터랙티브 패턴 — 토글 추가</a></li><li class="toc-level-3"><a href="#방향-c-리액티브-비주얼-마우스-반응-패턴">방향 C: 리액티브 비주얼 — 마우스 반응 패턴</a></li><li class="toc-level-2"><a href="#step-2-표준-선택지가-있다">Step 2 — 🥈 표준: “선택지가 있다”</a></li><li class="toc-level-3"><a href="#방향-a-도형-전환-mousebutton-지우기">방향 A: 도형 전환 + mouseButton 지우기</a></li><li class="toc-level-3"><a href="#방향-b-키보드로-색상-팔레트-전환">방향 B: 키보드로 색상 팔레트 전환</a></li><li class="toc-level-3"><a href="#방향-c-마우스-클릭으로-반응-범위-변경">방향 C: 마우스 클릭으로 반응 범위 변경</a></li><li class="toc-level-2"><a href="#step-3-심화-보기에도-좋다">Step 3 — 🥇 심화: “보기에도 좋다”</a></li><li class="toc-level-3"><a href="#아이디어-1-pmousex로-부드러운-선-드로잉">아이디어 1: pmouseX로 부드러운 선 드로잉</a></li><li class="toc-level-3"><a href="#아이디어-2-hsb-색상-마우스-위치로-색상-매핑">아이디어 2: HSB 색상 + 마우스 위치로 색상 매핑</a></li><li class="toc-level-3"><a href="#아이디어-3-잔상-투명도-효과">아이디어 3: 잔상 + 투명도 효과</a></li><li class="toc-level-3"><a href="#아이디어-4-for문으로-스프레이-효과">아이디어 4: for문으로 스프레이 효과</a></li><li class="toc-level-2"><a href="#step-4-확장-선택-남는-시간">Step 4 — 확장 (선택, 남는 시간)</a></li><li class="toc-level-3"><a href="#확장-a-속도-기반-필압-드로잉">확장 A: 속도 기반 필압 드로잉</a></li><li class="toc-level-3"><a href="#확장-b-dist로-원형-버튼-구현">확장 B: dist()로 원형 버튼 구현</a></li><li class="toc-level-3"><a href="#확장-c-클릭-카운터로-비주얼-변화">확장 C: 클릭 카운터로 비주얼 변화</a></li><li class="toc-level-2"><a href="#마무리">마무리</a></li><li class="toc-level-3"><a href="#스케치-저장-확인">스케치 저장 확인</a></li><li class="toc-level-3"><a href="#완성-기준-최종-확인">완성 기준 최종 확인</a></li><li class="toc-level-3"><a href="#오늘-배운-것-3줄-정리">오늘 배운 것 3줄 정리</a></li><li class="toc-level-3"><a href="#주차-예고">5주차 예고</a></li><li class="toc-level-3"><a href="#선택-사전-학습-영상">(선택) 사전 학습 영상</a></li></ol></nav>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#완성-기준-안내-실습-시작">완성 기준 안내 + 실습 시작</a></li><li class="toc-level-3"><a href="#완성-기준">완성 기준</a></li><li class="toc-level-3"><a href="#세-가지-방향">세 가지 방향</a></li><li class="toc-level-3"><a href="#환경-설정-스타터-코드">환경 설정 + 스타터 코드</a></li><li class="toc-level-2"><a href="#step-1-기본-그리고-바꾸고-지울-수-있다">Step 1 —  기본: “그리고, 바꾸고, 지울 수 있다”</a></li><li class="toc-level-3"><a href="#방향-a-드로잉-도구-색상-전환-추가">방향 A: 드로잉 도구 — 색상 전환 추가</a></li><li class="toc-level-3"><a href="#방향-b-인터랙티브-패턴-토글-추가">방향 B: 인터랙티브 패턴 — 토글 추가</a></li><li class="toc-level-3"><a href="#방향-c-리액티브-비주얼-마우스-반응-패턴">방향 C: 리액티브 비주얼 — 마우스 반응 패턴</a></li><li class="toc-level-2"><a href="#step-2-표준-선택지가-있다">Step 2 —  표준: “선택지가 있다”</a></li><li class="toc-level-3"><a href="#방향-a-도형-전환-mousebutton-지우기">방향 A: 도형 전환 + mouseButton 지우기</a></li><li class="toc-level-3"><a href="#방향-b-키보드로-색상-팔레트-전환">방향 B: 키보드로 색상 팔레트 전환</a></li><li class="toc-level-3"><a href="#방향-c-마우스-클릭으로-반응-범위-변경">방향 C: 마우스 클릭으로 반응 범위 변경</a></li><li class="toc-level-2"><a href="#step-3-심화-보기에도-좋다">Step 3 —  심화: “보기에도 좋다”</a></li><li class="toc-level-3"><a href="#아이디어-1-pmousex로-부드러운-선-드로잉">아이디어 1: pmouseX로 부드러운 선 드로잉</a></li><li class="toc-level-3"><a href="#아이디어-2-hsb-색상-마우스-위치로-색상-매핑">아이디어 2: HSB 색상 + 마우스 위치로 색상 매핑</a></li><li class="toc-level-3"><a href="#아이디어-3-잔상-투명도-효과">아이디어 3: 잔상 + 투명도 효과</a></li><li class="toc-level-3"><a href="#아이디어-4-for문으로-스프레이-효과">아이디어 4: for문으로 스프레이 효과</a></li><li class="toc-level-2"><a href="#step-4-확장-선택-남는-시간">Step 4 — 확장 (선택, 남는 시간)</a></li><li class="toc-level-3"><a href="#확장-a-속도-기반-필압-드로잉">확장 A: 속도 기반 필압 드로잉</a></li><li class="toc-level-3"><a href="#확장-b-dist로-원형-버튼-구현">확장 B: dist()로 원형 버튼 구현</a></li><li class="toc-level-3"><a href="#확장-c-클릭-카운터로-비주얼-변화">확장 C: 클릭 카운터로 비주얼 변화</a></li><li class="toc-level-2"><a href="#마무리">마무리</a></li><li class="toc-level-3"><a href="#스케치-저장-확인">스케치 저장 확인</a></li><li class="toc-level-3"><a href="#완성-기준-최종-확인">완성 기준 최종 확인</a></li><li class="toc-level-3"><a href="#오늘-배운-것-3줄-정리">오늘 배운 것 3줄 정리</a></li><li class="toc-level-3"><a href="#주차-예고">5주차 예고</a></li><li class="toc-level-3"><a href="#선택-사전-학습-영상">(선택) 사전 학습 영상</a></li></ol></nav>
   </main>
   <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
 </body>

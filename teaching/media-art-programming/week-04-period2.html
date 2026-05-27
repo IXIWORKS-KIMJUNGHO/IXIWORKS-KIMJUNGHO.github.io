@@ -73,13 +73,13 @@ href="week-04-period3.html">week-04-period3-student</a> (학생 주도 실습:
 학습 목표
 </div>
 <ul>
-<li>✅ <code>mouseIsPressed</code>와 <code>mousePressed()</code>의
+<li> <code>mouseIsPressed</code>와 <code>mousePressed()</code>의
 차이를 이해하고 활용할 수 있습니다</li>
-<li>✅ <code>keyPressed()</code>·<code>key</code>·<code>keyCode</code>로
+<li> <code>keyPressed()</code>·<code>key</code>·<code>keyCode</code>로
 키보드 입력을 처리할 수 있습니다</li>
-<li>✅ 상태 변수와 <code>!</code> 연산자로 토글 패턴을 구현할 수
+<li> 상태 변수와 <code>!</code> 연산자로 토글 패턴을 구현할 수
 있습니다</li>
-<li>✅ 조건문·인터랙션·반복문을 결합해 인터랙티브 스케치를 설계할 수
+<li> 조건문·인터랙션·반복문을 결합해 인터랙티브 스케치를 설계할 수
 있습니다</li>
 </ul>
 </div>
@@ -100,7 +100,7 @@ href="week-04-period3.html">week-04-period3-student</a> (학생 주도 실습:
 방법을 배웁니다. 1교시의 조건문 + 2교시의 이벤트 = <strong>본격적인
 인터랙티브 작품</strong>입니다.</p>
 <hr />
-<h2 id="심화-개념-1-마우스-인터랙션">💡 심화 개념 1 — 마우스
+<h2 id="심화-개념-1-마우스-인터랙션"> 심화 개념 1 — 마우스
 인터랙션</h2>
 <h3 id="mouseispressed-누르고-있는-동안"><code>mouseIsPressed</code> —
 누르고 있는 동안</h3>
@@ -138,7 +138,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ⭐ 마우스를 누르고 있는 동안 원 그리기</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  마우스를 누르고 있는 동안 원 그리기</span></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  }</span>
@@ -149,7 +149,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-
 <div class="sourceCode" id="cb2"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>  <span class="co">// ⭐ setup()으로 이동: 한 번만 실행</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>  <span class="co">//  setup()으로 이동: 한 번만 실행</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
@@ -177,7 +177,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 콘솔에 마우스 정보 출력</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="co">//  콘솔에 마우스 정보 출력</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">&quot;mouseX:&quot;</span><span class="op">,</span> mouseX<span class="op">,</span> <span class="st">&quot;mouseY:&quot;</span><span class="op">,</span> mouseY<span class="op">,</span> <span class="st">&quot;눌림:&quot;</span><span class="op">,</span> mouseIsPressed)<span class="op">;</span></span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><strong>콘솔 출력 예시:</strong></p>
@@ -214,7 +214,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseIsPressed) {</span>
 <span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stroke</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">150</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span></span>
 <span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">strokeWeight</span>(<span class="dv">4</span>)<span class="op">;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ⭐ 이전 위치 → 현재 위치로 선 긋기</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">//  이전 위치 → 현재 위치로 선 긋기</span></span>
 <span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">line</span>(pmouseX<span class="op">,</span> pmouseY<span class="op">,</span> mouseX<span class="op">,</span> mouseY)<span class="op">;</span></span>
 <span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -248,7 +248,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="co">// draw()에서는 특별히 할 일 없음</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">// ⭐ draw() 밖에 별도로 작성!</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">//  draw() 밖에 별도로 작성!</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -334,7 +334,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-
 <p><code>LEFT</code>, <code>RIGHT</code>는 P5.js가 제공하는 상수입니다.
 왼쪽은 그리기, 오른쪽은 지우기.</p>
 <hr />
-<h2 id="심화-개념-2-키보드-인터랙션">💡 심화 개념 2 — 키보드
+<h2 id="심화-개념-2-키보드-인터랙션"> 심화 개념 2 — 키보드
 인터랙션</h2>
 <p>키보드는 마우스와 패턴이 거의 같습니다.</p>
 <h3 id="keypressed-키를-누를-때-1회-실행"><code>keyPressed()</code> —
@@ -353,7 +353,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ⭐ 키를 누를 때마다 랜덤 위치에 원 그리기</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="co">//  키를 누를 때마다 랜덤 위치에 원 그리기</span></span>
 <span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>)<span class="op">,</span> <span class="fu">random</span>(<span class="dv">255</span>))<span class="op">;</span></span>
 <span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="fu">random</span>(width)<span class="op">,</span> <span class="fu">random</span>(height)<span class="op">,</span> <span class="dv">50</span><span class="op">,</span> <span class="dv">50</span>)<span class="op">;</span></span>
 <span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -457,7 +457,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13
 <span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
 <span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">// ⭐ 위로 10px 이동</span></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">-=</span> <span class="dv">10</span><span class="op">;</span>  <span class="co">//  위로 10px 이동</span></span>
 <span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
 <span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>    y <span class="op">+=</span> <span class="dv">10</span><span class="op">;</span></span>
 <span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> LEFT_ARROW) {</span>
@@ -474,9 +474,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13
 정리표</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 28%" />
-<col style="width: 24%" />
-<col style="width: 47%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -523,14 +523,14 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13
 누르는 동안 계속 이동합니다.</p>
 </div>
 <hr />
-<h2 id="심화-개념-3-상태-변수로-토글-구현">💡 심화 개념 3 — 상태 변수로
+<h2 id="심화-개념-3-상태-변수로-토글-구현"> 심화 개념 3 — 상태 변수로
 토글 구현</h2>
 <p><strong>토글</strong> — 클릭할 때마다 모드가 바뀌는 것.</p>
 <h3 id="boolean-토글">boolean 토글</h3>
-<p>‘클릭하면 빨강 ↔︎ 파랑이 전환되는’ 기능을 만듭니다. 직관적으로는
+<p>‘클릭하면 빨강 ↔ 파랑이 전환되는’ 기능을 만듭니다. 직관적으로는
 이렇게 쓸 수 있습니다.</p>
 <div class="sourceCode" id="cb14"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 직관적이지만 긴 버전</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  직관적이지만 긴 버전</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (isRed <span class="op">===</span> <span class="kw">false</span>) {</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    isRed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span></span>
@@ -540,7 +540,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14
 <span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>이것을 <strong>한 줄</strong>로 줄일 수 있습니다.</p>
 <div class="sourceCode" id="cb15"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ✅ 간단한 버전</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  간단한 버전</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  isRed <span class="op">=</span> <span class="op">!</span>isRed<span class="op">;</span>  <span class="co">// true ↔ false 토글!</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -548,7 +548,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 연산자)로 <code>true</code>면 <code>false</code>, <code>false</code>면
 <code>true</code>로 뒤집습니다. 전체 코드:</p>
 <div class="sourceCode" id="cb16"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> isRed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>  <span class="co">// ⭐ 상태 변수: draw() 밖에 선언</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="kw">let</span> isRed <span class="op">=</span> <span class="kw">true</span><span class="op">;</span>  <span class="co">//  상태 변수: draw() 밖에 선언</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
@@ -563,7 +563,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16
 <span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
-<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  isRed <span class="op">=</span> <span class="op">!</span>isRed<span class="op">;</span>  <span class="co">// ⭐ true ↔ false 토글!</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a>  isRed <span class="op">=</span> <span class="op">!</span>isRed<span class="op">;</span>  <span class="co">//  true ↔ false 토글!</span></span>
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><code>isRed</code> 변수를 <strong><code>draw()</code> 밖</strong> 맨
 위에 선언했습니다. <code>draw()</code> 안에 쓰면 매 프레임
@@ -589,9 +589,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb17
 <span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">keyPressed</span>() {</span>
 <span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (keyCode <span class="op">===</span> UP_ARROW) {</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>   <span class="co">// ⭐ 위 방향키: 크기 증가</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">+=</span> <span class="dv">5</span><span class="op">;</span>   <span class="co">//  위 방향키: 크기 증가</span></span>
 <span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (keyCode <span class="op">===</span> DOWN_ARROW) {</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">-=</span> <span class="dv">5</span><span class="op">;</span>   <span class="co">// ⭐ 아래 방향키: 크기 감소</span></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>    brushSize <span class="op">-=</span> <span class="dv">5</span><span class="op">;</span>   <span class="co">//  아래 방향키: 크기 감소</span></span>
 <span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 최소 크기 보장</span></span>
@@ -615,13 +615,13 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 <span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(count<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span>  <span class="co">// ⭐ 화면에 숫자 표시</span></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">text</span>(count<span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">200</span>)<span class="op">;</span>  <span class="co">//  화면에 숫자 표시</span></span>
 <span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">mousePressed</span>() {</span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">// ⭐ 클릭할 때마다 1 증가</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a>  count <span class="op">=</span> count <span class="op">+</span> <span class="dv">1</span><span class="op">;</span>  <span class="co">//  클릭할 때마다 1 증가</span></span>
 <span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p>토글은 <code>true ↔︎ false</code> 두 값을 오가고, 카운터는 <strong>한
+<p>토글은 <code>true ↔ false</code> 두 값을 오가고, 카운터는 <strong>한
 방향으로 계속 쌓입니다</strong>. 이 ‘누적’ 패턴은 다음 주
 <strong>애니메이션</strong>에서 핵심이 됩니다
 (<code>x = x + speed</code>도 같은 구조).</p>
@@ -730,7 +730,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20
 <span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> y <span class="op">=</span> j <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">;</span></span>
 <span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>      <span class="kw">let</span> d <span class="op">=</span> <span class="fu">dist</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> x<span class="op">,</span> y)<span class="op">;</span></span>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="co">// ⭐ 마우스 가까이: 크고 밝게 / 멀리: 작고 어둡게</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>      <span class="co">//  마우스 가까이: 크고 밝게 / 멀리: 작고 어둡게</span></span>
 <span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>      <span class="cf">if</span> (d <span class="op">&lt;</span> <span class="dv">100</span>) {</span>
 <span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> size <span class="op">=</span> <span class="fu">map</span>(d<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">35</span><span class="op">,</span> <span class="dv">10</span>)<span class="op">;</span></span>
 <span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="kw">let</span> brightness <span class="op">=</span> <span class="fu">map</span>(d<span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
@@ -807,9 +807,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21
 <p>실습 전에 자주 하는 실수들을 미리 알아둡니다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -856,14 +856,14 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb21
 <code>draw()</code>의 <strong>중괄호 밖</strong>, 같은 들여쓰기 레벨에
 나란히 써야 합니다.</p>
 <div class="sourceCode" id="cb22"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 잘못된 예</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  잘못된 예</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">function</span> <span class="fu">mousePressed</span>() {  <span class="co">// draw 안에 작성하지 않습니다!</span></span>
 <span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">// ...</span></span>
 <span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">// ✅ 올바른 예</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co">//  올바른 예</span></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="co">// ...</span></span>
 <span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>}</span>
@@ -879,9 +879,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb22
 <p>세 가지 방향 중 하나를 골라 시작합니다 (자유롭게 섞어도 됩니다).</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>

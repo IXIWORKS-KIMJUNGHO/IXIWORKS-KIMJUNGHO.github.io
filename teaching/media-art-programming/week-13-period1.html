@@ -45,8 +45,8 @@ href="week-13-period2.html">week-13-period2-student</a> (Emitter와
 </blockquote>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -75,11 +75,11 @@ href="week-13-period2.html">week-13-period2-student</a> (Emitter와
 학습 목표
 </div>
 <ul>
-<li>✅ Particle 클래스를 설계하고 수명(lifespan)과 페이드아웃을 구현할
+<li> Particle 클래스를 설계하고 수명(lifespan)과 페이드아웃을 구현할
 수 있습니다</li>
-<li>✅ 배열에 <code>push()</code>로 파티클을 생성하고
+<li> 배열에 <code>push()</code>로 파티클을 생성하고
 <code>splice()</code>로 소멸 처리할 수 있습니다</li>
-<li>✅ 배열을 역순으로 순회해야 하는 이유를 설명할 수 있습니다</li>
+<li> 배열을 역순으로 순회해야 하는 이유를 설명할 수 있습니다</li>
 </ul>
 </div>
 <hr />
@@ -129,7 +129,7 @@ System)</strong>입니다.</p>
 <p>여기에 <strong>수명(lifespan)</strong>이라는 개념 하나만 추가하면
 파티클이 완성됩니다.</p>
 <hr />
-<h2 id="핵심-개념-1-파티클-움직이는-객체-수명">💡 핵심 개념 1 — 파티클 =
+<h2 id="핵심-개념-1-파티클-움직이는-객체-수명"> 핵심 개념 1 — 파티클 =
 움직이는 객체 + 수명</h2>
 <p>9~10주차에서 만들었던 <code>Mover</code> 클래스를 떠올려 봅니다.
 위치(position), 속도(velocity), 가속도(acceleration)가 있었습니다. 힘을
@@ -163,7 +163,7 @@ lifespan</figcaption>
 <p><strong>답</strong>: 약 127~128프레임. 60fps 기준 약 2초.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-particle-클래스-설계">💡 핵심 개념 2 — Particle
+<h2 id="핵심-개념-2-particle-클래스-설계"> 핵심 개념 2 — Particle
 클래스 설계</h2>
 <p>7주차에서 클래스를 만들 때의 패턴을 떠올려 봅니다 —
 <code>constructor</code>, 메서드들, 그리고 프로퍼티. Particle 클래스의
@@ -253,7 +253,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-
 사라집니다. 약 25프레임, 0.4초 정도.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-3-배열로-다수의-파티클-관리">💡 핵심 개념 3 — 배열로
+<h2 id="핵심-개념-3-배열로-다수의-파티클-관리"> 핵심 개념 3 — 배열로
 다수의 파티클 관리</h2>
 <p>파티클 하나로는 별로 인상적이지 않습니다. 파티클 시스템의 매력은
 <strong>수백 개</strong>가 동시에 움직일 때 나타납니다. 배열을 사용해서
@@ -426,7 +426,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-
 튜닝이고, 아트에서 가장 중요한 부분 중 하나입니다.</p>
 </div>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <p>핵심을 세 줄로 요약합니다.</p>
 <ol type="1">
 <li><strong>파티클 = Mover + 수명(lifespan)</strong> — 9~10주차에서 배운
@@ -436,7 +436,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-
 <li><strong>배열 관리</strong> — <code>push()</code>로 생성,
 <code>splice()</code>로 제거, 반드시 <strong>역순 순회</strong></li>
 </ol>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>지금은 <code>draw()</code> 안에서 파티클 생성과 관리를 직접 합니다.
 파티클 시스템이 하나일 때는 괜찮지만, 여러 개가 필요하면
 <code>draw()</code>가 금방 복잡해집니다. 2교시에서는

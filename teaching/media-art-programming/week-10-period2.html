@@ -72,13 +72,13 @@ href="week-10-period3.html">week-10-period3-student</a> (학생 주도
 학습 목표
 </div>
 <ul>
-<li>✅ <code>applyForce()</code>를 두 번 이상 호출하여 <strong>여러 힘을
+<li> <code>applyForce()</code>를 두 번 이상 호출하여 <strong>여러 힘을
 동시에</strong> 적용하고, 합력 개념을 이해한다</li>
-<li>✅ 질량(mass)이 다른 객체들이 같은 힘에 다르게 반응하는 시뮬레이션을
+<li> 질량(mass)이 다른 객체들이 같은 힘에 다르게 반응하는 시뮬레이션을
 만든다</li>
-<li>✅ 마찰력(friction)을 ‘브레이크’ 비유로 이해하고 코드로
+<li> 마찰력(friction)을 ‘브레이크’ 비유로 이해하고 코드로
 구현한다</li>
-<li>✅ 9주차 정적 메서드 패턴(<code>p5.Vector.mult/sub/div</code>)을
+<li> 9주차 정적 메서드 패턴(<code>p5.Vector.mult/sub/div</code>)을
 일관되게 사용한다</li>
 </ul>
 </div>
@@ -126,11 +126,11 @@ Q4. 가속도를 매 프레임 왜 초기화하나요?
 <p>1교시에서는 <strong>중력 하나, 질량 1</strong>까지 다뤘습니다. 오늘은
 다음 세 가지를 차례로 추가합니다.</p>
 <ul>
-<li>1️⃣ <strong>바람</strong> — <code>applyForce()</code>를 두 번
+<li>1⃣ <strong>바람</strong> — <code>applyForce()</code>를 두 번
 호출하면 힘이 누적된다는 의미를 확인합니다.</li>
-<li>2️⃣ <strong>질량 차이</strong> — 같은 힘에 다르게 반응하는 객체들을
+<li>2⃣ <strong>질량 차이</strong> — 같은 힘에 다르게 반응하는 객체들을
 동시에 만듭니다.</li>
-<li>3️⃣ <strong>마찰력</strong> — ‘브레이크’ 비유로 속도를 줄이는 힘을
+<li>3⃣ <strong>마찰력</strong> — ‘브레이크’ 비유로 속도를 줄이는 힘을
 구현합니다.</li>
 </ul>
 <p>이 세 가지를 마치면 움직임이 더 자연스럽고 복합적으로 보입니다.
@@ -144,9 +144,9 @@ Q4. 가속도를 매 프레임 왜 초기화하나요?
 사용합니다. 표로 미리 복습해 둘 테니, 막히면 이 표로 돌아옵시다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 35%" />
-<col style="width: 19%" />
-<col style="width: 45%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -205,7 +205,7 @@ Q4. 가속도를 매 프레임 왜 초기화하나요?
 예방할 수 있습니다.</p>
 </div>
 <hr />
-<h2 id="심화-개념-1-바람-추가-여러-힘의-누적">💡 심화 개념 1 — 바람
+<h2 id="심화-개념-1-바람-추가-여러-힘의-누적"> 심화 개념 1 — 바람
 추가: 여러 힘의 누적</h2>
 <p>1교시에서는 중력 하나만 적용했습니다. 이제
 <strong>바람(wind)</strong>을 추가합니다. 핵심 질문은 이것입니다.
@@ -327,7 +327,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 <p><em>답: (0.1, 0.2). 두 벡터를 더한 값입니다.</em></p>
 </div>
 <hr />
-<h2 id="심화-개념-2-질량mass에-따른-차이">💡 심화 개념 2 — 질량(mass)에
+<h2 id="심화-개념-2-질량mass에-따른-차이"> 심화 개념 2 — 질량(mass)에
 따른 차이</h2>
 <p>1교시에서는 <code>mass</code>를 1로 고정했습니다.
 <code>a = F / 1 = F</code>이므로 사실상 <code>F = a</code>인 단순한
@@ -507,7 +507,7 @@ alt="07 mass response comparison" />
 변경되지 않았다</strong>는 것입니다. <code>mass</code> 데이터 하나만
 달라진 결과입니다.</p>
 <hr />
-<h2 id="심화-개념-3-마찰력-브레이크-비유로-풀이">💡 심화 개념 3 —
+<h2 id="심화-개념-3-마찰력-브레이크-비유로-풀이"> 심화 개념 3 —
 마찰력: ‘브레이크’ 비유로 풀이</h2>
 <p>지금까지 중력과 바람을 살펴봤습니다. 둘 다 <strong>한 방향으로 미는
 힘</strong>입니다. 마찰력은 성격이 조금 다릅니다. 비유 → 코드 → 실험, 세
@@ -630,9 +630,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10
 c=0.05라면 마찰력 벡터는 어떻게 계산될까요?</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -776,7 +776,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13
 원리입니다.</em></p>
 </div>
 <hr />
-<h2 id="심화-개념-4-applyfriction-메서드화-마우스-인터랙션">💡 심화 개념
+<h2 id="심화-개념-4-applyfriction-메서드화-마우스-인터랙션"> 심화 개념
 4 — applyFriction() 메서드화 + 마우스 인터랙션</h2>
 <p>draw() 안에 마찰력 4줄이 들어 있어 코드가 다소 산만해졌습니다.
 7주차에서 배운 것처럼, 복잡한 로직은 <strong>메서드 안으로
@@ -1029,9 +1029,9 @@ preview</figcaption>
 <h3 id="필수-요구사항">필수 요구사항</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 13%" />
-<col style="width: 43%" />
-<col style="width: 43%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -1080,12 +1080,12 @@ preview</figcaption>
 <p>실습 중 자주 마주치는 오류 패턴입니다. 아래 표에서 원인과 수정 방법을
 확인합니다.</p>
 </div>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 14%" />
-<col style="width: 28%" />
-<col style="width: 28%" />
-<col style="width: 28%" />
+<col />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>

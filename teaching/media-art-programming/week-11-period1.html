@@ -70,11 +70,11 @@ href="week-11-period2.html">week-11-period2-student</a> (데이터를
 학습 목표
 </div>
 <ul>
-<li>✅ <code>preload</code> → <code>setup</code> → <code>draw</code>의
+<li> <code>preload</code> → <code>setup</code> → <code>draw</code>의
 실행 순서를 설명할 수 있습니다</li>
-<li>✅ <code>loadJSON</code>으로 JSON 파일을 불러오고 점 표기법으로
+<li> <code>loadJSON</code>으로 JSON 파일을 불러오고 점 표기법으로
 데이터에 접근할 수 있습니다</li>
-<li>✅ <code>loadTable</code>로 CSV 파일을 불러오고
+<li> <code>loadTable</code>로 CSV 파일을 불러오고
 <code>getString</code> / <code>getNum</code>으로 값을 꺼낼 수
 있습니다</li>
 </ul>
@@ -148,7 +148,7 @@ alt="10 flight patterns style" />
 번역됐다</strong>는 점이 같습니다. 오늘 배우는 기술이 이 과정을 코드로
 가능하게 합니다. 표현 방향은 작업자의 선택입니다.</p>
 <hr />
-<h2 id="핵심-개념-1-json과-csv-두-가지-데이터-파일-형식">💡 핵심 개념 1
+<h2 id="핵심-개념-1-json과-csv-두-가지-데이터-파일-형식"> 핵심 개념 1
 — JSON과 CSV, 두 가지 데이터 파일 형식</h2>
 <p>오늘 다룰 파일 형식은 두 가지입니다. 코드로 들어가기 전에 파일 자체의
 모양을 봅니다.</p>
@@ -192,9 +192,9 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="
 <h3 id="둘을-언제-쓸까">둘을 언제 쓸까</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -221,7 +221,7 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="
 </tr>
 <tr>
 <td>공통점</td>
-<td>둘 다 <strong>그냥 텍스트 파일</strong>. 메모장으로 열 수
+<td>둘 다 <strong>일반 텍스트 파일</strong>. 메모장으로 열 수
 있습니다</td>
 <td></td>
 </tr>
@@ -249,7 +249,7 @@ JSON으로 진행하지만, CSV도 같이 알면 어디서 데이터를 가져�
 구조라서 잘 맞습니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-preload가-왜-따로-있을까">💡 핵심 개념 2 —
+<h2 id="핵심-개념-2-preload가-왜-따로-있을까"> 핵심 개념 2 —
 <code>preload()</code>가 왜 따로 있을까</h2>
 <h3 id="지금까지의-실행-순서">지금까지의 실행 순서</h3>
 <p>지금까지 사용한 P5.js의 흐름은 다음과 같았습니다.</p>
@@ -326,7 +326,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 <code>draw()</code> 반복.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-3-loadjson으로-json-불러오기">💡 핵심 개념 3 —
+<h2 id="핵심-개념-3-loadjson으로-json-불러오기"> 핵심 개념 3 —
 <code>loadJSON()</code>으로 JSON 불러오기</h2>
 <h3 id="파일-준비">파일 준비</h3>
 <p>P5.js Web Editor에서 데이터 파일을 추가합니다.</p>
@@ -336,7 +336,7 @@ alt="14 p5 file upload steps" />
 <figcaption aria-hidden="true">14 p5 file upload steps</figcaption>
 </figure>
 <ol type="1">
-<li>화면 왼쪽 위 화살표(▶) 클릭해서 파일 패널 열기</li>
+<li>화면 왼쪽 위 화살표() 클릭해서 파일 패널 열기</li>
 <li>파일 목록 위쪽의 <strong>▼</strong> 클릭 → <strong>“Create
 File”</strong> 선택</li>
 <li>파일명 <code>data.json</code> 입력 후 생성</li>
@@ -425,7 +425,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10
 대구.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-4-loadtable로-csv-불러오기">💡 핵심 개념 4 —
+<h2 id="핵심-개념-4-loadtable로-csv-불러오기"> 핵심 개념 4 —
 <code>loadTable()</code>로 CSV 불러오기</h2>
 <h3 id="파일-준비-1">파일 준비</h3>
 <p>P5.js Web Editor에서 <code>data.csv</code> 파일을 새로 만들고 아래
@@ -474,9 +474,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14
 <li><strong><code>getNum(행번호, "열이름")</code></strong> — 숫자
 가져오기</li>
 </ul>
-<p>CSV 파일에서는 모든 값이 일단 <strong>글자로</strong> 저장됩니다.
+<p>CSV 파일에서는 모든 값이 먼저 <strong>글자로</strong> 저장됩니다.
 숫자도 <code>"9736027"</code>이라는 글자로 들어 있습니다.
-<code>getNum</code>은 그걸 진짜 숫자로 바꿔주는 함수입니다.</p>
+<code>getNum</code>은 그 값을 실제 숫자로 바꿔주는 함수입니다.</p>
 <div class="callout callout-warning">
 <div class="callout-title">
 흔한 실수
@@ -504,9 +504,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 <h3 id="json과-csv-비교">JSON과 CSV 비교</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -583,9 +583,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb16
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(cityData<span class="op">.</span><span class="at">cities</span>[<span class="dv">0</span>]<span class="op">.</span><span class="at">name</span>)<span class="op">;</span></span>
 <span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <ol start="4" type="1">
-<li>▶ 실행 → 콘솔 열기</li>
+<li> 실행 → 콘솔 열기</li>
 <li>첫 줄에 객체, 두 번째 줄에 <code>"서울"</code>이 찍히는지 확인</li>
-<li>콘솔에서 객체 옆 화살표(▶)를 클릭해 펼쳐 보면 데이터 구조가 한눈에
+<li>콘솔에서 객체 옆 화살표()를 클릭해 펼쳐 보면 데이터 구조가 한눈에
 들어옵니다</li>
 </ol>
 <p>시각화 들어가기 전에 항상 이 단계를 거치는 습관을 들이세요.</p>
@@ -640,13 +640,13 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 같은 에러를 만나면 ‘<code>preload</code> 빼먹었구나’ 떠올리면
 됩니다.</p>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <h3 id="한-화면-요약">한 화면 요약</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -682,7 +682,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb18
 <p>JSON은 점으로, CSV는 메서드로, 데이터를 불러올 땐 항상
 <code>preload()</code>로.</p>
 </div>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>1교시에서는 데이터를 불러와서 <strong>콘솔에 찍는 단계</strong>까지
 진행했습니다. 2교시에서는 이 데이터를 <strong>그림</strong>으로
 바꿉니다.</p>

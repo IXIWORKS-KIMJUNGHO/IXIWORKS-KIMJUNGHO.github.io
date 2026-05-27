@@ -70,12 +70,12 @@ href="week-03-period2.html">week-03-period2-student</a> (for 반복문과
 학습 목표
 </div>
 <ul>
-<li>✅ RGB 색상 모드를 이해하고
+<li> RGB 색상 모드를 이해하고
 <code>fill()</code>·<code>stroke()</code>·<code>background()</code>에
 적용할 수 있습니다</li>
-<li>✅ alpha(투명도)의 원리를 이해하고 도형 겹치기·잔상 효과에 활용할 수
+<li> alpha(투명도)의 원리를 이해하고 도형 겹치기·잔상 효과에 활용할 수
 있습니다</li>
-<li>✅ HSB 색상 모드를 이해하고 RGB와 상황에 맞게 선택해 쓸 수
+<li> HSB 색상 모드를 이해하고 RGB와 상황에 맞게 선택해 쓸 수
 있습니다</li>
 </ul>
 </div>
@@ -140,7 +140,7 @@ href="https://www.tylerxhobbs.com/words/fidenza">작가 기술 설명</a></p>
 <p>오늘 배우는 RGB와 HSB를 자유자재로 쓸 수 있으면, 여러분의 작품이
 표현할 수 있는 세계가 넓어집니다.</p>
 <hr />
-<h2 id="핵심-개념-1-rgb-색상-모드">💡 핵심 개념 1 — RGB 색상 모드</h2>
+<h2 id="핵심-개념-1-rgb-색상-모드"> 핵심 개념 1 — RGB 색상 모드</h2>
 <h3 id="빛의-삼원색-가산혼합">빛의 삼원색 — 가산혼합</h3>
 <p>컴퓨터 화면은 <strong>빨강(Red), 초록(Green), 파랑(Blue)</strong> 세
 가지 빛을 섞어서 모든 색을 만듭니다. 이것을 <strong>RGB</strong>라고
@@ -275,14 +275,14 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 <h3 id="fill-인자-개수-정리"><code>fill()</code> 인자 개수 정리</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 35%" />
-<col style="width: 21%" />
-<col style="width: 21%" />
-<col style="width: 21%" />
+<col />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
-<th style="text-align: center;">인자 수</th>
+<th>인자 수</th>
 <th>형태</th>
 <th>의미</th>
 <th>예시</th>
@@ -290,19 +290,19 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">1개</td>
+<td>1개</td>
 <td><code>fill(v)</code></td>
 <td>회색 (0=검정, 255=흰)</td>
 <td><code>fill(128)</code> → 중간 회색</td>
 </tr>
 <tr>
-<td style="text-align: center;">3개</td>
+<td>3개</td>
 <td><code>fill(r, g, b)</code></td>
 <td>RGB 색상</td>
 <td><code>fill(255, 0, 0)</code> → 빨강</td>
 </tr>
 <tr>
-<td style="text-align: center;">4개</td>
+<td>4개</td>
 <td><code>fill(r, g, b, a)</code></td>
 <td>RGB + 투명도</td>
 <td><code>fill(255, 0, 0, 128)</code> → 반투명 빨강</td>
@@ -329,7 +329,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 하늘색입니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-투명도-alpha">💡 핵심 개념 2 — 투명도 (alpha)</h2>
+<h2 id="핵심-개념-2-투명도-alpha"> 핵심 개념 2 — 투명도 (alpha)</h2>
 <h3 id="alpha란">alpha란?</h3>
 <p>RGB 뒤에 <strong>네 번째 숫자</strong>를 추가하면
 <strong>투명도(alpha)</strong>를 조절할 수 있습니다.
@@ -337,21 +337,21 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">alpha 값</th>
+<th>alpha 값</th>
 <th>의미</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><code>0</code></td>
+<td><code>0</code></td>
 <td>완전 투명 (안 보임)</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>128</code></td>
+<td><code>128</code></td>
 <td>반투명 (50%)</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>255</code></td>
+<td><code>255</code></td>
 <td>완전 불투명 (기본값)</td>
 </tr>
 </tbody>
@@ -446,7 +446,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 그려도 아무것도 안 나타납니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-3-hsb-색상-모드">💡 핵심 개념 3 — HSB 색상 모드</h2>
+<h2 id="핵심-개념-3-hsb-색상-모드"> 핵심 개념 3 — HSB 색상 모드</h2>
 <h3 id="rgb의-한계">RGB의 한계</h3>
 <p>RGB로 하늘색 <code>fill(0, 100, 255)</code>를 만들었다고 합시다. 이
 색을 <strong>좀 더 어둡게</strong> 만들려면 세 숫자를 각각 얼마나 줄여야
@@ -459,7 +459,7 @@ R을 올릴지 G를 올릴지도 막막합니다.</p>
 <div class="sourceCode" id="cb7"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">createCanvas</span>(<span class="dv">400</span><span class="op">,</span> <span class="dv">400</span>)<span class="op">;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">// ⭐ HSB 모드 전환</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colorMode</span>(HSB<span class="op">,</span> <span class="dv">360</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>  <span class="co">//  HSB 모드 전환</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p>이 한 줄 이후로 <code>fill()</code>, <code>stroke()</code>,
 <code>background()</code>가 전부 HSB 기준으로 동작합니다. 숫자 네 개는
@@ -481,41 +481,41 @@ alt="03 hsb color wheel" />
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">H 값</th>
+<th>H 값</th>
 <th>색상</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">0 (= 360)</td>
+<td>0 (= 360)</td>
 <td>빨강</td>
 </tr>
 <tr>
-<td style="text-align: center;">30</td>
+<td>30</td>
 <td>주황</td>
 </tr>
 <tr>
-<td style="text-align: center;">60</td>
+<td>60</td>
 <td>노랑</td>
 </tr>
 <tr>
-<td style="text-align: center;">120</td>
+<td>120</td>
 <td>초록</td>
 </tr>
 <tr>
-<td style="text-align: center;">180</td>
+<td>180</td>
 <td>청록</td>
 </tr>
 <tr>
-<td style="text-align: center;">240</td>
+<td>240</td>
 <td>파랑</td>
 </tr>
 <tr>
-<td style="text-align: center;">270</td>
+<td>270</td>
 <td>보라</td>
 </tr>
 <tr>
-<td style="text-align: center;">300</td>
+<td>300</td>
 <td>분홍</td>
 </tr>
 </tbody>
@@ -564,9 +564,9 @@ alt="03 hsb color wheel" />
 <p><strong>미술 용어와의 연결</strong></p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -627,7 +627,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 하려면 세 숫자를 다 건드려야 하는데, HSB는 한 숫자만 바꾸면 됩니다.</p>
 <h3 id="hsb의-실용-색상-팔레트-만들기">HSB의 실용: 색상 팔레트
 만들기</h3>
-<p>HSB의 진짜 장점은 같은 색 계열의 팔레트를 쉽게 만들 수 있다는
+<p>HSB의 핵심 장점은 같은 색 계열의 팔레트를 쉽게 만들 수 있다는
 것입니다. H를 고정하고 S나 B만 바꾸면 됩니다.</p>
 <div class="sourceCode" id="cb9"><pre
 class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">setup</span>() {</span>
@@ -654,9 +654,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-
 <h3 id="rgb-vs-hsb">RGB vs HSB</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -715,7 +715,7 @@ HSV는 HSB와 같습니다 (V = Value = Brightness). HSL이라는 비슷한 모�
 </div>
 <hr />
 <h2 id="예제">예제</h2>
-<h3 id="예제-1-rgb-hsb-같은-색-만들기">예제 1 — RGB ↔︎ HSB 같은 색
+<h3 id="예제-1-rgb-hsb-같은-색-만들기">예제 1 — RGB ↔ HSB 같은 색
 만들기</h3>
 <p>같은 색을 RGB와 HSB 두 방식으로 만듭니다.</p>
 <div class="sourceCode" id="cb10"><pre
@@ -751,7 +751,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">noStroke</span>()<span class="op">;</span></span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="co">// 반투명 빨강, 초록, 파랑 원</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span>    <span class="co">// ⭐ alpha 128 = 반투명 (RGB와 동일한 0~255 범위)</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span>    <span class="co">//  alpha 128 = 반투명 (RGB와 동일한 0~255 범위)</span></span>
 <span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ellipse</span>(<span class="dv">160</span><span class="op">,</span> <span class="dv">170</span><span class="op">,</span> <span class="dv">180</span><span class="op">,</span> <span class="dv">180</span>)<span class="op">;</span></span>
 <span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(<span class="dv">120</span><span class="op">,</span> <span class="dv">80</span><span class="op">,</span> <span class="dv">100</span><span class="op">,</span> <span class="dv">128</span>)<span class="op">;</span></span>
@@ -791,7 +791,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 </ul>
 </div>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <div class="callout callout-abstract">
 <div class="callout-title">
 1교시 핵심 요약
@@ -805,14 +805,14 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 255=불투명 (RGB·HSB 모두 동일)</li>
 </ol>
 </div>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>이제 색상을 자유롭게 다룰 수 있습니다. 2교시에서는 <strong>같은
 코드를 수백 번 반복</strong>하는 <code>for</code> 반복문을 배웁니다.
 반복문과 HSB를 결합하면 <strong>코드 3줄로 무지개</strong>를 만들 수
 있습니다.</p>
 
     </article>
-    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#주차-연결">2주차 연결</a></li><li class="toc-level-3"><a href="#미디어아트-속-색상-다섯-가지-접근">미디어아트 속 색상 — 다섯 가지 접근</a></li><li class="toc-level-2"><a href="#핵심-개념-1-rgb-색상-모드">핵심 개념 1 — RGB 색상 모드</a></li><li class="toc-level-3"><a href="#빛의-삼원색-가산혼합">빛의 삼원색 — 가산혼합</a></li><li class="toc-level-3"><a href="#왜-0255일까">왜 0~255일까?</a></li><li class="toc-level-3"><a href="#fillr-g-b-기본-문법">fill(r, g, b) 기본 문법</a></li><li class="toc-level-3"><a href="#색-혼합-예시">색 혼합 예시</a></li><li class="toc-level-3"><a href="#stroke와-background에도-동일-적용">stroke()와 background()에도 동일 적용</a></li><li class="toc-level-3"><a href="#fill-인자-개수-정리">fill() 인자 개수 정리</a></li><li class="toc-level-3"><a href="#구글-color-picker">구글 Color Picker</a></li><li class="toc-level-2"><a href="#핵심-개념-2-투명도-alpha">핵심 개념 2 — 투명도 (alpha)</a></li><li class="toc-level-3"><a href="#alpha란">alpha란?</a></li><li class="toc-level-3"><a href="#반투명-원-겹치기">반투명 원 겹치기</a></li><li class="toc-level-3"><a href="#stroke에도-alpha-적용">stroke()에도 alpha 적용</a></li><li class="toc-level-3"><a href="#주차-잔상-효과의-원리">2주차 잔상 효과의 원리</a></li><li class="toc-level-2"><a href="#핵심-개념-3-hsb-색상-모드">핵심 개념 3 — HSB 색상 모드</a></li><li class="toc-level-3"><a href="#rgb의-한계">RGB의 한계</a></li><li class="toc-level-3"><a href="#colormodehsb-선언">colorMode(HSB) 선언</a></li><li class="toc-level-3"><a href="#h-s-b-각각의-의미">H, S, B 각각의 의미</a></li><li class="toc-level-3"><a href="#hsb-색상-비교">HSB 색상 비교</a></li><li class="toc-level-3"><a href="#hsb의-실용-색상-팔레트-만들기">HSB의 실용: 색상 팔레트 만들기</a></li><li class="toc-level-3"><a href="#rgb-vs-hsb">RGB vs HSB</a></li><li class="toc-level-2"><a href="#예제">예제</a></li><li class="toc-level-3"><a href="#예제-1-rgb-hsb-같은-색-만들기">예제 1 — RGB ↔︎ HSB 같은 색 만들기</a></li><li class="toc-level-3"><a href="#예제-2-반투명-겹치기">예제 2 — 반투명 겹치기</a></li><li class="toc-level-3"><a href="#예제-3-구글-color-picker로-색-찾기">예제 3 — 구글 Color Picker로 색 찾기</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
+    <nav class="toc" aria-label="문서 구조"><p class="toc-title">문서 구조</p><ol><li class="toc-level-2"><a href="#도입">도입</a></li><li class="toc-level-3"><a href="#주차-연결">2주차 연결</a></li><li class="toc-level-3"><a href="#미디어아트-속-색상-다섯-가지-접근">미디어아트 속 색상 — 다섯 가지 접근</a></li><li class="toc-level-2"><a href="#핵심-개념-1-rgb-색상-모드">핵심 개념 1 — RGB 색상 모드</a></li><li class="toc-level-3"><a href="#빛의-삼원색-가산혼합">빛의 삼원색 — 가산혼합</a></li><li class="toc-level-3"><a href="#왜-0255일까">왜 0~255일까?</a></li><li class="toc-level-3"><a href="#fillr-g-b-기본-문법">fill(r, g, b) 기본 문법</a></li><li class="toc-level-3"><a href="#색-혼합-예시">색 혼합 예시</a></li><li class="toc-level-3"><a href="#stroke와-background에도-동일-적용">stroke()와 background()에도 동일 적용</a></li><li class="toc-level-3"><a href="#fill-인자-개수-정리">fill() 인자 개수 정리</a></li><li class="toc-level-3"><a href="#구글-color-picker">구글 Color Picker</a></li><li class="toc-level-2"><a href="#핵심-개념-2-투명도-alpha">핵심 개념 2 — 투명도 (alpha)</a></li><li class="toc-level-3"><a href="#alpha란">alpha란?</a></li><li class="toc-level-3"><a href="#반투명-원-겹치기">반투명 원 겹치기</a></li><li class="toc-level-3"><a href="#stroke에도-alpha-적용">stroke()에도 alpha 적용</a></li><li class="toc-level-3"><a href="#주차-잔상-효과의-원리">2주차 잔상 효과의 원리</a></li><li class="toc-level-2"><a href="#핵심-개념-3-hsb-색상-모드">핵심 개념 3 — HSB 색상 모드</a></li><li class="toc-level-3"><a href="#rgb의-한계">RGB의 한계</a></li><li class="toc-level-3"><a href="#colormodehsb-선언">colorMode(HSB) 선언</a></li><li class="toc-level-3"><a href="#h-s-b-각각의-의미">H, S, B 각각의 의미</a></li><li class="toc-level-3"><a href="#hsb-색상-비교">HSB 색상 비교</a></li><li class="toc-level-3"><a href="#hsb의-실용-색상-팔레트-만들기">HSB의 실용: 색상 팔레트 만들기</a></li><li class="toc-level-3"><a href="#rgb-vs-hsb">RGB vs HSB</a></li><li class="toc-level-2"><a href="#예제">예제</a></li><li class="toc-level-3"><a href="#예제-1-rgb-hsb-같은-색-만들기">예제 1 — RGB ↔ HSB 같은 색 만들기</a></li><li class="toc-level-3"><a href="#예제-2-반투명-겹치기">예제 2 — 반투명 겹치기</a></li><li class="toc-level-3"><a href="#예제-3-구글-color-picker로-색-찾기">예제 3 — 구글 Color Picker로 색 찾기</a></li><li class="toc-level-2"><a href="#정리">정리</a></li><li class="toc-level-3"><a href="#교시-예고">2교시 예고</a></li></ol></nav>
   </main>
   <p class="footer-note">Generated from Media Art Programming student Markdown handouts in the AI4WORK wiki.</p>
 </body>

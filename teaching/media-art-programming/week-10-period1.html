@@ -70,11 +70,11 @@ href="week-10-period2.html">week-10-period2-student</a> (다중 힘, 질량
 학습 목표
 </div>
 <ul>
-<li>✅ 뉴턴 제2법칙(F=ma)을 코드 한 줄(<code>a = F / m</code>)로 표현할
+<li> 뉴턴 제2법칙(F=ma)을 코드 한 줄(<code>a = F / m</code>)로 표현할
 수 있다</li>
-<li>✅ <code>applyForce()</code> 패턴으로 객체에 힘을 적용하고, 가속도가
+<li> <code>applyForce()</code> 패턴으로 객체에 힘을 적용하고, 가속도가
 누적되는 구조를 이해한다</li>
-<li>✅ 중력을 벡터로 구현하고, 바닥 바운스와 에너지 손실까지 더해
+<li> 중력을 벡터로 구현하고, 바닥 바운스와 에너지 손실까지 더해
 자연스러운 자유낙하를 만든다</li>
 </ul>
 </div>
@@ -140,7 +140,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-
 <p>참고 교재인 Nature of Code 2장의 주제도 Forces(힘)입니다. 오늘 배우는
 패턴은 13주차 파티클 시스템까지 계속 활용됩니다.</p>
 <hr />
-<h2 id="핵심-개념-1-뉴턴-제2법칙-코드로-읽기">💡 핵심 개념 1 — 뉴턴
+<h2 id="핵심-개념-1-뉴턴-제2법칙-코드로-읽기"> 핵심 개념 1 — 뉴턴
 제2법칙: 코드로 읽기</h2>
 <p>물리 수업이 아니라 코딩 수업이므로 뉴턴의 법칙을 <strong>코드
 관점</strong>에서 살펴봅니다. 뉴턴의 운동 법칙은 세 가지입니다. 각각 한
@@ -185,7 +185,7 @@ alt="01 fma bowling pingpong" />
 <p><strong>답</strong>: 2. a = F/m = 6/3 = 2.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-applyforce-패턴-힘을-적용하는-방법">💡 핵심 개념 2 —
+<h2 id="핵심-개념-2-applyforce-패턴-힘을-적용하는-방법"> 핵심 개념 2 —
 applyForce() 패턴: 힘을 적용하는 방법</h2>
 <p>이제 코드로 구현합니다. 9주차의 <code>Mover</code> 클래스에
 <strong>힘을 받는 기능</strong>을 추가합니다. 완성 코드를 한 번에
@@ -286,9 +286,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-
 <p><strong>프레임 1</strong></p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -533,7 +533,7 @@ Nature of Code의 핵심 패턴
 <p>현재 예제는 중력 한 줄만 기록된 단순한 장부입니다. 2교시에서 바람과
 마찰력이 추가되어도 장부의 양식 자체는 그대로 유지됩니다.</p>
 <hr />
-<h2 id="핵심-개념-3-중력-적용-바닥-바운스">💡 핵심 개념 3 — 중력 적용 +
+<h2 id="핵심-개념-3-중력-적용-바닥-바운스"> 핵심 개념 3 — 중력 적용 +
 바닥 바운스</h2>
 <p>applyForce() 패턴을 익혔으니 이제 실제로 힘을 만들어 봅시다. 첫 번째
 힘은 <strong>중력(gravity)</strong>입니다. 이 한 가지 힘만으로 자유낙하,
@@ -598,10 +598,10 @@ BEFORE/AFTER 코드 비교</h3>
 바뀌었고 무엇이 유지되었는지</strong> 한눈에 확인할 수 있습니다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 11%" />
-<col style="width: 35%" />
-<col style="width: 41%" />
-<col style="width: 11%" />
+<col />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -724,60 +724,60 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">바운스 횟수</th>
-<th style="text-align: center;">충돌 직전 vel.y</th>
-<th style="text-align: center;"><code>*= -0.9</code> 후 vel.y</th>
-<th style="text-align: center;">위로 튀는 속도</th>
+<th>바운스 횟수</th>
+<th>충돌 직전 vel.y</th>
+<th><code>*= -0.9</code> 후 vel.y</th>
+<th>위로 튀는 속도</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">1회</td>
-<td style="text-align: center;">10</td>
-<td style="text-align: center;">-9</td>
-<td style="text-align: center;">9</td>
+<td>1회</td>
+<td>10</td>
+<td>-9</td>
+<td>9</td>
 </tr>
 <tr>
-<td style="text-align: center;">2회</td>
-<td style="text-align: center;">9</td>
-<td style="text-align: center;">-8.1</td>
-<td style="text-align: center;">8.1</td>
+<td>2회</td>
+<td>9</td>
+<td>-8.1</td>
+<td>8.1</td>
 </tr>
 <tr>
-<td style="text-align: center;">3회</td>
-<td style="text-align: center;">8.1</td>
-<td style="text-align: center;">-7.29</td>
-<td style="text-align: center;">7.29</td>
+<td>3회</td>
+<td>8.1</td>
+<td>-7.29</td>
+<td>7.29</td>
 </tr>
 <tr>
-<td style="text-align: center;">4회</td>
-<td style="text-align: center;">7.29</td>
-<td style="text-align: center;">-6.56</td>
-<td style="text-align: center;">6.56</td>
+<td>4회</td>
+<td>7.29</td>
+<td>-6.56</td>
+<td>6.56</td>
 </tr>
 <tr>
-<td style="text-align: center;">5회</td>
-<td style="text-align: center;">6.56</td>
-<td style="text-align: center;">-5.90</td>
-<td style="text-align: center;">5.90</td>
+<td>5회</td>
+<td>6.56</td>
+<td>-5.90</td>
+<td>5.90</td>
 </tr>
 <tr>
-<td style="text-align: center;">10회</td>
-<td style="text-align: center;">약 4.30</td>
-<td style="text-align: center;">약 -3.87</td>
-<td style="text-align: center;">3.87</td>
+<td>10회</td>
+<td>약 4.30</td>
+<td>약 -3.87</td>
+<td>3.87</td>
 </tr>
 <tr>
-<td style="text-align: center;">20회</td>
-<td style="text-align: center;">약 1.51</td>
-<td style="text-align: center;">약 -1.36</td>
-<td style="text-align: center;">1.36</td>
+<td>20회</td>
+<td>약 1.51</td>
+<td>약 -1.36</td>
+<td>1.36</td>
 </tr>
 <tr>
-<td style="text-align: center;">30회</td>
-<td style="text-align: center;">약 0.53</td>
-<td style="text-align: center;">약 -0.48</td>
-<td style="text-align: center;">0.48</td>
+<td>30회</td>
+<td>약 0.53</td>
+<td>약 -0.48</td>
+<td>0.48</td>
 </tr>
 </tbody>
 </table></div>
@@ -981,9 +981,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb20
 <h3 id="핵심-4줄-요약">핵심 4줄 요약</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -1068,12 +1068,12 @@ Q. 왜 mass를 1로 고정했나요?
 <p>실습 중 자주 마주치는 오류 패턴입니다. 아래 표에서 원인과 수정 방법을
 확인합니다.</p>
 </div>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 14%" />
-<col style="width: 28%" />
-<col style="width: 28%" />
-<col style="width: 28%" />
+<col />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>

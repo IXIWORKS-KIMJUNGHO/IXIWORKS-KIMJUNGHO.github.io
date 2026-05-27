@@ -70,13 +70,13 @@ href="week-05-period2.html">week-05-period2-student</a> (random,
 학습 목표
 </div>
 <ul>
-<li>✅ <code>frameCount</code>와 <code>frameRate()</code>로 P5.js
+<li> <code>frameCount</code>와 <code>frameRate()</code>로 P5.js
 애니메이션의 원리를 설명할 수 있습니다</li>
-<li>✅ 변수를 매 프레임 갱신하여 도형의 움직임을 구현할 수 있습니다</li>
-<li>✅ <code>background()</code> 유무에 따른 이동/잔상 효과 차이를
+<li> 변수를 매 프레임 갱신하여 도형의 움직임을 구현할 수 있습니다</li>
+<li> <code>background()</code> 유무에 따른 이동/잔상 효과 차이를
 이해합니다</li>
-<li>✅ 화면 경계 처리(래핑, 바운싱)를 구현할 수 있습니다</li>
-<li>✅ 4주차에서 배운 인터랙션과 움직임을 결합할 수 있습니다</li>
+<li> 화면 경계 처리(래핑, 바운싱)를 구현할 수 있습니다</li>
+<li> 4주차에서 배운 인터랙션과 움직임을 결합할 수 있습니다</li>
 </ul>
 </div>
 <hr />
@@ -99,7 +99,7 @@ href="https://reas.com/process">Casey Reas — Process</a></p>
 <p><strong>사례 2: d’strict — “WAVE” (2020, 서울 삼성동 코엑스)</strong>
 삼성동 코엑스 건물의 80미터짜리 LED 스크린에 <strong>거대한
 파도</strong>가 치는 작품입니다. 평면 스크린인데 마치 유리 상자 안에
-진짜 바다가 있는 것처럼 보입니다. <code>sin()</code> 함수로 물결을
+실제 바다가 있는 것처럼 보입니다. <code>sin()</code> 함수로 물결을
 만들고 <code>frameCount</code>로 시간에 따라 움직이게 하는 원리로 볼 수
 있습니다. 2교시에서 배울 내용의 확장판입니다. 링크: <a
 href="https://www.dstrict.com/ART/?bmode=view&amp;idx=8005064">d’strict
@@ -117,7 +117,7 @@ Lieberman — Daily Sketches (Medium)</a></p>
 <p>이 작품들의 공통점은 모두 <strong>변수를 매 프레임 바꾸는 것</strong>
 — <code>x += speed</code> 이 한 줄에서 시작한다는 점입니다.</p>
 <hr />
-<h2 id="핵심-개념-1-draw는-이미-반복하고-있다">💡 핵심 개념 1 — draw()는
+<h2 id="핵심-개념-1-draw는-이미-반복하고-있다"> 핵심 개념 1 — draw()는
 이미 반복하고 있다</h2>
 <p>1주차에서 <code>setup()</code>은 한 번, <code>draw()</code>는 반복
 실행된다고 배웠습니다. <strong>몇 번</strong> 반복되는지
@@ -179,7 +179,7 @@ motion</figcaption>
 <p><strong>답</strong>: 2초입니다. 초당 60번이니까 120번이면 2초.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-변수를-활용한-움직임">💡 핵심 개념 2 — 변수를 활용한
+<h2 id="핵심-개념-2-변수를-활용한-움직임"> 핵심 개념 2 — 변수를 활용한
 움직임</h2>
 <p>2주차에서 <code>let x = 200;</code>으로 변수를 만들었습니다. 그
 변수를 <strong>매 프레임 바꾸는 것</strong>이 움직임의 핵심입니다.</p>
@@ -263,7 +263,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb5-
 초기화되어 계속 제자리에 머뭅니다 (2주차 변수 스코프).</p>
 </div>
 <div class="sourceCode" id="cb6"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ draw() 안에 선언하면 매 프레임 0으로 초기화</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  draw() 안에 선언하면 매 프레임 0으로 초기화</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">draw</span>() {</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> x <span class="op">=</span> <span class="dv">0</span><span class="op">;</span>  <span class="co">// 매번 0으로 초기화!</span></span>
@@ -271,7 +271,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 <span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  x <span class="op">+=</span> <span class="dv">2</span><span class="op">;</span></span>
 <span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <hr />
-<h2 id="핵심-개념-3-background-유무에-따른-효과-차이">💡 핵심 개념 3 —
+<h2 id="핵심-개념-3-background-유무에-따른-효과-차이"> 핵심 개념 3 —
 background() 유무에 따른 효과 차이</h2>
 <p><code>draw()</code> 안의 <code>background(220)</code>을 빼면 어떻게
 될까요?</p>
@@ -301,7 +301,7 @@ alt="02 background trail modes" />
 <figcaption aria-hidden="true">02 background trail modes</figcaption>
 </figure>
 <hr />
-<h2 id="핵심-개념-4-화면-경계-처리">💡 핵심 개념 4 — 화면 경계 처리</h2>
+<h2 id="핵심-개념-4-화면-경계-처리"> 핵심 개념 4 — 화면 경계 처리</h2>
 <p>x가 계속 증가하면 <code>width</code>(400)를 넘어 화면 밖으로
 사라집니다. 두 가지 해결 방법이 있습니다.</p>
 <h3 id="방법-1-래핑wrapping">방법 1: 래핑(Wrapping)</h3>
@@ -399,7 +399,7 @@ alt="03 wrapping vs bouncing" />
 1이면 x방향은 빠르고 y방향은 느려서 거의 수평에 가깝게 움직입니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-5-움직임-인터랙션-결합">💡 핵심 개념 5 — 움직임 +
+<h2 id="핵심-개념-5-움직임-인터랙션-결합"> 핵심 개념 5 — 움직임 +
 인터랙션 결합</h2>
 <p>4주차의 마우스 클릭·키보드 입력을 오늘 배운 움직임과 합치면
 <strong>사용자가 제어할 수 있는 애니메이션</strong>이 됩니다.</p>
@@ -568,12 +568,12 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 (<code>random()</code>은 2교시에서 배웁니다. 지금은 <code>-5</code>에서
 <code>5</code> 사이의 랜덤 숫자로 이해하면 됩니다.)</p>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -604,7 +604,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 <p><code>background()</code>가 있으면 깔끔하게 이동하고, 없으면 궤적과
 잔상이 남습니다. 그리고 4주차 인터랙션 + 5주차 움직임 =
 <strong>인터랙티브 애니메이션</strong>입니다.</p>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>지금까지는 일정한 속도로만 움직였습니다. 2교시에서는
 <code>random()</code>으로 <strong>예측 불가능한</strong> 움직임을
 만들고, <code>map()</code>·<code>constrain()</code> 유틸리티 함수,

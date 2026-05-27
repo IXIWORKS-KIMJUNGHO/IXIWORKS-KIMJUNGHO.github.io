@@ -69,15 +69,15 @@ href="week-04-period2.html">week-04-period2-student</a> (마우스·키보드
 학습 목표
 </div>
 <ul>
-<li>✅ <code>if/else</code> 조건문의 구조를 이해하고 활용할 수
+<li> <code>if/else</code> 조건문의 구조를 이해하고 활용할 수
 있습니다</li>
-<li>✅ 비교 연산자(<code>&gt;</code>, <code>&lt;</code>,
+<li> 비교 연산자(<code>&gt;</code>, <code>&lt;</code>,
 <code>===</code>, <code>!==</code>)와 논리
 연산자(<code>&amp;&amp;</code>, <code>||</code>, <code>!</code>)를
 사용할 수 있습니다</li>
-<li>✅ <code>dist()</code> 함수로 원형 영역 판별을 구현할 수
+<li> <code>dist()</code> 함수로 원형 영역 판별을 구현할 수
 있습니다</li>
-<li>✅ <code>for</code>문과 조건문을 결합해 조건부 패턴을 만들 수
+<li> <code>for</code>문과 조건문을 결합해 조건부 패턴을 만들 수
 있습니다</li>
 </ul>
 </div>
@@ -139,7 +139,7 @@ in Code — MoMI</a></p>
 오늘 배울 <code>if</code>문 하나만 알면, 이런 인터랙티브 스케치의
 <strong>첫 발</strong>을 뗄 수 있습니다.</p>
 <hr />
-<h2 id="핵심-개념-1-if문-기본-구조">💡 핵심 개념 1 — if문 기본 구조</h2>
+<h2 id="핵심-개념-1-if문-기본-구조"> 핵심 개념 1 — if문 기본 구조</h2>
 <h3 id="일상-비유">일상 비유</h3>
 <p>조건문은 우리가 매일 쓰는 논리입니다.</p>
 <div class="table-wrap"><table>
@@ -188,48 +188,48 @@ in Code — MoMI</a></p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">연산자</th>
+<th>연산자</th>
 <th>의미</th>
 <th>예시</th>
-<th style="text-align: center;">결과</th>
+<th>결과</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><code>&gt;</code></td>
+<td><code>&gt;</code></td>
 <td>크다</td>
 <td><code>5 &gt; 3</code></td>
-<td style="text-align: center;">true</td>
+<td>true</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>&lt;</code></td>
+<td><code>&lt;</code></td>
 <td>작다</td>
 <td><code>5 &lt; 3</code></td>
-<td style="text-align: center;">false</td>
+<td>false</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>&gt;=</code></td>
+<td><code>&gt;=</code></td>
 <td>크거나 같다</td>
 <td><code>5 &gt;= 5</code></td>
-<td style="text-align: center;">true</td>
+<td>true</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>&lt;=</code></td>
+<td><code>&lt;=</code></td>
 <td>작거나 같다</td>
 <td><code>3 &lt;= 5</code></td>
-<td style="text-align: center;">true</td>
+<td>true</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>===</code></td>
+<td><code>===</code></td>
 <td>같다</td>
 <td><code>5 === 5</code></td>
-<td style="text-align: center;">true</td>
+<td>true</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>!==</code></td>
+<td><code>!==</code></td>
 <td>같지 않다</td>
 <td><code>5 !== 3</code></td>
-<td style="text-align: center;">true</td>
+<td>true</td>
 </tr>
 </tbody>
 </table></div>
@@ -245,19 +245,19 @@ in Code — MoMI</a></p>
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">기호</th>
+<th>기호</th>
 <th>의미</th>
 <th>배운 시기</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><code>=</code></td>
+<td><code>=</code></td>
 <td>값 대입 (넣기)</td>
 <td>2주차</td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>===</code></td>
+<td><code>===</code></td>
 <td>같은지 비교 (확인)</td>
 <td><strong>4주차 (오늘)</strong></td>
 </tr>
@@ -265,12 +265,12 @@ in Code — MoMI</a></p>
 </table></div>
 <p><strong>흔한 실수 — <code>=</code> 하나만 쓰기</strong></p>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">// ❌ 잘못된 코드 — = 하나만 쓴 경우</span></span>
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">//  잘못된 코드 — = 하나만 쓴 경우</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (mouseX <span class="op">=</span> <span class="dv">200</span>) {   <span class="co">// 이건 &#39;200을 mouseX에 넣어라&#39;라는 대입이 됩니다!</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">// ✅ 올바른 코드 — === 세 개</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">//  올바른 코드 — === 세 개</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (mouseX <span class="op">===</span> <span class="dv">200</span>) {  <span class="co">// &#39;mouseX가 200과 같은지 비교해라&#39;</span></span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span></span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
@@ -291,7 +291,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">background</span>(<span class="dv">220</span>)<span class="op">;</span>  <span class="co">// 기본: 회색</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (mouseX <span class="op">&gt;</span> <span class="dv">200</span>) {</span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">// ⭐ 마우스가 오른쪽이면 빨강!</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">background</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>  <span class="co">//  마우스가 오른쪽이면 빨강!</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><strong>실행 결과:</strong> - 마우스를 캔버스 <strong>왼쪽</strong>(x
@@ -306,18 +306,18 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 y좌표로 비교하니까요.</p>
 </div>
 <p><strong>코드 실행 추적 (mouseX = 250일 때):</strong></p>
-<pre><code>1. background(220)  → 일단 회색으로 칠함
+<pre><code>1. background(220)  → 먼저 회색으로 칠함
 2. mouseX &gt; 200?    → 250 &gt; 200 → true!
 3. background(255, 0, 0) → 빨간색으로 다시 칠함 (회색을 덮어씀)</code></pre>
 <p><strong>코드 실행 추적 (mouseX = 100일 때):</strong></p>
-<pre><code>1. background(220)  → 일단 회색으로 칠함
+<pre><code>1. background(220)  → 먼저 회색으로 칠함
 2. mouseX &gt; 200?    → 100 &gt; 200 → false
 3. { } 안의 코드 건너뜀 → 회색 유지</code></pre>
 <p>이렇게 한 줄씩 추적하는 것을 <strong>트레이싱(tracing)</strong>이라고
 합니다. 코드가 예상대로 안 될 때, 한 줄씩 따라가면 어디서 틀렸는지 찾을
 수 있습니다.</p>
 <hr />
-<h2 id="핵심-개념-2-ifelse와-else-if">💡 핵심 개념 2 — if/else와 else
+<h2 id="핵심-개념-2-ifelse와-else-if"> 핵심 개념 2 — if/else와 else
 if</h2>
 <h3 id="ifelse-둘-중-하나">if/else — “둘 중 하나”</h3>
 <p>’왼쪽이면 파랑, 오른쪽이면 빨강’처럼 <strong>둘 중 하나</strong>를
@@ -386,7 +386,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb9-
 쓰세요.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-3-boolean과-논리-연산자">💡 핵심 개념 3 — boolean과
+<h2 id="핵심-개념-3-boolean과-논리-연산자"> 핵심 개념 3 — boolean과
 논리 연산자</h2>
 <h3 id="true와-false">true와 false</h3>
 <p>조건문의 괄호 안은 항상 결과가 <code>true</code> 아니면
@@ -404,7 +404,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">연산자</th>
+<th>연산자</th>
 <th>이름</th>
 <th>의미</th>
 <th>예시</th>
@@ -412,21 +412,21 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><code>&amp;&amp;</code></td>
+<td><code>&amp;&amp;</code></td>
 <td>AND (“그리고”)</td>
 <td><strong>둘 다</strong> true여야 true</td>
 <td><code>A &amp;&amp; B</code></td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>\|\|</code></td>
+<td><code>\|\|</code></td>
 <td>OR (“또는”)</td>
 <td><strong>하나만</strong> true여도 true</td>
 <td><code>A \|\| B</code></td>
 </tr>
 <tr>
-<td style="text-align: center;"><code>!</code></td>
+<td><code>!</code></td>
 <td>NOT (“아님”)</td>
-<td>true ↔︎ false 반전</td>
+<td>true ↔ false 반전</td>
 <td><code>!A</code></td>
 </tr>
 </tbody>
@@ -435,36 +435,36 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb10
 <div class="table-wrap"><table>
 <thead>
 <tr>
-<th style="text-align: center;">A</th>
-<th style="text-align: center;">B</th>
-<th style="text-align: center;"><code>A &amp;&amp; B</code></th>
-<th style="text-align: center;"><code>A \|\| B</code></th>
+<th>A</th>
+<th>B</th>
+<th><code>A &amp;&amp; B</code></th>
+<th><code>A \|\| B</code></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">true</td>
-<td style="text-align: center;">true</td>
-<td style="text-align: center;"><strong>true</strong></td>
-<td style="text-align: center;"><strong>true</strong></td>
+<td>true</td>
+<td>true</td>
+<td><strong>true</strong></td>
+<td><strong>true</strong></td>
 </tr>
 <tr>
-<td style="text-align: center;">true</td>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;"><strong>true</strong></td>
+<td>true</td>
+<td>false</td>
+<td>false</td>
+<td><strong>true</strong></td>
 </tr>
 <tr>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;">true</td>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;"><strong>true</strong></td>
+<td>false</td>
+<td>true</td>
+<td>false</td>
+<td><strong>true</strong></td>
 </tr>
 <tr>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;">false</td>
-<td style="text-align: center;">false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
+<td>false</td>
 </tr>
 </tbody>
 </table></div>
@@ -503,7 +503,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 작을 때. 네 개 다 만족해야 true입니다. AND(<code>&amp;&amp;</code>)는
 하나라도 false가 나오면 전체가 false입니다.</p>
 <hr />
-<h2 id="핵심-개념-4-dist로-영역-판별">💡 핵심 개념 4 — dist()로 영역
+<h2 id="핵심-개념-4-dist로-영역-판별"> 핵심 개념 4 — dist()로 영역
 판별</h2>
 <p>사각형은 <code>&amp;&amp;</code> 4개로 했는데, <strong>원형
 영역</strong>은 어떻게 할까요? <code>dist()</code> 함수를 씁니다.</p>
@@ -544,9 +544,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb13
 <code>dist()</code> <strong>한 줄</strong>이면 됩니다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -585,7 +585,7 @@ alt="dist()로 원형 영역 판별|659" />
 <p>이 패턴은 나중에 <strong>버튼 만들기</strong>에 유용합니다. ‘이 원을
 클릭했는지’ 감지하는 데 씁니다.</p>
 <hr />
-<h2 id="핵심-개념-5-for문-조건문-결합">💡 핵심 개념 5 — for문 + 조건문
+<h2 id="핵심-개념-5-for문-조건문-결합"> 핵심 개념 5 — for문 + 조건문
 결합</h2>
 <p>3주차의 <code>for</code>문과 4주차의 <code>if</code>문이 만나면
 패턴에 <strong>변화</strong>를 줄 수 있습니다.</p>
@@ -597,34 +597,34 @@ alt="dist()로 원형 영역 판별|659" />
 <thead>
 <tr>
 <th>연산</th>
-<th style="text-align: center;">결과</th>
+<th>결과</th>
 <th>해석</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>0 % 2</code></td>
-<td style="text-align: center;">0</td>
+<td>0</td>
 <td>0을 2로 나눈 나머지 = 0 (짝수)</td>
 </tr>
 <tr>
 <td><code>1 % 2</code></td>
-<td style="text-align: center;">1</td>
+<td>1</td>
 <td>1을 2로 나눈 나머지 = 1 (홀수)</td>
 </tr>
 <tr>
 <td><code>2 % 2</code></td>
-<td style="text-align: center;">0</td>
+<td>0</td>
 <td>짝수</td>
 </tr>
 <tr>
 <td><code>3 % 2</code></td>
-<td style="text-align: center;">1</td>
+<td>1</td>
 <td>홀수</td>
 </tr>
 <tr>
 <td><code>4 % 2</code></td>
-<td style="text-align: center;">0</td>
+<td>0</td>
 <td>짝수</td>
 </tr>
 </tbody>
@@ -639,15 +639,15 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb14
 <span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> i <span class="op">&lt;</span> <span class="dv">10</span><span class="op">;</span> i<span class="op">++</span>) {</span>
 <span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (i <span class="op">%</span> <span class="dv">2</span> <span class="op">===</span> <span class="dv">0</span>) {</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">// ⭐ 짝수 번째: 빨강</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">//  짝수 번째: 빨강</span></span>
 <span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>   <span class="co">// ⭐ 홀수 번째: 파랑</span></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">255</span>)<span class="op">;</span>   <span class="co">//  홀수 번째: 파랑</span></span>
 <span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    }</span>
 <span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ellipse</span>(i <span class="op">*</span> <span class="dv">40</span> <span class="op">+</span> <span class="dv">20</span><span class="op">,</span> <span class="dv">200</span><span class="op">,</span> <span class="dv">30</span><span class="op">,</span> <span class="dv">30</span>)<span class="op">;</span></span>
 <span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <p><strong>실행 결과:</strong></p>
-<pre><code>🔴🔵🔴🔵🔴🔵🔴🔵🔴🔵  (빨강-파랑 교대)</code></pre>
+<pre><code>  (빨강-파랑 교대)</code></pre>
 <p>조건문을 넣으니까 <strong>번갈아 다른 색</strong>을 줄 수
 있습니다.</p>
 <h3 id="체스판-패턴-중첩-for-if">체스판 패턴: 중첩 for + if</h3>
@@ -746,7 +746,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="kw">let</span> y <span class="op">=</span> <span class="dv">200</span><span class="op">;</span></span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="fu">dist</span>(mouseX<span class="op">,</span> mouseY<span class="op">,</span> x<span class="op">,</span> y) <span class="op">&lt;</span> <span class="dv">30</span>) {</span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">// ⭐ 마우스 가까이: 빨강</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">255</span><span class="op">,</span> <span class="dv">0</span><span class="op">,</span> <span class="dv">0</span>)<span class="op">;</span>   <span class="co">//  마우스 가까이: 빨강</span></span>
 <span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
 <span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      <span class="fu">fill</span>(<span class="dv">200</span>)<span class="op">;</span>          <span class="co">// 멀리: 회색</span></span>
 <span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    }</span>
@@ -758,12 +758,12 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19
 <p>3주차 <code>for</code>문 패턴에 <code>dist()</code>를 넣어
 <strong>마우스에 반응하는 패턴</strong>을 만들었습니다.</p>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -819,7 +819,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb19
 </table></div>
 <p>그리고 <code>dist()</code> — 두 점 사이 거리 계산. 원형 영역 판별에
 씁니다.</p>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>조건문으로 ‘판단’은 할 수 있게 됐습니다. 그런데 아직 ’마우스를
 <strong>클릭</strong>했을 때’ 같은 입력은 다루지 않았습니다. 2교시에서는
 <strong>마우스 클릭과 키보드 입력</strong>을 배웁니다. 조건문과 합치면

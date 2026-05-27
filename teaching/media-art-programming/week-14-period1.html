@@ -70,12 +70,12 @@ href="week-14-period2.html">week-14-period2-student</a> (FFT +
 학습 목표
 </div>
 <ul>
-<li>✅ p5.sound 라이브러리의 역할과 기능을 설명할 수 있습니다</li>
-<li>✅ <code>loadSound()</code>로 로드하고 재생/일시정지를 제어할 수
+<li> p5.sound 라이브러리의 역할과 기능을 설명할 수 있습니다</li>
+<li> <code>loadSound()</code>로 로드하고 재생/일시정지를 제어할 수
 있습니다</li>
-<li>✅ <code>p5.Amplitude</code>로 음량을 분석해 <code>map()</code>으로
+<li> <code>p5.Amplitude</code>로 음량을 분석해 <code>map()</code>으로
 비주얼에 매핑할 수 있습니다</li>
-<li>✅ <code>p5.AudioIn</code>으로 마이크 입력을 같은 패턴으로 분석할 수
+<li> <code>p5.AudioIn</code>으로 마이크 입력을 같은 패턴으로 분석할 수
 있습니다</li>
 </ul>
 </div>
@@ -121,7 +121,7 @@ href="week-14-period2.html">week-14-period2-student</a> (FFT +
 <p>이런 작업의 공통점은 <strong>소리를 숫자로 바꾸고, 그 숫자를 시각적
 요소에 연결</strong>하는 것입니다. 오늘 우리가 그것을 합니다.</p>
 <hr />
-<h2 id="핵심-개념-1-p5.sound-라이브러리-소개">💡 핵심 개념 1 — p5.sound
+<h2 id="핵심-개념-1-p5.sound-라이브러리-소개"> 핵심 개념 1 — p5.sound
 라이브러리 소개</h2>
 <p>P5.js 본체만으로는 소리를 다룰 수 없습니다.
 <strong>p5.sound</strong>라는 별도 라이브러리가 필요합니다.</p>
@@ -132,9 +132,9 @@ href="week-14-period2.html">week-14-period2-student</a> (FFT +
 <p>p5.sound가 제공하는 주요 기능은 다음과 같습니다.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -192,7 +192,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-
 재생해도 괜찮다’고 브라우저에 알려줍니다. <strong>화면을 한 번 클릭해야
 소리가 나온다</strong> — 잊지 마세요.</p>
 <hr />
-<h2 id="핵심-개념-2-사운드-로드와-재생">💡 핵심 개념 2 — 사운드 로드와
+<h2 id="핵심-개념-2-사운드-로드와-재생"> 핵심 개념 2 — 사운드 로드와
 재생</h2>
 <p><strong><code>preload()</code>로 사운드 로드하기</strong></p>
 <p>11주차에서 JSON 파일을 불러올 때 <code>preload()</code>를 썼습니다.
@@ -248,9 +248,9 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb3-
 <p>주요 메서드.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -312,7 +312,7 @@ play vs loop
 실행될 수 있어서. 11주차 <code>loadJSON()</code>과 같은 이유.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-3-p5.amplitude로-음량-분석">💡 핵심 개념 3 —
+<h2 id="핵심-개념-3-p5.amplitude로-음량-분석"> 핵심 개념 3 —
 <code>p5.Amplitude</code>로 음량 분석</h2>
 <p>이제 소리를 재생할 수 있게 됐습니다. 목표는 <strong>소리에 반응하는
 비주얼</strong>을 만드는 것이므로 소리를 <strong>숫자</strong>로 바꿔야
@@ -360,8 +360,8 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb4-
 <p>코드 한 줄씩.</p>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
@@ -445,7 +445,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 <code>10 + (400-10) * 0.3 = 127</code>.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-4-완성-예제">💡 핵심 개념 4 — 완성 예제</h2>
+<h2 id="핵심-개념-4-완성-예제"> 핵심 개념 4 — 완성 예제</h2>
 <p>지금까지 배운 걸 처음부터 조립합니다.</p>
 <p><strong>Step 1 — 빈 스케치에서 사운드 로드</strong></p>
 <div class="sourceCode" id="cb7"><pre
@@ -537,7 +537,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 <span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  song<span class="op">.</span><span class="fu">loop</span>()<span class="op">;</span></span>
 <span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
 <hr />
-<h2 id="핵심-개념-5-마이크-입력-p5.audioin-같은-패턴-입력만-바꾸기">💡
+<h2 id="핵심-개념-5-마이크-입력-p5.audioin-같은-패턴-입력만-바꾸기">
 핵심 개념 5 — 마이크 입력 (p5.AudioIn): 같은 패턴, 입력만 바꾸기</h2>
 <p>지금까지는 음악 <strong>파일</strong>을 재생해서 분석했습니다. 그런데
 <strong>파일 없이</strong>, 지금 이 교실의 소리에 반응하게 만들 수도
@@ -607,7 +607,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb12
 <code>mic.start()</code>.</p>
 </div>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <p><strong>핵심 3줄 요약</strong></p>
 <ol type="1">
 <li><strong>p5.sound</strong> = P5.js의 사운드 확장 라이브러리. Web
@@ -629,7 +629,7 @@ Editor에서는 이미 포함되어 있음</li>
 <li>7주차 <code>new</code> 키워드 → <code>new p5.Amplitude()</code>,
 <code>new p5.AudioIn()</code> 객체 생성</li>
 </ul>
-<h3 id="교시-예고">🔥 2교시 예고</h3>
+<h3 id="교시-예고"> 2교시 예고</h3>
 <p>1교시에서는 <strong>전체 음량</strong>을 분석했습니다. 소리가 크면
 원이 크고, 작으면 원이 작고. 그런데 음악에는 <strong>저음(베이스
 드럼)</strong>, <strong>중음(보컬)</strong>,

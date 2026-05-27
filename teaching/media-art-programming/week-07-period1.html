@@ -70,11 +70,11 @@ href="week-07-period2.html">week-07-period2-student</a> (객체 배열과
 학습 목표
 </div>
 <ul>
-<li>✅ 객체지향 프로그래밍(OOP)의 핵심 개념을 이해하고, 왜 클래스가
+<li> 객체지향 프로그래밍(OOP)의 핵심 개념을 이해하고, 왜 클래스가
 필요한지 설명할 수 있습니다</li>
-<li>✅ <code>class</code> 문법(constructor, 프로퍼티, 메서드)을 사용하여
+<li> <code>class</code> 문법(constructor, 프로퍼티, 메서드)을 사용하여
 독립적인 객체를 정의할 수 있습니다</li>
-<li>✅ 클래스로 바운싱 볼 객체를 만들고 화면에 표시할 수 있습니다</li>
+<li> 클래스로 바운싱 볼 객체를 만들고 화면에 표시할 수 있습니다</li>
 </ul>
 </div>
 <hr />
@@ -143,7 +143,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb2-
 시스템도 클래스 기반입니다. 오늘 내용은 이후 수업의
 <strong>기반</strong>입니다.</p>
 <hr />
-<h2 id="핵심-개념-1-설계도와-제품">💡 핵심 개념 1 — 설계도와 제품</h2>
+<h2 id="핵심-개념-1-설계도와-제품"> 핵심 개념 1 — 설계도와 제품</h2>
 <h3 id="붕어빵-비유">붕어빵 비유</h3>
 <figure class="lecture-figure">
 <img src="assets/7week/w07-fig02-blueprint-analogy.png"
@@ -193,7 +193,7 @@ alt="w07 fig02 blueprint analogy" />
 들어갑니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-2-class-기본-문법-점진적으로-만들기">💡 핵심 개념 2 —
+<h2 id="핵심-개념-2-class-기본-문법-점진적으로-만들기"> 핵심 개념 2 —
 class 기본 문법: 점진적으로 만들기</h2>
 <p>공(Ball)의 설계도를 처음부터 <strong>한 줄씩</strong> 만들어
 보겠습니다.</p>
@@ -340,7 +340,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb8-
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">this</span><span class="op">.</span><span class="at">size</span> <span class="op">=</span> <span class="dv">30</span><span class="op">;</span>    <span class="co">// ← 매개변수 없이 고정값!</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  }</span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<p><code>this.size = 30;</code> — 매개변수로 받지 않고, 그냥 30을 직접
+<p><code>this.size = 30;</code> — 매개변수로 받지 않고, 고정값 30을 직접
 넣었습니다. 모든 공이 처음에는 크기 30으로 만들어집니다.</p>
 <p>매개변수로 받을지, 고정값으로 둘지는 <strong>우리가
 정합니다</strong>. 위치는 공마다 다르게 하고 싶으므로 매개변수로 받고,
@@ -427,7 +427,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb11
 가장 흔합니다. 에러가 나면 먼저 이 부분을 확인하세요.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-3-메서드-동작-추가하기">💡 핵심 개념 3 — 메서드: 동작
+<h2 id="핵심-개념-3-메서드-동작-추가하기"> 핵심 개념 3 — 메서드: 동작
 추가하기</h2>
 <p>지금 Ball 클래스에는 <strong>데이터(프로퍼티)</strong>만 있습니다. 이
 공이 <strong>할 수 있는 동작</strong>을 추가해 봅니다.</p>
@@ -506,11 +506,11 @@ after</figcaption>
 </div>
 <p>클래스 안에서 함수를 정의할 때 <code>function</code> 키워드를 쓸까요
 안 쓸까요?</p>
-<p><strong>답</strong>: 안 씁니다! 그냥 <code>move() { ... }</code>로
+<p><strong>답</strong>: 안 씁니다! <code>move() { ... }</code>로
 바로 씁니다.</p>
 </div>
 <hr />
-<h2 id="핵심-개념-4-setupdraw에서-조립하기">💡 핵심 개념 4 —
+<h2 id="핵심-개념-4-setupdraw에서-조립하기"> 핵심 개념 4 —
 setup()/draw()에서 조립하기</h2>
 <p>이제 전체 코드를 조립해서 실제 움직임을 확인합니다.</p>
 <h3 id="전체-코드-ball-클래스-setupdraw">전체 코드 — Ball 클래스 +
@@ -580,13 +580,13 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb15
 </table></div>
 <p>클래스를 쓰면 코드가 <strong>영어 문장처럼</strong> 읽힙니다.</p>
 <hr />
-<h2 id="정리">🏆 정리</h2>
+<h2 id="정리"> 정리</h2>
 <h3 id="핵심-3줄-요약">핵심 3줄 요약</h3>
 <div class="table-wrap"><table>
 <colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
+<col />
+<col />
+<col />
 </colgroup>
 <thead>
 <tr>
