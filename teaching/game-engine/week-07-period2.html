@@ -1,0 +1,888 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 2교시 — 스토리보드 구성 요소와 AI 활용</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 07</p>
+        <h1>7주차 2교시 — 스토리보드 구성 요소와 AI 활용</h1>
+        <p class="lead">각본의 5요소를 읽고 스토리보드로 변환하는 절차와 UE5 스크린샷 기반 보조 도구 활용 방식을 정리합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 02</span>
+          <span class="hero-chip">Storyboard</span>
+          <span class="hero-chip">Midterm Prep</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 07</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Storyboard Elements and AI Workflow</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-04-14</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="game-engine-ii-7주차-2교시-스토리보드-구성-요소와-ai-활용-학생용">Game Engine II — 7주차 2교시: 스토리보드 구성 요소와 AI 활용 (학생용)</h1>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>각본의 5요소를 식별하고 스토리보드로 시각화하는 방법을 익힙니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="2교시-스토리보드-구성-요소와-ai-활용-데모">2교시 — 스토리보드 구성 요소와 AI 활용 데모</h2>
+<p>---</p>
+<h3 id="복습-연결">복습 연결</h3>
+<p>1교시에서 샷 사이즈 10종, 카메라 무빙 6종을 배웠습니다. 실제로 영상을 만들기 전에, 이 샷과 무빙을 종이 위에 기록하는 과정이 필요합니다. 그것이 스토리보드입니다.</p>
+<p>스토리보드에는 그림만 있는 것이 아닙니다. 이 장면이 어디인지, 누가 무엇을 하는지, 카메라가 어떻게 움직이는지가 모두 적혀 있습니다. 이를 적으려면 먼저 각본을 읽을 줄 알아야 합니다.</p>
+<p>---</p>
+<h2 id="각본-5요소">각본 5요소</h2>
+<h3 id="각본의-기본-구조">각본의 기본 구조</h3>
+<p>스토리보드를 그리려면, 먼저 '무엇을 그릴지'를 결정해야 합니다. 그 정보가 각본에 있습니다.</p>
+<p>각본은 다섯 가지 요소로 구성되어 있습니다. 소설과 다른 점은, 각본은 '화면에 보이는 것'만 쓴다는 것입니다. 인물의 속마음 같은 것은 쓰지 않습니다. 카메라에 찍히는 것만 기술합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/05_screenplay-elements-flow.webp" alt="05_screenplay-elements-flow">
+
+</figure>
+<div class="table-wrap"><table><thead><tr><th>요소</th><th>영어</th><th>역할</th><th>스토리보드에서의 활용</th></tr></thead><tbody><tr><td data-label="요소"><strong>표제</strong></td><td data-label="영어">Slugline</td><td data-label="역할">장소와 시간</td><td data-label="스토리보드에서의 활용">배경 설정 → 어떤 환경을 그릴지</td></tr>
+<tr><td data-label="요소"><strong>해설</strong></td><td data-label="영어">Action</td><td data-label="역할">화면에 보이는 행동/상황</td><td data-label="스토리보드에서의 활용">그림의 내용 → 무엇을 그릴지</td></tr>
+<tr><td data-label="요소"><strong>인물</strong></td><td data-label="영어">Character</td><td data-label="역할">누가 등장하는지</td><td data-label="스토리보드에서의 활용">캐릭터 배치 → 누구를 그릴지</td></tr>
+<tr><td data-label="요소"><strong>대사</strong></td><td data-label="영어">Dialogue</td><td data-label="역할">무슨 말을 하는지</td><td data-label="스토리보드에서의 활용">표정·제스처 힌트 + 자막 배치</td></tr>
+<tr><td data-label="요소"><strong>지문</strong></td><td data-label="영어">Parenthetical</td><td data-label="역할">연기 지시</td><td data-label="스토리보드에서의 활용">인물의 감정·동작 디테일</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 3요소</div>
+<div class="callout-body">
+<p>다섯 개를 모두 외울 필요는 없습니다. 핵심은 세 개입니다. <strong>표제</strong>로 '어디서', <strong>해설</strong>로 '무슨 일이', <strong>대사</strong>로 '무엇이라고 하는지'. 이 세 요소만 추출하면 스토리보드를 그릴 수 있습니다.</p>
+</div>
+</div>
+<h5 id="1-표제-slugline-어디서-언제">1. 표제 (Slugline) — &quot;어디서, 언제&quot;</h5>
+<p>각 장면 맨 위에 나오는 한 줄입니다. 형식이 정해져 있습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>형식</th><th>예시</th></tr></thead><tbody><tr><td data-label="형식"><code>S#번호. 장소 (시간)</code></td><td data-label="예시">S#1. 들판 (밤)</td></tr>
+<tr><td data-label="형식"></td><td data-label="예시">S#3. 카페 내부 (낮)</td></tr>
+<tr><td data-label="형식"></td><td data-label="예시">S#12. 해안 절벽 (석양)</td></tr></tbody></table></div>
+<p>장소와 시간만 봐도 스토리보드의 배경이 결정됩니다. '들판, 밤'이면 어두운 달빛 아래 넓은 풍경을 그려야 하고, '카페 내부, 낮'이면 실내에 자연광이 들어오는 장면이 됩니다.</p>
+<h5 id="2-해설-action-무엇이-보이는가">2. 해설 (Action) — &quot;무엇이 보이는가&quot;</h5>
+<p>화면에 보이는 모든 것을 묘사하는 부분입니다. 영어로는 Action이라고 하며, 항상 현재 시제로 씁니다.</p>
+<div class="table-wrap"><table><thead><tr><th>소설 (쓰면 안 되는 것)</th><th>각본 해설 (이렇게 씀)</th></tr></thead><tbody><tr><td data-label="소설 (쓰면 안 되는 것)">&quot;그는 슬픈 기억을 떠올리며 걷고 있었다&quot;</td><td data-label="각본 해설 (이렇게 씀)">&quot;남자가 천천히 걷는다. 고개를 숙이고 있다.&quot;</td></tr>
+<tr><td data-label="소설 (쓰면 안 되는 것)">&quot;그녀의 마음은 두근거렸다&quot;</td><td data-label="각본 해설 (이렇게 씀)">&quot;여자가 문 앞에서 멈춘다. 손이 떨린다.&quot;</td></tr></tbody></table></div>
+<p>소설은 감정을 직접 씁니다. 각본은 '카메라에 보이는 것'만 씁니다. '슬프다'는 쓰지 않고, '고개를 숙이고 있다'라고 쓰는 것입니다.</p>
+<p>스토리보드에서는 해설을 가장 많이 참고합니다. 해설에 쓰인 행동과 상황이 곧 그림의 내용이 되기 때문입니다.</p>
+<h5 id="3-대사-dialogue-무엇이라고-하는가">3. 대사 (Dialogue) — &quot;무엇이라고 하는가&quot;</h5>
+<p>인물이 하는 말입니다. 인물 이름 아래에 들여쓰기로 적혀 있습니다.</p>
+<p>스토리보드에서 대사 자체를 적기도 하지만, 더 중요한 것은 대사에서 감정 힌트를 읽는 것입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>대사</th><th>스토리보드에서 읽어낼 것</th></tr></thead><tbody><tr><td data-label="대사">&quot;도망쳐!!&quot;</td><td data-label="스토리보드에서 읽어낼 것">인물 표정 = 공포/긴박, 입을 크게 벌림</td></tr>
+<tr><td data-label="대사">&quot;...알겠습니다.&quot;</td><td data-label="스토리보드에서 읽어낼 것">인물 표정 = 체념/슬픔, 고개 숙임</td></tr>
+<tr><td data-label="대사">(속삭이듯) &quot;여기야...&quot;</td><td data-label="스토리보드에서 읽어낼 것">인물 자세 = 몸을 낮춤, 카메라 = CU로 가까이</td></tr></tbody></table></div>
+<p>같은 '알겠습니다'라도, 지문에 '(분노를 참으며)'가 붙으면 표정이 달라집니다. 그것이 <strong>지문(Parenthetical)</strong>의 역할입니다. 배우의 연기 방향을 잡아주는 것입니다.</p>
+<h5 id="4-인물-character-5-지문-parenthetical">4. 인물 (Character) + 5. 지문 (Parenthetical)</h5>
+<p>인물은 대사 위에 이름으로 표시됩니다. 이름 옆에 괄호가 붙기도 합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>표기</th><th>의미</th></tr></thead><tbody><tr><td data-label="표기">삼신(E)</td><td data-label="의미">E = Echo. 화면에 안 나오고 목소리만 (나레이션)</td></tr>
+<tr><td data-label="표기">민수(V.O.)</td><td data-label="의미">V.O. = Voice Over. 다른 장면 위에 목소리가 깔림</td></tr>
+<tr><td data-label="표기">영희(O.S.)</td><td data-label="의미">O.S. = Off Screen. 화면 밖에서 소리만 들림</td></tr></tbody></table></div>
+<p>지문은 대사 바로 위에 괄호로 적혀 있습니다. '(떨리는 목소리로)', '(웃으며)' 같은 것입니다. 스토리보드에서 인물의 표정이나 동작 디테일을 정할 때 참고합니다.</p>
+<p>정리하면, 각본의 5요소에서 스토리보드로 가는 흐름은 다음과 같습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>각본 요소</th><th>스토리보드에서 결정하는 것</th></tr></thead><tbody><tr><td data-label="각본 요소">표제 →</td><td data-label="스토리보드에서 결정하는 것">배경 (장소, 시간, 분위기)</td></tr>
+<tr><td data-label="각본 요소">해설 →</td><td data-label="스토리보드에서 결정하는 것">그림 내용 (무엇이 보이는지) + 샷 사이즈 힌트</td></tr>
+<tr><td data-label="각본 요소">인물 →</td><td data-label="스토리보드에서 결정하는 것">캐릭터 배치 (누가 어디에)</td></tr>
+<tr><td data-label="각본 요소">대사 →</td><td data-label="스토리보드에서 결정하는 것">자막/나레이션 + 표정 힌트</td></tr>
+<tr><td data-label="각본 요소">지문 →</td><td data-label="스토리보드에서 결정하는 것">연기 디테일 (동작, 감정)</td></tr></tbody></table></div>
+<h3 id="도깨비-각본-분석">도깨비 각본 분석</h3>
+<p>실제 각본을 보면서 연습해보겠습니다. 도깨비 1화 첫 장면입니다.</p>
+<pre><code>S#1. 들판 (밤)
+
+인적 끊긴 들판에 끝없이 펼쳐진 메밀꽃밭.
+찬 달빛 받은 흰 메밀꽃 처연하다.
+흔들리는 메밀꽃밭 한 가운데 장검 한 자루 적막하게 꽂혀 있다.
+녹슬고 무뎌진 칼날과 이끼 낀 손잡이가 세월의 흔적 고스란히 담고 있다.
+그 위로,
+
+삼신(E)  사람의 손때나 피가 묻은 물건에 염원이 깃들면..
+         도깨비가 된단다..
+         숱한 전장에서 수천의 피를 묻힌 검이
+         제 주인의 피까지 묻혔으니 오죽했을까..
+
+그때 어딘가에서 날아온 흰나비 한 마리,
+검 손잡이 위를 맴돌다 사뿐히 앉는다.
+그 순간, 웅- 웅- 검이 울기 시작하더니
+점점 이글거리는 푸른 불꽃으로 화하는 검!</code></pre>
+<p>위 각본에서 5요소를 식별하면 다음과 같습니다.</p>
+<ul><li><strong>표제</strong>: 맨 위 'S#1. 들판 (밤)'. S#1은 씬 넘버 1번, 장소는 들판, 시간은 밤입니다.</li><li><strong>해설</strong>: '인적 끊긴 들판에 끝없이 펼쳐진 메밀꽃밭'부터 이어지는 묘사 전체입니다. 화면에 보이는 것들을 설명하고 있습니다.</li><li><strong>인물</strong>: '삼신(E)'입니다. (E)는 'Echo', 즉 목소리만 나오는 것입니다. 화면에 보이지 않고 나레이션으로만 들립니다.</li><li><strong>대사</strong>: '사람의 손때나 피가 묻은 물건에...' 이 부분이 삼신의 대사입니다.</li><li><strong>지문</strong>: 이 각본에는 명시적으로 나오지 않았지만, 다른 장면에서 '(떨리는 목소리로)' 같은 것이 붙으면 그것이 지문입니다.</li></ul>
+<p>이 각본을 스토리보드로 변환하면 다음과 같습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>각본 정보</th><th>스토리보드 결정</th></tr></thead><tbody><tr><td data-label="각본 정보">표제: 들판, 밤</td><td data-label="스토리보드 결정">배경 = 달빛 아래 메밀꽃밭</td></tr>
+<tr><td data-label="각본 정보">해설: '끝없이 펼쳐진'</td><td data-label="스토리보드 결정">첫 컷 = <strong>EWS</strong> (넓게)</td></tr>
+<tr><td data-label="각본 정보">해설: '장검 한 자루 꽂혀 있다'</td><td data-label="스토리보드 결정">두 번째 컷 = <strong>CU</strong> (검 클로즈업)</td></tr>
+<tr><td data-label="각본 정보">인물: 삼신(E)</td><td data-label="스토리보드 결정">화면에 인물 없음, 나레이션만</td></tr>
+<tr><td data-label="각본 정보">해설: '푸른 불꽃으로 화하는 검'</td><td data-label="스토리보드 결정">세 번째 컷 = <strong>ECU</strong> (불꽃 디테일) + Dolly In</td></tr></tbody></table></div>
+<p>이렇게 각본의 각 줄이 스토리보드의 각 컷으로 변환됩니다. 각본 → 샷 사이즈 결정 → 카메라 무빙 결정 → 스토리보드의 흐름입니다.</p>
+<p>---</p>
+<h2 id="스토리보드-제작-프로세스">스토리보드 제작 프로세스</h2>
+<h3 id="영상-스토리보드란-무엇인가">영상: 스토리보드란 무엇인가</h3>
+<p><strong>영상: 먼저 3분짜리 개요 영상을 봅니다.</strong></p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=RQsvhq28sOI" target="_blank" rel="noopener">RocketJump Film School — Intro to Storyboarding (0:00~3:00 구간)</a></p></div>
+</div>
+<p>스토리보드의 기본 개념과 실제 제작 과정을 보여주는 영상입니다. 스토리보드를 만드는 과정은 크게 세 단계로 나뉩니다.</p>
+<h3 id="제작-3단계">제작 3단계</h3>
+<h5 id="1-썸네일-스케치">1. 썸네일 스케치</h5>
+<figure class="lecture-figure">
+<img src="assets/06_storyboard-thumbnail-sketches.webp" alt="06_storyboard-thumbnail-sketches">
+
+</figure>
+<p>우표 크기로 아주 작게, 아주 빠르게 그립니다. 한 장에 5초 정도입니다. 이때는 디테일 없이 구도만 잡습니다.</p>
+<p>프로들도 이 단계에서는 동그라미와 네모만 그립니다. 사람은 막대기 인간입니다. 핵심은 '화면 안에 무엇이 어디에 있는지'만 정하는 것입니다. 샷 하나당 여러 개를 그려보고, 그중에 가장 나은 것을 고릅니다.</p>
+<h5 id="2-레이아웃">2. 레이아웃</h5>
+<figure class="lecture-figure">
+<img src="assets/07_storyboard-layout-stages.webp" alt="07_storyboard-layout-stages">
+
+</figure>
+<p>썸네일에서 골라낸 컷을 좀 더 크게 다시 그립니다. 이때 투시 보조선을 넣어서 공간감을 잡습니다. 여기서부터 카메라 앵글이 확정됩니다. 하이 앵글인지, 로우 앵글인지, 아이레벨인지 결정합니다.</p>
+<h5 id="3-완성-스토리보드">3. 완성 스토리보드</h5>
+<p>레이아웃에 디테일을 넣고, 카메라 지시사항을 적습니다. 이것이 최종본입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">Mad Max: Fury Road 사례</div>
+<div class="callout-body">
+<p>Mad Max: Fury Road는 각본보다 스토리보드를 먼저 만들었습니다. 감독 조지 밀러가 3,500장의 스토리보드를 먼저 완성하고, 그것을 바탕으로 대본을 나중에 썼습니다. 최종 영화의 거의 모든 샷이 스토리보드와 일치했습니다. 그만큼 스토리보드가 영상 제작에서 중요한 도구입니다.</p>
+</div>
+</div>
+<h3 id="카메라-지시-표기법">카메라 지시 표기법</h3>
+<figure class="lecture-figure">
+<img src="assets/08_storyboard-camera-notation.webp" alt="08_storyboard-camera-notation">
+
+</figure>
+<p>스토리보드에 카메라 움직임을 표시하는 약속된 화살표가 있습니다. 1교시에서 배운 6가지 무빙을 다음과 같이 표기합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>무빙</th><th>표기 위치</th><th>화살표 모양</th></tr></thead><tbody><tr><td data-label="무빙">Pan</td><td data-label="표기 위치">프레임 하단</td><td data-label="화살표 모양">수평 화살표, 방향 표시</td></tr>
+<tr><td data-label="무빙">Tilt</td><td data-label="표기 위치">프레임 측면</td><td data-label="화살표 모양">수직 화살표, 방향 표시</td></tr>
+<tr><td data-label="무빙">Dolly In/Out</td><td data-label="표기 위치">카메라 아이콘에서</td><td data-label="화살표 모양">카메라→피사체 방향 화살표</td></tr>
+<tr><td data-label="무빙">Track</td><td data-label="표기 위치">카메라 아이콘 아래</td><td data-label="화살표 모양">카메라 자체의 좌우 화살표</td></tr>
+<tr><td data-label="무빙">Crane</td><td data-label="표기 위치">카메라 아이콘 옆</td><td data-label="화살표 모양">카메라 자체의 상하 화살표</td></tr>
+<tr><td data-label="무빙">Zoom In/Out</td><td data-label="표기 위치">프레임 안</td><td data-label="화살표 모양">동심원 또는 점선 프레임</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">Pan과 Track 구분법</div>
+<div class="callout-body">
+<p>Pan 화살표는 <strong>프레임 안</strong>에 그리고, Track 화살표는 <strong>카메라 아이콘</strong>에 그립니다. Pan은 고개를 돌리는 것이고, Track은 카메라가 직접 옆으로 이동하는 것입니다.</p>
+</div>
+</div>
+<p>각 컷 아래에는 보통 다음과 같은 정보를 적습니다. 중간고사 제출물에서도 이 형식을 따르면 됩니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>예시</th></tr></thead><tbody><tr><td data-label="항목">씬/컷 번호</td><td data-label="예시">S#1 - Cut 3</td></tr>
+<tr><td data-label="항목">샷 사이즈</td><td data-label="예시">CU</td></tr>
+<tr><td data-label="항목">카메라 무빙</td><td data-label="예시">Dolly In (slow)</td></tr>
+<tr><td data-label="항목">상황 설명</td><td data-label="예시">검에 나비가 앉자 푸른 불꽃이 피어오른다</td></tr>
+<tr><td data-label="항목">대사/사운드</td><td data-label="예시">삼신(E): &quot;도깨비가 된단다...&quot;</td></tr>
+<tr><td data-label="항목">시간</td><td data-label="예시">4초</td></tr></tbody></table></div>
+<h3 id="봉준호-사례-프로-스토리보드의-실전">봉준호 사례 — 프로 스토리보드의 실전</h3>
+<p><strong>영상: 5분짜리 분석 영상 — 스토리보드와 실제 영화 장면이 나란히 비교됩니다.</strong></p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=JE26E4IM_-g" target="_blank" rel="noopener">Thomas Flight — Lessons From The Parasite Storyboards (0:00~5:00 구간)</a></p></div>
+</div>
+<p>봉준호 감독은 모든 장면을 직접 스토리보드로 그리는 것으로 유명합니다. 기생충은 스토리보드가 그래픽 노블로 출간될 정도입니다.</p>
+<p>봉준호 감독의 스토리보드에서 배울 점은 세 가지입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>포인트</th><th>설명</th></tr></thead><tbody><tr><td data-label="포인트"><strong>1. 단순화</strong></td><td data-label="설명">스토리보드에서 어떤 요소를 빼는 건 있어도, 새로 추가하는 건 거의 없음</td></tr>
+<tr><td data-label="포인트"><strong>2. 의도의 명확성</strong></td><td data-label="설명">그림이 정교하지는 않지만, 카메라 위치·앵글·무빙이 한눈에 보임</td></tr>
+<tr><td data-label="포인트"><strong>3. 연기 여지</strong></td><td data-label="설명">카메라와 구도만 확정하고, 배우의 연기는 현장에서</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">스토리보드의 핵심</div>
+<div class="callout-body">
+<p>드로잉 완성도 자체가 핵심은 아닙니다. 봉준호 감독의 스토리보드도 세부 묘사보다 의도가 명확한 점이 중요합니다. 어디서 찍고, 무엇을 보여주고, 카메라가 어떻게 움직이는지가 모두 들어 있습니다. 중간고사에서도 정교하게 그리는 것이 아니라, <strong>의도가 보이는 스토리보드</strong>를 만드는 것이 중요합니다.</p>
+</div>
+</div>
+<p>스토리보드를 더 공부하고 싶다면 아래 무료 자료를 참고하십시오.</p>
+<ul><li><strong>RocketJump Film School</strong> — 스토리보드 입문 (https://www.youtube.com/watch?v=RQsvhq28sOI)</li><li><strong>Pixar in a Box</strong> — Khan Academy에서 제공하는 픽사 공식 스토리텔링 강좌 (https://www.khanacademy.org/humanities/hass-storytelling/storytelling-pixar-in-a-box)</li></ul>
+<p>---</p>
+<h2 id="ai-활용-데모-nano-banana-2">AI 활용 데모: Nano Banana 2</h2>
+<h3 id="소개">소개</h3>
+<p>드로잉에 익숙하지 않은 점이 걱정인 경우, UE5 레벨의 스크린샷을 AI로 스케치풍이나 만화풍으로 변환하는 방법도 있습니다.</p>
+<p>Nano Banana 2는 ComfyUI에서 사용할 수 있는 Google 계열 이미지 생성/편집 워크플로우입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">참고 사항</div>
+<div class="callout-body">
+<p>Nano Banana 2는 중간고사 제출 조건이 아닙니다. '이런 것도 가능하다' 수준의 보조 도구이며, 사용을 원하는 경우에만 활용하면 됩니다.</p>
+</div>
+</div>
+<h3 id="데모-시연">데모 시연</h3>
+<p>데모에서는 준비한 UE5 스크린샷을 원본 이미지로 사용합니다.</p>
+<p><strong>ComfyUI 시연 순서:</strong></p>
+<ol><li>ComfyUI를 열고 캔버스에서 &quot;Nano Banana 2&quot; 노드를 검색합니다</li><li>UE5에서 캡처한 스크린샷을 이미지 입력 노드에 드래그합니다</li><li>프롬프트를 작성합니다 (아래 구조 참고)</li><li>Generate를 누르고 결과를 확인합니다</li></ol>
+<p>프롬프트를 체계적으로 작성하면 원하는 결과를 일관되게 얻을 수 있습니다.</p>
+<p><strong>프롬프트 7블록 구조:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>블록</th><th>역할</th><th>예시</th></tr></thead><tbody><tr><td data-label="블록"><strong>B1. Style</strong></td><td data-label="역할">그림 스타일</td><td data-label="예시"><code>storyboard panel, rough pencil sketch, black and white</code></td></tr>
+<tr><td data-label="블록"><strong>B2. Shot</strong></td><td data-label="역할">샷 사이즈 + 앵글</td><td data-label="예시"><code>extreme wide shot, eye level angle</code></td></tr>
+<tr><td data-label="블록"><strong>B3. Subject</strong></td><td data-label="역할">주인공/핵심 피사체</td><td data-label="예시"><code>a lone warrior in dark armor, standing still</code></td></tr>
+<tr><td data-label="블록"><strong>B4. Scene</strong></td><td data-label="역할">장면 묘사</td><td data-label="예시"><code>ancient sword stuck in the ground, white buckwheat field</code></td></tr>
+<tr><td data-label="블록"><strong>B5. Composition</strong></td><td data-label="역할">구도 + 분위기</td><td data-label="예시"><code>centered composition, eerie atmosphere, light fog</code></td></tr>
+<tr><td data-label="블록"><strong>B6. Lighting</strong></td><td data-label="역할">조명</td><td data-label="예시"><code>cold moonlight from above, soft shadows</code></td></tr>
+<tr><td data-label="블록"><strong>B7. Color &amp; Time</strong></td><td data-label="역할">색감 + 시간대</td><td data-label="예시"><code>desaturated blue tones, midnight</code></td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">최소 입력 블록</div>
+<div class="callout-body">
+<p>모두 다 채울 필요는 없습니다. 최소한 B1(스타일)과 B4(장면 묘사)만 있어도 동작합니다. 나머지는 더 정교한 결과를 원할 때 추가하면 됩니다.</p>
+</div>
+</div>
+<p><strong>실제 프롬프트 예시 — 도깨비 S#1 기준:</strong></p>
+<pre><code>storyboard panel, rough pencil sketch, black and white,
+extreme wide shot, slightly low angle,
+moonlit buckwheat field stretching endlessly,
+an ancient rusted sword standing alone in the center of the field,
+centered composition, ethereal and melancholic atmosphere,
+cold moonlight from above, soft ambient glow,
+desaturated blue-white tones, midnight</code></pre>
+<p>이것은 도깨비 각본 S#1의 첫 컷입니다. 각본에서 추출한 정보가 그대로 프롬프트에 들어갑니다.</p>
+<div class="table-wrap"><table><thead><tr><th>각본 정보</th><th>프롬프트 블록</th></tr></thead><tbody><tr><td data-label="각본 정보">들판, 밤 →</td><td data-label="프롬프트 블록">B7: midnight</td></tr>
+<tr><td data-label="각본 정보">메밀꽃밭, 끝없이 →</td><td data-label="프롬프트 블록">B4: buckwheat field stretching endlessly</td></tr>
+<tr><td data-label="각본 정보">장검 한 자루 →</td><td data-label="프롬프트 블록">B4: ancient rusted sword standing alone</td></tr>
+<tr><td data-label="각본 정보">달빛, 처연하다 →</td><td data-label="프롬프트 블록">B6: cold moonlight + B5: melancholic</td></tr>
+<tr><td data-label="각본 정보">EWS로 넓게 →</td><td data-label="프롬프트 블록">B2: extreme wide shot</td></tr></tbody></table></div>
+<p>이렇게 각본 → 스토리보드 정보 → 프롬프트로 자연스럽게 연결됩니다.</p>
+<p>변환 결과는 원본 스크린샷과 나란히 비교합니다. 구도가 유지되는지, 스토리보드처럼 읽히는지, 컷의 의도가 더 명확해졌는지를 확인하면 됩니다. B1(스타일)만 바꿔도 분위기가 완전히 달라집니다.</p>
+<figure class="lecture-figure">
+<img src="assets/10_nano-banana-ue5-to-sketch.webp" alt="UE5 스크린샷 → 스토리보드 스케치풍 변환 예시">
+<figcaption>UE5 스크린샷 → 스토리보드 스케치풍 변환 예시</figcaption>
+</figure>
+<div class="table-wrap"><table><thead><tr><th>B1 스타일 변경</th><th>결과</th></tr></thead><tbody><tr><td data-label="B1 스타일 변경"><code>rough pencil sketch, black and white</code></td><td data-label="결과">흑백 연필 스케치풍</td></tr>
+<tr><td data-label="B1 스타일 변경"><code>comic book panel, bold ink lines, cel shading</code></td><td data-label="결과">만화/코믹 스타일</td></tr>
+<tr><td data-label="B1 스타일 변경"><code>watercolor illustration, soft edges</code></td><td data-label="결과">수채화풍</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/13_nano-banana-style-variants.webp" alt="같은 장면을 여러 스타일로 바꾼 비교 예시">
+<figcaption>같은 장면을 여러 스타일로 바꾼 비교 예시</figcaption>
+</figure>
+<p>같은 스타일을 여러 컷에 적용하면 스토리보드의 톤을 맞추는 데 도움이 됩니다.</p>
+<h3 id="주의사항-대안">주의사항 + 대안</h3>
+<div class="table-wrap"><table><thead><tr><th>주의사항</th><th>설명</th></tr></thead><tbody><tr><td data-label="주의사항">AI는 보조 도구</td><td data-label="설명">스토리보드의 핵심은 기획력. AI로 이미지를 정교하게 만들어도 샷 구성이 불명확하면 의미가 약함</td></tr>
+<tr><td data-label="주의사항">AI 사용 시 표기</td><td data-label="설명">중간고사에 AI 이미지를 쓰면, 해당 컷 아래에 도구명+프롬프트를 간략히 적어야 함</td></tr>
+<tr><td data-label="주의사항">환경</td><td data-label="설명">ComfyUI 설치가 필요. GPU가 없는 PC에서는 느릴 수 있음</td></tr></tbody></table></div>
+<p>ComfyUI가 어려운 경우, 더 간단한 대안도 있습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>대안</th><th>방법</th></tr></thead><tbody><tr><td data-label="대안"><strong>UE5 스크린샷 직접 활용</strong> (가장 추천)</td><td data-label="방법">캡처한 이미지를 그대로 스토리보드 컷으로 사용 + 위에 텍스트/화살표 추가</td></tr>
+<tr><td data-label="대안">무료 드로잉 앱</td><td data-label="방법">Krita나 메디방에서 스크린샷 위에 트레이싱</td></tr>
+<tr><td data-label="대안">PPT/키노트</td><td data-label="방법">스크린샷 위에 도형과 텍스트로 카메라 지시 표기</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 원칙</div>
+<div class="callout-body">
+<p>어떤 방법이든 1교시에 배운 샷 사이즈와 카메라 무빙이 스토리보드에 들어가야 합니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="실습-안내-정리">실습 안내 + 정리</h2>
+<h3 id="3교시-실습-안내">3교시 실습 안내</h3>
+<p><strong>실습 목표:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td data-label="항목"><strong>목표</strong></td><td data-label="내용">4컷 이상 스토리보드 초안</td></tr>
+<tr><td data-label="항목"><strong>소재</strong></td><td data-label="내용">자기 UE5 레벨 (6주차 과제 레벨 또는 새로 만든 레벨)</td></tr>
+<tr><td data-label="항목"><strong>제출</strong></td><td data-label="내용">3교시 끝나기 전 현재 상태를 LMS에 업로드</td></tr>
+<tr><td data-label="항목"><strong>도구</strong></td><td data-label="내용">UE5 스크린샷 + PPT 템플릿 (LMS에서 다운로드)</td></tr></tbody></table></div>
+<p>LMS에서 스토리보드 템플릿을 다운로드하십시오. PPT와 구글슬라이드 두 가지가 있습니다.</p>
+<figure class="lecture-figure">
+<img src="assets/09_storyboard-template-6panel.webp" alt="09_storyboard-template-6panel">
+
+</figure>
+<p>템플릿에 이미 칸이 나눠져 있습니다. 그림 넣는 칸, 샷 사이즈 적는 칸, 카메라 무빙 적는 칸, 설명 적는 칸입니다.</p>
+<p><strong>추천 순서:</strong></p>
+<ol><li>6주차에 만든 컨셉 문서를 열어서 테마 확인</li><li>UE5에서 자기 레벨을 열고, 카메라 앵글을 잡아서 스크린샷 4~6장 캡처</li><li>스크린샷을 템플릿에 배치</li><li>각 컷에 샷 사이즈, 카메라 무빙, 상황 설명 작성</li></ol>
+<h3 id="정리">정리</h3>
+<p><strong>2교시 요약:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>번호</th><th>요약</th></tr></thead><tbody><tr><td data-label="번호">1</td><td data-label="요약">각본 5요소(표제·해설·인물·대사·지문)에서 스토리보드에 그릴 내용을 추출한다</td></tr>
+<tr><td data-label="번호">2</td><td data-label="요약">스토리보드 = 그림 + 샷 사이즈 + 카메라 무빙 화살표 + 상황 설명</td></tr></tbody></table></div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#2교시-스토리보드-구성-요소와-ai-활용-데모">2교시 — 스토리보드 구성 요소와 AI 활용 데모</a></li>
+        <li class="toc-level-3"><a href="#복습-연결">복습 연결</a></li>
+        <li class="toc-level-2"><a href="#각본-5요소">각본 5요소</a></li>
+        <li class="toc-level-3"><a href="#각본의-기본-구조">각본의 기본 구조</a></li>
+        <li class="toc-level-3"><a href="#도깨비-각본-분석">도깨비 각본 분석</a></li>
+        <li class="toc-level-2"><a href="#스토리보드-제작-프로세스">스토리보드 제작 프로세스</a></li>
+        <li class="toc-level-3"><a href="#영상-스토리보드란-무엇인가">영상: 스토리보드란 무엇인가</a></li>
+        <li class="toc-level-3"><a href="#제작-3단계">제작 3단계</a></li>
+        <li class="toc-level-3"><a href="#카메라-지시-표기법">카메라 지시 표기법</a></li>
+        <li class="toc-level-3"><a href="#봉준호-사례-프로-스토리보드의-실전">봉준호 사례 — 프로 스토리보드의 실전</a></li>
+        <li class="toc-level-2"><a href="#ai-활용-데모-nano-banana-2">AI 활용 데모: Nano Banana 2</a></li>
+        <li class="toc-level-3"><a href="#소개">소개</a></li>
+        <li class="toc-level-3"><a href="#데모-시연">데모 시연</a></li>
+        <li class="toc-level-3"><a href="#주의사항-대안">주의사항 + 대안</a></li>
+        <li class="toc-level-2"><a href="#실습-안내-정리">실습 안내 + 정리</a></li>
+        <li class="toc-level-3"><a href="#3교시-실습-안내">3교시 실습 안내</a></li>
+        <li class="toc-level-3"><a href="#정리">정리</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 07 student notes.</p>
+</body>
+</html>

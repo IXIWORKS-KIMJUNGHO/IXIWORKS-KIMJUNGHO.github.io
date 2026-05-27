@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 1교시 — 시네 카메라의 영화 언어</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 09</p>
+        <h1>9주차 1교시 — 시네 카메라의 영화 언어</h1>
+        <p class="lead">Cine Camera Actor의 Filmback, Focal Length, Aperture, Focus Distance를 영화적 연출 언어로 이해하고 조작합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 01</span>
+          <span class="hero-chip">Cine Camera</span>
+          <span class="hero-chip">Sequencer</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 09</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Cine Camera Parameters</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-04-30</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="9주차-1교시-시네-카메라의-영화-언어-학생용">9주차 1교시 — 시네 카메라의 영화 언어 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서">강의계획서: Game Engine II</td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서">9주차 아웃라인: 시퀀서 기초</td></tr></tbody></table></div>
+<p>---</p>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>일반 Camera Actor와 Cine Camera Actor의 차이를 이해해요 시네 카메라의 4대 파라미터(Filmback, Focal Length, Aperture, Focus Distance)를 직접 조작할 수 있어요 같은 씬에서도 카메라 파라미터에 따라 영화적 룩이 어떻게 달라지는지 체감해요</p>
+</div>
+</div>
+<p>영화 한 장면을 떠올려보면, 광각으로 찍은 풍경 샷과 망원으로 찍은 인물 클로즈업은 완전히 다른 느낌을 줍니다. 색감이나 분위기 이전에 <strong>카메라가 어떻게 세팅됐는가</strong>가 가장 큰 차이를 만들어냅니다.</p>
+<p>5주차에 라이팅을 배울 때 간단히 만진 <code>Camera Actor</code>는 게임용 카메라입니다. 시점만 옮기는 용도라 영화에는 부족합니다. 오늘부터 6주차에 만든 본인 레벨을 실제 영화처럼 보이게 만드는 첫 단계로 <strong>시네 카메라(Cine Camera)</strong>를 배웁니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">렌즈 선택 = 연출 선택</div>
+<div class="callout-body">
+<p>렌즈를 고른다는 건 &quot;정교하게 찍자&quot;가 아니라 <strong>관객이 무엇을 보게 할지 정한다</strong>는 의미입니다. 라이팅이 밝기로 시선을 유도한다면, 카메라는 프레이밍·심도·초점으로 시선을 유도합니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="오늘-배울-4가지-한눈에-매핑">오늘 배울 4가지 — 한눈에 매핑</h2>
+<figure class="lecture-figure">
+<img src="assets/00_four-params-mapping.webp" alt="00_four-params-mapping">
+
+</figure>
+<div class="table-wrap"><table><thead><tr><th>파라미터</th><th>한 줄 역할</th></tr></thead><tbody><tr><td data-label="파라미터"><strong>Filmback</strong></td><td data-label="한 줄 역할">프레임의 그릇 — 화면 비율과 센서 크기</td></tr>
+<tr><td data-label="파라미터"><strong>Focal Length</strong></td><td data-label="한 줄 역할">보는 범위 — 화각 (얼마나 넓게/좁게)</td></tr>
+<tr><td data-label="파라미터"><strong>Aperture</strong></td><td data-label="한 줄 역할">흐림의 강도 — 심도(배경이 얼마나 흐려지는가)</td></tr>
+<tr><td data-label="파라미터"><strong>Focus Distance</strong></td><td data-label="한 줄 역할">선명한 위치 — 어느 거리의 피사체에 초점이 맞는가</td></tr></tbody></table></div>
+<p>이 4개를 하나씩 직접 만져봅니다. 2교시에는 시간축에 키프레임으로 올리고, 3교시에는 본인 레벨에서 시네마틱 한 컷을 완성합니다.</p>
+<p>---</p>
+<h2 id="1-레벨-준비-두-카메라-비교">1. 레벨 준비 + 두 카메라 비교</h2>
+<h3 id="본인-6주차-레벨-열기">본인 6주차 레벨 열기</h3>
+<p>오늘 실습은 본인이 6주차에 만든 레벨에서 진행합니다.</p>
+<ul><li>1. 에디터 좌측 상단 <strong>File &gt; Open Level</strong> 클릭</li><li>2. 본인 6주차 레벨 선택</li><li>3. 뷰포트에 환경이 보이는지 확인</li></ul>
+<div class="callout callout-warning">
+<div class="callout-title">단조로운 레벨 보강</div>
+<div class="callout-body">
+<p>6주차 레벨이 없거나 지나치게 단조로운 경우 메가스캔 에셋 한두 개를 임의로 배치해서 깊이감 있는 씬을 만들어두세요. 평지에서는 시네 카메라 효과가 잘 보이지 않습니다.</p>
+</div>
+</div>
+<p>---</p>
+<h3 id="camera-actor-배치-비교-대상">Camera Actor 배치 — 비교 대상</h3>
+<p>먼저 일반 Camera Actor를 하나 넣습니다. 게임플레이용 기본 카메라입니다.</p>
+<ul><li>1. <strong>Place Actors 패널 열기</strong> (단축키 <strong>Shift+1</strong> 또는 Window &gt; Place Actors)</li><li>2. 좌측 카테고리에서 <strong>Cinematic</strong> 클릭</li><li>3. <strong>Camera Actor</strong>를 뷰포트로 드래그</li><li>4. 카메라 액터를 선택한 상태로 <strong>에디터 우측 Details 패널</strong> 확인</li></ul>
+<p>Details 패널 옵션이 적습니다. FOV(시야각), Aspect Ratio(화면비) 정도가 전부입니다. 게임에서 캐릭터 시점이나 빠른 디버그용입니다.</p>
+<p>---</p>
+<h3 id="cine-camera-actor-배치-실제-주인공">Cine Camera Actor 배치 — 실제 주인공</h3>
+<p>같은 자리에 Cine Camera Actor를 넣습니다. <strong>실제 영화 카메라처럼 렌즈, 센서, 초점, 조리개를 다루는 카메라</strong>입니다.</p>
+<ul><li>1. Place Actors 검색창에 <strong>&quot;cine&quot;</strong> 타이핑</li><li>2. <strong>Cine Camera Actor</strong>를 뷰포트로 드래그</li><li>3. 일반 Camera Actor 근처에 배치</li><li>4. Cine Camera Actor 선택 후 Details 패널 확인</li></ul>
+<p>Details 패널에 Filmback, Lens, Focus Settings 등 섹션이 훨씬 많습니다. 옵션이 많아 부담스러울 수 있지만 <strong>4개만 알면 충분</strong>합니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">오늘 다루는 범위</div>
+<div class="callout-body">
+<p>오늘은 노출이나 색, 후처리는 다루지 않습니다. <strong>렌즈 언어</strong>만 먼저 익힙니다.</p>
+</div>
+</div>
+<aside class="callout callout-info"><div class="callout-body"><p>Details 패널에서 일반 Camera Actor는 FOV와 Aspect Ratio 중심이고, Cine Camera Actor는 Filmback, Lens, Focus Settings 같은 영화 카메라 파라미터가 추가로 보입니다.</p></div></aside>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>Camera Actor</th><th>Cine Camera Actor</th></tr></thead><tbody><tr><td data-label="항목"><strong>용도</strong></td><td data-label="Camera Actor">게임플레이용 / 빠른 테스트</td><td data-label="Cine Camera Actor">영화/시네마틱</td></tr>
+<tr><td data-label="항목"><strong>주요 속성</strong></td><td data-label="Camera Actor">FOV(시야각), Aspect Ratio</td><td data-label="Cine Camera Actor">Filmback, Focal Length, Aperture, Focus Distance</td></tr>
+<tr><td data-label="항목"><strong>심도(DoF)</strong></td><td data-label="Camera Actor">별도 설정 필요</td><td data-label="Cine Camera Actor">기본 지원, 물리 기반</td></tr>
+<tr><td data-label="항목"><strong>현실 카메라 대응</strong></td><td data-label="Camera Actor">없음</td><td data-label="Cine Camera Actor">실제 영화 카메라와 동일한 파라미터</td></tr>
+<tr><td data-label="항목"><strong>사용 맥락</strong></td><td data-label="Camera Actor">게임 캐릭터 시점, 디버그 뷰</td><td data-label="Cine Camera Actor"><strong>시퀀서 컷 작업의 기본</strong></td></tr></tbody></table></div>
+<p>9주차부터 시퀀서 카메라 작업에서는 Cine Camera Actor를 기본으로 사용합니다. 일반 Camera Actor는 오늘 비교용으로만 간단히 봤습니다.</p>
+<p>---</p>
+<h3 id="카메라-시점-미리보기-pilot-모드">카메라 시점 미리보기 — Pilot 모드</h3>
+<p>지금 뷰포트는 일반 시점입니다. 시네 카메라가 무엇을 보고 있는지 확인하려면 <strong>파일럿 모드</strong>로 들어가야 합니다. 뷰포트를 카메라의 눈으로 직접 조종하는 상태입니다.</p>
+<p><strong>방법 1 (가장 쉬움):</strong></p>
+<ul><li>1. <strong>Outliner</strong>(에디터 우상단)에서 <strong>CineCameraActor</strong> 우클릭</li><li>2. <strong>Pilot 'CineCameraActor'</strong> 클릭</li><li>3. 뷰포트가 카메라 시점으로 전환됨</li></ul>
+<p><strong>방법 2 (단축키):</strong> 시네 카메라 선택 후 <strong>Ctrl + Shift + P</strong></p>
+<p><strong>해제:</strong> 뷰포트 좌상단 <strong>Stop Piloting</strong> 버튼 또는 다시 Ctrl + Shift + P</p>
+<p>파일럿 모드에서 마우스 우클릭 + WASD로 시점을 움직이면 그게 카메라 위치/회전이 됩니다.</p>
+<p>---</p>
+<h2 id="2-filmback-화면비-결정">2. Filmback — 화면비 결정</h2>
+<p>Filmback은 카메라 센서 크기입니다. 화면비와 시야각이 여기서 결정됩니다. 비유하자면 카메라의 <strong>창문 크기와 모양</strong>입니다.</p>
+<h3 id="함께-실습-절차-filmback-5단계">함께 실습 절차 — Filmback 5단계</h3>
+<p><strong>작업 1 — Filmback 위치 찾기</strong></p>
+<ul><li>1. Outliner에서 CineCameraActor 선택</li><li>2. Details 패널 검색창에 <strong>&quot;filmback&quot;</strong> 타이핑</li></ul>
+<p>Filmback 섹션이 나타납니다. 검색을 안 사용하면 위에서 스크롤하며 <strong>Camera Settings &gt; Filmback</strong>을 찾습니다.</p>
+<aside class="callout callout-info"><div class="callout-body"><p>Filmback은 Details 패널 검색창에서 <code>filmback</code>으로 찾으면 빠릅니다.</p></div></aside>
+<p><strong>작업 2 — 35mm Academy 보기</strong></p>
+<ul><li>1. Filmback 드롭다운 클릭</li><li>2. <strong>35mm Academy (1.375 : 1)</strong> 선택</li></ul>
+<p>뷰포트 화면비가 1.375:1이 됩니다. 클래식 영화 비율로, 정사각형에 가까운 프레임입니다.</p>
+<p><strong>작업 3 — 16:9 DSLR로 변경</strong></p>
+<ul><li>1. Filmback 드롭다운 → <strong>16:9 DSLR (1.778 : 1)</strong> 선택</li></ul>
+<p>화면이 가로로 더 길어집니다. 유튜브, TV, 일반 디지털 영상의 표준 비율입니다.</p>
+<p><strong>작업 4 — IMAX로 변경</strong></p>
+<ul><li>1. Filmback 드롭다운 → <strong>IMAX (1.43 : 1)</strong> 선택</li></ul>
+<p>다시 정사각형에 가까운 큰 프레임으로 바뀝니다. 〈덩케르크〉, 〈오펜하이머〉가 이 비율입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/01_filmback-aspect-comparison.webp" alt="35mm Academy / 16:9 DSLR / IMAX — 같은 씬, 다른 화면비">
+<figcaption>35mm Academy / 16:9 DSLR / IMAX — 같은 씬, 다른 화면비</figcaption>
+</figure>
+<p><strong>작업 5 — 우리 수업용으로 통일</strong></p>
+<ul><li>1. Filmback 드롭다운 → <strong>35mm Academy</strong> 다시 선택</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">한 번 정하면 안 바꾸기</div>
+<div class="callout-body">
+<p>우리 수업 내내 35mm Academy로 갑니다. 한번 정하면 바꾸지 않는 게 좋습니다. 화면비가 바뀌면 구도를 다시 잡아야 하기 때문입니다.</p>
+</div>
+</div>
+<p>---</p>
+<h3 id="filmback-정리">Filmback 정리</h3>
+<div class="table-wrap"><table><thead><tr><th>프리셋</th><th>화면비</th><th>실무 감각</th></tr></thead><tbody><tr><td data-label="프리셋"><strong>35mm Academy</strong></td><td data-label="화면비">1.375 : 1</td><td data-label="실무 감각">클래식 영화 프레임. 우리 수업 기본값</td></tr>
+<tr><td data-label="프리셋"><strong>16:9 DSLR</strong></td><td data-label="화면비">1.778 : 1</td><td data-label="실무 감각">유튜브, TV, 일반 디지털 영상</td></tr>
+<tr><td data-label="프리셋"><strong>IMAX</strong></td><td data-label="화면비">1.43 : 1</td><td data-label="실무 감각">웅장한 대형 스크린, 〈덩케르크〉, 〈오펜하이머〉</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>속성</th><th>기본값</th><th>설명</th><th>조절 팁</th></tr></thead><tbody><tr><td data-label="속성"><strong>Filmback</strong></td><td data-label="기본값">35mm Academy</td><td data-label="설명">프리셋 선택</td><td data-label="조절 팁">우리 수업은 35mm Academy 통일</td></tr>
+<tr><td data-label="속성"><strong>Sensor Width</strong></td><td data-label="기본값">24.89 mm</td><td data-label="설명">가로 센서 크기</td><td data-label="조절 팁">프리셋 사용하면 자동</td></tr>
+<tr><td data-label="속성"><strong>Sensor Height</strong></td><td data-label="기본값">18.67 mm</td><td data-label="설명">세로 센서 크기</td><td data-label="조절 팁">프리셋 사용하면 자동</td></tr>
+<tr><td data-label="속성"><strong>Sensor Aspect Ratio</strong></td><td data-label="기본값">1.375</td><td data-label="설명">Width ÷ Height로 자동 계산</td><td data-label="조절 팁">표시용</td></tr></tbody></table></div>
+<div class="callout callout-info">
+<div class="callout-title">화면비 vs 해상도 — 혼동하지 마세요</div>
+<div class="callout-body">
+<p>16:9는 <strong>모양 비율</strong>이고, 1920×1080은 <strong>픽셀 수(해상도)</strong>입니다. 같은 16:9도 Full HD(1920×1080)일 수도 있고 4K(3840×2160)일 수도 있습니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">Filmback을 바꾸면 렌즈도 바뀐 건가요?</div>
+<div class="callout-body">
+<p>아닙니다. 렌즈는 그대로고, 센서가 받아들이는 영역이 달라져서 보이는 범위가 변하는 것입니다.</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 문제</div>
+<div class="callout-body">
+
+</div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Filmback 드롭다운이 보이지 않음</td><td data-label="원인">Camera Actor를 선택했음</td><td data-label="해결">Outliner에서 <strong>Cine</strong>CameraActor 다시 선택</td></tr>
+<tr><td data-label="증상">화면비가 안 바뀜</td><td data-label="원인">파일럿 모드 꺼짐</td><td data-label="해결">Outliner에서 CineCameraActor 우클릭 → Pilot</td></tr>
+<tr><td data-label="증상">검색해도 Filmback이 안 나옴</td><td data-label="원인">검색 오타 또는 액터 미선택</td><td data-label="해결">&quot;filmback&quot; 정확히 타이핑, 액터 재선택</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="3-focal-length-화각">3. Focal Length — 화각</h2>
+<p>Focal Length는 화각, '얼마나 좁게 보느냐'입니다. 줌과 비슷한 개념인데, 정확히는 렌즈의 화각을 정하는 값입니다. 시네 카메라에서 슬라이더를 움직이는 건 렌즈를 갈아끼는 것과 비슷합니다.</p>
+<h3 id="함께-실습-절차-focal-length-6단계">함께 실습 절차 — Focal Length 6단계</h3>
+<p><strong>작업 1 — Focal Length 위치 찾기</strong></p>
+<ul><li>1. Details 패널 검색창에 <strong>&quot;focal&quot;</strong> 타이핑</li><li>2. <strong>Current Camera Settings &gt; Lens Settings &gt; Current Focal Length</strong> 슬라이더가 나타남</li></ul>
+<p>검색을 안 사용하면 Lens Settings 섹션을 펼칩니다.</p>
+<p><strong>작업 2 — 24mm (광각) 입력</strong></p>
+<ul><li>1. Current Focal Length 입력 칸에 <strong>24</strong> 입력</li></ul>
+<p>뷰포트가 넓게 보입니다. 광각이라 공간감이 큽니다. 풍경, 군중, 광활한 장면에 어울립니다.</p>
+<p><strong>작업 3 — 50mm (표준) 변경</strong></p>
+<ul><li>1. Current Focal Length를 <strong>50</strong>으로 변경</li></ul>
+<p>화각이 좁아지고 사람 눈과 비슷한 자연스러운 시야가 됩니다. 일반 대화 컷에 어울립니다.</p>
+<p><strong>작업 4 — 85mm (망원) 변경</strong></p>
+<ul><li>1. Current Focal Length를 <strong>85</strong>로 변경</li></ul>
+<p>화면이 더 좁아지고 피사체가 압축돼 보입니다. 인물 클로즈업에 어울립니다.</p>
+<aside class="callout callout-info"><div class="callout-body"><p>24mm / 50mm / 85mm를 같은 구도에서 번갈아 입력하며 넓은 화각, 표준 화각, 망원 화각의 차이를 비교합니다.</p></div></aside>
+<figure class="lecture-figure">
+<img src="assets/02_focal-length-24-50-85-comparison.webp" alt="같은 피사체 크기에서도 초점거리가 길어질수록 시야각은 좁아지고 배경은 가까워 보입니다.">
+<figcaption>같은 피사체 크기에서도 초점거리가 길어질수록 시야각은 좁아지고 배경은 가까워 보입니다.</figcaption>
+</figure>
+<p><strong>작업 5 — 광각 왜곡 체험</strong></p>
+<ul><li>1. Current Focal Length를 다시 <strong>24</strong>로</li><li>2. 카메라를 핵심 액터(인물 또는 핵심 오브젝트)에 가까이 이동해서 화면을 채움</li></ul>
+<p>가까운 부위(코, 이마, 표면)가 과장돼 어색하게 부풀어 보입니다. 이게 <strong>광각 왜곡(Wide-angle distortion)</strong>입니다.</p>
+<p><strong>작업 6 — 원근 압축 체험</strong></p>
+<ul><li>1. Current Focal Length를 <strong>85</strong>로 변경</li><li>2. 카메라를 뒤로 빼서 같은 액터를 멀리서 잡음</li></ul>
+<p>피사체가 자연스럽고 배경이 인물 가까이 압축돼 보입니다. 이게 <strong>원근 압축(Perspective compression)</strong>입니다. 영화 인물 클로즈업이 거의 다 85mm 이상인 이유입니다.</p>
+<p>---</p>
+<h3 id="focal-length-정리">Focal Length 정리</h3>
+<div class="table-wrap"><table><thead><tr><th>화각</th><th>Focal Length</th><th>느낌</th><th>권장 사용 컷</th></tr></thead><tbody><tr><td data-label="화각"><strong>광각</strong></td><td data-label="Focal Length">14–28mm</td><td data-label="느낌">넓음, 공간감, 왜곡</td><td data-label="권장 사용 컷">공간 소개, 액션 동선, 풍경</td></tr>
+<tr><td data-label="화각"><strong>표준</strong></td><td data-label="Focal Length">35–50mm</td><td data-label="느낌">사람 눈과 유사</td><td data-label="권장 사용 컷">자연스러운 대화, 일반 컷</td></tr>
+<tr><td data-label="화각"><strong>망원</strong></td><td data-label="Focal Length">70–135mm</td><td data-label="느낌">좁음, 압축감</td><td data-label="권장 사용 컷">인물 클로즈업, 감정 표현</td></tr>
+<tr><td data-label="화각"><strong>초망원</strong></td><td data-label="Focal Length">200mm+</td><td data-label="느낌">매우 좁음, 평면적</td><td data-label="권장 사용 컷">멀리 있는 피사체, 압축 미학</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>속성</th><th>기본값</th><th>설명</th><th>조절 팁</th></tr></thead><tbody><tr><td data-label="속성"><strong>Current Focal Length</strong></td><td data-label="기본값">35.0 mm</td><td data-label="설명">화각 결정</td><td data-label="조절 팁">풍경: 24, 표준: 50, 인물: 85+</td></tr>
+<tr><td data-label="속성"><strong>Min Focal Length</strong></td><td data-label="기본값">4.0 mm</td><td data-label="설명">슬라이더 최소값</td><td data-label="조절 팁">보통 안 건드림</td></tr>
+<tr><td data-label="속성"><strong>Max Focal Length</strong></td><td data-label="기본값">1000.0 mm</td><td data-label="설명">슬라이더 최대값</td><td data-label="조절 팁">보통 안 건드림</td></tr>
+<tr><td data-label="속성"><strong>Lens Preset</strong></td><td data-label="기본값">Universal Zoom</td><td data-label="설명">슬라이더 범위 결정</td><td data-label="조절 팁">Universal Zoom 그대로</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">인스타 셀카 비유</div>
+<div class="callout-body">
+<p>광각으로 찍으면 코가 커 보이고, 망원으로 찍으면 얼굴이 정교하게 나옵니다. 같은 원리입니다. 멀리서 찍으니까 가까운 부위가 덜 과장되는 것입니다.</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">카메라 이동 vs 렌즈 변경</div>
+<div class="callout-body">
+<p>카메라 가까이 가는 것과 망원으로 당기는 것은 다릅니다. 가까이 가면 원근감이 변하고, 망원은 화각만 좁아집니다. 이건 3교시 Dolly Zoom에서 다시 만납니다.</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 문제</div>
+<div class="callout-body">
+
+</div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">슬라이더가 움직이지 않임</td><td data-label="원인">값 직접 입력 필요</td><td data-label="해결">슬라이더 우측 숫자 칸 클릭 후 키보드 입력</td></tr>
+<tr><td data-label="증상">85mm로 바꿨더니 지나치게 좁아 아무것도 보이지 않음</td><td data-label="원인">카메라가 피사체에 지나치게 가까움</td><td data-label="해결">우클릭 + S(뒤로)로 카메라를 멀리</td></tr>
+<tr><td data-label="증상">24mm가 지나치게 넓어 산만함</td><td data-label="원인">광각의 정상 특성</td><td data-label="해결">표준 50mm로 시작 후 조절</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="4-aperture-조리개와-심도">4. Aperture — 조리개와 심도</h2>
+<p>Aperture는 조리개입니다. 빛 들어오는 구멍 크기인데, 우리는 <strong>심도(배경 흐림) 만드는 도구</strong>로 사용합니다.</p>
+<h3 id="시작-전-eye-adaptation-끄기">시작 전 — Eye Adaptation 끄기</h3>
+<p>UE는 기본적으로 사람 눈처럼 자동 노출 보정(<strong>Eye Adaptation</strong>)을 합니다. Aperture를 f/22 → f/1.4로 바꿔도 화면 밝기가 거의 안 변할 수 있습니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">DoF는 Aperture에 직접 반응합니다</div>
+<div class="callout-body">
+<p>배경 흐림(DoF) 자체는 Aperture에 직접 반응하므로 Eye Adaptation을 끄지 않아도 보입니다. Eye Adaptation이 가리는 건 <strong>brightness 변화</strong>뿐입니다. 다만 'f값 바꿔도 변화가 없는 것 같다'는 인지 혼란을 막기 위해 끄고 시작합니다.</p>
+</div>
+</div>
+<p><strong>Eye Adaptation 끄는 절차:</strong></p>
+<ul><li>1. CineCameraActor 선택</li><li>2. Details 검색창에 <strong>&quot;exposure&quot;</strong> 타이핑</li><li>3. <strong>Post Process &gt; Lens &gt; Exposure</strong> 섹션 펼치기</li><li>4. <strong>Min EV100 = 1, Max EV100 = 1</strong>로 동일하게 입력</li><li>5. brightness가 freeze됨 → DoF 변화만 명확히 비교 가능</li></ul>
+<aside class="callout callout-info"><div class="callout-body"><p>Cine Camera &gt; Post Process &gt; Lens &gt; Exposure에서 Min/Max EV100을 같은 값으로 맞추면 밝기 변화가 고정되어 DoF 차이를 비교하기 쉽습니다.</p></div></aside>
+<div class="callout callout-tip">
+<div class="callout-title">Cine Camera Post Process는 더 깊은 주제</div>
+<div class="callout-body">
+<p>Cine Camera에는 Eye Adaptation 외에도 Bloom, Vignette, Color Grading 등 Post Process 옵션이 더 있습니다. <strong>13주차 렌더링 수업에서 본격 다룹니다.</strong> 오늘은 이 한 가지만 짚고 갑니다.</p>
+</div>
+</div>
+<p>---</p>
+<h3 id="함께-실습-절차-aperture-6단계">함께 실습 절차 — Aperture 6단계</h3>
+<p><strong>작업 1 — Aperture 위치 찾기</strong></p>
+<ul><li>1. Details 패널 검색창에 <strong>&quot;aperture&quot;</strong> 타이핑</li><li>2. <strong>Current Aperture</strong> 슬라이더가 나타남</li></ul>
+<p>현재 값은 f/2.8 정도입니다. 화면 안의 배경 흐림 정도를 한 번 봐둡니다.</p>
+<p><strong>작업 2 — f/22 (조이기)</strong></p>
+<ul><li>1. Current Aperture를 <strong>22</strong>로 입력</li></ul>
+<p>화면 모든 거리의 오브젝트가 다 선명해집니다. 다큐멘터리, 모든 게 선명한 룩입니다.</p>
+<p><strong>작업 3 — f/1.4 (활짝 열기)</strong></p>
+<ul><li>1. Current Aperture를 <strong>1.4</strong>로 변경</li></ul>
+<p>이론상 배경이 흐려져야 하지만, 대부분의 학생은 화면 변화가 미미하거나 거의 없습니다. 이는 정상적인 상황입니다.</p>
+<p><strong>작업 4 — 심도 진단</strong></p>
+<p>f/1.4인데 배경이 안 흐려진 경우 다음 세 가지를 점검하고 하나씩 고칩니다.</p>
+<div class="table-wrap"><table><thead><tr><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="원인">카메라가 핵심 액터에서 지나치게 멈</td><td data-label="해결">우클릭 + W(앞으로)로 액터에 1m 이내까지 가까이</td></tr>
+<tr><td data-label="원인">Focal Length가 24mm 광각임</td><td data-label="해결">Current Focal Length를 <strong>85</strong>로 변경</td></tr>
+<tr><td data-label="원인">배경이 액터 바로 뒤에 붙어있음</td><td data-label="해결">카메라 각도를 바꿔 배경이 멀리 보이는 구도 만들기</td></tr></tbody></table></div>
+<p><strong>작업 5 — 다시 시도 (조합 만들기)</strong></p>
+<ul><li>1. f/1.4 + Focal Length 85mm + 카메라를 핵심 액터에 가까이</li></ul>
+<p>배경이 부드럽게 흐려집니다. 이게 <strong>Bokeh(보케)</strong>입니다. 영화 인물 클로즈업의 핵심 룩입니다.</p>
+<aside class="callout callout-info"><div class="callout-body"><p>f/22에서는 화면 전반이 선명하고, f/1.4에서는 피사체와 배경의 거리 차이가 충분할 때 배경 Bokeh가 강해집니다.</p></div></aside>
+<figure class="lecture-figure">
+<img src="assets/03_aperture-bokeh-comparison.webp" alt="Aperture 값이 작아질수록 심도는 얕아지고, 초점 밖 배경의 Bokeh가 강해집니다.">
+<figcaption>Aperture 값이 작아질수록 심도는 얕아지고, 초점 밖 배경의 Bokeh가 강해집니다.</figcaption>
+</figure>
+<p><strong>작업 6 — 본인 레벨에서 가장 강한 Bokeh 찾기</strong></p>
+<ul><li>1. 본인 레벨에서 Bokeh가 가장 잘 나오는 위치/각도 탐색</li><li>2. 카메라 위치, Focal Length, f값을 조합해 가장 마음에 드는 결과 만들기</li></ul>
+<p>---</p>
+<h3 id="aperture-광학-원리">Aperture 광학 원리</h3>
+<div class="callout callout-tip">
+<div class="callout-title">f값의 직관 함정</div>
+<div class="callout-body">
+<p><strong>f값이 작을수록 구멍은 더 큽니다.</strong> 직관과 반대입니다. <strong>f-stop = 렌즈 초점거리 ÷ 조리개 지름</strong> 분모(조리개 지름)가 클수록 f값(분수의 결과)은 작아집니다. f/1.4가 활짝 열린 큰 구멍, f/22가 좁은 작은 구멍입니다.</p>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/04_f-stop-formula.webp" alt="04_f-stop-formula">
+
+</figure>
+<p>비유로 말하면 <strong>사람 눈동자</strong>와 같습니다. 어두운 곳에 가면 동공이 커집니다. 빛을 많이 들이려고. 그게 f/1.4 상태입니다. 밝은 곳에 가면 동공이 작아집니다. 그게 f/22 상태입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/05_aperture-eye-pupil.webp" alt="사람 눈동자 비유 — 어두운 곳 동공 큼(f/1.4) vs 밝은 곳 동공 작음(f/22)">
+<figcaption>사람 눈동자 비유 — 어두운 곳 동공 큼(f/1.4) vs 밝은 곳 동공 작음(f/22)</figcaption>
+</figure>
+<p>조리개가 작아지면 왜 심도가 깊어질까요? 구멍이 작을수록 빛이 좁은 경로로 들어와서 초점 앞뒤의 흐림 원이 작아집니다. 그래서 더 넓은 거리 범위가 선명해 보입니다.</p>
+<p>---</p>
+<h3 id="aperture-정리">Aperture 정리</h3>
+<div class="table-wrap"><table><thead><tr><th>f값</th><th>조리개 상태</th><th>심도</th><th>권장 사용 컷</th></tr></thead><tbody><tr><td data-label="f값"><strong>f/1.4</strong></td><td data-label="조리개 상태">활짝 열림</td><td data-label="심도">매우 얕음, 강한 Bokeh</td><td data-label="권장 사용 컷">인물 클로즈업, 감정 강조</td></tr>
+<tr><td data-label="f값"><strong>f/2.8</strong></td><td data-label="조리개 상태">열림</td><td data-label="심도">얕음</td><td data-label="권장 사용 컷">시네마틱 기본값</td></tr>
+<tr><td data-label="f값"><strong>f/5.6</strong></td><td data-label="조리개 상태">중간</td><td data-label="심도">보통</td><td data-label="권장 사용 컷">일반 대화 장면</td></tr>
+<tr><td data-label="f값"><strong>f/8</strong></td><td data-label="조리개 상태">좁음</td><td data-label="심도">깊음</td><td data-label="권장 사용 컷">풍경, 그룹 샷, 제품 컷</td></tr>
+<tr><td data-label="f값"><strong>f/22</strong></td><td data-label="조리개 상태">매우 좁음</td><td data-label="심도">매우 깊음</td><td data-label="권장 사용 컷">다큐멘터리, 모든 게 선명</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>속성</th><th>기본값</th><th>설명</th><th>조절 팁</th></tr></thead><tbody><tr><td data-label="속성"><strong>Current Aperture</strong></td><td data-label="기본값">2.8</td><td data-label="설명">조리개 f값</td><td data-label="조절 팁">시네마틱: 1.4–2.8, 일반: 5.6–8</td></tr>
+<tr><td data-label="속성"><strong>Min FStop</strong></td><td data-label="기본값">1.4</td><td data-label="설명">슬라이더 최소값</td><td data-label="조절 팁">보통 안 건드림</td></tr>
+<tr><td data-label="속성"><strong>Max FStop</strong></td><td data-label="기본값">22.0</td><td data-label="설명">슬라이더 최대값</td><td data-label="조절 팁">보통 안 건드림</td></tr>
+<tr><td data-label="속성"><strong>Diaphragm Blade Count</strong></td><td data-label="기본값">7</td><td data-label="설명">조리개 날 개수 (Bokeh 모양)</td><td data-label="조절 팁">7=둥근 Bokeh, 5=오각형. 기본 7 그대로</td></tr></tbody></table></div>
+<div class="callout callout-info">
+<div class="callout-title">심도 vs Bokeh — 다른 단어</div>
+<div class="callout-body">
+<p><strong>심도</strong>는 선명하게 보이는 거리 범위(얼마나 좁은가/넓은가)이고, <strong>Bokeh</strong>는 초점 밖 흐림의 모양과 질감입니다.</p>
+</div>
+</div>
+<p>f/1.4~2.8이 영화 인물 클로즈업에서 자주 쓰이지만, 단체 컷이나 액션, 제품 컷에서는 일부러 f/5.6~8로 조여서 모두 선명하게 만듭니다. 고정 규칙은 아닙니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">심도 만들기 공식</div>
+<div class="callout-body">
+<p><strong>f값 작게 + Focal Length 길게 + 피사체 가까이 + 배경 멀리</strong> 네 가지가 같이 작동합니다. 다 만족시키면 Bokeh가 확 나옵니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="5-focus-distance-manual-tracking">5. Focus Distance — Manual / Tracking</h2>
+<p>들어가기 전에 꼭 짚어야 할 구분이 있습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>용어</th><th>의미</th></tr></thead><tbody><tr><td data-label="용어"><strong>Focus Distance</strong></td><td data-label="의미">가장 선명한 거리의 <strong>위치</strong> (한 점)</td></tr>
+<tr><td data-label="용어"><strong>Depth of Field (심도)</strong></td><td data-label="의미">그 위치 앞뒤로 선명하게 허용되는 <strong>범위</strong></td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/06_focus-vs-dof.webp" alt="Focus Distance(빨간 점, 카메라에서 200cm) + Depth of Field(노란 범위)">
+<figcaption>Focus Distance(빨간 점, 카메라에서 200cm) + Depth of Field(노란 범위)</figcaption>
+</figure>
+<p>한 줄로, Focus Distance는 <strong>'어디에'</strong> 초점을 맞출지, DoF는 그 초점 주변이 <strong>'얼마나 넓게'</strong> 선명할지입니다. 둘이 같이 작동합니다. 초점이 안 맞으면 아무리 f값을 작게 해도 흐릿하기만 합니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">cm 단위 감각</div>
+<div class="callout-body">
+<p>Focus Distance는 cm 단위입니다. <strong>200cm = 2m, 1000cm = 10m</strong>입니다.</p>
+</div>
+</div>
+<h3 id="함께-실습-절차-focus-distance-6단계">함께 실습 절차 — Focus Distance 6단계</h3>
+<p><strong>작업 1 — Focus 섹션 위치 찾기</strong></p>
+<ul><li>1. Details 패널 검색창에 <strong>&quot;focus&quot;</strong> 타이핑</li><li>2. <strong>Focus Settings</strong> 섹션이 나타남</li><li>3. <strong>Current Focus Method</strong> 드롭다운이 핵심 옵션</li></ul>
+<p>기본값은 <strong>Manual</strong>입니다.</p>
+<p><strong>작업 2 — Manual 거리 200cm</strong></p>
+<ul><li>1. Manual Focus Distance를 <strong>200</strong>으로 입력</li></ul>
+<p>카메라에서 2m 거리의 오브젝트가 선명해지고 나머지는 (조리개에 따라) 흐려집니다.</p>
+<p><strong>작업 3 — 거리 차례로 변경</strong></p>
+<ul><li>1. Manual Focus Distance를 <strong>500</strong> 입력 → 5m 거리 오브젝트가 선명</li><li>2. <strong>1000</strong> 입력 → 10m 거리 선명</li><li>3. <strong>2000</strong> 입력 → 20m 거리 선명</li></ul>
+<p>거리값에 따라 선명 영역이 카메라에서 멀어지는 것이 보입니다.</p>
+<p><strong>작업 4 — Debug Plane 켜기 (시각화)</strong></p>
+<ul><li>1. <strong>Draw Debug Focus Plane</strong> 체크박스 활성화</li></ul>
+<p>뷰포트에 노란색 평면이 나타납니다. 이 평면 위에 있는 물체만 선명해진다는 뜻입니다. <strong>가상의 유리판</strong>이라고 보면 됩니다.</p>
+<ul><li>2. Manual Focus Distance를 다시 200, 500, 1000으로 바꾸면 노란 평면이 그 거리로 이동합니다.</li></ul>
+<p><strong>작업 5 — Tracking 모드 시도</strong></p>
+<ul><li>1. Current Focus Method 드롭다운 → <strong>Tracking</strong> 선택</li><li>2. 아래 <strong>Actor To Track</strong> 옵션이 새로 나타남</li><li>3. 드롭다운 또는 스포이드 아이콘 클릭 → 본인 레벨의 핵심 액터(메가스캔 식물, 바위 등) 선택</li></ul>
+<p>노란 Debug Plane이 자동으로 선택한 액터 위치로 이동합니다. 액터를 옮겨도 평면이 따라갑니다.</p>
+<aside class="callout callout-info"><div class="callout-body"><p>Tracking 모드에서는 <strong>Actor To Track</strong>에 본인 레벨의 핵심 액터를 지정해야 초점 평면이 해당 액터를 따라갑니다.</p></div></aside>
+<p><strong>작업 6 — Debug Plane 끄기</strong></p>
+<ul><li>1. Draw Debug Focus Plane 체크 해제</li></ul>
+<p>작업 중에는 Plane이 계속 보이면 방해될 수 있으므로 디버그용으로만 켰다 끕니다.</p>
+<p>---</p>
+<h3 id="focus-distance-정리">Focus Distance 정리</h3>
+<div class="table-wrap"><table><thead><tr><th>모드</th><th>사용 시점</th><th>연출 의미</th></tr></thead><tbody><tr><td data-label="모드"><strong>Manual</strong></td><td data-label="사용 시점">카메라/피사체 움직이지 않임, 의도적 초점 고정</td><td data-label="연출 의미"><strong>Rack Focus</strong> (한 피사체 → 다른 피사체 초점 이동)</td></tr>
+<tr><td data-label="모드"><strong>Tracking</strong></td><td data-label="사용 시점">피사체나 카메라가 움직임</td><td data-label="연출 의미">자동 추적, 캐릭터 따라가기</td></tr>
+<tr><td data-label="모드"><strong>Disable</strong></td><td data-label="사용 시점">모든 게 다 선명해야 함</td><td data-label="연출 의미">심도 연출 자체를 끔</td></tr></tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>속성</th><th>기본값</th><th>설명</th><th>조절 팁</th></tr></thead><tbody><tr><td data-label="속성"><strong>Current Focus Method</strong></td><td data-label="기본값">Manual</td><td data-label="설명">Manual / Tracking / Disable</td><td data-label="조절 팁">정적 컷: Manual, 움직임: Tracking</td></tr>
+<tr><td data-label="속성"><strong>Manual Focus Distance</strong></td><td data-label="기본값">100000 cm</td><td data-label="설명">Manual 시 초점 거리</td><td data-label="조절 팁">200=2m, 1000=10m</td></tr>
+<tr><td data-label="속성"><strong>Actor To Track</strong></td><td data-label="기본값">None</td><td data-label="설명">Tracking 시 따라갈 액터</td><td data-label="조절 팁">본인 레벨의 핵심 오브젝트</td></tr>
+<tr><td data-label="속성"><strong>Draw Debug Focus Plane</strong></td><td data-label="기본값">꺼짐</td><td data-label="설명">초점 평면 시각화 (가상 유리판)</td><td data-label="조절 팁">디버그용으로만</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">Rack Focus</div>
+<div class="callout-body">
+<p>Manual의 실제 매력은 Rack Focus라는 영화 기법입니다. 한 피사체에서 다른 피사체로 초점을 이동해서 관객 시선을 옮기는 것입니다. 2교시에 키프레임으로 직접 만듭니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">Tracking 사용하면 Manual은 필요 없나요?</div>
+<div class="callout-body">
+<p>Tracking은 편하지만 Rack Focus처럼 의도적으로 초점을 늦게 맞추거나 다른 대상에 두려면 Manual이 필요합니다.</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 문제</div>
+<div class="callout-body">
+
+</div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Tracking으로 바꿨는데 초점이 안 맞음</td><td data-label="원인">Actor To Track이 None</td><td data-label="해결">액터 지정 필요</td></tr>
+<tr><td data-label="증상">액터 지정했는데도 흐릿함</td><td data-label="원인">Aperture가 지나치게 좁음(f/22)</td><td data-label="해결">Aperture를 f/2.8 이하로</td></tr>
+<tr><td data-label="증상">모든 게 다 선명함</td><td data-label="원인">Focus Method가 Disable</td><td data-label="해결">Manual 또는 Tracking으로</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="6-내-영화-룩-만들기-4-파라미터-통합-미션">6. 내 영화 룩 만들기 — 4 파라미터 통합 미션</h2>
+<p>지금까지 4 파라미터를 하나씩 따로 만져봤습니다. 이제 4개를 다 묶어서 본인 레벨에서 한 컷의 영화 룩을 직접 만듭니다.</p>
+<h3 id="미션-본인만의-영화-룩-한-컷-완성하기">미션 — 본인만의 영화 룩 한 컷 완성하기</h3>
+<p><strong>조건 4가지</strong> (4 파라미터 모두 사용):</p>
+<ol><li><strong>Filmback</strong>: 35mm Academy 고정</li><li><strong>Focal Length</strong>: 본인이 만들 룩에 맞는 화각 선택</li><li><strong>Aperture</strong>: 얕은 심도 또는 깊은 심도 중 의도에 맞게</li><li><strong>Focus Distance</strong>: Manual 또는 Tracking으로 핵심 액터에 초점 락</li></ol>
+<h3 id="의도-카테고리-한-가지-골라서-만들기">의도 카테고리 — 한 가지 골라서 만들기</h3>
+<div class="table-wrap"><table><thead><tr><th>카테고리</th><th>추천 조합</th><th>효과</th></tr></thead><tbody><tr><td data-label="카테고리"><strong>인물 감정 클로즈업</strong></td><td data-label="추천 조합">Focal 85+, f/1.4~2.0, 카메라 가까이, Tracking 액터에 락</td><td data-label="효과">강한 Bokeh, 인물 강조</td></tr>
+<tr><td data-label="카테고리"><strong>공간 소개 와이드</strong></td><td data-label="추천 조합">Focal 24~28, f/5.6~8, 카메라 멀리, Manual Focus 1000cm+</td><td data-label="효과">깊은 심도, 모든 게 선명, 공간감</td></tr>
+<tr><td data-label="카테고리"><strong>드라마 대화</strong></td><td data-label="추천 조합">Focal 50, f/2.8~4, Tracking 액터에 락</td><td data-label="효과">자연스러운 시야, 적당한 심도</td></tr>
+<tr><td data-label="카테고리"><strong>압축 미학</strong></td><td data-label="추천 조합">Focal 135+, f/2.8, 카메라 멀리, Tracking</td><td data-label="효과">망원 압축, 배경 평면화</td></tr></tbody></table></div>
+<h3 id="진행-절차">진행 절차</h3>
+<p><strong>단계 1 — 의도 정하기 (30초)</strong></p>
+<ul><li>옆 사람과 한 줄로 &quot;나는 ___ 룩을 만들 거예요&quot; 선언</li><li>또는 마음속으로만 정해도 됨</li></ul>
+<p><strong>단계 2 — 파라미터 4개 설정 (3분)</strong></p>
+<ul><li>위 표에서 의도에 맞는 조합 입력</li><li>카메라 위치/각도 잡기</li></ul>
+<p><strong>단계 3 — 다듬기 (2분)</strong></p>
+<ul><li>파일럿 모드에서 카메라 시점 확인</li><li>4 파라미터 미세 조정 (Focal Length, Aperture, Focus Distance)</li><li>만족스러운 화면 만들기</li></ul>
+<p><strong>단계 4 — 옆 사람과 보여주기 (1분)</strong></p>
+<ul><li>옆 사람과 1분씩 본인 화면 보여주기</li><li>&quot;내가 의도한 건 ___이고, ___ 파라미터로 ___을 만들었어요&quot; 한 줄 설명</li></ul>
+<p><strong>단계 5 — 진행 확인 (30초)</strong></p>
+<ul><li>손 들면 빠르게 확인하고 한 줄 피드백</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">정답이 없습니다</div>
+<div class="callout-body">
+<p>영화 룩이 무엇이 좋은가는 의도에 따라 달라집니다. 인물 클로즈업도 정답, 풍경 와이드도 정답입니다. <strong>의도가 명확하고 파라미터가 그 의도를 받쳐주면</strong> 좋은 룩입니다.</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">2교시로 이어집니다</div>
+<div class="callout-body">
+<p>완료되면 이대로 두세요. 2교시에 이 룩을 시간축에 올려서 키프레임으로 움직입니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="정리">정리</h2>
+<h3 id="4대-파라미터-통합-표">4대 파라미터 통합 표</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>파라미터</th><th>무엇을 바꾸는가</th><th>화면에서 어떻게 보이는가</th><th>실무 사용</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="파라미터"><strong>Filmback</strong></td><td data-label="무엇을 바꾸는가">화면비 / 센서 크기</td><td data-label="화면에서 어떻게 보이는가">프레임 모양과 시야 범위</td><td data-label="실무 사용">35mm Academy로 통일</td></tr>
+<tr><td data-label="#">2</td><td data-label="파라미터"><strong>Focal Length</strong></td><td data-label="무엇을 바꾸는가">화각 / 줌</td><td data-label="화면에서 어떻게 보이는가">좁게/넓게 보임, 원근 압축</td><td data-label="실무 사용">풍경 24, 대화 50, 인물 85+</td></tr>
+<tr><td data-label="#">3</td><td data-label="파라미터"><strong>Aperture</strong></td><td data-label="무엇을 바꾸는가">조리개 (f값)</td><td data-label="화면에서 어떻게 보이는가">심도 (배경 흐림 강도)</td><td data-label="실무 사용">시네마틱 1.4~2.8, 단체 5.6~8</td></tr>
+<tr><td data-label="#">4</td><td data-label="파라미터"><strong>Focus Distance</strong></td><td data-label="무엇을 바꾸는가">초점이 맞는 거리</td><td data-label="화면에서 어떻게 보이는가">어느 위치가 선명한가</td><td data-label="실무 사용">Manual: Rack Focus / Tracking: 추적</td></tr></tbody></table></div>
+<p>한 줄로 — <strong>Filmback은 프레임의 그릇, Focal은 보는 범위, Aperture는 흐림의 강도, Focus는 선명한 위치</strong>입니다.</p>
+<p>심도 만들기 공식: <strong>작은 f값 + 긴 Focal + 가까운 피사체 + 먼 배경</strong>. 이 넷이 같이 작동합니다.</p>
+<p>---</p>
+<h2 id="2교시-예고">2교시 예고</h2>
+<p>1교시는 시네 카메라 정지 화면이었습니다. 2교시에는 이 파라미터들을 시간축에 키프레임으로 올립니다.</p>
+<p>예고 한 줄 — <strong>Dolly Zoom</strong>: 카메라를 이동시키면서 동시에 Focal Length를 반대로 변경해서, 피사체 크기는 유지되는데 배경 크기만 변하는 효과입니다. 히치콕이 〈현기증〉에서 처음 쓴 효과고, 3교시에 본인 레벨에서 직접 만듭니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#오늘-배울-4가지-한눈에-매핑">오늘 배울 4가지 — 한눈에 매핑</a></li>
+        <li class="toc-level-2"><a href="#1-레벨-준비-두-카메라-비교">1. 레벨 준비 + 두 카메라 비교</a></li>
+        <li class="toc-level-3"><a href="#본인-6주차-레벨-열기">본인 6주차 레벨 열기</a></li>
+        <li class="toc-level-3"><a href="#camera-actor-배치-비교-대상">Camera Actor 배치 — 비교 대상</a></li>
+        <li class="toc-level-3"><a href="#cine-camera-actor-배치-실제-주인공">Cine Camera Actor 배치 — 실제 주인공</a></li>
+        <li class="toc-level-3"><a href="#카메라-시점-미리보기-pilot-모드">카메라 시점 미리보기 — Pilot 모드</a></li>
+        <li class="toc-level-2"><a href="#2-filmback-화면비-결정">2. Filmback — 화면비 결정</a></li>
+        <li class="toc-level-3"><a href="#함께-실습-절차-filmback-5단계">함께 실습 절차 — Filmback 5단계</a></li>
+        <li class="toc-level-3"><a href="#filmback-정리">Filmback 정리</a></li>
+        <li class="toc-level-2"><a href="#3-focal-length-화각">3. Focal Length — 화각</a></li>
+        <li class="toc-level-3"><a href="#함께-실습-절차-focal-length-6단계">함께 실습 절차 — Focal Length 6단계</a></li>
+        <li class="toc-level-3"><a href="#focal-length-정리">Focal Length 정리</a></li>
+        <li class="toc-level-2"><a href="#4-aperture-조리개와-심도">4. Aperture — 조리개와 심도</a></li>
+        <li class="toc-level-3"><a href="#시작-전-eye-adaptation-끄기">시작 전 — Eye Adaptation 끄기</a></li>
+        <li class="toc-level-3"><a href="#함께-실습-절차-aperture-6단계">함께 실습 절차 — Aperture 6단계</a></li>
+        <li class="toc-level-3"><a href="#aperture-광학-원리">Aperture 광학 원리</a></li>
+        <li class="toc-level-3"><a href="#aperture-정리">Aperture 정리</a></li>
+        <li class="toc-level-2"><a href="#5-focus-distance-manual-tracking">5. Focus Distance — Manual / Tracking</a></li>
+        <li class="toc-level-3"><a href="#함께-실습-절차-focus-distance-6단계">함께 실습 절차 — Focus Distance 6단계</a></li>
+        <li class="toc-level-3"><a href="#focus-distance-정리">Focus Distance 정리</a></li>
+        <li class="toc-level-2"><a href="#6-내-영화-룩-만들기-4-파라미터-통합-미션">6. 내 영화 룩 만들기 — 4 파라미터 통합 미션</a></li>
+        <li class="toc-level-3"><a href="#미션-본인만의-영화-룩-한-컷-완성하기">미션 — 본인만의 영화 룩 한 컷 완성하기</a></li>
+        <li class="toc-level-3"><a href="#의도-카테고리-한-가지-골라서-만들기">의도 카테고리 — 한 가지 골라서 만들기</a></li>
+        <li class="toc-level-3"><a href="#진행-절차">진행 절차</a></li>
+        <li class="toc-level-2"><a href="#정리">정리</a></li>
+        <li class="toc-level-3"><a href="#4대-파라미터-통합-표">4대 파라미터 통합 표</a></li>
+        <li class="toc-level-2"><a href="#2교시-예고">2교시 예고</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 09 student notes.</p>
+</body>
+</html>

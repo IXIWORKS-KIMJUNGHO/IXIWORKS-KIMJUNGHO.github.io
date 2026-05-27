@@ -1,0 +1,1171 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 2교시 — Unreal Import 와 IK Rig 만들기</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 10</p>
+        <h1>10주차 2교시 — Unreal Import 와 IK Rig 만들기</h1>
+        <p class="lead">Mixamo FBX를 Unreal로 가져오고 IK Rig, Retarget Chain, IK Retargeter를 구성해 첫 애니메이션 변환을 완료합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 02</span>
+          <span class="hero-chip">IK Rig</span>
+          <span class="hero-chip">IK Retargeter</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 10</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">IK Rig and Retargeter</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-05-05</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="10주차-2교시-unreal-import-와-ik-rig-만들기">10주차 2교시 — Unreal Import 와 IK Rig 만들기</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr>
+<tr><td data-label="관계">1교시 핸드아웃</td><td data-label="문서"><span class="wikilink">1교시: 리타겟팅 개념 + Mixamo</span></td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>Mixamo FBX 2개를 Unreal 5.7 에 import 하고 네이밍 컨벤션(AS / PA / SK / SM)을 적용할 수 있다 SK_Mannequin 과 SK_Mixamo 의 본 구조를 직접 비교하여 매핑 가능성을 확인할 수 있다 IK Rig 에셋 2개와 IK Retargeter 에셋을 만들어 Walking 애니메이션을 ThirdPerson Mannequin 으로 변환할 수 있다</p>
+</div>
+</div>
+<p>1교시는 에셋 준비였고, 2교시는 그 에셋을 Unreal 로 가져와 매핑 에셋까지 만드는 단계이며, 3교시에 본인이 직접 다양한 동작으로 반복할 한 사이클을 시연으로 보여주는 시간입니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">2교시 흐름 — 6단계</div>
+<div class="callout-body">
+<ol><li>ThirdPerson 템플릿 프로젝트 열기 (또는 새로 만들기)</li><li>Mixamo FBX 2개 import (캐릭터 + 애니메이션) + 네이밍 컨벤션</li><li>SK_Mannequin vs SK_Mixamo 본 구조 실제로 비교</li><li>IK Rig 에셋 2개 만들기 (IK_Mixamo, IK_Mannequin) — Retarget Root + Retarget Chain</li><li>IK Retargeter 에셋 만들기 — 두 IK Rig 매핑</li><li>변환된 AS_Walking_Mannequin 이 SK_Mannequin 에서 재생됨 확인</li></ol>
+</div>
+</div>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 메시지</div>
+<div class="callout-body">
+<p>IK Rig 매핑 한 번이 가장 무거운 작업이고 그 뒤는 빠르며, <strong>매핑은 한 번이지만 변환은 N번</strong> — 이것이 IK Retargeter 의 실질적으로 가치이고 3교시에 그 N번 변환을 본인이 직접 수행합니다.</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">2교시 운영 모드 — 부분 실습형</div>
+<div class="callout-body">
+<p><strong>Import 와 Skeleton 비교는 다 같이 / IK_Mixamo 는 시연 / IK_Mannequin 은 본인이 직접 / RTG·Edit Pose·Export 는 함께 진행</strong>. chain 생성 절차를 한 번은 손으로 끝까지 해봐야 3교시 트러블슈팅이 가능하므로, 막힌 분은 수업용 백업 IK Rig 를 받아 다음 단계로 진행합니다.</p>
+</div>
+</div>
+<h2 id="1교시-핵심-빠른-점검">1교시 핵심 빠른 점검</h2>
+<div class="callout callout-question">
+<div class="callout-title">확인 질문 3개 — 옆 사람과 답 맞춰보기</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>Q</th><th>기대 답</th></tr></thead><tbody><tr><td data-label="Q">Mixamo 캐릭터 다운로드할 때 Pose 옵션은?</td><td data-label="기대 답">T-Pose</td></tr>
+<tr><td data-label="Q">애니메이션 받을 때 Skin 옵션은?</td><td data-label="기대 답">Without Skin</td></tr>
+<tr><td data-label="Q">사람 동작을 말한테 옮길 수 있나요?</td><td data-label="기대 답">아니요, 형태가 다르면 매핑 불가</td></tr></tbody></table></div>
+</div>
+</div>
+<p>리타겟팅 = 한 캐릭터의 동작을 다른 캐릭터에 전이하는 작업. 가능 조건은 형태 유사성. Mixamo = T-Pose / Mannequin = A-Pose / MetaHuman = A-Pose. 본 이름은 모두 다르지만 위치 대응으로 매핑할 수 있습니다.</p>
+<h2 id="1-import-네이밍-컨벤션">1. Import + 네이밍 컨벤션</h2>
+<h3 id="1-1-thirdperson-템플릿-프로젝트-준비">1.1 ThirdPerson 템플릿 프로젝트 준비</h3>
+<p>본인 시네마틱 프로젝트가 있으면 그것을 열어도 되지만, ThirdPerson 의 SK_Mannequin 이 프로젝트 안에 있어야 하며 없으면 새로 ThirdPerson 템플릿 프로젝트를 만듭니다 (약 1분 소요).</p>
+<h4 id="epic-games-launcher-에서-새-프로젝트-필요한-학생만">Epic Games Launcher 에서 새 프로젝트 (필요한 학생만)</h4>
+<ol><li><strong>Epic Games Launcher 실행</strong> (작업표시줄 / Dock 또는 시작 메뉴) → 좌측 사이드바 <strong><code>Unreal Engine</code></strong> 클릭</li><li><strong><code>Library</code></strong> 탭 (좌측 사이드바 두 번째) → 설치된 엔진 버전에서 <strong><code>Launch 5.7</code></strong> (노란색 버튼) 클릭</li><li>UE 에디터 시작 → <strong>Project Browser</strong> 윈도우 자동 표시</li><li>Project Browser 좌측 카테고리에서 <strong><code>Games</code></strong> 선택</li><li>우측 템플릿 그리드에서 <strong><code>Third Person</code></strong> 클릭 (썸네일에 캐릭터 + 환경)</li><li>우측 패널 옵션 입력:</li></ol>
+<ul><li><strong>Project Defaults</strong>: Blueprint (C++ 아님)</li><li><strong>Quality Preset</strong>: Maximum</li><li><strong>Starter Content</strong>: 켜기 (선택)</li><li><strong>Project Location</strong>: 본인 작업 폴더</li><li><strong>Project Name</strong>: <code>GameEngineII_2026_Week10</code> (공백·특수문자 X)</li></ul>
+<ol><li>우하단 <strong><code>Create</code></strong> (파란색) 클릭 → 프로젝트 생성 + 에디터 자동 시작 (1-2분)</li></ol>
+<blockquote class="quote-note">
+<p>Third Person 템플릿 — Manny / Quinn 캐릭터가 기본 포함</p>
+</blockquote>
+<h4 id="content-browser-에서-sk_mannequin-위치-확인">Content Browser 에서 SK_Mannequin 위치 확인</h4>
+<ol><li>에디터 열린 후 화면 하단의 <strong>Content Browser</strong> 패널 확인 (안 보이면 메뉴 <code>Window &gt; Content Browser</code>)</li><li>Content Browser 좌측 폴더 트리에서 <strong><code>Content</code></strong> 펼치기 → <strong><code>Characters</code></strong> → <strong><code>Mannequins</code></strong> → <strong><code>Meshes</code></strong> 순서로 클릭</li><li>폴더에 다음 에셋이 보입니다:</li></ol>
+<ul><li><code>SKM_Manny</code> (또는 <code>SK_Mannequin</code>) — Skeletal Mesh, 회색 마네킹</li><li><code>SKM_Quinn</code> — 또 다른 Skeletal Mesh (선택)</li><li><code>SK_Mannequin</code> 또는 <code>SK_Quinn_Skeleton</code> — Skeleton 에셋</li><li><code>PHYS_Mannequin</code> 또는 유사 — Physics Asset</li></ul>
+<ol><li><strong>SKM_Manny</strong> 더블클릭 → Skeletal Mesh Editor 열림 → A-Pose 자세 확인 후 닫기 (Ctrl+W)</li></ol>
+<p>이 캐릭터가 동작을 입힐 타깃이며, A-Pose 로 설정되어 있으므로 별도로 수정하지 않고 그대로 둡니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">UE 5.7 Manny / Quinn 정보</div>
+<div class="callout-body">
+<p>Manny / Quinn 두 캐릭터는 같은 SK_Mannequin skeleton 을 공유하므로, 어느 쪽으로 변환해도 결과는 동일합니다.</p>
+</div>
+</div>
+<h3 id="1-2-mixamo-폴더-만들기-캐릭터-import">1.2 Mixamo 폴더 만들기 + 캐릭터 import</h3>
+<h4 id="mixamo-전용-폴더-생성">Mixamo 전용 폴더 생성</h4>
+<ol><li>Content Browser 좌측 폴더 트리에서 <strong><code>Content</code></strong> 폴더에 <strong>마우스 우클릭</strong></li><li>컨텍스트 메뉴 표시 → <strong><code>New Folder</code></strong> 클릭 (또는 단축키 <strong><code>Ctrl+Shift+N</code></strong>)</li><li>새 폴더 노드 생성 → <strong><code>Mixamo</code></strong> 입력 → Enter</li><li><strong>Mixamo 폴더 더블클릭</strong> → 빈 상태로 진입 (<code>This folder is empty</code> 표시)</li></ol>
+<p>import 한 에셋은 모두 이 폴더에서 관리해야 다른 시스템 에셋과 섞이지 않고 나중에 에셋 출처를 추적하기 쉽습니다.</p>
+<h4 id="passive-marker-man-fbx-드래그앤드롭-import">Passive Marker Man.fbx 드래그앤드롭 import</h4>
+<ol><li><strong>윈도우 탐색기 (Win+E) 또는 Finder (macOS, Cmd+Space → Finder)</strong> 열기</li><li>1교시 다운로드한 폴더 (보통 <code>Downloads/</code>) 로 이동</li><li><strong><code>Passive Marker Man.fbx</code></strong> 파일을 마우스로 좌클릭한 채 끌어서 — Unreal 의 <strong>Content Browser 의 Mixamo 폴더 영역으로 드래그앤드롭</strong></li><li>마우스 놓는 순간 <strong>FBX Import Options 다이얼로그</strong> 가 화면 중앙에 자동으로 뜸 (배경 어두워짐)</li></ol>
+<blockquote class="quote-note">
+<p>윈도우 탐색기 → Content Browser 드래그 — 가장 직관적인 import 방법</p>
+</blockquote>
+<div class="callout callout-info">
+<div class="callout-title">드래그가 안 되면</div>
+<div class="callout-body">
+<p>Content Browser 우상단의 <strong><code>+ Add</code> 버튼</strong> 또는 <strong><code>Import</code></strong> 버튼 클릭 → 파일 탐색기 열기 → FBX 선택. 결과는 같음.</p>
+</div>
+</div>
+<h4 id="fbx-import-options-다이얼로그-정확히-설정">FBX Import Options 다이얼로그 정확히 설정</h4>
+<p>다이얼로그 화면 구성:</p>
+<ul><li><strong>상단 좌측</strong>: 파일 정보 (<code>Importing: Passive Marker Man.fbx</code>)</li><li><strong>중앙</strong>: 옵션 섹션들 (<code>Mesh</code>, <code>Animation</code>, <code>Material</code> 등) — 펼침/접힘 가능</li><li><strong>하단</strong>: <code>Import All</code> / <code>Import</code> / <code>Cancel</code> 버튼</li></ul>
+<p><strong>옵션 설정 (정확히 따라하기):</strong></p>
+<div class="table-wrap"><table><thead><tr><th>섹션</th><th>옵션</th><th>우리 설정</th><th>비고</th></tr></thead><tbody><tr><td data-label="섹션">(상단)</td><td data-label="옵션"><strong>Skeleton</strong> 드롭다운</td><td data-label="우리 설정"><strong><code>None</code></strong> (기본값)</td><td data-label="비고">신규 skeleton 에셋이 함께 만들어짐</td></tr>
+<tr><td data-label="섹션">Mesh</td><td data-label="옵션">Skeletal Mesh</td><td data-label="우리 설정">(기본)</td><td data-label="비고">본+메시 묶음</td></tr>
+<tr><td data-label="섹션">Mesh</td><td data-label="옵션">Import Mesh</td><td data-label="우리 설정">(기본)</td><td data-label="비고">메시 포함</td></tr>
+<tr><td data-label="섹션"><strong>Animation</strong></td><td data-label="옵션"><strong>Import Animations</strong></td><td data-label="우리 설정"><strong> 체크 해제</strong></td><td data-label="비고">캐릭터엔 동작 없음 — 켜면 빈 AS 에셋 생김</td></tr>
+<tr><td data-label="섹션">Material</td><td data-label="옵션">Import Materials</td><td data-label="우리 설정">(기본)</td><td data-label="비고">머티리얼 자동</td></tr>
+<tr><td data-label="섹션">Material</td><td data-label="옵션">Import Textures</td><td data-label="우리 설정">(기본)</td><td data-label="비고">텍스처 자동</td></tr></tbody></table></div>
+<div class="callout callout-warning">
+<div class="callout-title">Import Animations 체크 해제가 가장 중요</div>
+<div class="callout-body">
+<p>이 체크를 해제하지 않으면 빈 Animation Sequence 가 함께 생성돼서 폴더가 지저분해집니다.</p>
+</div>
+</div>
+<blockquote class="quote-note">
+<p>캐릭터 import 다이얼로그 — Skeleton: None (신규 생성), Import Animations:</p>
+</blockquote>
+<h4 id="import-all-클릭-경고-처리">Import All 클릭 + 경고 처리</h4>
+<ol><li>다이얼로그 우하단 <strong><code>Import All</code></strong> (파란색) 클릭</li><li>진행 표시 (몇 초) 후 다이얼로그 닫힘</li><li><strong>머티리얼 경고 메시지 박스</strong> 가 우상단 또는 화면 중앙에 뜰 수 있음:</li></ol>
+<ul><li><code>Some materials could not be created automatically</code></li><li><code>Texture XXX has unknown format</code></li></ul>
+<ol><li><strong>무시</strong>: 우측 <strong><code>X</code></strong> 또는 <strong><code>확인 버튼</code></strong> 클릭. 메시·본은 정상 import 된 상태.</li></ol>
+<p>경고는 텍스처 자동 매핑 실패에 의한 것이므로 무시해도 되며, 메시·본 import 만 정상이면 충분합니다.</p>
+<h4 id="mixamo-폴더-확인-4종-에셋-생성됨">Mixamo 폴더 확인 (4종 에셋 생성됨)</h4>
+<p>Content Browser 의 Mixamo 폴더가 자동으로 새 에셋들로 채워지고, 에셋 종류는 우상단 색깔 막대(노랑/녹색/주황 등)로 구분됩니다.</p>
+<div class="table-wrap"><table><thead><tr><th>에셋</th><th>원래 이름</th><th>우리가 바꿀 이름</th></tr></thead><tbody><tr><td data-label="에셋">Skeletal Mesh</td><td data-label="원래 이름"><code>Passive Marker Man</code></td><td data-label="우리가 바꿀 이름"><strong>SM_Mixamo</strong></td></tr>
+<tr><td data-label="에셋">Skeleton</td><td data-label="원래 이름"><code>Passive Marker Man_Skeleton</code></td><td data-label="우리가 바꿀 이름"><strong>SK_Mixamo</strong></td></tr>
+<tr><td data-label="에셋">Physics Asset</td><td data-label="원래 이름"><code>Passive Marker Man_PhysicsAsset</code></td><td data-label="우리가 바꿀 이름"><strong>PA_Mixamo</strong></td></tr>
+<tr><td data-label="에셋">Material(s)</td><td data-label="원래 이름">텍스처/머티리얼</td><td data-label="우리가 바꿀 이름">(그대로 두어도 됨)</td></tr></tbody></table></div>
+<p>1교시에서 살펴본 prefix 가 여기서 적용되며, 이 실습에서는 SM = Skeletal Mesh, SK = Skeleton, PA = Physics Asset 으로 사용합니다.</p>
+<div class="callout callout-note">
+<div class="callout-title">Prefix 주의</div>
+<div class="callout-body">
+<p>Unreal 프로젝트마다 prefix 규칙은 조금씩 다르지만, 이번 10주차 실습에서는 문서 전체의 일관성을 위해 <code>SM_Mixamo</code> 를 Mixamo Skeletal Mesh, <code>SK_Mixamo</code> 를 Skeleton 이름으로 고정하고 <code>SM_</code> 을 Static Mesh 에 쓰는 팀도 많다는 점만 기억해두면 됩니다.</p>
+</div>
+</div>
+<h3 id="1-3-네이밍-컨벤션-적용">1.3 네이밍 컨벤션 적용</h3>
+<p>각 에셋에 대해:</p>
+<ol><li>에셋 좌클릭으로 선택</li><li><strong><code>F2</code></strong> 키 누르기 (또는 우클릭 → 컨텍스트 메뉴 → <code>이름 변경</code>)</li><li>에셋 이름이 입력 모드로 진입 (이름 영역이 텍스트박스로 변함)</li><li>새 이름 입력 → <strong>Enter</strong></li><li>에셋 참조 갱신 다이얼로그가 뜰 수 있음 → <strong>확인 버튼</strong></li></ol>
+<div class="table-wrap"><table><thead><tr><th>변경 전</th><th>→</th><th>변경 후</th></tr></thead><tbody><tr><td data-label="변경 전"><code>Passive Marker Man</code> (Skeletal Mesh)</td><td data-label="→"></td><td data-label="변경 후"><strong><code>SM_Mixamo</code></strong></td></tr>
+<tr><td data-label="변경 전"><code>Passive Marker Man_Skeleton</code> (Skeleton)</td><td data-label="→"></td><td data-label="변경 후"><strong><code>SK_Mixamo</code></strong></td></tr>
+<tr><td data-label="변경 전"><code>Passive Marker Man_PhysicsAsset</code> (Physics Asset)</td><td data-label="→"></td><td data-label="변경 후"><strong><code>PA_Mixamo</code></strong></td></tr></tbody></table></div>
+<div class="callout callout-warning">
+<div class="callout-title">에셋 이름 규칙</div>
+<div class="callout-body">
+<p>공백·한글·특수문자는 사용하지 않기. 영문 + 숫자 + 언더스코어만. UE 에셋명 규칙입니다.</p>
+</div>
+</div>
+<blockquote class="quote-note">
+<p>네이밍 prefix 적용 후 Content Browser — 한눈에 에셋 종류가 보임</p>
+</blockquote>
+<p>여기까지가 캐릭터 import 단계의 끝이며, 본·메시·물리 에셋이 모두 같은 SK_Mixamo skeleton 을 공유합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">즉시 확인</div>
+<div class="callout-body">
+<ul><li>[ ] Mixamo 폴더에 SM_/SK_/PA_Mixamo 3개 에셋 + 머티리얼 에셋 (이름 그대로 두기) 보임</li><li>[ ] SM_Mixamo 더블클릭 시 T-Pose 캐릭터가 viewport 에 표시됨 (안 보이면 import 실패)</li><li>[ ] SK_Mixamo 더블클릭 시 Skeleton Tree 패널에 본 hierarchy 표시됨 (Hips → Spine →...)</li></ul>
+</div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>Prefix</th><th>에셋 종류</th><th>우리 케이스</th></tr></thead><tbody><tr><td data-label="Prefix"><strong>SM</strong></td><td data-label="에셋 종류">Skeletal Mesh</td><td data-label="우리 케이스">SM_Mixamo</td></tr>
+<tr><td data-label="Prefix"><strong>SK</strong></td><td data-label="에셋 종류">Skeleton</td><td data-label="우리 케이스">SK_Mixamo</td></tr>
+<tr><td data-label="Prefix"><strong>PA</strong></td><td data-label="에셋 종류">Physics Asset</td><td data-label="우리 케이스">PA_Mixamo</td></tr>
+<tr><td data-label="Prefix"><strong>AS</strong></td><td data-label="에셋 종류">Animation Sequence</td><td data-label="우리 케이스">(다음 단계에서)</td></tr></tbody></table></div>
+<h3 id="1-4-walking-애니메이션-import">1.4 Walking 애니메이션 import</h3>
+<p>이제 동작 데이터를 가져오며, 캐릭터는 이미 import 되어 있으므로 애니메이션은 SK_Mixamo skeleton 에 연결합니다.</p>
+<h4 id="walking-fbx-드래그">Walking.fbx 드래그</h4>
+<ol><li>윈도우 탐색기 (또는 Finder) 에서 <strong><code>Walking.fbx</code></strong> 찾기 (1교시 다운로드 폴더)</li><li>Content Browser 의 <strong>Mixamo 폴더</strong> (캐릭터와 같은 폴더) 로 드래그앤드롭</li><li><strong>FBX Import Options 다이얼로그</strong> 자동 표시</li></ol>
+<h4 id="fbx-import-options-애니메이션용-정확-설정">FBX Import Options (애니메이션용 정확 설정)</h4>
+<p>캐릭터 import 와 다른 점은 <strong>Skeleton 옵션 명시 지정</strong>.</p>
+<div class="table-wrap"><table><thead><tr><th>섹션</th><th>옵션</th><th>우리 설정</th><th>비고</th></tr></thead><tbody><tr><td data-label="섹션">(상단)</td><td data-label="옵션"><strong>Skeleton</strong> 드롭다운</td><td data-label="우리 설정"><strong><code>SK_Mixamo</code></strong> 명시 지정</td><td data-label="비고">신규 X, 기존 재사용</td></tr>
+<tr><td data-label="섹션">Mesh</td><td data-label="옵션">Skeletal Mesh</td><td data-label="우리 설정">(Without Skin 이라 무관)</td><td data-label="비고">메시 데이터 없음</td></tr>
+<tr><td data-label="섹션"><strong>Animation</strong></td><td data-label="옵션"><strong>Import Animations</strong></td><td data-label="우리 설정">****</td><td data-label="비고">동작 데이터</td></tr>
+<tr><td data-label="섹션">Animation</td><td data-label="옵션">Animation Length</td><td data-label="우리 설정"><code>Exported Time</code> (기본)</td><td data-label="비고">원본 길이</td></tr>
+<tr><td data-label="섹션">Animation</td><td data-label="옵션">Frame Range Min/Max</td><td data-label="우리 설정">(기본)</td><td data-label="비고">자동 인식</td></tr></tbody></table></div>
+<p><strong>Skeleton 드롭다운 사용법:</strong></p>
+<ol><li>다이얼로그 상단의 <strong><code>Skeleton</code></strong> 항목 옆 드롭다운 클릭</li><li>드롭다운에 프로젝트 내 모든 Skeleton 에셋 목록 표시</li><li><strong><code>SK_Mixamo</code></strong> 선택 (Mixamo 폴더에 있는 skeleton)</li><li>또는 검색창에 <code>SK_Mixamo</code> 타이핑하여 빠르게 찾기</li></ol>
+<blockquote class="quote-note">
+<p>Walking.fbx import — Skeleton 에 SK_Mixamo 명시 지정</p>
+</blockquote>
+<div class="callout callout-warning">
+<div class="callout-title">Skeleton 지정이 핵심</div>
+<div class="callout-body">
+<p><code>None</code> 으로 두면 또 새 skeleton (<code>Walking_Skeleton</code>) 이 만들어져서 캐릭터와 동작이 서로 다른 본을 가지게 되므로, SM_Mixamo 와 AS_Walking_Mixamo 가 서로 못 알아봅니다.</p>
+</div>
+</div>
+<h4 id="import-all-경고-확인">Import All + 경고 확인</h4>
+<ol><li>다이얼로그 우하단 <strong><code>Import All</code></strong> 클릭</li><li>import 진행 (1-2초) → 다이얼로그 닫힘</li><li>가벼운 경고(머티리얼·텍스처·스무딩 그룹 관련)는 무시해도 됨</li><li>단, <code>Skeleton bone count mismatch</code> 가 뜨면 무시하지 말고 import 를 취소하거나 진행 확인 요청</li><li>Mixamo 폴더에 새 에셋 1개 생김 — <code>Walking</code> (Animation Sequence, <strong>녹색</strong> 막대)</li></ol>
+<h4 id="이름-변경">이름 변경</h4>
+<ol><li><code>Walking</code> 에셋 좌클릭 → <strong>F2</strong></li><li><code>AS_Walking_Mixamo</code> 입력 → Enter</li></ol>
+<h4 id="더블클릭으로-미리보기-검증">더블클릭으로 미리보기 + 검증</h4>
+<ol><li><strong>AS_Walking_Mixamo</strong> 더블클릭 → 별도 탭으로 <strong>Animation Sequence Editor</strong> 열림</li><li>에디터 화면 구성:</li></ol>
+<ul><li><strong>중앙 viewport</strong>: 캐릭터 (SM_Mixamo) 가 자동 붙어서 모션 재생</li><li><strong>하단 timeline</strong>: 키프레임 시각화 + 재생 컨트롤 (Play / Pause / Loop)</li><li><strong>우측 Details</strong>: Animation 에셋 메타데이터</li></ul>
+<ol><li><strong>재생 자동 시작</strong> — 캐릭터가 제자리에서 걷는 모션 무한 루프</li></ol>
+<div class="callout callout-question">
+<div class="callout-title">3가지 검증</div>
+<div class="callout-body">
+<ul><li>[ ] 캐릭터가 제자리에서 자연스럽게 걷는 동작</li><li>[ ] 사지가 비틀리지 않고 정상</li><li>[ ] 발이 땅에 닿음 (대지 평면 위)</li></ul>
+</div>
+</div>
+<p>재생이 잘 되면 import 성공이며, 에디터를 닫으려면 탭의 X 또는 <strong>Ctrl+W</strong> 단축키를 사용합니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 문제 — 캐릭터·애니메이션 import</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Skeleton 옵션에 SK_Mixamo 가 안 보임</td><td data-label="원인">SK_Mixamo 가 다른 폴더에 있거나 캐릭터 import 가 실패함</td><td data-label="해결">Mixamo 폴더에 SK_Mixamo 가 정상 존재하는지 확인 후 재시도</td></tr>
+<tr><td data-label="증상"><code>Skeleton bone count mismatch</code> 경고</td><td data-label="원인">선택한 Skeleton 과 FBX 안의 본 구조가 맞지 않음</td><td data-label="해결">import 취소 후 Skeleton: SK_Mixamo 지정 여부와 Walking.fbx 파일을 다시 확인</td></tr>
+<tr><td data-label="증상">캐릭터가 미리보기에서 깨짐 (T-Pose 로 멈춤)</td><td data-label="원인">Without Skin 데이터가 잘못 들어옴</td><td data-label="해결">Mixamo 사이트에서 다시 다운로드</td></tr>
+<tr><td data-label="증상">import 후 새 Skeleton 에셋이 또 생김</td><td data-label="원인">Skeleton 옵션을 <code>None</code> 으로 둠</td><td data-label="해결">Skeleton 지정 후 재import</td></tr>
+<tr><td data-label="증상">캐릭터가 너무 큼/작음</td><td data-label="원인">Mixamo 와 Mannequin 의 단위 스케일 차</td><td data-label="해결">우선 그대로 두고 IK Retargeter 단계에서 보정</td></tr>
+<tr><td data-label="증상">캐릭터 import 후 비어있는 AS 가 함께 생김</td><td data-label="원인">캐릭터 import 다이얼로그에서 <code>Import Animations</code> 체크 안 풂</td><td data-label="해결">비어있는 AS 에셋 삭제, Anim 체크 해제 후 재import</td></tr>
+<tr><td data-label="증상">애니메이션 import 후 새 <code>Walking_Skeleton</code> 에셋 추가</td><td data-label="원인">애니메이션 import 다이얼로그의 Skeleton 옵션 <code>None</code></td><td data-label="해결">잘못 생성된 에셋 삭제 후 Skeleton: SK_Mixamo 명시 지정하여 재import</td></tr></tbody></table></div>
+</div>
+</div>
+<h2 id="2-skeleton-본-구조-비교-unreal-안에서">2. Skeleton 본 구조 비교 — Unreal 안에서</h2>
+<p>1교시 슬라이드에서 살펴본 본 이름 비교 표를 이번에는 Unreal 안에서 직접 확인해봅니다.</p>
+<h3 id="2-1-sk_mannequin-skeleton-tree-열기">2.1 SK_Mannequin Skeleton Tree 열기</h3>
+<ol><li>Content Browser 에서 <strong>SK_Mannequin</strong> 더블클릭</li><li>Skeleton 에디터 열림</li><li>좌측 <strong>Skeleton Tree</strong> 패널에 본 hierarchy 표시</li></ol>
+<blockquote class="quote-note">
+<p>SK_Mannequin Skeleton Tree — root → pelvis → spine_01..03 → clavicle → upperarm</p>
+</blockquote>
+<h4 id="본-hierarchy-펼쳐보기">본 hierarchy 펼쳐보기</h4>
+<ol><li><strong>root</strong> 노드 펼치기</li><li><strong>pelvis</strong> 펼치기 → 그 아래 spine_01, thigh_l, thigh_r 가 보임</li><li><strong>spine_01</strong> → spine_02 → spine_03 → neck_01 / clavicle_l / clavicle_r 로 분기</li><li><strong>clavicle_l</strong> → upperarm_l → lowerarm_l → hand_l → 손가락들</li><li><strong>thigh_l</strong> → calf_l → foot_l → ball_l</li></ol>
+<p>이것이 Unreal 표준 인간형 skeleton 이며, 60-100개 정도의 본으로 구성되어 있고 spine 3단(spine_01..03), 양 어깨의 clavicle, 양 다리의 thigh-calf-foot-ball 구조를 가집니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">외워둘 만한 핵심 6개</div>
+<div class="callout-body">
+<p><strong>pelvis / spine_01 / clavicle_l|r / upperarm_l|r / thigh_l|r / hand_l|r</strong></p>
+</div>
+</div>
+<p>확인 후 Skeleton 에디터 닫기 — 탭 X 또는 Ctrl+W.</p>
+<h3 id="2-2-sk_mixamo-skeleton-tree-열기">2.2 SK_Mixamo Skeleton Tree 열기</h3>
+<ol><li>Content Browser 에서 <strong>SK_Mixamo</strong> 더블클릭</li></ol>
+<blockquote class="quote-note">
+<p>SK_Mixamo Skeleton Tree — root → Hips → Spine/Spine1/Spine2 → LeftShoulder → LeftArm</p>
+</blockquote>
+<h4 id="본-hierarchy-펼쳐보기-2">본 hierarchy 펼쳐보기</h4>
+<ol><li><strong>Hips</strong> (= Mannequin 의 pelvis) 펼치기</li><li><strong>Spine</strong> → Spine1 → Spine2 → Neck / LeftShoulder / RightShoulder</li><li><strong>LeftShoulder</strong> → LeftArm → LeftForeArm → LeftHand → 손가락</li><li><strong>LeftUpLeg</strong> → LeftLeg → LeftFoot → LeftToeBase</li></ol>
+<p>이름은 다르지만 구조를 살펴보면 동일합니다. <strong>Hips 는 pelvis 자리, Spine 은 spine_01 자리, LeftArm 은 upperarm_l 자리.</strong> 위치·역할 매핑 표를 다시 살펴봅니다.</p>
+<div class="table-wrap"><table><thead><tr><th>Mannequin</th><th>Mixamo</th><th>위치/역할</th></tr></thead><tbody><tr><td data-label="Mannequin"><code>pelvis</code></td><td data-label="Mixamo"><code>Hips</code></td><td data-label="위치/역할">골반, 본 hierarchy 루트의 자식</td></tr>
+<tr><td data-label="Mannequin"><code>spine_01</code></td><td data-label="Mixamo"><code>Spine</code></td><td data-label="위치/역할">척추 1단</td></tr>
+<tr><td data-label="Mannequin"><code>spine_02</code></td><td data-label="Mixamo"><code>Spine1</code></td><td data-label="위치/역할">척추 2단</td></tr>
+<tr><td data-label="Mannequin"><code>spine_03</code></td><td data-label="Mixamo"><code>Spine2</code></td><td data-label="위치/역할">척추 3단 (어깨 분기점)</td></tr>
+<tr><td data-label="Mannequin"><code>clavicle_l</code></td><td data-label="Mixamo"><code>LeftShoulder</code></td><td data-label="위치/역할">왼 쇄골</td></tr>
+<tr><td data-label="Mannequin"><code>upperarm_l</code></td><td data-label="Mixamo"><code>LeftArm</code></td><td data-label="위치/역할">왼 위팔</td></tr>
+<tr><td data-label="Mannequin"><code>lowerarm_l</code></td><td data-label="Mixamo"><code>LeftForeArm</code></td><td data-label="위치/역할">왼 아래팔</td></tr>
+<tr><td data-label="Mannequin"><code>hand_l</code></td><td data-label="Mixamo"><code>LeftHand</code></td><td data-label="위치/역할">왼 손목</td></tr>
+<tr><td data-label="Mannequin"><code>thigh_l</code></td><td data-label="Mixamo"><code>LeftUpLeg</code></td><td data-label="위치/역할">왼 허벅지</td></tr>
+<tr><td data-label="Mannequin"><code>calf_l</code></td><td data-label="Mixamo"><code>LeftLeg</code></td><td data-label="위치/역할">왼 종아리</td></tr>
+<tr><td data-label="Mannequin"><code>foot_l</code></td><td data-label="Mixamo"><code>LeftFoot</code></td><td data-label="위치/역할">왼 발</td></tr>
+<tr><td data-label="Mannequin"><code>head</code></td><td data-label="Mixamo"><code>Head</code></td><td data-label="위치/역할">머리</td></tr></tbody></table></div>
+<p>Skeleton 에디터를 두 개 동시에 띄우면 비교가 더 쉬우므로, 같은 부위(왼팔 등)를 양쪽에서 동시에 클릭해 위치를 비교해봅니다.</p>
+<h3 id="2-3-참고-metahuman-skeleton-tree">2.3 참고 — MetaHuman Skeleton Tree</h3>
+<p>MetaHuman 본 구조도 한 번 봅니다.</p>
+<blockquote class="quote-note">
+<p>MetaHuman Skeleton Tree — spine_01..06 (6단), 손가락 풀 chain, 얼굴 본 다수</p>
+</blockquote>
+<div class="table-wrap"><table><thead><tr><th>부위</th><th>SK_Mannequin</th><th>MetaHuman</th></tr></thead><tbody><tr><td data-label="부위">척추</td><td data-label="SK_Mannequin">spine_01..03 (3단)</td><td data-label="MetaHuman"><strong>spine_01..06 (6단)</strong></td></tr>
+<tr><td data-label="부위">어깨 보조</td><td data-label="SK_Mannequin">없음</td><td data-label="MetaHuman">clavicle 외 보조 본 추가</td></tr>
+<tr><td data-label="부위">손가락</td><td data-label="SK_Mannequin">index_01..03 등 단순</td><td data-label="MetaHuman">각 손가락 metacarpal 까지 풀 chain</td></tr>
+<tr><td data-label="부위">얼굴</td><td data-label="SK_Mannequin">없음</td><td data-label="MetaHuman">100+ 표정 본</td></tr></tbody></table></div>
+<p>MetaHuman 의 본 매핑도 IK Rig 절차는 동일하지만, spine 이 6단이므로 chain Start/End 를 spine_01..spine_06 으로 지정해야 하고 매핑이 더 정밀해 시간이 추가로 소요되므로 본 강의에서는 Mannequin (3단) 으로 진행합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 정리</div>
+<div class="callout-body">
+<p><strong>같은 인간형의 본은 이름·개수·길이가 달라도 위치·역할이 대응되며, IK Rig 는 이 대응을 에셋으로 명시적으로 적어두는 도구다.</strong></p>
+</div>
+</div>
+<h2 id="3-ik-rig-ik-retargeter">3. IK Rig + IK Retargeter</h2>
+<h3 id="3-1-ik-rig-가-무엇인가">3.1 IK Rig 가 무엇인가</h3>
+<p>IK 는 <strong>Inverse Kinematics(역운동학)</strong> 의 약자로, 보통 애니메이션을 만들 때는 어깨 → 팔꿈치 → 손목처럼 부모 본부터 차례로 회전시키는 <strong>FK(Forward Kinematics)</strong> 방식이 기본이고, IK 는 반대로 &quot;손이 이 위치에 있어야 한다&quot; 또는 &quot;발이 바닥에 닿아야 한다&quot;처럼 <strong>끝점의 목표 위치</strong> 를 먼저 정한 뒤 중간의 팔꿈치나 무릎이 그 위치에 맞게 따라 계산되는 방식입니다.</p>
+<p>리타겟팅에서 IK 가 중요한 이유는 두 캐릭터의 본 이름과 길이가 달라도 &quot;왼팔 끝은 손&quot;, &quot;다리 끝은 발&quot;, &quot;몸의 기준은 골반&quot;처럼 <strong>역할이 같은 부위</strong> 를 기준으로 맞출 수 있기 때문이며, Mixamo 의 <code>LeftArm</code> 과 Mannequin 의 <code>upperarm_l → lowerarm_l → hand_l</code> 이 이름은 달라도 같은 역할의 chain 으로 연결됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">FK 와 IK 를 한 줄로 구분</div>
+<div class="callout-body">
+<p>FK 는 위에서 아래로 본을 회전시키는 방식이고, IK 는 손·발 같은 끝점 목표를 맞추기 위해 중간 본을 계산하는 방식입니다.</p>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/07_fk-vs-ik-chain.webp" alt="fk vs ik chain" loading="lazy">
+<figcaption>FK 는 부모 본에서 끝으로 회전을 전달하고, IK 는 손·발 같은 끝점 목표를 기준으로 중간 본을 계산합니다.</figcaption>
+</figure>
+<p>IK Rig 는 <strong>한 skeleton 위에 retarget 용 정보를 얹은 에셋</strong> 이며, 두 가지를 정의합니다:</p>
+<div class="table-wrap"><table><thead><tr><th>정의할 것</th><th>의미</th></tr></thead><tbody><tr><td data-label="정의할 것"><strong>Retarget Root</strong></td><td data-label="의미">변환 시 캐릭터 위치·높이의 기준 + <strong>root motion 을 비례적으로 타깃에 전달하는 기준 본</strong>. 보통 골반 (pelvis 또는 Hips). 키 차이가 있어도 root 비율로 보정됨</td></tr>
+<tr><td data-label="정의할 것"><strong>Retarget Chain</strong></td><td data-label="의미">같은 역할을 하는 본 묶음. 예: &quot;왼팔 chain = clavicle_l → upperarm_l → lowerarm_l → hand_l&quot;. 다른 IK Rig 와 같은 이름의 chain 을 만들면 둘이 짝</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/08_retarget-chain-six-map.webp" alt="retarget chain six map" loading="lazy">
+<figcaption>수업에서는 Spine / LeftArm / RightArm / LeftLeg / RightLeg / Head 6개 chain 만 먼저 잡아 리타겟팅 구조를 단순하게 이해합니다.</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">chain 이름 규칙</div>
+<div class="callout-body">
+<p>양쪽 IK Rig 의 chain 이름이 같으면 자동으로 짝지어지며, UE 5.7 은 fuzzy match 도 지원하지만 우리는 실패를 줄이기 위해 <strong>정확히 동일한 표기로 고정</strong> 합니다 (LeftArm/RightArm/...).</p>
+</div>
+</div>
+<h3 id="3-2-ik_mixamo-만들기-시연-4분-학생은-화면-보기">3.2 IK_Mixamo 만들기 (시연 4분 — 학생은 화면 보기)</h3>
+<div class="callout callout-warning">
+<div class="callout-title">운영 안내</div>
+<div class="callout-body">
+<p>이 부분은 빠르게 시연하고, 같은 절차를 IK_Mannequin 에서 본인이 직접 할 예정이므로 시연을 잘 보면 되며 따라하지 않아도 됩니다.</p>
+</div>
+</div>
+<h4 id="ik-rig-에셋-생성">IK Rig 에셋 생성</h4>
+<ol><li>Content Browser 좌측 폴더 트리에서 <strong>Mixamo 폴더 더블클릭</strong> → 폴더 진입</li><li>우측 에셋 그리드의 <strong>빈 공간에 마우스 우클릭</strong> (에셋 위 X, 빈 영역에 정확히)</li><li>컨텍스트 메뉴 표시 → <strong><code>Animation</code></strong> 카테고리에 마우스 hover</li><li>서브메뉴 표시 → <strong><code>Retargeting</code></strong> hover → 또 다른 서브메뉴</li><li><strong><code>IK Rig</code></strong> 클릭 (<code>IK Retargeter</code> 와 헷갈리지 말 것 — 다음 단계에서 사용)</li><li>새 에셋이 폴더에 생성되고 이름 입력 모드 → <strong><code>IK_Mixamo</code></strong> 입력 → Enter</li></ol>
+<blockquote class="quote-note">
+<p>Content Browser 우클릭 → Animation → Retargeting → IK Rig</p>
+</blockquote>
+<h4 id="ik-rig-에디터-열기-skeleton-지정">IK Rig 에디터 열기 + Skeleton 지정</h4>
+<ol><li><strong><code>IK_Mixamo</code></strong> 더블클릭 → 별도 탭으로 IK Rig Editor 열림 (1-2초 로딩)</li><li>에디터 화면 구성 (학생 처음 보는 화면이라 패널 위치 익히기):</li></ol>
+<ul><li><strong>좌측 상단</strong>: <strong>Hierarchy</strong> 패널 (본 트리. 처음엔 비어있음 — Preview Mesh 지정 후 채워짐)</li><li><strong>중앙 상단</strong>: <strong>Viewport</strong> (3D 캐릭터 미리보기. 처음엔 빈 격자무늬 floor 만)</li><li><strong>우측 상단</strong>: <strong>Retarget Chains</strong> 패널 (chain 목록. 처음엔 비어있음)</li><li><strong>우측 하단</strong> 또는 <strong>하단</strong>: <strong>Details</strong> 패널 (선택된 항목의 속성)</li><li><strong>상단 툴바</strong>: Save / Edit Pose / 기타 기능 버튼들</li></ul>
+<ol><li><strong>Preview Mesh 지정 — 가장 중요한 첫 단계:</strong></li></ol>
+<ul><li>우측/하단 <strong>Details</strong> 패널에서 <strong><code>Preview Mesh</code></strong> 항목 찾기 (또는 viewport 우상단의 mesh 아이콘)</li><li>드롭다운 클릭 → 프로젝트 내 Skeletal Mesh 목록 표시</li><li><strong><code>SM_Mixamo</code></strong> 선택 (검색창에 <code>SM_Mixamo</code> 타이핑으로 빠르게)</li></ul>
+<ol><li>즉시 변화:</li></ol>
+<ul><li>Viewport 에 T-Pose 캐릭터 표시</li><li><strong>Hierarchy 패널에 본 트리 채워짐</strong> — <code>root → Hips → Spine →...</code></li></ul>
+<blockquote class="quote-note">
+<p>IK Rig 에디터 — 좌측 Hierarchy(본 트리) / 중앙 Viewport / 우측 Retarget Chains + Details</p>
+</blockquote>
+<h4 id="retarget-root-지정-hips">Retarget Root 지정 (Hips)</h4>
+<ol><li><strong>Hierarchy 패널</strong> 에서 <strong><code>Hips</code></strong> 본 찾기 (root 의 첫 자식, 들여쓰기로 시각화)</li><li><code>Hips</code> 본에 <strong>마우스 우클릭</strong> → 컨텍스트 메뉴 표시</li><li>메뉴에서 <strong><code>Set Retarget Root</code></strong> 클릭</li><li><strong>즉시 변화</strong>:</li></ol>
+<ul><li>Hips 본 옆에 <strong> 또는 root 아이콘</strong> 추가됨</li><li>Viewport 의 Hips 본 위치에 색상 마커 (보라/주황) 표시</li></ul>
+<ol><li>잘못 지정한 경우: 다른 본에 같은 절차로 재지정 (이전 root 자동 해제)</li></ol>
+<blockquote class="quote-note">
+<p>Hips 우클릭 → Set Retarget Root</p>
+</blockquote>
+<div class="callout callout-tip">
+<div class="callout-title">Retarget Root 의미 한 번 더</div>
+<div class="callout-body">
+<p>단순 매핑 기준이 아니라 변환 시 <strong>캐릭터 위치·높이 + root motion 을 비례적으로 타깃에 전달하는 기준</strong> 이므로 골반(Hips/pelvis) 으로 잡고, 다른 본 (예: Spine) 에 잡으면 변환 후 캐릭터가 누워있거나 떠다닐 수 있어요.</p>
+</div>
+</div>
+<h4 id="retarget-chain-6개-추가-시연만-빠르게">Retarget Chain 6개 추가 (시연만, 빠르게)</h4>
+<p>정확한 메뉴 경로: <strong>본 첫 개~끝 개를 선택한 뒤 우클릭 → <code>New Retarget Chain from Selected Bones</code></strong>.</p>
+<div class="table-wrap"><table><thead><tr><th>Chain 이름</th><th>Start Bone</th><th>End Bone</th><th>비고</th></tr></thead><tbody><tr><td data-label="Chain 이름"><strong>Spine</strong></td><td data-label="Start Bone">Spine</td><td data-label="End Bone">Spine2</td><td data-label="비고">척추 (3단을 한 chain 으로)</td></tr>
+<tr><td data-label="Chain 이름"><strong>LeftArm</strong></td><td data-label="Start Bone">LeftShoulder</td><td data-label="End Bone">LeftHand</td><td data-label="비고">왼팔</td></tr>
+<tr><td data-label="Chain 이름"><strong>RightArm</strong></td><td data-label="Start Bone">RightShoulder</td><td data-label="End Bone">RightHand</td><td data-label="비고">오른팔</td></tr>
+<tr><td data-label="Chain 이름"><strong>LeftLeg</strong></td><td data-label="Start Bone">LeftUpLeg</td><td data-label="End Bone">LeftFoot</td><td data-label="비고">왼다리</td></tr>
+<tr><td data-label="Chain 이름"><strong>RightLeg</strong></td><td data-label="Start Bone">RightUpLeg</td><td data-label="End Bone">RightFoot</td><td data-label="비고">오른다리</td></tr>
+<tr><td data-label="Chain 이름"><strong>Head</strong></td><td data-label="Start Bone">Neck</td><td data-label="End Bone">Head</td><td data-label="비고"><strong>Neck + Head 통합</strong> (UE 공식 biped 예시는 Neck/Head 분리 7-chain. 우리는 학습 부담 줄이려 6개로 통합)</td></tr></tbody></table></div>
+<p>각 chain 추가 정확 절차 (예: LeftArm chain):</p>
+<ol><li>Hierarchy 패널에서 <strong><code>LeftShoulder</code></strong> 좌클릭 → 본 1개 선택 (Viewport 에 해당 본 하이라이트)</li><li><strong><code>Shift</code> 키 누른 채 <code>LeftHand</code> 좌클릭</strong> → LeftShoulder 부터 LeftHand 까지 chain 전체 선택</li></ol>
+<ul><li>Hierarchy 에서 4개 본 (LeftShoulder → LeftArm → LeftForeArm → LeftHand) 모두 파란색 하이라이트</li><li>Viewport 에 해당 본들 노란색 라인으로 연결 표시</li></ul>
+<ol><li><strong>선택된 본 영역 우클릭 (Hierarchy 또는 Viewport 어디든 가능)</strong> → 컨텍스트 메뉴 표시</li><li>메뉴에서 <strong><code>New Retarget Chain from Selected Bones</code></strong> 클릭</li><li><strong>Add New Retarget Chain 다이얼로그</strong> 가 화면 중앙에 뜸 (작은 모달)</li></ol>
+<ul><li><strong>Chain Name</strong> 필드: 비어있거나 자동 생성된 이름 → <strong><code>LeftArm</code></strong> 입력 (직접 타이핑)</li><li><strong>Start Bone</strong>: <code>LeftShoulder</code> (자동 채워짐, 회색)</li><li><strong>End Bone</strong>: <code>LeftHand</code> (자동 채워짐, 회색)</li><li>추가 옵션 (Goal / IK Solver 등) 은 기본값 그대로 두기</li></ul>
+<ol><li>우하단 <strong><code>확인 버튼</code></strong> 또는 <strong><code>Add Chain</code></strong> 클릭</li><li><strong>즉시 변화</strong>: 우측 Retarget Chains 패널에 <code>LeftArm</code> 행 추가됨</li></ol>
+<blockquote class="quote-note">
+<p>Retarget Chain 추가 다이얼로그 — 이름 + Start + End (Start/End 는 자동)</p>
+</blockquote>
+<p>같은 절차로 6개 모두 빠르게 추가 시연 (각 chain 약 30초).</p>
+<blockquote class="quote-note">
+<p>IK_Mixamo chain 6개 완성본 — Spine / LeftArm / RightArm / LeftLeg / RightLeg / Head</p>
+</blockquote>
+<h4 id="save">Save</h4>
+<ol><li><strong><code>Ctrl+S</code></strong> (또는 에디터 좌상단의 디스크 아이콘 클릭)</li><li>저장 시 별도 다이얼로그 없음 — 즉시 저장됨</li><li>저장 안 한 변경사항이 있으면 에셋 이름 옆에 <strong><code>*</code></strong> 표시 → 저장 후 사라짐</li></ol>
+<h3 id="3-3-ik_mannequin-만들기-학생-직접-6분">3.3 IK_Mannequin 만들기 (학생 직접, 6분)</h3>
+<p>방금 시연한 절차 그대로 본인이 만들되, 본 이름만 Mannequin 의 것으로 변경하면 되며 6분의 시간이 주어집니다 — 막히면 손을 들어주세요.</p>
+<h4 id="ik-rig-에셋-생성-2">IK Rig 에셋 생성</h4>
+<ol><li>Content Browser → <strong>Mixamo 폴더</strong> 빈 공간 우클릭 (다른 폴더에 만들어도 가능 지만 한곳에 모으는 게 관리 편함)</li><li>컨텍스트 메뉴 → <strong><code>Animation</code> &gt; <code>Retargeting</code> &gt; <code>IK Rig</code></strong> 클릭</li><li>새 에셋 이름 입력 → <strong><code>IK_Mannequin</code></strong> → Enter</li></ol>
+<div class="callout callout-info">
+<div class="callout-title">IK_Mixamo vs IK_Mannequin</div>
+<div class="callout-body">
+<p>IK_Mixamo 는 Mixamo 캐릭터용 IK Rig, IK_Mannequin 은 Mannequin 캐릭터용 IK Rig 로 서로 별개 에셋이며, 둘 다 Mixamo 폴더 안에 있어도 괜찮음.</p>
+</div>
+</div>
+<h4 id="preview-mesh-에-sk_mannequin-지정">Preview Mesh 에 SK_Mannequin 지정</h4>
+<ol><li><strong><code>IK_Mannequin</code></strong> 더블클릭 → 새 IK Rig Editor 탭 열림 (IK_Mixamo 와 별개 탭)</li><li>Details 패널의 <strong><code>Preview Mesh</code></strong> 드롭다운 클릭</li><li>검색창에 <strong><code>SKM_Manny</code></strong> 또는 <strong><code>SK_Mannequin</code></strong> 타이핑 (UE 5.7 ThirdPerson 템플릿 기준)</li><li>결과에서 ThirdPerson 의 Mannequin Skeletal Mesh 선택</li><li>즉시 변화:</li></ol>
+<ul><li>Viewport 에 A-Pose 의 회색 마네킹 캐릭터 표시 (Mixamo T-Pose 와 자세 다름)</li><li>Hierarchy 패널에 SK_Mannequin 본 트리 (<code>root → pelvis → spine_01 →...</code>)</li></ul>
+<p>viewport 의 캐릭터가 Mixamo 와 다르게 A-Pose 로 서 있는지 확인하며, 팔이 약 45° 아래로 내려와 있으면 정상입니다.</p>
+<h4 id="retarget-root-지정">Retarget Root 지정</h4>
+<ol><li>Hierarchy 패널에서 <strong><code>pelvis</code></strong> 본 찾기 (root 의 첫 자식)</li><li><strong>우클릭 → <code>Set Retarget Root</code></strong> 클릭</li><li>pelvis 옆에 아이콘 표시 확인</li></ol>
+<p>Mannequin 의 골반은 <strong>pelvis</strong> 입니다 (Mixamo 의 Hips 와 같은 자리, 이름만 다름).</p>
+<h4 id="retarget-chain-6개-직접-추가">Retarget Chain 6개 직접 추가</h4>
+<p><strong>chain 이름은 IK_Mixamo 와 정확히 동일</strong> — 대소문자 포함 (LeftArm 의 L 대문자, A 대문자 등). 본 이름만 Mannequin 것으로.</p>
+<div class="table-wrap"><table><thead><tr><th>Chain 이름 (IK_Mixamo 와 동일!)</th><th>Start Bone (Mannequin)</th><th>End Bone (Mannequin)</th><th>본 매핑 비고</th></tr></thead><tbody><tr><td data-label="Chain 이름 (IK_Mixamo 와 동일!)"><strong>Spine</strong></td><td data-label="Start Bone (Mannequin)"><code>spine_01</code></td><td data-label="End Bone (Mannequin)"><code>spine_03</code></td><td data-label="본 매핑 비고">Mixamo Spine~Spine2 와 같은 자리</td></tr>
+<tr><td data-label="Chain 이름 (IK_Mixamo 와 동일!)"><strong>LeftArm</strong></td><td data-label="Start Bone (Mannequin)"><code>clavicle_l</code></td><td data-label="End Bone (Mannequin)"><code>hand_l</code></td><td data-label="본 매핑 비고">LeftShoulder~LeftHand 대응</td></tr>
+<tr><td data-label="Chain 이름 (IK_Mixamo 와 동일!)"><strong>RightArm</strong></td><td data-label="Start Bone (Mannequin)"><code>clavicle_r</code></td><td data-label="End Bone (Mannequin)"><code>hand_r</code></td><td data-label="본 매핑 비고">RightShoulder~RightHand 대응</td></tr>
+<tr><td data-label="Chain 이름 (IK_Mixamo 와 동일!)"><strong>LeftLeg</strong></td><td data-label="Start Bone (Mannequin)"><code>thigh_l</code></td><td data-label="End Bone (Mannequin)"><code>foot_l</code></td><td data-label="본 매핑 비고">LeftUpLeg~LeftFoot 대응</td></tr>
+<tr><td data-label="Chain 이름 (IK_Mixamo 와 동일!)"><strong>RightLeg</strong></td><td data-label="Start Bone (Mannequin)"><code>thigh_r</code></td><td data-label="End Bone (Mannequin)"><code>foot_r</code></td><td data-label="본 매핑 비고">RightUpLeg~RightFoot 대응</td></tr>
+<tr><td data-label="Chain 이름 (IK_Mixamo 와 동일!)"><strong>Head</strong></td><td data-label="Start Bone (Mannequin)"><code>neck_01</code></td><td data-label="End Bone (Mannequin)"><code>head</code></td><td data-label="본 매핑 비고">Neck~Head 대응</td></tr></tbody></table></div>
+<p>각 chain 추가 절차 (시연한 IK_Mixamo 와 동일):</p>
+<ol><li>Hierarchy 에서 <strong>Start Bone</strong> (예: <code>clavicle_l</code>) 좌클릭</li><li><strong><code>Shift</code> 누른 채 End Bone</strong> (예: <code>hand_l</code>) 좌클릭 → chain 전체 하이라이트</li><li><strong>선택 영역 우클릭 → <code>New Retarget Chain from Selected Bones</code></strong></li><li>다이얼로그에서 <strong>Chain Name 직접 입력</strong> (예: <code>LeftArm</code>) → <strong><code>확인 버튼</code></strong></li><li>우측 Retarget Chains 패널에 추가됨</li></ol>
+<div class="callout callout-warning">
+<div class="callout-title">chain 이름 정확히 동일하게</div>
+<div class="callout-body">
+<p>UE 5.7 은 비슷한 이름도 fuzzy match 로 받지만, 실패를 줄이려고 LeftArm/RightArm 표기 그대로 고정하고 대소문자도 동일하게 맞추며 오타 1글자만 있어도 다음 단계에서 자동 매칭이 안 됩니다.</p>
+</div>
+</div>
+<blockquote class="quote-note">
+<p>IK_Mannequin 의 chain 목록 — chain 이름은 IK_Mixamo 와 같음, 본 이름만 다름</p>
+</blockquote>
+<div class="callout callout-question">
+<div class="callout-title">chain 6개 누락 / 오타 자기점검</div>
+<div class="callout-body">
+<ul><li>[ ] 우측 Retarget Chains 패널에 행 6개</li><li>[ ] 각 행의 chain 이름 — Spine / LeftArm / RightArm / LeftLeg / RightLeg / Head (대소문자 정확)</li><li>[ ] Start/End Bone 이 위 표와 일치 (<code>spine_01</code> ~ <code>spine_03</code>, <code>clavicle_l</code> ~ <code>hand_l</code> 등)</li></ul>
+</div>
+</div>
+<p>각 chain 행을 좌클릭하면 하단/우측 Details 에 Start/End 본 이름이 표시됩니다 — 그곳에서 오타를 검수합니다.</p>
+<h4 id="save-2">Save</h4>
+<ol><li><strong><code>Ctrl+S</code></strong> (탭 이름 옆 <code>*</code> 사라짐)</li></ol>
+<p>개별 피드백으로 chain 6개가 모두 들어왔는지 한 명씩 점검하며, 만들지 못한 학생은 손을 들어 수업용 <strong>IK_Mannequin 백업본</strong> 을 받아 다음 단계에 합류할 수 있습니다 — 진도 정체 방지를 우선합니다.</p>
+<h3 id="3-4-ik-retargeter-edit-pose-export-다-같이-5분">3.4 IK Retargeter + Edit Pose + Export (다 같이, 5분)</h3>
+<h4 id="ik-retargeter-에셋-생성">IK Retargeter 에셋 생성</h4>
+<ol><li>Content Browser → <strong>Mixamo 폴더 빈 공간 우클릭</strong></li><li>메뉴 → <strong><code>Animation</code> &gt; <code>Retargeting</code> &gt; <code>IK Retargeter</code></strong> (<code>IK Rig</code> 가 아닌 두 번째 항목)</li><li><strong>Pick IK Rig To Copy Animation From 다이얼로그</strong>가 뜸 (소스 IK Rig 선택용)</li><li>다이얼로그 검색창에 <code>IK_Mixamo</code> 타이핑 → <strong><code>IK_Mixamo</code></strong> 선택 → <strong><code>Select</code></strong> (또는 <strong><code>확인 버튼</code></strong>)</li><li>새 에셋 이름 입력 → <strong><code>RTG_MixamoToMannequin</code></strong> → Enter</li></ol>
+<blockquote class="quote-note">
+<p>IK Retargeter 에셋 생성 메뉴</p>
+</blockquote>
+<div class="callout callout-info">
+<div class="callout-title">RTG 약어</div>
+<div class="callout-body">
+<p>RTG = Retargeter 약어로, 이번 강의에서는 IK Retargeter 에셋 prefix 로 그대로 사용합니다.</p>
+</div>
+</div>
+<h4 id="ik-retargeter-에디터-열기-target-ik-rig-지정">IK Retargeter 에디터 열기 + Target IK Rig 지정</h4>
+<ol><li><strong><code>RTG_MixamoToMannequin</code></strong> 더블클릭 → 별도 탭으로 IK Retargeter Editor 열림</li><li>에디터 화면 구성 (양쪽 비교 레이아웃 — 학생 처음 보는 화면):</li></ol>
+<ul><li><strong>좌측 Viewport</strong>: Source 캐릭터 (Mixamo, T-Pose) 표시</li><li><strong>우측 Viewport</strong>: Target 캐릭터 (처음엔 비어있음 — Target IK Rig 미지정 상태)</li><li><strong>하단</strong>: <strong>Chain Mapping</strong> 패널 (chain 매핑 표) + <strong>Asset Browser</strong> 탭 (AS 미리보기·Export)</li><li><strong>우측 사이드 또는 하단</strong>: <strong>Details</strong> 패널 (RTG 에셋 속성)</li><li><strong>상단 툴바</strong>: Save / Edit Mode 토글 / 기타 모드</li></ul>
+<ol><li><strong>Target IK Rig 지정 (가장 중요한 첫 단계):</strong></li></ol>
+<ul><li>Details 패널에서 <strong><code>Target IK Rig Asset</code></strong> 항목 (또는 viewport 우상단의 mesh 아이콘)</li><li>드롭다운 클릭 → 검색창에 <code>IK_Mannequin</code> 타이핑</li><li><strong><code>IK_Mannequin</code></strong> 선택</li></ul>
+<ol><li>즉시 변화:</li></ol>
+<ul><li>우측 viewport 에 Mannequin (A-Pose, 회색 마네킹) 표시</li><li>양쪽 viewport 가 좌(T-Pose) / 우(A-Pose) 로 나란히 보임</li><li>하단 Chain Mapping 패널에 6행 자동 채워짐</li></ul>
+<blockquote class="quote-note">
+<p>IK Retargeter 에디터 — 좌(Source) / 우(Target) Viewport + 하단 Chain Mapping</p>
+</blockquote>
+<h4 id="chain-mapping-자동-인식-확인">Chain Mapping 자동 인식 확인</h4>
+<p>하단 <strong>Chain Mapping</strong> 패널 표 확인 — 6개 chain 자동 매칭 상태:</p>
+<div class="table-wrap"><table><thead><tr><th>Source Chain (IK_Mixamo)</th><th>Target Chain (IK_Mannequin)</th><th>자동 매핑?</th></tr></thead><tbody><tr><td data-label="Source Chain (IK_Mixamo)">Spine</td><td data-label="Target Chain (IK_Mannequin)">Spine</td><td data-label="자동 매핑?">예</td></tr>
+<tr><td data-label="Source Chain (IK_Mixamo)">LeftArm</td><td data-label="Target Chain (IK_Mannequin)">LeftArm</td><td data-label="자동 매핑?">예</td></tr>
+<tr><td data-label="Source Chain (IK_Mixamo)">RightArm</td><td data-label="Target Chain (IK_Mannequin)">RightArm</td><td data-label="자동 매핑?">예</td></tr>
+<tr><td data-label="Source Chain (IK_Mixamo)">LeftLeg</td><td data-label="Target Chain (IK_Mannequin)">LeftLeg</td><td data-label="자동 매핑?">예</td></tr>
+<tr><td data-label="Source Chain (IK_Mixamo)">RightLeg</td><td data-label="Target Chain (IK_Mannequin)">RightLeg</td><td data-label="자동 매핑?">예</td></tr>
+<tr><td data-label="Source Chain (IK_Mixamo)">Head</td><td data-label="Target Chain (IK_Mannequin)">Head</td><td data-label="자동 매핑?">예</td></tr></tbody></table></div>
+<p>이름이 같으면 자동 매칭되며, 비어있는 행이 있으면 chain 이름에 오타가 있는 것이므로 해당 IK Rig 를 다시 열어 chain 을 이름 변경 하고 잡히지 않으면 진행 확인을 요청합니다.</p>
+<h4 id="edit-pose-retarget-pose-만들고-어깨-정렬-5단계">Edit Pose: Retarget Pose 만들고 어깨 정렬 (5단계)</h4>
+<p>rest pose 가 다른 두 캐릭터(T-Pose ↔ A-Pose) 사이에서 변환이 자연스러우려면 <strong>출발 pose 를 맞춰주는 단계</strong> 가 필요하므로, Retarget Pose 도구를 사용합니다.</p>
+<p><strong>단계 1 — Source 포커스 선택 (어느 쪽 pose 를 수정할지):</strong></p>
+<ol><li>에디터 상단 툴바 또는 Viewport 영역의 <strong><code>Source</code> / <code>Target</code> 토글 버튼</strong> 찾기 (보통 좌우 viewport 헤더에)</li><li><strong><code>Source</code></strong> 클릭 (좌측 Mixamo 쪽 — Mixamo T-Pose 를 Mannequin A-Pose 에 맞출 거니까)</li><li>즉시 변화: Source viewport 가 활성 (테두리 강조), Target 은 비활성</li></ol>
+<div class="callout callout-info">
+<div class="callout-title">Source 를 수정하는 이유</div>
+<div class="callout-body">
+<p>Target(Mannequin) 손대도 되지만 ThirdPerson 의 기본 A-Pose 가 게임 표준이라 안 건드리는 게 안전합니다.</p>
+</div>
+</div>
+<p><strong>단계 2 — 새 Retarget Pose 생성:</strong></p>
+<ol><li>에디터의 <strong>Retarget Pose</strong> 패널 찾기 (Details 옆 또는 별도 탭)</li><li>패널 상단 <strong><code>+ Create</code> 버튼</strong> (또는 <code>+</code> 아이콘) 클릭</li><li>드롭다운 → <strong><code>Create New</code></strong> 선택 (다른 옵션: Duplicate, Import 등)</li><li>새 pose 이름 입력 다이얼로그 → <strong><code>MixamoToMannequin_Pose</code></strong> 또는 짧게 <strong><code>SourcePose</code></strong> 입력 → 확인</li><li>Retarget Pose 패널 목록에 새 항목 추가됨</li><li><strong>Current Retarget Pose 로 지정</strong> — 새 pose 항목 우클릭 → <strong><code>Set as Current Retarget Pose</code></strong> (자동 지정될 수도 있음)</li></ol>
+<p>이 단계가 없으면 Edit Mode 가 어떤 본도 잡지 못하므로, 새 pose 를 만들고 'Current' 로 지정해야 그것이 편집 대상이 됩니다.</p>
+<p><strong>단계 3 — Edit Mode 활성화:</strong></p>
+<ol><li>에디터 상단 툴바의 <strong><code>Edit Mode</code> 토글 버튼</strong> 찾기 (연필 아이콘 또는 <code>Edit Mode</code> 텍스트 버튼)</li><li>클릭 → 활성화 (버튼 색이 파랑/주황으로 강조)</li><li>즉시 변화:</li></ol>
+<ul><li>Source viewport 의 본을 클릭하면 본 선택됨</li><li>선택 본에 <strong>회전 manipulator 표시</strong> — 3축 원형 핸들 (X=빨강 / Y=초록 / Z=파랑)</li><li>본을 마우스 드래그로 회전 가능</li></ul>
+<blockquote class="quote-note">
+<p>Edit Mode 활성화 → 어깨 본 회전 manipulator 로 정렬 → Edit Mode 해제</p>
+</blockquote>
+<p><strong>단계 4 — 양 어깨 본 회전 (-45° 정도):</strong></p>
+<p><strong>왼쪽 어깨:</strong></p>
+<ol><li>Source viewport 또는 Hierarchy 에서 <strong><code>LeftArm</code></strong> 본 좌클릭 (또는 <code>LeftShoulder</code>)</li><li>본에 회전 manipulator 표시 — <strong>빨강(X) / 초록(Y) / 파랑(Z) 3개 원형 핸들</strong></li><li><strong>회전 축 결정 — 어깨를 위/아래 내리는 회전:</strong></li></ol>
+<ul><li>보통 <strong>Y축 (초록 원, 몸통 정면 축)</strong> 또는 <strong>X축 (빨강 원)</strong></li><li>시도해 보고 팔이 자연스럽게 내려가는 축 선택. 다른 축이면 캐릭터 비틀림 → <strong>Ctrl+Z 로 되돌리기</strong> 후 다른 축 시도</li></ul>
+<ol><li><strong>마우스 좌클릭+드래그</strong> 로 약 <strong>-45° 회전</strong> (Mixamo T-Pose 수평 팔 → Mannequin A-Pose 비스듬 아래)</li><li>Source 캐릭터 왼팔이 우측 Target 왼팔과 비슷한 각도가 될 때까지 미세 조정</li></ol>
+<p><strong>오른쪽 어깨:</strong></p>
+<ol><li><strong><code>RightArm</code></strong> 본 좌클릭 → 회전 manipulator</li><li><strong>반대 방향 -45° 회전</strong> (왼쪽과 좌우 대칭)</li><li>양 팔 모두 Target Mannequin 의 A-Pose 와 비슷한 자세로</li></ol>
+<p><strong>단계 5 — Edit Mode 해제 + Save:</strong></p>
+<ol><li>상단 툴바의 <strong><code>Edit Mode</code> 토글 버튼</strong> 다시 클릭 → 비활성화</li><li>회전 manipulator 사라짐</li><li><strong><code>Ctrl+S</code></strong> 로 저장 → RTG 에셋의 Retarget Pose 영구 저장</li></ol>
+<div class="callout callout-warning">
+<div class="callout-title">어깨 외 부위는 손대지 마세요</div>
+<div class="callout-body">
+<p>더 만지면 다른 동작이 어색해질 수 있으므로, 결과가 마음에 안 들면 Edit Mode 를 다시 활성화해서 같은 Retarget Pose 안에서 재조정합니다.</p>
+</div>
+</div>
+<h4 id="export-selected-animations-변환-저장-한-번에">Export Selected Animations (변환 + 저장 한 번에)</h4>
+<div class="callout callout-info">
+<div class="callout-title">'Run Retargeter' 버튼 없음</div>
+<div class="callout-body">
+<p>'Run Retargeter' 라는 버튼은 사용자 UI 에 없습니다 (그건 내부 API 함수명). <strong>Export 자체가 변환 + 저장</strong> 입니다.</p>
+</div>
+</div>
+<ol><li>에디터 하단의 <strong>Asset Browser 탭</strong> 찾기 (Chain Mapping 패널 옆 또는 별도 탭)</li><li>Asset Browser 에 <strong>Source IK Rig (IK_Mixamo) 의 모든 Animation Sequence 에셋 목록</strong> 표시:</li></ol>
+<ul><li><code>AS_Walking_Mixamo</code> (방금 만든 에셋)</li><li>기타 SK_Mixamo skeleton 의 AS 가 있으면 함께</li></ul>
+<ol><li><strong><code>AS_Walking_Mixamo</code></strong> 좌클릭 → 즉시 변화:</li></ol>
+<ul><li>좌측 viewport: Mixamo 캐릭터 걷는 모션 재생</li><li>우측 viewport: <strong>Mannequin 캐릭터에 변환된 걷는 모션 미리 재생</strong> (변환 결과 사전 검증)</li><li>자연스러우면 다음 단계 / 누워있거나 팔 꼬이면 Edit Pose 재조정</li></ul>
+<ol><li><strong><code>AS_Walking_Mixamo</code> 우클릭</strong> → 컨텍스트 메뉴 → <strong><code>Export Selected Animations</code></strong> 클릭</li><li><strong>Export 다이얼로그</strong> 표시 — 옵션 확인:</li></ol>
+<ul><li><strong>Output Folder</strong>: 저장 폴더 (기본 <code>/Game/Mixamo/</code>)</li><li><strong>Prefix / Suffix</strong>: 변환 결과 자동 이름 옵션 (예: suffix <code>_Mannequin</code> 입력)</li><li><strong>Replace Existing</strong>: 같은 이름 에셋 덮어쓰기 여부</li></ul>
+<ol><li>우하단 <strong><code>Export</code></strong> 클릭 → 변환 진행 (1-3초)</li><li>Mixamo 폴더에 새 Animation Sequence 생성 (예: <code>AS_Walking_Mixamo_Mannequin</code>)</li><li>새 에셋 좌클릭 → <strong>F2</strong> → <strong><code>AS_Walking_Mannequin</code></strong> 으로 정리</li></ol>
+<blockquote class="quote-note">
+<p>Asset Browser 에서 AS 선택 → Export Selected Animations</p>
+</blockquote>
+<h4 id="결과-검증-3점-체크">결과 검증 (3점 체크)</h4>
+<ol><li>Content Browser 의 <strong>AS_Walking_Mannequin</strong> 더블클릭</li><li>Animation Sequence 에디터에서 미리보기 재생</li></ol>
+<div class="callout callout-question">
+<div class="callout-title">3점 체크 — 모두 확인되면 변환 성공</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>체크</th><th>확인 방법</th><th>정상</th></tr></thead><tbody><tr><td data-label="체크">① <strong>Skeleton 이 SK_Mannequin</strong></td><td data-label="확인 방법">Details 패널 또는 에셋 우클릭 &gt; Asset Properties</td><td data-label="정상">SK_Mannequin (SK_Mixamo 면 Target IK Rig 미지정 — 재시도)</td></tr>
+<tr><td data-label="체크">② <strong>길이·프레임 수 원본과 동일</strong></td><td data-label="확인 방법">Sequence 에디터 하단 Length/Total Frames 확인, AS_Walking_Mixamo 와 비교</td><td data-label="정상">동일 또는 ±1프레임 (크게 다르면 변환 손실)</td></tr>
+<tr><td data-label="체크">③ <strong>발이 땅에 자연스럽게 닿음</strong></td><td data-label="확인 방법">preview 재생하며 발 위치 시선 추적</td><td data-label="정상">발이 살짝 떠도 허용, 1m 이상 떠 있거나 누워있으면 Retarget Root/pelvis 높이 보정 필요</td></tr></tbody></table></div>
+</div>
+</div>
+<blockquote class="quote-note">
+<p>AS_Walking_Mannequin 재생 — Mannequin 캐릭터에서 Mixamo Walking 재현</p>
+</blockquote>
+<div class="callout callout-tip">
+<div class="callout-title">IK Retargeter 한 사이클 완료</div>
+<div class="callout-body">
+<p>매핑(IK Rig 2개 + RTG 1개)은 한 번 만들어두면 끝이며, 이 RTG 에셋으로 다른 Mixamo 동작 어떤 거든 같은 절차로 변환할 수 있다는 점을 3교시에 직접 확인합니다.</p>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/09_retargeting-troubleshooting-grid.webp" alt="retargeting troubleshooting grid" loading="lazy">
+<figcaption>chain 이름, Retarget Root, Edit Pose, Export 대상처럼 리타겟 실패를 만드는 주요 지점을 빠르게 점검합니다.</figcaption>
+</figure>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 문제 — IK Rig + Retargeter</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Chain Mapping 표가 비어 있음</td><td data-label="원인">양쪽 chain 이름 불일치 (오타·대소문자 차이)</td><td data-label="해결">양쪽 IK Rig 의 chain 이름 다시 확인, LeftArm/RightArm 등 표기 정확 동일하게</td></tr>
+<tr><td data-label="증상">Chain Mapping 이 일부만 자동 매칭됨</td><td data-label="원인">한쪽 chain 이름 오타 (예: LeftAm)</td><td data-label="해결">해당 IK Rig 열어 chain 우클릭 &gt; 이름 변경</td></tr>
+<tr><td data-label="증상"><code>New Retarget Chain from Selected Bones</code> 메뉴가 안 보임</td><td data-label="원인">본 선택 안 됨 또는 잘못된 패널에서 우클릭</td><td data-label="해결">Hierarchy 패널에서 Start~End bone 선택 후 <strong>선택 영역</strong> 우클릭 (빈 공간 X)</td></tr>
+<tr><td data-label="증상">변환 후 캐릭터가 누워 있음</td><td data-label="원인">Retarget Root 누락 또는 잘못 지정</td><td data-label="해결">IK Rig 에서 Hips/pelvis 가 Retarget Root 로 지정됐는지 (root 아이콘 확인)</td></tr>
+<tr><td data-label="증상">변환 후 팔이 비정상적으로 교차됨 / 어깨가 부자연</td><td data-label="원인">Edit Pose 단계에서 어깨 정렬 안 됨</td><td data-label="해결">Retarget Pose 의 Edit Mode 다시 활성화 → 어깨 본 회전 재조정</td></tr>
+<tr><td data-label="증상">변환 후 발이 땅 안 닿음 / 캐릭터가 떠다님</td><td data-label="원인">Pelvis 높이 차 / 단위 스케일 차</td><td data-label="해결">RTG 의 Target Root Settings 에서 Translation Mode·Scale 조정</td></tr>
+<tr><td data-label="증상">Edit Mode 클릭해도 회전 manipulator 안 보임</td><td data-label="원인">Source/Target 포커스 미선택 또는 Current Retarget Pose 미지정</td><td data-label="해결">상단 Source/Target 토글 확인 → Retarget Pose 패널에서 Pose 하나를 Current 로 지정</td></tr>
+<tr><td data-label="증상">Export 버튼이 회색</td><td data-label="원인">Asset Browser 에서 AS 선택 안 됨</td><td data-label="해결">Asset Browser 패널에서 변환할 AS 클릭 후 우클릭 → Export</td></tr>
+<tr><td data-label="증상">변환 결과가 SK_Mixamo 로 저장됨</td><td data-label="원인">Target IK Rig 미지정</td><td data-label="해결">RTG Details 의 Target IK Rig 에 IK_Mannequin 지정 후 Export 재시도</td></tr>
+<tr><td data-label="증상">변환 결과 길이·프레임 수가 원본과 다름</td><td data-label="원인">변환 시 손실 또는 잘못된 옵션</td><td data-label="해결">Export 다이얼로그에서 Frame Range 확인. 차이가 크면 원본 AS 다시 import</td></tr></tbody></table></div>
+</div>
+</div>
+<h2 id="실습-소개-첫-힌트">실습 소개 + 첫 힌트</h2>
+<h3 id="3교시-미션">3교시 미션</h3>
+<p>방금 본 한 사이클 — Mixamo 에서 받은 Walking 한 동작을 Mannequin 으로 변환 — 이걸 본인이 직접 반복하는 게 3교시입니다.</p>
+<div class="callout callout-abstract">
+<div class="callout-title">3교시 미션</div>
+<div class="callout-body">
+<p>본인 시네마틱 컨셉에 맞는 Mixamo 애니메이션 <strong>3종 이상</strong> 을 ThirdPerson Mannequin 용 Animation Sequence 로 변환. Level Sequence 에 이어붙여 짧은 영상(10–15초) 캡처 제출.</p>
+</div>
+</div>
+<p><strong>핵심 원칙:</strong></p>
+<ol><li><strong>셋업은 한 번</strong> — IK_Mixamo, IK_Mannequin, RTG_MixamoToMannequin 에셋은 이미 만들어 놓았음 (방금 데모로). 3교시에 다시 안 만듭니다.</li><li><strong>변환은 N번</strong> — Mixamo 에서 새 동작을 받아오고, RTG 에 새 AS 를 끌어다 Export 만 반복.</li><li><strong>다양성</strong> — 본인 컨셉에 맞는 동작 3개 이상.</li></ol>
+<div class="callout callout-tip">
+<div class="callout-title">추천 동작 풀 (동작 선택이 어려운 학생용)</div>
+<div class="callout-body">
+<p>고민되면 이 셋: <strong>Idle + Walking + Boxing</strong>. 짧고 루프 가능하고 시각적 차이 명확. 본인 컨셉이 있는 학생은 그쪽으로.</p>
+</div>
+</div>
+<h3 id="힌트-1-변환-후-캐릭터가-누워-있으면-retarget-root-의심">힌트 1 — &quot;변환 후 캐릭터가 누워 있으면 Retarget Root 의심&quot;</h3>
+<p>가장 흔한 실패 모드이며, IK Rig 의 Retarget Root 가 누락되거나 다른 본으로 잘못 지정됐을 때 발생합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>점검 순서</th><th>확인</th></tr></thead><tbody><tr><td data-label="점검 순서">1</td><td data-label="확인">IK_Mixamo 열기 → Hips 가 Retarget Root 인지</td></tr>
+<tr><td data-label="점검 순서">2</td><td data-label="확인">IK_Mannequin 열기 → pelvis 가 Retarget Root 인지</td></tr>
+<tr><td data-label="점검 순서">3</td><td data-label="확인">RTG 에서 Edit Pose 모드 → 양쪽 캐릭터 똑바로 서 있는지</td></tr></tbody></table></div>
+<h3 id="힌트-2-한-동작은-정상인데-다른-게-이상하면-동작-자체의-특이성-의심">힌트 2 — &quot;한 동작은 정상인데 다른 게 이상하면 동작 자체의 특이성 의심&quot;</h3>
+<p>같은 IK Retargeter 에셋으로 변환해도 동작에 따라 잘 되거나 어색할 수 있습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>동작 유형</th><th>변환 안정성</th></tr></thead><tbody><tr><td data-label="동작 유형">Walking / Idle / Run</td><td data-label="변환 안정성">매우 안정. 발이 땅에 잘 닿음</td></tr>
+<tr><td data-label="동작 유형">Boxing / Punch / Kick</td><td data-label="변환 안정성">안정. 팔다리 큰 동작</td></tr>
+<tr><td data-label="동작 유형">Dancing</td><td data-label="변환 안정성">보통. 일부 모션 어색할 수 있음</td></tr>
+<tr><td data-label="동작 유형">Jump / Fall</td><td data-label="변환 안정성">Pelvis 높이 변화 큼. Retarget Root height 조정 필요 가능</td></tr>
+<tr><td data-label="동작 유형">Lying / Crawl</td><td data-label="변환 안정성">어려움. Pelvis 가 바닥에 가까운 동작은 보정 어려움</td></tr></tbody></table></div>
+<p>처음에는 Walking / Idle / Boxing 처럼 안정적인 동작으로 시작하고, Dancing 같은 동작은 안정 동작으로 셋업이 잘 됐는지 확인한 뒤 시도합니다.</p>
+<h2 id="2교시-마무리">2교시 마무리</h2>
+<div class="callout callout-question">
+<div class="callout-title">2교시 결과물 — Content Browser Mixamo 폴더에 다음 에셋이 있어야</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>에셋</th><th>종류</th></tr></thead><tbody><tr><td data-label="에셋">SM_Mixamo</td><td data-label="종류">Skeletal Mesh</td></tr>
+<tr><td data-label="에셋">SK_Mixamo</td><td data-label="종류">Skeleton</td></tr>
+<tr><td data-label="에셋">PA_Mixamo</td><td data-label="종류">Physics Asset</td></tr>
+<tr><td data-label="에셋">AS_Walking_Mixamo</td><td data-label="종류">Animation Sequence (소스)</td></tr>
+<tr><td data-label="에셋"><strong>IK_Mixamo</strong></td><td data-label="종류">IK Rig (소스)</td></tr>
+<tr><td data-label="에셋"><strong>IK_Mannequin</strong></td><td data-label="종류">IK Rig (타깃)</td></tr>
+<tr><td data-label="에셋"><strong>RTG_MixamoToMannequin</strong></td><td data-label="종류">IK Retargeter</td></tr>
+<tr><td data-label="에셋">AS_Walking_Mannequin</td><td data-label="종류">Animation Sequence (변환 결과)</td></tr></tbody></table></div>
+</div>
+</div>
+<p>8개 에셋이 모두 갖춰지지 않았으면 손을 들어 알려주고, 3교시 시작 전 5분의 추가 정비 시간을 갖습니다.</p>
+<p>쉬는 시간 후 3교시 — <strong>본인이 선택한 다양한 Mixamo 동작들로 N번 변환</strong> 하는 실습입니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#1교시-핵심-빠른-점검">1교시 핵심 빠른 점검</a></li>
+        <li class="toc-level-2"><a href="#1-import-네이밍-컨벤션">1. Import + 네이밍 컨벤션</a></li>
+        <li class="toc-level-3"><a href="#1-1-thirdperson-템플릿-프로젝트-준비">1.1 ThirdPerson 템플릿 프로젝트 준비</a></li>
+        <li class="toc-level-3"><a href="#1-2-mixamo-폴더-만들기-캐릭터-import">1.2 Mixamo 폴더 만들기 + 캐릭터 import</a></li>
+        <li class="toc-level-3"><a href="#1-3-네이밍-컨벤션-적용">1.3 네이밍 컨벤션 적용</a></li>
+        <li class="toc-level-3"><a href="#1-4-walking-애니메이션-import">1.4 Walking 애니메이션 import</a></li>
+        <li class="toc-level-2"><a href="#2-skeleton-본-구조-비교-unreal-안에서">2. Skeleton 본 구조 비교 — Unreal 안에서</a></li>
+        <li class="toc-level-3"><a href="#2-1-sk_mannequin-skeleton-tree-열기">2.1 SK_Mannequin Skeleton Tree 열기</a></li>
+        <li class="toc-level-3"><a href="#2-2-sk_mixamo-skeleton-tree-열기">2.2 SK_Mixamo Skeleton Tree 열기</a></li>
+        <li class="toc-level-3"><a href="#2-3-참고-metahuman-skeleton-tree">2.3 참고 — MetaHuman Skeleton Tree</a></li>
+        <li class="toc-level-2"><a href="#3-ik-rig-ik-retargeter">3. IK Rig + IK Retargeter</a></li>
+        <li class="toc-level-3"><a href="#3-1-ik-rig-가-무엇인가">3.1 IK Rig 가 무엇인가</a></li>
+        <li class="toc-level-3"><a href="#3-2-ik_mixamo-만들기-시연-4분-학생은-화면-보기">3.2 IK_Mixamo 만들기 (시연 4분 — 학생은 화면 보기)</a></li>
+        <li class="toc-level-3"><a href="#3-3-ik_mannequin-만들기-학생-직접-6분">3.3 IK_Mannequin 만들기 (학생 직접, 6분)</a></li>
+        <li class="toc-level-3"><a href="#3-4-ik-retargeter-edit-pose-export-다-같이-5분">3.4 IK Retargeter + Edit Pose + Export (다 같이, 5분)</a></li>
+        <li class="toc-level-2"><a href="#실습-소개-첫-힌트">실습 소개 + 첫 힌트</a></li>
+        <li class="toc-level-3"><a href="#3교시-미션">3교시 미션</a></li>
+        <li class="toc-level-3"><a href="#힌트-1-변환-후-캐릭터가-누워-있으면-retarget-root-의심">힌트 1 — &quot;변환 후 캐릭터가 누워 있으면 Retarget Root 의심&quot;</a></li>
+        <li class="toc-level-3"><a href="#힌트-2-한-동작은-정상인데-다른-게-이상하면-동작-자체의-특이성-의심">힌트 2 — &quot;한 동작은 정상인데 다른 게 이상하면 동작 자체의 특이성 의심&quot;</a></li>
+        <li class="toc-level-2"><a href="#2교시-마무리">2교시 마무리</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 10 student notes.</p>
+</body>
+</html>

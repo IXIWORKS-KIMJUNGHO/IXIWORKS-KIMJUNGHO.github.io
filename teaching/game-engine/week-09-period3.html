@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 3교시 — 실습: Dolly Zoom 단일 샷</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 09</p>
+        <h1>9주차 3교시 — 실습: Dolly Zoom 단일 샷</h1>
+        <p class="lead">본인 6주차 레벨에서 Cine Camera와 Sequencer를 결합해 15초 분량의 Dolly Zoom 단일 샷을 제작합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 03</span>
+          <span class="hero-chip">Cine Camera</span>
+          <span class="hero-chip">Sequencer</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 09</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 03</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Practice: Dolly Zoom Shot</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-04-30</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="9주차-3교시-실습-dolly-zoom-단일-샷-학생용">9주차 3교시 — 실습: Dolly Zoom 단일 샷 (학생용)</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서">강의계획서: Game Engine II</td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서">9주차 아웃라인: 시퀀서 기초</td></tr>
+<tr><td data-label="관계">1교시 핸드아웃</td><td data-label="문서">1교시: 시네 카메라의 영화 언어</td></tr>
+<tr><td data-label="관계">2교시 핸드아웃</td><td data-label="문서">2교시: 레벨 시퀀서와 키프레임</td></tr></tbody></table></div>
+<p>---</p>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>1·2교시 내용을 통합하여 본인 레벨에서 Dolly Zoom 단일 샷을 직접 완성한다 Cine Camera 파라미터 + 시퀀서 키프레임을 결합하는 워크플로우를 손에 익힌다 거리와 Focal Length가 시간에 따라 동시에 변할 때 만들어지는 영화적 효과를 체감한다</p>
+</div>
+</div>
+<p>3교시는 <strong>학생 주도 실습</strong>입니다. 1·2교시에서 따라했던 Dolly Zoom을 본인 6주차 레벨에서 직접 재현합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">조작 절차를 익히는 시간</div>
+<div class="callout-body">
+<p>오늘 실습은 완성도를 점수로 나누는 시간이 아닙니다. <strong>시퀀서 조작 절차를 익히기</strong>가 목적입니다. 완성도보다 끝까지 한 번 시도해보는 게 중요합니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="실습-미션">실습 미션</h2>
+<p>본인이 6주차에 만든 레벨에서, <strong>시네 카메라로 15초짜리 Dolly Zoom 단일 샷</strong>을 만드세요.</p>
+<h3 id="완성-모습">완성 모습</h3>
+<p>카메라가 천천히 뒤로 빠지면서, 동시에 화각이 좁아집니다(망원으로). 인물(또는 핵심 액터)의 크기는 거의 그대로인데, 배경만 점점 늘어나거나 압축되는 기괴한 효과가 보입니다. 이게 히치콕이 〈현기증〉에서 처음 쓴 Dolly Zoom입니다.</p>
+<h3 id="완성-체크리스트-4개">완성 체크리스트 — 4개</h3>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>조건</th><th>확인</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="조건">Level Sequence 생성 + 시네 카메라 트랙 추가</td><td data-label="확인">미확인</td></tr>
+<tr><td data-label="#">2</td><td data-label="조건">Transform 키프레임 시작/끝 추가 (카메라 가까이→멀리)</td><td data-label="확인">미확인</td></tr>
+<tr><td data-label="#">3</td><td data-label="조건">Focal Length 키프레임 시작/끝 추가 (24mm → 85mm)</td><td data-label="확인">미확인</td></tr>
+<tr><td data-label="#">4</td><td data-label="조건">재생 시 Dolly Zoom 효과 시각적으로 확인 가능</td><td data-label="확인">미확인</td></tr></tbody></table></div>
+<p>4개가 모두 되면 진행 확인을 요청하세요. <strong>정확히 안 맞아도 됩니다. 시도하고 결과를 본 게 중요합니다.</strong></p>
+<h3 id="시간-배분-가이드">시간 배분 가이드</h3>
+<div class="table-wrap"><table><thead><tr><th>단계</th><th>시간</th><th>누적</th></tr></thead><tbody><tr><td data-label="단계">단계 0: 환경 점검</td><td data-label="시간">5분</td><td data-label="누적">0:00~0:05</td></tr>
+<tr><td data-label="단계">단계 1: 시퀀스 생성 + 카메라 트랙 추가</td><td data-label="시간">5분</td><td data-label="누적">0:05~0:10</td></tr>
+<tr><td data-label="단계">단계 2: 트랜스폼 키프레임 (가까이→멀리)</td><td data-label="시간">10분</td><td data-label="누적">0:10~0:20</td></tr>
+<tr><td data-label="단계">단계 3: Focal Length 키프레임 (24→85)</td><td data-label="시간">10분</td><td data-label="누적">0:20~0:30</td></tr>
+<tr><td data-label="단계">단계 4: 재생 + 미세 조정</td><td data-label="시간">7분</td><td data-label="누적">0:30~0:37</td></tr>
+<tr><td data-label="단계">진행 확인 + 자유 다듬기</td><td data-label="시간">5분</td><td data-label="누적">0:37~0:42</td></tr>
+<tr><td data-label="단계">정리 + 10주차 예고</td><td data-label="시간">3분</td><td data-label="누적">0:42~0:45</td></tr></tbody></table></div>
+<p>자기 페이스에 맞춰 진행하세요. 막히면 손을 들어주세요.</p>
+<p>---</p>
+<h2 id="단계-0-환경-점검">단계 0: 환경 점검</h2>
+<p>본인 6주차 레벨이 열려있고, Dolly Zoom 효과가 보일 만한 씬 구성이 되어 있는지 확인합니다.</p>
+<h3 id="환경-점검-체크리스트">환경 점검 체크리스트</h3>
+<ol><li>본인 6주차 레벨이 열려있나요?</li><li>카메라 워크할 공간이 있나요? (전경/중경/원경이 보이는 각도)</li><li><strong>Focus 타겟이 될 핵심 액터</strong>가 있나요? (메가스캔 식물, 바위, 캐릭터 등 두드러지는 오브젝트)</li><li>라이팅이 빌드되어 있나요? (어두운 씬에서는 효과가 잘 보이지 않음)</li></ol>
+<div class="callout callout-warning">
+<div class="callout-title">단조로운 평지에선 효과가 안 보입니다</div>
+<div class="callout-body">
+<p><strong>전경/중경/원경</strong>이 한 화면에 나오는 각도를 미리 찾아두세요. 핵심 액터가 카메라 앞쪽에, 다른 오브젝트나 산/건물이 뒤쪽 멀리 있어야 배경 변형이 보입니다.</p>
+</div>
+</div>
+<h3 id="레벨이-단조로운-경우-빠른-보강">레벨이 단조로운 경우 — 빠른 보강</h3>
+<ul><li>1. Place Actors &gt; Megascans 또는 Outliner에서 메가스캔 에셋 두세 개를 다른 거리에 배치</li><li>카메라 앞 (1m 이내): 큰 식물이나 바위 1개</li><li>중경 (3~5m): 작은 오브젝트 몇 개</li><li>원경 (10m 이상): 산, 큰 식물군 등</li><li>2. 라이팅이 지나치게 어둡거나 지나치게 밝지 않은지 확인</li></ul>
+<p>5분 안에 셋업을 끝내고 다음 단계로 갑니다.</p>
+<p>---</p>
+<h2 id="단계-1-시퀀스-생성-카메라-트랙-추가">단계 1: 시퀀스 생성 + 카메라 트랙 추가</h2>
+<p>2교시 핵심1·2에서 따라한 절차 그대로입니다.</p>
+<h3 id="1-1-level-sequence-만들기">1-1. Level Sequence 만들기</h3>
+<ul><li>1. Content Browser에서 빈 공간 우클릭</li><li>2. Cinematics &gt; Level Sequence 선택</li><li>3. 이름: <code>LS_Week09_Practice</code></li><li>4. 더블클릭하여 시퀀서 에디터 열기</li></ul>
+<h3 id="1-2-시퀀스-길이-설정">1-2. 시퀀스 길이 설정</h3>
+<ul><li>1. 시퀀서 에디터 우측 상단 <strong>End</strong> 박스에 <code>450</code> 입력 (15초)</li><li>2. View Range도 같이 0~450으로 통일</li></ul>
+<h3 id="1-3-시네-카메라-추가">1-3. 시네 카메라 추가</h3>
+<ul><li>1. 본인 레벨에서 <strong>CineCameraActor 선택</strong> (없으면 Place Actors &gt; 검색 'cine'으로 새로 배치)</li><li>2. 시퀀서 에디터 좌측 상단 <strong>+ Track</strong> 클릭</li><li>3. <strong>Actor To Sequencer &gt; Add 'CineCameraActor'</strong> 선택</li><li>4. Transform / CineCameraComponent 두 하위 트랙 보이는지 확인 (▶ 클릭하여 펼침)</li></ul>
+<h3 id="1-4-시퀀서-카메라-시점-켜기">1-4. 시퀀서 카메라 시점 켜기</h3>
+<ul><li>1. 시퀀서 트랙의 CineCameraActor 줄 옆 <strong>카메라 아이콘</strong> 클릭</li><li>2. 뷰포트가 카메라 시점으로 잠김</li></ul>
+<h3 id="1-5-filmback-통일">1-5. Filmback 통일</h3>
+<ul><li>1. Outliner에서 CineCameraActor 선택</li><li>2. Details 패널 검색창에 <code>filmback</code></li><li>3. <strong>35mm Academy</strong> 선택</li></ul>
+<p>여기까지 하고 손을 한 번 들어주세요. 진행 상태를 빠르게 확인하고 다음 단계로 갑니다.</p>
+<p>---</p>
+<h2 id="단계-2-트랜스폼-키프레임">단계 2: 트랜스폼 키프레임</h2>
+<p>카메라가 피사체에 가까운 위치에서 점점 멀어지는 무빙(Dolly Out)을 만듭니다.</p>
+<h3 id="2-1-시작-위치-잡기">2-1. 시작 위치 잡기</h3>
+<ul><li>1. 시퀀서에서 <strong>플레이헤드를 0프레임</strong>으로 이동 (Home 키)</li><li>2. 뷰포트(파일럿 모드)에서 카메라를 핵심 액터에 <strong>가까이</strong> 이동</li><li>우클릭 + WASD로 시점 이동, 마우스 드래그로 회전</li><li>핵심 액터가 화면 중앙에, 적당한 크기로 보이게</li><li>3. 시퀀서 트랙의 <strong>Transform 옆 + 버튼</strong> 클릭 → 시작 키프레임을 추가힘</li><li>노란 다이아몬드가 0프레임에 나타나면 시작 키가 들어간 상태</li></ul>
+<h3 id="2-2-끝-위치-잡기">2-2. 끝 위치 잡기</h3>
+<ul><li>1. 시퀀서에서 <strong>플레이헤드를 450프레임</strong>으로 이동 (End 키)</li><li>2. 뷰포트에서 카메라를 핵심 액터에서 <strong>뒤로 빼서 멀리</strong> 이동</li><li>우클릭 + S 키로 뒤로 이동</li><li>약 2~3배 정도 거리 차이가 나도록</li><li>3. <strong>Transform 옆 + 버튼</strong> 클릭 → 끝 키프레임을 추가힘</li></ul>
+<h3 id="2-3-재생해서-확인">2-3. 재생해서 확인</h3>
+<ul><li>1. 시퀀서 재생 버튼 클릭 또는 <strong>스페이스바</strong></li><li>2. 카메라가 부드럽게 가까운 위치에서 먼 위치로 이동하는지 확인</li></ul>
+<p>이 단계에서 종료하면 결과는 Dolly Out입니다. <strong>Dolly Zoom이 되려면 다음 단계 Focal Length가 필요합니다.</strong></p>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 문제</div>
+<div class="callout-body">
+
+</div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">카메라가 움직이지 않아요</td><td data-label="원인">키프레임이 한 개만 추가됨</td><td data-label="해결">0프레임 + 450프레임 두 위치 모두 + 버튼</td></tr>
+<tr><td data-label="증상">두 키프레임을 추가았는데도 같은 화면</td><td data-label="원인">시작과 끝 위치가 같음</td><td data-label="해결">끝 프레임에서 카메라를 충분히 멀리 옮기기</td></tr>
+<tr><td data-label="증상">카메라 시점이 아니라 일반 시점</td><td data-label="원인">시퀀서 카메라 아이콘 꺼짐</td><td data-label="해결">트랙 옆 카메라 아이콘 다시 클릭</td></tr>
+<tr><td data-label="증상">핵심 액터가 화면에서 사라짐</td><td data-label="원인">카메라가 지나치게 멀어졌거나 회전됨</td><td data-label="해결">끝 위치에서도 핵심 액터가 화면 중앙에 보이도록 카메라 회전 조정</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="단계-3-focal-length-키프레임">단계 3: Focal Length 키프레임</h2>
+<p>Dolly Zoom의 핵심. 카메라가 멀어지는 동안 화각을 좁혀(망원으로 갈수록) 피사체 크기를 유지합니다.</p>
+<h3 id="3-1-focal-length-트랙-펼치기">3-1. Focal Length 트랙 펼치기</h3>
+<ul><li>1. 시퀀서에서 <strong>CineCameraComponent</strong> 트랙 옆 ▶ 클릭하여 펼치기</li><li>2. 그 안에서 <strong>Current Focal Length</strong> 트랙을 찾기</li><li>안 보이면: +Track &gt; Camera &gt; Current Focal Length</li></ul>
+<h3 id="3-2-시작-focal-length-키프레임">3-2. 시작 Focal Length 키프레임</h3>
+<ul><li>1. <strong>플레이헤드를 0프레임</strong>으로 이동</li><li>2. Details 패널 또는 트랙 옆 입력 칸에 <strong>Focal Length = 24mm</strong> 입력</li><li>광각이라 카메라 가까이서 핵심 액터가 화면을 채우는 정도가 적절</li><li>3. <strong>Current Focal Length 옆 + 버튼</strong> 클릭 → 시작 키프레임</li></ul>
+<h3 id="3-3-끝-focal-length-키프레임">3-3. 끝 Focal Length 키프레임</h3>
+<ul><li>1. <strong>플레이헤드를 450프레임</strong>으로 이동</li><li>2. Focal Length를 <strong>85mm</strong>로 변경</li><li>망원이라 카메라가 멀어진 위치에서도 핵심 액터가 비슷한 크기로 보이는지 확인</li><li>3. <strong>+ 버튼</strong> 클릭 → 끝 키프레임</li></ul>
+<h3 id="3-4-재생해서-dolly-zoom-확인">3-4. 재생해서 Dolly Zoom 확인</h3>
+<ul><li>1. 스페이스바 또는 재생 버튼</li><li>2. 영상이 재생되면서 다음을 확인:</li><li><strong>핵심 액터의 크기는 거의 비슷하게 유지되는가?</strong></li><li><strong>배경의 원근감(거리감)이 변하는가?</strong> — 멀리 있던 배경이 가까이 압축되어 보이거나, 반대로 늘어나 보임</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">Vertigo Effect</div>
+<div class="callout-body">
+<p>이게 핵심 순간입니다. 처음 보면 효과를 명확히 확인할 수 있습니다. 'Vertigo Effect'라고도 불리는 이유입니다.</p>
+</div>
+</div>
+<h3 id="3-5-안-맞으면-비율-조정">3-5. 안 맞으면 비율 조정</h3>
+<p>한 번에 정확히 맞지 않는 게 정상입니다. 거리 변화 비율과 Focal Length 변화 비율을 맞춰야 피사체 크기가 유지됩니다.</p>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>조치</th></tr></thead><tbody><tr><td data-label="증상">끝에서 피사체가 지나치게 작게 보임</td><td data-label="조치">Focal Length 끝값을 85 → 100~120mm로 더 길게</td></tr>
+<tr><td data-label="증상">끝에서 피사체가 지나치게 크게 보임</td><td data-label="조치">Focal Length 끝값을 85 → 60~70mm로 짧게, 또는 카메라를 더 멀리</td></tr>
+<tr><td data-label="증상">시작에서 피사체가 화면에 안 들어옴</td><td data-label="조치">Focal Length 시작값을 24 → 18~20mm로 더 광각, 또는 카메라를 더 가까이</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="단계-4-재생-미세-조정">단계 4: 재생 + 미세 조정</h2>
+<p>Dolly Zoom 기본은 만들어졌습니다. 영화 같은 느낌이 나도록 다듬는 시간입니다.</p>
+<h3 id="4-1-인터폴레이션-확인">4-1. 인터폴레이션 확인</h3>
+<ul><li>1. 추가된 키프레임들 위에서 우클릭</li><li>2. 인터폴레이션이 <strong>Cubic</strong>(파랑)인지 확인</li><li>3. 다른 색이면 <strong>Cubic</strong>으로 변경</li></ul>
+<div class="callout callout-info">
+<div class="callout-title">Cubic이 영화적인 부드러운 가속/감속을 만듭니다</div>
+<div class="callout-body">
+<p>Linear는 기계적, Constant는 컷처럼 즉시 변경됩니다.</p>
+</div>
+</div>
+<h3 id="4-2-시작-끝-정지-시간-다듬기-옵션">4-2. 시작/끝 정지 시간 다듬기 (옵션)</h3>
+<ul><li>1. 시작 직후 1초, 끝 직전 1초 정도 카메라가 간단히 정지하면 더 영화적</li><li>2. 0프레임에 더해 <strong>30프레임에도 같은 시작 위치 키프레임</strong>을 추가하면 시작 직후 1초 정지</li><li>3. 마찬가지로 <strong>420프레임에 같은 끝 위치 키프레임</strong> 추가하면 끝 직전 1초 정지</li></ul>
+<p>이건 옵션입니다. 시간 남는 학생만 시도해보세요.</p>
+<h3 id="4-3-보조-다듬기">4-3. 보조 다듬기</h3>
+<p>다음 항목 중 한두 개만 골라 시도:</p>
+<ul><li><strong>Aperture를 f/2.0~2.8</strong>로 (심도가 얕아지면 핵심 액터 더 부각)</li><li><strong>Manual Focus Distance</strong>로 핵심 액터에 정확히 초점</li><li>카메라 회전을 살짝 추가 (드라마틱한 무빙)</li></ul>
+<p>다 안 해도 됩니다. 한 가지만 시도해도 결과가 더 영화적으로 보일 것입니다.</p>
+<p>---</p>
+<h2 id="진행-확인-자유-다듬기">진행 확인 + 자유 다듬기</h2>
+<p>4개 체크리스트가 다 되면 진행 확인을 요청하세요.</p>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>확인 항목</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="확인 항목">LS_ 프리픽스로 Level Sequence가 만들어졌는가?</td></tr>
+<tr><td data-label="#">2</td><td data-label="확인 항목">시퀀서 트랙에 Transform과 CineCameraComponent가 두 항목 모두 있는가?</td></tr>
+<tr><td data-label="#">3</td><td data-label="확인 항목">Transform / Focal Length 두 트랙에 시작/끝 키프레임이 박혔는가?</td></tr>
+<tr><td data-label="#">4</td><td data-label="확인 항목">재생 시 Dolly Zoom 효과가 보이는가? (피사체 유지, 배경 변형)</td></tr></tbody></table></div>
+<p>확인이 끝나면 자유롭게 다듬기 시간입니다. 단계 4의 보조 다듬기를 시도하거나, 다른 각도로 카메라 무빙을 새로 만들어봐도 됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">일찍 끝낸 학생용 자율 도전</div>
+<div class="callout-body">
+<ul><li><strong>Rack Focus 추가</strong>: Manual Focus Distance를 시간에 따라 변경해 두 액터 사이 초점 이동</li><li><strong>Aperture 키프레임</strong>: 시간이 흐르면서 심도가 변하는 효과</li><li><strong>다른 카메라 워크</strong>: 회전을 동반한 무빙, 위에서 아래로 내려오는 무빙 등</li></ul>
+</div>
+</div>
+<p>---</p>
+<h2 id="정리">정리</h2>
+<p>오늘 시퀀서를 처음 조작 절차를 익히는 시간이었습니다. 정확히 안 맞은 학생도 괜찮습니다. 카메라가 멀어지는 동안 Focal Length가 같이 변한다는 그 감각, <strong>두 변수가 시간에 따라 동시에 변하면서 영화적 효과가 만들어진다는 그 감각</strong>을 잡았으면 충분합니다.</p>
+<p>오늘 만든 것은 단일 샷입니다. 카메라 한 대, 컷 하나. 10주차부터 여러 컷을 연결하는 시네마틱 흐름으로 확장합니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">작업 파일 저장 안내</div>
+<div class="callout-body">
+<p>Ctrl+S로 시퀀스 + 레벨을 두 항목 모두 저장하세요.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="10주차-예고-시퀀서-카메라-워크">10주차 예고 — 시퀀서 카메라 워크</h2>
+<p>10주차는 <strong>시퀀서 카메라 워크</strong> 본격 편입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>10주차 키워드</th><th>의미</th></tr></thead><tbody><tr><td data-label="10주차 키워드"><strong>Camera Cut 트랙</strong></td><td data-label="의미">한 시퀀스 안에서 여러 카메라를 시간에 따라 전환</td></tr>
+<tr><td data-label="10주차 키워드"><strong>다중 카메라 시네마틱</strong></td><td data-label="의미">여러 각도/렌즈 컷을 편집해 한 장면 구성</td></tr>
+<tr><td data-label="10주차 키워드"><strong>카메라 레일/크레인</strong></td><td data-label="의미">더 역동적인 카메라 무빙 도구</td></tr></tbody></table></div>
+<p>오늘 만든 단일 샷이 10주차 시네마틱의 한 컷으로 들어갈 수도 있습니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#실습-미션">실습 미션</a></li>
+        <li class="toc-level-3"><a href="#완성-모습">완성 모습</a></li>
+        <li class="toc-level-3"><a href="#완성-체크리스트-4개">완성 체크리스트 — 4개</a></li>
+        <li class="toc-level-3"><a href="#시간-배분-가이드">시간 배분 가이드</a></li>
+        <li class="toc-level-2"><a href="#단계-0-환경-점검">단계 0: 환경 점검</a></li>
+        <li class="toc-level-3"><a href="#환경-점검-체크리스트">환경 점검 체크리스트</a></li>
+        <li class="toc-level-3"><a href="#레벨이-단조로운-경우-빠른-보강">레벨이 단조로운 경우 — 빠른 보강</a></li>
+        <li class="toc-level-2"><a href="#단계-1-시퀀스-생성-카메라-트랙-추가">단계 1: 시퀀스 생성 + 카메라 트랙 추가</a></li>
+        <li class="toc-level-3"><a href="#1-1-level-sequence-만들기">1-1. Level Sequence 만들기</a></li>
+        <li class="toc-level-3"><a href="#1-2-시퀀스-길이-설정">1-2. 시퀀스 길이 설정</a></li>
+        <li class="toc-level-3"><a href="#1-3-시네-카메라-추가">1-3. 시네 카메라 추가</a></li>
+        <li class="toc-level-3"><a href="#1-4-시퀀서-카메라-시점-켜기">1-4. 시퀀서 카메라 시점 켜기</a></li>
+        <li class="toc-level-3"><a href="#1-5-filmback-통일">1-5. Filmback 통일</a></li>
+        <li class="toc-level-2"><a href="#단계-2-트랜스폼-키프레임">단계 2: 트랜스폼 키프레임</a></li>
+        <li class="toc-level-3"><a href="#2-1-시작-위치-잡기">2-1. 시작 위치 잡기</a></li>
+        <li class="toc-level-3"><a href="#2-2-끝-위치-잡기">2-2. 끝 위치 잡기</a></li>
+        <li class="toc-level-3"><a href="#2-3-재생해서-확인">2-3. 재생해서 확인</a></li>
+        <li class="toc-level-2"><a href="#단계-3-focal-length-키프레임">단계 3: Focal Length 키프레임</a></li>
+        <li class="toc-level-3"><a href="#3-1-focal-length-트랙-펼치기">3-1. Focal Length 트랙 펼치기</a></li>
+        <li class="toc-level-3"><a href="#3-2-시작-focal-length-키프레임">3-2. 시작 Focal Length 키프레임</a></li>
+        <li class="toc-level-3"><a href="#3-3-끝-focal-length-키프레임">3-3. 끝 Focal Length 키프레임</a></li>
+        <li class="toc-level-3"><a href="#3-4-재생해서-dolly-zoom-확인">3-4. 재생해서 Dolly Zoom 확인</a></li>
+        <li class="toc-level-3"><a href="#3-5-안-맞으면-비율-조정">3-5. 안 맞으면 비율 조정</a></li>
+        <li class="toc-level-2"><a href="#단계-4-재생-미세-조정">단계 4: 재생 + 미세 조정</a></li>
+        <li class="toc-level-3"><a href="#4-1-인터폴레이션-확인">4-1. 인터폴레이션 확인</a></li>
+        <li class="toc-level-3"><a href="#4-2-시작-끝-정지-시간-다듬기-옵션">4-2. 시작/끝 정지 시간 다듬기 (옵션)</a></li>
+        <li class="toc-level-3"><a href="#4-3-보조-다듬기">4-3. 보조 다듬기</a></li>
+        <li class="toc-level-2"><a href="#진행-확인-자유-다듬기">진행 확인 + 자유 다듬기</a></li>
+        <li class="toc-level-2"><a href="#정리">정리</a></li>
+        <li class="toc-level-2"><a href="#10주차-예고-시퀀서-카메라-워크">10주차 예고 — 시퀀서 카메라 워크</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 09 student notes.</p>
+</body>
+</html>

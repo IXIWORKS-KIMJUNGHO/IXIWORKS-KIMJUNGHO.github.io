@@ -1,0 +1,975 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 10</p>
+        <h1>10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비</h1>
+        <p class="lead">리타겟팅의 의미, Rest Pose와 본 구조 차이, Mixamo 다운로드 옵션을 정리하고 Unreal Import 전 준비를 완료합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 01</span>
+          <span class="hero-chip">Animation Retargeting</span>
+          <span class="hero-chip">Mixamo</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 10</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Retargeting Concepts</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-05-05</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="10주차-1교시-애니메이션-리타겟팅-개념과-mixamo-자산-준비">10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>애니메이션 리타겟팅의 정의와 매핑 단계가 필요한 이유를 설명할 수 있다 Rest pose 3종(Scan / A / T)의 차이와 MetaHuman / Mixamo / ThirdPerson Mannequin 의 rest pose 를 구분할 수 있다 Mixamo 에서 캐릭터·애니메이션을 적절한 옵션(T-Pose / Without Skin / In Place)으로 받아 다음 시간 import 준비를 완료할 수 있다</p>
+</div>
+</div>
+<p>지난 주에 시네 카메라와 시퀀서로 카메라 워크를 만들었고, 오늘은 그 카메라가 비추는 캐릭터에게 동작을 입히는 방법을 배웁니다.</p>
+<p>MetaHuman, Mixamo, ThirdPerson Mannequin 은 각자 다른 형태를 가진 캐릭터인데, 한 동작 데이터를 만들었을 때 이 데이터를 다른 캐릭터에 그대로 입힐 수 있을까요? 답은 <strong>'경우에 따라'</strong> 이며, 그 '경우'를 결정하는 조건이 오늘의 핵심입니다.</p>
+<h2 id="모캡-vs-핸드-키프레임">모캡 vs 핸드 키프레임</h2>
+<p>캐릭터 동작은 크게 두 방식으로 제작합니다.</p>
+<ul><li><strong>모션캡처(Motion Capture)</strong>: 실제 사람이 모캡 슈트를 입고 움직인 데이터를 캐릭터에 입히는 방식으로, 디테일이 풍부하고 자연스럽습니다.</li><li><strong>핸드 키프레임(Hand Keyframe)</strong>: 애니메이터가 본을 하나하나 손으로 회전시켜 키프레임으로 기록하는 방식으로, 의도가 명확하고 양식화된 동작이 만들어집니다.</li></ul>
+<figure class="lecture-figure">
+<img src="assets/01_motion-capture-vs-hand-keyframes.webp" alt="motion capture vs hand keyframes" loading="lazy">
+<figcaption>모션캡처 동작(왼쪽, 데이터 풍부) vs 핸드 키프레임 동작(오른쪽, 명확한 의도) — 어느 쪽이든 결과물은 본 위의 키프레임</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 — 결과물은 동일</div>
+<div class="callout-body">
+<p>두 방식 모두 결과물은 <strong>본 위에 얹힌 키프레임 시퀀스</strong> 이며, 캐릭터가 다르더라도 본 구조가 비슷하면 그 키프레임을 옮겨 쓸 수 있다 — 이것이 오늘 주제의 출발점입니다.</p>
+</div>
+</div>
+<h2 id="mixamo-라이브러리">Mixamo 라이브러리</h2>
+<p>오늘 사용할 자산은 Adobe 가 운영하는 무료 캐릭터·모션캡처 라이브러리인 <strong>Mixamo</strong> 로, 회원가입만 하면 전부 받아서 사용할 수 있습니다.</p>
+<blockquote class="quote-note">
+<p>Mixamo 화면에서는 Characters / Animations 탭, 검색창, 우측 3D 미리보기 영역을 먼저 확인합니다.</p>
+</blockquote>
+<div class="callout callout-info">
+<div class="callout-title">라이선스</div>
+<div class="callout-body">
+<p>Mixamo 의 캐릭터·애니메이션은 <strong>개인·상업·비영리 프로젝트에 로열티 프리</strong> 로 사용 가능하므로(Adobe ToS 기준), 본인 기말 시네마틱 영상에 그대로 사용해도 되며 출처 표기는 권장사항입니다.</p>
+</div>
+</div>
+<p>라이브러리의 동작들을 우리 ThirdPerson 캐릭터에 입히려 해도, 본 구조가 다르기 때문에 단순히 import 만으로는 바로 적용되지 않고 <strong>리타겟팅</strong> 단계가 필요합니다.</p>
+<h2 id="다음-시간-만날-우리-캐릭터">다음 시간 만날 우리 캐릭터</h2>
+<p>다음 시간부터 동작을 입힐 타깃 캐릭터는 <strong>ThirdPerson 템플릿의 Manny / Quinn</strong>, 줄여서 SK_Mannequin 으로, A-Pose 자세에 본 구조가 단순하여 학생 PC 에서도 가볍게 동작합니다.</p>
+<figure class="lecture-figure">
+<img src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
+<figcaption>왼쪽이 SK_Mannequin (A-Pose, 우리 타깃) / 오른쪽이 SK_Mixamo (T-Pose, 우리 소스) — 오늘 둘을 짝짓는 준비를 합니다</figcaption>
+</figure>
+<h2 id="1-리타겟팅이란">1. 리타겟팅이란</h2>
+<h3 id="본-위에-얹힌-키프레임">본 위에 얹힌 키프레임</h3>
+<p>본격적으로 들어가기 전에 용어부터 정리합니다.</p>
+<ul><li><strong>본(Bone)</strong> = Skeleton 의 한 마디. 사람의 관절 사이 뼈 하나에 해당합니다. 캐릭터 한 개에 보통 50~150 개가 들어갑니다.</li><li><strong>애니메이션</strong> = 본의 회전·이동을 시간축에 따라 기록한 키프레임 시퀀스. 예: '0초에 왼팔 이만큼 회전, 0.1초에 이만큼 회전, …' 형태의 데이터.</li></ul>
+<p>이 키프레임을 다른 캐릭터에 그대로 옮기면 어떻게 될까요? 본 이름·개수·길이가 같으면 그대로 적용되지만, 다르면 매핑이 필요합니다.</p>
+<h3 id="리타겟팅-전이">리타겟팅 = 전이</h3>
+<p>리타겟팅(retarget)은 영어로 '대상을 바꾸다'를 의미하며, 한 캐릭터의 애니메이션을 다른 캐릭터로 <strong>전이(transfer)</strong> 하는 작업입니다.</p>
+<figure class="lecture-figure">
+<img src="assets/03_animation-retargeting-transfer.webp" alt="animation retargeting transfer" loading="lazy">
+<figcaption>소스 캐릭터(Mixamo) → 타깃 캐릭터(ThirdPerson Mannequin) — 동작 데이터를 본 매핑을 거쳐 전이</figcaption>
+</figure>
+<p>조금 더 정확히 말하면, 리타겟팅은 <strong>모델을 바꾸는 작업</strong>이 아니라 <strong>애니메이션 데이터를 다른 Skeleton 이 이해할 수 있게 번역하는 작업</strong>입니다.</p>
+<p>예를 들어 Mixamo 애니메이션은 <code>Hips</code>, <code>LeftArm</code>, <code>LeftUpLeg</code> 같은 Mixamo 본을 기준으로 저장되지만, ThirdPerson Mannequin 은 <code>pelvis</code>, <code>upperarm_l</code>, <code>thigh_l</code> 같은 다른 이름과 구조를 사용하므로 엔진에게 다음과 같은 대응 관계를 알려줘야 합니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">본 대응 예시</div>
+<div class="callout-body">
+<p>Mixamo 의 <code>LeftArm</code> = Mannequin 의 <code>upperarm_l</code> Mixamo 의 <code>Hips</code> = Mannequin 의 <code>pelvis</code></p>
+</div>
+</div>
+<p>이 대응표가 없으면 애니메이션 파일 안에 키프레임 숫자는 있어도, 그 숫자를 어느 팔·다리에 적용해야 하는지 알 수 없으므로 리타겟팅은 단순 복사가 아니라 <strong>동작의 의미를 유지하면서 타깃 캐릭터의 본 구조에 맞게 다시 해석하는 과정</strong>에 가깝습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>리타겟팅에서 유지하려는 것</th><th>타깃 캐릭터에 맞게 다시 계산되는 것</th></tr></thead><tbody><tr><td data-label="리타겟팅에서 유지하려는 것">걷기·뛰기·점프 같은 동작의 의도</td><td data-label="타깃 캐릭터에 맞게 다시 계산되는 것">본 이름과 chain 대응</td></tr>
+<tr><td data-label="리타겟팅에서 유지하려는 것">키프레임의 타이밍과 리듬</td><td data-label="타깃 캐릭터에 맞게 다시 계산되는 것">팔·다리 길이에 맞춘 관절 회전</td></tr>
+<tr><td data-label="리타겟팅에서 유지하려는 것">골반·손·발의 상대적 움직임</td><td data-label="타깃 캐릭터에 맞게 다시 계산되는 것">A-Pose / T-Pose 차이를 보정한 기준 자세</td></tr></tbody></table></div>
+<div class="callout callout-note">
+<div class="callout-title">결과가 100% 똑같지 않은 이유</div>
+<div class="callout-body">
+<p>리타겟팅 결과는 원본 동작의 의미를 유지하지만, 캐릭터의 키·팔 길이·rest pose 가 다르면 발이 살짝 미끄러지거나 어깨가 어색해질 수 있으며, 이것은 실패라기보다 다음 시간 IK Retargeter 에서 조정할 지점이 보이는 것입니다.</p>
+</div>
+</div>
+<p>오늘은 한 방향만 다룹니다: <strong>Mixamo 캐릭터의 동작 → ThirdPerson Mannequin</strong>. 반대 방향이나 MetaHuman 으로의 전이도 가능하지만, 실습실 PC 성능을 고려해 MetaHuman 은 개념만 소개하고 실습은 Mannequin 으로 진행합니다.</p>
+<h3 id="가능-조건-형태-유사성">가능 조건: 형태 유사성</h3>
+<p>전이가 항상 가능한 것은 아니며, 한 가지 핵심 조건이 있습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">가능 조건</div>
+<div class="callout-body">
+<p><strong>두 캐릭터의 형태와 골격 구조가 비슷해야 한다.</strong> 사람 → 사람: 가능. 사람 → 말: 불가능 (다리 개수부터 다름).</p>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/04_humanoid-vs-quadruped-limit.webp" alt="humanoid vs quadruped limit" loading="lazy">
+<figcaption>사람 ↔ 말 — 형태가 달라 같은 동작 데이터를 옮길 수 없음</figcaption>
+</figure>
+<p>리타겟팅은 만능이 아니며, <strong>인간형 ↔ 인간형, 사족보행 ↔ 사족보행</strong> 처럼 형태가 같은 그룹 안에서만 작동합니다.</p>
+<p>오늘 다루는 Mixamo Passive Marker Man, Unreal ThirdPerson Mannequin, MetaHuman 은 모두 인간형이므로 어떤 조합이든 리타겟이 가능하지만, 본 이름·개수·길이가 서로 달라 매핑 단계가 필요합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>조합</th><th>리타겟 가능?</th><th>이유</th></tr></thead><tbody><tr><td data-label="조합">Mixamo → ThirdPerson Mannequin</td><td data-label="리타겟 가능?">예</td><td data-label="이유">둘 다 인간형, 본 위치 대응 가능</td></tr>
+<tr><td data-label="조합">Mixamo → MetaHuman</td><td data-label="리타겟 가능?">예</td><td data-label="이유">둘 다 인간형 (단 MetaHuman 본이 더 정밀)</td></tr>
+<tr><td data-label="조합">사람 → 말</td><td data-label="리타겟 가능?">아니요</td><td data-label="이유">형태 다름, 본 개수·구조 매칭 안 됨</td></tr>
+<tr><td data-label="조합">사람 → 4족 로봇</td><td data-label="리타겟 가능?">아니요</td><td data-label="이유">형태 다름</td></tr>
+<tr><td data-label="조합">사람 → 2족 로봇 (인간형)</td><td data-label="리타겟 가능?">예</td><td data-label="이유">형태 같음</td></tr></tbody></table></div>
+<h3 id="사전-정의-다음-시간-자주-등장할-단어-4개">사전 정의 — 다음 시간 자주 등장할 단어 4개</h3>
+<p>Mixamo 다운로드로 들어가기 전에, 다음 시간 IK Rig 에서 만날 용어 4개를 짧게 짚고 갑니다. 외우기보다 '이런 개념이 있구나' 정도만 인지하면 됩니다.</p>
+<div class="table-wrap"><table><thead><tr><th>용어</th><th>한 줄 정의</th></tr></thead><tbody><tr><td data-label="용어"><strong>Skinning</strong></td><td data-label="한 줄 정의">메시(피부) 정점이 본을 따라가도록 묶인 상태. 본이 움직이면 메시가 따라옴</td></tr>
+<tr><td data-label="용어"><strong>Without Skin</strong> (Mixamo 옵션)</td><td data-label="한 줄 정의">새 캐릭터 메시 없이 <strong>애니메이션 데이터만</strong> 받는 옵션. 캐릭터 본체는 따로 받았으니 동작만 필요할 때</td></tr>
+<tr><td data-label="용어"><strong>FK</strong> (Forward Kinematics)</td><td data-label="한 줄 정의">부모 본부터 자식 본으로 회전이 전달되는 기본 방식. 어깨 돌리면 팔꿈치도 돌아감</td></tr>
+<tr><td data-label="용어"><strong>IK</strong> (Inverse Kinematics)</td><td data-label="한 줄 정의">손·발 같은 끝점을 맞추기 위해 관절을 <strong>역으로</strong> 계산하는 방식. 다음 시간 <strong>IK Rig</strong> 의 IK</td></tr></tbody></table></div>
+<h2 id="2-rest-pose-와-본-구조">2. Rest Pose 와 본 구조</h2>
+<h3 id="rest-pose-3종">Rest Pose 3종</h3>
+<p>본 구조를 매핑하려면 <strong>Rest Pose = 애니메이션이 적용되지 않은 기본 자세</strong> 도 알아야 하는데, 모든 캐릭터는 이 기본 자세에서 시작하며 같은 인간형이어도 어떤 rest pose 로 설정했는지에 따라 본 정렬이 미묘하게 달라집니다.</p>
+<figure class="lecture-figure">
+<img src="assets/05_scan-a-t-rest-pose-comparison.webp" alt="scan a t rest pose comparison" loading="lazy">
+<figcaption>Scan Pose / A-Pose / T-Pose 비교</figcaption>
+</figure>
+<div class="table-wrap"><table><thead><tr><th>Pose</th><th>형태</th><th>어디서 자주 보이나</th></tr></thead><tbody><tr><td data-label="Pose"><strong>Scan Pose</strong></td><td data-label="형태">3D 스캔 시점의 자연스러운 자세 (팔 약간 내림)</td><td data-label="어디서 자주 보이나">3D 스캔 데이터 원본</td></tr>
+<tr><td data-label="Pose"><strong>A-Pose</strong></td><td data-label="형태">팔을 약 45° 아래로 — 알파벳 A 모양</td><td data-label="어디서 자주 보이나"><strong>MetaHuman, Unreal ThirdPerson Mannequin</strong></td></tr>
+<tr><td data-label="Pose"><strong>T-Pose</strong></td><td data-label="형태">팔을 수평으로 벌림 — 알파벳 T 모양</td><td data-label="어디서 자주 보이나"><strong>Mixamo, 게임 엔진의 전통적 기본</strong></td></tr></tbody></table></div>
+<p>T-Pose 는 어깨 관절이 가장 잘 펴진 자세라 본 정렬이 깔끔해 게임 엔진의 오랜 표준이었고, A-Pose 는 어깨가 자연스러운 위치에 있어 어깨 메시 변형이 더 자연스럽습니다. 두 방식 모두 장단이 있습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">오늘 우리 작업</div>
+<div class="callout-body">
+<p>소스 <strong>Mixamo = T-Pose</strong>, 타깃 <strong>ThirdPerson Mannequin = A-Pose</strong>. Pose 가 다르므로 그대로 입힐 수 없고, 매핑이 필요하다는 사실이 여기서 다시 한 번 확인됩니다.</p>
+</div>
+</div>
+<h3 id="mannequin-vs-mixamo-본-구조">Mannequin vs Mixamo 본 구조</h3>
+<p>같은 인간형이어도 본 이름과 개수가 어떻게 다른지 비교해봅니다.</p>
+<figure class="lecture-figure">
+<img src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
+<figcaption>SK_Mannequin (A-Pose, 왼쪽) vs SK_Mixamo (T-Pose, 오른쪽) — 모양도 다르고 본 이름·개수도 다름</figcaption>
+</figure>
+<p>핵심 부위 6개만 보면 충분합니다 (외우는 게 아니라 &quot;이름 달라도 위치 같다&quot;의 증거):</p>
+<div class="table-wrap"><table><thead><tr><th>부위</th><th>SK_Mannequin (Unreal)</th><th>SK_Mixamo</th></tr></thead><tbody><tr><td data-label="부위">골반</td><td data-label="SK_Mannequin (Unreal)"><code>pelvis</code></td><td data-label="SK_Mixamo"><code>Hips</code></td></tr>
+<tr><td data-label="부위">척추</td><td data-label="SK_Mannequin (Unreal)"><code>spine_01</code></td><td data-label="SK_Mixamo"><code>Spine</code></td></tr>
+<tr><td data-label="부위">쇄골</td><td data-label="SK_Mannequin (Unreal)"><code>clavicle_l</code></td><td data-label="SK_Mixamo"><code>LeftShoulder</code></td></tr>
+<tr><td data-label="부위">위팔</td><td data-label="SK_Mannequin (Unreal)"><code>upperarm_l</code></td><td data-label="SK_Mixamo"><code>LeftArm</code></td></tr>
+<tr><td data-label="부위">허벅지</td><td data-label="SK_Mannequin (Unreal)"><code>thigh_l</code></td><td data-label="SK_Mixamo"><code>LeftUpLeg</code></td></tr>
+<tr><td data-label="부위">발</td><td data-label="SK_Mannequin (Unreal)"><code>foot_l</code></td><td data-label="SK_Mixamo"><code>LeftFoot</code></td></tr></tbody></table></div>
+<p>이름은 완전히 다르지만 <strong>'위팔'에 해당하는 본은 양쪽 모두에 존재하며</strong>, 위치와 역할은 같고 라벨만 다를 뿐입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">리타겟팅의 핵심</div>
+<div class="callout-body">
+<p><strong>이름이 달라도 위치·역할이 대응되면 매핑할 수 있다.</strong> 다음 시간에 IK Rig 자산으로 이걸 명시적으로 매핑합니다. 'SK_Mixamo 의 LeftArm = SK_Mannequin 의 upperarm_l' 이렇게.</p>
+</div>
+</div>
+<details class="hint-details">
+<summary>전체 매핑 표 보기 (참고용 — 외울 필요 없음)</summary>
+<div class="details-body">
+<div class="table-wrap"><table><thead><tr><th>부위</th><th>SK_Mannequin (Unreal)</th><th>SK_Mixamo</th></tr></thead><tbody><tr><td data-label="부위">골반</td><td data-label="SK_Mannequin (Unreal)"><code>pelvis</code></td><td data-label="SK_Mixamo"><code>Hips</code></td></tr>
+<tr><td data-label="부위">척추</td><td data-label="SK_Mannequin (Unreal)"><code>spine_01</code>, <code>spine_02</code>, <code>spine_03</code> (3단)</td><td data-label="SK_Mixamo"><code>Spine</code>, <code>Spine1</code>, <code>Spine2</code> (3단)</td></tr>
+<tr><td data-label="부위">어깨</td><td data-label="SK_Mannequin (Unreal)"><code>clavicle_l</code>, <code>clavicle_r</code></td><td data-label="SK_Mixamo"><code>LeftShoulder</code>, <code>RightShoulder</code></td></tr>
+<tr><td data-label="부위">위팔</td><td data-label="SK_Mannequin (Unreal)"><code>upperarm_l</code>, <code>upperarm_r</code></td><td data-label="SK_Mixamo"><code>LeftArm</code>, <code>RightArm</code></td></tr>
+<tr><td data-label="부위">아래팔</td><td data-label="SK_Mannequin (Unreal)"><code>lowerarm_l</code>, <code>lowerarm_r</code></td><td data-label="SK_Mixamo"><code>LeftForeArm</code>, <code>RightForeArm</code></td></tr>
+<tr><td data-label="부위">손</td><td data-label="SK_Mannequin (Unreal)"><code>hand_l</code>, <code>hand_r</code></td><td data-label="SK_Mixamo"><code>LeftHand</code>, <code>RightHand</code></td></tr>
+<tr><td data-label="부위">허벅지</td><td data-label="SK_Mannequin (Unreal)"><code>thigh_l</code>, <code>thigh_r</code></td><td data-label="SK_Mixamo"><code>LeftUpLeg</code>, <code>RightUpLeg</code></td></tr>
+<tr><td data-label="부위">종아리</td><td data-label="SK_Mannequin (Unreal)"><code>calf_l</code>, <code>calf_r</code></td><td data-label="SK_Mixamo"><code>LeftLeg</code>, <code>RightLeg</code></td></tr>
+<tr><td data-label="부위">발</td><td data-label="SK_Mannequin (Unreal)"><code>foot_l</code>, <code>foot_r</code></td><td data-label="SK_Mixamo"><code>LeftFoot</code>, <code>RightFoot</code></td></tr>
+<tr><td data-label="부위">머리</td><td data-label="SK_Mannequin (Unreal)"><code>head</code></td><td data-label="SK_Mixamo"><code>Head</code></td></tr></tbody></table></div>
+</div>
+</details>
+<h3 id="참고-metahuman-본-구조">참고 — MetaHuman 본 구조</h3>
+<p>MetaHuman 본 구조는 참고만 하고 넘어갑니다.</p>
+<figure class="lecture-figure">
+<img src="assets/06_mannequin-vs-metahuman-rig-detail.webp" alt="mannequin vs metahuman rig detail" loading="lazy">
+<figcaption>MetaHuman 본 구조 — spine_01..06 (6단), 손가락 풀 chain, 얼굴 본 다수</figcaption>
+</figure>
+<div class="table-wrap"><table><thead><tr><th>부위</th><th>SK_Mannequin</th><th>MetaHuman</th></tr></thead><tbody><tr><td data-label="부위">척추</td><td data-label="SK_Mannequin">3단 (spine_01..03)</td><td data-label="MetaHuman"><strong>6단</strong> (spine_01..06)</td></tr>
+<tr><td data-label="부위">손가락</td><td data-label="SK_Mannequin">단순</td><td data-label="MetaHuman">각 손가락 풀 chain (관절 3-4단)</td></tr>
+<tr><td data-label="부위">얼굴</td><td data-label="SK_Mannequin">거의 없음</td><td data-label="MetaHuman">표정용 본 100+</td></tr>
+<tr><td data-label="부위">LOD</td><td data-label="SK_Mannequin">1단</td><td data-label="MetaHuman">다단 (LOD0~LOD8)</td></tr></tbody></table></div>
+<p>MetaHuman 은 정밀한 만큼 무거워 실습실 PC 에서는 강의 시간 안에 부드럽게 동작하지 않을 수 있으므로, 오늘은 Mannequin 으로 진행합니다. <strong>절차 자체는 동일하며</strong>, IK Rig 생성, retarget chain 매핑, 변환 결과를 새 애니메이션으로 내보내는 과정은 타깃이 Mannequin 이든 MetaHuman 이든 같은 방식으로 작동합니다. 본인 PC 사양이 충분하다면 기말 프로젝트에서 MetaHuman 으로 시도해도 좋습니다.</p>
+<h2 id="3-데모-mixamo-자산-받기">3. 데모 — Mixamo 자산 받기</h2>
+<p>이제 직접 손을 움직여 작업을 시작하기 위해 브라우저에서 Mixamo 사이트를 엽니다.</p>
+<h3 id="3-1-mixamo-사이트-접속">3.1 Mixamo 사이트 접속</h3>
+<h4 id="mixamo-com-으로-이동">mixamo.com 으로 이동</h4>
+<ol><li>브라우저 (Chrome / Edge / Safari) 주소창에 <strong><code>mixamo.com</code></strong> 입력 → Enter</li><li>페이지 헤더 확인 — 좌측 Mixamo 로고 + <strong>우상단 <code>Sign In</code> 버튼 (회색)</strong> 또는 이미 로그인 상태면 사용자 아이콘</li><li><strong><code>Sign In</code></strong> 클릭 → Adobe ID 로그인 페이지로 자동 이동 (URL 이 <code>auth.services.adobe.com</code> 으로 바뀜)</li></ol>
+<blockquote class="quote-note">
+<p>Mixamo 로그인은 Adobe 계정 화면으로 이동합니다. URL이 <code>auth.services.adobe.com</code>으로 바뀌어도 정상입니다.</p>
+</blockquote>
+<div class="callout callout-info">
+<div class="callout-title">URL 이 바뀌어도 정상</div>
+<div class="callout-body">
+<p>URL 이 mixamo 가 아니라 <code>auth.services.adobe.com</code> 으로 바뀌어도 정상이며, Mixamo 로그인은 Adobe 계정 시스템을 그대로 빌려 씁니다.</p>
+</div>
+</div>
+<h4 id="adobe-계정-로그인-또는-신규-가입">Adobe 계정 로그인 또는 신규 가입</h4>
+<p><strong>경우 A — Adobe 계정 이미 있음:</strong></p>
+<ol><li>이메일 입력 → <strong>Continue</strong></li><li>비밀번호 입력 → <strong>Continue</strong></li><li>2단계 인증 (있으면 코드 입력)</li><li>자동으로 mixamo.com 홈으로 리디렉션</li></ol>
+<p><strong>경우 B — 신규 가입 (계정 없음):</strong></p>
+<ol><li>로그인 화면 하단 <strong><code>Create an account</code></strong> 클릭</li><li>이메일 입력 → 비밀번호 설정 → 이름 / 생년월일 / 국가 입력 → <strong>Create account</strong></li><li>이메일 인증 메일 확인 (대학 메일이면 스팸함도 체크)</li><li>인증 링크 클릭 → mixamo.com 자동 리디렉션</li><li>가입 시간: 평균 1-2분</li></ol>
+<h4 id="로그인-성공-화면-다음-3가지-확인">로그인 성공 화면 — 다음 3가지 확인</h4>
+<ol><li>URL 이 다시 <code>www.mixamo.com</code> 으로 돌아왔는가</li><li>상단 헤더 좌측에 <strong><code>Characters</code> 와 <code>Animations</code> 두 탭</strong> 보이는가</li><li>우상단에 <strong>사용자 이름 또는 아바타 아이콘</strong> 표시되는가</li></ol>
+<p>3가지가 모두 보이면 로그인 성공이고, 안 되면 페이지 새로고침 (F5 / Cmd+R) 후 다시 시도합니다.</p>
+<h3 id="3-2-캐릭터-받기-passive-marker-man">3.2 캐릭터 받기 — Passive Marker Man</h3>
+<p>먼저 <strong>Passive Marker Man</strong> 캐릭터를 받습니다. 이 캐릭터를 선택한 이유는 <strong>표준 T-Pose 가 깔끔하고, 옷이나 머리카락이 없는 단순 형태라 본 매핑이 정상인지 디버깅할 때 가장 쉽기</strong> 때문이며 본 강의의 소스 캐릭터로 고정합니다.</p>
+<h4 id="characters-탭에서-검색">Characters 탭에서 검색</h4>
+<ol><li>헤더 좌측의 <strong><code>Characters</code> 탭</strong> 클릭 → 화면 레이아웃이 바뀜:</li></ol>
+<ul><li><strong>좌측 (약 60%)</strong>: 캐릭터 썸네일 그리드 (4열 × 다중 행)</li><li><strong>우측 (약 40%)</strong>: 미리보기 viewport (캐릭터 3D 모델)</li><li><strong>좌측 상단</strong>: 검색창 (<code>Search Character...</code> placeholder) + 카테고리 필터</li></ul>
+<ol><li>좌측 검색창 클릭 → <strong><code>passive marker</code></strong> 또는 짧게 <strong><code>passive</code></strong> 타이핑</li><li>검색 결과가 1-2초 내 좁혀짐 → <strong><code>Passive Marker Man</code></strong> 썸네일 클릭</li></ol>
+<blockquote class="quote-note">
+<p>Characters 탭에서 <code>passive marker</code>를 검색하고, Passive Marker Man을 선택한 뒤 우측 미리보기에서 T-Pose를 확인합니다.</p>
+</blockquote>
+<div class="callout callout-info">
+<div class="callout-title">검색 결과 비어있으면</div>
+<div class="callout-body">
+<p>검색이 즉시 안 좁혀지면 Enter 한 번. 검색 결과 0개면 Mixamo 카탈로그에서 일시적으로 빠진 것 — <code>x bot</code> 또는 <code>y bot</code> 로 대체 가능 (둘 다 같은 형태).</p>
+</div>
+</div>
+<h4 id="미리보기-확인">미리보기 확인</h4>
+<ol><li>우측 viewport 에 캐릭터가 <strong>T-Pose 로 정면을 향해 서 있음</strong> 확인 (자동 회전 약간 있음)</li><li><strong>viewport 마우스 조작 (선택):</strong></li></ol>
+<ul><li><strong>드래그</strong> (좌클릭 + 이동) = 캐릭터 회전</li><li><strong>스크롤 휠</strong> = 줌 인/아웃</li><li><strong>우클릭 드래그</strong> = 카메라 패닝</li></ul>
+<ol><li>T-Pose 가 맞는지 확인 — 팔이 수평으로 벌려진 알파벳 T 모양</li></ol>
+<p>Mixamo 의 캐릭터는 모두 T-Pose 가 기본이며, 다음 단계에서 Animation 을 받을 때도 같은 T-Pose 기준으로 동작이 구성되어 있습니다.</p>
+<h4 id="download-버튼-클릭">Download 버튼 클릭</h4>
+<ol><li>우측 viewport 상단 <strong><code>DOWNLOAD</code> 버튼</strong> (주황색, 가장 큰 버튼) 클릭</li><li><strong>다운로드 설정 모달 다이얼로그가 화면 중앙에 뜸</strong> (배경 어두워짐)</li><li>다이얼로그 제목: <code>DOWNLOAD SETTINGS</code></li></ol>
+<blockquote class="quote-note">
+<p>캐릭터 다운로드 설정에서는 Format을 <code>FBX Binary (.fbx)</code>, Pose를 <code>T-Pose</code>로 맞춥니다.</p>
+</blockquote>
+<h4 id="download-settings-정확히-지정">Download Settings 정확히 지정</h4>
+<p>다이얼로그에 옵션 4개 (또는 5개) 표시. 캐릭터 다운로드는 다음과 같이:</p>
+<div class="table-wrap"><table><thead><tr><th>옵션</th><th>우리 선택</th><th>다른 옵션 (참고)</th></tr></thead><tbody><tr><td data-label="옵션"><strong>Format</strong></td><td data-label="우리 선택"><strong><code>FBX Binary (.fbx)</code></strong></td><td data-label="다른 옵션 (참고)">FBX ASCII / DAE / USDz / MDD</td></tr>
+<tr><td data-label="옵션"><strong>Pose</strong></td><td data-label="우리 선택"><strong><code>T-Pose</code></strong></td><td data-label="다른 옵션 (참고)">A-Pose / Original Pose</td></tr></tbody></table></div>
+<p>다른 옵션은 신경 쓰지 않아도 되며, 빠진 옵션(예: Skin)은 캐릭터 다운로드 시 자동으로 With Skin 처리되어 메시·본·머티리얼이 모두 포함됩니다.</p>
+<h4 id="download-실행-다운로드-폴더-확인">Download 실행 + 다운로드 폴더 확인</h4>
+<ol><li>다이얼로그 우하단 <strong><code>DOWNLOAD</code> 버튼</strong> (주황색) 클릭</li><li>다이얼로그가 닫히면서 <strong>브라우저 하단에 다운로드 진행 표시</strong> (Chrome) 또는 <strong>다운로드 매니저 자동 열림</strong> (Edge / Safari)</li><li><strong>다운로드 위치</strong>:</li></ol>
+<ul><li>Windows 기본: <code>C:\Users\&lt;사용자명&gt;\Downloads\</code></li><li>macOS 기본: <code>~/Downloads/</code> (<code>/Users/&lt;사용자명&gt;/Downloads/</code>)</li><li>변경한 경우: 브라우저 설정의 다운로드 폴더 확인</li></ul>
+<ol><li>파일명: <code>Passive Marker Man.fbx</code></li><li>파일 크기 약 <strong>5–15MB</strong> (메시 + 텍스처 포함)</li></ol>
+<div class="callout callout-warning">
+<div class="callout-title">다운로드 안 되면</div>
+<div class="callout-body">
+<p>다운로드 시간 평균 5-10초. 30초 넘게 진행 안 되면 네트워크 문제 — F5 새로고침 후 재시도. 0KB 로 끝나면 광고 차단 확장 의심.</p>
+</div>
+</div>
+<p>이 파일이 캐릭터 본체이며, 메시·본·텍스처가 모두 포함되어 있고 동작 데이터는 없습니다 (정지 자세만).</p>
+<h3 id="3-3-애니메이션-받기-walking-in-place-without-skin">3.3 애니메이션 받기 — Walking In Place / Without Skin</h3>
+<p>이제 걷는 동작인 Walking 애니메이션을 하나 받습니다.</p>
+<h4 id="animations-탭으로-이동">Animations 탭으로 이동</h4>
+<ol><li>헤더 상단의 <strong><code>Animations</code> 탭</strong> 클릭 (Characters 탭 옆)</li><li>화면 레이아웃은 Characters 탭과 동일 — <strong>좌측: 애니메이션 썸네일 그리드 + 검색창</strong> / <strong>우측: 미리보기 viewport (현재 선택된 캐릭터에 동작 자동 적용)</strong></li><li>좌측 검색창 (<code>Search Animation...</code> placeholder) 에 <strong><code>walking</code></strong> 타이핑</li></ol>
+<blockquote class="quote-note">
+<p>Animations 탭에서 <code>walking</code>을 검색하면 Walking / Walking Backward / Walking In Circle 같은 결과가 나타납니다.</p>
+</blockquote>
+<p>검색 결과: <code>Walking</code>, <code>Walking Backward</code>, <code>Walking In Circle</code>, <code>Walking Forward Combo</code> 등 10여 개가 그리드에 표시됨.</p>
+<h4 id="walking-선택">Walking 선택</h4>
+<ol><li>검색 결과 첫 번째 줄의 <strong><code>Walking</code></strong> (괄호·suffix 없는 단순 이름) 썸네일 클릭</li><li>클릭하면:</li></ol>
+<ul><li>우측 viewport 의 캐릭터(Passive Marker Man) 가 즉시 걷는 모션 재생 시작 (자동 루프)</li><li>우측 viewport 하단에 <strong>옵션 패널</strong> 표시 (옵션 슬라이더 + 체크박스 몇 개)</li><li>우측 viewport 상단에 <strong><code>DOWNLOAD</code> 버튼</strong> 활성화 (주황색)</li></ul>
+<p>재생이 시작되지 않으면 1-2초 기다립니다 (애니메이션 데이터 로딩 중). 캐릭터가 Passive Marker Man 이 아닌 다른 캐릭터로 바뀌어 있으면 Characters 탭으로 돌아가 다시 선택합니다.</p>
+<h4 id="in-place-옵션-활성화">In Place 옵션 활성화</h4>
+<ol><li><strong>viewport 우측 또는 하단 옵션 패널</strong>에서 <strong><code>In Place</code> 체크박스</strong> 찾기 (보통 옵션 패널의 첫 줄 또는 두 번째 줄)</li><li>체크박스 클릭 → 체크 표시() 활성화</li><li><strong>viewport 캐릭터 변화 즉시 확인:</strong></li></ol>
+<ul><li>체크 전: 캐릭터가 앞으로 전진하면서 걷음 (viewport 끝까지 가면 카메라가 따라감)</li><li><strong>체크 후</strong>: 캐릭터가 같은 자리에서 다리만 움직이며 걷음 (제자리 워킹)</li></ul>
+<blockquote class="quote-note">
+<p>In Place를 켜면 캐릭터가 앞으로 이동하지 않고 같은 자리에서 걷는 동작으로 재생됩니다.</p>
+</blockquote>
+<div class="callout callout-tip">
+<div class="callout-title">왜 In Place 로 받는가</div>
+<div class="callout-body">
+<p>게임에서는 캐릭터의 이동을 코드(Character Movement Component)나 시퀀서 트랜스폼 트랙이 따로 처리하므로, 모션 자체에 이동이 들어 있으면 두 번 적용돼서 캐릭터가 두 배 빨리 앞으로 가버립니다. 그래서 <strong>모션은 제자리만, 이동은 따로</strong> — 게임/시네마틱 표준입니다.</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">In Place 체크가 회색이면</div>
+<div class="callout-body">
+<p>Idle / Sitting 같은 정적 동작은 이미 제자리 동작이라 옵션이 무의미하므로 In Place 체크박스가 <strong>회색 (비활성)</strong> 일 수 있습니다 — 정상.</p>
+</div>
+</div>
+<h4 id="download-버튼-클릭-2">Download 버튼 클릭</h4>
+<ol><li>우측 viewport 상단 <strong><code>DOWNLOAD</code> 버튼</strong> (주황색) 클릭</li><li>캐릭터 받을 때와 같은 <strong><code>DOWNLOAD SETTINGS</code> 모달 다이얼로그</strong>가 화면 중앙에 뜸</li><li>단, 옵션 구성이 캐릭터와 약간 다름 — <strong>Skin / Frames per Second / Keyframe Reduction</strong> 옵션이 추가로 노출</li></ol>
+<h4 id="download-settings-without-skin-정확한-옵션-4개">Download Settings — Without Skin (정확한 옵션 4개)</h4>
+<div class="table-wrap"><table><thead><tr><th>옵션</th><th>우리 선택</th><th>의미</th></tr></thead><tbody><tr><td data-label="옵션"><strong>Format</strong></td><td data-label="우리 선택"><strong><code>FBX Binary (.fbx)</code></strong></td><td data-label="의미">Unreal import 호환</td></tr>
+<tr><td data-label="옵션"><strong>Skin</strong></td><td data-label="우리 선택"><strong><code>Without Skin</code></strong> 핵심</td><td data-label="의미">캐릭터 메시 없이 애니메이션만</td></tr>
+<tr><td data-label="옵션"><strong>Frames per Second</strong></td><td data-label="우리 선택"><strong><code>30</code></strong> (기본값)</td><td data-label="의미">게임 표준 fps</td></tr>
+<tr><td data-label="옵션"><strong>Keyframe Reduction</strong></td><td data-label="우리 선택"><strong><code>none</code></strong> (기본값)</td><td data-label="의미">압축 없이 원본</td></tr></tbody></table></div>
+<blockquote class="quote-note">
+<p>애니메이션 다운로드 설정에서는 Skin을 <code>Without Skin</code>, Format을 <code>FBX Binary</code>, FPS를 <code>30</code>, Keyframe Reduction을 <code>none</code>으로 둡니다.</p>
+</blockquote>
+<div class="callout callout-tip">
+<div class="callout-title">Without Skin 의 의미</div>
+<div class="callout-body">
+<p><strong>캐릭터 메시 없이 본·키프레임만 받는다</strong> 는 의미입니다. 캐릭터 본체(Passive Marker Man)는 이미 받았으므로 매번 다시 받을 필요가 없고, 동작 데이터만 받으면 파일 크기가 작고 import 가 빠르며 폴더가 깔끔하게 유지됩니다. With Skin 으로 받으면 같은 캐릭터 메시가 중복 import 되어 폴더가 지저분해집니다.</p>
+</div>
+</div>
+<h4 id="download-실행-폴더-확인">Download 실행 + 폴더 확인</h4>
+<ol><li>다이얼로그 우하단 <strong><code>DOWNLOAD</code> 버튼</strong> 클릭 → 다이얼로그 닫힘</li><li>다운로드 폴더에 새 FBX 파일 추가됨</li><li>파일명: <code>Walking.fbx</code></li><li><strong>파일 크기 매우 중요 — 50KB ~ 500KB 범위 (Without Skin 이라 작음). 5MB 넘으면 With Skin 옵션이 빠졌으니 다시 다운로드</strong></li></ol>
+<blockquote class="quote-note">
+<p>다운로드 폴더에는 <code>Passive Marker Man.fbx</code>와 <code>Walking.fbx</code> 두 파일이 있어야 하며, Walking 파일은 Without Skin이라 상대적으로 작습니다.</p>
+</blockquote>
+<div class="callout callout-question">
+<div class="callout-title">즉시 확인 — 다운로드 폴더에 다음 2개 파일이 정확히 있어야 합니다</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>파일</th><th>종류</th><th>크기</th></tr></thead><tbody><tr><td data-label="파일"><code>Passive Marker Man.fbx</code></td><td data-label="종류">캐릭터 본체</td><td data-label="크기">5–15MB</td></tr>
+<tr><td data-label="파일"><code>Walking.fbx</code></td><td data-label="종류">애니메이션 데이터만</td><td data-label="크기">50–500KB</td></tr></tbody></table></div>
+<p>Walking.fbx 가 5MB 넘으면 Without Skin 옵션이 빠진 것 — Animations 탭에서 다시 다운로드. 0KB 이거나 50KB 보다 훨씬 작으면 다운로드가 비정상적으로 끝났을 수 있으니 다시 받아보세요.</p>
+</div>
+</div>
+<h3 id="3-4-다운로드-옵션-정리">3.4 다운로드 옵션 정리</h3>
+<p>방금 받은 두 파일을 정리하면 이렇습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>파일</th><th>Format</th><th>Pose</th><th>Skin</th><th>용도</th></tr></thead><tbody><tr><td data-label="파일"><code>Passive Marker Man.fbx</code></td><td data-label="Format">FBX Binary</td><td data-label="Pose">T-Pose</td><td data-label="Skin">(자동, 메시 포함)</td><td data-label="용도"><strong>캐릭터 본체</strong> (본 + 메시)</td></tr>
+<tr><td data-label="파일"><code>Walking.fbx</code></td><td data-label="Format">FBX Binary</td><td data-label="Pose">(애니메이션이라 N/A)</td><td data-label="Skin"><strong>Without Skin</strong></td><td data-label="용도"><strong>애니메이션 데이터만</strong></td></tr></tbody></table></div>
+<p>옵션 결정 기준 표:</p>
+<div class="table-wrap"><table><thead><tr><th>옵션</th><th>우리 선택</th><th>다른 선택지</th><th>왜 이걸 골랐나</th></tr></thead><tbody><tr><td data-label="옵션"><strong>Format</strong></td><td data-label="우리 선택">FBX Binary</td><td data-label="다른 선택지">FBX ASCII / DAE / USDz</td><td data-label="왜 이걸 골랐나">Unreal import 호환성 최고. ASCII 는 사람이 읽을 수 있지만 무거움</td></tr>
+<tr><td data-label="옵션"><strong>Pose</strong></td><td data-label="우리 선택">T-Pose</td><td data-label="다른 선택지">A-Pose / Original</td><td data-label="왜 이걸 골랐나">Mixamo 표준. T-Pose 가 본 정렬 깔끔</td></tr>
+<tr><td data-label="옵션"><strong>Skin</strong> (애니메이션 받을 때)</td><td data-label="우리 선택"><strong>Without Skin</strong></td><td data-label="다른 선택지">With Skin</td><td data-label="왜 이걸 골랐나">캐릭터는 따로 받았으니 동작만 필요</td></tr>
+<tr><td data-label="옵션"><strong>In Place</strong></td><td data-label="우리 선택"><strong>활성화</strong></td><td data-label="다른 선택지">비활성화</td><td data-label="왜 이걸 골랐나">시퀀서/게임에서 이동은 따로 처리</td></tr>
+<tr><td data-label="옵션"><strong>Frames per Second</strong></td><td data-label="우리 선택">30</td><td data-label="다른 선택지">24 / 60</td><td data-label="왜 이걸 골랐나">기본값 30 으로 충분</td></tr>
+<tr><td data-label="옵션"><strong>Keyframe Reduction</strong></td><td data-label="우리 선택">none</td><td data-label="다른 선택지">uniform / 압축옵션</td><td data-label="왜 이걸 골랐나">우리 강의용은 손실 없는 원본</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">Mixamo 표준 다운로드 세팅</div>
+<div class="callout-body">
+<p>매번 같은 옵션으로 받습니다 — <strong>FBX Binary + Without Skin + In Place</strong>.</p>
+</div>
+</div>
+<h3 id="3-5-흔한-문제">3.5 흔한 문제</h3>
+<div class="callout callout-warning">
+<div class="callout-title">자주 발생하는 문제와 해결</div>
+<div class="callout-body">
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Mixamo 회원가입이 안 됨</td><td data-label="원인">Adobe 계정 시스템 일시 오류</td><td data-label="해결">5분 뒤 재시도, 또는 옆 친구 자료 공유 받아 진행</td></tr>
+<tr><td data-label="증상">Download 버튼이 회색</td><td data-label="원인">캐릭터·애니메이션 미선택 상태</td><td data-label="해결">좌측 라이브러리에서 항목 클릭 후 우측 Download</td></tr>
+<tr><td data-label="증상">Without Skin 옵션이 없음</td><td data-label="원인">Characters 탭에서 다운로드하는 중</td><td data-label="해결">Animations 탭으로 이동 — Without Skin 은 애니메이션에만 있음</td></tr>
+<tr><td data-label="증상">In Place 체크가 회색</td><td data-label="원인">해당 모션이 원래 제자리 동작 (Idle 등)</td><td data-label="해결">정상. 이동이 없으니 In Place 옵션이 무의미</td></tr>
+<tr><td data-label="증상">FBX 파일이 너무 큼 (5MB+)</td><td data-label="원인">With Skin 으로 받았거나 LOD 다단 포함</td><td data-label="해결">Without Skin + 단순 옵션으로 다시 다운로드</td></tr></tbody></table></div>
+</div>
+</div>
+<h2 id="다운로드-검수-게이트">다운로드 검수 게이트</h2>
+<p>쉬는 시간 전에 본인 다운로드 폴더를 한 번 점검하여 다음 시간 import 가 막히지 않도록 미리 확인합니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">자기점검 체크리스트 — 4개 모두 확인되면 다음 시간 준비 완료</div>
+<div class="callout-body">
+<ul><li>[ ] 다운로드 폴더에 <code>Passive Marker Man.fbx</code> 존재 (5–15MB 정도)</li><li>[ ] 다운로드 폴더에 <code>Walking.fbx</code> 존재 (50–500KB 정도, Without Skin 이라 작음)</li><li>[ ] Walking 다운로드 시 <strong>In Place 옵션 활성화</strong> 했음 (Mixamo 미리보기에서 캐릭터가 제자리에서 걷는 모습 봤음)</li><li>[ ] 두 파일을 <strong>클라우드 또는 USB 에 백업</strong> 완료</li></ul>
+</div>
+</div>
+<p>체크되지 않은 항목이 있으면 손을 들어 알려주세요. 수업용 백업본을 받거나 다운로드를 다시 함께 진행합니다. 특히 두 번째 항목인 Walking.fbx 가 5MB 를 넘으면 Without Skin 옵션이 빠진 것이므로 다시 받아야 하며, 정상 파일은 대체로 1MB 미만입니다.</p>
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="table-wrap"><table><thead><tr><th>#</th><th>개념</th><th>핵심</th></tr></thead><tbody><tr><td data-label="#">1</td><td data-label="개념"><strong>리타겟팅</strong></td><td data-label="핵심">한 캐릭터의 동작 데이터를 다른 캐릭터로 전이. 단순 복사가 아니라 Skeleton 이 이해할 수 있게 번역하는 것</td></tr>
+<tr><td data-label="#">2</td><td data-label="개념"><strong>가능 조건</strong></td><td data-label="핵심">형태 유사성. 인간형↔인간형 가능, 사람↔말 불가</td></tr>
+<tr><td data-label="#">3</td><td data-label="개념"><strong>Rest Pose</strong></td><td data-label="핵심">Scan / A / T 3종. Mixamo=T-Pose, Mannequin=A-Pose, MetaHuman=A-Pose</td></tr>
+<tr><td data-label="#">4</td><td data-label="개념"><strong>본 구조 차이</strong></td><td data-label="핵심">같은 인간형이어도 본 이름·개수 다름. 위치 대응으로 매핑 가능</td></tr>
+<tr><td data-label="#">5</td><td data-label="개념"><strong>Mixamo 다운로드</strong></td><td data-label="핵심">FBX Binary + Without Skin + In Place 가 표준</td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">한 줄 요약</div>
+<div class="callout-body">
+<p><strong>본 위에 얹힌 키프레임을, 형태가 비슷한 다른 캐릭터의 본에 매핑해서 옮기는 것이 리타겟팅이다.</strong></p>
+</div>
+</div>
+<h2 id="다음-시간-예고">다음 시간 예고</h2>
+<p>2교시에는 방금 받은 두 FBX 파일을 Unreal 에 import 하고, 오늘 손으로 만들지 않은 마지막 단계인 본 매핑을 IK Rig 자산으로 명시적으로 정의합니다.</p>
+<p>IK Rig 의 핵심 메시지는 <em>'비슷한 조인트 위치를 연결하는 것'</em> 으로, 오늘 살펴본 매핑 표(Mannequin pelvis ↔ Mixamo Hips 등)를 그대로 자산으로 옮긴다고 이해하면 됩니다.</p>
+<p>3교시는 본격 실습으로, 본인이 선택한 Mixamo 동작 3종 이상을 본인 캐릭터에 입혀 10–15초 분량의 짧은 영상을 만듭니다. 어떤 동작을 시도할지 쉬는 시간에 미리 구상해두세요.</p>
+<div class="callout callout-warning">
+<div class="callout-title">다음 시간 준비물</div>
+<div class="callout-body">
+<p>다음 시간에 받은 FBX 두 파일을 가져와야 하므로 <strong>클라우드 백업하거나 USB 에 복사해두세요.</strong> 실습실 PC 가 매번 초기화되는 환경이면 더 중요합니다.</p>
+</div>
+</div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#모캡-vs-핸드-키프레임">모캡 vs 핸드 키프레임</a></li>
+        <li class="toc-level-2"><a href="#mixamo-라이브러리">Mixamo 라이브러리</a></li>
+        <li class="toc-level-2"><a href="#다음-시간-만날-우리-캐릭터">다음 시간 만날 우리 캐릭터</a></li>
+        <li class="toc-level-2"><a href="#1-리타겟팅이란">1. 리타겟팅이란</a></li>
+        <li class="toc-level-3"><a href="#본-위에-얹힌-키프레임">본 위에 얹힌 키프레임</a></li>
+        <li class="toc-level-3"><a href="#리타겟팅-전이">리타겟팅 = 전이</a></li>
+        <li class="toc-level-3"><a href="#가능-조건-형태-유사성">가능 조건: 형태 유사성</a></li>
+        <li class="toc-level-3"><a href="#사전-정의-다음-시간-자주-등장할-단어-4개">사전 정의 — 다음 시간 자주 등장할 단어 4개</a></li>
+        <li class="toc-level-2"><a href="#2-rest-pose-와-본-구조">2. Rest Pose 와 본 구조</a></li>
+        <li class="toc-level-3"><a href="#rest-pose-3종">Rest Pose 3종</a></li>
+        <li class="toc-level-3"><a href="#mannequin-vs-mixamo-본-구조">Mannequin vs Mixamo 본 구조</a></li>
+        <li class="toc-level-3"><a href="#참고-metahuman-본-구조">참고 — MetaHuman 본 구조</a></li>
+        <li class="toc-level-2"><a href="#3-데모-mixamo-자산-받기">3. 데모 — Mixamo 자산 받기</a></li>
+        <li class="toc-level-3"><a href="#3-1-mixamo-사이트-접속">3.1 Mixamo 사이트 접속</a></li>
+        <li class="toc-level-3"><a href="#3-2-캐릭터-받기-passive-marker-man">3.2 캐릭터 받기 — Passive Marker Man</a></li>
+        <li class="toc-level-3"><a href="#3-3-애니메이션-받기-walking-in-place-without-skin">3.3 애니메이션 받기 — Walking In Place / Without Skin</a></li>
+        <li class="toc-level-3"><a href="#3-4-다운로드-옵션-정리">3.4 다운로드 옵션 정리</a></li>
+        <li class="toc-level-3"><a href="#3-5-흔한-문제">3.5 흔한 문제</a></li>
+        <li class="toc-level-2"><a href="#다운로드-검수-게이트">다운로드 검수 게이트</a></li>
+        <li class="toc-level-2"><a href="#핵심-요약">핵심 요약</a></li>
+        <li class="toc-level-2"><a href="#다음-시간-예고">다음 시간 예고</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 10 student notes.</p>
+</body>
+</html>

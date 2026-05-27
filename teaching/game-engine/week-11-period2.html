@@ -1,0 +1,874 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11주차 2교시 — Rail, Crane, Camera Shake, FK Control Rig</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 11</p>
+        <h1>11주차 2교시 — Rail, Crane, Camera Shake, FK Control Rig</h1>
+        <p class="lead">Camera Rig Rail과 Crane으로 동적 카메라 무빙을 만들고, Camera Shake와 FK Control Rig 절차로 격투 임팩트와 모션 데이터를 다듬습니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 02</span>
+          <span class="hero-chip">Rail and Crane</span>
+          <span class="hero-chip">Camera Shake</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 11</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 02</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Dynamic Camera Movement</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-05-19</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="11주차-2교시-동적-무빙-rail-crane-camera-shake-fk-control-rig-모션-편집">11주차 2교시 — 동적 무빙 (Rail/Crane) + Camera Shake + FK Control Rig 모션 편집</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">11주차 아웃라인: 시퀀서 카메라 워크</span></td></tr>
+<tr><td data-label="관계">1교시 교안</td><td data-label="문서"><span class="wikilink">1교시: 영상 문법 + 다중 카메라 + Camera Cut</span></td></tr>
+<tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>Animation 클립의 Keep State 옵션으로 클립 종료 후 마지막 포즈를 유지할 수 있다 Camera Rig Rail 액터의 Spline 을 배치하고 Cine Camera 를 Rail Mount 에 연결해 Current Position On Rail 키프레임으로 추적 샷을 만들 수 있다 Camera Rig Crane 의 부모-자식 구조를 이해하고 Crane Pitch / Yaw / Arm Length 키프레임으로 부감↔앙각 전환을 구현할 수 있다 Cine Camera 바인딩에 Camera Shake 트랙을 추가해 임팩트 프레임에 흔들림을 트리거할 수 있다 FK Control Rig + pelvis 계열 forward 방향 이동 키프레임 정리 + Bake Animation Sequence 흐름으로 점프·돌진 모션의 슬라이딩을 모션 데이터 수준에서 줄이고, 수정본 AS 로 원본 시퀀서 클립을 교체할 수 있다</p>
+</div>
+</div>
+<p>1교시에서는 카메라 <strong>위치를 고정</strong>해두고 시간 구간별로 어느 카메라를 보여줄지 결정했습니다. 2교시는 그 카메라가 <strong>시간에 따라 움직이게</strong> 만들고, 격투 임팩트에 흔들림을 더하고, 마지막에는 <strong>모션 데이터 자체를 수정</strong>해서 점프 어택의 슬라이딩 문제를 줄입니다.</p>
+<p>1교시 = '여러 카메라 가운데 어느 카메라를 보여줄지'. 2교시 = '선택된 카메라가 어떻게 움직일지 + 모션 데이터를 어떻게 다듬을지'. 둘이 합쳐져야 격투 영상이 완성됩니다.</p>
+<h2 id="keep-state-animation-클립이-끝나도-마지막-포즈-유지">Keep State — Animation 클립이 끝나도 마지막 포즈 유지</h2>
+<p>본인 시퀀서를 재생해보면 격투 모션 클립이 끝나는 순간 <strong>캐릭터가 T-Pose 로 돌아가는</strong> 현상이 보일 수 있습니다. 10주차에서는 클립 끝을 시퀀서 끝까지 드래그해 임시로 해결했지만, 더 안정적인 해결책이 있습니다.</p>
+<p><strong>문제 인식:</strong></p>
+<p>Animation 클립은 시간이 끝나면 캐릭터를 다음 상태로 전환합니다. 시퀀서에 다음 클립이 없으면 T-Pose 로 복귀할 수 있습니다. 격투 시퀀스에서는 <strong>마지막 포즈(예: 펀치 직후 정지 자세)를 유지</strong>하는 편이 자연스럽습니다.</p>
+<p><strong>작업 1 — Keep State 설정</strong></p>
+<ul><li>시퀀서 Animation 트랙의 <strong>클립(Section) 우클릭</strong></li><li>메뉴: <strong><code>Properties</code></strong> 클릭</li><li>우측 패널에 클립 속성 표시 — Section / Animation 등 항목</li><li><strong>Section &gt; <code>When Finished</code></strong> 옵션 찾기 → 기본값 <code>Project Default</code> 또는 <code>Restore State</code></li><li><strong><code>Keep State</code></strong> 로 변경</li></ul>
+<p>이제 클립이 끝나면 마지막 프레임 포즈를 그대로 유지합니다. T-Pose 복귀가 사라집니다. 본인 격투 시퀀스에서 마지막에 놓인 격투 클립에는 적용해두는 것이 좋습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">적용 범위</div>
+<div class="callout-body">
+<p>클립이 여러 개 있을 때는 마지막 클립에만 Keep State 를 적용해도 충분합니다. 중간 클립은 다음 클립이 이어서 받으므로 기본값을 그대로 두어도 괜찮습니다. 시간이 부족하면 마지막 클립 한 개만 적용합니다.</p>
+</div>
+</div>
+<h2 id="심화-1-camera-rig-rail">심화 1 — Camera Rig Rail</h2>
+<p>Camera Rig Rail 은 카메라가 따라 미끄러지는 <strong>레일</strong>입니다. 영화 촬영장의 카메라 레일을 디지털로 옮긴 것입니다. 무거운 카메라를 손으로 들고 흔들리지 않게 인물을 따라가기는 어렵습니다. 바닥에 레일을 깔고 카메라를 그 위에 얹어서 부드럽게 추적합니다. Unreal 의 Camera Rig Rail 도 같습니다.</p>
+<p>격투씬에서 Rail 이 특히 효과적인 장면은 <strong>측면 추적 샷</strong>입니다. 캐릭터가 펀치·킥을 휘두를 때 옆에서 카메라가 좌→우 또는 우→좌로 함께 움직이면 동작의 궤적이 한 컷에 들어갑니다. 1교시에서 측면이 격투 궤적을 잘 보여준다고 다뤘고, Rail 은 그 측면 시점을 움직이는 카메라로 확장해주는 도구입니다.</p>
+<h3 id="단계-1-rail-액터-배치-spline-편집">단계 1 — Rail 액터 배치 + Spline 편집</h3>
+<p><strong>작업 2 — Camera Rig Rail 액터 생성</strong></p>
+<ul><li>좌상단 <strong>Place Actors</strong> 패널 (없으면 Window &gt; Place Actors)</li><li>검색창에 <code>Camera Rig Rail</code> 입력</li><li>결과의 <strong>Camera Rig Rail</strong> 을 viewport 로 드래그앤드롭</li><li>Outliner 에서 F2 → <strong>Rail_FightSide</strong> (또는 본인이 알아볼 이름) 로 이름 변경</li></ul>
+<p>Rail 액터를 배치한 직후에는 짧은 직선 한 토막만 보입니다. 이것이 기본 Spline 이며, Spline 포인트를 추가해서 원하는 궤적을 그립니다.</p>
+<p><strong>작업 3 — Spline 포인트 추가·편집</strong></p>
+<ul><li>Outliner 에서 <strong>Rail_FightSide</strong> 선택</li><li>viewport 에 Rail Spline 표시됨 (양 끝에 흰색 포인트, 중간에 노란 핸들)</li><li><strong>Spline 포인트 선택 → Alt+드래그</strong> 로 포인트 복제·이동, 또는 Spline 가운데 우클릭 → <strong>Add Spline Point Here</strong></li><li>격투 캐릭터 옆에 좌→우로 <strong>약 400–600cm (4–6m)</strong> 길이의 Spline 배치</li><li>양 끝점 위치를 캐릭터 좌측 끝·우측 끝과 평행하게 정렬</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">Spline 형태와 높이</div>
+<div class="callout-body">
+<p>Spline 은 직선이 아니어도 됩니다. 격투 영역이 캐릭터 주변을 살짝 도는 형태라면 Spline 도 곡선으로 휘게 잡습니다. 다만 격투 영상 문법에서는 너무 복잡한 곡선보다 <strong>단순한 직선·완만한 호</strong>가 안정적입니다. 곡선이 복잡할수록 카메라가 어지러워 보입니다.</p>
+<p>Spline 높이는 캐릭터 가슴~머리 높이 (Z = 130–170) 에서 시작하면 좋습니다. 너무 낮으면 발만 보이고, 너무 높으면 부감 느낌이라 측면 추적 의도가 약해집니다.</p>
+</div>
+</div>
+<h3 id="단계-2-cine-camera-를-rail-mount-에-연결">단계 2 — Cine Camera 를 Rail Mount 에 연결</h3>
+<p>Rail 만 있으면 화면은 바뀌지 않습니다. 그 위에 미끄러질 <strong>카메라</strong>가 있어야 합니다. 1교시에서 만든 CC_Wide / CC_Medium / CC_Closeup 중 하나를 골라 Rail 의 Camera Mount 에 연결합니다.</p>
+<p><strong>작업 4 — 카메라를 Rail 의 Mount 자식으로 연결</strong></p>
+<ul><li>1교시에서 만든 카메라 중 1대 선택 — 추적 샷에 어울리는 것은 보통 <strong>CC_Medium</strong> (측면 추적이라 미디엄 화각이 자연스러움)</li><li>Outliner 에서 <strong>Rail_FightSide</strong> 를 펼쳐 <strong>RailCameraMount / Rail Camera Mount</strong> 계열 컴포넌트가 보이면, <strong>CC_Medium</strong> 을 그 Mount 위로 드래그앤드롭</li><li>컴포넌트가 Outliner 에 보이지 않으면, CC_Medium 선택 → Details &gt; Transform &gt; <strong>Attach To</strong> 에서 Parent Actor = Rail_FightSide, Attach target/socket = RailCameraMount 계열 항목 선택</li><li>연결 후 CC_Medium 의 Relative Transform 을 0에 가깝게 Reset 하고, Rail_FightSide 의 <strong>Current Position On Rail</strong> 값을 0→1 로 움직여 카메라가 함께 이동하는지 확인</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">연결 대상 확인</div>
+<div class="callout-body">
+<p>카메라가 Rail 액터의 루트가 아니라, Current Position On Rail 로 움직이는 <strong>Mount</strong> 를 따라가야 합니다. 연결한 뒤 Current Position 값을 살짝 움직여보면 대상이 맞는지 바로 확인할 수 있습니다.</p>
+</div>
+</div>
+<h3 id="단계-3-current-position-on-rail-키프레임">단계 3 — Current Position On Rail 키프레임</h3>
+<p>Rail 의 핵심 파라미터는 <strong>Current Position On Rail</strong> 입니다. 0 이면 Rail 시작 지점, 1 이면 끝 지점입니다. 이 값을 시퀀서 키프레임으로 0 → 1 로 보간하면 카메라가 시작점에서 끝점까지 자동으로 미끄러집니다.</p>
+<p><strong>작업 5 — Rail 을 시퀀서에 바인딩</strong></p>
+<ul><li>Outliner 에서 <strong>Rail_FightSide</strong> 선택</li><li>시퀀서 + Add → Actor to Sequencer → Add 'Rail_FightSide'</li><li>시퀀서에 Rail 바인딩 트랙 추가됨</li></ul>
+<p><strong>작업 6 — Current Position On Rail 트랙 추가 + 키프레임</strong></p>
+<ul><li>Rail_FightSide 바인딩 트랙 옆 <strong>+ Track</strong> 클릭</li><li><strong>Current Position On Rail</strong> 선택 (Rail 액터의 노출 프로퍼티 목록에 있음)</li><li>트랙이 추가되고, 시퀀서 타임라인의 현재 위치(보통 0초)에 빨간 줄이 있음</li><li><strong>0초 위치에서 값 = 0.0</strong> 키프레임 추가 (값 입력 후 Enter, 또는 트랙 우측 키프레임 버튼)</li><li>타임라인을 격투 시퀀스의 추적 샷이 끝나는 위치로 이동 (예: 5초)</li><li><strong>5초 위치에서 값 = 1.0</strong> 키프레임 추가</li></ul>
+<p>Play 누르면 카메라가 0초부터 5초까지 Rail 시작점에서 끝점까지 부드럽게 이동합니다. 격투 캐릭터를 측면에서 좌→우로 따라가는 추적 샷이 완성됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">Look at Tracking 으로 캐릭터 정중앙 고정</div>
+<div class="callout-body">
+<p>카메라가 Rail 따라 움직이는 동안 캐릭터가 화면 중앙에 머무르도록 <strong>카메라가 항상 캐릭터를 바라보게</strong> 하려면, CC_Medium 의 Look at Tracking Settings 를 활성화해 캐릭터 액터를 타깃으로 지정합니다. 9주차의 Focus Tracking 의 회전 버전입니다.</p>
+</div>
+</div>
+<h3 id="단계-4-camera-cut-트랙에-rail-카메라-컷-등록">단계 4 — Camera Cut 트랙에 Rail 카메라 컷 등록</h3>
+<p>Rail 위 카메라가 움직이지만, 그것이 실제로 시청자에게 보이게 하려면 1교시 Camera Cut 트랙에서 그 카메라 컷을 선택해야 합니다.</p>
+<p><strong>작업 7 — Camera Cut 트랙에 CC_Medium 컷 추가</strong></p>
+<ul><li>시퀀서 최상단 Camera Cuts 트랙의 + Camera → <strong>CC_Medium</strong> 선택</li><li>새 섹션이 추가됨</li><li>섹션을 추적 샷 시간 구간(예: 0–5초)으로 드래그 / 길이 조정</li></ul>
+<p>Camera Cuts 트랙이 그 시간 구간에 CC_Medium 을 활성화하고, CC_Medium 은 Rail 위에서 미끄러집니다. 두 트랙이 동시에 작동합니다. Camera Cuts 는 '어느 카메라를 보여줄지', Rail 트랙은 '그 카메라가 어떻게 움직일지'를 맡습니다.</p>
+<h3 id="흔한-문제-camera-rig-rail">흔한 문제 — Camera Rig Rail</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Place Actors 에 Camera Rig Rail 이 안 보임</td><td data-label="원인">검색어 오타 또는 Cinematic 카테고리 접힘</td><td data-label="해결">검색어 <code>rail</code> 만 입력. 또는 Place Actors &gt; Cinematic 카테고리 펼침</td></tr>
+<tr><td data-label="증상">연결 후 카메라가 Rail 시작점에 안 붙음</td><td data-label="원인">기존 Transform 을 유지한 채 연결됨</td><td data-label="해결">Details &gt; Transform &gt; Reset 또는 연결 후 Current Position On Rail = 0 명시</td></tr>
+<tr><td data-label="증상">Current Position On Rail 트랙이 + Track 메뉴에 안 보임</td><td data-label="원인">Rail 액터가 시퀀서에 바인딩 안 됨</td><td data-label="해결">Outliner 에서 Rail 다시 선택 → 시퀀서 + Add &gt; Actor to Sequencer</td></tr>
+<tr><td data-label="증상">카메라가 Rail 따라가긴 하는데 캐릭터 방향이 안 맞음</td><td data-label="원인">Look At Tracking 미설정</td><td data-label="해결">CC_Medium &gt; Details &gt; Look at Tracking Settings 활성화, 타깃 = 캐릭터 액터</td></tr>
+<tr><td data-label="증상">Rail 길이가 짧아서 추적이 금방 끝남</td><td data-label="원인">Spline 포인트 거리 부족</td><td data-label="해결">Spline 포인트 추가하거나 끝점을 더 멀리 드래그</td></tr></tbody></table></div>
+<h2 id="심화-2-camera-rig-crane">심화 2 — Camera Rig Crane</h2>
+<p>Camera Rig Crane 은 영화 촬영장의 <strong>크레인 카메라</strong>를 디지털로 옮긴 것입니다. 긴 팔(arm) 끝에 카메라가 달려 있고, 그 팔이 위로 솟구치거나 회전하면서 부감↔앙각·좌↔우 카메라 움직임을 만듭니다.</p>
+<p>격투씬에서 Crane 의 자리는 <strong>부감 → 앙각 전환</strong>입니다. 1교시에서 부감은 캐릭터 압박감, 앙각은 영웅감을 만든다고 다뤘습니다. 정지 자세 부감으로 시작 → 캐릭터가 펀치 시작할 때 카메라가 아래로 내려오면서 앙각으로 끝나면, <strong>'위에서 노려보던 시점이 캐릭터의 힘에 의해 무너지고 캐릭터가 영웅이 되는'</strong> 감정이 한 컷에 들어갑니다.</p>
+<h3 id="단계-1-crane-액터-배치-부모-자식-구조-이해">단계 1 — Crane 액터 배치 + 부모-자식 구조 이해</h3>
+<p><strong>작업 8 — Camera Rig Crane 액터 생성</strong></p>
+<ul><li>Place Actors 패널 검색창에 <code>Camera Rig Crane</code></li><li>결과의 <strong>Camera Rig Crane</strong> 을 viewport 로 드래그앤드롭</li><li>Outliner 에서 F2 → <strong>Crane_FightImpact</strong> 로 이름 변경</li></ul>
+<div class="callout callout-warning">
+<div class="callout-title">Crane 의 부모-자식 구조</div>
+<div class="callout-body">
+<p>Crane 은 Rail 보다 한 가지 더 복잡한 점이 있습니다. 내부에 <strong>계층 구조</strong>가 있습니다. Crane 본체가 부모, 그 끝에 CameraMount 라는 자식이 있고, 카메라는 그 Mount 의 자식으로 들어갑니다.</p>
+</div>
+</div>
+<div class="table-wrap"><table><thead><tr><th>계층</th><th>역할</th></tr></thead><tbody><tr><td data-label="계층"><strong>Crane_FightImpact</strong> (부모)</td><td data-label="역할">크레인 본체. Pitch / Yaw / Arm Length 제어</td></tr>
+<tr><td data-label="계층"><strong>CameraMount</strong> (자식)</td><td data-label="역할">크레인 팔 끝의 카메라 거치대</td></tr>
+<tr><td data-label="계층"><strong>CineCameraActor</strong> (손자)</td><td data-label="역할">실제 카메라</td></tr></tbody></table></div>
+<p>자주 하는 실수는 <strong>Crane 본체가 아니라 카메라만 움직이려는 것</strong>입니다. 그러면 Crane 의 Pitch/Yaw/Arm 이 바뀌지 않고 카메라만 따로 움직여서 의도한 부감→앙각 전환이 나오지 않습니다. <strong>Crane 본체의 파라미터를 키프레임해야</strong> 카메라가 크레인 동작을 따라 움직입니다.</p>
+<p><strong>작업 9 — CC_Wide (또는 새 카메라) 를 Crane 의 CameraMount 에 연결</strong></p>
+<ul><li>1교시에서 만든 CC_Wide 또는 별도 카메라 1대 선택</li><li>Outliner 에서 그 카메라를 <strong>Crane_FightImpact &gt; CameraMount</strong> 위로 드래그앤드롭</li><li>또는 카메라 Details &gt; Attach To 에서 CameraMount 지정</li></ul>
+<p>연결이 끝나면 카메라가 Crane 팔 끝에 자동 정렬됩니다. 카메라 트랜스폼은 건드리지 말고, 이제부터 Crane 본체의 세 가지 파라미터만 조정합니다.</p>
+<h3 id="단계-2-crane-의-세-가지-파라미터">단계 2 — Crane 의 세 가지 파라미터</h3>
+<p>Crane 본체를 선택하면 Details 패널에 <strong>Crane Control</strong> 섹션이 표시됩니다. 그 안에 있는 세 가지 슬라이더가 핵심입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>파라미터</th><th>역할</th><th>격투에서 쓰는 자리</th></tr></thead><tbody><tr><td data-label="파라미터"><strong>Crane Pitch</strong></td><td data-label="역할">크레인 팔의 상하 각도 (양수 = 위로, 음수 = 아래로)</td><td data-label="격투에서 쓰는 자리">부감(Pitch +) ↔ 앙각(Pitch -) 전환</td></tr>
+<tr><td data-label="파라미터"><strong>Crane Yaw</strong></td><td data-label="역할">크레인 팔의 좌우 회전</td><td data-label="격투에서 쓰는 자리">캐릭터를 따라 좌→우 회전</td></tr>
+<tr><td data-label="파라미터"><strong>Crane Arm Length</strong></td><td data-label="역할">팔 길이 (cm)</td><td data-label="격투에서 쓰는 자리">캐릭터에서 멀어졌다 가까워지기</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">시작값</div>
+<div class="callout-body">
+<p>Crane Pitch +60 으로 부감, 0 으로 정면, -30 으로 살짝 앙각. Arm Length 800 정도가 안정적인 시작값입니다.</p>
+<p>Crane 본체의 Transform &gt; Location 으로 크레인 자체의 위치도 옮길 수 있습니다. 격투 캐릭터 옆 2–3m 떨어진 위치에 Crane 본체 배치 + Arm Length 로 거리 조정 — 이 조합이 격투씬 부감/앙각 전환에 가장 자연스럽습니다.</p>
+</div>
+</div>
+<h3 id="단계-3-부감앙각-전환-키프레임">단계 3 — 부감→앙각 전환 키프레임</h3>
+<p><strong>작업 10 — Crane 을 시퀀서에 바인딩</strong></p>
+<ul><li>Outliner 에서 <strong>Crane_FightImpact</strong> 선택</li><li>시퀀서 + Add → Actor to Sequencer → Add 'Crane_FightImpact'</li><li>시퀀서에 Crane 바인딩 트랙 추가됨</li></ul>
+<p><strong>작업 11 — Pitch / Yaw / Arm Length 3 트랙 추가 + 키프레임</strong></p>
+<ul><li>Crane_FightImpact 바인딩 트랙 옆 + Track</li><li><strong>Crane Pitch</strong> 선택 → 트랙 추가</li><li>같은 방식으로 <strong>Crane Yaw</strong> / <strong>Crane Arm Length</strong> 트랙 추가 (총 3개 트랙)</li><li><strong>시작 프레임 (정지 자세 부감)</strong>:</li><li>Crane Pitch = <strong>+60</strong> (위에서 내려다봄)</li><li>Crane Yaw = 0 (정면)</li><li>Crane Arm Length = <strong>600</strong> (캐릭터에서 6m)</li><li>세 값에 모두 키프레임</li><li><strong>펀치 시작 프레임으로 타임라인 이동</strong> (예: 3초)</li><li><strong>펀치 시작 프레임 (앙각으로 내려옴)</strong>:</li><li>Crane Pitch = <strong>-20</strong> (아래에서 올려다봄)</li><li>Crane Yaw = 0 또는 약간 회전 (선택)</li><li>Crane Arm Length = <strong>300</strong> (캐릭터에 가까워짐)</li><li>세 값에 모두 키프레임</li></ul>
+<p>Play 누르면 카메라가 위에서 내려오면서 거리도 가까워지는 부감→앙각 전환이 보입니다. <strong>3초간 카메라가 캐릭터에게 다가오면서 시점이 무너지는</strong> 컷이 한 번에 완성됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">인터폴레이션 곡선</div>
+<div class="callout-body">
+<p>인터폴레이션 곡선이 Linear 면 움직임이 일정해서 기계적인 느낌입니다. 키프레임 우클릭 → Cubic 또는 Auto 로 바꾸면 가속·감속이 자연스러워집니다. 9주차에서 다룬 인터폴레이션입니다.</p>
+</div>
+</div>
+<h3 id="단계-4-camera-cut-트랙에-crane-카메라-컷-등록">단계 4 — Camera Cut 트랙에 Crane 카메라 컷 등록</h3>
+<p><strong>작업 12 — Camera Cut 트랙에 Crane 의 자식 카메라 컷 추가</strong></p>
+<ul><li>Camera Cuts 트랙의 + Camera → <strong>CC_Wide</strong> (Crane 에 연결된 그 카메라) 선택</li><li>섹션을 부감→앙각 전환 시간 구간(예: 0–3초)으로 드래그</li></ul>
+<p>Rail 때와 마찬가지로 Camera Cuts 는 '이 시간에 CC_Wide 를 보여줄지'를 맡고, Crane 은 'CC_Wide 가 위에서 아래로 어떻게 움직일지'를 맡습니다.</p>
+<h3 id="흔한-문제-camera-rig-crane">흔한 문제 — Camera Rig Crane</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Pitch/Yaw/Arm Length 트랙이 + Track 메뉴에 없음</td><td data-label="원인">Crane 액터가 시퀀서에 바인딩 안 됨</td><td data-label="해결">Outliner 에서 Crane 선택 → 시퀀서 + Add &gt; Actor to Sequencer</td></tr>
+<tr><td data-label="증상">카메라를 직접 옮기면 Crane 이 안 움직임</td><td data-label="원인">Camera 의 transform 만 바뀜, Crane 본체는 그대로</td><td data-label="해결">Camera 트랜스폼은 건드리지 말고 <strong>Crane 본체의 Pitch/Yaw/Arm Length</strong> 만 조정</td></tr>
+<tr><td data-label="증상">부감 키프레임 줘도 카메라가 거의 안 움직임</td><td data-label="원인">Arm Length 가 너무 짧음</td><td data-label="해결">Arm Length 를 600–1000 정도로 늘려 크레인 팔 가시화</td></tr>
+<tr><td data-label="증상">시작 / 끝 키프레임 사이 움직임이 기계적</td><td data-label="원인">인터폴레이션 Linear</td><td data-label="해결">키프레임 우클릭 → Cubic / Auto</td></tr>
+<tr><td data-label="증상">Crane Yaw 회전 후 카메라가 캐릭터를 못 봄</td><td data-label="원인">카메라가 Crane 회전 따라가지만 Look At 미설정</td><td data-label="해결">CC_Wide &gt; Look at Tracking Settings 활성화, 타깃 = 캐릭터</td></tr></tbody></table></div>
+<h2 id="심화-3-camera-shake">심화 3 — Camera Shake</h2>
+<p>펀치 임팩트 순간에 카메라를 살짝 흔들어서 충격을 강조하는 기법입니다. 영화·게임 모두에서 자주 쓰는 기본기입니다.</p>
+<p><strong>Camera Shake 의 두 가지 방식:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>방식</th><th>특징</th><th>오늘 사용</th></tr></thead><tbody><tr><td data-label="방식"><strong>Legacy Camera Shake Blueprint</strong></td><td data-label="특징">Class Defaults 의 Oscillation 값으로 짧은 흔들림 정의, 시퀀서 Camera Shake 트랙에서 호출</td><td data-label="오늘 사용">기본 방식</td></tr>
+<tr><td data-label="방식">Camera Shake Base / Camera Shake Asset / Source Actor</td><td data-label="특징">Pattern 기반 설정이 섞이며 UE 버전별 UI 차이가 큼</td><td data-label="오늘 사용">옵션, 보너스</td></tr></tbody></table></div>
+<div class="callout callout-info">
+<div class="callout-title">UE 5.7 용어</div>
+<div class="callout-body">
+<p>예전 자료에 'Matinee Camera Shake' 라는 표현이 남아 있을 수 있지만, 이는 구버전 redirect 용어입니다. 오늘은 Class Defaults 의 Oscillation 값을 조정하는 <strong>Legacy Camera Shake</strong> 기준으로 진행합니다.</p>
+</div>
+</div>
+<p><strong>작업 13 — Camera Shake 에셋 확인</strong></p>
+<ul><li>Content Browser 검색창에 <code>CS_FightImpact</code> 또는 <code>CameraShake</code> 입력해 에셋 확인</li><li>없으면 Content Browser 우클릭 → <strong>Blueprint Class</strong> → 부모 클래스 <strong>Legacy Camera Shake</strong> → 이름 <strong>CS_FightImpact</strong></li><li>Camera Shake Base 를 고르면 아래 Oscillation 필드가 다르게 보일 수 있으므로, 오늘 절차에서는 선택하지 않음</li><li>CS_FightImpact 더블클릭 → Class Defaults 에서:</li><li><strong>Oscillation Duration</strong> = 0.15 (짧게, 임팩트 잔향)</li><li><strong>Rotation Oscillation &gt; Pitch &gt; Amplitude</strong> = 2.0</li><li><strong>Rotation Oscillation &gt; Yaw &gt; Amplitude</strong> = 2.0</li><li><strong>Location Oscillation &gt; X &gt; Amplitude</strong> = 5.0</li><li>Compile + Save</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">격투 Shake 기본값</div>
+<div class="callout-body">
+<p>값 자체보다 <strong>짧은 지속시간(Duration) + 작은 진폭(Amplitude)</strong>이 핵심입니다. 0.5초 이상 흔들면 시청자가 어지러워하고, 진폭 10 이상은 카메라가 격투를 놓칩니다. 격투 Shake 는 <strong>0.1–0.2초 + 진폭 1–3</strong> 범위에서 시작합니다.</p>
+</div>
+</div>
+<p><strong>작업 14 — Camera Shake 트랙 추가 + 임팩트 프레임 트리거</strong></p>
+<ul><li>시퀀서에서 <strong>Cine Camera 바인딩 트랙</strong> (예: CC_Closeup) 옆 + Track</li><li><strong>Camera Shake</strong> 선택 → Camera Shake 트랙 추가됨</li><li>트랙 우클릭 → <strong>Add Camera Shake</strong> → CS_FightImpact 선택</li><li>추가된 섹션을 <strong>펀치 임팩트 프레임 직전 1프레임 ~ 직후 2프레임 영역</strong>으로 드래그·길이 조정 (총 3–4프레임 = 0.1–0.15초)</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">Shake 타이밍 = Cut Timing 과 같은 원리</div>
+<div class="callout-body">
+<p>Shake 타이밍은 1교시 Cut Timing 과 같은 원리입니다. 임팩트 직전에 트리거되어 임팩트 순간에 흔들림이 겹쳐야 충격이 잘 전달됩니다. 임팩트가 끝난 뒤에 흔들리면 잔향만 남고 충격은 약해집니다.</p>
+<p>Camera Shake 는 컷 1개당 1번, 시퀀스 전체에서는 2–3번 정도가 적당합니다. Shake 가 너무 많으면 카메라가 어지럽고 임팩트 식별이 어려워집니다. 펀치 한 번 + 킥 한 번처럼 총 2–3회 정도에서 시작합니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-camera-shake">흔한 문제 — Camera Shake</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">+ Track 메뉴에 Camera Shake 안 보임</td><td data-label="원인">Cine Camera 바인딩이 아닌 다른 트랙에서 + Track</td><td data-label="해결"><strong>Cine Camera 바인딩 트랙</strong> 옆 + Track 사용</td></tr>
+<tr><td data-label="증상">Shake 트랙에 Add 했는데 흔들림 없음</td><td data-label="원인">Camera Shake 에셋이 비어있거나 Amplitude 0</td><td data-label="해결">CS_FightImpact 더블클릭 → Amplitude 값 입력 (1.0 이상)</td></tr>
+<tr><td data-label="증상">Shake 가 시퀀스 끝까지 흔들림</td><td data-label="원인">섹션 길이가 너무 김</td><td data-label="해결">섹션 양 끝을 드래그해 3–4프레임으로 축소</td></tr>
+<tr><td data-label="증상">너무 어지러움</td><td data-label="원인">Duration 또는 Amplitude 과다</td><td data-label="해결">Duration 0.1–0.2초, Amplitude 1–3 범위로 조정</td></tr>
+<tr><td data-label="증상">임팩트 프레임이 어딘지 모름</td><td data-label="원인">시퀀스 타임라인 스크럽 안 함</td><td data-label="해결">타임라인을 격투 클립 위에서 1프레임씩 이동하며 펀치·킥 정점 식별</td></tr></tbody></table></div>
+<h2 id="심화-4-fk-control-rig-forward-방향-이동-정리-bake-animation">심화 4 — FK Control Rig + forward 방향 이동 정리 + Bake Animation</h2>
+<h3 id="왜-모션-데이터를-직접-수정해야-하는가">왜 모션 데이터를 직접 수정해야 하는가</h3>
+<p>본인 격투 시퀀스에 <strong>점프 어택 (Jump Attack / Flying Kick / Forward Roll)</strong> 같은 이동 모션이 있으면, Mixamo In Place 옵션을 받았어도 캐릭터가 의도치 않게 앞으로 슬라이딩합니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">원인 분석</div>
+<div class="callout-body">
+<p>Mixamo 의 In Place 는 root motion 을 줄여주지만, <strong>pelvis 본 자체의 X·Y 평면 이동 값은 남을 수 있습니다.</strong> Z(높이)는 점프 자체라 유지해야 하고, X·Y 중 앞 방향으로 크게 움직이는 값만 정리하면 캐릭터가 제자리에서 점프 + 공격하는 모션에 가까워집니다.</p>
+</div>
+</div>
+<p><strong>해결 전략 두 가지 비교:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>방식</th><th>특징</th><th>적용 시기</th></tr></thead><tbody><tr><td data-label="방식"><strong>(간이) Transform 트랙 반대 보정</strong></td><td data-label="특징">시퀀서 트랙 1개로 끝, 모션 데이터는 그대로 둠. 다만 모션 도중 미끄러지는 느낌이 남을 수 있음</td><td data-label="적용 시기">시간 부족 / 모션 1-2개만</td></tr>
+<tr><td data-label="방식"><strong>중요 FK Control Rig + forward 방향 이동 정리 + Bake</strong></td><td data-label="특징">모션 데이터 자체를 수정, 새 AS 저장, 원본 시퀀서에서 교체. 재사용 가능</td><td data-label="적용 시기">선택 보너스 요소</td></tr></tbody></table></div>
+<p>더 정리된 절차는 FK Control Rig 쪽입니다. 시네마틱 모션을 다듬을 때 쓰는 Unreal 의 기본 도구이며, UE 5.5+ 의 시퀀서 안에서 본 단위 키프레임을 직접 다룰 수 있게 해줍니다.</p>
+<h3 id="fk-control-rig-6단계-절차">FK Control Rig 6단계 절차</h3>
+<p><strong>단계 1 — 수정용 새 시퀀서 생성</strong></p>
+<ul><li>Content Browser &gt; Cinematics 폴더 우클릭 → <strong>Cinematics &gt; Level Sequence</strong></li><li>이름 <strong><code>SE_AnimationEdit</code></strong> (또는 <code>LS_AnimEdit_본인이름</code>)</li><li>더블클릭하여 시퀀서 에디터 열기</li></ul>
+<p>원본 시퀀서(LS_RetargetDemo)는 격투 컷 작업에 쓰므로 그대로 두는 것이 안전합니다. 모션 데이터 수정은 <strong>별도 시퀀서에서</strong> 작업하고, 결과 AS 만 원본 시퀀서로 가져옵니다.</p>
+<p><strong>단계 2 — 캐릭터 + 문제 AS 단독 배치</strong></p>
+<ul><li>Outliner 에서 SKM_Manny 선택 → 새 시퀀서 + Add → Actor to Sequencer</li><li>SKM_Manny 바인딩 트랙 옆 + Track → <strong>Animation</strong></li><li>Animation 트랙에 <strong>문제 모션(예: <code>19_JumpAttack_Mannequin</code>)</strong> 만 단독 추가</li><li>시퀀서 길이를 그 모션 클립 길이에 맞춤</li></ul>
+<p>수정할 모션 1개만 단독 배치합니다. 다른 모션이 섞이면 어느 본의 어느 프레임을 수정해야 할지 헷갈립니다.</p>
+<p><strong>단계 3 — Bake To Control Rig → FK Control Rig</strong></p>
+<ul><li>시퀀서의 <strong>SKM_Manny 바인딩 트랙 우클릭</strong></li><li>메뉴: <strong><code>Bake To Control Rig</code></strong> &gt; <strong><code>FK Control Rig</code></strong> 선택</li><li>잠시 베이크 진행 → 시퀀서에 <strong>FKControlRig</strong> 트랙이 추가됨</li><li>FKControlRig 트랙 펼치면 캐릭터의 모든 본이 트리로 나열됨 (pelvis_2, spine_01, ik_hand_gun_2 등)</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">이 동작이 핵심</div>
+<div class="callout-body">
+<p>AS 의 본 단위 애니메이션 곡선을 <strong>시퀀서에서 직접 편집 가능한 키프레임으로 변환</strong>합니다. 일반 AS 는 통째로 묶여있어서 본 1개만 수정 못 하는데, FK Control Rig 트랙은 본마다 트랙이 분리되어 키프레임 편집이 가능합니다.</p>
+<p>Filter Asset By Skeleton 체크박스가 있으면 켜두세요. 본인 캐릭터 (Mannequin) 스켈레톤에 맞는 Control Rig 만 보여줍니다.</p>
+</div>
+</div>
+<p><strong>단계 4 — pelvis_2 의 앞 방향 Location 키프레임 정리</strong></p>
+<p>모든 본 중에 <strong>pelvis_2</strong> 가 캐릭터 위치의 root 역할을 합니다. Mannequin 예시에서는 Location.Y 가 앞 방향 이동 값으로 남는 경우가 많지만, 본인 모션에서는 Location.X 또는 Location.Y 중 크게 변하는 값을 먼저 확인합니다.</p>
+<ul><li>FKControlRig 트랙 펼침 → <strong>pelvis_2</strong> 본 찾기 (스크롤)</li><li>pelvis_2 펼치면 <strong>Location.X / Location.Y / Location.Z + Rotation.Roll/Pitch/Yaw + Scale.X/Y/Z</strong> 자식 트랙</li><li>앞 방향으로 크게 변하는 Location 트랙 선택 (예: <strong>Location.Y</strong>)</li><li>해당 트랙의 모든 키프레임 (붉은 점) 을 박스 선택</li><li><strong>Delete 키</strong> 또는 우클릭 &gt; Delete</li><li>해당 Location 트랙이 모든 프레임에 키프레임 없는 빈 상태가 됨</li></ul>
+<div class="callout callout-warning">
+<div class="callout-title">Location.Z 는 건드리지 않기</div>
+<div class="callout-body">
+<p>Z = 높이입니다. 점프 모션에서 Z 를 지우면 캐릭터가 땅을 안 떠납니다. <strong>X·Y 평면 이동 중 앞 방향으로 크게 변하는 값만</strong> 정리합니다.</p>
+<p>어느 값이 앞 방향 이동인지 모르겠으면 타임라인을 모션 끝으로 옮긴 뒤 pelvis_2 의 Location.X / Y / Z 값을 확인합니다. 0 에서 크게 벗어난 X 또는 Y 값이 앞 방향 이동으로 남은 값일 가능성이 큽니다.</p>
+</div>
+</div>
+<p><strong>단계 5 — Bake Animation Sequence (새 AS 저장)</strong></p>
+<ul><li>시퀀서의 <strong>SKM_Manny 바인딩 트랙 우클릭</strong> (FKControlRig 트랙 아님, 캐릭터 바인딩!)</li><li>메뉴: <strong><code>Bake Animation Sequence</code></strong> 선택</li><li>Save Asset 다이얼로그 표시 → 저장 폴더 (Mixamo 또는 Animations) + 파일명 <strong><code>19_JumpAttack_Edit</code></strong> (또는 본인 명)</li><li><strong>Save</strong> 클릭 → 새 AS 가 Content Browser 에 생성됨</li></ul>
+<p>이 새 AS 가 앞 방향 이동 값이 정리된 점프 어택 수정본입니다. 원본 19_JumpAttack 은 그대로 두고, 수정본을 별도 AS 로 보관합니다.</p>
+<p><strong>단계 6 — 원본 시퀀서로 돌아와 클립 교체</strong></p>
+<ul><li><strong>LS_RetargetDemo</strong> 시퀀서 다시 열기</li><li>SKM_Manny &gt; Animation 트랙의 <strong>19_JumpAttack 클립 더블클릭</strong> (또는 우클릭 &gt; Properties)</li><li>우측 Animation 섹션의 <strong>Animation 드롭다운</strong> 클릭</li><li><strong>19_JumpAttack_Edit</strong> 로 교체 선택</li><li>클립이 자동 갱신 → 재생 시 캐릭터가 더 이상 슬라이딩하지 않음</li></ul>
+<p><strong>6단계 절차의 끝</strong>: 새 시퀀서 → Bake to Control Rig → 앞 방향 Location 키 정리 → Bake Animation Sequence → 원본 시퀀서 교체. 이 흐름이 시네마틱 모션 편집의 기본 흐름입니다.</p>
+<h3 id="보너스-animation-section-properties-start-frame-offset-play-rate">보너스 — Animation Section Properties (Start Frame Offset / Play Rate)</h3>
+<p>Animation 클립의 시작 위치·속도를 미세 튜닝할 수 있습니다.</p>
+<ul><li>Animation 클립 더블클릭 → 우측 Properties 패널</li><li><strong>Start Frame Offset</strong> = 0010 → 모션 앞부분 10프레임 잘라냄 (앞부분이 어색할 때)</li><li><strong>Play Rate</strong> = 1.5 → 모션을 1.5배 빠르게 재생 (펀치가 너무 느릴 때)</li><li><strong>End Frame Offset</strong> = 0005 → 뒷부분 5프레임 잘라냄</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">Play Rate 1.5</div>
+<div class="callout-body">
+<p>Mixamo 모션이 본인 격투 의도에 비해 느리거나 시작 동작이 거추장스러우면 이 두 옵션으로 즉시 튜닝합니다. <strong>Play Rate 1.5</strong> 가 격투 펀치·킥에 자주 쓰이는 값입니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-fk-control-rig-bake">흔한 문제 — FK Control Rig + Bake</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Bake To Control Rig 메뉴에 FK Control Rig 가 없음</td><td data-label="원인">UE 5.4 미만 또는 Control Rig 플러그인 비활성</td><td data-label="해결">Edit &gt; Plugins &gt; 검색 'Control Rig' 활성화, 재시작</td></tr>
+<tr><td data-label="증상">FKControlRig 트랙 펼침에 pelvis_2 가 안 보임</td><td data-label="원인">캐릭터 스켈레톤이 Mannequin 이 아님 (예: Mixamo skeleton)</td><td data-label="해결">본인 캐릭터가 SKM_Manny (Mannequin) 인지 확인. Bake 전에 리타겟 필요</td></tr>
+<tr><td data-label="증상">앞 방향 Location 키를 지웠는데 모션이 안 바뀜</td><td data-label="원인">FK Control Rig 트랙이 비활성화 또는 자동 키 미설정</td><td data-label="해결">FKControlRig 트랙 옆 또는 활성 토글 확인</td></tr>
+<tr><td data-label="증상">Bake Animation Sequence 메뉴 안 보임</td><td data-label="원인">캐릭터 바인딩 우클릭이 아니라 FKControlRig 트랙 우클릭</td><td data-label="해결">시퀀서 좌측 <strong>SKM_Manny 바인딩 트랙</strong> 우클릭. FKControlRig 자식 트랙 X</td></tr>
+<tr><td data-label="증상">저장 후 Bake 결과 AS 가 빈 상태</td><td data-label="원인">베이크 범위 (Sequencer Display Range) 가 0</td><td data-label="해결">시퀀서 시작·끝을 모션 길이에 맞춘 뒤 다시 Bake</td></tr>
+<tr><td data-label="증상">원본 시퀀서에서 교체 후 캐릭터가 T-Pose</td><td data-label="원인">교체된 AS 의 Skeleton 이 다름</td><td data-label="해결">19_JumpAttack_Edit 의 Skeleton = SK_Mannequin 확인. 다르면 베이크 재수행</td></tr></tbody></table></div>
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">2교시 한 줄 요약</div>
+<div class="callout-body">
+<p>카메라는 시간에 따라 움직이고, 임팩트에 흔들리고, 필요하면 모션 데이터까지 직접 수정한다.</p>
+</div>
+</div>
+<p>오늘 다룬 5개 도구 — <strong>Keep State / Rail / Crane / Shake / FK Control Rig</strong> — 는 3교시 실습 4 의 제출 루브릭과 연결됩니다.</p>
+<div class="table-wrap"><table><thead><tr><th>도구</th><th>핵심</th></tr></thead><tbody><tr><td data-label="도구">Keep State</td><td data-label="핵심">Animation 클립 끝나도 마지막 포즈 유지 (When Finished = Keep State)</td></tr>
+<tr><td data-label="도구">Camera Rig Rail</td><td data-label="핵심">Spline 따라 미끄러지는 추적 샷 (Current Position On Rail 0→1)</td></tr>
+<tr><td data-label="도구">Camera Rig Crane</td><td data-label="핵심">부모-자식 구조 (Crane &gt; CameraMount &gt; 카메라). Pitch/Yaw/Arm Length 키프레임으로 부감↔앙각</td></tr>
+<tr><td data-label="도구">Camera Shake</td><td data-label="핵심">Legacy Camera Shake Blueprint. Duration 0.15 + Amplitude 1–3, 임팩트 ±2프레임</td></tr>
+<tr><td data-label="도구">FK Control Rig 6단계</td><td data-label="핵심">SE_AnimationEdit → Bake to Control Rig → 앞 방향 Location 키 정리 → Bake Animation Sequence → 원본 시퀀서 교체</td></tr></tbody></table></div>
+<h2 id="다음-시간-예고">다음 시간 예고</h2>
+<p>3교시는 실습 4 본격 작업 시간입니다. 도입에서 <strong>영화 사례 3종</strong>(존 윅 / 매트릭스 / 올드보이·마블)을 짧게 시청하고 본인 격투 인상을 결정한 뒤, 본인 <code>LS_RetargetDemo</code> 위에 1·2교시에서 배운 도구를 단계별로 적용합니다. 카메라 3-4대는 미리 만들어두면 시간이 절약됩니다. 본인 격투에 점프 모션이 있는 학생은 SE_AnimationEdit 새 시퀀서도 미리 만들어두면 3교시 작업 시간이 줄어듭니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#keep-state-animation-클립이-끝나도-마지막-포즈-유지">Keep State — Animation 클립이 끝나도 마지막 포즈 유지</a></li>
+        <li class="toc-level-2"><a href="#심화-1-camera-rig-rail">심화 1 — Camera Rig Rail</a></li>
+        <li class="toc-level-3"><a href="#단계-1-rail-액터-배치-spline-편집">단계 1 — Rail 액터 배치 + Spline 편집</a></li>
+        <li class="toc-level-3"><a href="#단계-2-cine-camera-를-rail-mount-에-연결">단계 2 — Cine Camera 를 Rail Mount 에 연결</a></li>
+        <li class="toc-level-3"><a href="#단계-3-current-position-on-rail-키프레임">단계 3 — Current Position On Rail 키프레임</a></li>
+        <li class="toc-level-3"><a href="#단계-4-camera-cut-트랙에-rail-카메라-컷-등록">단계 4 — Camera Cut 트랙에 Rail 카메라 컷 등록</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-camera-rig-rail">흔한 문제 — Camera Rig Rail</a></li>
+        <li class="toc-level-2"><a href="#심화-2-camera-rig-crane">심화 2 — Camera Rig Crane</a></li>
+        <li class="toc-level-3"><a href="#단계-1-crane-액터-배치-부모-자식-구조-이해">단계 1 — Crane 액터 배치 + 부모-자식 구조 이해</a></li>
+        <li class="toc-level-3"><a href="#단계-2-crane-의-세-가지-파라미터">단계 2 — Crane 의 세 가지 파라미터</a></li>
+        <li class="toc-level-3"><a href="#단계-3-부감앙각-전환-키프레임">단계 3 — 부감→앙각 전환 키프레임</a></li>
+        <li class="toc-level-3"><a href="#단계-4-camera-cut-트랙에-crane-카메라-컷-등록">단계 4 — Camera Cut 트랙에 Crane 카메라 컷 등록</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-camera-rig-crane">흔한 문제 — Camera Rig Crane</a></li>
+        <li class="toc-level-2"><a href="#심화-3-camera-shake">심화 3 — Camera Shake</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-camera-shake">흔한 문제 — Camera Shake</a></li>
+        <li class="toc-level-2"><a href="#심화-4-fk-control-rig-forward-방향-이동-정리-bake-animation">심화 4 — FK Control Rig + forward 방향 이동 정리 + Bake Animation</a></li>
+        <li class="toc-level-3"><a href="#왜-모션-데이터를-직접-수정해야-하는가">왜 모션 데이터를 직접 수정해야 하는가</a></li>
+        <li class="toc-level-3"><a href="#fk-control-rig-6단계-절차">FK Control Rig 6단계 절차</a></li>
+        <li class="toc-level-3"><a href="#보너스-animation-section-properties-start-frame-offset-play-rate">보너스 — Animation Section Properties (Start Frame Offset / Play Rate)</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-fk-control-rig-bake">흔한 문제 — FK Control Rig + Bake</a></li>
+        <li class="toc-level-2"><a href="#핵심-요약">핵심 요약</a></li>
+        <li class="toc-level-2"><a href="#다음-시간-예고">다음 시간 예고</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 11 student notes.</p>
+</body>
+</html>

@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 1교시 — 중간고사 안내와 시네마틱 카메라 이론</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 07</p>
+        <h1>7주차 1교시 — 중간고사 안내와 시네마틱 카메라 이론</h1>
+        <p class="lead">중간고사 제출 구조를 확인하고, 샷 사이즈와 카메라 무빙을 스토리보드 언어로 정리합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 01</span>
+          <span class="hero-chip">Storyboard</span>
+          <span class="hero-chip">Midterm Prep</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 07</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Shot Size and Camera Movement</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-04-14</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="game-engine-ii-7주차-1교시-시네마틱-카메라-이론-학생용">Game Engine II — 7주차 1교시: 시네마틱 카메라 이론 (학생용)</h1>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>샷 사이즈와 카메라 무빙의 종류를 이해하고 연출 의도에 맞게 선택할 수 있습니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="1교시-중간고사-안내-시네마틱-카메라-이론">1교시 — 중간고사 안내 + 시네마틱 카메라 이론</h2>
+<p>---</p>
+<h3 id="중간고사-가이드라인-안내">중간고사 가이드라인 안내</h3>
+<p>제출물은 두 가지입니다. 하나는 스토리보드 6컷 이상, 하나는 컨셉 문서 A4 한 장입니다. 하나의 PDF로 합쳐서 제출하면 됩니다.</p>
+<p>스토리보드는 기말에 만들 시네마틱 영상의 설계도입니다. 각 컷에는 샷 사이즈, 카메라 움직임, 상황 설명이 들어가야 합니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">채점 기준</div>
+<div class="callout-body">
+<p>스토리텔링 30%, 샷 구성 25%, 카메라 워크 25%, 완성도 20%</p>
+</div>
+</div>
+<p>그림을 잘 그리느냐는 채점 기준에 없습니다. 중요한 것은 어떤 장면을 어떤 카메라로 찍겠다는 기획력입니다. 그림이 정교하지 않아도 의도가 명확하면 좋은 점수를 받을 수 있습니다. UE5 스크린샷을 활용해도 됩니다.</p>
+<p>오늘 1~2교시에서 관련 용어들을 배우고, 3교시에 직접 초안을 만들어봅니다. 오늘 수업을 따라오면 중간고사 초안의 큰 틀을 잡을 수 있습니다.</p>
+<p>---</p>
+<h3 id="도입">도입</h3>
+<p>영화에서 같은 대화 장면인데 어떤 영화는 긴장감이 넘치고 어떤 영화는 평면적으로 느껴지는 경우가 있습니다. 그 차이의 절반은 카메라입니다. 얼마나 가까이 찍느냐, 카메라가 어떻게 움직이느냐에 따라 달라집니다.</p>
+<p>예를 들어 Silence of the Lambs에서 한니발 렉터가 클라리스와 대화하는 장면에서는 카메라가 얼굴을 꽉 채우면서 관객을 정면으로 바라봅니다. 그것 하나만으로도 강한 긴장감을 만드는 것이 샷 사이즈의 힘입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">오늘 배울 두 가지 핵심</div>
+<div class="callout-body">
+<p><strong>샷 사이즈</strong>와 <strong>카메라 무빙</strong></p>
+</div>
+</div>
+<p>---</p>
+<h2 id="핵심-개념-1-샷-사이즈">핵심 개념 1: 샷 사이즈</h2>
+<h3 id="샷-사이즈란">샷 사이즈란?</h3>
+<p>샷 사이즈는 화면에 피사체가 얼마나 크게 잡히느냐입니다. 멀리서 찍으면 와이드, 가까이 찍으면 클로즈업입니다.</p>
+<p>영화에서는 이것을 약어로 씁니다. 스토리보드에도, 촬영 리스트에도 이 약어가 들어갑니다. 이 약어를 익히면 프로 스토리보드를 읽을 수 있게 됩니다.</p>
+<figure class="lecture-figure">
+<img src="assets/01_shot-size-spectrum.webp" alt="샷 사이즈 스펙트럼: 왼쪽(넓음) → 오른쪽(좁음)">
+<figcaption>샷 사이즈 스펙트럼: 왼쪽(넓음) → 오른쪽(좁음)</figcaption>
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 규칙</div>
+<div class="callout-body">
+<p>넓은 샷일수록 환경을 보여주고, 좁은 샷일수록 감정을 보여줍니다.</p>
+</div>
+</div>
+<p><strong>영상: 먼저 3분짜리 개요 영상으로 전체 그림을 잡아보겠습니다.</strong></p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://youtu.be/AyML8xuKfoc" target="_blank" rel="noopener">StudioBinder — The Shot List Ep.1: Every Shot Size Explained (0:00~3:00 구간)</a></p></div>
+</div>
+<h3 id="10가지-샷-사이즈-정리">10가지 샷 사이즈 정리</h3>
+<h4 id="그룹-1-넓은-샷-공간을-보여준다">그룹 1: 넓은 샷 — 공간을 보여준다</h4>
+<h5 id="1-establishing-shot-es-장소와-시간-설정">1. Establishing Shot (ES) — 장소와 시간 설정</h5>
+<p>영화의 맨 첫 컷, 또는 장면이 바뀔 때 나오는 샷입니다. '자, 여기가 배경입니다'라고 알려주는 역할을 합니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Blade Runner 2049 — Sapper's Last Stand · 시간 00:00~00:20</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=bbX5KM0tFVk" target="_blank" rel="noopener">https://www.youtube.com/watch?v=bbX5KM0tFVk</a></p></div>
+</div>
+</div>
+</div>
+<p>Blade Runner 2049 오프닝에서는 광활한 황폐화된 LA 상공이 보이고, 거대한 태양광 패널 농장과 도시 스카이라인이 한 프레임에 담깁니다. 대사 한 마디 없이 이 세계가 디스토피아라는 것을 관객이 즉시 알아챕니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: The Shining — Opening Scene · 시간 00:00~02:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=kiV3J_e977Q" target="_blank" rel="noopener">https://www.youtube.com/watch?v=kiV3J_e977Q</a></p></div>
+</div>
+</div>
+</div>
+<p>The Shining 오프닝에서는 헬리콥터가 산길을 따라가는데, 작은 차 한 대가 끝없는 숲과 산 사이를 올라갑니다. 이것만으로 '이 사람들이 문명에서 완전히 격리된다'는 것을 보여줍니다. 고립감과 불안함이 전달됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">시네마틱 제작 팁</div>
+<div class="callout-body">
+<p>시네마틱을 만들 때, 첫 번째 컷은 ES로 시작하면 장소와 분위기를 안정적으로 전달할 수 있습니다.</p>
+</div>
+</div>
+<h5 id="2-extreme-wide-shot-ews-환경-속-극히-작은-인물">2. Extreme Wide Shot (EWS) — 환경 속 극히 작은 인물</h5>
+<p>ES보다 더 넓은 샷입니다. 인물이 보이긴 하지만 점처럼 작습니다. 자연이나 환경이 얼마나 거대한지를 보여줄 때 사용됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Lawrence of Arabia — Ali's Well · 시간 00:30~02:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=ud1zpHW3ito" target="_blank" rel="noopener">https://www.youtube.com/watch?v=ud1zpHW3ito</a></p></div>
+</div>
+</div>
+</div>
+<p>Lawrence of Arabia에서는 화면 전체가 사막의 수평선이고, 로렌스는 작은 점에 불과합니다. 이 한 장면으로 '자연 앞에서 인간이 얼마나 작은가'를 보여줍니다. 동시에 이 사막을 건너야 한다는 모험의 웅장함도 전달됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Mad Max Fury Road — The Chase Begins · 시간 00:00~01:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=UtjGTrVwRr4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=UtjGTrVwRr4</a></p></div>
+</div>
+</div>
+</div>
+<p>Mad Max: Fury Road에서는 끝없는 오렌지빛 사막 위로 차량 행렬이 먼지를 일으키며 달립니다. 도망칠 곳이 없다는 절박함을 공간의 광활함으로 표현하는 것입니다.</p>
+<h5 id="3-long-shot-wide-shot-ls-ws-인물-전체-주변-환경">3. Long Shot / Wide Shot (LS/WS) — 인물 전체 + 주변 환경</h5>
+<p>인물의 전신이 보이면서 주변 환경도 함께 잡히는 샷입니다. EWS보다는 인물이 크게 보입니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Singin' in the Rain — Title Song · 시간 01:00~03:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=w40ushYAaYA" target="_blank" rel="noopener">https://www.youtube.com/watch?v=w40ushYAaYA</a></p></div>
+</div>
+</div>
+</div>
+<p>Singin' in the Rain에서 진 켈리가 빗속에서 춤추는 장면에서는 전신이 보여야 춤 동작의 전체 안무가 보입니다. 가로등, 빗줄기, 웅덩이까지 함께 보여서 '비 오는 거리에서 춤춘다'는 상황이 한 프레임에 다 들어옵니다.</p>
+<h4 id="그룹-2-중간-샷-인물과-행동을-보여준다">그룹 2: 중간 샷 — 인물과 행동을 보여준다</h4>
+<h5 id="4-full-shot-fs-머리부터-발끝">4. Full Shot (FS) — 머리부터 발끝</h5>
+<p>인물의 전신이 화면에 꽉 차는 샷입니다. LS와 비슷하지만, 배경보다 인물에 초점이 맞습니다. 특히 복장이나 자세가 중요한 캐릭터에게 사용됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: The Dark Knight — Joker's Bank Robbery · 시간 05:00~06:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=25Lq1XcoF1Y" target="_blank" rel="noopener">https://www.youtube.com/watch?v=25Lq1XcoF1Y</a></p></div>
+</div>
+<p>[!example]- 영상: Devil Wears Prada — Gird Your Loins · 시간 00:30~01:15</p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=2PjZAeiU7uM" target="_blank" rel="noopener">https://www.youtube.com/watch?v=2PjZAeiU7uM</a></p></div>
+</div>
+</div>
+</div>
+<p>The Dark Knight에서 조커가 은행 로비에 처음 서는 장면에서는 보라색 양복, 그린 머리카락, 기울어진 자세가 모두 보입니다. 전신이 다 보여야 '이 캐릭터가 어떤 인물인지'를 의상만으로 각인시킬 수 있습니다.</p>
+<p>Devil Wears Prada에서 메릴 스트립이 엘리베이터에서 내리는 장면도 마찬가지입니다. 모피 코트, 하이힐, 선글라스 등 의상 자체가 캐릭터의 권위를 말해줍니다.</p>
+<h5 id="5-medium-long-shot-mls-무릎-위">5. Medium Long Shot (MLS) — 무릎 위</h5>
+<p>인물을 무릎 위부터 잡는 샷입니다. 전신보다는 감정에 조금 더 가까이 가고, MS보다는 몸의 자세와 주변 공간을 더 많이 보여줍니다. 인물이 걸어오거나 주변을 탐색하는 장면에 적합합니다.</p>
+<h5 id="6-cowboy-shot-허벅지-중간">6. Cowboy Shot — 허벅지 중간</h5>
+<p>서부극에서 건맨의 허리춤 총집을 보여주려고 이 높이에서 잘랐기 때문에 카우보이라는 이름이 붙었습니다. 서부극에만 쓰이는 것은 아닙니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Kill Bill Vol.1 — Crazy 88s · 시간 00:10~01:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=fWqnZTTRkm4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=fWqnZTTRkm4</a></p></div>
+</div>
+<p>[!example]- 영상: No Country for Old Men — Coin Toss · 시간 01:00~02:30</p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=opbi7d42s8E" target="_blank" rel="noopener">https://www.youtube.com/watch?v=opbi7d42s8E</a></p></div>
+</div>
+</div>
+</div>
+<p>Kill Bill에서 브라이드가 복도에 서 있는 장면에서는 허벅지 위부터 잡히고 한 손에 칼이 보입니다. 서부극의 결투 긴장감을 사무라이 액션에 차용한 것입니다.</p>
+<p>No Country for Old Men 주유소 장면에서는 시거가 카운터 앞에 서 있는데, 허벅지 위부터 잡혀서 위압적 체구와 손에 든 동전이 함께 보입니다. 무기를 직접 보여주지 않는데도 위협감이 전달됩니다.</p>
+<h5 id="7-medium-shot-ms-허리-가슴-위">7. Medium Shot (MS) — 허리/가슴 위</h5>
+<p>영화에서 가장 많이 쓰이는 샷입니다. 대화 장면의 기본입니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Pulp Fiction — Filthy Animals Diner · 시간 00:30~01:30</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=RxZK1gfLyA8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=RxZK1gfLyA8</a></p></div>
+</div>
+<p>[!example]- 영상: The Social Network — Cease and Desist · 시간 00:30~01:30</p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=6-_tIPShuwQ" target="_blank" rel="noopener">https://www.youtube.com/watch?v=6-_tIPShuwQ</a></p></div>
+</div>
+</div>
+</div>
+<p>Pulp Fiction 다이너 장면에서 빈센트와 줄스가 테이블에 앉아 대화할 때 허리 위가 잡힙니다. 손동작과 표정이 자연스럽게 보이면서도 주변 환경이 살짝 나옵니다. 가장 중립적인 거리입니다.</p>
+<p>The Social Network 법정 장면에서 저커버그가 변호사와 대화할 때 가슴 위가 잡힙니다. 팔짱을 끼거나 몸을 기울이는 태도가 보여서, 대사 없이도 '이 사람이 지금 어떤 태도인지'를 알 수 있습니다.</p>
+<h5 id="8-medium-close-up-mcu-어깨-위">8. Medium Close-Up (MCU) — 어깨 위</h5>
+<p>MS보다 약간 더 가까운 샷입니다. 표정의 미세한 변화가 중요할 때 사용됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Gone Girl — Cool Girl Monologue · 시간 00:30~02:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=0o4heKCLeTs" target="_blank" rel="noopener">https://www.youtube.com/watch?v=0o4heKCLeTs</a></p></div>
+</div>
+</div>
+</div>
+<p>Gone Girl에서 에이미가 TV 인터뷰하는 장면에서는 어깨 위부터 얼굴이 잡히는데, 미소에서 차가운 눈빛으로 바뀌는 미세한 변화가 보입니다. 관객이 '이 사람이 거짓말하고 있다'는 것을 표정으로 읽게 됩니다.</p>
+<h4 id="그룹-3-가까운-샷-감정과-디테일을-보여준다">그룹 3: 가까운 샷 — 감정과 디테일을 보여준다</h4>
+<h5 id="9-close-up-cu-얼굴-전체">9. Close-Up (CU) — 얼굴 전체</h5>
+<p>CU는 감정을 전달하는 샷입니다. 인물이 무슨 생각을 하는지, 어떤 기분인지를 카메라로 직접 말하는 것입니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Schindler's List — He Who Saves One Life · 시간 01:30~02:30</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=qIp_8RNNX4k" target="_blank" rel="noopener">https://www.youtube.com/watch?v=qIp_8RNNX4k</a></p></div>
+</div>
+</div>
+</div>
+<p>Schindler's List에서 쉰들러가 유대인들에게 반지를 받는 장면에서는 쉰들러의 눈에 눈물이 고이는 모습이 얼굴 전체로 잡힙니다. 대사 없이 얼굴만으로 죄책감과 슬픔이 전달됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Silence of the Lambs — First Meeting · 시간 01:00~02:30</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=EnMV60UDuF0" target="_blank" rel="noopener">https://www.youtube.com/watch?v=EnMV60UDuF0</a></p></div>
+</div>
+</div>
+</div>
+<p>Silence of the Lambs에서 한니발 렉터의 얼굴이 유리 너머로 클로즈업되면서 관객을 정면으로 응시합니다. 거의 제4의 벽을 깨는 것 같은 효과로, 공포와 묘한 친밀함이 동시에 만들어집니다.</p>
+<h5 id="10-extreme-close-up-ecu-눈-입-손-등-일부">10. Extreme Close-Up (ECU) — 눈, 입, 손 등 일부</h5>
+<p>ECU는 가장 강력한 샷입니다. 너무 가까이 찍기 때문에 관객이 불편해집니다. 그래서 극단적인 감정에만 사용됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Requiem for a Dream — Addiction Montage · 시간 00:00~00:30</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=5eTVGaa9KwA" target="_blank" rel="noopener">https://www.youtube.com/watch?v=5eTVGaa9KwA</a></p></div>
+</div>
+<p>[!example]- 영상: Se7en — Main Title Sequence · 시간 00:00~02:00</p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=UjGuE5y-6tE" target="_blank" rel="noopener">https://www.youtube.com/watch?v=UjGuE5y-6tE</a></p></div>
+</div>
+</div>
+</div>
+<p>Requiem for a Dream에서 약물 투여 직후 동공이 급격히 확대되는 눈만 화면에 가득 찹니다. 신체적 변화를 극단적으로 확대해서 중독의 공포를 시각화하는 것입니다.</p>
+<p>Se7en에서 손가락 끝의 지문, 범인의 글씨가 화면 전체를 채웁니다. 관객이 탐정의 시선으로 빨려 들어가는 느낌입니다. 디테일 자체가 서사가 되는 것입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">샷 사이즈 기본 패턴</div>
+<div class="callout-body">
+<p>보통 ES나 EWS로 공간을 먼저 넓게 보여주고, 그다음에 FS나 MS로 인물을 보여주고, 마지막에 CU로 인물의 표정을 잡습니다. <strong>넓은 데서 좁은 데로 가는 것이 기본 패턴</strong>입니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="핵심-개념-2-카메라-무빙-6종">핵심 개념 2: 카메라 무빙 6종</h2>
+<h3 id="카메라-무빙이란">카메라 무빙이란?</h3>
+<p>샷 사이즈가 '얼마나 가까이 찍느냐'였다면, 카메라 무빙은 '카메라가 어떻게 움직이느냐'입니다.</p>
+<p>카메라가 가만히 있으면 사진이고, 움직이면 영화가 됩니다. 그런데 임의로 움직이면 안 되고 정해진 규칙이 있습니다. 크게 6가지입니다.</p>
+<h3 id="6가지-카메라-무빙">6가지 카메라 무빙</h3>
+<figure class="lecture-figure">
+<img src="assets/02_camera-movement-6-types.webp" alt="카메라 무빙 6종 방향 다이어그램">
+<figcaption>카메라 무빙 6종 방향 다이어그램</figcaption>
+</figure>
+<p><strong>영상: 4분짜리 개요 영상으로 카메라 무빙 전체를 한 번에 훑어봅니다.</strong></p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=IiyBo-qLDeM" target="_blank" rel="noopener">StudioBinder — The Shot List Ep.6: Every Camera Movement Technique Explained (0:00~4:00 구간)</a></p></div>
+</div>
+<h5 id="1-pan-패닝-카메라-제자리-좌우-회전">1. Pan (패닝) — 카메라 제자리, 좌우 회전</h5>
+<p>카메라는 삼각대에 고정되어 있고, 고개만 좌우로 돌리는 것입니다. 사람이 고개를 돌려서 주변을 둘러보는 느낌입니다.</p>
+<p>The Shining에서 오버룩 호텔 로비를 천천히 패닝하는 장면이 유명합니다. 공간이 넓다는 것을 보여주면서 동시에 어떤 요소 불안한 느낌을 줍니다.</p>
+<p>The Revenant 전투 장면에서는 카메라가 강가에서 수평으로 천천히 회전하면서 원주민 공격이 사방에서 벌어지는 것을 드러냅니다. 컷 없이 공간 전체를 보여주기 때문에 포위당한 혼돈이 체감됩니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: The Revenant — Opening Battle · 시간 00:00~02:00</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=apm6ub51_9Q" target="_blank" rel="noopener">https://www.youtube.com/watch?v=apm6ub51_9Q</a></p></div>
+</div>
+</div>
+</div>
+<ul><li>연출 의도: 공간을 드러내거나, 반전을 만들 때</li><li>스토리보드 표기: 수평 화살표 (← →)</li></ul>
+<h5 id="2-tilt-틸트-카메라-제자리-상하-회전">2. Tilt (틸트) — 카메라 제자리, 상하 회전</h5>
+<p>Pan이 좌우라면, Tilt는 위아래입니다. 건물을 아래에서 위로 올려다보거나, 하늘에서 땅으로 내려다봅니다.</p>
+<p>Lord of the Rings에서 사루만의 탑 이센가드 장면에서는 카메라가 땅에서 위로 틸트하면서 탑 꼭대기까지 올라갑니다. 수직적 움직임으로 '이 권력이 얼마나 큰지'를 물리적으로 느끼게 합니다.</p>
+<p>Harry Potter 첫 편에서 해리가 대강당에 처음 들어갈 때 테이블에서 위로 틸트하면 수천 개의 촛불이 떠 있는 천장이 드러납니다. 해리가 마법 세계의 규모에 압도되는 경험을 관객도 같이 하게 됩니다.</p>
+<ul><li>연출 의도: 스케일, 권위, 경외감 표현</li><li>스토리보드 표기: 수직 화살표 (↑ ↓)</li></ul>
+<h5 id="3-dolly-달리-카메라-앞뒤-이동">3. Dolly (달리) — 카메라 앞뒤 이동</h5>
+<p>카메라 자체가 앞뒤로 움직이는 것입니다. 원래는 레일 위에 카메라를 올려놓고 밀거나 당기는 것인데, 요즘은 스테디캠이나 짐벌로도 합니다.</p>
+<p>Dolly In은 인물에게 다가가면서 긴장감을 높이고, Dolly Out은 물러나면서 상황을 넓게 보여줍니다.</p>
+<p>E.T.에서 엘리엇이 이별하는 장면에서는 카메라가 레일 위에서 엘리엇에게 천천히 다가갑니다. 관객이 물리적으로 캐릭터 곁에 가는 듯한 느낌이 듭니다. 줌으로 당기는 것과는 확실히 다릅니다. 원근감이 자연스럽게 바뀌면서 물리적으로 접근하는 감각이 만들어집니다.</p>
+<p>The Shining 복도 세발자전거 장면에서는 카메라가 대니의 세발자전거 뒤에서 쫓아가는데 복도 끝이 안 보입니다. 아이의 시점에 관객을 묶어놓고, 무엇이 나타날지 모르는 불안을 유지하는 것입니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: E.T. — Says Goodbye · 시간 00:30~02:00 (Dolly In)</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=1MuisIJdh10" target="_blank" rel="noopener">https://www.youtube.com/watch?v=1MuisIJdh10</a></p></div>
+</div>
+</div>
+</div>
+<div class="callout callout-example">
+<div class="callout-title">영상: The Shining — Danny's Big Wheel · 시간 00:00~01:30 (복도 추적)</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=F2lU8PnA24A" target="_blank" rel="noopener">https://www.youtube.com/watch?v=F2lU8PnA24A</a></p></div>
+</div>
+</div>
+</div>
+<ul><li>연출 의도: 감정적 거리 조절 (다가감/물러남)</li><li>스토리보드 표기: 카메라에서 피사체 방향 화살표</li></ul>
+<h5 id="4-track-트래킹-카메라-좌우-이동">4. Track (트래킹) — 카메라 좌우 이동</h5>
+<p>Dolly가 앞뒤라면, Track은 좌우입니다. 카메라가 옆으로 움직이면서 인물을 따라가거나, 공간을 훑습니다.</p>
+<p>Goodfellas의 코파카바나 나이트클럽 입장 장면에서는 헨리와 카렌이 레스토랑 뒷문으로 들어가서 주방을 거쳐 VIP석까지 이동하는데, 카메라가 옆에서 나란히 쭉 따라갑니다. 3분 동안 컷 없이 진행됩니다. 이 한 장면으로 '헨리가 이 세계에서 얼마나 특권을 누리는지'를 보여주는 것입니다.</p>
+<p>올드보이 복도 격투 장면에서는 카메라가 옆에서 수평 트래킹하면서 오대수가 다수와 싸우는 것을 횡스크롤 게임처럼 보여줍니다. 컷 없이 계속 따라가기 때문에 격투의 지속적인 고통과 피로가 실시간으로 느껴집니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Goodfellas — Copacabana Shot · 시간 00:00~03:00 (3분 원테이크)</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=IBMKyNJvNV8" target="_blank" rel="noopener">https://www.youtube.com/watch?v=IBMKyNJvNV8</a></p></div>
+</div>
+</div>
+</div>
+<div class="callout callout-example">
+<div class="callout-title">영상: Oldboy — Corridor Fight Scene · 시간 00:00~03:00 (횡이동 원테이크)</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=OU8949uj5YI" target="_blank" rel="noopener">https://www.youtube.com/watch?v=OU8949uj5YI</a></p></div>
+</div>
+</div>
+</div>
+<ul><li>연출 의도: 인물 동행, 공간의 연속성</li><li>스토리보드 표기: 카메라 아래 좌우 화살표</li></ul>
+<h5 id="5-crane-크레인-카메라-상하-이동">5. Crane (크레인) — 카메라 상하 이동</h5>
+<p>카메라가 물리적으로 위아래로 올라가거나 내려가는 것입니다. 드론이 보편화되기 전에는 실제 크레인에 카메라를 장착했습니다. UE5에서는 카메라 액터 Z축 키프레임으로 구현합니다.</p>
+<p>Gone with the Wind에서 스칼렛이 부상병 사이를 걸을 때, 카메라가 위로 크레인 업하면 수백 명의 부상병이 끝없이 펼쳐집니다. 개인의 고통에서 전쟁의 규모로 시점이 전환되는 것입니다.</p>
+<p>Avengers 뉴욕 전투에서 6명이 원형으로 서 있는 장면에서는 카메라가 크레인으로 상승하면서 부감으로 잡습니다. 팀 결성의 순간을 공간적으로 신격화하는 것입니다.</p>
+<div class="callout callout-example">
+<div class="callout-title">영상: Gone with the Wind — Battle of Atlanta · 시간 00:30~02:00 (크레인업)</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=qSEVyzKmlyU" target="_blank" rel="noopener">https://www.youtube.com/watch?v=qSEVyzKmlyU</a></p></div>
+</div>
+</div>
+</div>
+<div class="callout callout-example">
+<div class="callout-title">영상: The Avengers — Circle Shot · 시간 00:00~00:30 (360 원형 크레인)</div>
+<div class="callout-body">
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=7ivzPjUFlKQ" target="_blank" rel="noopener">https://www.youtube.com/watch?v=7ivzPjUFlKQ</a></p></div>
+</div>
+</div>
+</div>
+<ul><li>연출 의도: 시점 전환, 스케일 감동, 신격화</li><li>스토리보드 표기: 수직 화살표 + 카메라 위치 변화 표시</li></ul>
+<h5 id="6-zoom-줌-렌즈-조절-카메라-고정">6. Zoom (줌) — 렌즈 조절 (카메라 고정)</h5>
+<p>카메라가 움직이지 않고 렌즈만 조절해서 가까이 보이게 하거나 멀리 보이게 하는 것입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">Dolly vs Zoom 차이</div>
+<div class="callout-body">
+<ul><li><strong>Dolly</strong>: 카메라가 직접 가기 때문에 원근감이 자연스럽게 변합니다. 앞에 있는 것과 뒤에 있는 것의 거리 관계가 유지됩니다.</li><li><strong>Zoom</strong>: 렌즈로 당기기 때문에 배경이 압축됩니다. 앞뒤 거리가 사라지면서 평면적으로 보입니다.</li></ul>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/03_dolly-vs-zoom-comparison.webp" alt="03_dolly-vs-zoom-comparison">
+
+</figure>
+<p>Barry Lyndon에서 쿠브릭이 촛불 아래 인물 클로즈업에서 서서히 줌 아웃하면 18세기 살롱 전체가 드러납니다. 배경이 평면적으로 넓어지면서 마치 유화 속으로 들어가는 느낌입니다. 이것은 Dolly로는 만들 수 없는 효과입니다.</p>
+<p>반대로 Kill Bill에서 브라이드가 적을 발견하는 순간, 빠른 줌인으로 눈이 화면을 채웁니다. Dolly의 점진적 접근과 달리 즉각적인 '발견'과 분노가 표현됩니다.</p>
+<ul><li>연출 의도: 즉각적 강조, 회화적 효과</li><li>스토리보드 표기: 프레임 안에 확대/축소 표시</li></ul>
+<h3 id="dolly-zoom-보너스-기법">Dolly Zoom — 보너스 기법</h3>
+<figure class="lecture-figure">
+<img src="assets/04_dolly-zoom-principle.webp" alt="04_dolly-zoom-principle">
+
+</figure>
+<p>Dolly와 Zoom을 동시에 반대 방향으로 하면 Dolly Zoom이 됩니다. 버티고 효과라고도 합니다.</p>
+<p>카메라는 뒤로 빠지는데 렌즈는 줌인합니다. 그러면 인물 크기는 그대로인데 배경이 갑자기 다가오거나 멀어지는 것처럼 보입니다. 세상이 갑자기 달라 보이는 순간을 만들어냅니다.</p>
+<div class="table-wrap"><table><thead><tr><th>영화</th><th>장면</th><th>효과</th><th>유튜브</th></tr></thead><tbody><tr><td data-label="영화"><strong>Vertigo</strong> (1958)</td><td data-label="장면">스코티가 계단을 내려다봄</td><td data-label="효과">계단이 늘어나는 왜곡 — 고소공포증을 시각화한 최초의 사례</td><td data-label="유튜브"><a href="https://www.youtube.com/watch?v=G7YJkBcRWB8" target="_blank" rel="noopener">영상: 재생</a> 시간 0:00~0:30</td></tr>
+<tr><td data-label="영화"><strong>Jaws</strong> (1975)</td><td data-label="장면">브로디가 해변에서 상어 공격을 목격</td><td data-label="효과">배경이 다가오고 인물은 그대로 — &quot;세상이 무너지는&quot; 공포의 순간</td><td data-label="유튜브"><a href="https://www.youtube.com/watch?v=enj42k9RWg4" target="_blank" rel="noopener">영상: 재생</a> 시간 0:15~0:30</td></tr>
+<tr><td data-label="영화"><strong>Lord of the Rings</strong> (2001)</td><td data-label="장면">프로도가 숲길에서 나즈굴의 기척을 느낌</td><td data-label="효과">평범한 길이 순간적으로 늘어남 — 초자연적 위협의 시각화</td><td data-label="유튜브"><a href="https://www.youtube.com/watch?v=xjzJLj7ySnw" target="_blank" rel="noopener">영상: 재생</a> 시간 0:00~0:30</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">Dolly Zoom 활용 포인트</div>
+<div class="callout-body">
+<p>캐릭터가 어떤 요소를 깨닫거나, 세상이 달라지는 순간에 사용합니다. 일상이 갑자기 비일상이 되는 그 찰나를 표현하는 기법입니다.</p>
+</div>
+</div>
+<p><strong>영상: 23개 영화의 Dolly Zoom을 한꺼번에 구성한 슈퍼컷 (8분)</strong></p>
+<div class="callout callout-video">
+<div class="callout-title">영상 자료</div>
+<div class="callout-body"><p><a href="https://www.youtube.com/watch?v=h1QKFnzISPw" target="_blank" rel="noopener">Vashi Nedomansky — Evolution of the Dolly Zoom</a></p></div>
+</div>
+<p>---</p>
+<h3 id="핵심-요약">핵심 요약</h3>
+<div class="table-wrap"><table><thead><tr><th>번호</th><th>요약</th></tr></thead><tbody><tr><td data-label="번호">1</td><td data-label="요약">샷 사이즈는 EWS~ECU까지 10종. <strong>넓을수록 환경, 좁을수록 감정</strong></td></tr>
+<tr><td data-label="번호">2</td><td data-label="요약">카메라 무빙 6종: <strong>Pan·Tilt</strong>(회전), <strong>Dolly·Track</strong>(이동), <strong>Crane</strong>(상하), <strong>Zoom</strong>(렌즈)</td></tr>
+<tr><td data-label="번호">3</td><td data-label="요약">스토리보드에 <strong>샷 약어 + 화살표</strong>로 카메라 지시를 표기한다</td></tr></tbody></table></div>
+<p>2교시에서는 이 카메라 지식을 스토리보드에 어떻게 옮기는지를 배웁니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#1교시-중간고사-안내-시네마틱-카메라-이론">1교시 — 중간고사 안내 + 시네마틱 카메라 이론</a></li>
+        <li class="toc-level-3"><a href="#중간고사-가이드라인-안내">중간고사 가이드라인 안내</a></li>
+        <li class="toc-level-3"><a href="#도입">도입</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-1-샷-사이즈">핵심 개념 1: 샷 사이즈</a></li>
+        <li class="toc-level-3"><a href="#샷-사이즈란">샷 사이즈란?</a></li>
+        <li class="toc-level-3"><a href="#10가지-샷-사이즈-정리">10가지 샷 사이즈 정리</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-2-카메라-무빙-6종">핵심 개념 2: 카메라 무빙 6종</a></li>
+        <li class="toc-level-3"><a href="#카메라-무빙이란">카메라 무빙이란?</a></li>
+        <li class="toc-level-3"><a href="#6가지-카메라-무빙">6가지 카메라 무빙</a></li>
+        <li class="toc-level-3"><a href="#dolly-zoom-보너스-기법">Dolly Zoom — 보너스 기법</a></li>
+        <li class="toc-level-3"><a href="#핵심-요약">핵심 요약</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 07 student notes.</p>
+</body>
+</html>

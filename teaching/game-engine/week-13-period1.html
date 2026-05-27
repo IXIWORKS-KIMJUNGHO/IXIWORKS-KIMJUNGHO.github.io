@@ -1,0 +1,817 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13주차 1교시 — Post Process Volume + 분위기 이펙트</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span>Game Engine I / II</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Week 13 · Period 01</p>
+        <h1>1교시 — Post Process Volume + 분위기 이펙트</h1>
+        <p class="lead">Post Process Volume을 씬 전체에 적용하고, Manual Exposure, Bloom, Vignette, Depth of Field로 시네마틱 장면의 분위기를 안정적으로 조정합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Post Process Volume</span>
+          <span class="hero-chip">Exposure</span>
+          <span class="hero-chip">Mood Effects</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">Lecture Handout</p>
+        <div class="meta-row"><span>Course</span><strong>Game Engine I / II</strong></div>
+        <div class="meta-row"><span>Week</span><strong>Week 13</strong></div>
+        <div class="meta-row"><span>Unit</span><strong>Period 01</strong></div>
+        <div class="meta-row"><span>Topic</span><strong>Rendering and Color Grading</strong></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">13주차 아웃라인: 렌더링 및 컬러 그레이딩</span></td></tr>
+<tr><td data-label="관계">2교시 자료</td><td data-label="문서">수업 중 배부 — 컬러 그레이딩 + LUT + Movie Render Queue</td></tr>
+<tr><td data-label="관계">3교시 자료</td><td data-label="문서">수업 중 배부 — 시네마틱 렌더링 워크플로우 실습</td></tr>
+<tr><td data-label="관계">선행 12주차 3교시</td><td data-label="문서"><span class="wikilink">12주차 3교시: 기말 컨셉 환경 블록아웃</span></td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>Post Process Volume 의 역할(라이팅 위에 얹는 후처리 레이어)을 이해하고, 씬에 배치(Infinite Extent)할 수 있다 Exposure(노출)를 Auto 와 Manual 로 구분하고, 시네마틱에서 Manual 고정이 필요한 이유를 설명할 수 있다 Bloom · Vignette · Depth of Field 등 주요 분위기 이펙트의 역할을 알고, 작은 값에서 시작해 전/후를 비교하며 적용할 수 있다</p>
+</div>
+</div>
+<p>후반부에 들어와 시네마틱 한 편을 단계별로 쌓아왔습니다. 10주차에 캐릭터, 11주차에 카메라, 12주차에 환경을 다뤘습니다. 캐릭터가 있고, 그 캐릭터를 비추는 카메라가 있고, 그 둘이 놓일 무대도 만들었습니다. 13주차는 후반부의 <strong>마지막 기술 주차</strong>로, 캐릭터·카메라·환경이라는 재료로 만든 장면을 <strong>영화의 톤으로 마감하는</strong> 주차입니다.</p>
+<p>1교시 주제는 그 마감의 첫 단계인 <strong>Post Process Volume</strong>(후처리 볼륨)입니다. 색을 본격적으로 다루는 컬러 그레이딩과 영상으로 출력하는 Movie Render Queue 는 2교시, 본인 시퀀스에 직접 적용하는 것은 3교시입니다.</p>
+<h2 id="도입-같은-씬-다른-분위기">도입 — 같은 씬, 다른 분위기</h2>
+<figure class="lecture-figure">
+  <img src="assets/01_intro-postprocess-before-after.webp" alt="intro postprocess before after" loading="lazy">
+</figure>
+<p>같은 씬을 두 장 비교해 보면, 라이팅도 배치한 에셋도 카메라 앵글도 똑같은데 인상이 완전히 달라 보입니다. 한쪽은 후처리, 즉 Post Process 를 입힌 것입니다. 밝은 부분이 살짝 번지고, 화면 가장자리가 어두워지고, 색감이 한쪽으로 정리되면서 똑같은 재료에 '느낌'이 생깁니다.</p>
+<p>영화에서 이 차이는 매우 큽니다. 영화를 보고 '차갑다', '따뜻하다', '낡았다', '꿈같다'고 느끼는 인상의 상당 부분이 라이팅과 함께 <strong>후처리</strong>에서 만들어집니다. 렌더링은 단순히 '화면을 출력하는' 단계가 아니라, <strong>마지막에 영화의 톤을 결정하는</strong> 단계입니다.</p>
+<p>한 가지 분명히 해둘 점은, 후처리는 라이팅을 <strong>대신하는 것이 아니라</strong>는 것입니다. 라이팅이라는 바탕 위에 한 겹 더 얹는 마감이며, 바탕이 부실하면 후처리만으로 보완하기 어렵습니다.</p>
+<p><strong>오늘의 목표</strong>: 씬에 분위기를 입히는 후처리 도구 Post Process Volume 을 이해하고, 주요 이펙트를 의도를 갖고 쓸 수 있도록 합니다.</p>
+<h2 id="핵심-개념-1-post-process-volume">핵심 개념 1 — Post Process Volume</h2>
+<p>Post Process Volume 을 한 문장으로 정의하면, <strong>씬 위에 한 겹 얹는 화면 효과 레이어</strong>입니다.</p>
+<p>포토샵의 '보정 레이어'를 떠올리면 이해하기 쉽습니다. 사진이 한 장 있고, 그 위에 밝기·색감·번짐 같은 보정을 레이어로 얹되 원본 사진은 그대로 둡니다. Post Process Volume 도 그 방식에 가깝습니다. 우리가 만든 3D 씬은 그대로 두고, 그 위에 화면 효과를 한 겹 입히는 것입니다.</p>
+<p>그래서 후처리에는 좋은 점이 있습니다 — <strong>언제든 되돌릴 수 있습니다.</strong> 효과가 마음에 들지 않으면 끄면 됩니다. 씬 자체를 건드리는 것이 아니므로 부담 없이 실험해볼 수 있는 단계입니다. 이 후처리를 담는 그릇이 <strong>Post Process Volume</strong>(줄여서 PPV)이라는 액터입니다.</p>
+<h3 id="ppv-를-씬에-배치하기">PPV 를 씬에 배치하기</h3>
+<p>PPV 는 레벨에 놓는 액터입니다. 12주차에 환경 에셋을 배치할 때 쓰던 <strong>Place Actors</strong> 패널에서 가져옵니다.</p>
+<p><strong>배치 절차</strong></p>
+<ul>
+<li>1. 에디터 상단/좌측의 <strong>Place Actors</strong> 패널을 연다</li>
+<li>2. <strong>Volumes</strong> 카테고리를 찾는다 (라이팅·트리거 등 각종 볼륨이 모여 있는 곳)</li>
+<li>3. <strong>Post Process Volume</strong> 항목을 뷰포트로 드래그해 레벨에 배치한다</li>
+<li>4. World Outliner(아웃라이너)에 <code>PostProcessVolume</code> 액터가 추가됐는지 확인한다</li>
+</ul>
+<p>배치하면 처음에는 작은 상자 모양으로 나옵니다. 그런데 이 상태로는 효과가 <strong>그 상자 안에 들어갔을 때만</strong> 적용됩니다. 카메라가 상자 밖으로 나가면 효과가 사라집니다. 시네마틱에서는 카메라가 씬 여기저기를 돌아다니므로 효과가 켜졌다 꺼졌다 하면 곤란합니다. 그래서 다음 설정이 중요합니다.</p>
+<h3 id="infinite-extent-unbound-레벨-전체에-적용">Infinite Extent (Unbound) — 레벨 전체에 적용</h3>
+<p>PPV 를 선택하고 디테일 패널을 보면 <strong>Infinite Extent (Unbound)</strong> 라는 체크박스가 있습니다. 오늘 PPV 에서 가장 중요한 설정입니다.</p>
+<p><strong>설정 절차</strong></p>
+<ul>
+<li>1. 아웃라이너 또는 뷰포트에서 배치한 <strong>Post Process Volume</strong> 을 선택한다</li>
+<li>2. 디테일 패널에서 <strong>Infinite Extent (Unbound)</strong> 항목을 찾는다</li>
+<li>3. 체크박스를 <strong>켠다</strong></li>
+</ul>
+<p>이것을 켜면 PPV 가 '상자 안'이라는 경계를 버리고, <strong>카메라가 어디에 있든 레벨 전체에 효과가 적용</strong>됩니다. 시네마틱에서는 씬 전체에 일관된 톤을 입히는 것이 보통이므로 PPV 를 쓸 때 거의 항상 켭니다.</p>
+<p>끄면 상자 안에서만 효과가 들어갑니다. 이것도 쓸모가 있습니다. 예를 들어 '동굴 안에 들어가면 화면이 어두워지고 푸르스름해진다' 같은 <strong>공간별 분위기 전환</strong>을 만들 때는 일부러 끄고 상자 크기를 조절합니다. 다만 13주차 목표는 시퀀스 전체에 톤을 입히는 것입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">기억할 것</div>
+<div class="callout-body">
+<p>13주차 실습에서 PPV 를 쓸 때는 <strong>Infinite Extent 를 켭니다.</strong> 그래야 효과가 볼륨 상자 안에 갇히지 않고 레벨 전체에 적용됩니다.</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">UE 5.7 화면 메모</div>
+<div class="callout-body">
+<p>Infinite Extent (Unbound) 는 보통 Post Process Volume Settings 섹션에 있습니다. 디테일 패널의 항목 이름·위치는 UE 버전에 따라 다를 수 있으므로 기능으로 찾으세요.</p>
+</div>
+</div>
+<h3 id="priority-볼륨이-겹칠-때">Priority — 볼륨이 겹칠 때</h3>
+<p>같은 디테일 패널에 <strong>Priority</strong> 라는 숫자 필드가 있습니다. PPV 가 <strong>여러 개 겹쳤을 때</strong> 어느 것을 우선할지 정하는 우선순위입니다.</p>
+<p>PPV 가 하나뿐이면 크게 신경 쓰지 않아도 됩니다. 예를 들어 '레벨 전체에는 차가운 톤(PPV 1개), 특정 방에는 더 강한 붉은 톤(PPV 2개)'처럼 겹쳐 쓸 때, Priority 숫자가 높은 볼륨이 우선 적용됩니다. 1교시 실습은 PPV 하나로 진행하므로, '겹치면 숫자가 큰 볼륨이 우선 적용된다' 정도만 알아두면 됩니다.</p>
+<h3 id="post-process-volume-vs-cine-camera-후처리는-ppv-한-곳에서">Post Process Volume vs Cine Camera — 후처리는 PPV 한 곳에서</h3>
+<p>후처리 설정을 넣을 수 있는 곳은 사실 두 군데입니다. 하나는 PPV, 다른 하나는 9주차에 쓴 <strong>Cine Camera 액터 자체</strong>입니다. Cine Camera 의 디테일 패널에도 Post Process 설정이 들어 있습니다.</p>
+<p>둘 다 후처리를 넣을 수 있다 보니, 양쪽을 동시에 만지면 어느 쪽 설정이 적용된 것인지 추적이 어려워집니다. 그래서 이 수업에서는 <strong>후처리를 PPV 한 곳에서만</strong> 다룹니다. 카메라 쪽 Post Process 는 '있다'는 것만 알아두고 건드리지 않습니다.</p>
+<p>단, 9주차에 배운 카메라의 <strong>초점</strong>(Focus Distance·Aperture)은 카메라 고유 기능이라 카메라에서 다룹니다. 이 점은 잠시 뒤 Depth of Field 에서 다시 나옵니다.</p>
+<h2 id="핵심-개념-2-주요-분위기-이펙트">핵심 개념 2 — 주요 분위기 이펙트</h2>
+<p>PPV 라는 그릇이 준비됐으니, 그 안에 담을 효과들을 봅니다. 오늘 다룰 주요 이펙트는 네 가지 — <strong>Exposure, Bloom, Vignette, Depth of Field</strong> 입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>이펙트</th><th>역할</th></tr></thead><tbody><tr><td data-label="이펙트"><strong>Exposure</strong></td><td data-label="역할">화면 전체 밝기를 안정적으로 제어</td></tr>
+<tr><td data-label="이펙트"><strong>Bloom</strong></td><td data-label="역할">밝은 영역의 빛 번짐을 표현</td></tr>
+<tr><td data-label="이펙트"><strong>Vignette</strong></td><td data-label="역할">화면 가장자리를 어둡게 해 시선을 중앙으로 유도</td></tr>
+<tr><td data-label="이펙트"><strong>Depth of Field</strong></td><td data-label="역할">초점 밖 영역을 흐리게 해 중요한 피사체를 강조</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+  <img src="assets/02_mood-effects-grid.webp" alt="mood effects grid" loading="lazy">
+</figure>
+<h3 id="exposure-노출-auto-vs-manual">Exposure(노출) — Auto vs Manual</h3>
+<p>첫 번째이자 오늘 가장 중요한 이펙트는 <strong>Exposure</strong>(노출)입니다. 5주차 라이팅 시간에 다룬 노출 — 카메라가 받아들이는 빛의 양, 즉 화면 전체의 밝기입니다. 언리얼에는 노출을 정하는 방식이 <strong>Auto Exposure</strong> 와 <strong>Manual</strong> 두 가지가 있고, 이 차이가 시네마틱에서 중요합니다.</p>
+<p><strong>Auto Exposure(자동 노출)</strong> — 카메라가 화면의 밝기를 보고 <strong>자동으로</strong> 노출을 맞춰줍니다. 사람 눈과 비슷합니다. 어두운 방에 있다가 밝은 곳으로 나가면 눈이 적응하면서 점점 잘 보이게 되는데, Auto Exposure 가 그것을 흉내 냅니다. 게임 플레이에는 이것이 좋습니다 — 플레이어가 동굴에서 바깥으로 나갈 때 자연스럽게 밝기가 적응됩니다.</p>
+<figure class="lecture-figure">
+  <img src="assets/03_exposure-auto-vs-manual.webp" alt="exposure auto vs manual" loading="lazy">
+</figure>
+<p>그런데 시네마틱에서는 이것을 주의해야 합니다. 카메라가 어두운 복도에서 밝은 창가로 움직이는 시퀀스를 Auto Exposure 로 두면, 카메라가 움직이는 동안 화면 밝기가 <strong>출렁입니다.</strong> 어두운 곳을 비추면 밝아지고, 밝은 곳을 비추면 어두워지면서, 라이팅으로 정성껏 잡은 밝기가 다시 조정됩니다. 한 컷 안에서 밝기가 계속 바뀌면 의도하지 않은 흔들림처럼 보이고 화면의 완성도가 낮아 보입니다.</p>
+<p><strong>Manual(수동)</strong> — 그래서 시네마틱에서는 Manual 로 갑니다. Manual 은 노출을 <strong>한 값으로 고정</strong>합니다. 카메라가 어디를 비추든 화면 밝기가 정한 값 그대로 유지되어, 라이팅으로 잡은 밝기가 안정적으로 살아 있습니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">13주차의 약속</div>
+<div class="callout-body">
+<p>시네마틱은 Exposure 를 <strong>Manual 로 고정</strong>합니다. 데모에서도, 3교시 실습에서도 이것을 가장 먼저 합니다.</p>
+</div>
+</div>
+<div class="callout callout-info">
+<div class="callout-title">UE 5.7 화면 메모</div>
+<div class="callout-body">
+<p>노출 고정은 보통 PPV 의 Exposure 섹션에서 Metering Mode 를 Manual 로 두거나, Min/Max Brightness(EV100)를 같은 값으로 묶어 잠그는 방식입니다. 항목 이름은 UE 버전에 따라 다를 수 있으며, 핵심은 '노출을 한 값으로 고정한다'는 결과입니다.</p>
+</div>
+</div>
+<h3 id="bloom-블룸-빛의-번짐">Bloom(블룸) — 빛의 번짐</h3>
+<p><strong>Bloom</strong>(블룸)은 밝은 영역의 빛이 주변으로 <strong>번지는</strong> 효과입니다. 현실에서도 보입니다 — 밤에 가로등을 보면 빛이 동그란 점이 아니라 주변으로 부드럽게 퍼집니다. 밝은 창문, 네온사인, 햇빛처럼 강한 빛은 우리 눈이나 카메라 렌즈에서 번져 보이고, Bloom 이 그 번짐을 화면에 만들어줍니다.</p>
+<p>Bloom 을 잘 쓰면 화면에 '빛이 살아 있는' 느낌이 생깁니다. 꿈같은 장면, 따뜻한 햇살 가득한 장면, 화려한 네온 도시 같은 분위기를 만드는 데 도움이 됩니다. 주요 조절값은 두 가지입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>값</th><th>역할</th></tr></thead><tbody><tr><td data-label="값"><strong>Intensity</strong></td><td data-label="역할">번짐의 세기 — 클수록 빛이 많이 번진다</td></tr>
+<tr><td data-label="값"><strong>Threshold</strong></td><td data-label="역할">번짐이 시작되는 밝기 기준 — 이 밝기 이상만 번진다</td></tr></tbody></table></div>
+<p>Threshold 가 중요합니다. 이것을 너무 낮추면 <strong>밝지 않은 영역까지</strong> 번져서 화면이 뿌옇게 떠 보일 수 있습니다. 의도한 밝은 영역만 번지도록 Threshold 로 경계를 잡아줍니다.</p>
+<h3 id="vignette-비네팅-시선을-모으는-어두운-가장자리">Vignette(비네팅) — 시선을 모으는 어두운 가장자리</h3>
+<p><strong>Vignette</strong>(비네팅)은 화면 <strong>가장자리를 어둡게</strong> 만드는 효과입니다. 오래된 사진이나 필름 영화를 보면 네 모서리가 살짝 어둡습니다. 원래는 렌즈의 한계 때문에 생기던 현상인데, 지금은 일부러 넣습니다. 가장자리가 어두워지면 시선이 자연스럽게 <strong>화면 중앙으로</strong> 모이기 때문입니다.</p>
+<p>시네마틱에서 비네팅은 '여기를 보세요' 하고 관객의 눈을 안내하는 도구입니다. 주인공이 화면 가운데 있을 때 살짝 비네팅을 넣으면 주인공에게 시선이 더 집중되고, 화면에 묵직하고 영화적인 느낌도 더해집니다.</p>
+<p>조절은 Vignette Intensity 값 하나로 어두워지는 정도를 정합니다. 단, 이것은 강도 조절이 특히 중요한 효과입니다. 값이 지나치게 높으면 화면 가장자리가 과하게 어두워져 답답하게 보일 수 있습니다.</p>
+<h3 id="depth-of-field-피사계-심도-초점-밖-흐림">Depth of Field(피사계 심도) — 초점 밖 흐림</h3>
+<p><strong>Depth of Field</strong>(줄여서 DoF, 피사계 심도)는 9주차 카메라 시간에 이미 만난 개념입니다. 초점이 맞은 곳은 선명하고, 초점에서 벗어난 곳은 <strong>흐려지는</strong> 효과입니다. 인물 사진에서 인물은 또렷하고 배경은 부드럽게 흐려지는 장면을 떠올리면 됩니다. 영화에서도 자주 쓰입니다 — 주인공에 초점을 맞추고 배경을 흐리면 관객의 시선이 주인공에게 모입니다.</p>
+<p>DoF 는 두 군데에서 다룰 수 있습니다.</p>
+<div class="table-wrap"><table><thead><tr><th>어디서</th><th>무엇을</th></tr></thead><tbody><tr><td data-label="어디서"><strong>PPV 의 Depth of Field</strong></td><td data-label="무엇을">후처리 레이어 차원의 DoF 효과</td></tr>
+<tr><td data-label="어디서"><strong>Cine Camera 의 Focus 설정</strong></td><td data-label="무엇을">9주차에서 배운 Focus Distance(초점 거리)·Aperture(조리개)</td></tr></tbody></table></div>
+<p>핵심 개념 1 에서 '후처리는 PPV 한 곳에서 다루되, 초점은 카메라 고유 기능'이라고 했는데, 바로 이 DoF 가 그 예외입니다. PPV 에도 Depth of Field 항목이 있지만, <strong>실제 초점 위치와 흐림 정도는 9주차에서 배운 Cine Camera 의 Focus Distance 와 Aperture 로 잡는 흐름</strong>을 기본으로 봅니다.</p>
+<p>9주차 복습 — <strong>Focus Distance</strong> 는 카메라에서 초점까지의 거리입니다. 이 거리에 있는 물체가 선명해집니다. <strong>Aperture</strong> 는 조리개(F 값)로, F 값이 작을수록 초점 밖이 더 많이 흐려지고, 클수록 전체적으로 고르게 선명해집니다.</p>
+<p>그래서 DoF 를 쓸 때는 후처리 맥락에서 DoF 를 확인하되, 실제 초점 연출은 카메라의 Focus 로 잡습니다. 3교시 실습에서도 DoF 를 쓴다면 카메라 Focus 를 함께 확인합니다.</p>
+<h2 id="핵심-개념-3-보조-이펙트-강도-조절">핵심 개념 3 — 보조 이펙트 + 강도 조절</h2>
+<p>지금까지 본 네 가지가 분위기를 만드는 주력 이펙트입니다. PPV 에는 이것 말고도 <strong>보조 이펙트</strong>가 많습니다. 자주 쓰는 두 가지를 살펴봅니다.</p>
+<h3 id="보조-이펙트-색수차와-필름-그레인">보조 이펙트 — 색수차와 필름 그레인</h3>
+<p><strong>Chromatic Aberration(색수차)</strong> — 화면 가장자리에서 색이 살짝 <strong>어긋나</strong> 보이는 효과입니다. 빨강·파랑이 미세하게 분리됩니다. 원래는 렌즈의 결함이지만, 일부러 넣으면 '실제 카메라 렌즈로 찍은 것 같은' 느낌, 또는 화면이 살짝 불안정한 느낌을 줍니다. SF 나 글리치 연출에서 자주 씁니다.</p>
+<p><strong>Film Grain(필름 그레인)</strong> — 화면에 미세한 <strong>입자 노이즈</strong>를 얹는 효과입니다. 옛날 필름 영화 특유의 까끌까끌한 질감입니다. 디지털 화면은 너무 깨끗해서 오히려 '가짜 같을' 때가 있는데, 그레인을 살짝 얹으면 아날로그 필름의 따뜻하고 오래된 느낌이 납니다.</p>
+<p>두 효과의 공통점은 <strong>렌즈나 필름의 결함에서 온 인상</strong>을 일부러 빌려온다는 것입니다. 깨끗한 디지털 화면에 적당한 결함을 넣어 영화 같은 질감을 만듭니다. 핵심은 '적당히'입니다.</p>
+<h3 id="절제-원칙-이펙트는-장면을-보조한다">절제 원칙 — 이펙트는 장면을 보조한다</h3>
+<figure class="lecture-figure">
+  <img src="assets/04_effect-restraint-vs-overuse.webp" alt="effect restraint vs overuse" loading="lazy">
+</figure>
+<p>같은 씬을 두 가지로 비교해 봅니다. 한쪽은 이펙트를 절제해서 적용했고, 다른 쪽은 블룸·비네팅·색수차·필름 그레인을 전부 강하게 넣었습니다. 효과를 전부 강하게 넣은 쪽은 화면이 뿌옇게 뜨고, 가장자리는 지나치게 어두워지고, 색은 어긋나고, 노이즈가 두드러져서 장면의 형태와 의도가 잘 보이지 않습니다. 효과를 많이 넣었지만 장면의 전달력은 오히려 약해진 것입니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">13주차 1교시의 핵심 원칙</div>
+<div class="callout-body">
+<p>이펙트는 분위기를 보조하는 <strong>마감 요소</strong>입니다. 강도가 지나치면 장면의 형태와 의도가 흐려집니다. 후처리를 처음 만질 때는 슬라이더를 크게 올리고 싶어지지만, 작은 값에서 시작해 전/후를 비교하는 편이 좋습니다.</p>
+</div>
+</div>
+<p>절제 원칙 두 가지를 약속으로 정리합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>원칙</th><th>내용</th></tr></thead><tbody><tr><td data-label="원칙"><strong>항상 전/후를 비교한다</strong></td><td data-label="내용">효과를 켜기 전과 후를 번갈아 보며 정말 나아졌는지 확인한다</td></tr>
+<tr><td data-label="원칙"><strong>의도가 없으면 끈다</strong></td><td data-label="내용">&quot;왜 이 효과를 켰지?&quot;에 답할 수 없으면 끈다</td></tr></tbody></table></div>
+<p>특히 두 번째가 핵심입니다. '왜'에 답할 수 있어야 합니다. '이 장면은 따뜻한 회상이라 블룸으로 빛을 부드럽게 풀고 싶다'는 의도가 있는 것이고, '의도 없이 슬라이더가 있길래 올려봤다'는 의도가 없는 것입니다. 의도가 없으면 끕니다. 후처리를 잘하는 사람은 효과를 많이 쓰는 사람이 아니라, <strong>필요한 효과를 정확히 쓰는</strong> 사람입니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">확인 질문</div>
+<div class="callout-body">
+<p>본인 시네마틱에 후처리를 입혔는데, 화면이 전체적으로 뿌옇게 떠 보이고 가장자리가 답답하게 닫혀 보입니다. 어떤 이펙트들을 의심해볼 수 있을까요?</p>
+</div>
+</div>
+<p>(예상 답: 뿌옇게 뜨는 것은 Bloom 의 Intensity 가 너무 크거나 Threshold 가 너무 낮은 것, 가장자리가 막히는 것은 Vignette Intensity 가 너무 큰 것. 효과를 끄고 전/후를 비교하며 값을 줄여본다)</p>
+<p>문제가 생기면 효과를 하나씩 꺼보며 원인을 찾고, 전/후를 비교하며 값을 조절합니다. 효과를 더 추가하기보다 먼저 현재 값이 장면에 맞는지 확인합니다.</p>
+<h2 id="데모-ppv-로-씬에-분위기-입히기">데모 — PPV 로 씬에 분위기 입히기</h2>
+<p>씬에 후처리를 입히는 과정을 살펴봅니다. 'PPV 를 놓고, 노출을 고정하고, 이펙트를 입히는 흐름'이 어떻게 흘러가는지 이해하는 것이 목적입니다. 직접 적용하는 것은 3교시입니다.</p>
+<h3 id="a-ppv-배치-infinite-extent">A. PPV 배치 + Infinite Extent</h3>
+<ul>
+<li>1. 라이팅·에셋이 들어간 시네마틱 씬을 연다</li>
+<li>2. Place Actors 패널 &gt; Volumes &gt; <strong>Post Process Volume</strong> 을 뷰포트로 드래그해 배치</li>
+<li>3. 배치한 PPV 를 선택하고 디테일 패널에서 <strong>Infinite Extent (Unbound)</strong> 체크박스를 켠다</li>
+</ul>
+<p>PPV 를 놓고 Infinite Extent 를 켜면, 카메라가 씬 어디를 비추든 이 PPV 의 효과가 적용됩니다. 아직 효과를 넣지 않았으니 화면은 그대로지만, 그릇은 준비된 상태입니다.</p>
+<h3 id="b-exposure-를-manual-로-고정">B. Exposure 를 Manual 로 고정</h3>
+<ul>
+<li>1. PPV 디테일 패널에서 <strong>Exposure</strong> 섹션을 연다</li>
+<li>2. 노출을 <strong>Manual</strong> 로 전환해 한 값으로 고정한다</li>
+<li>3. 카메라를 어두운 영역 → 밝은 영역으로 움직이며 화면 밝기가 더 이상 출렁이지 않는지 확인</li>
+</ul>
+<p>Manual 로 고정하기 전에는 카메라를 움직이면 밝기가 출렁이지만, 고정한 다음에는 카메라가 어디를 비추든 밝기가 일정합니다. 라이팅으로 잡은 밝기가 그대로 살아 있습니다. 시네마틱의 첫 단추가 노출 고정입니다.</p>
+<h3 id="c-bloom-vignette-depth-of-field-적용">C. Bloom · Vignette · Depth of Field 적용</h3>
+<ul>
+<li>1. <strong>Bloom</strong> — Intensity 와 Threshold 를 조절해 밝은 영역에 적당한 번짐을 준다. 강사 데모에서는 차이를 보기 위해 값을 과장해보고, 본인 작업에서는 작은 값에서 시작한다</li>
+<li>2. <strong>Vignette</strong> — Vignette Intensity 를 조금씩 올려 화면 가장자리를 살짝 어둡게 하고, 시선이 중앙으로 모이는지 확인한다</li>
+<li>3. <strong>Depth of Field</strong> — DoF 를 후처리 효과 맥락에서 확인하되, Cine Camera 의 Focus Distance·Aperture 로 주요 피사체에 초점을 맞춰 배경이 흐려지는지 확인한다</li>
+</ul>
+<p>Bloom 값을 많이 올리면 화면이 뿌옇게 떠 보일 수 있습니다. 다시 적당히 내리면서 장면에 맞는 지점을 찾습니다. 효과는 항상 전/후를 비교하면서 조정합니다. 비네팅을 조금 넣고, DoF 는 카메라 Focus 를 주요 피사체에 맞추면 배경이 부드럽게 흐려지면서 시선이 모입니다.</p>
+<h3 id="d-적용-전-후-비교">D. 적용 전/후 비교</h3>
+<ul>
+<li>1. PPV 액터를 잠시 꺼서(또는 효과를 일괄 비활성화) 후처리 적용 <strong>전</strong> 화면을 확인한다</li>
+<li>2. 다시 켜서 적용 <strong>후</strong> 화면과 비교한다</li>
+</ul>
+<p>라이팅도 에셋도 그대로인데, 노출이 안정되고 빛이 살고 시선이 모이고 초점이 생기면서 똑같은 씬에 '영화의 톤'이 입혀집니다. 데모의 순서 — PPV 배치 → 노출 고정 → 이펙트 적용 → 전/후 비교 — 를 3교시에 본인 시퀀스에 똑같이 적용하게 됩니다.</p>
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">1교시 한 줄 요약</div>
+<div class="callout-body">
+<p>Post Process Volume 은 씬 위에 얹는 분위기 레이어이고, 이펙트는 의도를 갖고 절제해서 쓴다.</p>
+</div>
+</div>
+<ol>
+<li><strong>Post Process Volume</strong> 은 씬 위에 한 겹 얹는 후처리 레이어 — Place Actors 에서 배치하고 <strong>Infinite Extent</strong> 를 켜 레벨 전체에 적용한다</li>
+<li>주요 분위기 이펙트 — <strong>Exposure(시네마틱은 Manual 고정)</strong>, Bloom, Vignette, Depth of Field(초점은 9주차 Cine Camera Focus 와 함께)</li>
+<li>이펙트는 <strong>마감 요소</strong> — 항상 전/후를 비교하고, 의도가 없으면 끈다. 작은 값에서 시작한다</li>
+</ol>
+<h2 id="다음-시간-예고">다음 시간 예고</h2>
+<p>2교시는 한 걸음 더 들어갑니다. 1교시가 빛의 번짐·초점 같은 '효과'를 다뤘다면, 2교시는 <strong>색</strong> 그 자체를 다룹니다. 화면을 차갑게, 따뜻하게, 탈색되게 — 색으로 영화의 톤을 결정하는 <strong>컬러 그레이딩</strong>과 <strong>LUT</strong>를 배웁니다. 그리고 지금까지 만든 시퀀스를 고품질 렌더 결과물로 출력하는 <strong>Movie Render Queue</strong> 도 2교시에서 시작합니다.</p>
+<p>본인 시네마틱 시퀀스를 어떤 톤으로 만들고 싶은지 — 차가운 SF 인지, 따뜻한 노을인지, 낡고 탈색된 폐허인지 — 미리 생각해두면 2교시 컬러 그레이딩이 더 잘 와닿습니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#도입-같은-씬-다른-분위기">도입 — 같은 씬, 다른 분위기</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-1-post-process-volume">핵심 개념 1 — Post Process Volume</a></li>
+        <li class="toc-level-3"><a href="#ppv-를-씬에-배치하기">PPV 를 씬에 배치하기</a></li>
+        <li class="toc-level-3"><a href="#infinite-extent-unbound-레벨-전체에-적용">Infinite Extent (Unbound) — 레벨 전체에 적용</a></li>
+        <li class="toc-level-3"><a href="#priority-볼륨이-겹칠-때">Priority — 볼륨이 겹칠 때</a></li>
+        <li class="toc-level-3"><a href="#post-process-volume-vs-cine-camera-후처리는-ppv-한-곳에서">Post Process Volume vs Cine Camera — 후처리는 PPV 한 곳에서</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-2-주요-분위기-이펙트">핵심 개념 2 — 주요 분위기 이펙트</a></li>
+        <li class="toc-level-3"><a href="#exposure-노출-auto-vs-manual">Exposure(노출) — Auto vs Manual</a></li>
+        <li class="toc-level-3"><a href="#bloom-블룸-빛의-번짐">Bloom(블룸) — 빛의 번짐</a></li>
+        <li class="toc-level-3"><a href="#vignette-비네팅-시선을-모으는-어두운-가장자리">Vignette(비네팅) — 시선을 모으는 어두운 가장자리</a></li>
+        <li class="toc-level-3"><a href="#depth-of-field-피사계-심도-초점-밖-흐림">Depth of Field(피사계 심도) — 초점 밖 흐림</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-3-보조-이펙트-강도-조절">핵심 개념 3 — 보조 이펙트 + 강도 조절</a></li>
+        <li class="toc-level-3"><a href="#보조-이펙트-색수차와-필름-그레인">보조 이펙트 — 색수차와 필름 그레인</a></li>
+        <li class="toc-level-3"><a href="#절제-원칙-이펙트는-장면을-보조한다">절제 원칙 — 이펙트는 장면을 보조한다</a></li>
+        <li class="toc-level-2"><a href="#데모-ppv-로-씬에-분위기-입히기">데모 — PPV 로 씬에 분위기 입히기</a></li>
+        <li class="toc-level-3"><a href="#a-ppv-배치-infinite-extent">A. PPV 배치 + Infinite Extent</a></li>
+        <li class="toc-level-3"><a href="#b-exposure-를-manual-로-고정">B. Exposure 를 Manual 로 고정</a></li>
+        <li class="toc-level-3"><a href="#c-bloom-vignette-depth-of-field-적용">C. Bloom · Vignette · Depth of Field 적용</a></li>
+        <li class="toc-level-3"><a href="#d-적용-전-후-비교">D. 적용 전/후 비교</a></li>
+        <li class="toc-level-2"><a href="#핵심-요약">핵심 요약</a></li>
+        <li class="toc-level-2"><a href="#다음-시간-예고">다음 시간 예고</a></li>
+      </ol>
+    </nav>
+  </main>
+</body>
+</html>

@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13주차 3교시 — 실습: 시네마틱 렌더링 워크플로우</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span>Game Engine I / II</span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Week 13 · Period 03</p>
+        <h1>3교시 — 실습: 시네마틱 렌더링 워크플로우</h1>
+        <p class="lead">본인 시퀀스에 PPV, 컬러 그레이딩, Movie Render Queue를 적용해 PNG 이미지 시퀀스를 테스트 출력하고 영상 인코딩 흐름까지 리허설합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Render Workflow</span>
+          <span class="hero-chip">PNG Sequence</span>
+          <span class="hero-chip">Encoding</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">Lecture Handout</p>
+        <div class="meta-row"><span>Course</span><strong>Game Engine I / II</strong></div>
+        <div class="meta-row"><span>Week</span><strong>Week 13</strong></div>
+        <div class="meta-row"><span>Unit</span><strong>Period 03</strong></div>
+        <div class="meta-row"><span>Topic</span><strong>Rendering and Color Grading</strong></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">13주차 아웃라인: 렌더링 및 컬러 그레이딩</span></td></tr>
+<tr><td data-label="관계">1교시 자료</td><td data-label="문서"><span class="wikilink">13주차 1교시: Post Process Volume + 분위기 이펙트</span></td></tr>
+<tr><td data-label="관계">2교시 자료</td><td data-label="문서"><span class="wikilink">13주차 2교시: 컬러 그레이딩 + LUT + Movie Render Queue</span></td></tr>
+<tr><td data-label="관계">선행 12주차 3교시</td><td data-label="문서"><span class="wikilink">12주차 3교시: 기말 컨셉 환경 블록아웃</span></td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>본인 시네마틱 시퀀스에 Post Process Volume + 분위기 이펙트를 적용할 수 있다 컬러 그레이딩(+선택 LUT)으로 시네마틱 색 톤을 잡을 수 있다 Movie Render Queue 기본 출력 설정으로 PNG 이미지 시퀀스를 출력하고, 영상 인코딩 흐름을 설명할 수 있다 이 렌더링 워크플로우로 14~16주차 기말 렌더링을 리허설할 수 있다</p>
+</div>
+</div>
+<p>3교시는 1교시(Post Process Volume + 분위기 이펙트)와 2교시(컬러 그레이딩·LUT·Movie Render Queue)에서 배운 것을 <strong>본인 시네마틱 시퀀스</strong>에 적용하고, 영상 출력 흐름까지 확인하는 실습입니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">이 실습은 제출·채점 대상이 아닙니다</div>
+<div class="callout-body">
+<p>13주차에는 별도 제출 과제가 없습니다. 3교시 산출물은 제출·채점 대상이 아니며, 14~16주차 기말 프로젝트에서 같은 렌더링 절차를 쓰므로 오늘은 그 <strong>렌더링 워크플로우를 한 번 통과해보는 리허설</strong>입니다. 오늘 손에 익혀두면 기말 영상 출력이 수월해집니다.</p>
+</div>
+</div>
+<h2 id="시작-시퀀스-확인-미션-환경-셋업">시작 — 시퀀스 확인 + 미션 + 환경 셋업</h2>
+<h3 id="3교시-미션">3교시 미션</h3>
+<figure class="lecture-figure">
+  <img src="assets/08_mission-render-pipeline.webp" alt="mission render pipeline" loading="lazy">
+</figure>
+<div class="callout callout-abstract">
+<div class="callout-title">3교시 미션</div>
+<div class="callout-body">
+<p>본인 <strong>시네마틱 시퀀스</strong>에 ① <strong>Post Process Volume + 분위기 이펙트</strong>와 ② <strong>컬러 그레이딩</strong>(+선택 LUT)을 적용하고, ③ <strong>Movie Render Queue</strong> 기본 출력 설정으로 <strong>PNG 이미지 시퀀스</strong>를 출력한 뒤 ④ 영상으로 <strong>인코딩</strong>한다.</p>
+</div>
+</div>
+<p>오늘 모든 항목을 완성할 필요는 없습니다. <strong>기본 완성은 PPV+이펙트 적용 + 컬러 그레이딩 + MRQ 테스트 렌더로 이미지 시퀀스 출력</strong>까지입니다. LUT 적용, 영상 인코딩, 전체 구간 렌더는 시간이 남을 때의 <strong>선택 확장</strong>입니다.</p>
+<h3 id="렌더-대상-시퀀스-확인">렌더 대상 시퀀스 확인</h3>
+<p>가장 먼저 오늘 렌더할 <strong>본인 시퀀스</strong>를 정합니다. 13주차는 새 캐릭터·카메라를 만드는 시간이 아니라, <strong>이미 가진 시퀀스</strong>에 렌더링 워크플로우를 적용하는 시간입니다.</p>
+<ul>
+<li>1. Content Browser 에서 본인 <strong>Level Sequence</strong> 를 찾아 시퀀서로 연다</li>
+<li>2. <strong>카메라 · Camera Cut · 애니메이션</strong> 트랙이 들어 있어, 재생하면 시네마틱 시퀀스가 이어지는지 확인한다</li>
+<li>3. 렌더 대상으로 이 시퀀스를 쓴다</li>
+</ul>
+<p>렌더 대상은 본인 상황에 맞게 고르면 됩니다. 11주차에 만든 격투 시네마틱 <code>LS_RetargetDemo</code> 를 써도 되고, 본인 기말 컨셉의 다른 시퀀스를 써도 됩니다. 완성된 시퀀스가 아직 없다면 11주차 격투 시네마틱 <code>LS_RetargetDemo</code> 를 렌더 연습 대상으로 씁니다. 오늘 핵심은 '어떤 시퀀스를 렌더하느냐'가 아니라 '렌더링 워크플로우를 한 번 통과해보느냐'입니다.</p>
+<h3 id="환경-셋업-mrq-플러그인-출력-폴더">환경 셋업 — MRQ 플러그인 + 출력 폴더</h3>
+<p>실습을 시작하기 전에 두 가지를 확인합니다. 단계 3 에서 막히지 않으려면 지금 해두는 것이 좋습니다.</p>
+<ul>
+<li>1. <strong>Movie Render Queue 플러그인 활성 확인</strong> — Edit &gt; Plugins 에서 Movie Render Queue 검색. 비활성이면 활성화하고 에디터 재시작</li>
+<li>2. <strong>출력 폴더 미리 정해두기</strong> — 렌더 결과 PNG 이미지 시퀀스가 저장될 폴더를 하나 만들어 둔다 (예: 프로젝트 폴더 안 <code>Render/</code>)</li>
+<li>3. (선택) 12주차에 만든 환경이 있으면, 본인 시퀀스를 그 환경 안에 배치해두면 렌더 결과가 더 풍부해진다</li>
+</ul>
+<p>MRQ 플러그인이 비활성이면 단계 3 에서 MRQ 창 자체가 열리지 않습니다. 출력 폴더도 미리 만들어두면 렌더할 때 시간을 줄일 수 있습니다.</p>
+<h2 id="단계-1-post-process-volume-분위기-이펙트">단계 1 — Post Process Volume + 분위기 이펙트</h2>
+<p>단계 1 은 1교시에 배운 <strong>Post Process Volume + 분위기 이펙트</strong>를 본인 시퀀스의 씬에 적용하는 단계입니다. 1교시 데모에서 본 순서 — PPV 배치 → 노출 고정 → 이펙트 — 를 본인 씬에 적용합니다.</p>
+<p><strong>단계 1 흐름 (1교시 복습)</strong></p>
+<ul>
+<li>1. <strong>Place Actors &gt; Volumes &gt; Post Process Volume</strong> 을 씬에 배치</li>
+<li>2. PPV 선택 → 디테일 패널에서 <strong>Infinite Extent (Unbound)</strong> 켜기 → 레벨 전체 적용</li>
+<li>3. <strong>Exposure 를 Manual 로 고정</strong> → 카메라가 움직여도 밝기가 출렁이지 않게</li>
+<li>4. <strong>Bloom / Vignette / Depth of Field 중 2개 이상</strong> 적용 — 본인 시네마틱 분위기에 맞게</li>
+</ul>
+<p>Depth of Field 를 쓴다면 PPV 에서 DoF 를 켜고, 실제 초점은 9주차에 배운 Cine Camera 의 Focus Distance·Aperture 로 잡습니다. 1교시 절제 원칙대로, 효과는 강도를 작게 시작해 전/후를 비교하면서 조정합니다.</p>
+<h3 id="이-단계에서-할-일">이 단계에서 할 일</h3>
+<ul>
+<li>1. Post Process Volume 배치 + <strong>Infinite Extent</strong> 켜기</li>
+<li>2. <strong>Exposure 를 Manual 로 고정</strong></li>
+<li>3. <strong>Bloom / Vignette / Depth of Field 중 2개 이상</strong> 적용</li>
+<li>4. 시퀀서를 재생하거나 카메라 시점에서 보며, 효과가 의도대로인지 전/후 비교</li>
+</ul>
+<p><strong>기대 결과</strong>: 본인 시퀀스의 씬에 PPV 가 적용돼, 노출이 안정되고 분위기 이펙트 2개 이상이 입혀진 상태.</p>
+<div class="callout callout-tip">
+<div class="callout-title">이펙트는 '왜 켜는지' 설명되면 충분</div>
+<div class="callout-body">
+<p>범위를 작게 잡아도 됩니다. 이펙트 2개만 의도를 갖고 적용해도 충분합니다. '이 장면은 따뜻한 회상이라 Bloom 으로 빛을 풀고, Vignette 로 시선을 중앙으로 유도한다' — 이렇게 왜 켜는지 한 문장으로 설명되면 잘 적용한 것입니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-단계-1">흔한 문제 — 단계 1</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">효과가 일부 구간에서만 보임</td><td data-label="원인">Infinite Extent 미체크</td><td data-label="해결">PPV 선택 → Infinite Extent (Unbound) 켜기</td></tr>
+<tr><td data-label="증상">카메라가 움직일 때 밝기가 출렁임</td><td data-label="원인">Exposure 가 Auto 상태</td><td data-label="해결">Exposure 를 Manual 로 고정</td></tr>
+<tr><td data-label="증상">화면이 뿌옇게 떠 보임</td><td data-label="원인">Bloom Intensity 과다 / Threshold 낮음</td><td data-label="해결">Bloom 값을 줄이고 전/후 비교</td></tr>
+<tr><td data-label="증상">DoF 를 켰는데 배경이 안 흐려짐</td><td data-label="원인">카메라 초점 미설정</td><td data-label="해결">Cine Camera 의 Focus Distance·Aperture 조정 (9주차)</td></tr></tbody></table></div>
+<h2 id="단계-2-컬러-그레이딩-선택-lut">단계 2 — 컬러 그레이딩 (+선택 LUT)</h2>
+<p>단계 2 는 2교시에 배운 <strong>컬러 그레이딩</strong>입니다. 같은 PPV 안의 Color Grading 섹션에서 본인 시네마틱의 <strong>색 톤</strong>을 결정합니다.</p>
+<p><strong>단계 2 흐름 (2교시 복습)</strong></p>
+<ul>
+<li>1. PPV 디테일 패널의 <strong>Color Grading</strong> 섹션을 연다</li>
+<li>2. <strong>White Balance 의 Temperature</strong> 로 큰 방향을 정한다 — 따뜻하게(노을·회상) ↔ 차갑게(SF·새벽)</li>
+<li>3. <strong>Global 의 Saturation·Contrast</strong> 로 색의 선명함과 대비를 조정한다</li>
+<li>4. (시간이 되면) <strong>Shadows / Highlights</strong> 를 분리 조정 — 그림자는 차갑게, 하이라이트는 따뜻하게</li>
+<li>5. (선택) <strong>LUT 슬롯</strong>에 강사 제공 LUT 텍스처를 적용하고 LUT Intensity 로 강도 조절</li>
+</ul>
+<p>2교시 순서 그대로입니다 — 색온도로 큰 방향을 먼저 잡고, 그다음 Saturation·Contrast 로 다듬습니다. LUT 는 선택입니다. 강사가 검증한 LUT 텍스처를 쓰며, Intensity 는 0.5 정도에서 시작합니다. 인터넷 <code>.cube</code> 파일은 형식이 달라 바로 적용되지 않는 경우가 많으므로 강사 제공 LUT 를 사용합니다.</p>
+<h3 id="이-단계에서-할-일-2">이 단계에서 할 일</h3>
+<ul>
+<li>1. PPV 의 <strong>Color Grading &gt; White Balance &gt; Temperature</strong> 로 따뜻함/차가움 방향 결정</li>
+<li>2. <strong>Global 의 Saturation·Contrast</strong> 로 색감·대비 조정</li>
+<li>3. (시간 되면) <strong>Shadows/Highlights</strong> 분리 그레이딩</li>
+<li>4. (선택) 강사 제공 <strong>LUT</strong> 적용 + Intensity 조절</li>
+<li>5. 시퀀서를 재생하며 톤이 본인 시네마틱 의도와 맞는지 확인</li>
+</ul>
+<p><strong>기대 결과</strong>: 본인 시퀀스에 시네마틱 색 톤이 입혀진 상태 — 적용 전과 비교했을 때 '느낌'이 분명히 달라진 화면.</p>
+<div class="callout callout-tip">
+<div class="callout-title">색은 작은 값에서 시작</div>
+<div class="callout-body">
+<p>컬러 그레이딩은 미세하게 조정하는 편이 좋습니다. 색을 과하게 틀면 화면의 균형이 쉽게 무너집니다. 전/후를 비교하면서 '확실히 나아졌다' 싶은 지점에서 멈춥니다. 톤이 안 잡히면 Temperature 하나만 움직여 봅니다 — 그것만으로도 씬 분위기가 크게 바뀝니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-단계-2">흔한 문제 — 단계 2</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">색이 너무 과해 화면의 균형이 무너져 보임</td><td data-label="원인">슬라이더를 과하게 조정</td><td data-label="해결">값을 줄이고 전/후 비교 — 컬러 그레이딩은 미세하게</td></tr>
+<tr><td data-label="증상">Color Grading 섹션이 보이지 않음</td><td data-label="원인">PPV 디테일 패널 섹션 위치</td><td data-label="해결">PPV 선택 후 디테일 패널에서 Color Grading 검색</td></tr>
+<tr><td data-label="증상">인터넷에서 받은 LUT 가 적용되지 않음</td><td data-label="원인"><code>.cube</code> 는 UE 전용 텍스처 형식이 아님</td><td data-label="해결">강사 제공 LUT 텍스처 사용</td></tr>
+<tr><td data-label="증상">LUT 가 너무 강하게 적용됨</td><td data-label="원인">LUT Intensity 가 1 에 가까움</td><td data-label="해결">LUT Intensity 를 0.5 안팎으로 낮춤</td></tr></tbody></table></div>
+<h2 id="단계-3-movie-render-queue-설정-테스트-렌더">단계 3 — Movie Render Queue 설정 + 테스트 렌더</h2>
+<p>단계 3 은 오늘의 핵심입니다. 2교시에 배운 <strong>Movie Render Queue</strong> 로, PPV·컬러 그레이딩을 입힌 본인 시퀀스를 <strong>PNG 이미지 시퀀스</strong>로 출력합니다.</p>
+<p><strong>단계 3 흐름 (2교시 복습)</strong></p>
+<ul>
+<li>1. <strong>Movie Render Queue 창</strong>을 연다 — Window &gt; Cinematics &gt; Movie Render Queue, 또는 시퀀서의 렌더(클래퍼보드) 아이콘</li>
+<li>2. <strong>+ Render</strong> 로 본인 <strong>Level Sequence</strong> 를 큐에 추가</li>
+<li>3. <strong>Settings</strong> 에서 기본 출력 설정 확인 — Deferred Rendering / Anti-Aliasing(샘플) / 기본값</li>
+<li>4. <strong>Output</strong> 에서 해상도(1920×1080)와 출력 폴더를 지정하고, 필요하면 <code>+ Setting</code> 에서 <strong>.png Sequence [8bit]</strong> 를 추가</li>
+<li>5. <strong>테스트 렌더</strong> — 짧은 구간 또는 낮은 샘플로 먼저 1회 렌더</li>
+</ul>
+<p>2교시 첫 힌트대로, 처음부터 전체 구간을 렌더하지 않습니다. MRQ 는 느려서, 샘플이 높으면 프레임당 몇 초씩 걸릴 수 있습니다. 그래서 <strong>테스트 렌더</strong>부터 합니다.</p>
+<p><strong>테스트 렌더 방법 (둘 중 하나)</strong></p>
+<ul>
+<li><strong>짧은 구간만</strong> — 시퀀스의 일부 구간만 렌더되도록 프레임 범위를 짧게 잡는다</li>
+<li><strong>낮은 샘플로</strong> — Anti-Aliasing 의 샘플 수를 낮춰 전체를 빠르게 렌더한다</li>
+</ul>
+<h3 id="이-단계에서-할-일-3">이 단계에서 할 일</h3>
+<ul>
+<li>1. MRQ 창 열고 본인 <strong>Level Sequence</strong> 를 큐에 추가</li>
+<li>2. <strong>Settings</strong> — 기본 출력 설정 확인 (Deferred / Anti-Aliasing). 잘 모르면 기본값으로 둔다</li>
+<li>3. <strong>Output + .png Sequence [8bit]</strong> — 해상도 1920×1080, PNG 이미지 시퀀스 포맷, 출력 폴더를 확인한다</li>
+<li>4. <strong>테스트 렌더 실행</strong> — 짧은 구간 또는 낮은 샘플로 1회</li>
+<li>5. 출력 폴더를 열어 <strong>PNG 이미지가 프레임 순서대로 생성됐는지 확인</strong> (0001.png, 0002.png …)</li>
+</ul>
+<p><strong>기대 결과</strong>: 출력 폴더에 본인 시퀀스의 PNG 이미지 시퀀스가 (짧은 구간이라도) 생성된 상태.</p>
+<div class="callout callout-tip">
+<div class="callout-title">전체 구간 렌더는 수업 후 자율로</div>
+<div class="callout-body">
+<p>렌더가 도는 동안 화면이 멈춘 것처럼 보여도 정상입니다. MRQ 는 한 프레임씩 여러 설정을 반영해 계산하느라 시간이 걸립니다. 렌더가 너무 오래 걸리면 취소한 뒤 샘플 수를 더 낮추거나 구간을 더 짧게 잡아 다시 렌더합니다. 3교시 안에서는 테스트 렌더로 파이프라인을 한 번 통과하는 것이 목표이고, 전체 구간 렌더는 수업 후 자율로 돌립니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-단계-3">흔한 문제 — 단계 3</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">MRQ 창이 메뉴에 없음</td><td data-label="원인">플러그인 비활성</td><td data-label="해결">Edit &gt; Plugins 에서 Movie Render Queue 활성 + 에디터 재시작</td></tr>
+<tr><td data-label="증상">렌더가 예상보다 오래 걸림</td><td data-label="원인">샘플 수·구간이 큼</td><td data-label="해결">취소한 뒤 샘플을 낮추거나 구간을 짧게 → 다시 렌더</td></tr>
+<tr><td data-label="증상">출력 폴더에 파일이 없음</td><td data-label="원인">Output 폴더 경로 미지정</td><td data-label="해결">Output 설정에서 출력 폴더를 다시 지정하고 렌더</td></tr>
+<tr><td data-label="증상">큐에 시퀀스가 안 올라감</td><td data-label="원인">Level Sequence 가 아닌 것을 선택</td><td data-label="해결">카메라·컷이 든 Level Sequence 를 큐에 추가</td></tr>
+<tr><td data-label="증상">출력 화면이 viewport 와 약간 다름</td><td data-label="원인">viewport 는 실시간 미리보기</td><td data-label="해결">MRQ 출력이 최종 기준 — 정상</td></tr></tbody></table></div>
+<h2 id="단계-4-인코딩-이미지-시퀀스-영상">단계 4 — 인코딩: 이미지 시퀀스 → 영상</h2>
+<p>단계 4 는 단계 3 에서 나온 <strong>PNG 이미지 시퀀스를 하나의 영상 파일로 만드는</strong> 작업으로, 이것을 <strong>인코딩</strong>이라고 합니다.</p>
+<p>2교시에서 미뤄둔 질문 — '왜 영상 파일이 아니라 PNG 낱장으로 출력하는가' — 의 답이 여기 있습니다. 이미지 시퀀스는 학생 PC 와 편집 도구에서 안정적으로 열리고, 렌더가 중간에 멈춰도 나온 프레임까지는 그대로 남습니다. 영상 파일로 바로 뽑으면 코덱 문제로 열리지 않거나, 렌더가 끊겼을 때 전체 파일이 손상될 수 있습니다. 그래서 'PNG 시퀀스로 출력 → 영상으로 인코딩' 두 단계로 나눕니다.</p>
+<p>인코딩 도구는 <strong>DaVinci Resolve 무료판</strong>을 권장합니다. 무료로 쓸 수 있고, 수업 이후 영상 편집·색보정에도 계속 활용하기 좋은 도구입니다.</p>
+<p><strong>DaVinci Resolve 무료판으로 인코딩하는 흐름</strong></p>
+<ul>
+<li>1. DaVinci Resolve 에서 새 프로젝트를 만들고, <strong>PNG 이미지 시퀀스가 든 폴더</strong>를 미디어로 불러온다 — 연속 번호 파일은 자동으로 하나의 시퀀스로 인식된다</li>
+<li>2. 그 이미지 시퀀스를 <strong>타임라인</strong>에 올린다</li>
+<li>3. <strong>Deliver(출력)</strong> 페이지에서 영상 포맷(MP4 / H.264 등)을 고르고 <strong>Render(렌더)</strong> 한다</li>
+</ul>
+<div class="callout callout-info">
+<div class="callout-title">인코딩 도구 메모</div>
+<div class="callout-body">
+<p>DaVinci Resolve 의 미디어 임포트·Deliver 페이지 UI 는 버전에 따라 다를 수 있으므로 설치된 버전 기준으로 진행합니다. 명령줄에 익숙하다면 ffmpeg 도 대안이 됩니다. 출력 영상의 프레임레이트(예: 24fps)는 본인 시퀀스 설정과 맞춥니다.</p>
+</div>
+</div>
+<h3 id="이-단계에서-할-일-테스트-렌더-출력물이-있는-경우">이 단계에서 할 일 (테스트 렌더 출력물이 있는 경우)</h3>
+<ul>
+<li>1. DaVinci Resolve 무료판에 단계 3 의 <strong>PNG 이미지 시퀀스</strong>를 미디어로 불러오기</li>
+<li>2. 타임라인에 올리고, Deliver 페이지에서 <strong>영상 파일로 출력</strong></li>
+<li>3. 출력된 영상 파일이 재생되는지 확인</li>
+</ul>
+<p><strong>기대 결과</strong>: 본인 PNG 이미지 시퀀스가 하나의 영상 파일로 인코딩된 상태.</p>
+<p>인코딩은 자기점검의 <strong>확장 기준</strong>입니다. 단계 3 까지가 기본 완성이며, 아직 테스트 렌더가 끝나지 않았다면 단계 3 을 계속 진행합니다. 전체 구간 렌더와 인코딩은 수업 후 자율로 해도 됩니다.</p>
+<h2 id="자기점검">자기점검</h2>
+<p>본인 작업을 점검합니다. <strong>채점용이 아니라 본인 확인용</strong>입니다 — 기말 렌더링에 들어가기 전 '내 렌더링 워크플로우가 어디까지 완료됐는지' 스스로 보는 것입니다.</p>
+<p><strong>기본 완성 기준</strong></p>
+<ul>
+<li>미완료: Post Process Volume 을 배치(Infinite Extent)하고 Exposure 를 Manual 로 고정했다</li>
+<li>미완료: Bloom / Vignette / Depth of Field 중 2개 이상으로 분위기를 입혔다</li>
+<li>미완료: 컬러 그레이딩(White Balance·컬러휠)으로 시네마틱 톤을 잡았다</li>
+<li>미완료: MRQ 에 시퀀스를 추가하고 기본 출력 설정 + 출력 해상도 + PNG 이미지 시퀀스 포맷을 구성했다</li>
+<li>미완료: 짧은 구간이라도 테스트 렌더로 이미지 시퀀스를 출력했다</li>
+</ul>
+<p><strong>확장 기준</strong></p>
+<ul>
+<li>미완료: LUT 를 적용해봤다</li>
+<li>미완료: 이미지 시퀀스를 영상으로 인코딩했다</li>
+<li>미완료: 전체 구간 렌더를 완료했다</li>
+</ul>
+<p>기본 5개가 모두 체크되면 오늘 목표는 충분히 달성한 것입니다. 확장 3개는 보너스 학습입니다. 막힌 항목이 있으면 그 단계의 흔한 문제 표를 다시 봅니다.</p>
+<div class="callout callout-warning">
+<div class="callout-title">렌더 설정·시퀀스 저장 잊지 않기</div>
+<div class="callout-body">
+<p>본인 시퀀스·환경·렌더 설정을 <strong>저장(Ctrl+S)</strong> 해두세요. 이 워크플로우가 14~16주차 기말 렌더링에 그대로 이어집니다.</p>
+</div>
+</div>
+<h2 id="마무리">마무리</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">3교시 한 줄 요약</div>
+<div class="callout-body">
+<p>PPV 와 컬러 그레이딩으로 영화의 톤을 입히고, Movie Render Queue 로 고품질 렌더 결과를 출력한다. 오늘 통과한 이 워크플로우가 기말 영상 출력에 그대로 쓰인다.</p>
+</div>
+</div>
+<figure class="lecture-figure">
+  <img src="assets/09_final-rendered-frame.webp" alt="final rendered frame" loading="lazy">
+</figure>
+<p>오늘 흐름 — PPV+이펙트 → 컬러 그레이딩 → MRQ 로 PNG 이미지 시퀀스 출력 → 인코딩. 이 4단계가 13주차 전체이자, 14~16주차 기말 렌더링 절차입니다.</p>
+<p>13주차로 시네마틱 제작의 주요 기술을 한 번씩 다뤘습니다 — <strong>캐릭터(10주차) · 카메라(11주차) · 환경(12주차) · 렌더링(13주차).</strong> 본인 기말 시네마틱에 필요한 기본 워크플로우가 갖춰진 상태입니다.</p>
+<h2 id="다음-시간-예고">다음 시간 예고</h2>
+<p>14~15주차는 기말 프로젝트 제작과 피드백, 16주차는 시네마틱 영상 최종 제출입니다. 새 기능을 더 배우기보다, 지금까지 배운 내용을 통합해 본인 시네마틱 한 편을 완성하는 시간입니다. 오늘 익힌 Post Process · 컬러 그레이딩 · Movie Render Queue 워크플로우가 기말 영상 출력에 그대로 쓰입니다. 본인 시퀀스·환경·렌더 설정을 잘 저장해두면 14주차에 그대로 이어집니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#시작-시퀀스-확인-미션-환경-셋업">시작 — 시퀀스 확인 + 미션 + 환경 셋업</a></li>
+        <li class="toc-level-3"><a href="#3교시-미션">3교시 미션</a></li>
+        <li class="toc-level-3"><a href="#렌더-대상-시퀀스-확인">렌더 대상 시퀀스 확인</a></li>
+        <li class="toc-level-3"><a href="#환경-셋업-mrq-플러그인-출력-폴더">환경 셋업 — MRQ 플러그인 + 출력 폴더</a></li>
+        <li class="toc-level-2"><a href="#단계-1-post-process-volume-분위기-이펙트">단계 1 — Post Process Volume + 분위기 이펙트</a></li>
+        <li class="toc-level-3"><a href="#이-단계에서-할-일">이 단계에서 할 일</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-단계-1">흔한 문제 — 단계 1</a></li>
+        <li class="toc-level-2"><a href="#단계-2-컬러-그레이딩-선택-lut">단계 2 — 컬러 그레이딩 (+선택 LUT)</a></li>
+        <li class="toc-level-3"><a href="#이-단계에서-할-일-2">이 단계에서 할 일</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-단계-2">흔한 문제 — 단계 2</a></li>
+        <li class="toc-level-2"><a href="#단계-3-movie-render-queue-설정-테스트-렌더">단계 3 — Movie Render Queue 설정 + 테스트 렌더</a></li>
+        <li class="toc-level-3"><a href="#이-단계에서-할-일-3">이 단계에서 할 일</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-단계-3">흔한 문제 — 단계 3</a></li>
+        <li class="toc-level-2"><a href="#단계-4-인코딩-이미지-시퀀스-영상">단계 4 — 인코딩: 이미지 시퀀스 → 영상</a></li>
+        <li class="toc-level-3"><a href="#이-단계에서-할-일-테스트-렌더-출력물이-있는-경우">이 단계에서 할 일 (테스트 렌더 출력물이 있는 경우)</a></li>
+        <li class="toc-level-2"><a href="#자기점검">자기점검</a></li>
+        <li class="toc-level-2"><a href="#마무리">마무리</a></li>
+        <li class="toc-level-2"><a href="#다음-시간-예고">다음 시간 예고</a></li>
+      </ol>
+    </nav>
+  </main>
+</body>
+</html>

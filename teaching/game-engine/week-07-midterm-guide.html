@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 — 중간고사 가이드라인</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 07</p>
+        <h1>7주차 — 중간고사 가이드라인</h1>
+        <p class="lead">시네마틱 스토리보드 중간고사의 제출물, 평가 기준, 체크리스트, FAQ를 한 문서로 정리합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Midterm Guide</span>
+          <span class="hero-chip">Storyboard</span>
+          <span class="hero-chip">Midterm Prep</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 07</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Midterm Guide</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Storyboard Submission Guide</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-04-14</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="game-engine-ii-중간고사-가이드라인">Game Engine II — 중간고사 가이드라인</h1>
+<p>---</p>
+<h2 id="중간고사-개요">중간고사 개요</h2>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td data-label="항목"><strong>과제</strong></td><td data-label="내용">시네마틱 스토리보드 제작</td></tr>
+<tr><td data-label="항목"><strong>비중</strong></td><td data-label="내용">전체 성적의 20%</td></tr>
+<tr><td data-label="항목"><strong>작업 방식</strong></td><td data-label="내용">개인 작업 (팀 불가)</td></tr>
+<tr><td data-label="항목"><strong>제출물</strong></td><td data-label="내용">스토리보드 + 컨셉 문서 (하나의 파일로 합쳐서 제출)</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="제출-안내">제출 안내</h2>
+<h3 id="마감-및-제출-방법">마감 및 제출 방법</h3>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody><tr><td data-label="항목"><strong>마감일시</strong></td><td data-label="내용">2026년 4월 29일 (수) <strong>오후 11:59까지</strong></td></tr>
+<tr><td data-label="항목"><strong>제출 경로</strong></td><td data-label="내용">LMS → 게임엔진 II → 과제 → <strong>중간고사: 시네마틱 스토리보드</strong></td></tr>
+<tr><td data-label="항목"><strong>파일 형식</strong></td><td data-label="내용"><strong>PDF</strong> (권장) 또는 <strong>PPT/PPTX</strong></td></tr>
+<tr><td data-label="항목"><strong>파일 이름</strong></td><td data-label="내용"><code>중간고사_학번_이름.pdf</code> (예: <code>중간고사_20210001_홍길동.pdf</code>)</td></tr>
+<tr><td data-label="항목"><strong>파일 크기</strong></td><td data-label="내용">50MB 이하</td></tr>
+<tr><td data-label="항목"><strong>제출 횟수</strong></td><td data-label="내용">마감 전까지 재제출 가능 (마지막 파일만 채점)</td></tr></tbody></table></div>
+<h3 id="지각-제출-정책">지각 제출 정책</h3>
+<div class="table-wrap"><table><thead><tr><th>구간</th><th>감점</th></tr></thead><tbody><tr><td data-label="구간">마감 후 ~ 24시간 이내</td><td data-label="감점">-10%</td></tr>
+<tr><td data-label="구간">24시간 초과 ~ 3일 이내</td><td data-label="감점">-30%</td></tr>
+<tr><td data-label="구간">3일 초과</td><td data-label="감점">제출 불가 (0점)</td></tr></tbody></table></div>
+<div class="callout callout-warning">
+<div class="callout-title">사유가 있는 경우 <strong>마감 전에</strong> 메일로 연락하세요.</div>
+<div class="callout-body">
+
+</div>
+</div>
+<h3 id="제출-파일-구성">제출 파일 구성</h3>
+<p>하나의 PDF(또는 PPT) 안에 아래 순서로 구성합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>순서</th><th>페이지</th><th>내용</th></tr></thead><tbody><tr><td data-label="순서">1.</td><td data-label="페이지">1페이지</td><td data-label="내용"><strong>표지</strong> — 과목명, 학번, 이름, 제출일</td></tr>
+<tr><td data-label="순서">2.</td><td data-label="페이지">2페이지</td><td data-label="내용"><strong>컨셉 문서</strong> (아래 상세 참고)</td></tr>
+<tr><td data-label="순서">3.</td><td data-label="페이지">3페이지~</td><td data-label="내용"><strong>스토리보드</strong> 6컷 이상 (아래 상세 참고)</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="제출물-상세">제출물 상세</h2>
+<h3 id="1-컨셉-문서-1페이지">1. 컨셉 문서 (1페이지)</h3>
+<p>6주차에 배운 컨셉 개발 프로세스를 바탕으로 작성합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>내용</th><th>포함 여부</th></tr></thead><tbody><tr><td data-label="항목"><strong>제목</strong></td><td data-label="내용">시네마틱 작품 제목 (자유)</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>테마</strong></td><td data-label="내용">어떤 이야기/분위기를 만들 것인가 (한 줄)</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>장소·시간</strong></td><td data-label="내용">어디서, 언제 (예: 사막 협곡, 석양)</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>분위기 키워드</strong></td><td data-label="내용">3~5개 (예: 경이로움, 고독, 장엄)</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>시놉시스</strong></td><td data-label="내용">영상의 흐름을 2~3문장으로 요약</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>레퍼런스 이미지</strong></td><td data-label="내용">2~3장 (영화, ArtStation, 사진 등) + 출처 표기</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>컬러 팔레트</strong></td><td data-label="내용">주요 색상 3~5개 (색상 견본 이미지 또는 HEX 코드)</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>예상 영상 길이</strong></td><td data-label="내용">기말에 제작할 영상의 예상 길이 (예: 30초~1분)</td><td data-label="포함 여부">선택</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/11_concept-document-example.webp" alt="컨셉 문서 1페이지 구성 예시">
+<figcaption>컨셉 문서 1페이지 구성 예시</figcaption>
+</figure>
+<h3 id="2-스토리보드-6컷-이상">2. 스토리보드 (6컷 이상)</h3>
+<p>기말에 만들 시네마틱 영상의 설계도입니다.</p>
+<p><strong>각 컷에 포함해야 할 항목:</strong></p>
+<div class="table-wrap"><table><thead><tr><th>항목</th><th>예시</th><th>포함 여부</th></tr></thead><tbody><tr><td data-label="항목"><strong>그림/이미지</strong></td><td data-label="예시">UE5 스크린샷, 손그림, AI 생성 이미지 등</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>씬/컷 번호</strong></td><td data-label="예시">S#1 - Cut 1</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>샷 사이즈</strong></td><td data-label="예시">ES, EWS, LS, FS, MLS, Cowboy, MS, MCU, CU, ECU</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>카메라 무빙</strong></td><td data-label="예시">Pan, Tilt, Dolly, Track, Crane, Zoom, Static</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>상황 설명</strong></td><td data-label="예시">&quot;석양 아래 협곡 전경이 드러난다&quot; (1줄 이상)</td><td data-label="포함 여부">포함</td></tr>
+<tr><td data-label="항목"><strong>대사/사운드</strong></td><td data-label="예시">나레이션, BGM, 효과음 등</td><td data-label="포함 여부">선택</td></tr>
+<tr><td data-label="항목"><strong>예상 시간</strong></td><td data-label="예시">예: 3~5초</td><td data-label="포함 여부">선택</td></tr></tbody></table></div>
+<p><strong>스토리보드 제작 방법 (택 1, 혼합 가능):</strong></p>
+<div class="table-wrap"><table><thead><tr><th>방법</th><th>설명</th></tr></thead><tbody><tr><td data-label="방법"><strong>UE5 스크린샷 활용</strong> (권장)</td><td data-label="설명">자기 레벨에서 카메라 앵글 잡고 High Resolution Screenshot 캡처 → 템플릿에 배치</td></tr>
+<tr><td data-label="방법"><strong>손그림</strong></td><td data-label="설명">종이에 그린 후 스캔/촬영 → 템플릿에 배치. 해상도 300dpi 이상 권장</td></tr>
+<tr><td data-label="방법"><strong>AI 활용</strong></td><td data-label="설명">ComfyUI Nano Banana 등으로 스타일 변환 → 템플릿에 배치</td></tr></tbody></table></div>
+<div class="callout callout-warning">
+<div class="callout-title">주의사항</div>
+<div class="callout-body">
+<ul><li>컷 순서는 <strong>시간 흐름 순</strong>으로 배치하세요</li><li>6컷은 최소 기준입니다. 기말 영상의 전체 흐름을 담으려면 <strong>8~12컷</strong>을 권장합니다</li><li>인터넷에서 가져온 이미지를 그대로 사용하지 말고, 본인이 제작(캡처/그리기/AI 생성)한 이미지를 사용하세요</li><li><strong>AI 생성 이미지를 사용한 경우</strong>, 해당 컷 아래에 사용 도구와 프롬프트를 간략히 표기하세요 (예: &quot;Nano Banana 2 — storyboard sketch style&quot;)</li><li>카메라 무빙 화살표를 이미지 위에 직접 그려 넣으면 의도가 더 명확해집니다</li></ul>
+</div>
+</div>
+<p><strong>1컷 작성 예시:</strong></p>
+<figure class="lecture-figure">
+<img src="assets/00_midterm-storyboard-cut-example.webp" alt="00_midterm-storyboard-cut-example">
+
+</figure>
+<div class="callout callout-info">
+<div class="callout-title">스토리보드 템플릿</div>
+<div class="callout-body">
+<ul><li>LMS → 수업 자료에서 다운로드 (PPT / 구글슬라이드 두 가지 제공)</li><li>템플릿 사용은 권장 사항입니다. 자신만의 형식도 가능합니다</li></ul>
+</div>
+</div>
+<p>---</p>
+<h2 id="채점-기준">채점 기준</h2>
+<div class="table-wrap"><table><thead><tr><th>기준</th><th>비중</th><th>A (우수)</th><th>B (양호)</th><th>C (보통)</th></tr></thead><tbody><tr><td data-label="기준"><strong>스토리텔링</strong></td><td data-label="비중">30%</td><td data-label="A (우수)">장면 간 흐름이 자연스럽고 감정 변화가 느껴짐</td><td data-label="B (양호)">흐름은 있으나 감정 전달이 약함</td><td data-label="C (보통)">컷 간 연결이 불분명</td></tr>
+<tr><td data-label="기준"><strong>샷 구성</strong></td><td data-label="비중">25%</td><td data-label="A (우수)">다양한 샷 사이즈를 의도에 맞게 활용, 구도 우수</td><td data-label="B (양호)">샷 다양성은 있으나 의도가 불명확</td><td data-label="C (보통)">샷 사이즈가 단조로움</td></tr>
+<tr><td data-label="기준"><strong>카메라 워크</strong></td><td data-label="비중">25%</td><td data-label="A (우수)">카메라 무빙이 연출 의도와 일치, 표기가 정확</td><td data-label="B (양호)">무빙 표기는 있으나 연출 의도와 불일치</td><td data-label="C (보통)">무빙 표기 누락 많음</td></tr>
+<tr><td data-label="기준"><strong>완성도</strong></td><td data-label="비중">20%</td><td data-label="A (우수)">컨셉 문서 충실, 표기법 일관, 6컷 이상</td><td data-label="B (양호)">일부 항목 누락</td><td data-label="C (보통)">컨셉 문서 미포함 또는 3컷 이하</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">핵심 포인트</div>
+<div class="callout-body">
+<p>중요한 것은 <strong>기획 의도가 명확하게 전달되느냐</strong>입니다. UE5 스크린샷이든 손그림이든, 어떤 장면을 어떤 카메라로 찍겠다는 의도가 보이면 됩니다.</p>
+</div>
+</div>
+<p>---</p>
+<h2 id="제출-전-체크리스트">제출 전 체크리스트</h2>
+<div class="table-wrap"><table><thead><tr><th>번호</th><th>체크</th><th>항목</th></tr></thead><tbody><tr><td data-label="번호">1</td><td data-label="체크">미확인</td><td data-label="항목">스토리보드 6컷 이상</td></tr>
+<tr><td data-label="번호">2</td><td data-label="체크">미확인</td><td data-label="항목">각 컷에 샷 사이즈 약어 표기 (ES, MS, CU 등)</td></tr>
+<tr><td data-label="번호">3</td><td data-label="체크">미확인</td><td data-label="항목">각 컷에 카메라 무빙 표기 (화살표 또는 텍스트)</td></tr>
+<tr><td data-label="번호">4</td><td data-label="체크">미확인</td><td data-label="항목">각 컷에 상황 설명 1줄 이상</td></tr>
+<tr><td data-label="번호">5</td><td data-label="체크">미확인</td><td data-label="항목">컨셉 문서 1장 포함 (테마, 분위기, 레퍼런스, 컬러 팔레트)</td></tr>
+<tr><td data-label="번호">6</td><td data-label="체크">미확인</td><td data-label="항목">PDF 또는 PPT 형식으로 LMS 업로드</td></tr>
+<tr><td data-label="번호">7</td><td data-label="체크">미확인</td><td data-label="항목">2026년 4월 29일 (수) 오후 11:59까지 제출</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="참고-샷-사이즈-약어-정리">참고: 샷 사이즈 약어 정리</h2>
+<div class="table-wrap"><table><thead><tr><th>약어</th><th>이름</th><th>프레임</th></tr></thead><tbody><tr><td data-label="약어">ES</td><td data-label="이름">Establishing Shot</td><td data-label="프레임">장소 전체</td></tr>
+<tr><td data-label="약어">EWS</td><td data-label="이름">Extreme Wide Shot</td><td data-label="프레임">환경 속 극히 작은 인물</td></tr>
+<tr><td data-label="약어">LS/WS</td><td data-label="이름">Long Shot / Wide Shot</td><td data-label="프레임">인물 전체 + 배경</td></tr>
+<tr><td data-label="약어">FS</td><td data-label="이름">Full Shot</td><td data-label="프레임">머리~발끝</td></tr>
+<tr><td data-label="약어">MLS</td><td data-label="이름">Medium Long Shot</td><td data-label="프레임">무릎 위</td></tr>
+<tr><td data-label="약어">Cowboy</td><td data-label="이름">Cowboy Shot</td><td data-label="프레임">허벅지 중간</td></tr>
+<tr><td data-label="약어">MS</td><td data-label="이름">Medium Shot</td><td data-label="프레임">허리/가슴 위</td></tr>
+<tr><td data-label="약어">MCU</td><td data-label="이름">Medium Close-Up</td><td data-label="프레임">어깨 위</td></tr>
+<tr><td data-label="약어">CU</td><td data-label="이름">Close-Up</td><td data-label="프레임">얼굴 전체</td></tr>
+<tr><td data-label="약어">ECU</td><td data-label="이름">Extreme Close-Up</td><td data-label="프레임">눈, 입 등 일부</td></tr></tbody></table></div>
+<h2 id="참고-카메라-무빙-정리">참고: 카메라 무빙 정리</h2>
+<div class="table-wrap"><table><thead><tr><th>카메라 무빙</th><th>설명</th><th>스토리보드 표기</th></tr></thead><tbody><tr><td data-label="카메라 무빙">Pan</td><td data-label="설명">카메라 제자리, 좌우 회전</td><td data-label="스토리보드 표기">좌우 화살표 (프레임 하단)</td></tr>
+<tr><td data-label="카메라 무빙">Tilt</td><td data-label="설명">카메라 제자리, 상하 회전</td><td data-label="스토리보드 표기">상하 화살표 (프레임 측면)</td></tr>
+<tr><td data-label="카메라 무빙">Dolly</td><td data-label="설명">카메라 앞뒤 이동</td><td data-label="스토리보드 표기">전진/후진 화살표 (카메라 아이콘에서 피사체 방향)</td></tr>
+<tr><td data-label="카메라 무빙">Track</td><td data-label="설명">카메라 좌우 이동</td><td data-label="스토리보드 표기">좌우 화살표 (카메라 아이콘 아래)</td></tr>
+<tr><td data-label="카메라 무빙">Crane</td><td data-label="설명">카메라 상하 이동</td><td data-label="스토리보드 표기">상하 화살표 (카메라 아이콘 옆)</td></tr>
+<tr><td data-label="카메라 무빙">Zoom</td><td data-label="설명">렌즈 조절 (카메라 고정)</td><td data-label="스토리보드 표기">프레임 안에 확대/축소 표시</td></tr>
+<tr><td data-label="카메라 무빙">Static</td><td data-label="설명">카메라 고정</td><td data-label="스토리보드 표기">표기 없음</td></tr></tbody></table></div>
+<p>---</p>
+<h2 id="자주-묻는-질문-faq">자주 묻는 질문 (FAQ)</h2>
+<div class="callout callout-question">
+<div class="callout-title">PPT로 제출할 때 파일 이름은 어떻게 하나요?</div>
+<div class="callout-body">
+<p>확장자만 바꾸면 됩니다. <code>중간고사_학번_이름.pptx</code> (예: <code>중간고사_20210001_홍길동.pptx</code>)</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">파일 크기가 50MB를 넘으면 어떻게 하나요?</div>
+<div class="callout-body">
+<p>이미지 해상도를 줄여보세요. PPT의 경우 파일 → 다른 이름으로 저장 → PDF로 변환하면 대부분 용량이 줄어듭니다. 그래도 초과하면 이미지를 JPEG로 변환(품질 80%)하거나, 무료 PDF 압축 도구를 사용하세요.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">PDF 변환은 어떻게 하나요?</div>
+<div class="callout-body">
+<p>PPT에서 파일 → 내보내기 → PDF로 만들기를 선택하면 됩니다. Mac의 경우 파일 → 프린트 → 왼쪽 하단 PDF 버튼으로도 가능합니다. 구글 슬라이드는 파일 → 다운로드 → PDF 문서를 선택하세요.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">지각 감점 -10%는 총점 기준인가요, 과제 기준인가요?</div>
+<div class="callout-body">
+<p>과제 기준입니다. 중간고사 점수에서 10%를 감점합니다. (예: 80점 → 72점)</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">6컷이 최소인데, 최대는 몇 컷까지 가능한가요?</div>
+<div class="callout-body">
+<p>상한은 없지만 12컷 이내를 권장합니다. 컷 수가 많다고 높은 점수를 받는 것은 아닙니다. 각 컷의 의도와 흐름이 명확한 것이 중요합니다.</p>
+</div>
+</div>
+<div class="callout callout-question">
+<div class="callout-title">중간고사 스토리보드를 기말에 바꿔도 되나요?</div>
+<div class="callout-body">
+<p>네, 기말 프로젝트에서 스토리보드를 수정·발전시켜도 됩니다. 중간고사 스토리보드는 기말 영상의 출발점이지, 그대로 따라야 하는 확정본이 아닙니다.</p>
+</div>
+</div>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#중간고사-개요">중간고사 개요</a></li>
+        <li class="toc-level-2"><a href="#제출-안내">제출 안내</a></li>
+        <li class="toc-level-3"><a href="#마감-및-제출-방법">마감 및 제출 방법</a></li>
+        <li class="toc-level-3"><a href="#지각-제출-정책">지각 제출 정책</a></li>
+        <li class="toc-level-3"><a href="#제출-파일-구성">제출 파일 구성</a></li>
+        <li class="toc-level-2"><a href="#제출물-상세">제출물 상세</a></li>
+        <li class="toc-level-3"><a href="#1-컨셉-문서-1페이지">1. 컨셉 문서 (1페이지)</a></li>
+        <li class="toc-level-3"><a href="#2-스토리보드-6컷-이상">2. 스토리보드 (6컷 이상)</a></li>
+        <li class="toc-level-2"><a href="#채점-기준">채점 기준</a></li>
+        <li class="toc-level-2"><a href="#제출-전-체크리스트">제출 전 체크리스트</a></li>
+        <li class="toc-level-2"><a href="#참고-샷-사이즈-약어-정리">참고: 샷 사이즈 약어 정리</a></li>
+        <li class="toc-level-2"><a href="#참고-카메라-무빙-정리">참고: 카메라 무빙 정리</a></li>
+        <li class="toc-level-2"><a href="#자주-묻는-질문-faq">자주 묻는 질문 (FAQ)</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 07 student notes.</p>
+</body>
+</html>

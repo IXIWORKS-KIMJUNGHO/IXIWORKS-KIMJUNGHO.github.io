@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11주차 1교시 — 격투씬의 영상 문법과 다중 카메라 셋업</title>
+  <style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+:root {
+  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --page: #f3f4f5;
+  --paper: #ffffff;
+  --ink: #15171a;
+  --soft-ink: #2d3136;
+  --muted: #6e747b;
+  --line: #d9dde2;
+  --slate: #111316;
+  --slate-2: #23272d;
+  --cyan: #343a40;
+  --cyan-soft: #f1f3f5;
+  --amber: #525860;
+  --amber-soft: #f7f8f9;
+  --violet: #464b53;
+  --violet-soft: #f3f4f5;
+  --rose: #3f444b;
+  --rose-soft: #f5f6f7;
+  --green: #4b5158;
+  --green-soft: #f5f6f7;
+  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-latin), var(--font-ko);
+  line-height: 1.68;
+  background:
+    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+    var(--page);
+  background-size: 42px 42px;
+}
+
+a {
+  color: #2d333a;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+  background: rgba(17, 24, 33, .94);
+  backdrop-filter: blur(14px);
+}
+
+.topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 10px 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  color: #c9d3de;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.brand { color: #f2f4f6; font-weight: 900; }
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #c8d0da;
+  color: #f7f8f9;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
+    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+  background-size: auto, 44px 44px, 44px 44px, auto;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 7px;
+  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
+}
+
+.hero-inner {
+  position: relative;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 64px 22px 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(270px, 340px);
+  gap: 36px;
+  align-items: end;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  max-width: 920px;
+  font-size: clamp(2.15rem, 4.4vw, 4.15rem);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.lead {
+  max-width: 840px;
+  margin: 20px 0 0;
+  color: #d7dce2;
+  font-size: 1.08rem;
+}
+
+.hero-meta {
+  margin-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.hero-chip {
+  padding: 7px 10px;
+  border: 1px solid rgba(245, 246, 247, .34);
+  border-radius: 999px;
+  background: rgba(17, 24, 33, .34);
+  color: #eef1f4;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.doc-card {
+  border: 1px solid rgba(255, 255, 255, .18);
+  border-radius: 8px;
+  padding: 18px;
+  background: rgba(255, 255, 255, .08);
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18);
+}
+
+.doc-card-title {
+  margin: 0 0 12px;
+  color: #f2f4f6;
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 74px minmax(0, 1fr);
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid rgba(255, 255, 255, .14);
+  font-size: .88rem;
+}
+
+.meta-row:first-of-type { border-top: 0; }
+.meta-key { color: #aeb4bc; font-weight: 800; }
+.meta-value { color: #f7f8f9; font-weight: 720; overflow-wrap: anywhere; }
+.meta-value a { color: #f2f4f6; }
+
+.layout {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 34px 22px 78px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  gap: 30px;
+  align-items: start;
+}
+
+.article {
+  min-width: 0;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 38px;
+  box-shadow: var(--shadow);
+  counter-reset: section;
+}
+
+.article > h1:first-child { display: none; }
+
+.toc {
+  position: sticky;
+  top: 62px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .92);
+  box-shadow: 0 12px 30px rgba(17, 24, 33, .08);
+}
+
+.toc-title {
+  margin: 0 0 12px;
+  color: var(--slate);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .78rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.toc ol {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  display: grid;
+  gap: 4px;
+}
+
+.toc a {
+  display: block;
+  padding: 8px 10px;
+  border-radius: 7px;
+  color: #364250;
+  text-decoration: none;
+  font-size: .88rem;
+  line-height: 1.38;
+}
+
+.toc a:hover {
+  background: var(--cyan-soft);
+  color: #1d2228;
+}
+
+.article h2 {
+  margin: 46px 0 16px;
+  padding-top: 25px;
+  border-top: 1px solid var(--line);
+  color: var(--slate);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.article h2:first-of-type {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.article h2::before {
+  counter-increment: section;
+  content: counter(section, decimal-leading-zero);
+  flex: 0 0 auto;
+  min-width: 38px;
+  color: var(--cyan);
+  font-family: var(--font-latin), var(--font-ko);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.article h3 {
+  margin: 31px 0 12px;
+  color: #2c333a;
+  font-size: 1.16rem;
+  line-height: 1.35;
+  letter-spacing: 0;
+}
+
+.article h4 {
+  margin: 20px 0 8px;
+  color: #2d3a4c;
+  font-size: 1.02rem;
+  letter-spacing: 0;
+}
+
+p { margin: 0 0 16px; }
+ul, ol { margin: 0 0 18px; padding-left: 24px; }
+li { margin: 7px 0; }
+li > ul, li > ol { margin-top: 7px; margin-bottom: 8px; }
+strong { font-weight: 850; }
+
+code {
+  padding: 2px 5px;
+  border: 1px solid #d9e2ec;
+  border-radius: 5px;
+  background: #f6f8fb;
+  font-family: var(--font-mono);
+  font-size: .9em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+pre {
+  margin: 18px 0 24px;
+  padding: 15px 17px;
+  border: 1px solid #cbd5df;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: #f8fafc;
+  white-space: pre;
+  overflow-x: auto;
+  overflow-wrap: normal;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  white-space: inherit;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.table-wrap {
+  width: 100%;
+  margin: 18px 0 30px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  table-layout: auto;
+  border-collapse: collapse;
+  border: 1px solid #c6d0dc;
+  font-size: .9rem;
+}
+
+th, td {
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: keep-all;
+}
+
+th {
+  background: #171b20;
+  color: #f4f5f6;
+  font-weight: 900;
+}
+
+tr:nth-child(even) td { background: #f8fbfd; }
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 30px 0;
+}
+
+.callout {
+  margin: 18px 0 26px;
+  border: 1px solid #d4d8dd;
+  border-left: 5px solid var(--cyan);
+  border-radius: 8px;
+  background: var(--cyan-soft);
+  overflow: hidden;
+}
+
+.callout-title {
+  padding: 11px 15px 8px;
+  color: #252b31;
+  font-family: var(--font-latin), var(--font-ko);
+  font-weight: 900;
+}
+
+.callout-body { padding: 0 15px 14px; }
+.callout-body > *:last-child { margin-bottom: 0; }
+
+.callout-video {
+  border-color: #d3d6db;
+  border-left-color: var(--violet);
+  background: var(--violet-soft);
+}
+
+.callout-video .callout-title { color: #303640; }
+
+.callout-warning,
+.callout-important {
+  border-color: #d0d4d9;
+  border-left-color: var(--rose);
+  background: var(--rose-soft);
+}
+
+.callout-warning .callout-title,
+.callout-important .callout-title { color: #303640; }
+
+.callout-success {
+  border-color: #d5d8dc;
+  border-left-color: var(--green);
+  background: var(--green-soft);
+}
+
+.callout-success .callout-title { color: #303640; }
+
+.callout-example,
+.callout-question,
+.callout-faq {
+  border-color: #d6d9dd;
+  border-left-color: var(--amber);
+  background: var(--amber-soft);
+}
+
+.callout-example .callout-title,
+.callout-question .callout-title,
+.callout-faq .callout-title { color: #303640; }
+
+.quote-note {
+  margin: 18px 0 24px;
+  padding: 16px 18px;
+  border: 1px solid #d6d9dd;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: var(--amber-soft);
+}
+
+.wikilink { font-weight: 760; }
+
+.footer-note {
+  max-width: 1240px;
+  margin: -46px auto 42px;
+  padding: 0 22px;
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+@media (max-width: 980px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 24px; }
+  .layout { grid-template-columns: 1fr; padding: 24px 16px 62px; }
+  .toc { position: static; order: -1; }
+}
+
+@media (max-width: 640px) {
+  body { line-height: 1.66; }
+  .topbar-inner { padding: 10px 16px; }
+  .hero-inner { padding: 40px 16px 30px; }
+  .hero-meta { gap: 6px; }
+  .hero-chip { font-size: .74rem; }
+  h1 { font-size: 2rem; }
+  .article { padding: 21px 14px; }
+  .article h2 { font-size: 1.22rem; gap: 8px; }
+  .article h3 { font-size: 1.05rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  thead { display: none; }
+  table { border: 0; font-size: .84rem; }
+  tr {
+    margin: 0 0 12px;
+    border: 1px solid #cfd4da;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  td {
+    display: grid;
+    grid-template-columns: minmax(92px, 34%) minmax(0, 1fr);
+    gap: 10px;
+    border: 0;
+    border-top: 1px solid var(--line);
+    padding: 9px 10px;
+  }
+  td:first-child { border-top: 0; }
+  td::before {
+    content: attr(data-label);
+    color: var(--muted);
+    font-weight: 900;
+    font-size: .78rem;
+  }
+  .meta-row { grid-template-columns: 68px minmax(0, 1fr); }
+}
+
+@media print {
+  .topbar, .toc { display: none; }
+  .hero { background: #fff; color: #000; }
+  .hero::after { display: none; }
+  .hero-inner, .layout { display: block; max-width: none; padding: 0; }
+  .doc-card { box-shadow: none; color: #000; background: #fff; }
+  .article { border: 0; box-shadow: none; padding: 0; }
+  a { color: #000; text-decoration: none; }
+  body { background: #fff; }
+}
+.lecture-figure {
+  margin: 22px 0 30px;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #fff;
+  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(17, 24, 33, .07);
+}
+
+.lecture-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: #eef1f4;
+}
+
+.lecture-figure figcaption {
+  padding: 10px 14px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 760;
+}
+
+.hint-details {
+  margin: 14px 0;
+  border: 1px solid #d4d8dd;
+  border-radius: 8px;
+  background: #f7f8f9;
+  overflow: hidden;
+}
+
+.hint-details summary {
+  cursor: pointer;
+  padding: 12px 15px;
+  color: #252b31;
+  font-weight: 900;
+  outline: none;
+}
+
+.hint-details[open] summary {
+  border-bottom: 1px solid var(--line);
+  background: #eef1f4;
+}
+
+.details-body {
+  padding: 15px 16px 2px;
+}
+
+.article blockquote.quote-note {
+  margin: 18px 0 24px;
+}
+
+.article blockquote.quote-note p:last-child {
+  margin-bottom: 0;
+}
+h1, .lead, .material-title, .material-meta,
+.article h2, .article h3, .article h4,
+.article p, .article li, .callout-title, .callout-body {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <span class="brand">Kim Jungho</span>
+      <span><a href="index.html">Game Engine II</a></span>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Game Engine II · Week 11</p>
+        <h1>11주차 1교시 — 격투씬의 영상 문법과 다중 카메라 셋업</h1>
+        <p class="lead">Shot Size, Angle, Cut Timing을 기준으로 격투 시퀀스를 분석하고, Cine Camera 여러 대를 Spawnable로 구성해 Camera Cut 트랙으로 전환합니다.</p>
+        <div class="hero-meta">
+          <span class="hero-chip">Period 01</span>
+          <span class="hero-chip">Camera Cut</span>
+          <span class="hero-chip">Spawnable</span>
+        </div>
+      </div>
+      <aside class="doc-card">
+        <p class="doc-card-title">문서 정보</p>
+        <div class="meta-row"><span class="meta-key">주차</span><span class="meta-value">Week 11</span></div>
+        <div class="meta-row"><span class="meta-key">구분</span><span class="meta-value">Period 01</span></div>
+        <div class="meta-row"><span class="meta-key">주제</span><span class="meta-value">Camera Cut and Spawnable</span></div>
+        <div class="meta-row"><span class="meta-key">일자</span><span class="meta-value">2026-05-19</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main class="layout">
+    <article class="article">
+<h1 id="11주차-1교시-격투씬의-영상-문법-다중-카메라-spawnable-camera-cut-트랙">11주차 1교시 — 격투씬의 영상 문법 + 다중 카메라 + Spawnable + Camera Cut 트랙</h1>
+<h2 id="관련-문서">관련 문서</h2>
+<div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
+<tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">11주차 아웃라인: 시퀀서 카메라 워크</span></td></tr>
+<tr><td data-label="관계">선행 10주차 3교시</td><td data-label="문서"><span class="wikilink">10주차 3교시: Mixamo 격투 시퀀스</span></td></tr></tbody></table></div>
+<div class="callout callout-abstract">
+<div class="callout-title">학습 목표</div>
+<div class="callout-body">
+<p>격투씬 컷 편집의 세 가지 기준(Shot Size / Angle / Cut Timing)을 이해하고, 본인 격투 시퀀스에 어디서 써야 할지 설명할 수 있다 Cine Camera Actor 여러 대를 배치·명명하고, 시퀀서에 한 번에 바인딩한 뒤 Spawnable Actor 로 변환할 수 있다 Camera Cut 트랙으로 카메라를 시간 구간별로 전환하고, Cinematic Viewport + CrossHair 로 프레이밍을 점검할 수 있다</p>
+</div>
+</div>
+<p>지난주(10주차)에 Mixamo 격투 모션 3종을 본인 캐릭터에 입혀 10–15초짜리 격투 시퀀스(<code>LS_RetargetDemo</code>)를 만들었습니다. 11주차는 그 격투 시퀀스 위에 <strong>카메라를 얹는 시간</strong>입니다. 새 캐릭터나 새 동작을 만드는 시간이 아니라, 같은 안무를 어떻게 비출지 결정하는 시간입니다.</p>
+<p>1교시는 왜 컷을 나누는지, 카메라 여러 대를 시퀀서에 어떻게 등록하는지, Camera Cut 트랙과 Cinematic Viewport 를 어떻게 쓰는지 다룹니다.</p>
+<h2 id="도입-같은-안무-다른-영화">도입 — 같은 안무, 다른 영화</h2>
+<p>격투 영화 두 클립을 비교합니다. 한 클립은 카메라가 거의 안 움직이는 와이드 1샷, 다른 클립은 컷이 자주 바뀝니다. 두 가지에 집중하세요. <strong>(1) 펀치가 더 강하게 느껴지는 쪽은 어디인가, (2) 왜 그렇게 느껴지는가.</strong></p>
+<ul><li>클립 A (와이드 롱테이크) — 예: 〈올드보이〉 복도 격투, 〈존 윅 1〉 클럽 격투</li><li>클립 B (멀티컷 격투) — 예: 〈매트릭스〉 도장 격투, 마블 액션의 짧은 컷 시퀀스</li></ul>
+<figure class="lecture-figure">
+<img src="assets/01_intro-fight-scene-comparison.webp" alt="intro fight scene comparison" loading="lazy">
+
+</figure>
+<p>정답은 없습니다. 와이드가 더 박력 있게 느껴질 수도 있고, 멀티컷이 더 격렬하게 느껴질 수도 있습니다. 중요한 것은 <strong>카메라 선택이 격투의 인상을 바꾼다</strong>는 점입니다. 같은 안무라도 카메라가 달라지면 다른 영화가 됩니다.</p>
+<p><strong>오늘의 목표</strong>: 본인 격투 시퀀스를 와이드 한 샷으로만 두지 않고, 카메라 여러 대를 의도적으로 배치해 다른 영화처럼 보이게 만듭니다.</p>
+<h2 id="핵심-개념-1-컷-편집의-세-가지-기준">핵심 개념 1 — 컷 편집의 세 가지 기준</h2>
+<p>카메라를 정할 때 고려할 변수는 많습니다. 화각, 조리개, 초점 거리, 카메라 위치와 움직임, 컷 길이, 트랜지션, 라이팅, 컬러 등입니다. 오늘은 격투씬에 필요한 요소를 세 가지 기준으로 단순화합니다.</p>
+<p><strong>Shot Size · Angle · Cut Timing.</strong></p>
+<h3 id="기준-1-shot-size-화면에-얼마나-담는가">기준 1: Shot Size — 화면에 얼마나 담는가</h3>
+<div class="table-wrap"><table><thead><tr><th>Shot Size</th><th>설명</th><th>격투에서 쓰는 자리</th></tr></thead><tbody><tr><td data-label="Shot Size"><strong>Wide (와이드)</strong></td><td data-label="설명">인물 전신 + 주변 공간 보임</td><td data-label="격투에서 쓰는 자리">격투의 <strong>시작·끝</strong>, 두 인물 거리감, 안무 전체 흐름</td></tr>
+<tr><td data-label="Shot Size"><strong>Medium (미디엄)</strong></td><td data-label="설명">인물 허리·가슴부터 위</td><td data-label="격투에서 쓰는 자리">자세 잡는 순간, 노려보는 컷, 공격 직전</td></tr>
+<tr><td data-label="Shot Size"><strong>Close-up (클로즈업)</strong></td><td data-label="설명">얼굴·주먹·발만 화면 가득</td><td data-label="격투에서 쓰는 자리"><strong>임팩트 직전·직후</strong>, 표정 반응, 디테일 강조</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/02_shot-size-wide-medium-closeup.webp" alt="shot size wide medium closeup" loading="lazy">
+
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">격투씬 특유의 패턴</div>
+<div class="callout-body">
+<p>클로즈업은 임팩트 순간에 효과적입니다. 펀치가 닿는 1–2 프레임에 얼굴이나 주먹을 화면 가득 채우면 충격이 더 크게 느껴집니다. 와이드는 &quot;어디서 누가 누구를 친다&quot;의 정보 컷, 클로즈업은 &quot;쾅&quot;의 충격 컷, 미디엄은 그 사이를 잇는 호흡 컷입니다.</p>
+</div>
+</div>
+<p>9주차에서 배운 <strong>Focal Length</strong> 와 짝꿍입니다. 24mm 광각은 와이드에, 85mm 망원은 클로즈업에 어울립니다.</p>
+<h3 id="기준-2-angle-어디서-바라보는가">기준 2: Angle — 어디서 바라보는가</h3>
+<div class="table-wrap"><table><thead><tr><th>Angle</th><th>설명</th><th>격투에서 쓰는 자리</th></tr></thead><tbody><tr><td data-label="Angle"><strong>정면 (Front)</strong></td><td data-label="설명">인물 얼굴이 카메라 정면</td><td data-label="격투에서 쓰는 자리">위협·도전 컷, 노려보기</td></tr>
+<tr><td data-label="Angle"><strong>측면 (Side)</strong></td><td data-label="설명">인물을 옆에서</td><td data-label="격투에서 쓰는 자리">두 인물 거리·동작 궤적이 잘 보임. 펀치·킥 궤적 전달에 강함</td></tr>
+<tr><td data-label="Angle"><strong>부감 (High / Bird's Eye)</strong></td><td data-label="설명">위에서 내려다봄</td><td data-label="격투에서 쓰는 자리">공간 전체 파악, 캐릭터를 작게 보이게 → 압박감</td></tr>
+<tr><td data-label="Angle"><strong>앙각 (Low / Worm's Eye)</strong></td><td data-label="설명">아래에서 올려다봄</td><td data-label="격투에서 쓰는 자리">캐릭터가 거대해 보임 → 영웅 컷, 위협적 컷</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/03_angle-types-grid.webp" alt="angle types grid" loading="lazy">
+
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">측면 = 펀치 궤적 잘 보이는 자리</div>
+<div class="callout-body">
+<p>정면에서 펀치를 받으면 주먹이 화면 안쪽으로 다가오기 때문에 거리 가늠이 어렵습니다. 측면에서 보면 주먹이 A 지점에서 B 지점까지 그리는 궤적이 한눈에 보이며, 발차기도 마찬가지입니다. 격투 영화에서 측면 와이드가 자주 등장하는 이유입니다.</p>
+</div>
+</div>
+<p>부감과 앙각은 캐릭터 크기 인상을 결정합니다. 부감으로 잡으면 캐릭터가 위에서 내려다보여서 작아 보이고, 앙각이면 우러러보여서 커 보입니다. 강한 적은 앙각으로, 쓰러지기 직전 캐릭터는 부감으로 — 영화 문법입니다.</p>
+<h3 id="기준-3-cut-timing-언제-컷을-바꾸는가">기준 3: Cut Timing — 언제 컷을 바꾸는가</h3>
+<div class="callout callout-warning">
+<div class="callout-title">흔한 실수 — 동작 중간 컷</div>
+<div class="callout-body">
+<p>컷을 동작 중간에 자르면 펀치가 휘둘러지는 도중에 화면이 바뀌어 어색합니다. 격투 영상에서는 <strong>동작의 정점에 닿기 직전 1–2 프레임</strong>에 컷을 바꾸면 충격이 가장 잘 살아납니다.</p>
+</div>
+</div>
+<figure class="lecture-figure">
+<img src="assets/04_cut-timing-impact-frame.webp" alt="cut timing impact frame" loading="lazy">
+
+</figure>
+<div class="table-wrap"><table><thead><tr><th>컷 타이밍</th><th>효과</th></tr></thead><tbody><tr><td data-label="컷 타이밍"><strong>임팩트 직전 1–2 프레임</strong></td><td data-label="효과">다음 컷이 임팩트를 받음 → 충격 강조 (중요 격투의 핵심)</td></tr>
+<tr><td data-label="컷 타이밍">동작 중간</td><td data-label="효과">끊겨 보임 (피해야 함)</td></tr>
+<tr><td data-label="컷 타이밍">동작 끝난 후</td><td data-label="효과">호흡 컷. 임팩트 잔향, 표정 반응</td></tr>
+<tr><td data-label="컷 타이밍">정지 자세 사이</td><td data-label="효과">호흡 조절. 시퀀스 흐름 환기</td></tr></tbody></table></div>
+<p>격투씬에서 자주 보이는 패턴: <strong>와이드(전체) → 미디엄(공격 자세) → 클로즈업(임팩트 직전 컷 → 다음 컷에서 충격 받기) → 와이드(다시 거리)</strong>. 이 흐름이 가장 무난하고 안정적인 격투 시퀀스 문법입니다. 3교시 실습 4에서는 이 패턴을 본인 격투 시퀀스에 맞게 4–5컷으로 구성합니다.</p>
+<h3 id="세-가지-기준-요약-점검-질문">세 가지 기준 요약 + 점검 질문</h3>
+<p>1번 기준 = '얼마나 크게' (Shot Size), 2번 기준 = '어디서' (Angle), 3번 기준 = '언제 자를지' (Cut Timing). 종이에 적어두면 카메라를 정할 때 체크리스트가 됩니다.</p>
+<div class="callout callout-question">
+<div class="callout-title">확인 질문</div>
+<div class="callout-body">
+<p>본인 격투 시퀀스에 펀치 동작이 들어있다면, 임팩트 순간을 클로즈업으로 잡으려면 카메라를 어디 두고 어느 화각으로 설정해야 할까요?</p>
+</div>
+</div>
+<p>(예상 답: 캐릭터 가까이 + Focal Length 85mm 정도 망원 + 정면 또는 측면. 9주차 4대 파라미터 활용)</p>
+<h2 id="핵심-개념-2-다중-카메라-셋업-spawnable-actor-변환">핵심 개념 2 — 다중 카메라 셋업 + Spawnable Actor 변환</h2>
+<p>9주차에서는 카메라 1대만 사용했습니다. 11주차는 그 카메라를 <strong>여러 대로 확장</strong>합니다. 격투씬은 와이드 1대, 미디엄 1대, 클로즈업 1대를 기본으로 잡으면 구성하기 쉽습니다.</p>
+<p>자주 막히는 단계가 다섯 가지 있습니다. <strong>카메라를 미리 어디에 둘 것인가</strong>, <strong>이름을 어떻게 정리할 것인가</strong>, <strong>시퀀서에 어떻게 한 번에 등록할 것인가</strong>, <strong>시퀀서 카메라가 레벨에 영구 존재하지 않게 어떻게 분리할 것인가</strong>, <strong>viewport 미리보기를 영화 모드로 어떻게 바꿀 것인가</strong>. 이 5단계를 순서대로 봅니다.</p>
+<h3 id="step-1-cine-camera-actor-여러-대-생성">Step 1 — Cine Camera Actor 여러 대 생성</h3>
+<p>카메라 생성 자체는 9주차와 동일합니다. Place Actors 패널에서 <code>Cine Camera</code> 검색해서 viewport 로 드래그합니다. 한 번 생성하면 두 번째·세 번째는 더 빠른 방법이 있습니다.</p>
+<p><strong>작업 1 — 첫 번째 Cine Camera Actor 생성</strong></p>
+<ul><li>좌상단 <strong>Place Actors</strong> 패널 (없으면 Window &gt; Place Actors)</li><li>검색창에 <code>Cine Camera</code> 입력</li><li><strong>Cine Camera Actor</strong> 를 viewport 로 드래그앤드롭</li></ul>
+<figure class="lecture-figure">
+<img src="assets/05_ue-place-actors-cine-camera.webp" alt="ue place actors cine camera" loading="lazy">
+
+</figure>
+<p><strong>작업 2 — 카메라 복제로 여러 대 만들기 (빠른 방법)</strong></p>
+<ul><li>Outliner 에서 방금 생성한 CineCameraActor 선택</li><li><strong>Ctrl+W</strong> (Duplicate) 누르면 같은 위치에 복제본 생성</li><li>한 번 더 Ctrl+W → 총 3대</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">복제로 늘리는 이유</div>
+<div class="callout-body">
+<p>Filmback 같은 공통 설정이 자동 따라오므로, 카메라마다 처음부터 설정 다시 할 필요가 없습니다. Filmback 35mm Academy 같은 본인 기본값을 한 번만 잡고 복제하는 것이 효율적입니다.</p>
+</div>
+</div>
+<h3 id="step-2-사전-위치-각도-배치">Step 2 — 사전 위치 / 각도 배치</h3>
+<p>카메라를 viewport 어디에 둘지 미리 정하지 않으면, 시퀀서 컷을 구성하는 단계에서 카메라 위치 조정에 시간을 많이 쓰게 됩니다. 기준점은 <strong>본인 격투 캐릭터</strong> 입니다. 아래 표는 캐릭터가 0,0,0 근처에 있을 때의 예시이며, 본인 프로젝트에서는 현재 캐릭터 위치를 중심으로 같은 거리감이 나오게 배치합니다.</p>
+<div class="table-wrap"><table><thead><tr><th>카메라</th><th>위치</th><th>높이</th><th>화각 (Focal Length)</th><th>의도</th></tr></thead><tbody><tr><td data-label="카메라"><strong>CC_Wide</strong></td><td data-label="위치">캐릭터 뒤 또는 정면, <strong>500–800cm (5–8m)</strong></td><td data-label="높이">캐릭터 가슴 ~ 머리 높이</td><td data-label="화각 (Focal Length)">24–35mm (광각)</td><td data-label="의도">전체 격투 영역 + 공간 정보</td></tr>
+<tr><td data-label="카메라"><strong>CC_Medium</strong></td><td data-label="위치">캐릭터 측면, <strong>200–300cm (2–3m)</strong></td><td data-label="높이">캐릭터 가슴 ~ 어깨 높이</td><td data-label="화각 (Focal Length)">50mm (표준)</td><td data-label="의도">상반신·자세·노려보기</td></tr>
+<tr><td data-label="카메라"><strong>CC_Closeup</strong></td><td data-label="위치">캐릭터 정면 또는 측면, <strong>80–150cm (1–1.5m)</strong></td><td data-label="높이">캐릭터 머리 또는 주먹 높이</td><td data-label="화각 (Focal Length)">85mm (망원)</td><td data-label="의도">얼굴 표정 / 임팩트 디테일</td></tr></tbody></table></div>
+<figure class="lecture-figure">
+<img src="assets/06_ue-camera-position-diagram.webp" alt="ue camera position diagram" loading="lazy">
+
+</figure>
+<div class="callout callout-info">
+<div class="callout-title">거리 단위</div>
+<div class="callout-body">
+<p>Unreal 의 거리 단위는 cm 입니다. 100uu = 100cm = 1m. 와이드를 5m 뒤로 두려면 X 또는 Y 축으로 500uu 떨어뜨리면 됩니다.</p>
+</div>
+</div>
+<p><strong>작업 3 — 각 카메라 Details 패널에서 위치·파라미터 설정</strong></p>
+<p>각 카메라 선택 후 우측 <strong>Details</strong> 패널:</p>
+<ul><li><strong>Transform &gt; Location</strong> — 위 표 기준으로 캐릭터 상대 위치 입력</li><li><strong>Transform &gt; Rotation</strong> — 캐릭터를 향하도록. Pitch(상하)·Yaw(좌우) 조정. <strong>단축키 F</strong> 로 선택한 카메라를 viewport 중앙에 두고 회전 조작</li><li><strong>Current Camera Settings &gt; Filmback</strong> — 35mm Academy (또는 본인 9주차 기본값)</li><li><strong>Current Camera Settings &gt; Lens &gt; Focal Length</strong> — 위 표 기준 (24 / 50 / 85)</li><li><strong>Current Camera Settings &gt; Lens &gt; Aperture</strong> — 클로즈업만 f/1.4–2.8 (얕은 심도), 나머지는 f/5.6–8 (일반)</li></ul>
+<div class="callout callout-tip">
+<div class="callout-title">Pilot 모드 활용</div>
+<div class="callout-body">
+<p>Details 패널 위쪽의 <strong>Pilot</strong> 버튼을 누르면 viewport 가 그 카메라의 시점이 되어서 viewport 조작으로 카메라 위치를 직접 잡을 수 있습니다. 직관적입니다. 단, <strong>Pilot 끄는 것을 잊지 마세요.</strong> 안 끄면 카메라가 계속 viewport 카메라와 동기화되어 의도치 않게 움직입니다.</p>
+</div>
+</div>
+<h3 id="step-3-명명-규칙">Step 3 — 명명 규칙</h3>
+<p>카메라 3대를 만들고 나면 Outliner 에 <code>CineCameraActor</code> / <code>CineCameraActor2</code> / <code>CineCameraActor3</code> 처럼 표시됩니다. 그대로 두면 시퀀서 컷 트랙에서 어느 것이 와이드인지 클로즈업인지 헷갈립니다. 먼저 이름부터 정리합니다.</p>
+<p><strong>작업 4 — 명명 규칙 적용</strong></p>
+<p>Outliner 에서 각 카메라 선택 → <strong>F2</strong> → 이름 변경:</p>
+<div class="table-wrap"><table><thead><tr><th>기존 이름</th><th>권장 이름</th><th>prefix 의미</th></tr></thead><tbody><tr><td data-label="기존 이름">CineCameraActor</td><td data-label="권장 이름"><strong>CC_Wide</strong></td><td data-label="prefix 의미">CC = Cine Camera</td></tr>
+<tr><td data-label="기존 이름">CineCameraActor2</td><td data-label="권장 이름"><strong>CC_Medium</strong></td><td data-label="prefix 의미"></td></tr>
+<tr><td data-label="기존 이름">CineCameraActor3</td><td data-label="권장 이름"><strong>CC_Closeup</strong></td><td data-label="prefix 의미"></td></tr></tbody></table></div>
+<p>prefix 를 <code>CC_</code> 로 통일하면 시퀀서나 Outliner 에서 'CC' 만 쳐도 카메라 3대가 한꺼번에 필터링됩니다. 본인 격투 시퀀스에 카메라 외 액터가 많아질수록 이런 정리가 작업 시간을 줄여줍니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">Outliner 검색창 활용</div>
+<div class="callout-body">
+<p>Outliner 우상단 검색창에 'CC' 입력해보세요. 카메라 3대만 남고 나머지는 숨겨집니다. 다음 단계 '다중 선택'에서 바로 활용합니다.</p>
+</div>
+</div>
+<h3 id="step-4-시퀀서에-다중-바인딩">Step 4 — 시퀀서에 다중 바인딩</h3>
+<p>카메라 3대를 한 번에 시퀀서에 등록합니다.</p>
+<p><strong>작업 5 — Outliner 에서 3대 동시 선택</strong></p>
+<ul><li>Outliner 에서 <strong>CC_Wide</strong> 클릭</li><li><strong>Ctrl+클릭</strong> 으로 CC_Medium 추가 선택</li><li><strong>Ctrl+클릭</strong> 으로 CC_Closeup 추가 선택</li><li>또는 첫 번째 클릭 후 마지막 카메라 <strong>Shift+클릭</strong> 으로 범위 선택</li></ul>
+<p><strong>작업 6 — 10주차에서 만든 Level Sequence 열기</strong></p>
+<ul><li>Content Browser &gt; Cinematics 폴더의 <strong>LS_RetargetDemo</strong> 더블클릭</li><li>시퀀서 에디터가 뜨며 (이미 SKM_Manny 바인딩 + Animation 트랙이 있는 상태)</li></ul>
+<p><strong>작업 7 — 시퀀서에 카메라 3대 동시 추가</strong></p>
+<ul><li>Outliner 에서 3대 카메라 다중 선택 유지 (위 작업 5)</li><li>시퀀서 상단의 <strong><code>+ Add</code> (Add Track) 버튼</strong> 클릭</li><li>메뉴: <strong><code>Actor to Sequencer</code> &gt; <code>Add 'CC_Wide, CC_Medium, CC_Closeup'</code></strong></li><li>다중 선택 상태면 한 메뉴 항목에 3대 이름이 함께 표시됨</li><li>시퀀서에 <strong>카메라 바인딩 트랙 3개</strong> 가 한 번에 생성됨</li></ul>
+<figure class="lecture-figure">
+<img src="assets/08_ue-sequencer-actor-to-sequencer-multi.webp" alt="ue sequencer actor to sequencer multi" loading="lazy">
+
+</figure>
+<div class="callout callout-warning">
+<div class="callout-title">메뉴 진입 순서</div>
+<div class="callout-body">
+<p>10주차 SKM_Manny 바인딩 절차와 같은 패턴입니다. <strong>액터를 Outliner 에서 먼저 선택, 시퀀서 + Add 버튼, Actor to Sequencer 메뉴</strong>. 시퀀서 빈 공간 우클릭으로 들어가면 다른 트랙들이 떠서 혼동하므로 위 순서로 진행합니다.</p>
+</div>
+</div>
+<h3 id="step-5-spawnable-actor-변환-중요">Step 5 — Spawnable Actor 변환 중요</h3>
+<p>카메라 3대를 시퀀서에 바인딩한 상태로 두면 카메라가 <strong>레벨에 영구적으로 존재</strong>합니다. 시네마틱 작업하다가 카메라를 옮기거나 지우면 레벨 자체가 바뀝니다. 게임 플레이 로직이 같은 레벨을 쓰고 있다면, 시네마틱 작업이 의도치 않게 게임에 영향을 줍니다.</p>
+<p>시퀀서에는 <strong>Spawnable Actor</strong> 라는 개념이 있습니다. <strong>시퀀서를 실행할 때만 잠깐 생성되었다가 끝나면 사라지는</strong> 오브젝트입니다. 카메라를 Spawnable 로 바꾸면 레벨에서는 카메라가 사라지고, 시퀀서 안에서만 살아있는 형태가 됩니다.</p>
+<div class="callout callout-tip">
+<div class="callout-title">왜 중요한가</div>
+<div class="callout-body">
+<p><strong>시네마틱 작업이 게임 플레이 로직에 영향 주지 않도록</strong> 분리하는 표준 패턴입니다. 실무에서도 시네마틱 카메라·라이트·임시 액터는 거의 다 Spawnable 로 변환합니다.</p>
+</div>
+</div>
+<p><strong>작업 8 — 시퀀서 카메라 바인딩 3개를 Spawnable 로 변환</strong></p>
+<ul><li>시퀀서 좌측 트랙 목록에서 <strong>CC_Wide 카메라 바인딩 트랙 우클릭</strong></li><li>메뉴: <strong><code>Convert Selected Binding(s) To</code></strong> &gt; <strong><code>Spawnable Actor</code></strong> 선택</li><li>카메라 바인딩 트랙 아이콘이 일반 카메라 (카메라) → <strong>번개 모양 (Spawnable)</strong> 으로 바뀜</li><li>Outliner 에서도 해당 카메라 옆에 Spawnable 번개 아이콘 표시됨</li><li><strong>CC_Medium / CC_Closeup 도 동일 절차 반복</strong> (또는 3개 트랙 다중 선택 후 한 번에 변환)</li></ul>
+<div class="callout callout-info">
+<div class="callout-title">변환 후 동작 차이</div>
+<div class="callout-body">
+<p>변환 후 viewport 의 카메라 액터는 시퀀서 timeline 이 활성화된 동안만 보입니다. 시퀀서 닫으면 카메라가 사라진 것처럼 보이는데, 정상입니다. 시퀀서 다시 열면 자동 재생성됩니다.</p>
+</div>
+</div>
+<div class="callout callout-warning">
+<div class="callout-title">Spawnable 변환 주의</div>
+<div class="callout-body">
+<p>Spawnable 로 변환하면 <strong>카메라 액터가 레벨에 남지 않고 시퀀서 안에서 관리됩니다.</strong> 같은 카메라를 다른 시퀀서에서도 쓰고 싶으면 Spawnable 변환 전 복제해두거나, Possessable 로 유지하는 것이 안전합니다. 본 수업은 LS_RetargetDemo 한 시퀀서만 쓰므로 Spawnable 을 기본 흐름으로 둡니다.</p>
+</div>
+</div>
+<h3 id="흔한-문제-다중-카메라-셋업">흔한 문제 — 다중 카메라 셋업</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Actor to Sequencer 메뉴에 카메라가 안 보임</td><td data-label="원인">Outliner 에서 액터 선택 안 됨</td><td data-label="해결">Outliner 에서 카메라 다시 클릭 후 시퀀서 + Add</td></tr>
+<tr><td data-label="증상">한 대만 추가됨 (다중 선택 안 됨)</td><td data-label="원인">Ctrl 또는 Shift 누르지 않음</td><td data-label="해결">Ctrl+클릭으로 2대째부터 누적 선택</td></tr>
+<tr><td data-label="증상">시퀀서 트랙이 너무 좁아 보임</td><td data-label="원인">트랙 패널 폭 부족</td><td data-label="해결">시퀀서 좌측 트랙 패널 경계를 우측으로 드래그해 확장</td></tr>
+<tr><td data-label="증상">Pilot 모드 켜진 채로 viewport 가 흔들림</td><td data-label="원인">카메라 Pilot 모드 미해제</td><td data-label="해결">Details 패널 또는 viewport 좌상단 Pilot 아이콘 클릭으로 해제</td></tr>
+<tr><td data-label="증상">카메라 위치가 격투 안무를 못 담음</td><td data-label="원인">사전 배치 미흡</td><td data-label="해결">위 표의 거리감을 기준으로 본인 캐릭터 주변에서 다시 배치. 한 번 더 Pilot 으로 시점 점검</td></tr>
+<tr><td data-label="증상">Spawnable 변환 메뉴가 안 보임</td><td data-label="원인">카메라 바인딩이 아닌 일반 트랙 우클릭</td><td data-label="해결">시퀀서 좌측 <strong>카메라 바인딩 트랙</strong> (CC_*) 우클릭. 빈 공간이나 Animation 트랙 우클릭이면 메뉴가 다름</td></tr>
+<tr><td data-label="증상">Spawnable 변환 후 viewport 에서 카메라 안 보임</td><td data-label="원인">시퀀서 닫혀있음 (Spawnable 은 시퀀서 활성 시에만 존재)</td><td data-label="해결">시퀀서 다시 열기. 정상 동작 — Outliner 의 Spawnable 아이콘으로 spawnable 확인</td></tr>
+<tr><td data-label="증상">Spawnable 변환 후 카메라가 Camera Cut 트랙에 안 잡힘</td><td data-label="원인">Spawnable 은 시퀀서 안에서만 유효 — 외부 참조 끊김</td><td data-label="해결">Camera Cut 트랙의 + Camera 메뉴에서 spawnable 카메라 다시 선택. 자동 갱신됨</td></tr></tbody></table></div>
+<h2 id="핵심-개념-3-camera-cut-트랙-cinematic-viewport">핵심 개념 3 — Camera Cut 트랙 + Cinematic Viewport</h2>
+<h3 id="camera-cut-트랙이-무엇인가">Camera Cut 트랙이 무엇인가</h3>
+<p>카메라 3대를 시퀀서에 등록했지만, 한 번에 한 화면에 보일 수 있는 카메라는 1대입니다. 시간 0–3초는 와이드, 3–7초는 클로즈업, 7–12초는 미디엄 — 이렇게 <strong>시간 구간별로 어느 카메라가 활성화될지 결정하는 트랙</strong>이 Camera Cut 트랙입니다.</p>
+<p>Camera Cut 트랙은 시퀀서의 '감독' 트랙입니다. 다른 트랙들이 '캐릭터가 어떻게 움직이는지·카메라 자체가 어떻게 움직이는지'를 다룬다면, Camera Cut 트랙은 <strong>'지금 이 시간에는 어느 카메라로 보여줘'</strong> 만 다룹니다. 가장 위에 깔리는 메타 트랙입니다.</p>
+<div class="table-wrap"><table><thead><tr><th>트랙 종류</th><th>역할</th></tr></thead><tbody><tr><td data-label="트랙 종류">카메라 바인딩 트랙 (CC_Wide 등)</td><td data-label="역할">그 카메라 1대의 위치·파라미터 키프레임</td></tr>
+<tr><td data-label="트랙 종류"><strong>Camera Cut 트랙</strong></td><td data-label="역할"><strong>여러 카메라 중 어느 것을 시청자에게 보여줄지</strong> 시간 구간별 선택</td></tr>
+<tr><td data-label="트랙 종류">Animation 트랙</td><td data-label="역할">캐릭터의 격투 모션 클립 (10주차)</td></tr></tbody></table></div>
+<div class="callout callout-tip">
+<div class="callout-title">카메라를 만드는 트랙이 아니라 고르는 트랙</div>
+<div class="callout-body">
+<p>Camera Cut 트랙은 카메라를 만드는 게 아니라 카메라를 고르는 트랙입니다. 카메라 3대는 이미 만들어졌고 (핵심 개념 2), Cut 트랙은 그 중에서 시간대별로 선택만 합니다.</p>
+</div>
+</div>
+<h3 id="camera-cut-트랙-생성">Camera Cut 트랙 생성</h3>
+<p><strong>작업 9 — Camera Cut 트랙 확인 / 추가</strong></p>
+<ul><li>시퀀서 트랙 목록 최상단에 <strong>Camera Cuts</strong> 트랙이 이미 있는지 확인</li><li>이미 있으면 그대로 사용</li><li>없으면 시퀀서 상단의 <strong><code>+ Add</code> (Add Track) 버튼</strong> 클릭 → <strong><code>Camera Cut Track</code></strong> 선택</li><li>시퀀서 트랙 목록 최상단에 <strong>Camera Cuts</strong> 트랙 생성됨</li></ul>
+<p>Camera Cut 트랙은 시퀀스당 1개만 쓰는 '감독' 트랙입니다. 자동으로 만들어져 있을 수 있으므로 먼저 있는지 확인합니다.</p>
+<h3 id="camera-cut-트랙에-카메라-구간-배치">Camera Cut 트랙에 카메라 구간 배치</h3>
+<p><strong>작업 10 — 첫 컷: Wide (0–3초)</strong></p>
+<ul><li>Camera Cuts 트랙의 <strong><code>+ Camera</code></strong> 버튼 (또는 트랙 빈 공간 우클릭 → Add Camera Cut)</li><li>메뉴에서 <strong>CC_Wide</strong> 선택</li><li>트랙에 카메라 섹션(Section) 이 시간 0 부터 추가됨 — 기본 길이는 시퀀스 끝까지</li></ul>
+<p><strong>작업 11 — 두 번째 컷: Closeup (3–7초)</strong></p>
+<ul><li>Camera Cuts 트랙에서 <strong>+ Camera</strong> 다시 클릭 → <strong>CC_Closeup</strong> 선택</li><li>두 번째 섹션이 추가됨</li><li>섹션의 <strong>시작점을 드래그</strong> 해 3초 지점으로 이동</li><li>자동으로 첫 섹션(Wide)이 0–3초로 잘리고, 두 번째 섹션(Closeup)이 3초부터 시작</li></ul>
+<p><strong>세 번째 컷: SideWide (7–12초)</strong> — CC_Medium 을 측면 와이드로 활용</p>
+<ul><li><strong>+ Camera</strong> → <strong>CC_Medium</strong> 선택</li><li>섹션 시작점을 7초 지점으로 드래그</li></ul>
+<p>섹션 하나가 컷 하나입니다. 섹션 길이가 컷 길이이고, 섹션 사이 경계가 컷 전환 시점입니다.</p>
+<div class="callout callout-info">
+<div class="callout-title">즉시 전환이 기본</div>
+<div class="callout-body">
+<p>전환은 즉시 전환(Cut)이 기본입니다. 시퀀서 Camera Cut 트랙은 페이드나 디졸브 같은 부드러운 전환을 기본 제공하지 않습니다. 격투씬에서는 즉시 컷이 오히려 맞습니다. 펀치 임팩트에서 페이드 들어가면 충격이 죽습니다.</p>
+</div>
+</div>
+<h3 id="cut-timing-의-실제-적용-임팩트-프레임에-맞추기">Cut Timing 의 실제 적용 — 임팩트 프레임에 맞추기</h3>
+<p>위 3컷 배치는 임시입니다. 실제로는 본인 격투 시퀀스의 <strong>펀치 임팩트 프레임</strong>에 정확히 컷 경계를 맞춰야 합니다.</p>
+<p><strong>Cut Timing 실전 절차:</strong></p>
+<ul><li>시퀀서 재생 또는 timeline 스크럽으로 본인 격투 시퀀스에서 <strong>펀치/킥 임팩트 프레임</strong> 위치 확인 (예: 펀치가 닿는 순간이 4초 12프레임 지점)</li><li>임팩트 <strong>직전 1–2 프레임</strong> (= 4초 10프레임 지점)을 컷 경계로 결정</li><li>Camera Cut 트랙의 섹션 경계를 그 프레임으로 드래그</li><li>임팩트 직전까지는 미디엄으로 동작 흐름 보여주고, 4초 10프레임부터 클로즈업으로 전환 → 다음 1–2 프레임에 클로즈업 화면에서 임팩트가 작렬</li></ul>
+<p>핵심 개념 1 의 Cut Timing 이 실제 시퀀서 트랙으로 구현되는 모습입니다. 세 가지 기준이 추상적인 설명에 머물지 않고, 트랙 위 섹션 경계 1프레임 단위 결정으로 이어집니다.</p>
+<h3 id="cinematic-viewport-crosshair-활성화">Cinematic Viewport + CrossHair 활성화</h3>
+<p>Camera Cut 트랙까지 만들면 시퀀스 재생은 되지만, 일반 viewport 는 게임 개발 모드라서 시네마틱 미리보기에 최적화돼 있지 않습니다. viewport 자체를 <strong>Cinematic Viewport</strong> 라는 영화 미리보기 모드로 바꿉니다.</p>
+<p><strong>작업 12 — Cinematic Viewport 로 전환</strong></p>
+<ul><li>viewport <strong>좌상단 <code>Perspective</code> 드롭다운</strong> 클릭</li><li>메뉴 하단 <strong><code>Viewport Type</code></strong> 섹션 &gt; <strong><code>Cinematic Viewport</code></strong> 선택</li><li>viewport 가 시네마틱 모드로 전환 — 하단에 timeline 재생 컨트롤, 상단에 Filmback/Focal 메타 정보 표시</li></ul>
+<figure class="lecture-figure">
+<img src="assets/09_ue-cinematic-viewport-toggle.webp" alt="ue cinematic viewport toggle" loading="lazy">
+
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">Cinematic Viewport 의 장점</div>
+<div class="callout-body">
+<p>(1) timeline 재생 컨트롤이 viewport 안에 통합되고 (2) Filmback Preset / Zoom(=Focal Length) / Aperture(Av) 같은 카메라 메타가 viewport 하단에 노출돼서 (3) 9주차 4대 파라미터 변경이 즉시 보입니다.</p>
+</div>
+</div>
+<p><strong>작업 13 — CrossHair (Composition Overlays) 활성화</strong></p>
+<p>영화에서 쓰는 <strong>프레이밍 격자</strong>를 띄울 수 있습니다. 캐릭터를 화면 정중앙에 둘지, 1/3 지점에 둘지 결정할 때 유용합니다.</p>
+<ul><li>viewport <strong>우상단 Composition Overlays 아이콘</strong> (격자 모양) 클릭</li><li>옵션 표시: Disabled / Grid (3x3) / Grid (2x2) / <strong>CrossHair</strong> (단축키 Ctrl+Num 8) / Rabatment</li><li><strong>CrossHair</strong> 선택 → viewport 중앙에 십자선 표시</li><li>우측 패널의 Frames 옵션: <strong>Action Safe</strong> (95%) / <strong>Title Safe</strong> (90%) / <strong>Letterbox Mask</strong> (2.35) 체크 가능</li></ul>
+<figure class="lecture-figure">
+<img src="assets/10_ue-crosshair-on-character.webp" alt="ue crosshair on character" loading="lazy">
+
+</figure>
+<div class="callout callout-tip">
+<div class="callout-title">Letterbox Mask 2.35</div>
+<div class="callout-body">
+<p>격투씬은 Letterbox Mask 2.35 를 켜두면 시네마스코프 비율로 미리 보여서 영화 같은 인상을 잡기 쉽습니다. 9주차 Filmback 35mm Academy 와 어울리는 조합입니다.</p>
+</div>
+</div>
+<p>3교시 실습 4 는 <strong>Cinematic Viewport + CrossHair 활성화 상태</strong>에서 프레이밍을 점검합니다. 캡처 전에는 CrossHair 를 꺼도 되며, 제출 루브릭에서는 컷 정렬과 최종 프레이밍 결과를 봅니다.</p>
+<h3 id="흔한-문제-camera-cut-트랙-cinematic-viewport">흔한 문제 — Camera Cut 트랙 + Cinematic Viewport</h3>
+<div class="table-wrap"><table><thead><tr><th>증상</th><th>원인</th><th>해결</th></tr></thead><tbody><tr><td data-label="증상">Camera Cut 트랙 메뉴가 안 보임</td><td data-label="원인">이미 트랙 1개가 있거나 자동 생성됨</td><td data-label="해결">최상단의 기존 Camera Cuts 트랙 사용</td></tr>
+<tr><td data-label="증상">+ Camera 메뉴에 카메라가 안 뜸</td><td data-label="원인">카메라가 시퀀서에 바인딩되지 않음</td><td data-label="해결">핵심 개념 2 작업 7 다시 실행. Outliner 다중 선택 → Add Track &gt; Actor to Sequencer</td></tr>
+<tr><td data-label="증상">섹션 드래그가 안 됨 / 어색함</td><td data-label="원인">섹션 가운데가 아닌 끝을 드래그 중</td><td data-label="해결">섹션 가운데를 잡아 좌우 이동, 양 끝을 잡으면 길이 조절</td></tr>
+<tr><td data-label="증상">viewport 가 카메라 전환을 안 따라감</td><td data-label="원인">Camera Cuts 트랙의 Camera Lock 이 꺼짐</td><td data-label="해결">Camera Cuts 트랙의 카메라 잠금 아이콘 클릭</td></tr>
+<tr><td data-label="증상">컷 구간이 의도와 다름</td><td data-label="원인">섹션 경계 또는 카메라 바인딩이 잘못됨</td><td data-label="해결">섹션 경계를 다시 드래그하고, 각 섹션의 카메라 이름이 맞는지 확인</td></tr>
+<tr><td data-label="증상">Cinematic Viewport 메뉴가 안 보임</td><td data-label="원인">Perspective 드롭다운이 아닌 다른 메뉴</td><td data-label="해결">viewport <strong>좌상단</strong> Perspective 드롭다운만 사용. 우상단 메뉴는 다른 기능</td></tr>
+<tr><td data-label="증상">CrossHair 가 너무 어두워서 안 보임</td><td data-label="원인">Composition Overlays Tint 너무 어두움</td><td data-label="해결">Composition Overlays 패널 우측 Tint 색상을 흰색·노란색 계열로 변경</td></tr></tbody></table></div>
+<h2 id="예제-ls_retargetdemo-에-3컷-적용">예제 — LS_RetargetDemo 에 3컷 적용</h2>
+<p>핵심 개념 1·2·3 을 통합한 결과를 보여주는 예제입니다. 3교시 실습 4 절차의 미리보기로 활용합니다.</p>
+<h3 id="step-a-ls_retargetdemo-열기">Step A — LS_RetargetDemo 열기</h3>
+<ul><li>Content Browser &gt; Cinematics &gt; <strong>LS_RetargetDemo</strong> 더블클릭</li><li>10–15초 격투 시퀀스가 이미 있는 상태 (10주차 결과물)</li><li><strong>시퀀서 상단의 Play(Play) 한 번 재생</strong> 해 격투 흐름 확인</li></ul>
+<p>지금 상태는 카메라 없이 viewport 정면에서 본 격투입니다. 단조롭습니다. 이 시퀀스 위에 카메라 3대를 얹어봅니다.</p>
+<h3 id="step-b-카메라-3대-생성배치명명">Step B — 카메라 3대 생성·배치·명명</h3>
+<ul><li>Place Actors &gt; Cine Camera Actor → viewport 드래그 (1대)</li><li>Outliner 에서 선택 → <strong>Ctrl+W</strong> 두 번 → 3대</li><li>각 카메라 Outliner 에서 <strong>F2</strong> → <code>CC_Wide</code> / <code>CC_Medium</code> / <code>CC_Closeup</code> 이름 변경</li><li>CC_Wide 선택 → Details 패널:</li><li>Location: 캐릭터 뒤 5m (예: X=-500, Y=0, Z=150)</li><li>Focal Length: 24mm</li><li>Pilot 모드로 viewport 확인 → Pilot 해제</li><li>CC_Medium 선택 → 캐릭터 측면 2.5m (예: X=0, Y=250, Z=130) / Focal Length 50mm</li><li>CC_Closeup 선택 → 캐릭터 정면 1m (예: X=100, Y=0, Z=170) / Focal Length 85mm / Aperture f/2.0</li></ul>
+<p>각 카메라 Pilot 으로 시점 한 번씩 확인하면서 잡으면 캐릭터가 화면 한가운데 들어와 와이드·미디엄·클로즈업이 의도대로 보입니다.</p>
+<h3 id="step-c-시퀀서-다중-바인딩-spawnable-변환">Step C — 시퀀서 다중 바인딩 + Spawnable 변환</h3>
+<ul><li>Outliner 에서 CC_Wide 클릭 → Ctrl+클릭 CC_Medium → Ctrl+클릭 CC_Closeup (3대 다중 선택)</li><li>시퀀서 상단 <strong>+ Add</strong> 버튼 → <strong>Actor to Sequencer</strong> → <strong>Add 'CC_Wide, CC_Medium, CC_Closeup'</strong></li><li>시퀀서 트랙 목록에 카메라 바인딩 3개 추가됨</li><li><strong>시퀀서 좌측 카메라 바인딩 트랙 3개 다중 선택 → 우클릭 → Convert Selected Binding(s) To &gt; Spawnable Actor</strong></li><li>카메라 바인딩 아이콘이 Spawnable 번개로 바뀌고 Outliner 의 카메라도 Spawnable 표시</li></ul>
+<p>10주차에 캐릭터 1대 바인딩한 절차와 같은 메뉴, 다중 선택만 추가했습니다. Spawnable 변환까지 끝나면 카메라는 시퀀서 안에서만 살아있습니다.</p>
+<h3 id="step-d-camera-cut-트랙-cinematic-viewport-3섹션">Step D — Camera Cut 트랙 + Cinematic Viewport + 3섹션</h3>
+<ul><li>최상단에 <strong>Camera Cuts</strong> 트랙이 있으면 그대로 사용, 없으면 시퀀서 + Add → <strong>Camera Cut Track</strong> 선택</li><li>Camera Cuts 트랙의 <strong>+ Camera</strong> → <strong>CC_Wide</strong> 선택 → 첫 섹션 추가 (0초부터)</li><li>+ Camera → <strong>CC_Closeup</strong> → 두 번째 섹션 → 시작점을 3초로 드래그</li><li>+ Camera → <strong>CC_Medium</strong> → 세 번째 섹션 → 시작점을 7초로 드래그</li><li>Camera Cuts 트랙의 카메라 잠금 아이콘 클릭 → viewport 가 활성 카메라를 따라가게 설정</li><li><strong>viewport 좌상단 Perspective 드롭다운 → Viewport Type &gt; Cinematic Viewport</strong> 전환</li><li><strong>viewport 우상단 Composition Overlays → CrossHair</strong> 활성화 + 우측 패널에서 <strong>Letterbox Mask 2.35</strong> 체크</li></ul>
+<p>viewport 가 Camera Cut 트랙의 현재 활성 카메라를 따라가고, Cinematic Viewport 로 영화 미리보기 + CrossHair 로 프레이밍 격자까지 잡혔습니다.</p>
+<h3 id="step-e-재생-결과-비교">Step E — 재생 + 결과 비교</h3>
+<ul><li>시퀀서 Play(Play) — 시퀀스 처음부터 재생</li><li>viewport: 0–3초 와이드 → 3–7초 클로즈업 → 7–12초 측면 미디엄 전환됨</li></ul>
+<figure class="lecture-figure">
+<img src="assets/11_ue-demo-final-three-cuts.webp" alt="ue demo final three cuts" loading="lazy">
+
+</figure>
+<p>핵심 개념 1 시작에서 본 멀티컷 영화 클립과 같은 구조입니다. 와이드 한 샷으로만 보던 격투가 컷 3개로 영화 문법이 들어갔습니다.</p>
+<p>본인 격투 시퀀스의 펀치 임팩트 프레임에 컷 경계를 정확히 맞추는 것이 격투씬 카메라 워크의 가장 중요한 지점입니다. 3교시 단계 2에서 본인 시퀀스의 임팩트 프레임을 찾고, Camera Cut 트랙 섹션 경계를 그 프레임 직전 1–2프레임에 맞추는 작업을 진행합니다.</p>
+<h2 id="핵심-요약">핵심 요약</h2>
+<div class="callout callout-abstract">
+<div class="callout-title">1교시 한 줄 요약</div>
+<div class="callout-body">
+<p>격투씬의 컷 = Shot Size + Angle + Cut Timing 의 의도적 선택, 그리고 시퀀서에서 그걸 구현하는 도구가 다중 카메라 + Spawnable 변환 + Camera Cut 트랙 + Cinematic Viewport.</p>
+</div>
+</div>
+<p><strong>3줄 요약:</strong></p>
+<ol><li>격투씬을 다르게 보이게 하는 카메라 언어는 <strong>Shot Size (Wide/Medium/Close-up) · Angle (정면/측면/부감/앙각) · Cut Timing (임팩트 직전 1–2프레임)</strong> 의 세 가지 기준</li><li>카메라 여러 대를 시퀀서에 올리는 절차는 <strong>(1) 생성 · (2) 사전 배치 · (3) 명명 (CC_Wide 등) · (4) Outliner 다중 선택 → Actor to Sequencer 한 번에 바인딩 · (5) Spawnable Actor 변환 (Spawnable 아이콘)</strong></li><li><strong>Camera Cut 트랙</strong> 은 시퀀스당 1개. 각 섹션 = 컷 하나. 섹션 경계 = 컷 전환 시점. 영화적 프레이밍은 <strong>Cinematic Viewport + CrossHair</strong> 로 보조</li></ol>
+<h2 id="다음-시간-예고">다음 시간 예고</h2>
+<p>2교시는 카메라가 <strong>움직이는</strong> 시간입니다. 1교시에서 만든 카메라는 위치 고정이며, 2교시는 카메라가 스플라인을 따라 미끄러지는 Rail, 부감↔앙각 전환을 만드는 Crane, 펀치 임팩트에 카메라를 흔드는 Camera Shake, 그리고 점프 모션의 슬라이딩을 모션 데이터 수준에서 해결하는 <strong>FK Control Rig + forward 방향 이동 제거 + Bake Animation</strong> 을 다룹니다. 이 도구들은 3교시 실습 4의 제출 루브릭과 연결됩니다.</p>
+    </article>
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#관련-문서">관련 문서</a></li>
+        <li class="toc-level-2"><a href="#도입-같은-안무-다른-영화">도입 — 같은 안무, 다른 영화</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-1-컷-편집의-세-가지-기준">핵심 개념 1 — 컷 편집의 세 가지 기준</a></li>
+        <li class="toc-level-3"><a href="#기준-1-shot-size-화면에-얼마나-담는가">기준 1: Shot Size — 화면에 얼마나 담는가</a></li>
+        <li class="toc-level-3"><a href="#기준-2-angle-어디서-바라보는가">기준 2: Angle — 어디서 바라보는가</a></li>
+        <li class="toc-level-3"><a href="#기준-3-cut-timing-언제-컷을-바꾸는가">기준 3: Cut Timing — 언제 컷을 바꾸는가</a></li>
+        <li class="toc-level-3"><a href="#세-가지-기준-요약-점검-질문">세 가지 기준 요약 + 점검 질문</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-2-다중-카메라-셋업-spawnable-actor-변환">핵심 개념 2 — 다중 카메라 셋업 + Spawnable Actor 변환</a></li>
+        <li class="toc-level-3"><a href="#step-1-cine-camera-actor-여러-대-생성">Step 1 — Cine Camera Actor 여러 대 생성</a></li>
+        <li class="toc-level-3"><a href="#step-2-사전-위치-각도-배치">Step 2 — 사전 위치 / 각도 배치</a></li>
+        <li class="toc-level-3"><a href="#step-3-명명-규칙">Step 3 — 명명 규칙</a></li>
+        <li class="toc-level-3"><a href="#step-4-시퀀서에-다중-바인딩">Step 4 — 시퀀서에 다중 바인딩</a></li>
+        <li class="toc-level-3"><a href="#step-5-spawnable-actor-변환-중요">Step 5 — Spawnable Actor 변환 중요</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-다중-카메라-셋업">흔한 문제 — 다중 카메라 셋업</a></li>
+        <li class="toc-level-2"><a href="#핵심-개념-3-camera-cut-트랙-cinematic-viewport">핵심 개념 3 — Camera Cut 트랙 + Cinematic Viewport</a></li>
+        <li class="toc-level-3"><a href="#camera-cut-트랙이-무엇인가">Camera Cut 트랙이 무엇인가</a></li>
+        <li class="toc-level-3"><a href="#camera-cut-트랙-생성">Camera Cut 트랙 생성</a></li>
+        <li class="toc-level-3"><a href="#camera-cut-트랙에-카메라-구간-배치">Camera Cut 트랙에 카메라 구간 배치</a></li>
+        <li class="toc-level-3"><a href="#cut-timing-의-실제-적용-임팩트-프레임에-맞추기">Cut Timing 의 실제 적용 — 임팩트 프레임에 맞추기</a></li>
+        <li class="toc-level-3"><a href="#cinematic-viewport-crosshair-활성화">Cinematic Viewport + CrossHair 활성화</a></li>
+        <li class="toc-level-3"><a href="#흔한-문제-camera-cut-트랙-cinematic-viewport">흔한 문제 — Camera Cut 트랙 + Cinematic Viewport</a></li>
+        <li class="toc-level-2"><a href="#예제-ls_retargetdemo-에-3컷-적용">예제 — LS_RetargetDemo 에 3컷 적용</a></li>
+        <li class="toc-level-3"><a href="#step-a-ls_retargetdemo-열기">Step A — LS_RetargetDemo 열기</a></li>
+        <li class="toc-level-3"><a href="#step-b-카메라-3대-생성배치명명">Step B — 카메라 3대 생성·배치·명명</a></li>
+        <li class="toc-level-3"><a href="#step-c-시퀀서-다중-바인딩-spawnable-변환">Step C — 시퀀서 다중 바인딩 + Spawnable 변환</a></li>
+        <li class="toc-level-3"><a href="#step-d-camera-cut-트랙-cinematic-viewport-3섹션">Step D — Camera Cut 트랙 + Cinematic Viewport + 3섹션</a></li>
+        <li class="toc-level-3"><a href="#step-e-재생-결과-비교">Step E — 재생 + 결과 비교</a></li>
+        <li class="toc-level-2"><a href="#핵심-요약">핵심 요약</a></li>
+        <li class="toc-level-2"><a href="#다음-시간-예고">다음 시간 예고</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Generated from Game Engine II Week 11 student notes.</p>
+</body>
+</html>
