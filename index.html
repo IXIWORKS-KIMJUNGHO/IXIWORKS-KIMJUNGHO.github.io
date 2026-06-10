@@ -3,27 +3,28 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kim Jungho | CV</title>
+  <title>Kim Jungho | Art Engineering</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff;
-      --surface: #f8f9fb;
-      --surface-strong: #f1f3f6;
-      --ink: #343840;
-      --ink-strong: #22252b;
-      --muted: #6a6f78;
-      --muted-light: #8b9098;
-      --line: #e7e9ee;
-      --line-strong: #d7dae2;
-      --accent: #3956a3;
-      --accent-strong: #263f87;
-      --accent-soft: #eef2ff;
-      --accent-line: #c9d4f5;
-      --link: #294a9b;
-      --shadow: 0 18px 45px rgba(20, 31, 52, 0.08);
+      --bg: #f4f1ea;
+      --paper: #fbf8f1;
+      --surface: #ede8dd;
+      --surface-strong: #e3dccf;
+      --ink: #2a2927;
+      --ink-strong: #121312;
+      --muted: #6e675e;
+      --muted-light: #91887b;
+      --line: #d8d0c2;
+      --line-strong: #b9ae9d;
+      --accent: #263f4b;
+      --accent-strong: #111c22;
+      --accent-soft: #e4e8e5;
+      --accent-line: #9aa9aa;
+      --link: #223c4a;
+      --shadow: 0 18px 45px rgba(37, 34, 29, 0.08);
 
       --sans: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, "Inter", "Helvetica Neue", Arial, sans-serif;
       --mono: "IBM Plex Mono", "SF Mono", Menlo, ui-monospace, monospace;
@@ -37,7 +38,11 @@
 
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        linear-gradient(90deg, rgba(18, 19, 18, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 19, 18, 0.028) 1px, transparent 1px),
+        var(--bg);
+      background-size: 42px 42px;
       color: var(--ink);
       font-family: var(--sans);
       font-size: 16px;
@@ -60,7 +65,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(251, 248, 241, 0.94);
       border-bottom: 1px solid var(--line);
       backdrop-filter: blur(12px);
     }
@@ -98,8 +103,8 @@
       width: min(1120px, calc(100% - 48px));
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 252px minmax(0, 1fr);
-      gap: 72px;
+      grid-template-columns: 176px minmax(0, 1fr);
+      gap: 64px;
       padding: 56px 0 96px;
     }
 
@@ -110,14 +115,14 @@
     }
 
     .portrait-wrap {
-      width: 214px;
-      height: 266px;
-      margin-bottom: 18px;
-      padding: 7px;
+      width: 124px;
+      height: 154px;
+      margin-bottom: 16px;
+      padding: 5px;
       border: 1px solid var(--line);
       border-radius: 50% / 42%;
-      background: #fff;
-      box-shadow: 0 14px 36px rgba(35, 38, 44, 0.08);
+      background: var(--paper);
+      box-shadow: 0 14px 36px rgba(37, 34, 29, 0.08);
       overflow: hidden;
     }
 
@@ -133,7 +138,7 @@
     .side-name {
       margin: 0 0 7px;
       color: var(--ink-strong);
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       line-height: 1.25;
     }
@@ -141,7 +146,7 @@
     .side-role {
       margin: 0 0 20px;
       color: var(--muted);
-      font-size: 14.5px;
+      font-size: 13.5px;
       line-height: 1.62;
       word-break: keep-all;
     }
@@ -151,21 +156,21 @@
       padding: 0;
       list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 8px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
     .side-list li {
       display: grid;
-      grid-template-columns: 22px 1fr;
+      grid-template-columns: 20px 1fr;
       align-items: baseline;
-      gap: 8px;
+      gap: 7px;
     }
 
     .side-list svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       color: var(--muted);
       transform: translateY(2px);
     }
@@ -185,27 +190,7 @@
 
     .hero {
       padding-top: 6px;
-      margin-bottom: 76px;
-    }
-
-    .hero-kicker {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin: 0 0 16px;
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1.2;
-      text-transform: uppercase;
-    }
-
-    .hero-kicker::before {
-      content: "";
-      width: 18px;
-      height: 2px;
-      background: var(--accent);
+      margin-bottom: 68px;
     }
 
     h1 {
@@ -220,110 +205,43 @@
     .intro-panel {
       max-width: 780px;
       margin: 0;
-      padding: 24px 26px 22px;
-      border-radius: 8px;
-      background: #111316;
-      color: #f4f6f8;
-      box-shadow: 0 18px 42px rgba(17, 19, 22, 0.14);
-    }
-
-    .welcome {
-      display: block;
-      margin: 0 0 16px;
-      padding-bottom: 11px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.18);
-      color: #c7d2f0;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1.35;
-      text-transform: uppercase;
+      padding: 0 0 0 24px;
+      border-left: 3px solid var(--accent);
     }
 
     .lead {
       max-width: 680px;
       margin: 0 0 16px;
-      color: #565c66;
+      color: var(--muted);
       font-size: 16px;
-      line-height: 1.74;
+      line-height: 1.7;
       word-break: keep-all;
     }
 
     .intro-panel .lead {
-      color: #c4c8cf;
+      color: var(--muted);
     }
 
     .lead-primary {
       max-width: 760px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
       color: var(--ink-strong);
-      font-size: 25px;
+      font-size: 29px;
       font-weight: 760;
-      line-height: 1.36;
+      line-height: 1.28;
     }
 
     .intro-panel .lead-primary {
-      color: #fff;
+      color: var(--ink-strong);
     }
 
-    .lead strong,
-    .section-text strong {
+    .lead strong {
       color: var(--ink-strong);
       font-weight: 760;
     }
 
-    .role-summary {
-      max-width: 760px;
-      margin: 26px 0 0;
-      padding: 13px 0;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 22px;
-    }
-
-    .role-item {
-      display: grid;
-      gap: 5px;
-      min-width: 0;
-    }
-
-    .role-label {
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 10.5px;
-      font-weight: 600;
-      line-height: 1.3;
-      text-transform: uppercase;
-    }
-
-    .role-value {
-      color: var(--ink-strong);
-      font-size: 13.5px;
-      font-weight: 640;
-      line-height: 1.45;
-      word-break: keep-all;
-    }
-
-    .intro-panel .role-summary {
-      max-width: none;
-      margin-top: 24px;
-      padding: 16px 0 0;
-      border-top-color: rgba(255, 255, 255, 0.16);
-      border-bottom: 0;
-    }
-
-    .intro-panel .role-label {
-      color: #aab8e8;
-    }
-
-    .intro-panel .role-value {
-      color: #f4f6f8;
-    }
-
     .hero-actions {
-      margin: 24px 0 0;
+      margin: 28px 0 0;
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
@@ -343,13 +261,13 @@
       min-height: 38px;
       padding: 0 14px;
       border: 1px solid var(--line-strong);
-      border-radius: 999px;
-      background: #fff;
+      border-radius: 4px;
+      background: var(--paper);
       color: var(--ink-strong);
       font-size: 13px;
       font-weight: 700;
       line-height: 1;
-      box-shadow: 0 8px 18px rgba(20, 31, 52, 0.05);
+      box-shadow: 0 8px 18px rgba(37, 34, 29, 0.05);
       transition: border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, background 160ms ease, transform 160ms ease;
     }
 
@@ -371,64 +289,16 @@
       color: #fff;
     }
 
-    .focus-areas {
-      max-width: 760px;
-      margin: 20px 0 0;
-      padding: 15px 0;
-      border-bottom: 1px solid var(--line);
-      display: grid;
-      grid-template-columns: 112px minmax(0, 1fr);
-      gap: 18px;
-      align-items: baseline;
-    }
-
-    .focus-label {
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1.3;
-      text-transform: uppercase;
-    }
-
-    .focus-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      row-gap: 6px;
-    }
-
-    .focus-list li {
-      display: inline-flex;
-      align-items: center;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 600;
-      line-height: 1.45;
-      letter-spacing: 0;
-    }
-
-    .focus-list li:not(:last-child)::after {
-      content: "";
-      width: 3px;
-      height: 3px;
-      margin: 0 10px;
-      border-radius: 999px;
-      background: var(--accent-line);
-    }
-
     .news-list {
       display: grid;
-      gap: 12px;
+      gap: 9px;
     }
 
     .news-item {
       display: grid;
-      grid-template-columns: 116px minmax(0, 1fr);
-      gap: 20px;
-      padding: 15px 16px;
+      grid-template-columns: 104px minmax(0, 1fr);
+      gap: 18px;
+      padding: 13px 15px;
       border: 1px solid var(--line);
       border-left: 3px solid var(--accent-line);
       border-radius: 8px;
@@ -438,7 +308,7 @@
     .news-date {
       color: var(--accent);
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       line-height: 1.5;
       white-space: nowrap;
@@ -447,16 +317,9 @@
     .news-title {
       margin: 0;
       color: var(--ink-strong);
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 700;
-      line-height: 1.45;
-    }
-
-    .news-text {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+      line-height: 1.38;
     }
 
     .section {
@@ -476,14 +339,6 @@
       font-size: 26px;
       font-weight: 800;
       line-height: 1.2;
-    }
-
-    .section-text {
-      margin: 0;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.68;
-      word-break: keep-all;
     }
 
     .timeline {
@@ -513,7 +368,7 @@
       width: 9px;
       height: 9px;
       border-radius: 999px;
-      background: #fff;
+      background: var(--paper);
       border: 2px solid var(--accent-line);
       z-index: 1;
     }
@@ -569,7 +424,7 @@
       min-height: 20px;
       margin-left: 8px;
       padding: 0 7px;
-      border-radius: 999px;
+      border-radius: 3px;
       background: var(--accent-soft);
       color: var(--accent);
       font-family: var(--mono);
@@ -632,7 +487,7 @@
     .pub-type {
       padding: 3px 8px;
       border: 1px solid var(--line);
-      border-radius: 999px;
+      border-radius: 3px;
       background: var(--surface);
       color: var(--accent);
       font-weight: 600;
@@ -644,6 +499,59 @@
 
     .publication-archive {
       counter-reset: pub 1;
+    }
+
+    .work-system-map {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.7fr);
+      gap: 16px;
+      align-items: center;
+      margin: 0 0 14px;
+      padding: 11px 0 12px;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .axis-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .axis-tab {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--line-strong);
+      border-radius: 4px;
+      background: var(--paper);
+      color: var(--accent);
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+      transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+    }
+
+    .axis-tab:hover,
+    .axis-tab:focus-visible {
+      border-color: var(--accent);
+      outline: none;
+    }
+
+    .axis-tab.is-active {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: var(--paper);
+    }
+
+    .axis-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14.5px;
+      line-height: 1.55;
+      word-break: keep-all;
     }
 
     .grid-list {
@@ -662,8 +570,8 @@
       min-height: 34px;
       padding: 7px 11px;
       border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
+      border-radius: 4px;
+      background: var(--paper);
       color: var(--accent);
       cursor: pointer;
       font-family: var(--mono);
@@ -700,6 +608,82 @@
       margin-top: 14px;
     }
 
+    .archive-panel summary + .publication-list,
+    .archive-panel summary + .subsection-title,
+    .archive-panel summary + .teaching-block {
+      margin-top: 14px;
+    }
+
+    .archive-panel .publication-list + .timeline,
+    .archive-panel .grid-list + .subsection-title,
+    .archive-panel .timeline + .subsection-title {
+      margin-top: 22px;
+    }
+
+    .background-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .background-card {
+      padding: 16px 17px;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent-line);
+      border-radius: 8px;
+      background: var(--surface);
+    }
+
+    .background-card h3 {
+      margin: 0 0 10px;
+      color: var(--ink-strong);
+      font-size: 17px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .background-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 18px;
+    }
+
+    .background-list li {
+      display: grid;
+      grid-template-columns: 124px minmax(0, 1fr);
+      gap: 14px;
+      align-items: baseline;
+    }
+
+    .background-list .date {
+      color: var(--accent);
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+
+    .background-list strong {
+      display: block;
+      color: var(--ink-strong);
+      font-size: 14.5px;
+      line-height: 1.4;
+      word-break: keep-all;
+    }
+
+    .background-list span:not(.date) {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      word-break: keep-all;
+    }
+
+    .background-grid + .teaching-block {
+      margin-top: 18px;
+    }
+
     .project-card {
       position: relative;
       display: grid;
@@ -710,7 +694,7 @@
       border-radius: 8px;
       background: var(--surface);
       overflow: hidden;
-      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
+      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease, opacity 160ms ease;
     }
 
     .project-card::before {
@@ -725,8 +709,8 @@
 
     .project-card:hover {
       border-color: var(--accent-line);
-      background: #fff;
-      box-shadow: 0 14px 30px rgba(20, 31, 52, 0.07);
+      background: var(--paper);
+      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
       transform: translateY(-1px);
     }
 
@@ -734,6 +718,20 @@
       color: var(--accent);
       font-size: 12px;
       font-weight: 600;
+    }
+
+    .project-card.is-axis-match {
+      border-color: var(--accent);
+      background: var(--paper);
+      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.08);
+    }
+
+    .project-card.is-axis-match::before {
+      background: var(--accent);
+    }
+
+    .project-card.is-axis-muted {
+      opacity: 0.68;
     }
 
     .project-title {
@@ -751,27 +749,6 @@
       font-size: 14px;
       line-height: 1.5;
       word-break: keep-all;
-    }
-
-    .card-tags {
-      margin: 10px 0 0;
-      padding: 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      list-style: none;
-    }
-
-    .card-tags li {
-      padding: 4px 7px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 10.5px;
-      font-weight: 500;
-      line-height: 1;
     }
 
     .teaching-block {
@@ -808,9 +785,9 @@
       padding: 15px 16px;
       border: 1px solid var(--line);
       border-radius: 8px;
-      background: #fff;
+      background: var(--paper);
       color: inherit;
-      box-shadow: 0 10px 24px rgba(20, 31, 52, 0.04);
+      box-shadow: 0 10px 24px rgba(37, 34, 29, 0.04);
       text-decoration: none;
       transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
     }
@@ -818,7 +795,7 @@
     .course-card:hover {
       border-color: var(--accent-line);
       background: var(--surface);
-      box-shadow: 0 14px 30px rgba(20, 31, 52, 0.07);
+      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
       text-decoration: none;
       transform: translateY(-1px);
     }
@@ -847,26 +824,6 @@
       font-weight: 600;
       line-height: 1.3;
       text-transform: uppercase;
-    }
-
-    .pill-row {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 9px;
-    }
-
-    .pill-row li {
-      padding: 7px 10px;
-      border-radius: 7px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 13px;
-      font-weight: 600;
-      line-height: 1.3;
-      word-break: keep-all;
     }
 
     .site-footer {
@@ -909,17 +866,28 @@
         padding: 34px 0 72px;
       }
 
+      .content {
+        display: contents;
+      }
+
+      .hero {
+        order: 1;
+      }
+
       .sidebar {
+        order: 2;
         position: static;
         display: grid;
-        grid-template-columns: 132px minmax(0, 1fr);
-        gap: 22px;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 16px;
         align-items: center;
+        padding-top: 26px;
+        border-top: 1px solid var(--line);
       }
 
       .portrait-wrap {
-        width: 132px;
-        height: 164px;
+        width: 96px;
+        height: 120px;
         margin: 0;
       }
 
@@ -931,6 +899,10 @@
       h1 {
         margin-bottom: 14px;
         font-size: 34px;
+      }
+
+      .content > .section {
+        order: 3;
       }
 
       .hero {
@@ -947,34 +919,19 @@
       }
 
       .intro-panel {
-        padding: 22px 20px 20px;
-      }
-
-      .role-summary {
-        grid-template-columns: 1fr;
-        gap: 12px;
-      }
-
-      .focus-areas {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 14px 0;
-      }
-
-      .focus-list li {
-        font-size: 13.5px;
+        padding-left: 18px;
       }
 
       .side-name {
-        font-size: 21px;
+        font-size: 19px;
       }
 
       .side-role {
-        font-size: 15px;
+        font-size: 14px;
       }
 
       .side-list {
-        font-size: 14px;
+        font-size: 13.5px;
       }
 
       .entry-title {
@@ -998,9 +955,21 @@
         font-size: 14px;
       }
 
+      .work-system-map {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px 0 12px;
+      }
+
+      .axis-copy {
+        font-size: 14px;
+      }
+
       .entry,
       .project-card,
       .publication-list li,
+      .background-grid,
+      .background-list li,
       .course-grid,
       .news-item {
         grid-template-columns: 1fr;
@@ -1037,20 +1006,25 @@
       }
 
       .sidebar {
-        grid-template-columns: 104px minmax(0, 1fr);
+        grid-template-columns: 82px minmax(0, 1fr);
       }
 
       .portrait-wrap {
-        width: 104px;
-        height: 130px;
-      }
-
-      .welcome {
-        font-size: 10.5px;
+        width: 82px;
+        height: 102px;
       }
 
       .section-title {
         font-size: 23px;
+      }
+
+      .axis-tabs {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .axis-tab {
+        width: 100%;
       }
 
       h1 {
@@ -1064,9 +1038,9 @@
     <nav class="nav" aria-label="Primary">
       <a class="brand" href="#top">Kim Jungho</a>
       <a href="news.html">News</a>
-      <a href="#publications">Publications</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="#cv">CV</a>
+      <a href="#work">Work</a>
+      <a href="#research">Research</a>
+      <a href="#cv-archive">CV</a>
     </nav>
   </header>
 
@@ -1077,7 +1051,7 @@
       </div>
       <div>
         <h2 class="side-name">Kim Jungho</h2>
-        <p class="side-role">Art &amp; technology researcher working across generative AI, digital twins, immersive content, and real-time engines.</p>
+        <p class="side-role">Ph.D. · Art engineering researcher and developer in Seoul.</p>
       </div>
       <ul class="side-list">
         <li>
@@ -1101,42 +1075,14 @@
 
     <main class="content">
       <section class="hero" id="cv">
-        <p class="hero-kicker">Art Engineering · Generative AI · Real-Time Media Systems</p>
         <h1>Kim Jungho</h1>
         <div class="intro-panel">
-          <h2 class="welcome">Art engineering researcher &amp; developer</h2>
-          <p class="lead lead-primary">I build creative production systems that connect generative AI, real-time engines, and immersive media.</p>
-          <p class="lead">My work spans AI-assisted content pipelines, digital twins, 3D human digitizing, VR storyboarding, and game-engine-based production workflows.</p>
-          <div class="role-summary" aria-label="Current roles">
-            <div class="role-item">
-              <span class="role-label">Current</span>
-              <span class="role-value">Full-time researcher and lecturer at Chung-Ang University</span>
-            </div>
-            <div class="role-item">
-              <span class="role-label">Studio</span>
-              <span class="role-value">CEO of IXIWORKS</span>
-            </div>
-            <div class="role-item">
-              <span class="role-label">Bridge</span>
-              <span class="role-value">Research, production, and media art</span>
-            </div>
-          </div>
-        </div>
-        <div class="focus-areas" aria-label="Focus areas">
-          <span class="focus-label">Focus Areas</span>
-          <ul class="focus-list">
-            <li>Generative AI Production</li>
-            <li>Real-Time Media Systems</li>
-            <li>Digital Twin Pipelines</li>
-            <li>3D Human Digitizing</li>
-            <li>Immersive Storytelling</li>
-            <li>AI Media Art</li>
-          </ul>
+          <p class="lead lead-primary">I connect generative AI, real-time engines, and immersive media into working creative production systems.</p>
+          <p class="lead">Recent work includes AI storyboarding, digital twin pipelines, and interactive engine-based prototypes.</p>
         </div>
         <div class="hero-actions" aria-label="Featured links">
           <a class="button primary" href="portfolio.html">View Portfolio</a>
-          <a class="button" href="#publications">Publications</a>
-          <a class="button" href="https://github.com/IXIWORKS-KIMJUNGHO">GitHub</a>
+          <a class="button" href="#research">Research</a>
         </div>
       </section>
 
@@ -1147,21 +1093,18 @@
             <div class="news-date">2026.03.26</div>
             <div>
               <h3 class="news-title">Patent application filed for Agile Vibe Pre-Production Storyboard Patent.</h3>
-              <p class="news-text">Filed application no. 10-2026-0054962 with Tae-Kyung Yoo. Official title: <em>Generative Artificial Intelligence-Based Agile Vibe Pre-Production Storyboard Generation Apparatus, Method Therefor, and Recording Medium</em>.</p>
             </div>
           </article>
           <article class="news-item">
             <div class="news-date">2025.06</div>
             <div>
               <h3 class="news-title">Founded IXIWORKS as a software and AI media content development company.</h3>
-              <p class="news-text">Building tools and production systems across AI software, digital media content, and real-time engine workflows.</p>
             </div>
           </article>
           <article class="news-item">
             <div class="news-date">2025</div>
             <div>
               <h3 class="news-title">Participated in the Korea-Canada convergence art special exhibition.</h3>
-              <p class="news-text">Served as VR Supervisor and Film AI Engineer for <em>Spectrum of Humanity</em> in Montréal.</p>
             </div>
           </article>
         </div>
@@ -1170,297 +1113,190 @@
         </div>
       </section>
 
-      <section class="section" id="experience">
-        <h2 class="section-title">Experiences</h2>
-        <div class="timeline">
-          <article class="entry current">
-            <div class="date">2025.06 &mdash; Present</div>
-            <div>
-              <h3 class="entry-title">IXIWORKS</h3>
-              <p class="entry-meta">CEO <span class="badge">Current</span></p>
-              <p class="entry-note">Operating a software company focused on AI software and digital media content development.</p>
-            </div>
-          </article>
-          <article class="entry current">
-            <div class="date">2024.05 &mdash; Present</div>
-            <div>
-              <h3 class="entry-title">Chung-Ang University Industry-Academic Cooperation Foundation</h3>
-              <p class="entry-meta">Full-time Researcher <span class="badge">Current</span></p>
-              <p class="entry-note">Participating in generative AI and cloud-based content production R&amp;D.</p>
-            </div>
-          </article>
-          <article class="entry current">
-            <div class="date">2022.09 &mdash; Present</div>
-            <div>
-              <h3 class="entry-title">College of Art &amp; Technology, Chung-Ang University</h3>
-              <p class="entry-meta">Lecturer <span class="badge">Current</span></p>
-              <p class="entry-note">Teaching Game Engine I·II, content programming, media art programming, digital archiving, and data visualization.</p>
-            </div>
-          </article>
-          <article class="entry">
-            <div class="date">2019.05 &mdash; 2024.02</div>
-            <div>
-              <h3 class="entry-title">IMG Lab / Netmarble Game Academy</h3>
-              <p class="entry-meta">Programming Mentor</p>
-              <p class="entry-note">Mentored programming for Netmarble Game Academy cohorts 4-8.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2 class="section-title">Education</h2>
-        <div class="timeline">
-          <article class="entry">
-            <div class="date">2020.03 &mdash; 2024.02</div>
-            <div>
-              <h3 class="entry-title">Ph.D. in Image Engineering / Art Engineering</h3>
-              <p class="entry-meta">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University</p>
-            </div>
-          </article>
-          <article class="entry">
-            <div class="date">2018.03 &mdash; 2020.02</div>
-            <div>
-              <h3 class="entry-title">M.A. in Image Engineering / Art Engineering</h3>
-              <p class="entry-meta">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University</p>
-            </div>
-          </article>
-          <article class="entry">
-            <div class="date">2011.02 &mdash; 2017.02</div>
-            <div>
-              <h3 class="entry-title">B.A. in Photography &amp; Video</h3>
-              <p class="entry-meta">Kyungil University</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="publications">
-        <h2 class="section-title">Publications</h2>
-        <ol class="publication-list">
-          <li><span class="paper-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System. Springer Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024, pp. 75-91. DOI: 10.1007/978-981-97-8093-8_6.</span><span class="pub-type">Springer</span><span class="pub-year">2025</span></li>
-        </ol>
-        <details class="archive-panel">
-          <summary>Show older publications</summary>
-          <ol class="publication-list publication-archive">
-          <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Human Digitizing System.</span><span class="pub-type">Ph.D.</span><span class="pub-year">2024</span></li>
-          <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Facial Appearance Digitizing System. Journal of Broadcast Engineering, Vol. 28 No. 5, pp. 530-544. DOI: 10.5909/JBE.2023.28.5.530.</span><span class="pub-type">KCI</span><span class="pub-year">2023</span></li>
-          <li><span class="paper-title">Detecting Branches in Silent Films Using a Center-of-Gravity Algorithm: Focusing on Dziga Vertov's &lt;Man with a Movie Camera&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
-          <li><span class="paper-title">A Study on Immersive Content Production and Storytelling Methods Using Photogrammetry and Artificial Intelligence.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
-          <li><span class="paper-title">Correlation Between Head Movement Data and Immersion in Virtual Reality Content.</span><span class="pub-type">KCI</span><span class="pub-year">2021</span></li>
-          <li><span class="paper-title">Remediating tradition with technology: a case study of From Tangible to Intangible: A Media Showcase of Lisa chin p'yori chinch'a uigwe.</span><span class="pub-type">A&amp;HCI</span><span class="pub-year">2021</span></li>
-          <li><span class="paper-title">An Analysis of Interactive Virtual Human Technologies and Characteristics in the Content Industry.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
-          <li><span class="paper-title">A Study on Out-of-Register Expression in Real-Time Rendering Environments.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
-          <li><span class="paper-title">A Study on Storyboarding for Pre-Production on Virtual Reality Platforms.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
-          <li><span class="paper-title">A Study on Directing Methods for VR Animation: Focusing on the VR Animation &lt;DreamTherapy&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2019</span></li>
-          </ol>
-        </details>
-      </section>
-
-      <section class="section">
-        <h2 class="section-title">Patents</h2>
-        <div class="timeline">
-          <article class="entry">
-            <div class="date">2026.03.26</div>
-            <div>
-              <h3 class="entry-title">Agile Vibe Pre-Production Storyboard Patent</h3>
-              <p class="entry-meta">Application no. 10-2026-0054962 · Tae-Kyung Yoo, Jungho Kim</p>
-              <p class="entry-note">Official title: <em>Generative Artificial Intelligence-Based Agile Vibe Pre-Production Storyboard Generation Apparatus, Method Therefor, and Recording Medium</em>.</p>
-            </div>
-          </article>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2 class="section-title">Research Projects</h2>
-        <div class="grid-list">
-          <article class="project-card">
-            <div class="date">2024.05 &mdash; 2026.12</div>
-            <div>
-              <h3 class="project-title">Training R&amp;D Talent for Generative AI and Cloud-Based Content Production</h3>
-              <p class="project-meta">Co-researcher · 1,375,000,000 KRW</p>
-              <ul class="card-tags"><li>Generative AI</li><li>Cloud Pipeline</li><li>R&amp;D Training</li></ul>
-            </div>
-          </article>
-        </div>
-        <details class="archive-panel">
-          <summary>Show older research projects</summary>
-          <div class="grid-list">
-          <article class="project-card">
-            <div class="date">2023.01 &mdash; 2023.12</div>
-            <div>
-              <h3 class="project-title">Development of a Support System for Digital Data Acquisition and Scientific Reliability Analysis of Modern and Contemporary Artworks</h3>
-              <p class="project-meta">Student researcher · 30,000,000 KRW</p>
-              <ul class="card-tags"><li>Cultural Heritage</li><li>Data Acquisition</li><li>Analysis System</li></ul>
-            </div>
-          </article>
-          <article class="project-card">
-            <div class="date">2021.06 &mdash; 2023.12</div>
-            <div>
-              <h3 class="project-title">Training R&amp;D Specialists for Metaverse Content Based on Virtual Production</h3>
-              <p class="project-meta">Participating researcher · 1,375,000,000 KRW</p>
-              <ul class="card-tags"><li>Virtual Production</li><li>Metaverse</li><li>Content R&amp;D</li></ul>
-            </div>
-          </article>
+      <section class="section" id="work">
+        <h2 class="section-title">Featured Work</h2>
+        <div class="work-system-map" data-work-system-map aria-label="Work system map">
+          <div class="axis-tabs" role="group" aria-label="Practice axes">
+            <button class="axis-tab is-active" type="button" data-axis="generative" aria-pressed="true">Generative AI</button>
+            <button class="axis-tab" type="button" data-axis="real-time" aria-pressed="false">Real-Time Engine</button>
+            <button class="axis-tab" type="button" data-axis="digital-twin" aria-pressed="false">Digital Twin</button>
+            <button class="axis-tab" type="button" data-axis="exhibition" aria-pressed="false">Exhibition System</button>
           </div>
-        </details>
-      </section>
-
-      <section class="section" id="projects">
-        <h2 class="section-title">Selected Portfolio</h2>
+          <p class="axis-copy" data-axis-copy>Generated media, prompts, and production logic become deployable creative workflows.</p>
+        </div>
         <div class="grid-list">
-          <article class="project-card">
+          <article class="project-card" data-work-card data-axes="generative exhibition">
             <div class="date">2025.10 &mdash; 2025.12</div>
             <div>
               <h3 class="project-title">Healing Landscape-Style AI Media Art Content Production</h3>
-              <p class="project-meta">Jeonju University Industry-Academic Cooperation Foundation · AI media art content</p>
-              <ul class="card-tags"><li>AI Media Art</li><li>Visual Content</li><li>Production</li></ul>
             </div>
           </article>
-        </div>
-        <details class="archive-panel">
-          <summary>Show older portfolio works</summary>
-          <div class="grid-list">
-          <article class="project-card">
-            <div class="date">2025.09 &mdash; 2025.11</div>
-            <div>
-              <h3 class="project-title">AI-Based Smart Home Living Environment Content Platform UI Prototype</h3>
-              <p class="project-meta">LG Electronics / Skonec Entertainment · Prototype content</p>
-              <ul class="card-tags"><li>AI UX</li><li>Smart Home</li><li>Prototype</li></ul>
-            </div>
-          </article>
-          <article class="project-card">
+          <article class="project-card" data-work-card data-axes="generative exhibition">
             <div class="date">2025.08 &mdash; 2025.11</div>
             <div>
               <h3 class="project-title">VIVE AI Kiosk Experience Design</h3>
-              <p class="project-meta">VIVE Studios · Incheon Inspire Resort installation</p>
-              <ul class="card-tags"><li>AI UX</li><li>Kiosk</li><li>Installation</li></ul>
             </div>
           </article>
-          <article class="project-card">
+          <article class="project-card" data-work-card data-axes="real-time">
             <div class="date">2025.07 &mdash; 2025.12</div>
             <div>
               <h3 class="project-title">Hyundai Mobis Connect In-Vehicle Infotainment Prototype</h3>
-              <p class="project-meta">VIVE Studios / Hyundai Mobis · Unreal Engine implementation, EXE + APK software package</p>
-              <ul class="card-tags"><li>Unreal Engine</li><li>Infotainment</li><li>Real-Time 3D</li></ul>
             </div>
           </article>
-          <article class="project-card">
-            <div class="date">2024.01 &mdash; 2024.04</div>
+          <article class="project-card" data-work-card data-axes="digital-twin">
+            <div class="date">2025</div>
             <div>
-              <h3 class="project-title">Samsung Paris 2024 Breaking Solution Development</h3>
-              <p class="project-meta">IMG Lab · Large-screen UI, kiosk, mobile camera linkage, QR system</p>
-              <ul class="card-tags"><li>Interactive UI</li><li>Kiosk</li><li>Event System</li></ul>
+              <h3 class="project-title">Digital Twin Pipeline for 3D Human Digitizing</h3>
             </div>
           </article>
-          <article class="project-card">
-            <div class="date">2023.08 &mdash; 2023.11</div>
-            <div>
-              <h3 class="project-title">One Thousand and One Nights Live Sketch System Development</h3>
-              <p class="project-meta">IMG Lab · Live sketch system development</p>
-              <ul class="card-tags"><li>Live System</li><li>Sketch Tool</li><li>Creative Coding</li></ul>
-            </div>
-          </article>
-          </div>
-        </details>
+        </div>
         <div class="section-actions">
           <a class="button" href="portfolio.html">View portfolio archive</a>
         </div>
       </section>
 
-      <section class="section">
-        <h2 class="section-title">Exhibitions &amp; Screenings</h2>
-        <div class="timeline">
-          <article class="entry"><div class="date">2025</div><div><h3 class="entry-title">Korea-Canada Convergence Art Special Exhibition, &lt;Spectrum of Humanity&gt;</h3><p class="entry-meta">KOFICE × MMCA, Montréal · VR Supervisor / Film AI Engineer</p></div></article>
+      <section class="section" id="research">
+        <h2 class="section-title">Writing &amp; Research</h2>
+        <div class="grid-list">
+          <article class="project-card">
+            <div class="date">2026.03.26</div>
+            <div>
+              <h3 class="project-title">Agile Vibe Pre-Production Storyboard Patent</h3>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2025</div>
+            <div>
+              <h3 class="project-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System</h3>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="date">2024.05 &mdash; 2026.12</div>
+            <div>
+              <h3 class="project-title">Training R&amp;D Talent for Generative AI and Cloud-Based Content Production</h3>
+            </div>
+          </article>
         </div>
         <details class="archive-panel">
-          <summary>Show older exhibitions and screenings</summary>
+          <summary>View publications &amp; patents</summary>
+          <ol class="publication-list">
+            <li><span class="paper-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System. Springer Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024, pp. 75-91. DOI: 10.1007/978-981-97-8093-8_6.</span><span class="pub-type">Springer</span><span class="pub-year">2025</span></li>
+            <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Human Digitizing System.</span><span class="pub-type">Ph.D.</span><span class="pub-year">2024</span></li>
+            <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Facial Appearance Digitizing System. Journal of Broadcast Engineering, Vol. 28 No. 5, pp. 530-544. DOI: 10.5909/JBE.2023.28.5.530.</span><span class="pub-type">KCI</span><span class="pub-year">2023</span></li>
+            <li><span class="paper-title">Detecting Branches in Silent Films Using a Center-of-Gravity Algorithm: Focusing on Dziga Vertov's &lt;Man with a Movie Camera&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
+            <li><span class="paper-title">A Study on Immersive Content Production and Storytelling Methods Using Photogrammetry and Artificial Intelligence.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
+            <li><span class="paper-title">Correlation Between Head Movement Data and Immersion in Virtual Reality Content.</span><span class="pub-type">KCI</span><span class="pub-year">2021</span></li>
+            <li><span class="paper-title">Remediating tradition with technology: a case study of From Tangible to Intangible: A Media Showcase of Lisa chin p'yori chinch'a uigwe.</span><span class="pub-type">A&amp;HCI</span><span class="pub-year">2021</span></li>
+            <li><span class="paper-title">An Analysis of Interactive Virtual Human Technologies and Characteristics in the Content Industry.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
+            <li><span class="paper-title">A Study on Out-of-Register Expression in Real-Time Rendering Environments.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
+            <li><span class="paper-title">A Study on Storyboarding for Pre-Production on Virtual Reality Platforms.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
+            <li><span class="paper-title">A Study on Directing Methods for VR Animation: Focusing on the VR Animation &lt;DreamTherapy&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2019</span></li>
+          </ol>
           <div class="timeline">
-          <article class="entry"><div class="date">2024 &mdash; 2025</div><div><h3 class="entry-title">&lt;Transport to Another World&gt;</h3><p class="entry-meta">MMCA × National Film Board of Canada · VR Supervisor / Film AI Engineer</p></div></article>
-          <article class="entry"><div class="date">2023</div><div><h3 class="entry-title">BIFAN 2023 Beyond Reality Official Selection</h3><p class="entry-meta">Bucheon International Fantastic Film Festival · VR Supervisor / Film AI Engineer</p></div></article>
-          <article class="entry"><div class="date">2022</div><div><h3 class="entry-title">Perception of War: AI Data Universe</h3><p class="entry-meta">ACM SIGGRAPH Art Gallery · AI Developer / Content Developer</p></div></article>
-          <article class="entry"><div class="date">2022</div><div><h3 class="entry-title">Deep.Photoplay II VR Silent Film</h3><p class="entry-meta">Korean Film Archive · Film AI Engineer / VR Supervisor</p></div></article>
-          <article class="entry"><div class="date">2021</div><div><h3 class="entry-title">Deep.Photoplay I</h3><p class="entry-meta">Korean Film Archive · Film AI Engineer</p></div></article>
-          <article class="entry"><div class="date">2020</div><div><h3 class="entry-title">Nebula GO</h3><p class="entry-meta">ACM SIGGRAPH Art Gallery · Content Developer</p></div></article>
+            <article class="entry">
+              <div class="date">2026.03.26</div>
+              <div>
+                <h3 class="entry-title">Agile Vibe Pre-Production Storyboard Patent</h3>
+                <p class="entry-meta">Application no. 10-2026-0054962 · Tae-Kyung Yoo, Jungho Kim</p>
+              </div>
+            </article>
           </div>
         </details>
       </section>
 
-      <section class="section" id="teaching">
-        <h2 class="section-title">Teaching</h2>
-        <div class="teaching-block">
-          <section class="teaching-group">
-            <h3 class="subsection-title">University Courses</h3>
-            <div class="course-grid">
-              <a class="course-card" href="teaching/game-engine/">
-                <h4>Game Engine I / II</h4>
-                <p>Unreal Engine, real-time production, interactive systems, and project-based prototyping.</p>
-                <ul class="card-tags"><li>Unreal Engine</li><li>Real-Time</li><li>Interactive Systems</li></ul>
-                <span class="course-link-label">View course materials</span>
-              </a>
-              <article class="course-card">
-                <h4>Content Programming Practice</h4>
-                <p>Creative coding, production pipelines, and practical software prototyping for media content.</p>
-                <ul class="card-tags"><li>Creative Coding</li><li>Production Pipeline</li><li>Prototyping</li></ul>
-              </article>
-              <a class="course-card" href="teaching/media-art-programming/">
-                <h4>Media Art Programming Practice</h4>
-                <p>p5.js, interaction design, audiovisual media, and experimental computational expression.</p>
-                <ul class="card-tags"><li>p5.js</li><li>Interaction</li><li>Media Art</li></ul>
-                <span class="course-link-label">View course materials</span>
-              </a>
-              <article class="course-card">
-                <h4>Digital Archiving and Data Visualization</h4>
-                <p>Data storytelling, cultural data systems, visual analysis, and digital archive workflows.</p>
-                <ul class="card-tags"><li>Data Visualization</li><li>Digital Archive</li><li>Data Storytelling</li></ul>
-              </article>
-            </div>
-          </section>
-
-          <section class="teaching-group">
-            <h3 class="subsection-title">Mentoring &amp; Workshops</h3>
-            <article class="project-card">
-              <div class="date">2019.05 &mdash; 2024.02</div>
-              <div>
-                <h3 class="project-title">Netmarble Game Academy / IMG Lab</h3>
-                <p class="project-meta">Game programming mentoring, team project guidance, and production-oriented technical coaching.</p>
-                <ul class="card-tags"><li>Game Programming</li><li>Team Projects</li><li>Technical Mentoring</li></ul>
-              </div>
-            </article>
-          </section>
-
-          <section class="teaching-group">
-            <h3 class="subsection-title">Teaching Areas</h3>
-            <ul class="pill-row">
-              <li>Game Engines</li>
-              <li>Real-Time Production</li>
-              <li>Creative Coding</li>
-              <li>Media Art</li>
-              <li>Content Programming</li>
-              <li>Data Visualization</li>
-              <li>AI-Assisted Content Production</li>
+      <section class="section" id="cv-archive">
+        <h2 class="section-title">Background</h2>
+        <div class="background-grid">
+          <article class="background-card">
+            <h3>Experience</h3>
+            <ul class="background-list">
+              <li><span class="date">2025.06 &mdash; Present</span><div><strong>IXIWORKS</strong><span>CEO · AI software and digital media content development.</span></div></li>
+              <li><span class="date">2024.05 &mdash; Present</span><div><strong>Chung-Ang University Industry-Academic Cooperation Foundation</strong><span>Full-time researcher · Generative AI and cloud-based content production R&amp;D.</span></div></li>
+              <li><span class="date">2022.09 &mdash; Present</span><div><strong>College of Art &amp; Technology, Chung-Ang University</strong><span>Lecturer · Game engines, content programming, media art programming, and digital archiving.</span></div></li>
             </ul>
-          </section>
+          </article>
+          <article class="background-card">
+            <h3>Education</h3>
+            <ul class="background-list">
+              <li><span class="date">2020.03 &mdash; 2024.02</span><div><strong>Ph.D. in Image Engineering / Art Engineering</strong><span>Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</span></div></li>
+              <li><span class="date">2018.03 &mdash; 2020.02</span><div><strong>M.A. in Image Engineering / Art Engineering</strong><span>Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</span></div></li>
+              <li><span class="date">2011.02 &mdash; 2017.02</span><div><strong>B.A. in Photography &amp; Video</strong><span>Kyungil University.</span></div></li>
+            </ul>
+          </article>
         </div>
-      </section>
 
-      <section class="section">
-        <h2 class="section-title">Research Interests</h2>
-        <ul class="pill-row">
-          <li>Generative AI-Based Pre-Production</li>
-          <li>AI Director Systems</li>
-          <li>3D Human Digitizing</li>
-          <li>Digital Twin Pipelines</li>
-          <li>VR Storyboarding</li>
-          <li>Real-Time Engine Content Production</li>
-          <li>AI Media Art</li>
-        </ul>
+        <div class="teaching-block">
+          <h3 class="subsection-title">Teaching</h3>
+          <div class="course-grid">
+            <a class="course-card" href="teaching/game-engine/">
+              <h4>Game Engine I / II</h4>
+              <p>Unreal Engine, real-time production, interactive systems, and project-based prototyping.</p>
+              <span class="course-link-label">View course materials</span>
+            </a>
+            <article class="course-card">
+              <h4>Content Programming Practice</h4>
+              <p>Creative coding, production pipelines, and practical software prototyping for media content.</p>
+            </article>
+            <a class="course-card" href="teaching/media-art-programming/">
+              <h4>Media Art Programming Practice</h4>
+              <p>p5.js, interaction design, audiovisual media, and experimental computational expression.</p>
+              <span class="course-link-label">View course materials</span>
+            </a>
+            <article class="course-card">
+              <h4>Digital Archiving and Data Visualization</h4>
+              <p>Data storytelling, cultural data systems, visual analysis, and digital archive workflows.</p>
+            </article>
+          </div>
+        </div>
       </section>
     </main>
   </div>
 
   <footer class="site-footer">
-    <span>Kim Jungho · Curriculum Vitae · Updated 2026.05.07</span>
+    <span>Kim Jungho · Art Engineering · Updated 2026.05.07</span>
   </footer>
+  <script>
+    (() => {
+      const map = document.querySelector("[data-work-system-map]");
+      if (!map) return;
+
+      const descriptions = {
+        generative: "Generated media, prompts, and production logic become deployable creative workflows.",
+        "real-time": "Engine-based scenes turn interface, space, and media into working prototypes.",
+        "digital-twin": "Digitizing pipelines connect capture, 3D reconstruction, and production-scale assets.",
+        exhibition: "On-site systems translate AI media and immersive content into public experiences."
+      };
+      const buttons = Array.from(map.querySelectorAll("[data-axis]"));
+      const cards = Array.from(document.querySelectorAll("[data-work-card]"));
+      const copy = map.querySelector("[data-axis-copy]");
+
+      const setAxis = (axis) => {
+        buttons.forEach((button) => {
+          const active = button.dataset.axis === axis;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", String(active));
+        });
+
+        cards.forEach((card) => {
+          const axes = (card.dataset.axes || "").split(" ");
+          const match = axes.includes(axis);
+          card.classList.toggle("is-axis-match", match);
+          card.classList.toggle("is-axis-muted", !match);
+        });
+
+        if (copy && descriptions[axis]) {
+          copy.textContent = descriptions[axis];
+        }
+      };
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => setAxis(button.dataset.axis));
+        button.addEventListener("focus", () => setAxis(button.dataset.axis));
+        button.addEventListener("mouseenter", () => setAxis(button.dataset.axis));
+      });
+
+      setAxis("generative");
+    })();
+  </script>
 </body>
 </html>

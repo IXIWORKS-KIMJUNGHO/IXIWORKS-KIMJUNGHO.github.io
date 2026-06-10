@@ -9,20 +9,21 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #ffffff;
-      --surface: #f8f9fb;
-      --surface-strong: #f1f3f6;
-      --ink: #343840;
-      --ink-strong: #22252b;
-      --muted: #6a6f78;
-      --muted-light: #8b9098;
-      --line: #e7e9ee;
-      --line-strong: #d7dae2;
-      --accent: #3956a3;
-      --accent-strong: #263f87;
-      --accent-soft: #eef2ff;
-      --accent-line: #c9d4f5;
-      --link: #294a9b;
+      --bg: #f4f1ea;
+      --paper: #fbf8f1;
+      --surface: #ede8dd;
+      --surface-strong: #e3dccf;
+      --ink: #2a2927;
+      --ink-strong: #121312;
+      --muted: #6e675e;
+      --muted-light: #91887b;
+      --line: #d8d0c2;
+      --line-strong: #b9ae9d;
+      --accent: #263f4b;
+      --accent-strong: #111c22;
+      --accent-soft: #e4e8e5;
+      --accent-line: #9aa9aa;
+      --link: #223c4a;
       --sans: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, "Inter", "Helvetica Neue", Arial, sans-serif;
       --mono: "IBM Plex Mono", "SF Mono", Menlo, ui-monospace, monospace;
     }
@@ -35,7 +36,11 @@
 
     body {
       margin: 0;
-      background: var(--bg);
+      background:
+        linear-gradient(90deg, rgba(18, 19, 18, 0.035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(18, 19, 18, 0.028) 1px, transparent 1px),
+        var(--bg);
+      background-size: 42px 42px;
       color: var(--ink);
       font-family: var(--sans);
       font-size: 16px;
@@ -58,7 +63,7 @@
       position: sticky;
       top: 0;
       z-index: 10;
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(251, 248, 241, 0.94);
       border-bottom: 1px solid var(--line);
       backdrop-filter: blur(12px);
     }
@@ -101,8 +106,8 @@
       width: min(1120px, calc(100% - 48px));
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 252px minmax(0, 1fr);
-      gap: 72px;
+      grid-template-columns: 176px minmax(0, 1fr);
+      gap: 64px;
       padding: 56px 0 96px;
     }
 
@@ -113,14 +118,14 @@
     }
 
     .portrait-wrap {
-      width: 214px;
-      height: 266px;
-      margin-bottom: 18px;
-      padding: 7px;
+      width: 124px;
+      height: 154px;
+      margin-bottom: 16px;
+      padding: 5px;
       border: 1px solid var(--line);
       border-radius: 50% / 42%;
-      background: #fff;
-      box-shadow: 0 14px 36px rgba(35, 38, 44, 0.08);
+      background: var(--paper);
+      box-shadow: 0 14px 36px rgba(37, 34, 29, 0.08);
       overflow: hidden;
     }
 
@@ -136,7 +141,7 @@
     .side-name {
       margin: 0 0 7px;
       color: var(--ink-strong);
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
       line-height: 1.25;
     }
@@ -144,7 +149,7 @@
     .side-role {
       margin: 0 0 20px;
       color: var(--muted);
-      font-size: 14.5px;
+      font-size: 13.5px;
       line-height: 1.62;
       word-break: keep-all;
     }
@@ -154,21 +159,21 @@
       padding: 0;
       list-style: none;
       display: grid;
-      gap: 10px;
+      gap: 8px;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13.5px;
     }
 
     .side-list li {
       display: grid;
-      grid-template-columns: 22px 1fr;
+      grid-template-columns: 20px 1fr;
       align-items: baseline;
-      gap: 8px;
+      gap: 7px;
     }
 
     .side-list svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       color: var(--muted);
       transform: translateY(2px);
     }
@@ -276,14 +281,14 @@
 
     .news-list {
       display: grid;
-      gap: 12px;
+      gap: 9px;
     }
 
     .news-item {
       display: grid;
-      grid-template-columns: 120px minmax(0, 1fr);
-      gap: 22px;
-      padding: 17px 18px;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 18px;
+      padding: 13px 15px;
       border: 1px solid var(--line);
       border-left: 3px solid var(--accent-line);
       border-radius: 8px;
@@ -293,15 +298,15 @@
 
     .news-item:hover {
       border-color: var(--accent-line);
-      background: #fff;
-      box-shadow: 0 14px 30px rgba(20, 31, 52, 0.07);
+      background: var(--paper);
+      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
       transform: translateY(-1px);
     }
 
     .news-date {
       color: var(--accent);
       font-family: var(--mono);
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 600;
       line-height: 1.5;
       white-space: nowrap;
@@ -310,54 +315,40 @@
     .news-title {
       margin: 0;
       color: var(--ink-strong);
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 700;
-      line-height: 1.45;
+      line-height: 1.38;
     }
 
-    .news-text {
+    .news-meta {
       margin: 4px 0 0;
       color: var(--muted);
-      font-size: 14px;
+      font-size: 13px;
       line-height: 1.5;
       word-break: keep-all;
     }
 
-    .card-tags {
-      margin: 10px 0 0;
-      padding: 0;
+    .page-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      list-style: none;
-    }
-
-    .card-tags li {
-      padding: 4px 7px;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      background: #fff;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 10.5px;
-      font-weight: 500;
-      line-height: 1;
+      gap: 8px;
+      margin: 0 0 18px;
     }
 
     .back-link {
       display: inline-flex;
       align-items: center;
       min-height: 38px;
-      margin-top: 28px;
+      margin-top: 0;
       padding: 0 14px;
       border: 1px solid var(--line-strong);
-      border-radius: 999px;
-      background: #fff;
+      border-radius: 4px;
+      background: var(--paper);
       color: var(--ink-strong);
       font-size: 13px;
       font-weight: 700;
       line-height: 1;
-      box-shadow: 0 8px 18px rgba(20, 31, 52, 0.05);
+      box-shadow: 0 8px 18px rgba(37, 34, 29, 0.05);
     }
 
     .back-link:hover {
@@ -409,14 +400,14 @@
       .sidebar {
         position: static;
         display: grid;
-        grid-template-columns: 132px minmax(0, 1fr);
-        gap: 22px;
+        grid-template-columns: 96px minmax(0, 1fr);
+        gap: 16px;
         align-items: center;
       }
 
       .portrait-wrap {
-        width: 132px;
-        height: 164px;
+        width: 96px;
+        height: 120px;
         margin: 0;
       }
 
@@ -435,15 +426,15 @@
       }
 
       .side-name {
-        font-size: 21px;
+        font-size: 19px;
       }
 
       .side-role {
-        font-size: 15px;
+        font-size: 14px;
       }
 
       .side-list {
-        font-size: 14px;
+        font-size: 13.5px;
       }
 
       .summary-row,
@@ -459,12 +450,12 @@
       }
 
       .sidebar {
-        grid-template-columns: 104px minmax(0, 1fr);
+        grid-template-columns: 82px minmax(0, 1fr);
       }
 
       .portrait-wrap {
-        width: 104px;
-        height: 130px;
+        width: 82px;
+        height: 102px;
       }
 
       .section-title {
@@ -482,9 +473,9 @@
     <nav class="nav" aria-label="Primary">
       <a class="brand" href="index.html">Kim Jungho</a>
       <a class="active" href="news.html">News</a>
-      <a href="index.html#publications">Publications</a>
-      <a href="portfolio.html">Portfolio</a>
-      <a href="index.html#cv">CV</a>
+      <a href="portfolio.html">Work</a>
+      <a href="index.html#research">Research</a>
+      <a href="index.html#cv-archive">CV</a>
     </nav>
   </header>
 
@@ -495,7 +486,7 @@
       </div>
       <div>
         <h2 class="side-name">Kim Jungho</h2>
-        <p class="side-role">Art &amp; technology researcher working across generative AI, digital twins, immersive content, and real-time engines.</p>
+        <p class="side-role">Ph.D. · Art engineering researcher and developer in Seoul.</p>
       </div>
       <ul class="side-list">
         <li>
@@ -519,25 +510,27 @@
 
     <main class="content">
       <section class="page-hero">
+        <div class="page-actions" aria-label="Page links">
+          <a class="back-link" href="index.html">Back to Home</a>
+        </div>
         <p class="hero-kicker">Updates · Projects · Exhibitions</p>
-        <h1>News Archive</h1>
-        <p class="lead">Selected updates on research, production, exhibitions, teaching, and company projects.</p>
+        <h1>News Index</h1>
+        <p class="lead">A compact timeline of research, production, exhibitions, teaching, and company updates.</p>
         <ul class="summary-row" aria-label="News summary">
-          <li><span class="summary-value">2026</span><span class="summary-label">Latest patent activity</span></li>
-          <li><span class="summary-value">10</span><span class="summary-label">Selected updates</span></li>
-          <li><span class="summary-value">AI · Art · R&amp;D</span><span class="summary-label">Main focus areas</span></li>
+          <li><span class="summary-value">10</span><span class="summary-label">Update entries</span></li>
+          <li><span class="summary-value">2023-2026</span><span class="summary-label">Research and production</span></li>
+          <li><span class="summary-value">AI · Real-Time · Art</span><span class="summary-label">Activity axes</span></li>
         </ul>
       </section>
 
-      <section class="section" aria-label="All news">
-        <h2 class="section-title">All News</h2>
+      <section class="section" aria-label="News index">
+        <h2 class="section-title">Update Index</h2>
         <div class="news-list">
           <article class="news-item">
             <div class="news-date">2026.03.26</div>
             <div>
               <h3 class="news-title">Patent application filed for Agile Vibe Pre-Production Storyboard Patent.</h3>
-              <p class="news-text">Filed application no. 10-2026-0054962 with Tae-Kyung Yoo. Official title: <em>Generative Artificial Intelligence-Based Agile Vibe Pre-Production Storyboard Generation Apparatus, Method Therefor, and Recording Medium</em>.</p>
-              <ul class="card-tags"><li>Patent</li><li>Generative AI</li><li>Storyboard</li></ul>
+              <p class="news-meta">Patent · Generative AI · Storyboard</p>
             </div>
           </article>
 
@@ -545,8 +538,7 @@
             <div class="news-date">2025.10</div>
             <div>
               <h3 class="news-title">Started healing landscape-style AI media art content production.</h3>
-              <p class="news-text">Produced AI media art content with Jeonju University Industry-Academic Cooperation Foundation.</p>
-              <ul class="card-tags"><li>AI Media Art</li><li>Production</li><li>Visual Content</li></ul>
+              <p class="news-meta">AI media art · Production · Visual content</p>
             </div>
           </article>
 
@@ -554,8 +546,7 @@
             <div class="news-date">2025.09</div>
             <div>
               <h3 class="news-title">Developed an AI-based smart home living environment content platform UI prototype.</h3>
-              <p class="news-text">Designed prototype content for LG Electronics and Skonec Entertainment around AI-assisted residential platform experiences.</p>
-              <ul class="card-tags"><li>AI UX</li><li>Prototype</li><li>Smart Home</li></ul>
+              <p class="news-meta">AI UX · Prototype · Smart home</p>
             </div>
           </article>
 
@@ -563,8 +554,7 @@
             <div class="news-date">2025.08</div>
             <div>
               <h3 class="news-title">Designed a VIVE AI kiosk experience for Incheon Inspire Resort.</h3>
-              <p class="news-text">Contributed UX system and UI design for a visitor-facing AI kiosk experience with VIVE Studios.</p>
-              <ul class="card-tags"><li>AI UX</li><li>Kiosk</li><li>Installation</li></ul>
+              <p class="news-meta">AI UX · Kiosk · Installation</p>
             </div>
           </article>
 
@@ -572,8 +562,7 @@
             <div class="news-date">2025.07</div>
             <div>
               <h3 class="news-title">Developed a Hyundai Mobis Connect in-vehicle infotainment prototype.</h3>
-              <p class="news-text">Implemented Unreal Engine-based real-time 3D infotainment content with VIVE Studios and Hyundai Mobis.</p>
-              <ul class="card-tags"><li>Unreal Engine</li><li>Real-Time 3D</li><li>Infotainment</li></ul>
+              <p class="news-meta">Unreal Engine · Real-time 3D · Infotainment</p>
             </div>
           </article>
 
@@ -581,8 +570,7 @@
             <div class="news-date">2025.06</div>
             <div>
               <h3 class="news-title">Founded IXIWORKS as a software and AI media content development company.</h3>
-              <p class="news-text">Building tools and production systems across AI software, digital media content, and real-time engine workflows.</p>
-              <ul class="card-tags"><li>Company</li><li>AI Software</li><li>Media Content</li></ul>
+              <p class="news-meta">Company · AI software · Media content</p>
             </div>
           </article>
 
@@ -590,8 +578,7 @@
             <div class="news-date">2025</div>
             <div>
               <h3 class="news-title">Participated in the Korea-Canada convergence art special exhibition.</h3>
-              <p class="news-text">Served as VR Supervisor and Film AI Engineer for <em>Spectrum of Humanity</em> in Montréal.</p>
-              <ul class="card-tags"><li>Exhibition</li><li>VR</li><li>Film AI</li></ul>
+              <p class="news-meta">Exhibition · VR · Film AI</p>
             </div>
           </article>
 
@@ -599,8 +586,7 @@
             <div class="news-date">2024.05</div>
             <div>
               <h3 class="news-title">Joined Chung-Ang University Industry-Academic Cooperation Foundation as a full-time researcher.</h3>
-              <p class="news-text">Started full-time research on generative AI and cloud-based content production R&amp;D.</p>
-              <ul class="card-tags"><li>R&amp;D</li><li>Generative AI</li><li>Content Production</li></ul>
+              <p class="news-meta">R&amp;D · Generative AI · Content production</p>
             </div>
           </article>
 
@@ -608,8 +594,7 @@
             <div class="news-date">2024.01</div>
             <div>
               <h3 class="news-title">Developed Samsung Paris 2024 Breaking Solution experiences.</h3>
-              <p class="news-text">Built large-screen UI, kiosk interfaces, mobile camera linkage, and QR system experiences with IMG Lab.</p>
-              <ul class="card-tags"><li>Interactive UI</li><li>Kiosk</li><li>Event System</li></ul>
+              <p class="news-meta">Interactive UI · Kiosk · Event system</p>
             </div>
           </article>
 
@@ -617,18 +602,16 @@
             <div class="news-date">2023</div>
             <div>
               <h3 class="news-title">Selected for BIFAN 2023 Beyond Reality.</h3>
-              <p class="news-text">Participated as VR Supervisor and Film AI Engineer in the Bucheon International Fantastic Film Festival program.</p>
-              <ul class="card-tags"><li>Exhibition</li><li>VR</li><li>Film AI</li></ul>
+              <p class="news-meta">Exhibition · VR · Film AI</p>
             </div>
           </article>
         </div>
-        <a class="back-link" href="index.html">Back to CV</a>
       </section>
     </main>
   </div>
 
   <footer class="site-footer">
-    <span>Kim Jungho · News Archive · Updated 2026.05.20</span>
+    <span>Kim Jungho · News Index · Updated 2026.05.20</span>
   </footer>
 </body>
 </html>
