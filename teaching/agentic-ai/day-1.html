@@ -76,6 +76,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     const manifest = JSON.parse(manifestEl.textContent);
     let template = JSON.parse(templateEl.textContent);
 
+    const archiveNavigationStyles = '<style>.deck-archive-link{position:fixed;top:16px;left:16px;z-index:2147483647;display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid rgba(255,255,255,.32);background:rgba(32,30,29,.88);color:#f3f2f2;text-decoration:none;font-family:var(--font-heading,system-ui,sans-serif);font-size:12px;font-weight:800;line-height:1;letter-spacing:.01em;box-shadow:0 8px 24px rgba(0,0,0,.18);backdrop-filter:blur(12px);transition:background 160ms ease,transform 160ms ease,border-color 160ms ease}.deck-archive-link:hover{border-color:#ec3013;background:#ec3013;color:#fff;transform:translateY(-1px)}.deck-archive-link:focus-visible{outline:3px solid rgba(236,48,19,.42);outline-offset:3px}@media(max-width:640px){.deck-archive-link{top:10px;left:10px;padding:9px 10px;font-size:11px}}@media print{.deck-archive-link{display:none}}</style>';
+    const archiveNavigationLink = '<a class="deck-archive-link" href="./" aria-label="Agentic AI 강의 자료 목록으로 돌아가기"><span aria-hidden="true">&larr;</span><span>강의 자료 목록</span></a>';
+    template = template.replace('</head>', archiveNavigationStyles + '</head>');
+    template = template.replace('<body>', '<body>' + archiveNavigationLink);
+
     const sectionThreeIntro = '<p class="divider-sub">진행자가 옆에서 도와드립니다. 마지막 실행과 확인은 내 노트북에서 직접 합니다.</p>';
     const sectionThreeRunbookLink = '<a class="btn btn-primary" href="day1-install-runbook.html" target="_blank" rel="noopener" style="margin-top: var(--space-4);">Section 3 설치 실행 안내서 열기</a>';
     template = template.replace(sectionThreeIntro, sectionThreeIntro + sectionThreeRunbookLink);
