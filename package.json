@@ -1,0 +1,8 @@
+{
+  "name": "kimjungho-agentic-ai-workshop",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-sites-static.mjs"
+  }
+}

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Codex와 Claude Code 프로젝트에 기본 작업 규칙을 복사해 넣는 안내서">
+  <title>AI 코딩 작업 규칙 · 복사 안내서</title>
+  <style>
+    :root {
+      --bg: #f3f2f2;
+      --surface: #ffffff;
+      --surface-soft: #eae9e9;
+      --text: #201e1d;
+      --muted: #65615f;
+      --line: #c9c5c3;
+      --accent: #ec3013;
+      --accent-soft: #ffe0d9;
+      --ok: #176b45;
+      --shadow: 0 16px 40px rgba(32, 30, 29, 0.08);
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Pretendard", "Segoe UI", sans-serif;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+    a { color: inherit; text-underline-offset: 0.2em; }
+    button { font: inherit; cursor: pointer; }
+    code { overflow-wrap: anywhere; }
+
+    .skip-link {
+      position: fixed;
+      top: -80px;
+      left: 16px;
+      z-index: 100;
+      padding: 10px 14px;
+      background: var(--text);
+      color: #fff;
+    }
+    .skip-link:focus { top: 16px; }
+
+    .topbar {
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+      background: var(--accent);
+      color: #fff;
+    }
+    .topbar a { font-weight: 800; text-decoration: none; }
+
+    .hero {
+      padding: 56px 24px 64px;
+      background: var(--accent);
+      color: #fff;
+    }
+    .hero-inner, main, .footer-inner {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+    .eyebrow {
+      margin: 0 0 16px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 850px;
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 5.2rem);
+      line-height: 1.04;
+    }
+    .hero-copy {
+      max-width: 760px;
+      margin: 24px 0 0;
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+    }
+
+    main { padding: 40px 0 96px; }
+    .start-card, .copy-card, .check-card {
+      background: var(--surface);
+      border: 2px solid var(--text);
+      box-shadow: var(--shadow);
+    }
+    .start-card { padding: 30px; }
+    h2 {
+      margin: 0;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      line-height: 1.2;
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 24px;
+    }
+    .step {
+      min-height: 160px;
+      padding: 20px;
+      background: var(--surface-soft);
+      border-top: 5px solid var(--accent);
+    }
+    .step-num {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-weight: 900;
+    }
+    .step h3 { margin: 0 0 8px; font-size: 1.15rem; }
+    .step p { margin: 0; color: var(--muted); }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 24px;
+    }
+    .tool-card {
+      padding: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+    }
+    .tool-card h3 { margin: 0 0 10px; font-size: 1.35rem; }
+    .tool-card p { margin: 0; color: var(--muted); }
+    .filename {
+      display: block;
+      margin-top: 16px;
+      padding: 13px 15px;
+      background: var(--text);
+      color: #fff;
+      font: 700 1rem/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+    }
+
+    .copy-card { margin-top: 32px; overflow: hidden; }
+    .copy-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px 24px;
+      background: var(--text);
+      color: #fff;
+    }
+    .copy-head h2 { font-size: clamp(1.35rem, 2.4vw, 2rem); }
+    .copy-button {
+      min-width: 150px;
+      min-height: 46px;
+      padding: 10px 16px;
+      border: 2px solid #fff;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 900;
+    }
+    .copy-button:hover, .copy-button:focus-visible { background: #b9210b; }
+    .copy-status {
+      min-height: 24px;
+      margin: 0;
+      padding: 10px 24px;
+      background: var(--accent-soft);
+      color: #7d1e0e;
+      font-weight: 800;
+    }
+    .source-wrap {
+      max-height: 660px;
+      overflow: auto;
+      padding: 24px;
+      background: #171615;
+      color: #f6f3f1;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      font: 0.88rem/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      word-break: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .check-card { margin-top: 32px; padding: 30px; }
+    .check-list { margin: 20px 0 0; padding-left: 1.35em; }
+    .check-list li + li { margin-top: 10px; }
+    .note {
+      margin-top: 22px;
+      padding: 18px 20px;
+      background: #e5f4ec;
+      border-left: 5px solid var(--ok);
+    }
+    .note p { margin: 0; }
+
+    footer { padding: 28px 24px; background: var(--text); color: #ddd8d5; }
+    footer p { margin: 0; }
+
+    @media (max-width: 760px) {
+      .steps, .tool-grid { grid-template-columns: 1fr; }
+      .copy-head { align-items: stretch; flex-direction: column; }
+      .copy-button { width: 100%; }
+      .hero-inner, main, .footer-inner { width: min(calc(100% - 28px), var(--max)); }
+      .start-card, .check-card { padding: 22px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 이동</a>
+  <nav class="topbar" aria-label="강의 자료 이동">
+    <a href="./">← Agentic AI 강의 자료</a>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Day 1 · Copy Runbook</p>
+      <h1>AI 코딩 작업 규칙</h1>
+      <p class="hero-copy">아래 원문을 복사해 프로젝트 안내 문서에 붙여 넣습니다. Codex는 <strong>AGENTS.md</strong>, Claude Code는 <strong>CLAUDE.md</strong>를 읽습니다.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="start-card" aria-labelledby="start-title">
+      <h2 id="start-title">3단계로 적용합니다</h2>
+      <div class="steps">
+        <article class="step">
+          <span class="step-num">STEP 01</span>
+          <h3>파일 이름 고르기</h3>
+          <p>사용하는 도구에 맞춰 <code>AGENTS.md</code> 또는 <code>CLAUDE.md</code>를 고릅니다.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">STEP 02</span>
+          <h3>원문 전체 복사하기</h3>
+          <p>아래의 ‘전체 원문 복사’ 버튼을 누릅니다.</p>
+        </article>
+        <article class="step">
+          <span class="step-num">STEP 03</span>
+          <h3>프로젝트에 붙여넣기</h3>
+          <p>프로젝트의 가장 바깥 폴더에 파일을 만들고 복사한 내용을 붙여 넣습니다.</p>
+        </article>
+      </div>
+
+      <div class="tool-grid" aria-label="도구별 파일 이름">
+        <article class="tool-card">
+          <h3>Codex 앱을 쓴다면</h3>
+          <p>Codex가 프로젝트 작업 전에 읽는 안내 문서입니다.</p>
+          <code class="filename">내 프로젝트/AGENTS.md</code>
+        </article>
+        <article class="tool-card">
+          <h3>Claude Code를 쓴다면</h3>
+          <p>Claude Code가 프로젝트 작업 전에 읽는 안내 문서입니다.</p>
+          <code class="filename">내 프로젝트/CLAUDE.md</code>
+        </article>
+      </div>
+    </section>
+
+    <section class="copy-card" aria-labelledby="source-title">
+      <div class="copy-head">
+        <h2 id="source-title">기본 작업 규칙 원문</h2>
+        <button class="copy-button" id="copy-button" type="button">전체 원문 복사</button>
+      </div>
+      <p class="copy-status" id="copy-status" role="status" aria-live="polite">버튼을 누르면 아래 내용 전체가 복사됩니다.</p>
+      <div class="source-wrap">
+        <pre><code id="guidelines-source">Behavioral guidelines to reduce common LLM coding mistakes. Merge with project-specific instructions as needed.
+
+Tradeoff: These guidelines bias toward caution over speed. For trivial tasks, use judgment.
+
+1. Think Before Coding
+
+Don't assume. Don't hide confusion. Surface tradeoffs.
+
+Before implementing:
+
+- State your assumptions explicitly. If uncertain, ask.
+- If multiple interpretations exist, present them - don't pick silently.
+- If a simpler approach exists, say so. Push back when warranted.
+- If something is unclear, stop. Name what's confusing. Ask.
+
+2. Simplicity First
+
+Minimum code that solves the problem. Nothing speculative.
+
+- No features beyond what was asked.
+- No abstractions for single-use code.
+- No "flexibility" or "configurability" that wasn't requested.
+- No error handling for impossible scenarios.
+- If you write 200 lines and it could be 50, rewrite it.
+
+Ask yourself: "Would a senior engineer say this is overcomplicated?" If yes, simplify.
+
+3. Surgical Changes
+
+Touch only what you must. Clean up only your own mess.
+
+When editing existing code:
+
+- Don't "improve" adjacent code, comments, or formatting.
+- Don't refactor things that aren't broken.
+- Match existing style, even if you'd do it differently.
+- If you notice unrelated dead code, mention it - don't delete it.
+
+When your changes create orphans:
+
+- Remove imports/variables/functions that YOUR changes made unused.
+- Don't remove pre-existing dead code unless asked.
+
+The test: Every changed line should trace directly to the user's request.
+
+4. Goal-Driven Execution
+
+Define success criteria. Loop until verified.
+
+Transform tasks into verifiable goals:
+
+- "Add validation" → "Write tests for invalid inputs, then make them pass"
+- "Fix the bug" → "Write a test that reproduces it, then make it pass"
+- "Refactor X" → "Ensure tests pass before and after"
+
+For multi-step tasks, state a brief plan:
+
+1. [Step] → verify: [check]
+2. [Step] → verify: [check]
+3. [Step] → verify: [check]
+
+Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.
+
+5. Plain Korean Responses
+
+No jargon buildup. Compare with concrete pictures, not abstract trade-offs.
+
+When answering this user in Korean (which is most of the time):
+
+- Cap English acronyms / technical terms at 1-2 per paragraph. Stacking three or more in one sentence (ADR, PR, in-place, prefix marker, future reviewer, prevailing pattern, …) makes the meaning go dark even when each word is individually known. Break them up with plain Korean.
+
+- Avoid meta words like "...정신과 충돌", "...의 발견성", "historical accuracy 보존", "발견성 vs 단순함". They sound abstract and obscure the real choice. Translate to plain Korean or drop them.
+
+- When comparing options, show concrete pictures, not abstract trade-offs. Not "단순함 vs 일관성" — instead "이렇게 하면 다음에 보면 X 처럼 보이고, 저렇게 하면 Y 처럼 보임", with a one-line example if possible.
+
+- Re-read before sending. Ask: would someone reading this cold know which option you're recommending and why? If not, rewrite.</code></pre>
+      </div>
+    </section>
+
+    <section class="check-card" aria-labelledby="check-title">
+      <h2 id="check-title">붙여 넣은 뒤 확인합니다</h2>
+      <ol class="check-list">
+        <li>파일 이름과 대문자가 정확한지 확인합니다.</li>
+        <li>파일이 프로젝트의 가장 바깥 폴더에 있는지 확인합니다.</li>
+        <li>이어서 폴더 구조, 실행 명령, 건드리지 않을 범위처럼 내 프로젝트에만 해당하는 규칙을 추가합니다.</li>
+        <li>Codex나 Claude Code에 “이 프로젝트의 작업 규칙을 요약해 줘”라고 물어 문서를 읽었는지 확인합니다.</li>
+      </ol>
+      <div class="note">
+        <p><strong>한 프로젝트에서 두 도구를 함께 쓴다면</strong> 같은 규칙을 <code>AGENTS.md</code>와 <code>CLAUDE.md</code>에 각각 넣습니다.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>1–4는 카파시의 관찰에서 파생된 커뮤니티 지침이며, 5는 수업을 위해 추가한 한국어 응답 규칙입니다.</p>
+    </div>
+  </footer>
+
+  <script>
+    const copyButton = document.getElementById('copy-button');
+    const copyStatus = document.getElementById('copy-status');
+    const guidelinesSource = document.getElementById('guidelines-source');
+
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      const copied = document.execCommand('copy');
+      textarea.remove();
+      if (!copied) throw new Error('copy failed');
+    }
+
+    copyButton.addEventListener('click', async () => {
+      const text = guidelinesSource.textContent.trim();
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          fallbackCopy(text);
+        }
+        copyButton.textContent = '복사 완료';
+        copyStatus.textContent = '원문 전체를 복사했습니다. 프로젝트 안내 문서에 붙여 넣으세요.';
+        window.setTimeout(() => { copyButton.textContent = '전체 원문 복사'; }, 2400);
+      } catch (error) {
+        copyStatus.textContent = '자동 복사가 되지 않았습니다. 원문을 직접 선택해 복사해 주세요.';
+      }
+    });
+  </script>
+</body>
+</html>
