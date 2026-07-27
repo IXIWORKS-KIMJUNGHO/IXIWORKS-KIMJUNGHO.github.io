@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="프로그래밍은 몰라도 AI는 사용합니다만 워크숍의 멘토링 그룹과 그룹별 공통점">
+  <title>비슷한 고민을 다루는 멘토링 그룹</title>
+  <style>
+    :root {
+      --bg: #f3f2f2;
+      --surface: #ffffff;
+      --surface-soft: #eae9e9;
+      --text: #201e1d;
+      --muted: #65615f;
+      --line: #c9c5c3;
+      --accent: #ec3013;
+      --accent-soft: #ffe0d9;
+      --shadow: 0 16px 40px rgba(32, 30, 29, 0.08);
+      --max: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Pretendard", "Segoe UI", sans-serif;
+      line-height: 1.65;
+      word-break: keep-all;
+    }
+
+    a {
+      color: inherit;
+      text-underline-offset: 0.2em;
+    }
+
+    .skip-link {
+      position: fixed;
+      top: -80px;
+      left: 16px;
+      z-index: 100;
+      padding: 10px 14px;
+      background: var(--text);
+      color: #fff;
+    }
+
+    .skip-link:focus { top: 16px; }
+
+    .topbar {
+      padding: 14px 24px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .topbar-inner,
+    .hero-inner,
+    main,
+    .footer-inner {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar a {
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .hero {
+      padding: 62px 24px 68px;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.13), transparent 42%),
+        var(--accent);
+      color: #fff;
+    }
+
+    .eyebrow {
+      margin: 0 0 16px;
+      font-size: 0.82rem;
+      font-weight: 850;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 900px;
+      margin: 0;
+      font-size: clamp(2.5rem, 6vw, 5.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+
+    .hero-copy {
+      max-width: 780px;
+      margin: 24px 0 0;
+      font-size: clamp(1.08rem, 2vw, 1.35rem);
+    }
+
+    main { padding: 40px 0 96px; }
+
+    .principle {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 22px;
+      align-items: start;
+      padding: 28px 30px;
+      border: 2px solid var(--text);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .principle-label {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 6px 10px;
+      background: var(--text);
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .principle h2 {
+      margin: 0;
+      font-size: clamp(1.45rem, 2.5vw, 2rem);
+      line-height: 1.25;
+    }
+
+    .principle p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 1.02rem;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .overview-card {
+      --group: var(--accent);
+      --group-soft: var(--accent-soft);
+      display: flex;
+      min-height: 190px;
+      flex-direction: column;
+      padding: 22px;
+      border-top: 6px solid var(--group);
+      background: var(--surface);
+      box-shadow: 0 10px 26px rgba(32, 30, 29, 0.06);
+      text-decoration: none;
+    }
+
+    .overview-card:hover,
+    .overview-card:focus-visible {
+      outline: 3px solid var(--group-soft);
+      outline-offset: 3px;
+    }
+
+    .group-1 {
+      --group: #ec3013;
+      --group-soft: #ffe0d9;
+    }
+
+    .group-2 {
+      --group: #285bb8;
+      --group-soft: #e3ecff;
+    }
+
+    .group-3 {
+      --group: #176b45;
+      --group-soft: #e2f2e9;
+    }
+
+    .overview-num {
+      color: var(--group);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+    }
+
+    .overview-card h3 {
+      margin: 12px 0 0;
+      font-size: 1.34rem;
+      line-height: 1.25;
+    }
+
+    .overview-mentor {
+      margin: auto 0 0;
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .overview-mentor strong { color: var(--text); }
+
+    .groups {
+      display: grid;
+      gap: 28px;
+      margin-top: 42px;
+    }
+
+    .group-section {
+      --group: var(--accent);
+      --group-soft: var(--accent-soft);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .group-head {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      padding: 26px 28px;
+      border-top: 7px solid var(--group);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .group-number {
+      color: var(--group);
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .group-head h2 {
+      margin: 0;
+      font-size: clamp(1.65rem, 3vw, 2.35rem);
+      line-height: 1.2;
+    }
+
+    .mentor {
+      padding: 9px 13px;
+      background: var(--group-soft);
+      color: var(--group);
+      font-size: 0.9rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .group-body {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+      gap: 28px;
+      padding: 28px;
+    }
+
+    .member-list {
+      display: grid;
+      gap: 0;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--line);
+    }
+
+    .member-list li {
+      display: grid;
+      grid-template-columns: 92px minmax(0, 1fr);
+      gap: 18px;
+      padding: 16px 2px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .member-list strong {
+      font-size: 1.02rem;
+    }
+
+    .member-list span {
+      color: var(--muted);
+    }
+
+    .group-common {
+      align-self: start;
+      padding: 24px;
+      border-left: 6px solid var(--group);
+      background: var(--group-soft);
+    }
+
+    .group-common h3 {
+      margin: 0;
+      color: var(--group);
+      font-size: 0.86rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .group-common p {
+      margin: 14px 0 0;
+      font-size: 1.3rem;
+      font-weight: 850;
+      line-height: 1.45;
+    }
+
+    .individual-note {
+      margin: 36px 0 0;
+      padding: 24px 26px;
+      border: 2px solid var(--text);
+      background: var(--surface-soft);
+    }
+
+    .individual-note strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 1.14rem;
+    }
+
+    .individual-note p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    footer {
+      padding: 28px 24px;
+      background: var(--text);
+      color: #ddd8d5;
+    }
+
+    footer p { margin: 0; }
+
+    @media (max-width: 860px) {
+      .overview { grid-template-columns: 1fr; }
+      .overview-card { min-height: 0; }
+      .group-body { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner,
+      .hero-inner,
+      main,
+      .footer-inner {
+        width: min(calc(100% - 28px), var(--max));
+      }
+
+      .topbar { padding-inline: 0; }
+      .hero { padding: 46px 0 52px; }
+      h1 { font-size: 2.35rem; }
+      main { padding-top: 28px; }
+
+      .principle {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        padding: 22px;
+      }
+
+      .principle-label { justify-self: start; }
+
+      .group-head {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 22px;
+      }
+
+      .mentor { justify-self: start; }
+      .group-body { padding: 22px; }
+
+      .member-list li {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+
+    @media print {
+      body { background: #fff; }
+      .topbar { display: none; }
+      .hero { padding: 34px 0; }
+      main { padding: 24px 0; }
+      .overview { display: none; }
+      .groups { margin-top: 24px; }
+      .group-section {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+      .individual-note { break-inside: avoid; }
+      footer { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">본문으로 이동</a>
+
+  <nav class="topbar" aria-label="강의 자료 이동">
+    <div class="topbar-inner">
+      <a href="./">← Agentic AI 강의 자료</a>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="eyebrow">Day 1 · Mentoring Groups</p>
+      <h1>비슷한 고민을 다루는 멘토링 그룹</h1>
+      <p class="hero-copy">각자 다른 서비스를 만들되, 비슷한 고민을 가진 학생끼리 같은 멘토와 기획·구현 과정을 점검합니다.</p>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="principle" aria-labelledby="principle-title">
+      <span class="principle-label">개별 결과물</span>
+      <div>
+        <h2 id="principle-title">아이디어를 합쳐 하나의 서비스를 만드는 그룹이 아닙니다.</h2>
+        <p>서로의 질문과 시행착오를 참고하되, 서비스 설계서와 구현 결과는 각자 완성합니다.</p>
+      </div>
+    </section>
+
+    <nav class="overview" aria-label="멘토링 그룹 바로가기">
+      <a class="overview-card group-1" href="#group-1">
+        <span class="overview-num">GROUP 01</span>
+        <h3>창작자를 위한 AI 도구</h3>
+        <p class="overview-mentor">멘토 <strong>김경중</strong></p>
+      </a>
+      <a class="overview-card group-2" href="#group-2">
+        <span class="overview-num">GROUP 02</span>
+        <h3>관객 참여형 디지털 무대</h3>
+        <p class="overview-mentor">멘토 <strong>김정호</strong></p>
+      </a>
+      <a class="overview-card group-3" href="#group-3">
+        <span class="overview-num">GROUP 03</span>
+        <h3>기억과 서사의 아카이브</h3>
+        <p class="overview-mentor">멘토 <strong>김동권</strong></p>
+      </a>
+    </nav>
+
+    <div class="groups">
+      <section class="group-section group-1" id="group-1" aria-labelledby="group-1-title">
+        <header class="group-head">
+          <span class="group-number">Group 01</span>
+          <h2 id="group-1-title">창작자를 위한 AI 도구</h2>
+          <span class="mentor">멘토 · 김경중</span>
+        </header>
+        <div class="group-body">
+          <ul class="member-list" aria-label="1그룹 구성원">
+            <li><strong>권민경</strong><span>UX·BX·인터랙션과 시각 설계</span></li>
+            <li><strong>김규민</strong><span>새로운 시점과 이미지 발상, 리서치·프로토타입</span></li>
+            <li><strong>김지연</strong><span>집중 타이머와 작업 관리</span></li>
+            <li><strong>유현정</strong><span>영상 제작 현장의 문제 정의와 실행 관리</span></li>
+            <li><strong>이은재</strong><span>콘티·영상 스케치 사용자의 관점</span></li>
+          </ul>
+          <aside class="group-common" aria-labelledby="group-1-common">
+            <h3 id="group-1-common">그룹 공통점</h3>
+            <p>기획·집중·콘티·영상 제작 등 창작 과정의 한 부분을 도구로 보조하려는 아이디어</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="group-section group-2" id="group-2" aria-labelledby="group-2-title">
+        <header class="group-head">
+          <span class="group-number">Group 02</span>
+          <h2 id="group-2-title">관객 참여형 디지털 무대</h2>
+          <span class="mentor">멘토 · 김정호</span>
+        </header>
+        <div class="group-body">
+          <ul class="member-list" aria-label="2그룹 구성원">
+            <li><strong>박선영</strong><span>웹 오디오와 인터랙션 구조</span></li>
+            <li><strong>신수연</strong><span>애니메이션·세계관·탐험 경험</span></li>
+            <li><strong>이다연</strong><span>조형과 디지털 매체의 연결</span></li>
+            <li><strong>정재은</strong><span>공연·음악 콘텐츠와 관객 관점</span></li>
+            <li><strong>정해원</strong><span>인터랙티브 기획과 프로토타이핑 경험</span></li>
+          </ul>
+          <aside class="group-common" aria-labelledby="group-2-common">
+            <h3 id="group-2-common">그룹 공통점</h3>
+            <p>소리·공연·조형·브랜딩을 웹으로 옮겨 관객이 직접 참여하는 경험을 만들려는 아이디어</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="group-section group-3" id="group-3" aria-labelledby="group-3-title">
+        <header class="group-head">
+          <span class="group-number">Group 03</span>
+          <h2 id="group-3-title">기억과 서사의 아카이브</h2>
+          <span class="mentor">멘토 · 김동권</span>
+        </header>
+        <div class="group-body">
+          <ul class="member-list" aria-label="3그룹 구성원">
+            <li><strong>김수민</strong><span>장소·공동체 아카이브와 서비스 구조</span></li>
+            <li><strong>손효빈</strong><span>인간 외 존재를 포함한 다중 시점 서사</span></li>
+            <li><strong>이강선</strong><span>편집·웹진·비선형 탐색 경험</span></li>
+            <li><strong>이현호</strong><span>자기 인터뷰와 대화형 AI 흐름</span></li>
+            <li><strong>주하연</strong><span>작품 간 관계망 시각화</span></li>
+          </ul>
+          <aside class="group-common" aria-labelledby="group-3-common">
+            <h3 id="group-3-common">그룹 공통점</h3>
+            <p>기억·작품·관계를 모으고 사용자가 새로운 연결과 서사를 발견하게 하려는 아이디어</p>
+          </aside>
+        </div>
+      </section>
+    </div>
+
+    <aside class="individual-note">
+      <strong>같은 그룹이어도 만드는 서비스는 서로 다릅니다.</strong>
+      <p>멘토링에서는 아이디어를 하나로 합치지 않고, 각자의 사용자 장면과 핵심 흐름, 완료 기준을 구체화합니다.</p>
+    </aside>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <p>한국예술종합학교 융합예술센터 · 아트콜라이더 랩</p>
+    </div>
+  </footer>
+</body>
+</html>
