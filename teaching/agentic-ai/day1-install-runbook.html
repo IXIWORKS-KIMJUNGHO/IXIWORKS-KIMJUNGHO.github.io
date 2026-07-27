@@ -460,8 +460,8 @@
       <p class="hero-copy">터미널 명령을 직접 타이핑하지 않습니다. 안내서의 문장을 복사해 Codex와 작업하고, GitHub Desktop에서 변경과 첫 업로드를 눈으로 확인하세요.</p>
       <div class="hero-meta" aria-label="문서 정보">
         <span class="badge">macOS · Windows</span>
-        <span class="badge">GitHub 계정·Desktop · Git 저장소 · Codex 앱 · 스킬 · Vercel</span>
-        <span class="badge">공식 문서 확인 · 2026-07-22</span>
+        <span class="badge">GitHub 계정·Desktop · Git 저장소 · Codex 앱 · Node.js·npm·npx · 스킬 · Vercel</span>
+        <span class="badge">공식 문서 확인 · 2026-07-27</span>
       </div>
     </div>
   </header>
@@ -492,7 +492,7 @@
       </div>
       <div class="progress-wrap">
         <div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progress-bar"></div></div>
-        <span class="progress-text" id="progress-text" aria-live="polite">0 / 7</span>
+        <span class="progress-text" id="progress-text" aria-live="polite">0 / 8</span>
         <button class="reset-button" id="reset-progress" type="button">초기화</button>
       </div>
     </div>
@@ -520,7 +520,7 @@
                 <li>계정이 없다면 <a href="https://github.com/signup" target="_blank" rel="noreferrer">GitHub 가입 페이지</a>에서 개인 계정을 만듭니다. 무료 계정이면 충분합니다.</li>
                 <li>GitHub가 보낸 메일의 확인 링크를 열어 이메일 주소 인증을 마칩니다.</li>
                 <li>이미 계정이 있다면 로그인합니다. 새 기기 확인이 나오면 본인 이메일이나 GitHub Mobile에서 직접 승인합니다.</li>
-                <li><a href="https://github.com/new" target="_blank" rel="noreferrer">새 저장소 만들기 화면</a>이 열리는지 확인합니다. 저장소는 5단계에서 GitHub Desktop으로 만듭니다.</li>
+                <li><a href="https://github.com/new" target="_blank" rel="noreferrer">새 저장소 만들기 화면</a>이 열리는지 확인합니다. 저장소는 6단계에서 GitHub Desktop으로 만듭니다.</li>
                 <li><a href="https://desktop.github.com/download/" target="_blank" rel="noreferrer">GitHub Desktop 공식 다운로드</a>에서 앱을 설치하고 같은 GitHub 계정으로 로그인합니다.</li>
                 <li>ChatGPT와 Vercel에 로그인할 계정도 준비하고 브라우저, Codex 앱, GitHub Desktop과 파일 창을 열어 둡니다.</li>
               </ol>
@@ -624,13 +624,13 @@
             <div>
               <p>입력창 아래 권한 메뉴에 <strong>Ask for approval</strong>이 보이면 선택한 뒤, 아래 문장을 Codex 입력창에 붙여 넣습니다. 해당 메뉴가 보이지 않으면 설정을 바꾸지 말고 그대로 진행합니다.</p>
               <div class="prompt-box">이 폴더에서 웹 프로젝트를 만들 준비가 되었는지 확인해 줘.
-Node.js, npm, Git의 설치 여부와 버전만 확인해.
+Node.js, npm, npx, Git의 설치 여부와 버전만 확인해.
 파일이나 설정은 만들거나 바꾸지 말고, 프로그램도 설치하지 마.
 명령을 실행하기 전에는 무엇을 확인하는지 쉬운 말로 설명하고 내 승인을 기다려.
 결과는 ‘준비됨 / 설치 필요 / 확인 실패’로 나눠 표로 보여 줘.</div>
-              <button class="os-button" type="button" data-copy="이 폴더에서 웹 프로젝트를 만들 준비가 되었는지 확인해 줘. Node.js, npm, Git의 설치 여부와 버전만 확인해. 파일이나 설정은 만들거나 바꾸지 말고, 프로그램도 설치하지 마. 명령을 실행하기 전에는 무엇을 확인하는지 쉬운 말로 설명하고 내 승인을 기다려. 결과는 ‘준비됨 / 설치 필요 / 확인 실패’로 나눠 표로 보여 줘.">환경 확인 문장 복사</button>
+              <button class="os-button" type="button" data-copy="이 폴더에서 웹 프로젝트를 만들 준비가 되었는지 확인해 줘. Node.js, npm, npx, Git의 설치 여부와 버전만 확인해. 파일이나 설정은 만들거나 바꾸지 말고, 프로그램도 설치하지 마. 명령을 실행하기 전에는 무엇을 확인하는지 쉬운 말로 설명하고 내 승인을 기다려. 결과는 ‘준비됨 / 설치 필요 / 확인 실패’로 나눠 표로 보여 줘.">환경 확인 문장 복사</button>
               <div class="note"><strong>승인 창이 나오면</strong> 버전을 확인하는 작업인지 설명을 먼저 읽습니다. 설치·삭제·설정 변경이라고 적혀 있으면 승인하지 말고 멘토를 부릅니다.</div>
-              <div class="note"><strong>설치 필요가 나오면</strong> 혼자 해결하지 않습니다. 결과 화면을 멘토에게 보여 주세요. 멘토는 <a href="https://nodejs.org/en/download" target="_blank" rel="noreferrer">Node.js</a>와 <a href="https://git-scm.com/downloads" target="_blank" rel="noreferrer">Git</a> 공식 설치 페이지를 사용합니다.</div>
+              <div class="note"><strong>Node.js·npm·npx 설치 필요</strong> 결과 화면을 멘토에게 보여 준 뒤 5단계로 갑니다. <strong>Git 설치 필요</strong>가 나오면 혼자 해결하지 말고 <a href="https://git-scm.com/downloads" target="_blank" rel="noreferrer">Git 공식 설치 페이지</a>를 멘토와 함께 확인합니다.</div>
             </div>
             <aside class="where-box">
               <strong>지금 보는 곳</strong>
@@ -639,13 +639,63 @@ Node.js, npm, Git의 설치 여부와 버전만 확인해.
           </div>
           <label class="pass-check">
             <input type="checkbox" data-progress="environment">
-            <span><strong>통과</strong> 준비 상태가 표로 보입니다. 설치가 필요한 항목은 멘토에게 전달했습니다.</span>
+            <span><strong>통과</strong> Node.js, npm, npx와 Git의 준비 상태가 표로 보입니다. 설치가 필요한 항목은 다음 단계나 멘토에게 연결했습니다.</span>
+          </label>
+        </article>
+
+        <article class="step" id="node-install">
+          <div class="step-head">
+            <div class="step-number" aria-hidden="true">05</div>
+            <div class="step-title">
+              <h3>Node.js가 없다면 LTS 버전을 설치합니다</h3>
+              <p>Node.js를 설치하면 npm과 npx도 함께 준비됩니다. 이미 준비됐다면 설치는 건너뛰고 확인만 합니다.</p>
+            </div>
+          </div>
+          <div class="step-body">
+            <div>
+              <div class="os-panel" data-os-panel="mac">
+                <ol class="instruction-list">
+                  <li>4단계에서 Node.js, npm 또는 npx가 <strong>설치 필요</strong>로 나왔을 때만 진행합니다.</li>
+                  <li>멘토와 함께 <a href="https://nodejs.org/en/download" target="_blank" rel="noreferrer">Node.js 공식 다운로드</a>를 엽니다.</li>
+                  <li><strong>LTS</strong>로 표시된 버전의 macOS용 Installer를 내려받습니다.</li>
+                  <li>내려받은 설치 파일을 열고 화면의 기본 안내에 따라 설치를 마칩니다.</li>
+                </ol>
+              </div>
+              <div class="os-panel" data-os-panel="win" hidden>
+                <ol class="instruction-list">
+                  <li>4단계에서 Node.js, npm 또는 npx가 <strong>설치 필요</strong>로 나왔을 때만 진행합니다.</li>
+                  <li>멘토와 함께 <a href="https://nodejs.org/en/download" target="_blank" rel="noreferrer">Node.js 공식 다운로드</a>를 엽니다.</li>
+                  <li><strong>LTS</strong>로 표시된 버전의 Windows용 Installer를 내려받습니다.</li>
+                  <li>내려받은 설치 파일을 열고 화면의 기본 안내에 따라 설치를 마칩니다.</li>
+                </ol>
+              </div>
+              <ol class="instruction-list" start="5">
+                <li>열려 있던 터미널과 Codex 앱을 완전히 닫았다가 다시 엽니다.</li>
+                <li>Codex에서 <code>my-small-service</code> 폴더를 다시 열고 아래 문장을 붙여 넣습니다.</li>
+              </ol>
+              <div class="prompt-box" id="node-verify-prompt">Node.js 설치가 끝났는지 확인해 줘.
+node --version, npm --version, npx --version을 차례로 실행하기 전에 무엇을 확인하는지 쉬운 말로 설명하고 내 승인을 기다려.
+파일이나 설정은 만들거나 바꾸지 말고, 프로그램도 추가로 설치하지 마.
+세 명령의 결과를 ‘준비됨 / 확인 실패’로 나눠 표로 보여 줘.
+확인 실패라면 추측으로 고치지 말고 오류 원문과 다음 확인 한 단계만 알려 줘.</div>
+              <button class="os-button" type="button" data-copy-target="node-verify-prompt">Node.js 확인 문장 복사</button>
+              <div class="note"><strong>npx는 따로 설치하지 않습니다</strong> Node.js 공식 Installer로 설치하면 npm이 함께 준비되고, npx는 npm 명령줄 도구에서 사용할 수 있습니다.</div>
+              <div class="note"><strong>이미 모두 준비됨이라면</strong> Node.js를 다시 설치하지 않습니다. 위 확인 문장으로 세 버전만 확인하고 통과 표시를 합니다.</div>
+            </div>
+            <aside class="where-box">
+              <strong>지금 보는 곳</strong>
+              <p>브라우저에서 Node.js LTS 설치 → Codex 앱에서 node·npm·npx 확인</p>
+            </aside>
+          </div>
+          <label class="pass-check">
+            <input type="checkbox" data-progress="node">
+            <span><strong>통과</strong> <code>node --version</code>, <code>npm --version</code>, <code>npx --version</code>이 모두 버전 번호를 보여 줍니다.</span>
           </label>
         </article>
 
         <article class="step" id="git-repository">
           <div class="step-head">
-            <div class="step-number" aria-hidden="true">05</div>
+            <div class="step-number" aria-hidden="true">06</div>
             <div class="step-title">
               <h3>Git 변경을 연습하고 첫 커밋을 GitHub에 올립니다</h3>
               <p>로컬 복구 지점을 만든 뒤 변경점 확인·되돌리기·비공개 첫 업로드까지 해봅니다.</p>
@@ -700,7 +750,7 @@ README.md 맨 아래에 ‘Git 연습용 한 줄’만 추가하고 커밋하지
 
         <article class="step" id="skills-install">
           <div class="step-head">
-            <div class="step-number" aria-hidden="true">06</div>
+            <div class="step-number" aria-hidden="true">07</div>
             <div class="step-title">
               <h3>Matt Pocock 스킬 전체를 복사해 설치합니다</h3>
               <p>스킬은 AI용 작업 안내서입니다. AI는 스킬에 따라 기획·구현·검토처럼 반복되는 일을 같은 순서로 진행합니다.</p>
@@ -709,7 +759,7 @@ README.md 맨 아래에 ‘Git 연습용 한 줄’만 추가하고 커밋하지
           <div class="step-body">
             <div>
               <ol class="instruction-list">
-                <li>4단계에서 <strong>Node.js와 npm이 준비됨</strong>으로 확인된 경우에만 진행합니다.</li>
+                <li>5단계에서 <strong>Node.js, npm과 npx가 준비됨</strong>으로 확인된 경우에만 진행합니다.</li>
                 <li>진행자와 함께 <code>my-small-service</code> 프로젝트 폴더 위치에서 터미널을 엽니다.</li>
                 <li>아래 명령 전체를 복사해 터미널에 붙여 넣고 <strong>Enter</strong>를 한 번 누릅니다.</li>
               </ol>
@@ -748,7 +798,7 @@ README.md 맨 아래에 ‘Git 연습용 한 줄’만 추가하고 커밋하지
 
         <article class="step">
           <div class="step-head">
-            <div class="step-number" aria-hidden="true">07</div>
+            <div class="step-number" aria-hidden="true">08</div>
             <div class="step-title">
               <h3>Vercel 계정에 로그인합니다</h3>
               <p>오늘은 계정만 확인합니다. 배포 도구는 아직 설치하지 않습니다.</p>
@@ -787,7 +837,8 @@ README.md 맨 아래에 ‘Git 연습용 한 줄’만 추가하고 커밋하지
           <ul>
             <li>GitHub 가입과 이메일 확인을 마치고 GitHub Desktop에 로그인했습니다.</li>
             <li>Codex 앱으로 내 프로젝트 폴더를 열고 응답을 한 번 받았습니다.</li>
-            <li>Codex가 Node.js, npm, Git의 준비 상태를 표로 보여 줬습니다.</li>
+            <li>Codex가 Node.js, npm, npx와 Git의 준비 상태를 표로 보여 줬습니다.</li>
+            <li>Node.js가 필요했다면 LTS 버전을 설치하고 node, npm과 npx의 버전을 확인했습니다.</li>
             <li>변경점 확인과 되돌리기를 연습했고 첫 커밋을 GitHub 비공개 저장소에 올렸습니다.</li>
             <li>Matt Pocock 스킬이 <code>.agents/skills</code>에 설치되고 <code>$ask-matt</code>가 응답했으며 변경을 GitHub에 올렸습니다.</li>
             <li>Vercel 대시보드에 로그인했습니다.</li>
@@ -842,6 +893,7 @@ README.md 맨 아래에 ‘Git 연습용 한 줄’만 추가하고 커밋하지
       </div>
       <ul class="source-list">
         <li><a href="https://nodejs.org/en/download" target="_blank" rel="noreferrer">Node.js 공식 다운로드</a></li>
+        <li><a href="https://docs.npmjs.com/cli-documentation/" target="_blank" rel="noreferrer">npm CLI와 npx 공식 안내</a></li>
         <li><a href="https://git-scm.com/downloads" target="_blank" rel="noreferrer">Git 공식 다운로드</a></li>
         <li><a href="https://docs.github.com/en/get-started/start-your-journey/creating-an-account-on-github" target="_blank" rel="noreferrer">GitHub 개인 계정 만들기</a></li>
         <li><a href="https://docs.github.com/en/account-and-profile/how-tos/email-preferences/verifying-your-email-address" target="_blank" rel="noreferrer">GitHub 이메일 주소 확인</a></li>
@@ -861,7 +913,7 @@ README.md 맨 아래에 ‘Git 연습용 한 줄’만 추가하고 커밋하지
 
   <footer>
     <div class="footer-inner">
-      <p>프로그래밍은 몰라도 AI는 사용합니다만 · Day 1 설치 실행 안내서 · 마지막 공식 문서 확인 2026-07-22</p>
+      <p>프로그래밍은 몰라도 AI는 사용합니다만 · Day 1 설치 실행 안내서 · 마지막 공식 문서 확인 2026-07-27</p>
     </div>
   </footer>
 
