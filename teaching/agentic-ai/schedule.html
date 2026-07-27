@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="프로그래밍은 몰라도 AI는 사용합니다만 4일 워크숍 시간표">
+  <title>4일 워크숍 시간표 | 프로그래밍은 몰라도 AI는 사용합니다만</title>
+  <style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+
+    :root {
+      --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
+      --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      --page: #f3f4f5;
+      --paper: #fff;
+      --ink: #15171a;
+      --soft-ink: #2d3136;
+      --muted: #6e747b;
+      --line: #d9dde2;
+      --slate: #111316;
+      --accent: #343a40;
+      --blue: #4361ee;
+      --green: #237a57;
+      --warm: #9b5d13;
+      --shadow: 0 22px 48px rgba(17, 24, 33, .10);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: var(--font-latin), var(--font-ko);
+      line-height: 1.62;
+      background:
+        linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
+        var(--page);
+      background-size: 42px 42px;
+    }
+
+    a { color: #2d333a; text-underline-offset: 3px; }
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid rgba(255, 255, 255, .12);
+      background: rgba(17, 24, 33, .94);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      max-width: 1120px;
+      min-height: 58px;
+      margin: 0 auto;
+      padding: 0 22px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      color: #c9d3de;
+      font-size: .82rem;
+      font-weight: 760;
+      text-transform: uppercase;
+    }
+    .brand { margin-right: auto; color: #f2f4f6; font-weight: 900; text-decoration: none; }
+    .nav a:not(.brand) { color: #c9d3de; text-decoration: none; }
+    .nav a:not(.brand):hover { color: #fff; }
+
+    .hero {
+      border-bottom: 1px solid #c8d0da;
+      color: #f7f8f9;
+      background:
+        linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
+        linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
+    }
+    .hero-inner { max-width: 1120px; margin: 0 auto; padding: 54px 22px 42px; }
+    .kicker { margin: 0 0 14px; color: #f2f4f6; font-size: .78rem; font-weight: 900; text-transform: uppercase; }
+    h1 { margin: 0; max-width: 920px; color: #fff; font-size: clamp(2.15rem, 4.4vw, 4.1rem); line-height: 1.08; word-break: keep-all; }
+    .lead { max-width: 800px; margin: 18px 0 0; color: #d7dce2; font-size: 1.05rem; word-break: keep-all; }
+
+    .page { max-width: 1120px; margin: 0 auto; padding: 34px 22px 78px; }
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: end;
+      margin-bottom: 28px;
+    }
+    .intro p { max-width: 720px; margin: 0; color: var(--muted); word-break: keep-all; }
+    .date-range {
+      padding: 12px 16px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .84);
+      color: var(--soft-ink);
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+    .schedule-list { display: grid; gap: 34px; }
+    .day-card {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .94);
+      box-shadow: 0 12px 28px rgba(17, 24, 33, .06);
+    }
+    .day-card-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 20px 22px 16px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .day-number { color: var(--accent); font-family: var(--font-mono); font-size: .82rem; font-weight: 900; text-transform: uppercase; }
+    .day-card h2 { margin: 0; color: var(--slate); font-size: 1.35rem; line-height: 1.25; word-break: keep-all; }
+    .day-card h2 span { color: var(--muted); font-size: .86rem; font-weight: 700; }
+    .schedule-row {
+      display: grid;
+      grid-template-columns: 128px minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: start;
+      padding: 16px 22px;
+      border-bottom: 1px solid #e8eaed;
+    }
+    .schedule-row:last-child { border-bottom: 0; }
+    .schedule-row time { padding-top: 2px; color: var(--soft-ink); font-family: var(--font-mono); font-size: .78rem; font-weight: 900; white-space: nowrap; }
+    .schedule-row h3 { margin: 0; font-size: 1rem; line-height: 1.4; word-break: keep-all; }
+    .schedule-row p { margin: 3px 0 0; color: var(--muted); font-size: .9rem; line-height: 1.5; word-break: keep-all; }
+    .tag { align-self: start; padding: 4px 8px; border-radius: 4px; color: var(--soft-ink); background: #eef0f2; font-family: var(--font-mono); font-size: .67rem; font-weight: 900; text-transform: uppercase; white-space: nowrap; }
+    .break { background: #fafafa; }
+    .break time, .break h3 { color: var(--muted); }
+    .break .tag { color: var(--warm); background: #fff3df; }
+    .work .tag { color: var(--blue); background: #edf0ff; }
+    .review .tag { color: var(--green); background: #e8f6ef; }
+    .resource-link { font-size: .88rem; font-weight: 800; }
+    .note { margin: 28px 0 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255, 255, 255, .9); color: var(--muted); font-size: .9rem; word-break: keep-all; }
+
+    @media (max-width: 720px) {
+      .nav { min-height: 56px; padding: 0 16px; gap: 14px; font-size: .76rem; }
+      .hero-inner { padding: 42px 16px 34px; }
+      h1 { font-size: 2rem; }
+      .lead { font-size: 1rem; }
+      .page { padding: 26px 16px 62px; }
+      .intro { grid-template-columns: 1fr; gap: 14px; }
+      .date-range { justify-self: start; }
+      .day-card-header { padding: 18px 16px 14px; }
+      .schedule-row { grid-template-columns: 1fr auto; gap: 2px 12px; padding: 15px 16px; }
+      .schedule-row time { grid-column: 1 / -1; }
+      .schedule-row p { padding-right: 4px; }
+      .tag { grid-column: 2; grid-row: 2 / span 2; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="../../index.html">Kim Jungho</a>
+      <a href="index.html">Agentic AI</a>
+      <a href="../../index.html#teaching">Teaching</a>
+    </nav>
+  </header>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <p class="kicker">한국예술종합학교 융합예술센터 · 아트콜라이더 랩</p>
+      <h1>4일 워크숍 시간표</h1>
+      <p class="lead">아이디어를 작은 서비스로 만들고, 다른 사람이 써 본 뒤, 공개 주소로 배포하는 4일의 작업 흐름입니다.</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="intro">
+      <p>매일 오전 9시에 시작해 오후 6시에 마칩니다. Day 1 오전에는 설치와 실행 확인을 끝내고, 오후 13시에는 멘토 그룹 대화를 진행한 뒤 14시부터 18시까지 설계서를 작성합니다. Day 2–4는 매일 오전 첫 1시간에 전날 작업을 그룹별로 점검하고, 오후 마지막 1시간에 당일 결과를 확인합니다.</p>
+      <div class="date-range">2026. 07. 28 Tue — 07. 31 Fri<br>09:00 — 18:00</div>
+    </div>
+
+    <div class="schedule-list">
+      <section class="day-card" id="day-1" aria-labelledby="day-1-title">
+        <div class="day-card-header">
+          <span class="day-number">Day 01</span>
+          <h2 id="day-1-title">이해 · 준비 · 명세 <span>Understand · Prepare · Specify</span></h2>
+        </div>
+        <div class="schedule-row work"><time>09:00–09:30</time><div><h3>오리엔테이션과 4일의 작업 방식</h3><p>완성 기준, 하루의 시작과 마무리, AI와 함께 일할 때 지킬 원칙을 확인합니다.</p></div><span class="tag">Start</span></div>
+        <div class="schedule-row work"><time>09:30–10:10</time><div><h3>MOVIOLA 실제 사례</h3><p>완성된 서비스를 먼저 보고, 아이디어가 명세와 작업 단위로 바뀌는 과정을 살펴봅니다.</p></div><span class="tag">Case</span></div>
+        <div class="schedule-row break"><time>10:10–10:30</time><div><h3>휴식</h3></div><span class="tag">Break</span></div>
+        <div class="schedule-row work"><time>10:30–12:00</time><div><h3>도구 설치와 실행 확인</h3><p>Node.js, Git, Codex를 준비하고 프로젝트에서 실제로 실행되는 상태까지 확인합니다. <a class="resource-link" href="day1-install-runbook.html">설치 안내서 →</a></p></div><span class="tag">Practice</span></div>
+        <div class="schedule-row break"><time>12:00–13:00</time><div><h3>점심</h3></div><span class="tag">Lunch</span></div>
+        <div class="schedule-row review"><time>13:00–14:00</time><div><h3>멘토 그룹 대화</h3><p>그룹별로 아이디어, 사용자, 핵심 장면을 말로 풀어 봅니다. <a class="resource-link" href="mentoring-groups.html">멘토링 그룹 안내 →</a></p></div><span class="tag">Mentor</span></div>
+        <div class="schedule-row work"><time>14:00–15:30</time><div><h3>AI와 설계서 작성 1</h3><p>AI에게 한 번에 하나씩 질문을 받으며 의도, 사용자, 핵심 장면을 구체화합니다.</p></div><span class="tag">Specify</span></div>
+        <div class="schedule-row work"><time>15:30–17:00</time><div><h3>AI와 설계서 작성 2</h3><p>핵심 흐름, 제약과 제외 범위, 완료 기준을 정하고 학생이 최종 내용을 확인합니다.</p></div><span class="tag">Specify</span></div>
+        <div class="schedule-row work"><time>17:00–18:00</time><div><h3>설계서 마무리와 확인</h3><p>설계서의 여섯 항목을 다시 읽고, 빠진 내용과 AI가 추측한 내용을 학생이 직접 고쳐 최종본으로 정리합니다.</p></div><span class="tag">Specify</span></div>
+      </section>
+
+      <section class="day-card" id="day-2" aria-labelledby="day-2-title">
+        <div class="day-card-header">
+          <span class="day-number">Day 02</span>
+          <h2 id="day-2-title">핵심 흐름 구현 <span>Implement</span></h2>
+        </div>
+        <div class="schedule-row review"><time>09:00–10:00</time><div><h3>그룹별 전날 작업 점검</h3><p>Day 1에 작성한 설계서를 함께 읽고, 오늘 구현할 첫 작업과 확인할 완료 기준을 정합니다.</p></div><span class="tag">Group Check</span></div>
+        <div class="schedule-row work"><time>10:00–12:00</time><div><h3>프로젝트 만들기와 핵심 흐름 구현</h3><p>설계서의 첫 작업부터 시작해 입력 → 저장 → 결과 확인까지 연결합니다.</p></div><span class="tag">Build</span></div>
+        <div class="schedule-row break"><time>12:00–13:00</time><div><h3>점심</h3></div><span class="tag">Lunch</span></div>
+        <div class="schedule-row work"><time>13:00–17:00</time><div><h3>해커톤 작업</h3><p>핵심 기능을 이어서 구현하고, 필요한 콘텐츠·데이터·외부 기능을 연결합니다. 막힌 지점은 멘토와 바로 해결합니다.</p></div><span class="tag">Build</span></div>
+        <div class="schedule-row review"><time>17:00–18:00</time><div><h3>그룹별 구현 점검</h3><p>그룹 안에서 현재 작동하는 흐름과 막힌 지점을 확인하고, 다음 작업을 정합니다.</p></div><span class="tag">Group Check</span></div>
+      </section>
+
+      <section class="day-card" id="day-3" aria-labelledby="day-3-title">
+        <div class="day-card-header">
+          <span class="day-number">Day 03</span>
+          <h2 id="day-3-title">UI/UX 다듬기 <span>UI · UX Polish</span></h2>
+        </div>
+        <div class="schedule-row review"><time>09:00–10:00</time><div><h3>그룹별 전날 작업 점검</h3><p>Day 2의 구현 상태를 함께 확인하고, 아직 막힌 핵심 흐름과 오늘 다듬을 화면을 정합니다.</p></div><span class="tag">Group Check</span></div>
+        <div class="schedule-row review"><time>10:00–12:00</time><div><h3>사용 흐름과 UI/UX 점검</h3><p>다른 사람이 서비스를 직접 써 보게 하고, 막힌 지점과 불편한 화면을 찾아 우선순위를 정합니다.</p></div><span class="tag">Review</span></div>
+        <div class="schedule-row break"><time>12:00–13:00</time><div><h3>점심</h3></div><span class="tag">Lunch</span></div>
+        <div class="schedule-row work"><time>13:00–17:00</time><div><h3>UI/UX와 반응형 화면 다듬기</h3><p>핵심 흐름을 해치지 않는 범위에서 화면 구성, 문구, 간격, 반응형 디테일을 다듬고 배포할 상태를 준비합니다.</p></div><span class="tag">Polish</span></div>
+        <div class="schedule-row review"><time>17:00–18:00</time><div><h3>그룹별 UI/UX 점검</h3><p>그룹 안에서 화면을 함께 확인하고, 가장 먼저 고칠 UI/UX 문제와 배포 전 확인 사항을 정합니다.</p></div><span class="tag">Group Check</span></div>
+      </section>
+
+      <section class="day-card" id="day-4" aria-labelledby="day-4-title">
+        <div class="day-card-header">
+          <span class="day-number">Day 04</span>
+          <h2 id="day-4-title">최종 배포 <span>Deploy</span></h2>
+        </div>
+        <div class="schedule-row review"><time>09:00–10:00</time><div><h3>그룹별 전날 작업 점검</h3><p>Day 3에 다듬은 UI/UX와 배포 준비 상태를 함께 확인하고, 배포 전에 해결할 문제를 정합니다.</p></div><span class="tag">Group Check</span></div>
+        <div class="schedule-row work"><time>10:00–12:00</time><div><h3>최종 점검과 GitHub 업로드</h3><p>로컬에서 핵심 흐름을 확인하고, 최종 커밋을 만든 뒤 GitHub에 올립니다.</p></div><span class="tag">Upload</span></div>
+        <div class="schedule-row break"><time>12:00–13:00</time><div><h3>점심</h3></div><span class="tag">Lunch</span></div>
+        <div class="schedule-row work"><time>13:00–15:00</time><div><h3>Vercel 연결과 첫 배포</h3><p>GitHub 저장소를 Vercel에 연결하고 빌드 설정과 필요한 환경 변수를 확인합니다. <a class="resource-link" href="day4-deploy-runbook.html">배포 안내서 →</a></p></div><span class="tag">Deploy</span></div>
+        <div class="schedule-row review"><time>15:00–17:00</time><div><h3>배포 문제 해결과 재배포</h3><p>빌드 오류와 서비스 동작 오류를 구분해 원인을 확인하고, 수정한 내용을 다시 배포합니다.</p></div><span class="tag">Fix</span></div>
+        <div class="schedule-row review"><time>17:00–18:00</time><div><h3>그룹별 배포 상태 점검</h3><p>그룹 안에서 공개 주소를 함께 열어 핵심 흐름을 확인하고, 배포가 끝난 상태를 점검합니다.</p></div><span class="tag">Group Check</span></div>
+      </section>
+    </div>
+
+    <p class="note">각 시간은 작업 흐름을 잡기 위한 기준입니다. 구현 중 막히거나 결정이 필요한 순간에는 정해진 멘토링 시간 외에도 짧게 상담할 수 있습니다.</p>
+  </main>
+</body>
+</html>

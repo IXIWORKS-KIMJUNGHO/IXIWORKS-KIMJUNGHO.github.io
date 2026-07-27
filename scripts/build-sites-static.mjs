@@ -13,6 +13,7 @@ await mkdir(serverOutput, { recursive: true });
 
 for (const file of [
   "index.html",
+  "schedule.html",
   "day-1.html",
   "mentoring-groups.html",
   "day1-install-runbook.html",
