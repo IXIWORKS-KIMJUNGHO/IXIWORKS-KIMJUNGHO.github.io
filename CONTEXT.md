@@ -68,6 +68,10 @@ _Avoid_: tag, category, filter label
 A teaching document meant to be followed during class while the instructor is guiding the activity.
 _Avoid_: reference page, reading article, documentation page
 
+**Service Design Document (서비스 설계서)**:
+A one-page student artifact that records the service intent, user and moment, Domain Language, core flow, constraints, and done criteria so the student and AI share the same build and verification reference.
+_Avoid_: 명세, 간단 명세, 서비스 기획서, 요구사항 문서
+
 **Learning Hierarchy**:
 The teaching-page priority order that tells students what to understand first, what to use as reference, what to execute, and what to remember.
 _Avoid_: generic layout, visual styling, decoration
@@ -128,6 +132,8 @@ _Avoid_: large callout, summary section, decorative note
 - A **Work System Map** explains connections rather than filtering, hiding, or resorting projects.
 - A **Work System Map** uses four **Practice Axes**: Generative AI, Real-Time Engine, Digital Twin, and Exhibition System.
 - A **Student Handout** should express a clear **Learning Hierarchy**.
+- A **Student Handout** can guide the student in creating one **Service Design Document**.
+- A **Service Design Document** becomes the shared reference for task selection, implementation, verification, and review.
 - A **Learning Hierarchy** is visible through the **Reading Flow** of each lesson section.
 - A **Concept Card** belongs to exactly one concept, while exercises and code examples support that concept inside the card.
 - A **Concept Card** should usually appear as a **Quiet Section Card**.
