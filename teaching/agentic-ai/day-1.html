@@ -1099,10 +1099,57 @@ document.addEventListener('DOMContentLoaded', async function() {
       'AGENTS.md는 Codex가 작업 전에 자동으로 읽는 Markdown 안내 문서입니다. 앱·CLI·IDE에서 같은 프로젝트 규칙을 이어갑니다.'
     ));
     transformSlide('첫 Ticket', (section) => section
+      .replace('<section class="slide content" data-label="첫 Ticket"', '<section class="slide content ticket-slide" data-label="첫 Ticket"')
       .replace('오늘의 마지막 작업: Spec 아래에 한 줄 ticket을 쓰게 한다. 가장 얇은 vertical slice — 화려한 기능 금지.', 'Day 1 오늘 만든 명세를 정리하는 마지막 단계다. $to-tickets 스킬로 명세를 작은 할 일로 나눈 뒤, Day 2에 끝까지 완성할 수 있는 첫 작업 하나를 학생이 고른다. ‘티켓’이라는 말보다 ‘작은 할 일’로 먼저 설명한다.')
       .replace('내일 만들 첫 작업을 끝까지 이어지는 한 줄로 씁니다', '오늘 만든 명세를 작은 할 일로 나누고 Day 2 첫 작업을 고릅니다')
-      .replace('<p class="hero-line rise">사진 선택 <em>→</em> 카드 등록 <em>→</em> 새로고침 뒤 유지 확인</p>', '<div class="rise" style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:32px;"><p class="hero-line" style="margin:0;font-size:72px;line-height:1.15;white-space:nowrap;">한 장의 명세 <em>→</em> 작은 할 일 목록 <em>→</em> 첫 작업 하나</p><div style="border-top:3px solid var(--color-accent);padding-top:24px;"><div style="font-size:var(--type-kicker);line-height:1.35;letter-spacing:0.06em;text-transform:uppercase;color:var(--color-accent);margin-bottom:14px;">MOVIOLA의 첫 작업</div><div style="font-family:var(--font-heading);font-weight:800;font-size:var(--type-subtitle);line-height:1.25;margin-bottom:14px;">Cut 불러오기 <span style="color:var(--color-accent);">→</span> 앵글 수정하기 <span style="color:var(--color-accent);">→</span> 저장된 결과 확인하기</div><p class="text-muted" style="font-size:var(--type-small);line-height:1.45;margin:0;max-width:90ch;">서로 다른 작업 세 개가 아니라, 사용자가 처음부터 결과 확인까지 끝낼 수 있는 하나의 작은 작업입니다.</p></div></div>')
-      .replace('<p class="chart-caption text-muted">화면과 저장을 끝까지 확인하는 가장 작은 흐름입니다. 내 서비스에서는 ‘입력 → 저장 → 결과 확인’으로 씁니다.</p>', '<p class="chart-caption text-muted" style="font-size:24px;line-height:1.5;border-top:2px solid var(--color-divider);padding-top:20px;">이 단계에서 <code>$to-tickets</code> 스킬을 사용합니다. <code>$to-tickets</code>는 <code>$to-spec</code>으로 만든 명세를 구현 가능한 작은 할 일로 나눕니다. 그중 Day 2에 끝까지 완성할 수 있는 첫 작업 하나를 선택합니다.</p>')
+      .replace(
+        '<p class="hero-line rise">사진 선택 <em>→</em> 카드 등록 <em>→</em> 새로고침 뒤 유지 확인</p>',
+        `<div class="ticket-layout rise">
+          <div class="ticket-pipeline" role="list" aria-label="서비스 설계서에서 첫 작업을 고르는 세 단계">
+            <div class="ticket-node" role="listitem">
+              <span class="ticket-node-num">01 · INPUT</span>
+              <h3>서비스 설계서 한 장</h3>
+              <p>확인한 결정과 완료 기준</p>
+            </div>
+            <span class="ticket-pipeline-arrow" aria-hidden="true">→</span>
+            <div class="ticket-node ticket-node-tool" role="listitem">
+              <span class="ticket-node-num">02 · SKILL</span>
+              <h3><code>$to-tickets</code></h3>
+              <p>구현 가능한 작은 할 일로 나누기</p>
+            </div>
+            <span class="ticket-pipeline-arrow" aria-hidden="true">→</span>
+            <div class="ticket-node ticket-node-selected" role="listitem">
+              <span class="ticket-node-num">03 · SELECT</span>
+              <h3>Day 2 첫 작업 하나</h3>
+              <p>처음부터 결과 확인까지 끝낼 수 있는 범위</p>
+            </div>
+          </div>
+          <article class="ticket-example">
+            <header class="ticket-example-head">
+              <span>MOVIOLA · 첫 작업 예시</span>
+              <strong>사용자가 끝까지 수행하는 하나의 흐름</strong>
+            </header>
+            <div class="ticket-example-flow" aria-label="Cut 불러오기, 앵글 수정하기, 저장된 결과 확인하기">
+              <div class="ticket-example-step">
+                <small>시작</small>
+                <strong>Cut 불러오기</strong>
+              </div>
+              <b aria-hidden="true">→</b>
+              <div class="ticket-example-step">
+                <small>핵심 행동</small>
+                <strong>앵글 수정하기</strong>
+              </div>
+              <b aria-hidden="true">→</b>
+              <div class="ticket-example-step">
+                <small>결과 확인</small>
+                <strong>저장 결과 확인하기</strong>
+              </div>
+            </div>
+            <p>서로 떨어진 기술 작업 세 개가 아니라, 사용자가 시작해서 저장된 결과를 확인하는 하나의 작은 작업입니다.</p>
+          </article>
+        </div>`
+      )
+      .replace('<p class="chart-caption text-muted">화면과 저장을 끝까지 확인하는 가장 작은 흐름입니다. 내 서비스에서는 ‘입력 → 저장 → 결과 확인’으로 씁니다.</p>', '')
     );
     insertSlideAdjacent('당일 Runbook', 'after', skillSetupSlides);
     insertSlideAdjacent('Chat에서 Agent로', 'after', vibeCodingEvolutionSlide);
@@ -1454,6 +1501,27 @@ document.addEventListener('DOMContentLoaded', async function() {
 .mvp-eyebrow{display:block;color:var(--color-accent);font-family:var(--font-heading);font-size:var(--type-kicker);font-weight:800;letter-spacing:.06em;line-height:1}
 .mvp-step h3{margin:54px 0 24px;font-size:var(--type-body);line-height:1.2}
 .mvp-step p{margin:auto 0 0;font-size:var(--type-small);line-height:1.5}
+.ticket-layout{flex:1;display:grid;grid-template-rows:210px minmax(0,1fr);gap:30px;min-height:0}
+.ticket-pipeline{display:grid;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr) 54px minmax(0,1fr);align-items:stretch;min-height:0}
+.ticket-node{min-width:0;padding:24px 26px 22px;background:var(--color-neutral-200);border-top:4px solid var(--color-accent);display:flex;flex-direction:column}
+.ticket-node-tool{background:var(--color-neutral-300)}
+.ticket-node-selected{background:var(--color-text);color:var(--color-bg)}
+.ticket-node-num{display:block;color:var(--color-accent);font-family:var(--font-heading);font-size:var(--type-kicker);font-weight:800;letter-spacing:.06em;line-height:1}
+.ticket-node h3{margin:auto 0 12px;font-size:var(--type-body);line-height:1.16}
+.ticket-node h3 code{font-size:.9em}
+.ticket-node p{margin:0;font-size:var(--type-small);line-height:1.38}
+.ticket-node-selected p{color:color-mix(in srgb,var(--color-bg) 76%,transparent)}
+.ticket-pipeline-arrow{display:flex;align-items:center;justify-content:center;color:var(--color-accent);font-family:var(--font-heading);font-size:38px;font-weight:800}
+.ticket-example{min-height:0;padding:26px 30px 24px;background:var(--color-neutral-100);border-left:7px solid var(--color-accent);display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:20px}
+.ticket-example-head{display:flex;align-items:baseline;justify-content:space-between;gap:30px}
+.ticket-example-head>span{color:var(--color-accent);font-family:var(--font-heading);font-size:var(--type-kicker);font-weight:800;letter-spacing:.06em;line-height:1.2}
+.ticket-example-head>strong{font-family:var(--font-heading);font-size:var(--type-small);line-height:1.2;text-align:right}
+.ticket-example-flow{display:grid;grid-template-columns:minmax(0,1fr) 46px minmax(0,1fr) 46px minmax(0,1fr);align-items:stretch;min-height:0}
+.ticket-example-flow>b{display:flex;align-items:center;justify-content:center;color:var(--color-accent);font-family:var(--font-heading);font-size:32px}
+.ticket-example-step{min-width:0;padding:18px 20px;background:var(--color-bg);border-top:3px solid var(--color-text);display:flex;flex-direction:column;justify-content:center}
+.ticket-example-step>small{margin-bottom:12px;color:var(--color-accent);font-family:var(--font-heading);font-size:20px;font-weight:800;letter-spacing:.04em}
+.ticket-example-step>strong{font-family:var(--font-heading);font-size:29px;line-height:1.2}
+.ticket-example>p{margin:0;font-size:var(--type-small);line-height:1.42}
 .language-flow{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:28px;align-items:stretch}
 .language-flow>div{position:relative;border-top:3px solid var(--color-text);padding:24px 20px 18px 0}
 .language-flow>div:not(:last-child)::after{content:"→";position:absolute;right:-22px;top:16px;color:var(--color-accent);font-size:34px;font-weight:800}
