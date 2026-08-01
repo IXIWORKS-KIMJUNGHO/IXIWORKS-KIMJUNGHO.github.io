@@ -66,6 +66,35 @@ test("published content uses the custom domain", async () => {
   assert.deepEqual(legacyHostReferences, []);
 });
 
+test("published pages use the non-personal identity artwork", async () => {
+  const portraitReferences = [];
+
+  for (const path of htmlFiles) {
+    const html = await readFile(path, "utf8");
+    if (/cv-photo\.png|Kim Jungho portrait|Portrait of Kim Jungho/i.test(html)) {
+      portraitReferences.push(displayPath(path));
+    }
+  }
+
+  assert.deepEqual(portraitReferences, []);
+  await assert.rejects(
+    stat(resolve(root, "assets", "cv-photo.png")),
+    (error) => error.code === "ENOENT",
+  );
+
+  const artworkPath = resolve(
+    root,
+    "assets",
+    "creative-engineering-artifact.jpg",
+  );
+  assert.ok((await stat(artworkPath)).size > 0);
+
+  const homepage = await readFile(resolve(root, "index.html"), "utf8");
+  assert.match(homepage, /class="identity-artwork"/);
+  assert.match(homepage, /creative-engineering-artifact\.jpg/);
+  assert.match(homepage, /width="1200" height="1200"/);
+});
+
 test("motion preferences and touch pointers are respected", async () => {
   const accessibilityCssPath = resolve(root, "assets", "accessibility.css");
   const accessibilityCss = await readFile(accessibilityCssPath, "utf8");

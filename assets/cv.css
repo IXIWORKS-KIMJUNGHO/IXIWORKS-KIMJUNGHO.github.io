@@ -142,23 +142,21 @@ a {
   align-self: start;
 }
 
-.portrait-wrap {
+.identity-artwork-wrap {
   width: 156px;
-  height: 204px;
+  height: 156px;
   margin: 0 0 22px;
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 2px;
   background: var(--paper);
-  box-shadow: var(--shadow);
   overflow: hidden;
 }
 
-.portrait {
+.identity-artwork {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-  filter: saturate(0.92) contrast(1.03);
 }
 
 .side-role {
@@ -913,9 +911,9 @@ a.teaching-row {
     gap: 38px;
   }
 
-  .portrait-wrap {
+  .identity-artwork-wrap {
     width: 142px;
-    height: 186px;
+    height: 142px;
   }
 
   .highlight-list {
@@ -991,9 +989,9 @@ a.teaching-row {
     align-items: center;
   }
 
-  .portrait-wrap {
+  .identity-artwork-wrap {
     width: 96px;
-    height: 126px;
+    height: 96px;
     margin: 0;
     grid-row: 1 / span 2;
   }
@@ -1091,9 +1089,9 @@ a.teaching-row {
     gap: 12px 15px;
   }
 
-  .portrait-wrap {
+  .identity-artwork-wrap {
     width: 82px;
-    height: 108px;
+    height: 82px;
   }
 
   .side-role {
@@ -1261,7 +1259,7 @@ a.teaching-row {
     color: #102126;
   }
 
-  .portrait {
+  .identity-artwork {
     filter: saturate(0.85) contrast(1.05) brightness(0.92);
   }
 }

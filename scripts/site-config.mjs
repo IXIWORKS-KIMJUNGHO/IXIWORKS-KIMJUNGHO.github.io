@@ -32,7 +32,10 @@ export function publicUrlForHtml(root, htmlPath) {
 
 export function shareImageMetadataForHtml(root, htmlPath) {
   const relativePath = relativeWebPath(root, htmlPath);
-  let image = { path: "/assets/cv-photo.png", alt: "Kim Jungho" };
+  let image = {
+    path: "/assets/creative-engineering-artifact.jpg",
+    alt: "Abstract creative engineering artifact in graphite, metal, and smoked glass",
+  };
 
   for (const [course, candidate] of Object.entries(TEACHING_SHARE_IMAGES)) {
     if (relativePath.startsWith(`teaching/${course}/`)) {
