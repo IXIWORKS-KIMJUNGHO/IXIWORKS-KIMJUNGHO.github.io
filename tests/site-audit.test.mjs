@@ -259,6 +259,91 @@ test("teaching handouts provide consistent course and sequence navigation", asyn
   assert.deepEqual(violations, []);
 });
 
+test("teaching details use the shared interruptible motion controller", async () => {
+  const courseNames = ["game-engine", "media-art-programming"];
+  const violations = [];
+  let detailsDocuments = 0;
+  let detailsElements = 0;
+
+  for (const course of courseNames) {
+    const directory = resolve(root, "teaching", course);
+    const names = (await readdir(directory)).filter(
+      (name) =>
+        name.endsWith(".html") &&
+        name !== "index.html" &&
+        !name.endsWith(".bundle.html"),
+    );
+
+    for (const name of names) {
+      const html = await readFile(resolve(directory, name), "utf8");
+      const detailsCount = [...html.matchAll(/<details\b/gi)].length;
+      const scriptCount = [
+        ...html.matchAll(
+          /<script\b[^>]*src="\/assets\/teaching-details\.js"[^>]*><\/script>/gi,
+        ),
+      ].length;
+
+      if (detailsCount > 0) {
+        detailsDocuments += 1;
+        detailsElements += detailsCount;
+        if (scriptCount !== 1) {
+          violations.push(`${course}/${name}: ${scriptCount} motion scripts`);
+        }
+      } else if (scriptCount !== 0) {
+        violations.push(`${course}/${name}: motion script without details`);
+      }
+    }
+  }
+
+  assert.ok(detailsDocuments > 0, "the fixture should include details documents");
+  assert.ok(detailsElements > 0, "the fixture should include details elements");
+  assert.deepEqual(violations, []);
+
+  const controller = await readFile(
+    resolve(root, "assets", "teaching-details.js"),
+    "utf8",
+  );
+  assert.match(controller, /transitionend/);
+  assert.match(controller, /propertyName === "opacity"/);
+  assert.match(controller, /event\.preventDefault\(\)/);
+  assert.match(controller, /event\.detail === 0/);
+  assert.match(controller, /details\.open\s*=/);
+  assert.match(
+    controller,
+    /details\.dataset\.detailsMotionInstant = "true"[\s\S]*?getBoundingClientRect\(\)[\s\S]*?delete details\.dataset\.detailsMotionInstant/,
+  );
+  assert.doesNotMatch(controller, /keydown/);
+
+  const teachingCss = await readFile(
+    resolve(root, "assets", "teaching.css"),
+    "utf8",
+  );
+  assert.match(
+    teachingCss,
+    /--ease-out:\s*cubic-bezier\(0\.23, 1, 0\.32, 1\)/,
+  );
+  assert.match(
+    teachingCss,
+    /--ease-in-out:\s*cubic-bezier\(0\.77, 0, 0\.175, 1\)/,
+  );
+
+  const motionCss = teachingCss.split(
+    "/* Overrides for generated document templates. */",
+  )[0];
+  assert.match(motionCss, /transition-property:\s*opacity, transform/);
+  assert.match(motionCss, /transform:\s*translateY\(-4px\)/);
+  assert.match(motionCss, /transition:\s*opacity 200ms ease !important/);
+  assert.match(
+    motionCss,
+    /data-details-motion-instant="true"[\s\S]*?transition:\s*none !important/,
+  );
+  assert.doesNotMatch(motionCss, /transition\s*:\s*all/i);
+  assert.doesNotMatch(
+    motionCss,
+    /transition(?:-property)?\s*:[^;]*(?:max-)?height/i,
+  );
+});
+
 test("search engines can discover the teaching archive", async () => {
   const robots = await readFile(resolve(root, "robots.txt"), "utf8");
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");

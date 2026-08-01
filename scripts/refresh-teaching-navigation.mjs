@@ -6,6 +6,8 @@ import { SITE_ORIGIN, TEACHING_SHARE_IMAGES } from "./site-config.mjs";
 const root = resolve(import.meta.dirname, "..");
 const teachingRoot = resolve(root, "teaching");
 const stylesheet = '  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">';
+const detailsMotionScript =
+  '  <script src="/assets/teaching-details.js" defer></script>';
 
 const courses = {
   "agentic-ai": {
@@ -93,6 +95,20 @@ function withSharedStylesheet(html) {
   return result.replace(/<\/head>/i, `${stylesheet}\n</head>`);
 }
 
+function withTeachingDetailsMotion(html) {
+  const withoutScript = html.replace(
+    /\s*<script\b[^>]*src="\/assets\/teaching-details\.js"[^>]*><\/script>\s*/gi,
+    "\n",
+  );
+
+  if (!/<details\b/i.test(withoutScript)) return withoutScript;
+
+  return withoutScript.replace(
+    /<\/body>/i,
+    `${detailsMotionScript}\n</body>`,
+  );
+}
+
 function removeGeneratedShell(html) {
   return html.replace(
     /\s*<header class="lesson-header" data-teaching-shell="v1">[\s\S]*?<\/header>\s*/gi,
@@ -170,6 +186,7 @@ async function refreshDocuments(course) {
     after = removeLegacyDocumentHeader(after);
     after = withBodyClasses(after, ["teaching-document", `course-${course}`]);
     after = withSharedStylesheet(after);
+    after = withTeachingDetailsMotion(after);
 
     const header = lessonHeader(
       course,
