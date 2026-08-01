@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>13주차 2교시 — 컬러 그레이딩 + LUT + Movie Render Queue</title>
+  <meta name="description" content="White Balance, Global, Shadows·Midtones·Highlights, LUT의 역할을 익히고 Movie Render Queue로 고품질 PNG 이미지 시퀀스를 출력하는 기본 설정을 정리합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-13-period2.html">
+  <meta property="og:title" content="13주차 2교시 — 컬러 그레이딩 + LUT + Movie Render Queue">
+  <meta property="og:description" content="White Balance, Global, Shadows·Midtones·Highlights, LUT의 역할을 익히고 Movie Render Queue로 고품질 PNG 이미지 시퀀스를 출력하는 기본 설정을 정리합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-13-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="13주차 2교시 — 컬러 그레이딩 + LUT + Movie Render Queue">
+  <meta name="twitter:description" content="White Balance, Global, Shadows·Midtones·Highlights, LUT의 역할을 익히고 Movie Render Queue로 고품질 PNG 이미지 시퀀스를 출력하는 기본 설정을 정리합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="13주차-2교시-컬러-그레이딩-lut-movie-render-queue-학생용">13주차 2교시 — 컬러 그레이딩 + LUT + Movie Render Queue (학생용)</h1>
+<p class="document-title" id="13주차-2교시-컬러-그레이딩-lut-movie-render-queue-학생용">13주차 2교시 — 컬러 그레이딩 + LUT + Movie Render Queue (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">13주차 아웃라인: 렌더링 및 컬러 그레이딩</span></td></tr>
@@ -805,7 +819,7 @@ h1, .lead, .material-title, .material-meta,
 <h2 id="심화-1-컬러-그레이딩">심화 1 — 컬러 그레이딩</h2>
 <p>영화 〈매트릭스〉 하면 초록빛, 〈매드맥스〉 하면 주황과 청록이 떠오릅니다. 우연이 아닙니다. 영화마다 <strong>색의 톤</strong>을 의도적으로 설계하며, 그 작업이 <strong>컬러 그레이딩</strong>입니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/05_color-grading-tone-examples.webp" alt="color grading tone examples" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/05_color-grading-tone-examples.webp" alt="color grading tone examples" loading="lazy">
 </figure>
 <p>같은 씬을 세 가지로 비교해 보면, 라이팅도 에셋도 후처리 이펙트도 모두 같은데 색감만 다릅니다. 그런데 한쪽은 차갑고 푸른 SF, 다른 쪽은 따뜻한 노을, 또 다른 쪽은 탈색된 폐허처럼 보입니다. 색 하나로 장면의 인상이 크게 달라집니다.</p>
 <p>1교시에서 후처리는 '라이팅 위에 얹는 마감 레이어'라고 했습니다. 컬러 그레이딩은 그 마감 중에서도 <strong>색을 결정하는 부분</strong>으로, PPV 의 <strong>Color Grading</strong> 섹션에서 합니다. 여기서는 세 가지 — White Balance, Global, Shadows/Midtones/Highlights — 를 봅니다.</p>
@@ -833,7 +847,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="shadows-midtones-highlights-영역-분리-그레이딩">Shadows / Midtones / Highlights — 영역 분리 그레이딩</h3>
 <p>Global 은 화면 <strong>전체</strong>를 한꺼번에 바꿉니다. 그런데 <strong>어두운 영역만, 밝은 영역만</strong> 따로 색을 바꿀 수도 있습니다. PPV Color Grading 에는 Global 말고도 세 묶음이 더 있습니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/06_color-grading-shadows-mid-highlights.webp" alt="color grading shadows mid highlights" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/06_color-grading-shadows-mid-highlights.webp" alt="color grading shadows mid highlights" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>묶음</th><th>영향 범위</th></tr></thead><tbody><tr><td data-label="묶음"><strong>Shadows(섀도)</strong></td><td data-label="영향 범위">화면의 <strong>어두운 영역</strong>만</td></tr>
 <tr><td data-label="묶음"><strong>Midtones(미드톤)</strong></td><td data-label="영향 범위">화면의 <strong>중간 밝기 영역</strong>만</td></tr>
@@ -858,7 +872,7 @@ h1, .lead, .material-title, .material-meta,
 <h2 id="심화-2-lut-적용">심화 2 — LUT 적용</h2>
 <p>컬러 그레이딩은 슬라이더가 수십 개라 손이 많이 갑니다. 멋진 색감을 한 번 잘 만들었을 때, 그 룩을 다른 씬에도 다음 프로젝트에도 똑같이 쓰고 싶다면 매번 슬라이더를 처음부터 다시 맞춰야 할까요? 그래서 나온 것이 <strong>LUT</strong>(Look-Up Table, 색 변환표)입니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/07_lut-concept-diagram.webp" alt="lut concept diagram" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/07_lut-concept-diagram.webp" alt="lut concept diagram" loading="lazy">
 </figure>
 <p>LUT 를 한 문장으로 정리하면, <strong>'어떤 입력 색이 들어오면 어떤 출력 색으로 바꿔라'를 미리 구워둔 표</strong>입니다. 'A 색은 B 색으로, C 색은 D 색으로' 하는 변환 규칙을 파일 하나에 통째로 담아둔 것입니다. 비유하자면 사진 앱의 <strong>필터</strong>입니다. 필터 하나를 누르면 사진 전체 색감이 크게 바뀌는데, 그 필터가 LUT 에 가깝습니다. 컬러 그레이딩을 직접 세부 조정하는 방법과, LUT 로 룩을 한 번에 입히는 방법이 있다고 보면 됩니다.</p>
 <h3 id="lut-적용-절차">LUT 적용 절차</h3>

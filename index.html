@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kim Jungho | Art Engineering</title>
+  <meta name="description" content="I connect generative AI, real-time engines, and immersive media into working creative production systems.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/">
+  <meta property="og:title" content="Kim Jungho | Art Engineering">
+  <meta property="og:description" content="I connect generative AI, real-time engines, and immersive media into working creative production systems.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Kim Jungho | Art Engineering">
+  <meta name="twitter:description" content="I connect generative AI, real-time engines, and immersive media into working creative production systems.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -271,22 +283,24 @@
       transition: border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, background 160ms ease, transform 160ms ease;
     }
 
-    .button:hover {
-      border-color: var(--accent-line);
-      color: var(--accent-strong);
-      text-decoration: none;
-      transform: translateY(-1px);
-    }
-
     .button.primary {
       border-color: var(--accent);
       background: var(--accent);
       color: #fff;
     }
 
-    .button.primary:hover {
-      background: var(--accent-strong);
-      color: #fff;
+    @media (hover: hover) and (pointer: fine) {
+      .button:hover {
+        border-color: var(--accent-line);
+        color: var(--accent-strong);
+        text-decoration: none;
+        transform: translateY(-1px);
+      }
+
+      .button.primary:hover {
+        background: var(--accent-strong);
+        color: #fff;
+      }
     }
 
     .news-list {
@@ -534,10 +548,16 @@
       transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
     }
 
-    .axis-tab:hover,
     .axis-tab:focus-visible {
       border-color: var(--accent);
-      outline: none;
+      outline: 3px solid color-mix(in srgb, var(--accent) 34%, transparent);
+      outline-offset: 3px;
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .axis-tab:hover {
+        border-color: var(--accent);
+      }
     }
 
     .axis-tab.is-active {
@@ -693,7 +713,9 @@
       border: 1px solid var(--line);
       border-radius: 8px;
       background: var(--surface);
+      color: inherit;
       overflow: hidden;
+      text-decoration: none;
       transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease, opacity 160ms ease;
     }
 
@@ -707,11 +729,14 @@
       background: var(--accent-line);
     }
 
-    .project-card:hover {
-      border-color: var(--accent-line);
-      background: var(--paper);
-      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
-      transform: translateY(-1px);
+    @media (hover: hover) and (pointer: fine) {
+      .project-card[href]:hover {
+        border-color: var(--accent-line);
+        background: var(--paper);
+        box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
+        text-decoration: none;
+        transform: translateY(-1px);
+      }
     }
 
     .project-card .date {
@@ -796,12 +821,14 @@
       grid-column: 1 / -1;
     }
 
-    .course-card:hover {
-      border-color: var(--accent-line);
-      background: var(--surface);
-      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
-      text-decoration: none;
-      transform: translateY(-1px);
+    @media (hover: hover) and (pointer: fine) {
+      .course-card[href]:hover {
+        border-color: var(--accent-line);
+        background: var(--surface);
+        box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
+        text-decoration: none;
+        transform: translateY(-1px);
+      }
     }
 
     .course-card h4 {
@@ -1036,11 +1063,13 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
-      <a class="brand" href="#top">Kim Jungho</a>
+      <a class="brand" href="#top" aria-current="page">Kim Jungho</a>
       <a href="news.html">News</a>
       <a href="#work">Work</a>
       <a href="#research">Research</a>
@@ -1051,7 +1080,7 @@
   <div class="shell" id="top">
     <aside class="sidebar" aria-label="Profile">
       <div class="portrait-wrap">
-        <img class="portrait" src="assets/cv-photo.png" alt="Kim Jungho portrait">
+        <img width="178" height="240" loading="eager" fetchpriority="high" decoding="async" class="portrait" src="assets/cv-photo.png" alt="Kim Jungho portrait">
       </div>
       <div>
         <h2 class="side-name">Kim Jungho</h2>
@@ -1077,7 +1106,7 @@
       </ul>
     </aside>
 
-    <main class="content">
+    <main id="main-content" class="content">
       <section class="hero" id="cv">
         <h1>Kim Jungho</h1>
         <div class="intro-panel">
@@ -1135,24 +1164,24 @@
               <h3 class="project-title">Healing Landscape-Style AI Media Art Content Production</h3>
             </div>
           </article>
-          <article class="project-card" data-work-card data-axes="generative exhibition">
+          <a class="project-card" href="projects/vive-ai-uiux.html" data-work-card data-axes="generative exhibition">
             <div class="date">2025.08 &mdash; 2025.11</div>
             <div>
               <h3 class="project-title">VIVE AI Kiosk Experience Design</h3>
             </div>
-          </article>
-          <article class="project-card" data-work-card data-axes="real-time">
+          </a>
+          <a class="project-card" href="projects/hyundai-mobis-connect.html" data-work-card data-axes="real-time">
             <div class="date">2025.07 &mdash; 2025.12</div>
             <div>
               <h3 class="project-title">Hyundai Mobis Connect In-Vehicle Infotainment Prototype</h3>
             </div>
-          </article>
-          <article class="project-card" data-work-card data-axes="digital-twin">
+          </a>
+          <a class="project-card" href="projects/digital-twin-pipeline.html" data-work-card data-axes="digital-twin">
             <div class="date">2025</div>
             <div>
               <h3 class="project-title">Digital Twin Pipeline for 3D Human Digitizing</h3>
             </div>
-          </article>
+          </a>
         </div>
         <div class="section-actions">
           <a class="button" href="portfolio.html">View portfolio archive</a>
@@ -1162,18 +1191,18 @@
       <section class="section" id="research">
         <h2 class="section-title">Writing &amp; Research</h2>
         <div class="grid-list">
-          <article class="project-card">
+          <a class="project-card" href="projects/generative-ai-storyboard.html">
             <div class="date">2026.03.26</div>
             <div>
               <h3 class="project-title">Agile Vibe Pre-Production Storyboard Patent</h3>
             </div>
-          </article>
-          <article class="project-card">
+          </a>
+          <a class="project-card" href="projects/digital-twin-pipeline.html">
             <div class="date">2025</div>
             <div>
               <h3 class="project-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System</h3>
             </div>
-          </article>
+          </a>
           <article class="project-card">
             <div class="date">2024.05 &mdash; 2026.12</div>
             <div>
@@ -1278,6 +1307,7 @@
       const buttons = Array.from(map.querySelectorAll("[data-axis]"));
       const cards = Array.from(document.querySelectorAll("[data-work-card]"));
       const copy = map.querySelector("[data-axis-copy]");
+      const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
       const setAxis = (axis) => {
         buttons.forEach((button) => {
@@ -1300,8 +1330,9 @@
 
       buttons.forEach((button) => {
         button.addEventListener("click", () => setAxis(button.dataset.axis));
-        button.addEventListener("focus", () => setAxis(button.dataset.axis));
-        button.addEventListener("mouseenter", () => setAxis(button.dataset.axis));
+        if (canHover) {
+          button.addEventListener("mouseenter", () => setAxis(button.dataset.axis));
+        }
       });
 
       setAxis("generative");

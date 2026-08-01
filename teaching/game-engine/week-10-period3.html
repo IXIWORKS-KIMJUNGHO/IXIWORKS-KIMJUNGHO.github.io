@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>10주차 3교시 — 다양한 Mixamo 격투 모션 리타겟 + Level Sequence 실습</title>
+  <meta name="description" content="격투 모션 3종 이상을 일괄 리타겟하고 Level Sequence에 이어 붙여 10-15초 격투 시퀀스를 구성합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-10-period3.html">
+  <meta property="og:title" content="10주차 3교시 — 다양한 Mixamo 격투 모션 리타겟 + Level Sequence 실습">
+  <meta property="og:description" content="격투 모션 3종 이상을 일괄 리타겟하고 Level Sequence에 이어 붙여 10-15초 격투 시퀀스를 구성합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-10-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="10주차 3교시 — 다양한 Mixamo 격투 모션 리타겟 + Level Sequence 실습">
+  <meta name="twitter:description" content="격투 모션 3종 이상을 일괄 리타겟하고 Level Sequence에 이어 붙여 10-15초 격투 시퀀스를 구성합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="10주차-3교시-다양한-mixamo-격투-모션-리타겟-level-sequence-실습-학생용">10주차 3교시 — 다양한 Mixamo 격투 모션 리타겟 + Level Sequence 실습 (학생용)</h1>
+<p class="document-title" id="10주차-3교시-다양한-mixamo-격투-모션-리타겟-level-sequence-실습-학생용">10주차 3교시 — 다양한 Mixamo 격투 모션 리타겟 + Level Sequence 실습 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr>
@@ -799,7 +813,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>핵심 원칙:</strong></p>
 <ul><li>셋업은 한 번 (2교시에서 IK Rig 2개 + RTG 1개 이미 만들었음)</li><li>변환은 N번 (RTG 에셋 1개로 격투 모션 N개 모두)</li><li><strong>격투씬 다양성</strong> (정지 자세 / 공격 / 방어 또는 회피 — 최소 이 3 카테고리)</li></ul>
 <figure class="lecture-figure">
-<img src="assets/10_fight-motion-set-examples.webp" alt="fight motion set examples" loading="lazy">
+<img width="3360" height="2200" decoding="async" src="assets/10_fight-motion-set-examples.webp" alt="fight motion set examples" loading="lazy">
 <figcaption>격투 모션은 정지 자세, 공격, 방어/회피, 피격 반응을 섞어 짧은 흐름으로 구성합니다.</figcaption>
 </figure>
 <div class="callout callout-tip">
@@ -932,7 +946,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/11_rtg-batch-export-flow.webp" alt="rtg batch export flow" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/11_rtg-batch-export-flow.webp" alt="rtg batch export flow" loading="lazy">
 <figcaption>IK Rig / RTG 셋업은 한 번 만들고, 이후에는 새 Mixamo 동작을 같은 RTG 에셋으로 반복 변환합니다.</figcaption>
 </figure>
 <h3 id="4-1-rtg-에서-다중-export">4.1 RTG 에서 다중 Export</h3>
@@ -987,7 +1001,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="5-1-level-sequence-만들기-캐릭터-바인딩">5.1 Level Sequence 만들기 + 캐릭터 바인딩</h3>
 <p>이제 변환된 동작 N개를 시간축에 이어붙이는 단계이며, 9주차에 다룬 Level Sequence 가 다시 등장합니다.</p>
 <figure class="lecture-figure">
-<img src="assets/12_level-sequence-fight-timeline.webp" alt="level sequence fight timeline" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/12_level-sequence-fight-timeline.webp" alt="level sequence fight timeline" loading="lazy">
 <figcaption>변환된 격투 AS 클립을 순서대로 배치하고, 필요한 구간은 4-8프레임 정도 겹쳐 짧게 블렌딩합니다.</figcaption>
 </figure>
 <div class="callout callout-warning">

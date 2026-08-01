@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>5주차 1교시 — 환경 라이팅 시스템</title>
+  <meta name="description" content="빈 레벨에서 Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud를 조합해 자연환경 라이팅을 구축하는 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-05-period1.html">
+  <meta property="og:title" content="5주차 1교시 — 환경 라이팅 시스템">
+  <meta property="og:description" content="빈 레벨에서 Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud를 조합해 자연환경 라이팅을 구축하는 자료입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-05-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="5주차 1교시 — 환경 라이팅 시스템">
+  <meta name="twitter:description" content="빈 레벨에서 Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud를 조합해 자연환경 라이팅을 구축하는 자료입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -741,8 +753,10 @@ h1, .lead, .material-title, .material-meta,
 }
 
 </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 05 · Period 01 Handout</span></div></div>
   <header class="hero">
     <div class="hero-inner">
@@ -765,8 +779,8 @@ h1, .lead, .material-title, .material-meta,
       </aside>
     </div>
   </header>
-  <main class="layout">
-    <article class="article"><h1 id="5주차-1교시-환경-라이팅-시스템-학생용">5주차 1교시 — 환경 라이팅 시스템 (학생용)</h1>
+  <main id="main-content" class="layout">
+    <article class="article"><p class="document-title" id="5주차-1교시-환경-라이팅-시스템-학생용">5주차 1교시 — 환경 라이팅 시스템 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -798,7 +812,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/01_env-lighting-components.webp" alt="env lighting components" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/01_env-lighting-components.webp" alt="env lighting components" />
 <figcaption>환경 라이팅 구성요소와 빌드 순서 (UE 5.7 기준 — MegaLights, Local Fog Volume, Day Sequence 포함)</figcaption>
 </figure>
 <p>이 5개를 하나씩 넣으면서 어떤 변화가 생기는지 직접 눈으로 확인합니다.</p>
@@ -878,7 +892,7 @@ h1, .lead, .material-title, .material-meta,
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/02_directional-light-rotation.webp" alt="directional light rotation" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/02_directional-light-rotation.webp" alt="directional light rotation" />
 <figcaption>Directional Light 회전에 따른 시간대 변화</figcaption>
 </figure>
 <p>정리하면, 위치를 바꿔봐야 소용없습니다. 회전만이 의미 있습니다.</p>
@@ -970,7 +984,7 @@ h1, .lead, .material-title, .material-meta,
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/03_light-mobility-table.webp" alt="light mobility table" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/03_light-mobility-table.webp" alt="light mobility table" />
 <figcaption>light mobility table</figcaption>
 </figure>
 <p>예전에는 Movable 라이트를 많이 쓰면 부담이 컸지만, UE 5.7에서는 MegaLights가 Beta로 개선되어 많은 동적 라이트를 다루는 흐름이 좋아지고 있습니다. 뒤에서 사례로 다룹니다.</p>
@@ -1146,7 +1160,7 @@ h1, .lead, .material-title, .material-meta,
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/04_skylight-before-after.webp" alt="skylight before after" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/04_skylight-before-after.webp" alt="skylight before after" />
 <figcaption>SkyLight 적용 전/후 — 그림자 속 디테일과 하늘색 주변광 비교</figcaption>
 </figure>
 <blockquote class="quote-note"><p>SkyLight를 켠 뒤 그림자 색과 어두운 영역의 디테일이 어떻게 달라지는지 뷰포트에서 직접 비교해보세요.</p></blockquote>
@@ -1258,7 +1272,7 @@ h1, .lead, .material-title, .material-meta,
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/05_skylight-before-after-simple.webp" alt="skylight before after simple" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/05_skylight-before-after-simple.webp" alt="skylight before after simple" />
 <figcaption>SkyLight 적용 전/후 — 나무를 비활성화한 단순 테스트 씬</figcaption>
 </figure>
 <h3 id="학생-실습-1">학생 실습</h3>
@@ -1350,7 +1364,7 @@ SkyAtmosphere를 안 넣은 경우 → SkyAtmosphere 먼저 넣어야 합니다
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/06_fog-density-comparison.webp" alt="fog density comparison" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/06_fog-density-comparison.webp" alt="fog density comparison" />
 <figcaption>Fog Density 0.02 → 0.1 → 0.5 — 원경과 태양이 점점 안개에 가려짐</figcaption>
 </figure>
 <p>Fog Density를 0.5까지 올리면 안개가 너무 짙어서 태양빛조차 가려집니다. 다시 0.02로 돌려놓으세요.</p>
@@ -1449,7 +1463,7 @@ SkyAtmosphere를 안 넣은 경우 → SkyAtmosphere 먼저 넣어야 합니다
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/07_local-fog-volume-demo.webp" alt="local fog volume demo" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/07_local-fog-volume-demo.webp" alt="local fog volume demo" />
 <figcaption>Local Fog Volume — 바위 뒤에 배치한 국소 안개</figcaption>
 </figure>
 <p>실무에서 매우 자주 사용됩니다. 동굴 입구에 깔아두면 안에 무엇이 있을까 궁금해지는 분위기가 만들어지고, 호수 위에 깔면 새벽 물안개가 되고, 절벽 아래에 깔면 깊은 골짜기 느낌이 납니다. 시네마틱에서 분위기 연출할 때 특히 유용합니다.</p>
@@ -1483,7 +1497,7 @@ SkyAtmosphere를 안 넣은 경우 → SkyAtmosphere 먼저 넣어야 합니다
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/08_fog-comparison.webp" alt="fog comparison" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/08_fog-comparison.webp" alt="fog comparison" />
 <figcaption>Exponential Height Fog vs Volumetric Fog 비교</figcaption>
 </figure>
 <p>핵심은, 볼류메트릭 포그를 켜면 God Ray를 표현할 수 있다는 것입니다. 나무 사이로 빛줄기가 내려오는 효과입니다.</p>
@@ -1643,7 +1657,7 @@ SkyAtmosphere를 안 넣은 경우 → SkyAtmosphere 먼저 넣어야 합니다
 <blockquote class="quote-note"><p>Point Light 색을 바꿔 Volumetric Fog 속에서 빛이 어떻게 퍼지는지 직접 확인하세요.</p></blockquote>
 <p>빨간 빛과 파란 빛이 안개 속에서 퍼져 나가는 것이 볼류메트릭 포그의 힘입니다.</p>
 <figure class="lecture-figure">
-<img src="assets/09_volumetric-fog-pointlight.webp" alt="volumetric fog pointlight" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/09_volumetric-fog-pointlight.webp" alt="volumetric fog pointlight" />
 <figcaption>빨강/파랑 Point Light + Volumetric Fog — 산란 강도를 올렸을 때 안개 속에서 빛이 퍼지는 모습</figcaption>
 </figure>
 <div class="table-wrap"><table>
@@ -1707,7 +1721,7 @@ SkyAtmosphere를 안 넣은 경우 → SkyAtmosphere 먼저 넣어야 합니다
 <li>Rendering &gt; Direct Lighting 섹션에서 <strong>MegaLights</strong> 를 활성화하세요</li>
 </ol>
 <figure class="lecture-figure">
-<img src="assets/10_megalights-comparison.webp" alt="megalights comparison" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/10_megalights-comparison.webp" alt="megalights comparison" />
 <figcaption>MegaLights ON/OFF 비교 — 다수의 Point Light 환경</figcaption>
 </figure>
 <div class="table-wrap"><table>
@@ -1819,7 +1833,7 @@ Create 버튼이 안 보이는 경우 → 이미 해당 라이팅이 있으면 C
 <li>에디터를 재시작하세요</li>
 </ol>
 <figure class="lecture-figure">
-<img src="assets/11_day-sequence-plugin.webp" alt="day sequence plugin" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11_day-sequence-plugin.webp" alt="day sequence plugin" />
 <figcaption>Day Sequence 플러그인 24시간 사이클 화면</figcaption>
 </figure>
 <p>이 플러그인을 활성화하면 24시간 사이클을 자동으로 생성해줍니다. 낮 → 노을 → 밤 → 새벽까지 자연스럽게 전환됩니다. 시네마틱에서 시간 경과를 연출할 때 특히 유용합니다. 학기 말에 시네마틱 영상을 만들 때 활용해보세요.</p>

@@ -5,10 +5,12 @@ const root = process.cwd();
 const source = join(root, "teaching", "agentic-ai");
 const output = join(root, "dist");
 const staticOutput = join(output, "client", "teaching", "agentic-ai");
+const sharedAssetOutput = join(output, "client", "assets");
 const serverOutput = join(output, "server");
 
 await rm(output, { recursive: true, force: true });
 await mkdir(staticOutput, { recursive: true });
+await mkdir(sharedAssetOutput, { recursive: true });
 await mkdir(serverOutput, { recursive: true });
 
 for (const file of [
@@ -22,6 +24,17 @@ for (const file of [
 ]) {
   await cp(join(source, file), join(staticOutput, file));
 }
+
+await cp(join(source, "day-1-assets"), join(staticOutput, "day-1-assets"), {
+  recursive: true,
+});
+await cp(
+  join(root, "assets", "accessibility.css"),
+  join(sharedAssetOutput, "accessibility.css"),
+);
+await cp(join(root, "assets", "qr"), join(sharedAssetOutput, "qr"), {
+  recursive: true,
+});
 
 const worker = `
 const worker = {

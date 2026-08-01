@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>9주차 2교시 — 레벨 시퀀서와 키프레임</title>
+  <meta name="description" content="Level Sequence와 Sequencer의 구조를 익히고, 카메라 무빙과 렌즈 파라미터를 키프레임으로 제어합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-09-period2.html">
+  <meta property="og:title" content="9주차 2교시 — 레벨 시퀀서와 키프레임">
+  <meta property="og:description" content="Level Sequence와 Sequencer의 구조를 익히고, 카메라 무빙과 렌즈 파라미터를 키프레임으로 제어합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-09-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="9주차 2교시 — 레벨 시퀀서와 키프레임">
+  <meta name="twitter:description" content="Level Sequence와 Sequencer의 구조를 익히고, 카메라 무빙과 렌즈 파라미터를 키프레임으로 제어합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -741,8 +753,10 @@ h1, .lead, .material-title, .material-meta,
 }
 
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -771,9 +785,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="9주차-2교시-레벨-시퀀서와-키프레임-학생용">9주차 2교시 — 레벨 시퀀서와 키프레임 (학생용)</h1>
+<p class="document-title" id="9주차-2교시-레벨-시퀀서와-키프레임-학생용">9주차 2교시 — 레벨 시퀀서와 키프레임 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서">강의계획서: Game Engine II</td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서">9주차 아웃라인: 시퀀서 기초</td></tr>
@@ -870,7 +884,7 @@ h1, .lead, .material-title, .material-meta,
 <p>여기가 오늘의 핵심입니다. 7주차에 카메라 무빙 6종을 그림으로 배웠습니다. <strong>시퀀서의 트랜스폼 키프레임만으로 6종 중 5종이 다 만들어집니다.</strong> 나머지 1종(Zoom)은 Focal Length 키프레임으로.</p>
 <h3 id="2-1-트랙-채널-키-계층">2-1. 트랙 / 채널 / 키 계층</h3>
 <figure class="lecture-figure">
-<img src="assets/07_track-channel-key-hierarchy.webp" alt="07_track-channel-key-hierarchy">
+<img width="3900" height="2361" loading="lazy" decoding="async" src="assets/07_track-channel-key-hierarchy.webp" alt="07_track-channel-key-hierarchy">
 
 </figure>
 <div class="table-wrap"><table><thead><tr><th>단어</th><th>의미</th><th>예시</th></tr></thead><tbody><tr><td data-label="단어"><strong>Track (트랙)</strong></td><td data-label="의미">한 줄 — &quot;무엇을 제어할지&quot;</td><td data-label="예시">Transform 트랙</td></tr>
@@ -897,7 +911,7 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="무빙"><strong>Crane</strong></td><td data-label="7주차 정의">카메라 상하 이동</td><td data-label="시퀀서 키프레임 채널">Location.Z</td></tr>
 <tr><td data-label="무빙"><strong>Zoom</strong></td><td data-label="7주차 정의">렌즈 조절 (카메라 고정)</td><td data-label="시퀀서 키프레임 채널">Current Focal Length</td></tr></tbody></table></div>
 <figure class="lecture-figure">
-<img src="assets/08_six-moves-sequencer-map.webp" alt="Pan/Tilt/Dolly/Track/Crane은 Transform 채널, Zoom은 Current Focal Length 채널입니다.">
+<img width="1561" height="1008" loading="lazy" decoding="async" src="assets/08_six-moves-sequencer-map.webp" alt="Pan/Tilt/Dolly/Track/Crane은 Transform 채널, Zoom은 Current Focal Length 채널입니다.">
 <figcaption>Pan/Tilt/Dolly/Track/Crane은 Transform 채널, Zoom은 Current Focal Length 채널입니다.</figcaption>
 </figure>
 <p>각 무빙마다 키프레임 두 개씩만 박으면 됩니다. <strong>공통 패턴은 동일합니다</strong>:</p>
@@ -999,7 +1013,7 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="인터폴레이션"><strong>Linear</strong></td><td data-label="그래프 모양">직선</td><td data-label="결과 (속도 변화)">일정한 속도로 변화</td><td data-label="언제 쓰나">기계적 움직임, 일정 패닝, UI</td></tr>
 <tr><td data-label="인터폴레이션"><strong>Constant</strong></td><td data-label="그래프 모양">계단식</td><td data-label="결과 (속도 변화)">다음 키프레임 직전까지 값 유지</td><td data-label="언제 쓰나">컷 전환, 포즈 블로킹</td></tr></tbody></table></div>
 <figure class="lecture-figure">
-<img src="assets/09_interpolation-comparison.webp" alt="09_interpolation-comparison">
+<img width="3900" height="2715" loading="lazy" decoding="async" src="assets/09_interpolation-comparison.webp" alt="09_interpolation-comparison">
 
 </figure>
 <div class="callout callout-tip">
@@ -1018,7 +1032,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/10_tangent-handle.webp" alt="10_tangent-handle">
+<img width="3900" height="2571" loading="lazy" decoding="async" src="assets/10_tangent-handle.webp" alt="10_tangent-handle">
 
 </figure>
 <h3 id="linear-vs-cubic-직접-비교">Linear vs Cubic 직접 비교</h3>
@@ -1073,7 +1087,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/11_rack-focus-near-far-strip.webp" alt="Rack Focus는 카메라를 움직이는 효과가 아니라, 초점면을 가까운 거리에서 먼 거리로 보내는 효과입니다.">
+<img width="3900" height="2700" loading="lazy" decoding="async" src="assets/11_rack-focus-near-far-strip.webp" alt="Rack Focus는 카메라를 움직이는 효과가 아니라, 초점면을 가까운 거리에서 먼 거리로 보내는 효과입니다.">
 <figcaption>Rack Focus는 카메라를 움직이는 효과가 아니라, 초점면을 가까운 거리에서 먼 거리로 보내는 효과입니다.</figcaption>
 </figure>
 <hr />
@@ -1096,7 +1110,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>Dolly Zoom 키프레임 절차:</strong></p>
 <ul><li>1. 기존 키프레임 모두 삭제하고 새로 시작</li><li>2. <strong>Transform 키프레임</strong> (Dolly Out):</li><li>0프레임 → 카메라가 핵심 액터에 <strong>가까이</strong> → <strong>+ 버튼</strong></li><li>450프레임 → 카메라를 <strong>멀리</strong> 빼기 → <strong>+ 버튼</strong></li><li>3. <strong>Focal Length 키프레임</strong> (Zoom In):</li><li>0프레임 → Focal Length <strong>24mm</strong> → <strong>+ 버튼</strong></li><li>450프레임 → Focal Length <strong>85mm</strong> → <strong>+ 버튼</strong></li><li>4. 재생 → <strong>피사체는 거의 같은 크기인데 배경이 점점 늘어나는 기괴한 효과</strong></li></ul>
 <figure class="lecture-figure">
-<img src="assets/12_dolly-zoom-keyframe-strip.webp" alt="Dolly Zoom은 Transform의 Dolly Out과 Current Focal Length의 Zoom In이 같은 시간대에 겹친 상태입니다.">
+<img width="3900" height="2700" loading="lazy" decoding="async" src="assets/12_dolly-zoom-keyframe-strip.webp" alt="Dolly Zoom은 Transform의 Dolly Out과 Current Focal Length의 Zoom In이 같은 시간대에 겹친 상태입니다.">
 <figcaption>Dolly Zoom은 Transform의 Dolly Out과 Current Focal Length의 Zoom In이 같은 시간대에 겹친 상태입니다.</figcaption>
 </figure>
 <div class="callout callout-tip">

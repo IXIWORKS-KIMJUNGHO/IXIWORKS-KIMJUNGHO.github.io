@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>12주차 1교시 — 생성형 AI 에셋 워크플로우 + AI 도구</title>
+  <meta name="description" content="생성형 AI 3D의 제작 흐름을 컨셉 이미지, image-to-3D, 메시 정리, 텍스처, 언리얼 임포트 단계로 나누고 배경·소품 중심의 안전한 활용 범위를 정리합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-12-period1.html">
+  <meta property="og:title" content="12주차 1교시 — 생성형 AI 에셋 워크플로우 + AI 도구">
+  <meta property="og:description" content="생성형 AI 3D의 제작 흐름을 컨셉 이미지, image-to-3D, 메시 정리, 텍스처, 언리얼 임포트 단계로 나누고 배경·소품 중심의 안전한 활용 범위를 정리합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-12-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="12주차 1교시 — 생성형 AI 에셋 워크플로우 + AI 도구">
+  <meta name="twitter:description" content="생성형 AI 3D의 제작 흐름을 컨셉 이미지, image-to-3D, 메시 정리, 텍스처, 언리얼 임포트 단계로 나누고 배경·소품 중심의 안전한 활용 범위를 정리합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="12주차-1교시-생성형-ai-에셋-워크플로우-ai-도구-학생용">12주차 1교시 — 생성형 AI 에셋 워크플로우 + AI 도구 (학생용)</h1>
+<p class="document-title" id="12주차-1교시-생성형-ai-에셋-워크플로우-ai-도구-학생용">12주차 1교시 — 생성형 AI 에셋 워크플로우 + AI 도구 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">12주차 아웃라인: 3D 애셋 제작 및 AI 활용</span></td></tr>
@@ -812,7 +826,7 @@ h1, .lead, .material-title, .material-meta,
 <p>그래서 AI 3D 제작을 <strong>5단계 파이프라인</strong>으로 봅니다. 단계로 쪼개면 <strong>어느 단계가 AI의 몫이고 어느 단계가 사람의 몫인지</strong> 한눈에 보입니다. 그것을 모르면 AI가 생성한 결과를 그대로 믿고 쓰다가 나중에 문제가 생깁니다.</p>
 <h3 id="5단계-전체-그림">5단계 전체 그림</h3>
 <figure class="lecture-figure">
-  <img src="assets/01_ai-3d-pipeline-overview.webp" alt="ai 3d pipeline overview" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/01_ai-3d-pipeline-overview.webp" alt="ai 3d pipeline overview" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>단계</th><th>하는 일</th><th>결과물</th></tr></thead><tbody><tr><td data-label="단계"><strong>① 컨셉 이미지</strong></td><td data-label="하는 일">만들 대상의 2D 이미지를 확보</td><td data-label="결과물">이미지 1장</td></tr>
 <tr><td data-label="단계"><strong>② image-to-3D</strong></td><td data-label="하는 일">이미지를 3D 메시로 변환</td><td data-label="결과물">거친 3D 메시</td></tr>
@@ -829,7 +843,7 @@ h1, .lead, .material-title, .material-meta,
 <p><strong>① 컨셉 이미지</strong> — AI 이미지 생성으로 만들어도 되고, 일러스트레이터가 그린 그림이어도 됩니다. 중요한 것은 '무엇을 만들 것인가'를 사람이 정한다는 점입니다. AI는 그릴 줄은 알아도 무엇을 그릴지는 모릅니다.</p>
 <p><strong>② image-to-3D</strong> — 실제 AI 단계입니다. 이미지를 넣으면 3D 메시가 나옵니다. 단, <strong>입력 이미지가 나쁘면 결과도 나쁩니다.</strong> 실루엣이 흐릿하거나, 팔과 몸이 심하게 겹쳐 있거나, 배경이 복잡하면 AI가 형태를 헷갈립니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/02_image-input-quality-comparison.webp" alt="image input quality comparison" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/02_image-input-quality-comparison.webp" alt="image input quality comparison" loading="lazy">
 </figure>
 <p>image-to-3D에 좋은 이미지는 실루엣이 명확하고, 파츠(머리·몸·다리)가 어느 정도 구분되고, 배경이 단순한 이미지입니다.</p>
 <p><strong>③ 메시 정리</strong> — 오늘 가장 중요한 경계입니다. AI가 생성한 메시는 <strong>거칩니다.</strong> 와이어가 정돈되지 않음하고, UV가 어긋나 있고, 필요 없는 면이 섞여 있습니다. 이것을 정리하는 것은 사람이고, Maya나 Blender 같은 3D 툴이 필요합니다.</p>
@@ -861,7 +875,7 @@ h1, .lead, .material-title, .material-meta,
 <h2 id="핵심-개념-2-ai-도구-지형-본-수업-표준">핵심 개념 2 — AI 도구 지형 + 본 수업 표준</h2>
 <p>AI 3D 도구는 종류가 많고 새 도구가 매달 나옵니다. 전부 외울 필요는 없고, <strong>세 갈래</strong>로 나눠서 보면 됩니다. 파이프라인 5단계 중 어느 단계를 담당하느냐로 나뉩니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/03_ai-3d-tool-landscape.webp" alt="ai 3d tool landscape" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/03_ai-3d-tool-landscape.webp" alt="ai 3d tool landscape" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>갈래</th><th>담당 단계</th><th>도구 예시</th><th>본 수업에서</th></tr></thead><tbody><tr><td data-label="갈래"><strong>이미지 생성</strong></td><td data-label="담당 단계">① 컨셉 이미지</td><td data-label="도구 예시">Midjourney 등</td><td data-label="본 수업에서">컨셉용 (선택)</td></tr>
 <tr><td data-label="갈래"><strong>image-to-3D</strong></td><td data-label="담당 단계">② 3D 변환</td><td data-label="도구 예시">Tripo / Meshy / Hyper3D Rodin</td><td data-label="본 수업에서">강사 Tripo 데모 / 학생은 강사 팩</td></tr>
@@ -914,7 +928,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="b-캐릭터-풀파이프라인-5단계로-매핑">B. 캐릭터 풀파이프라인 — 5단계로 매핑</h3>
 <p>생성을 기다리는 동안, 첫 번째 참고 영상이 보여준 <strong>캐릭터</strong> 풀파이프라인을 살펴봅니다. 학생 실습은 배경·소품이라 캐릭터 과정을 직접 하지는 않지만, 'AI로 캐릭터까지 가능하다'는 그림을 알아두면 좋습니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/04_character-ai-pipeline-overview.webp" alt="character ai pipeline overview" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/04_character-ai-pipeline-overview.webp" alt="character ai pipeline overview" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>영상 속 작업</th><th>5단계 매핑</th></tr></thead><tbody><tr><td data-label="영상 속 작업">컨셉 이미지를 Tripo에서 파츠별로 분리</td><td data-label="5단계 매핑">① 컨셉 이미지</td></tr>
 <tr><td data-label="영상 속 작업">Smart Mesh로 파츠별 3D 메시 생성</td><td data-label="5단계 매핑">② image-to-3D</td></tr>
@@ -953,7 +967,7 @@ h1, .lead, .material-title, .material-meta,
 <p>데모에서 본 것처럼 AI 메시는 형태는 그럴듯하지만 표면이 거칩니다. 그 '거칠다'가 구체적으로 무엇인지, 그래서 AI 3D를 어디에 써야 하는지 정리합니다. 결론부터 말하면, 본 수업 기준에서는 <strong>AI 3D를 정리 없이 메인 에셋으로 쓰기보다, 배경·소품에 우선 쓰는 것</strong>이 맞습니다.</p>
 <h3 id="ai-3d-메시의-전형적-문제-3가지">AI 3D 메시의 전형적 문제 3가지</h3>
 <figure class="lecture-figure">
-  <img src="assets/05_ai-mesh-cleanup-risks.webp" alt="ai mesh cleanup risks" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/05_ai-mesh-cleanup-risks.webp" alt="ai mesh cleanup risks" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>문제</th><th>무엇이</th><th>왜 문제인가</th></tr></thead><tbody><tr><td data-label="문제"><strong>정돈되지 않은 와이어</strong></td><td data-label="무엇이">폴리곤이 고르지 않고 뭉쳐 있음</td><td data-label="왜 문제인가">수정·애니메이션이 어려움</td></tr>
 <tr><td data-label="문제"><strong>어긋난 UV</strong></td><td data-label="무엇이">텍스처 좌표가 정돈 안 됨</td><td data-label="왜 문제인가">텍스처가 늘어나거나 깨져 보임</td></tr>
@@ -965,7 +979,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="그래서-배경-소품에-쓴다">그래서 — 배경·소품에 쓴다</h3>
 <p>메시 정리를 하지 않더라도, <strong>정리가 별로 필요 없는 곳에 쓰면</strong> AI 3D를 활용할 수 있습니다. 그곳이 배경·소품입니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/06_ai-background-prop-use.webp" alt="ai background prop use" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/06_ai-background-prop-use.webp" alt="ai background prop use" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>용도</th><th>AI 3D 적합도</th><th>이유</th></tr></thead><tbody><tr><td data-label="용도">주인공 캐릭터, 클로즈업 대상</td><td data-label="AI 3D 적합도">△ 정리 없이는 어려움</td><td data-label="이유">가까이 오래 보임 → 거친 게 다 보임. 움직임 필요</td></tr>
 <tr><td data-label="용도">중요한 메인 소품 (손에 든 무기 등)</td><td data-label="AI 3D 적합도">△ 정리하면 가능</td><td data-label="이유">카메라에 자주 잡힘</td></tr>

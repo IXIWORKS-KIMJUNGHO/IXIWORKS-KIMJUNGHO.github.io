@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>12주차 3교시 — 실습: 기말 컨셉 환경 블록아웃</title>
+  <meta name="description" content="중간 스토리보드나 새 컨셉에서 환경 키워드를 뽑고, 더미 박스 블록아웃과 외부 에셋 배치로 기말 시네마틱의 무대를 구성합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-12-period3.html">
+  <meta property="og:title" content="12주차 3교시 — 실습: 기말 컨셉 환경 블록아웃">
+  <meta property="og:description" content="중간 스토리보드나 새 컨셉에서 환경 키워드를 뽑고, 더미 박스 블록아웃과 외부 에셋 배치로 기말 시네마틱의 무대를 구성합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-12-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="12주차 3교시 — 실습: 기말 컨셉 환경 블록아웃">
+  <meta name="twitter:description" content="중간 스토리보드나 새 컨셉에서 환경 키워드를 뽑고, 더미 박스 블록아웃과 외부 에셋 배치로 기말 시네마틱의 무대를 구성합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="12주차-3교시-실습-기말-컨셉-환경-블록아웃-학생용">12주차 3교시 — 실습: 기말 컨셉 환경 블록아웃 (학생용)</h1>
+<p class="document-title" id="12주차-3교시-실습-기말-컨셉-환경-블록아웃-학생용">12주차 3교시 — 실습: 기말 컨셉 환경 블록아웃 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">12주차 아웃라인: 3D 애셋 제작 및 AI 활용</span></td></tr>
@@ -818,7 +832,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="컨셉-결정">컨셉 결정</h3>
 <p>가장 먼저 만들 환경을 정합니다. 2교시 끝에서 받은 힌트대로, <strong>8주차 중간고사 때 만든 스토리보드</strong>를 꺼냅니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/09_storyboard-to-space-concept.webp" alt="storyboard to space concept" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/09_storyboard-to-space-concept.webp" alt="storyboard to space concept" loading="lazy">
 </figure>
 <ol>
 <li>8주차 스토리보드를 펼쳐, <strong>배경이 잘 드러난 컷 하나</strong>를 고른다</li>
@@ -856,11 +870,11 @@ h1, .lead, .material-title, .material-meta,
 <li><strong>마네킹을 곳곳에 세워</strong> 벽 높이·문 크기·공간 폭이 사람 기준으로 적당한지 확인</li>
 </ol>
 <figure class="lecture-figure">
-  <img src="assets/10_blockout-cube-environment.webp" alt="blockout cube environment" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/10_blockout-cube-environment.webp" alt="blockout cube environment" loading="lazy">
 </figure>
 <p><strong>기대 결과</strong>: 더미 박스만으로도 '여기가 어떤 공간이구나'가 읽히는 상태.</p>
 <figure class="lecture-figure">
-  <img src="assets/11_blockout-mannequin-scale-check.webp" alt="blockout mannequin scale check" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/11_blockout-mannequin-scale-check.webp" alt="blockout mannequin scale check" loading="lazy">
 </figure>
 <div class="callout callout-tip">
 <div class="callout-title">블록아웃은 빠르게</div>
@@ -928,7 +942,7 @@ h1, .lead, .material-title, .material-meta,
 <h2 id="단계-3-배치-선택-확장">단계 3 — 배치 + 선택 확장</h2>
 <p>단계 3은 임포트한 에셋을 블록아웃 공간에 <strong>배치</strong>하는 단계입니다. 더미 박스를 실제 에셋으로 바꿔가면서 2교시에서 배운 <strong>배치 룰</strong>을 적용합니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/08_asset-placement-rule-diagram.webp" alt="asset placement rule diagram" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/08_asset-placement-rule-diagram.webp" alt="asset placement rule diagram" loading="lazy">
 </figure>
 <div class="table-wrap"><table><thead><tr><th>룰</th><th>내용</th></tr></thead><tbody><tr><td data-label="룰"><strong>원근 룰</strong></td><td data-label="내용">뒤쪽에 큰 것, 카메라 앞쪽으로 갈수록 작은 것 → 깊이감</td></tr>
 <tr><td data-label="룰"><strong>카메라 기준</strong></td><td data-label="내용">카메라가 비추는 곳에 힘을 주고, 안 잡히는 곳은 비워도 됨</td></tr>
@@ -943,7 +957,7 @@ h1, .lead, .material-title, .material-meta,
 <li>Cine Camera의 <strong>Pilot 모드</strong>로 수시로 확인 — 카메라에 잡히는 그림이 의도대로인지</li>
 </ol>
 <figure class="lecture-figure">
-  <img src="assets/12_asset-placement-rule-applied.webp" alt="asset placement rule applied" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/12_asset-placement-rule-applied.webp" alt="asset placement rule applied" loading="lazy">
 </figure>
 <p><strong>기대 결과</strong>: 블록아웃 더미 위에 실제 에셋이 얹혀, 카메라로 봤을 때 '하나의 공간'으로 읽히는 상태.</p>
 <div class="callout callout-tip">
@@ -1000,7 +1014,7 @@ h1, .lead, .material-title, .material-meta,
 </ol>
 <p><strong>예시 결과</strong>: 블록아웃 공간 위에 에셋을 배치해 기말 환경 베이스로 이어갈 수 있는 상태.</p>
 <figure class="lecture-figure">
-  <img src="assets/13_final-environment-base.webp" alt="final environment base" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/13_final-environment-base.webp" alt="final environment base" loading="lazy">
 </figure>
 <div class="callout callout-warning">
 <div class="callout-title">레벨 저장 잊지 않기</div>

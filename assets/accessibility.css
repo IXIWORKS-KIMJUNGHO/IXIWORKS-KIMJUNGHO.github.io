@@ -1,0 +1,51 @@
+/* Shared interaction safeguards for every published surface. */
+.skip-link {
+  position: fixed;
+  top: 0;
+  left: 16px;
+  z-index: 2147483647;
+  padding: 10px 14px;
+  border-radius: 0 0 6px 6px;
+  background: #111c22;
+  color: #fff;
+  font: 700 14px/1.2 system-ui, sans-serif;
+  text-decoration: none;
+  transform: translateY(-120%);
+  transition: transform 160ms ease;
+}
+
+.skip-link:focus-visible {
+  color: #fff;
+  outline-color: #fff;
+  transform: translateY(0);
+}
+
+:where(a, button, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--accent, #b64e35);
+  outline-offset: 3px;
+}
+
+:where(.button, .case-card, .course-card, .project-card[href], .back-link, .deck-archive-link, button, summary):active {
+  transform: scale(0.98);
+}
+
+@media (hover: none), (pointer: coarse) {
+  :where(.button, .case-card, .course-card, .project-card, .news-item, .back-link, .deck-archive-link, button, summary):not(:active):hover {
+    transform: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

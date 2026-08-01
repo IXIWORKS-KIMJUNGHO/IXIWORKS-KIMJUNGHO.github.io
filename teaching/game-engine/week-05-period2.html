@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>5주차 2교시 — Fab 에셋과 레벨 인스턴스</title>
+  <meta name="description" content="Fab에서 자연환경 에셋을 가져오고, 나나이트와 레벨 인스턴스로 재사용 가능한 배치 단위를 만드는 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-05-period2.html">
+  <meta property="og:title" content="5주차 2교시 — Fab 에셋과 레벨 인스턴스">
+  <meta property="og:description" content="Fab에서 자연환경 에셋을 가져오고, 나나이트와 레벨 인스턴스로 재사용 가능한 배치 단위를 만드는 자료입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-05-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="5주차 2교시 — Fab 에셋과 레벨 인스턴스">
+  <meta name="twitter:description" content="Fab에서 자연환경 에셋을 가져오고, 나나이트와 레벨 인스턴스로 재사용 가능한 배치 단위를 만드는 자료입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -741,8 +753,10 @@ h1, .lead, .material-title, .material-meta,
 }
 
 </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar"><div class="topbar-inner"><span class="brand">Game Engine II</span><span>Week 05 · Period 02 Handout</span></div></div>
   <header class="hero">
     <div class="hero-inner">
@@ -765,8 +779,8 @@ h1, .lead, .material-title, .material-meta,
       </aside>
     </div>
   </header>
-  <main class="layout">
-    <article class="article"><h1 id="5주차-2교시-fab-에셋과-레벨-인스턴스-학생용">5주차 2교시 — Fab 에셋과 레벨 인스턴스 (학생용)</h1>
+  <main id="main-content" class="layout">
+    <article class="article"><p class="document-title" id="5주차-2교시-fab-에셋과-레벨-인스턴스-학생용">5주차 2교시 — Fab 에셋과 레벨 인스턴스 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table>
 <thead>
@@ -792,7 +806,7 @@ h1, .lead, .material-title, .material-meta,
 </table></div>
 <hr />
 <div class="learning-goals callout-abstract">
-<div class="callout-title"><span>학습 목표</span></div>
+<div class="callout-title" id="학습-목표"><span>학습 목표</span></div>
 <div class="callout-body">
 <ol class="goal-grid">
 <li>Fab에서 3D 에셋을 대량으로 다운로드하고 프로젝트에 정리할 수 있다</li>
@@ -921,7 +935,7 @@ Content Browser 상단 깔때기 아이콘(필터) 클릭 → [Static Mesh] 체�
 
 4. [Apply Changes] 클릭</code></pre>
 <figure class="lecture-figure">
-<img src="assets/12_nanite-settings-editor.webp" alt="nanite settings editor" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/12_nanite-settings-editor.webp" alt="nanite settings editor" />
 <figcaption>Nanite 활성화와 자동 LOD 개념도 — Static Mesh Editor &gt; Nanite Settings &gt; Enabled</figcaption>
 </figure>
 <div class="callout callout-warning">
@@ -1025,7 +1039,7 @@ G키를 눌렀을 때 Museums 에셋이 보이면? → Hidden In Game 체크가 
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/13_level-instance-workflow.webp" alt="level instance workflow" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/13_level-instance-workflow.webp" alt="level instance workflow" />
 <figcaption>레벨 인스턴스 워크플로우: 배치 → 선택 → 패키징 → 저장 → 재사용</figcaption>
 </figure>
 <h3 id="레벨-인스턴스-만들기-단계별">레벨 인스턴스 만들기 — 단계별</h3>
@@ -1255,7 +1269,7 @@ Edit 모드에서 수정
 <h2 id="콜리전-보이는-것과-부딪히는-것">5. 콜리전 — 보이는 것과 부딪히는 것</h2>
 <p>콜리전은 캐릭터와 오브젝트가 실제로 부딪히는 물리 경계입니다. 눈에 보이는 메쉬와 콜리전은 서로 다를 수 있습니다. 콜리전이 없거나 잘못 설정되어 있으면 캐릭터가 바위를 뚫고 지나가거나, 반대로 보이지 않는 벽에 막힐 수 있습니다.</p>
 <figure class="lecture-figure">
-<img src="assets/14_simple-vs-complex-collision.webp" alt="simple vs complex collision" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/14_simple-vs-complex-collision.webp" alt="simple vs complex collision" />
 <figcaption>Simple Collision과 Complex Collision 비교 — 빠른 대략 경계 vs 정밀하지만 무거운 per-poly 경계</figcaption>
 </figure>
 <h3 id="콜리전-확인">콜리전 확인</h3>

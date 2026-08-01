@@ -309,14 +309,6 @@ h1 {
   background: var(--accent-line);
 }
 
-.case-card:hover {
-  border-color: var(--accent-line);
-  background: var(--paper);
-  box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
-  transform: translateY(-1px);
-  text-decoration: none;
-}
-
 .case-eyebrow {
   color: var(--accent);
   font-family: var(--mono);
@@ -362,9 +354,19 @@ h1 {
   margin-left: 6px;
 }
 
-.case-card:hover .case-link {
-  color: var(--accent-strong);
-  transform: translateX(2px);
+@media (hover: hover) and (pointer: fine) {
+  .case-card:hover {
+    border-color: var(--accent-line);
+    background: var(--paper);
+    box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+
+  .case-card:hover .case-link {
+    color: var(--accent-strong);
+    transform: translateX(2px);
+  }
 }
 
 .pill-row {
@@ -1150,11 +1152,13 @@ h1 {
   transition: transform 160ms ease;
 }
 
-.architecture-disclosure summary:hover {
-  border-color: var(--accent-line);
-  background: var(--paper);
-  box-shadow: 0 14px 28px rgba(37, 34, 29, 0.06);
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .architecture-disclosure summary:hover {
+    border-color: var(--accent-line);
+    background: var(--paper);
+    box-shadow: 0 14px 28px rgba(37, 34, 29, 0.06);
+    transform: translateY(-1px);
+  }
 }
 
 .architecture-disclosure[open] .disclosure-icon::before {
@@ -1503,12 +1507,7 @@ h1 {
   font-weight: 700;
   line-height: 1;
   box-shadow: 0 8px 18px rgba(37, 34, 29, 0.05);
-}
-
-.button:hover {
-  border-color: var(--accent-line);
-  color: var(--accent-strong);
-  text-decoration: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, background 160ms ease, transform 160ms ease;
 }
 
 .button.primary {
@@ -1517,9 +1516,18 @@ h1 {
   color: #fff;
 }
 
-.button.primary:hover {
-  background: var(--accent-strong);
-  color: #fff;
+@media (hover: hover) and (pointer: fine) {
+  .button:hover {
+    border-color: var(--accent-line);
+    color: var(--accent-strong);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  .button.primary:hover {
+    background: var(--accent-strong);
+    color: #fff;
+  }
 }
 
 .site-footer {

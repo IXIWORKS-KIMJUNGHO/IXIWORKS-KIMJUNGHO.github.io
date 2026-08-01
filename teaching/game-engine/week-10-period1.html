@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비</title>
+  <meta name="description" content="리타겟팅의 의미, Rest Pose와 본 구조 차이, Mixamo 다운로드 옵션을 정리하고 Unreal Import 전 준비를 완료합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-10-period1.html">
+  <meta property="og:title" content="10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비">
+  <meta property="og:description" content="리타겟팅의 의미, Rest Pose와 본 구조 차이, Mixamo 다운로드 옵션을 정리하고 Unreal Import 전 준비를 완료합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-10-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비">
+  <meta name="twitter:description" content="리타겟팅의 의미, Rest Pose와 본 구조 차이, Mixamo 다운로드 옵션을 정리하고 Unreal Import 전 준비를 완료합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="10주차-1교시-애니메이션-리타겟팅-개념과-mixamo-자산-준비-학생용">10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비 (학생용)</h1>
+<p class="document-title" id="10주차-1교시-애니메이션-리타겟팅-개념과-mixamo-자산-준비-학생용">10주차 1교시 — 애니메이션 리타겟팅 개념과 Mixamo 자산 준비 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr></tbody></table></div>
@@ -794,7 +808,7 @@ h1, .lead, .material-title, .material-meta,
 <p>캐릭터 동작은 크게 두 방식으로 제작합니다.</p>
 <ul><li><strong>모션캡처(Motion Capture)</strong>: 실제 사람이 모캡 슈트를 입고 움직인 데이터를 캐릭터에 입히는 방식으로, 디테일이 풍부하고 자연스럽습니다.</li><li><strong>핸드 키프레임(Hand Keyframe)</strong>: 애니메이터가 본을 하나하나 손으로 회전시켜 키프레임으로 기록하는 방식으로, 의도가 명확하고 양식화된 동작이 만들어집니다.</li></ul>
 <figure class="lecture-figure">
-<img src="assets/01_motion-capture-vs-hand-keyframes.webp" alt="motion capture vs hand keyframes" loading="lazy">
+<img width="3360" height="1461" decoding="async" src="assets/01_motion-capture-vs-hand-keyframes.webp" alt="motion capture vs hand keyframes" loading="lazy">
 <figcaption>모션캡처 동작(왼쪽, 데이터 풍부) vs 핸드 키프레임 동작(오른쪽, 명확한 의도) — 어느 쪽이든 결과물은 본 위의 키프레임</figcaption>
 </figure>
 <div class="callout callout-tip">
@@ -822,7 +836,7 @@ h1, .lead, .material-title, .material-meta,
 <h2 id="다음-시간-만날-우리-캐릭터">다음 시간 만날 우리 캐릭터</h2>
 <p>다음 시간부터 동작을 입힐 타깃 캐릭터는 <strong>ThirdPerson 템플릿의 Manny / Quinn</strong>, 줄여서 SK_Mannequin 으로, A-Pose 자세에 본 구조가 단순하여 학생 PC 에서도 가볍게 동작합니다.</p>
 <figure class="lecture-figure">
-<img src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
 <figcaption>왼쪽이 SK_Mannequin (A-Pose, 우리 타깃) / 오른쪽이 SK_Mixamo (T-Pose, 우리 소스) — 오늘 둘을 짝짓는 준비를 합니다</figcaption>
 </figure>
 
@@ -835,7 +849,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="리타겟팅-전이">리타겟팅 = 전이</h3>
 <p>리타겟팅(retarget)은 영어로 '대상을 바꾸다'를 의미하며, 한 캐릭터의 애니메이션을 다른 캐릭터로 <strong>전이(transfer)</strong> 하는 작업입니다.</p>
 <figure class="lecture-figure">
-<img src="assets/03_animation-retargeting-transfer.webp" alt="animation retargeting transfer" loading="lazy">
+<img width="3360" height="1743" decoding="async" src="assets/03_animation-retargeting-transfer.webp" alt="animation retargeting transfer" loading="lazy">
 <figcaption>소스 캐릭터(Mixamo) → 타깃 캐릭터(ThirdPerson Mannequin) — 동작 데이터를 본 매핑을 거쳐 전이</figcaption>
 </figure>
 <p>조금 더 정확히 말하면, 리타겟팅은 <strong>모델을 바꾸는 작업</strong>이 아니라 <strong>애니메이션 데이터를 다른 Skeleton 이 이해할 수 있게 번역하는 작업</strong>입니다.</p>
@@ -866,7 +880,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/04_humanoid-vs-quadruped-limit.webp" alt="humanoid vs quadruped limit" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/04_humanoid-vs-quadruped-limit.webp" alt="humanoid vs quadruped limit" loading="lazy">
 <figcaption>사람 ↔ 말 — 형태가 달라 같은 동작 데이터를 옮길 수 없음</figcaption>
 </figure>
 <p>리타겟팅은 만능이 아니며, <strong>인간형 ↔ 인간형, 사족보행 ↔ 사족보행</strong> 처럼 형태가 같은 그룹 안에서만 작동합니다.</p>
@@ -888,7 +902,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="rest-pose-3종">Rest Pose 3종</h3>
 <p>본 구조를 매핑하려면 <strong>Rest Pose = 애니메이션이 적용되지 않은 기본 자세</strong> 도 알아야 하는데, 모든 캐릭터는 이 기본 자세에서 시작하며 같은 인간형이어도 어떤 rest pose 로 설정했는지에 따라 본 정렬이 미묘하게 달라집니다.</p>
 <figure class="lecture-figure">
-<img src="assets/05_scan-a-t-rest-pose-comparison.webp" alt="scan a t rest pose comparison" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/05_scan-a-t-rest-pose-comparison.webp" alt="scan a t rest pose comparison" loading="lazy">
 <figcaption>Scan Pose / A-Pose / T-Pose 비교</figcaption>
 </figure>
 <div class="table-wrap"><table><thead><tr><th>Pose</th><th>형태</th><th>어디서 자주 보이나</th></tr></thead><tbody><tr><td data-label="Pose"><strong>Scan Pose</strong></td><td data-label="형태">3D 스캔 시점의 자연스러운 자세 (팔 약간 내림)</td><td data-label="어디서 자주 보이나">3D 스캔 데이터 원본</td></tr>
@@ -904,7 +918,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="mannequin-vs-mixamo-본-구조">Mannequin vs Mixamo 본 구조</h3>
 <p>같은 인간형이어도 본 이름과 개수가 어떻게 다른지 비교해봅니다.</p>
 <figure class="lecture-figure">
-<img src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/02_mannequin-vs-mixamo-rest-pose.webp" alt="mannequin vs mixamo rest pose" loading="lazy">
 <figcaption>SK_Mannequin (A-Pose, 왼쪽) vs SK_Mixamo (T-Pose, 오른쪽) — 모양도 다르고 본 이름·개수도 다름</figcaption>
 </figure>
 <p>핵심 부위 6개만 보면 충분합니다 (외우는 게 아니라 &quot;이름 달라도 위치 같다&quot;의 증거):</p>
@@ -939,7 +953,7 @@ h1, .lead, .material-title, .material-meta,
 <h3 id="참고-metahuman-본-구조">참고 — MetaHuman 본 구조</h3>
 <p>MetaHuman 본 구조는 참고만 하고 넘어갑니다.</p>
 <figure class="lecture-figure">
-<img src="assets/06_mannequin-vs-metahuman-rig-detail.webp" alt="mannequin vs metahuman rig detail" loading="lazy">
+<img width="3360" height="2310" decoding="async" src="assets/06_mannequin-vs-metahuman-rig-detail.webp" alt="mannequin vs metahuman rig detail" loading="lazy">
 <figcaption>MetaHuman 본 구조 — spine_01..06 (6단), 손가락 풀 chain, 얼굴 본 다수</figcaption>
 </figure>
 <div class="table-wrap"><table><thead><tr><th>부위</th><th>SK_Mannequin</th><th>MetaHuman</th></tr></thead><tbody><tr><td data-label="부위">척추</td><td data-label="SK_Mannequin">3단 (spine_01..03)</td><td data-label="MetaHuman"><strong>6단</strong> (spine_01..06)</td></tr>

@@ -4,10 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV | Media Art Programming</title>
+  <meta name="description" content="External Data and Data Art 주제의 학생용 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/media-art-programming/week-11-period1.html">
+  <meta property="og:title" content="11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV | Media Art Programming">
+  <meta property="og:description" content="External Data and Data Art 주제의 학생용 강의 자료입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/media-art-programming/week-11-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV | Media Art Programming">
+  <meta name="twitter:description" content="External Data and Data Art 주제의 학생용 강의 자료입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 :root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article .document-title{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article .document-title+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article .document-title{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
   </style>
   <style id="concept-card-style">
     .article h2,.article h3{scroll-margin-top:74px}
@@ -35,8 +47,10 @@
     .takeaway-callout strong{font-weight:850}
     @media (max-width:640px){.article .concept-card h2{font-size:1.18rem}.article .concept-card>h3:first-child{font-size:1.12rem}.concept-card{margin:34px 0 34px;padding-top:22px}}
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar"><div class="topbar-inner"><span class="brand">Media Art Programming</span><span>Week 11 · Period 01 Handout</span></div></div>
   <header class="hero">
     <div class="hero-inner">
@@ -59,10 +73,10 @@
       </aside>
     </div>
   </header>
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="주차-1교시-데이터를-코드로-불러오기-preload-json-csv">11주차
-1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV</h1>
+<p class="document-title" id="주차-1교시-데이터를-코드로-불러오기-preload-json-csv">11주차
+1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV</p>
 <blockquote>
 <p><strong>강의 아웃라인</strong>: week-11-outline <strong>다음
 교시</strong>: <a
@@ -122,7 +136,7 @@ href="week-11-period2.html">week-11-period2-student</a> (데이터를
 <strong>숫자를 손으로 입력한 것은 한 개도 없습니다</strong>. 전부 데이터
 파일에서 자동으로 가져온 값입니다.</p>
 <figure class="lecture-figure">
-<img src="assets/11week/08_earthquake-data-map.png"
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/08_earthquake-data-map.png"
 alt="08 earthquake data map" />
 <figcaption aria-hidden="true">08 earthquake data map</figcaption>
 </figure>
@@ -146,7 +160,7 @@ alt="08 earthquake data map" />
 일입니다. 정확한 비교는 어려워도, 보면서 어떤 인상이나 감정이 남는
 표현입니다. <em>경험</em>이 목적입니다.</p>
 <figure class="lecture-figure">
-<img src="assets/11week/15_data-visualization-vs-data-art.png"
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/15_data-visualization-vs-data-art.png"
 alt="15 data visualization vs data art" />
 <figcaption aria-hidden="true">15 data visualization vs data
 art</figcaption>
@@ -158,7 +172,7 @@ art</figcaption>
 손으로 그려 서로 보낸 작업입니다. 숫자가 색·선·도형으로
 바뀌었습니다.</p>
 <figure class="lecture-figure">
-<img src="assets/11week/09_dear-data-postcards.png"
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/09_dear-data-postcards.png"
 alt="09 dear data postcards" />
 <figcaption aria-hidden="true">09 dear data postcards</figcaption>
 </figure>
@@ -166,7 +180,7 @@ alt="09 dear data postcards" />
 항공편을 선으로 그린 작품입니다. 데이터가 수십만 건인데, 자동으로
 그렸더니 미국 지도의 윤곽이 저절로 떠올랐습니다.</p>
 <figure class="lecture-figure">
-<img src="assets/11week/10_flight-patterns-style.png"
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/10_flight-patterns-style.png"
 alt="10 flight patterns style" />
 <figcaption aria-hidden="true">10 flight patterns style</figcaption>
 </figure>
@@ -255,7 +269,7 @@ class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="
 </tbody>
 </table></div>
 <figure class="lecture-figure">
-<img src="assets/11week/02_json-vs-csv.png" alt="02 json vs csv" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/02_json-vs-csv.png" alt="02 json vs csv" />
 <figcaption aria-hidden="true">02 json vs csv</figcaption>
 </figure>
 <div class="callout callout-tip">
@@ -291,7 +305,7 @@ JSON으로 진행하지만, CSV도 같이 알면 어디서 데이터를 가져�
 일이 <strong>완전히 끝날 때까지</strong> <code>setup()</code>은 시작되지
 않습니다.</p>
 <figure class="lecture-figure">
-<img src="assets/11week/01_preload-flow.png" alt="01 preload flow" />
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/01_preload-flow.png" alt="01 preload flow" />
 <figcaption aria-hidden="true">01 preload flow</figcaption>
 </figure>
 <h3 id="왜-따로-있는가">왜 따로 있는가</h3>
@@ -362,7 +376,7 @@ class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb6-
 <h3 id="파일-준비">파일 준비</h3>
 <p>P5.js Web Editor에서 데이터 파일을 추가합니다.</p>
 <figure class="lecture-figure">
-<img src="assets/11week/14_p5-file-upload-steps.png"
+<img width="1672" height="941" loading="lazy" decoding="async" src="assets/11week/14_p5-file-upload-steps.png"
 alt="14 p5 file upload steps" />
 <figcaption aria-hidden="true">14 p5 file upload steps</figcaption>
 </figure>

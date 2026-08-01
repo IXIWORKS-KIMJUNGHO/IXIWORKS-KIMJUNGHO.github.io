@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>10주차 2교시 — Unreal Import 와 IK Rig 만들기</title>
+  <meta name="description" content="Mixamo FBX를 Unreal로 가져오고 IK Rig, Retarget Chain, IK Retargeter를 구성해 첫 애니메이션 변환을 완료합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-10-period2.html">
+  <meta property="og:title" content="10주차 2교시 — Unreal Import 와 IK Rig 만들기">
+  <meta property="og:description" content="Mixamo FBX를 Unreal로 가져오고 IK Rig, Retarget Chain, IK Retargeter를 구성해 첫 애니메이션 변환을 완료합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-10-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="10주차 2교시 — Unreal Import 와 IK Rig 만들기">
+  <meta name="twitter:description" content="Mixamo FBX를 Unreal로 가져오고 IK Rig, Retarget Chain, IK Retargeter를 구성해 첫 애니메이션 변환을 완료합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="10주차-2교시-unreal-import-와-ik-rig-만들기-학생용">10주차 2교시 — Unreal Import 와 IK Rig 만들기 (학생용)</h1>
+<p class="document-title" id="10주차-2교시-unreal-import-와-ik-rig-만들기-학생용">10주차 2교시 — Unreal Import 와 IK Rig 만들기 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">10주차 아웃라인: 애니메이션 리타겟팅</span></td></tr>
@@ -1037,14 +1051,14 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/07_fk-vs-ik-chain.webp" alt="fk vs ik chain" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/07_fk-vs-ik-chain.webp" alt="fk vs ik chain" loading="lazy">
 <figcaption>FK 는 부모 본에서 끝으로 회전을 전달하고, IK 는 손·발 같은 끝점 목표를 기준으로 중간 본을 계산합니다.</figcaption>
 </figure>
 <p>IK Rig 는 <strong>한 skeleton 위에 retarget 용 정보를 얹은 에셋</strong> 이며, 두 가지를 정의합니다:</p>
 <div class="table-wrap"><table><thead><tr><th>정의할 것</th><th>의미</th></tr></thead><tbody><tr><td data-label="정의할 것"><strong>Retarget Root</strong></td><td data-label="의미">변환 시 캐릭터 위치·높이의 기준 + <strong>root motion 을 비례적으로 타깃에 전달하는 기준 본</strong>. 보통 골반 (pelvis 또는 Hips). 키 차이가 있어도 root 비율로 보정됨</td></tr>
 <tr><td data-label="정의할 것"><strong>Retarget Chain</strong></td><td data-label="의미">같은 역할을 하는 본 묶음. 예: &quot;왼팔 chain = clavicle_l → upperarm_l → lowerarm_l → hand_l&quot;. 다른 IK Rig 와 같은 이름의 chain 을 만들면 둘이 짝</td></tr></tbody></table></div>
 <figure class="lecture-figure">
-<img src="assets/08_retarget-chain-six-map.webp" alt="retarget chain six map" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/08_retarget-chain-six-map.webp" alt="retarget chain six map" loading="lazy">
 <figcaption>수업에서는 Spine / LeftArm / RightArm / LeftLeg / RightLeg / Head 6개 chain 만 먼저 잡아 리타겟팅 구조를 단순하게 이해합니다.</figcaption>
 </figure>
 <div class="callout callout-tip">
@@ -1259,7 +1273,7 @@ h1, .lead, .material-title, .material-meta,
 </div>
 </div>
 <figure class="lecture-figure">
-<img src="assets/09_retargeting-troubleshooting-grid.webp" alt="retargeting troubleshooting grid" loading="lazy">
+<img width="1672" height="941" decoding="async" src="assets/09_retargeting-troubleshooting-grid.webp" alt="retargeting troubleshooting grid" loading="lazy">
 <figcaption>chain 이름, Retarget Root, Edit Pose, Export 대상처럼 리타겟 실패를 만드는 주요 지점을 빠르게 점검합니다.</figcaption>
 </figure>
 <div class="callout callout-warning">

@@ -4,6 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>13주차 1교시 — Post Process Volume + 분위기 이펙트</title>
+  <meta name="description" content="Post Process Volume을 씬 전체에 적용하고, Manual Exposure, Bloom, Vignette, Depth of Field로 시네마틱 장면의 분위기를 안정적으로 조정합니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine/week-13-period1.html">
+  <meta property="og:title" content="13주차 1교시 — Post Process Volume + 분위기 이펙트">
+  <meta property="og:description" content="Post Process Volume을 씬 전체에 적용하고, Manual Exposure, Bloom, Vignette, Depth of Field로 시네마틱 장면의 분위기를 안정적으로 조정합니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/week-13-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
+  <meta property="og:image:alt" content="Kim Jungho">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="13주차 1교시 — Post Process Volume + 분위기 이펙트">
+  <meta name="twitter:description" content="Post Process Volume을 씬 전체에 적용하고, Manual Exposure, Bloom, Vignette, Depth of Field로 시네마틱 장면의 분위기를 안정적으로 조정합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <style>
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
@@ -740,8 +752,10 @@ h1, .lead, .material-title, .material-meta,
   overflow-wrap: break-word;
 }
   </style>
+  <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <div class="topbar">
     <div class="topbar-inner">
       <span class="brand">Kim Jungho</span>
@@ -770,9 +784,9 @@ h1, .lead, .material-title, .material-meta,
     </div>
   </header>
 
-  <main class="layout">
+  <main id="main-content" class="layout">
     <article class="article">
-<h1 id="13주차-1교시-post-process-volume-분위기-이펙트-학생용">13주차 1교시 — Post Process Volume + 분위기 이펙트 (학생용)</h1>
+<p class="document-title" id="13주차-1교시-post-process-volume-분위기-이펙트-학생용">13주차 1교시 — Post Process Volume + 분위기 이펙트 (학생용)</p>
 <h2 id="관련-문서">관련 문서</h2>
 <div class="table-wrap"><table><thead><tr><th>관계</th><th>문서</th></tr></thead><tbody><tr><td data-label="관계">강의 계획서</td><td data-label="문서"><span class="wikilink">강의계획서: Game Engine II</span></td></tr>
 <tr><td data-label="관계">강의 아웃라인</td><td data-label="문서"><span class="wikilink">13주차 아웃라인: 렌더링 및 컬러 그레이딩</span></td></tr>
@@ -794,7 +808,7 @@ h1, .lead, .material-title, .material-meta,
 <p>1교시 주제는 그 마감의 첫 단계인 <strong>Post Process Volume</strong>(후처리 볼륨)입니다. 색을 본격적으로 다루는 컬러 그레이딩과 영상으로 출력하는 Movie Render Queue 는 2교시, 본인 시퀀스에 직접 적용하는 것은 3교시입니다.</p>
 <h2 id="도입-같은-씬-다른-분위기">도입 — 같은 씬, 다른 분위기</h2>
 <figure class="lecture-figure">
-  <img src="assets/01_intro-postprocess-before-after.webp" alt="intro postprocess before after" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/01_intro-postprocess-before-after.webp" alt="intro postprocess before after" loading="lazy">
 </figure>
 <p>같은 씬을 두 장 비교해 보면, 라이팅도 배치한 에셋도 카메라 앵글도 똑같은데 인상이 완전히 달라 보입니다. 한쪽은 후처리, 즉 Post Process 를 입힌 것입니다. 밝은 부분이 살짝 번지고, 화면 가장자리가 어두워지고, 색감이 한쪽으로 정리되면서 똑같은 재료에 '느낌'이 생깁니다.</p>
 <p>영화에서 이 차이는 매우 큽니다. 영화를 보고 '차갑다', '따뜻하다', '낡았다', '꿈같다'고 느끼는 인상의 상당 부분이 라이팅과 함께 <strong>후처리</strong>에서 만들어집니다. 렌더링은 단순히 '화면을 출력하는' 단계가 아니라, <strong>마지막에 영화의 톤을 결정하는</strong> 단계입니다.</p>
@@ -853,13 +867,13 @@ h1, .lead, .material-title, .material-meta,
 <tr><td data-label="이펙트"><strong>Vignette</strong></td><td data-label="역할">화면 가장자리를 어둡게 해 시선을 중앙으로 유도</td></tr>
 <tr><td data-label="이펙트"><strong>Depth of Field</strong></td><td data-label="역할">초점 밖 영역을 흐리게 해 중요한 피사체를 강조</td></tr></tbody></table></div>
 <figure class="lecture-figure">
-  <img src="assets/02_mood-effects-grid.webp" alt="mood effects grid" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/02_mood-effects-grid.webp" alt="mood effects grid" loading="lazy">
 </figure>
 <h3 id="exposure-노출-auto-vs-manual">Exposure(노출) — Auto vs Manual</h3>
 <p>첫 번째이자 오늘 가장 중요한 이펙트는 <strong>Exposure</strong>(노출)입니다. 5주차 라이팅 시간에 다룬 노출 — 카메라가 받아들이는 빛의 양, 즉 화면 전체의 밝기입니다. 언리얼에는 노출을 정하는 방식이 <strong>Auto Exposure</strong> 와 <strong>Manual</strong> 두 가지가 있고, 이 차이가 시네마틱에서 중요합니다.</p>
 <p><strong>Auto Exposure(자동 노출)</strong> — 카메라가 화면의 밝기를 보고 <strong>자동으로</strong> 노출을 맞춰줍니다. 사람 눈과 비슷합니다. 어두운 방에 있다가 밝은 곳으로 나가면 눈이 적응하면서 점점 잘 보이게 되는데, Auto Exposure 가 그것을 흉내 냅니다. 게임 플레이에는 이것이 좋습니다 — 플레이어가 동굴에서 바깥으로 나갈 때 자연스럽게 밝기가 적응됩니다.</p>
 <figure class="lecture-figure">
-  <img src="assets/03_exposure-auto-vs-manual.webp" alt="exposure auto vs manual" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/03_exposure-auto-vs-manual.webp" alt="exposure auto vs manual" loading="lazy">
 </figure>
 <p>그런데 시네마틱에서는 이것을 주의해야 합니다. 카메라가 어두운 복도에서 밝은 창가로 움직이는 시퀀스를 Auto Exposure 로 두면, 카메라가 움직이는 동안 화면 밝기가 <strong>출렁입니다.</strong> 어두운 곳을 비추면 밝아지고, 밝은 곳을 비추면 어두워지면서, 라이팅으로 정성껏 잡은 밝기가 다시 조정됩니다. 한 컷 안에서 밝기가 계속 바뀌면 의도하지 않은 흔들림처럼 보이고 화면의 완성도가 낮아 보입니다.</p>
 <p><strong>Manual(수동)</strong> — 그래서 시네마틱에서는 Manual 로 갑니다. Manual 은 노출을 <strong>한 값으로 고정</strong>합니다. 카메라가 어디를 비추든 화면 밝기가 정한 값 그대로 유지되어, 라이팅으로 잡은 밝기가 안정적으로 살아 있습니다.</p>
@@ -903,7 +917,7 @@ h1, .lead, .material-title, .material-meta,
 <p>두 효과의 공통점은 <strong>렌즈나 필름의 결함에서 온 인상</strong>을 일부러 빌려온다는 것입니다. 깨끗한 디지털 화면에 적당한 결함을 넣어 영화 같은 질감을 만듭니다. 핵심은 '적당히'입니다.</p>
 <h3 id="절제-원칙-이펙트는-장면을-보조한다">절제 원칙 — 이펙트는 장면을 보조한다</h3>
 <figure class="lecture-figure">
-  <img src="assets/04_effect-restraint-vs-overuse.webp" alt="effect restraint vs overuse" loading="lazy">
+  <img width="1672" height="941" decoding="async" src="assets/04_effect-restraint-vs-overuse.webp" alt="effect restraint vs overuse" loading="lazy">
 </figure>
 <p>같은 씬을 두 가지로 비교해 봅니다. 한쪽은 이펙트를 절제해서 적용했고, 다른 쪽은 블룸·비네팅·색수차·필름 그레인을 전부 강하게 넣었습니다. 효과를 전부 강하게 넣은 쪽은 화면이 뿌옇게 뜨고, 가장자리는 지나치게 어두워지고, 색은 어긋나고, 노이즈가 두드러져서 장면의 형태와 의도가 잘 보이지 않습니다. 효과를 많이 넣었지만 장면의 전달력은 오히려 약해진 것입니다.</p>
 <div class="callout callout-tip">
