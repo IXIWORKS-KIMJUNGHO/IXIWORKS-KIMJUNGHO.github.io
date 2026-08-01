@@ -98,6 +98,62 @@ test("motion preferences and touch pointers are respected", async () => {
   assert.deepEqual(pagesMissingTheStylesheet, []);
 });
 
+test("prominent link cards provide shared press feedback", async () => {
+  const accessibilityCss = await readFile(
+    resolve(root, "assets", "accessibility.css"),
+    "utf8",
+  );
+  const pressRule = accessibilityCss.match(
+    /:where\(([^)]*)\):active\s*\{([^}]*)\}/,
+  );
+
+  assert.ok(pressRule, "the shared active rule should exist");
+  for (const selector of [
+    ".featured-project",
+    ".project-row",
+    ".teaching-row[href]",
+    ".featured-course",
+    ".material-card[href]",
+  ]) {
+    assert.ok(
+      pressRule[1].includes(selector),
+      `${selector} should use the shared active rule`,
+    );
+  }
+  assert.match(pressRule[2], /transform:\s*scale\(0\.98\)/);
+  assert.match(
+    accessibilityCss,
+    /featured-project[\s\S]*?:active\s*\{[\s\S]*?transition:\s*transform 120ms var\(--ease-out/,
+  );
+  assert.match(
+    accessibilityCss,
+    /prefers-reduced-motion:\s*reduce[\s\S]*?featured-project[\s\S]*?transition:\s*opacity 100ms linear !important[\s\S]*?:active[\s\S]*?opacity:\s*0\.86[\s\S]*?transform:\s*none/,
+  );
+
+  const homepageCss = await readFile(resolve(root, "assets", "cv.css"), "utf8");
+  for (const selector of ["featured-project", "project-row", "teaching-row"]) {
+    assert.match(
+      homepageCss,
+      new RegExp(
+        `\\.${selector}[^}]*\\{[^}]*transition:[^}]*transform 120ms var\\(--ease-out\\)`,
+      ),
+    );
+  }
+
+  const teachingCss = await readFile(
+    resolve(root, "assets", "teaching.css"),
+    "utf8",
+  );
+  for (const selector of ["featured-course", "material-card"]) {
+    assert.match(
+      teachingCss,
+      new RegExp(
+        `\\.${selector}[^}]*\\{[^}]*transition:[^}]*transform 120ms var\\(--ease-out\\)`,
+      ),
+    );
+  }
+});
+
 test("lift interactions are reserved for actionable cards", async () => {
   const homepage = await readFile(resolve(root, "index.html"), "utf8");
   const news = await readFile(resolve(root, "news.html"), "utf8");
@@ -279,7 +335,7 @@ test("teaching details use the shared interruptible motion controller", async ()
       const detailsCount = [...html.matchAll(/<details\b/gi)].length;
       const scriptCount = [
         ...html.matchAll(
-          /<script\b[^>]*src="\/assets\/teaching-details\.js"[^>]*><\/script>/gi,
+          /<script\b[^>]*src="\/assets\/details-motion\.js"[^>]*><\/script>/gi,
         ),
       ].length;
 
@@ -300,7 +356,7 @@ test("teaching details use the shared interruptible motion controller", async ()
   assert.deepEqual(violations, []);
 
   const controller = await readFile(
-    resolve(root, "assets", "teaching-details.js"),
+    resolve(root, "assets", "details-motion.js"),
     "utf8",
   );
   assert.match(controller, /transitionend/);
@@ -313,6 +369,7 @@ test("teaching details use the shared interruptible motion controller", async ()
     /details\.dataset\.detailsMotionInstant = "true"[\s\S]*?getBoundingClientRect\(\)[\s\S]*?delete details\.dataset\.detailsMotionInstant/,
   );
   assert.doesNotMatch(controller, /keydown/);
+  assert.doesNotMatch(controller, /teaching-details-content/);
 
   const teachingCss = await readFile(
     resolve(root, "assets", "teaching.css"),
@@ -327,9 +384,14 @@ test("teaching details use the shared interruptible motion controller", async ()
     /--ease-in-out:\s*cubic-bezier\(0\.77, 0, 0\.175, 1\)/,
   );
 
-  const motionCss = teachingCss.split(
-    "/* Overrides for generated document templates. */",
-  )[0];
+  const motionCss = await readFile(
+    resolve(root, "assets", "accessibility.css"),
+    "utf8",
+  );
+  assert.match(
+    motionCss,
+    /details\[data-details-motion="ready"\] > \.details-motion-content/,
+  );
   assert.match(motionCss, /transition-property:\s*opacity, transform/);
   assert.match(motionCss, /transform:\s*translateY\(-4px\)/);
   assert.match(motionCss, /transition:\s*opacity 200ms ease !important/);
@@ -341,6 +403,79 @@ test("teaching details use the shared interruptible motion controller", async ()
   assert.doesNotMatch(
     motionCss,
     /transition(?:-property)?\s*:[^;]*(?:max-)?height/i,
+  );
+  assert.doesNotMatch(teachingCss, /details-motion-content/);
+});
+
+test("the remaining public disclosures share the interruptible motion controller", async () => {
+  const disclosurePages = [
+    ["index.html", "archive-panel"],
+    ["projects/generative-ai-storyboard.html", "architecture-disclosure"],
+  ];
+
+  for (const [relativePath, disclosureClass] of disclosurePages) {
+    const html = await readFile(resolve(root, relativePath), "utf8");
+    assert.match(html, new RegExp(`<details class="${disclosureClass}"`));
+    assert.equal(
+      [...html.matchAll(/<script\b[^>]*src="\/assets\/details-motion\.js"[^>]*><\/script>/gi)].length,
+      1,
+      `${relativePath} should load the disclosure controller once`,
+    );
+    assert.match(html, /\/assets\/accessibility\.css/);
+  }
+
+  const controller = await readFile(
+    resolve(root, "assets", "details-motion.js"),
+    "utf8",
+  );
+  assert.match(controller, /details\.archive-panel/);
+  assert.match(controller, /details\.architecture-disclosure/);
+  assert.match(controller, /details-motion-content/);
+
+  const disclosureStyles = [
+    ["assets/cv.css", "archive-panel"],
+    ["assets/portfolio.css", "architecture-disclosure"],
+  ];
+
+  for (const [relativePath] of disclosureStyles) {
+    const css = await readFile(resolve(root, relativePath), "utf8");
+    assert.match(
+      css,
+      /--ease-out:\s*cubic-bezier\(0\.23, 1, 0\.32, 1\)/,
+    );
+    assert.match(
+      css,
+      /--ease-in-out:\s*cubic-bezier\(0\.77, 0, 0\.175, 1\)/,
+    );
+    assert.doesNotMatch(css, /details-motion-content/);
+    assert.doesNotMatch(
+      css,
+      /transition(?:-property)?\s*:[^;]*(?:max-)?height/i,
+    );
+  }
+
+  const homepageCss = await readFile(resolve(root, "assets", "cv.css"), "utf8");
+  assert.match(homepageCss, /archive-panel[\s\S]*?scaleY\(0\)/);
+  assert.match(
+    homepageCss,
+    /archive-panel\[open\]:not\(\[data-details-motion="ready"\]\)/,
+  );
+  assert.match(
+    homepageCss,
+    /\.archive-panel summary::after\s*\{[^}]*transition:\s*transform 160ms var\(--ease-in-out\)/,
+  );
+
+  const portfolioCss = await readFile(
+    resolve(root, "assets", "portfolio.css"),
+    "utf8",
+  );
+  assert.match(
+    portfolioCss,
+    /architecture-disclosure\[open\]:not\(\[data-details-motion="ready"\]\)/,
+  );
+  assert.match(
+    portfolioCss,
+    /\.disclosure-icon::before\s*\{[^}]*transition:\s*transform 160ms var\(--ease-in-out\)/,
   );
 });
 

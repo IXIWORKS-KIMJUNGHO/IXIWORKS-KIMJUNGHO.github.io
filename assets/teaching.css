@@ -258,7 +258,10 @@ body.teaching-document a {
   background: var(--paper);
   color: inherit;
   box-shadow: var(--shadow);
-  transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 120ms var(--ease-out);
 }
 
 .featured-course:hover {
@@ -608,7 +611,7 @@ body.teaching-document a {
   background: transparent;
   color: inherit;
   box-shadow: none;
-  transition: background 160ms ease, color 160ms ease;
+  transition: background 160ms ease, color 160ms ease, transform 120ms var(--ease-out);
 }
 
 .material-card:first-child {
@@ -800,32 +803,12 @@ body.teaching-document details[data-details-state="open"] > summary::after {
   transform: translateY(-50%) rotate(225deg);
 }
 
-body.teaching-document details[data-details-motion="ready"] > .teaching-details-content {
-  opacity: 0;
-  transform: translateY(-4px);
-  transition-property: opacity, transform;
-  transition-duration: 160ms;
-  transition-timing-function: var(--ease-out);
-}
-
-body.teaching-document details[data-details-state="open"] > .teaching-details-content {
-  opacity: 1;
-  transform: translateY(0);
-  transition-duration: 180ms;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  body.teaching-document details[data-details-motion="ready"] > .teaching-details-content {
-    transform: none !important;
-    transition: opacity 200ms ease !important;
-  }
-
   body.teaching-document details[data-details-motion="ready"] > summary::after {
     transition: none !important;
   }
 }
 
-body.teaching-document details[data-details-motion-instant="true"] > .teaching-details-content,
 body.teaching-document details[data-details-motion-instant="true"] > summary::after {
   transition: none !important;
 }

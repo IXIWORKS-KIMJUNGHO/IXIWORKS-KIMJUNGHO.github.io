@@ -35,12 +35,38 @@
   text-underline-offset: 6px;
 }
 
-:where(.button, .case-card, .course-card[href], .project-card[href], .back-link, .deck-archive-link, button, summary):active {
+/* Opt-in disclosure motion shared by CV, project, and teaching pages. */
+details[data-details-motion="ready"] > .details-motion-content {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition-property: opacity, transform;
+  transition-duration: 160ms;
+  transition-timing-function: var(
+    --ease-out,
+    cubic-bezier(0.23, 1, 0.32, 1)
+  );
+}
+
+details[data-details-state="open"] > .details-motion-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: 180ms;
+}
+
+details[data-details-motion-instant="true"] > .details-motion-content {
+  transition: none !important;
+}
+
+:where(.button, .case-card, .course-card[href], .project-card[href], .featured-project, .project-row, .teaching-row[href], .featured-course, .material-card[href], .back-link, .deck-archive-link, button, summary):active {
   transform: scale(0.98);
 }
 
+:is(.featured-project, .project-row, .teaching-row[href], .featured-course, .material-card[href]):active {
+  transition: transform 120ms var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+}
+
 @media (hover: none), (pointer: coarse) {
-  :where(.button, .case-card, .course-card[href], .project-card, .news-item, .back-link, .deck-archive-link, button, summary):not(:active):hover {
+  :where(.button, .case-card, .course-card[href], .project-card, .featured-project, .project-row, .teaching-row[href], .featured-course, .news-item, .back-link, .deck-archive-link, button, summary):not(:active):hover {
     transform: none !important;
   }
 
@@ -114,5 +140,19 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  details[data-details-motion="ready"] > .details-motion-content {
+    transform: none !important;
+    transition: opacity 200ms ease !important;
+  }
+
+  :is(.featured-project, .project-row, .teaching-row[href], .featured-course, .material-card[href]) {
+    transition: opacity 100ms linear !important;
+  }
+
+  :is(.featured-project, .project-row, .teaching-row[href], .featured-course, .material-card[href]):active {
+    opacity: 0.86;
+    transform: none;
   }
 }

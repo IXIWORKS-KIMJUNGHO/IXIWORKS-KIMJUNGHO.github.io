@@ -7,7 +7,7 @@ const root = resolve(import.meta.dirname, "..");
 const teachingRoot = resolve(root, "teaching");
 const stylesheet = '  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">';
 const detailsMotionScript =
-  '  <script src="/assets/teaching-details.js" defer></script>';
+  '  <script src="/assets/details-motion.js" defer></script>';
 
 const courses = {
   "agentic-ai": {
@@ -97,7 +97,7 @@ function withSharedStylesheet(html) {
 
 function withTeachingDetailsMotion(html) {
   const withoutScript = html.replace(
-    /\s*<script\b[^>]*src="\/assets\/teaching-details\.js"[^>]*><\/script>\s*/gi,
+    /\s*<script\b[^>]*src="\/assets\/(?:teaching-details|details-motion)\.js"[^>]*><\/script>\s*/gi,
     "\n",
   );
 

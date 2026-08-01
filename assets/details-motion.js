@@ -1,7 +1,7 @@
 (() => {
   const closeFallbackDuration = 260;
   const detailsElements = document.querySelectorAll(
-    "body.teaching-document details",
+    "body.teaching-document details, details.archive-panel, details.architecture-disclosure",
   );
 
   for (const details of detailsElements) {
@@ -10,13 +10,13 @@
     const summary = details.querySelector(":scope > summary");
     if (!summary) continue;
 
-    let content = details.querySelector(":scope > .teaching-details-content");
+    let content = details.querySelector(":scope > .details-motion-content");
     if (!content) {
       content = document.createElement("div");
-      content.className = "teaching-details-content";
       while (summary.nextSibling) content.append(summary.nextSibling);
       details.append(content);
     }
+    content.classList.add("details-motion-content");
 
     let closeTimer = 0;
     let closeListener = null;

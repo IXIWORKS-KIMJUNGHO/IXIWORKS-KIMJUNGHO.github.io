@@ -8,6 +8,8 @@
 - **Category**: Missed opportunities
 - **Estimated scope**: 작성 소스 4개와 생성 HTML 8개, 약 150-190줄
 
+> **후속 일반화 (2026-08-01)**: 전체 사이트의 disclosure가 같은 상태 기계를 사용하면서 런타임 파일은 `assets/details-motion.js`, 내용 래퍼는 `.details-motion-content`로 이름을 바꿨다. 아래 본문은 최초 Teaching 전용 구현 시점의 기록이다.
+
 ## Problem
 
 Teaching의 Game Engine 및 Media Art Programming 실습 문서에는 8개 문서에 걸쳐 39개의 네이티브 `<details>`가 있다. 학생이 막혔을 때 가끔 여는 기능이므로 짧은 상태 전환은 적합하지만, 현재는 내용과 주변 레이아웃이 한 프레임에 나타나거나 사라진다. 상태가 바뀐 사실은 알 수 있어도 힌트가 어느 트리거에서 펼쳐졌는지 보여 주는 연결이 없다.
