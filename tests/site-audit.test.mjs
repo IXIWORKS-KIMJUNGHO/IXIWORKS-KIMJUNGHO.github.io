@@ -132,6 +132,41 @@ test("the homepage presents an evidence-first, printable CV", async () => {
   assert.match(homepageCss, /prefers-color-scheme:\s*dark/);
 });
 
+test("the work index and case studies share the CV design system", async () => {
+  const workPages = [
+    "portfolio.html",
+    "projects/digital-twin-pipeline.html",
+    "projects/generative-ai-storyboard.html",
+    "projects/hyundai-mobis-connect.html",
+    "projects/spectrum-of-humanity.html",
+    "projects/vive-ai-uiux.html",
+  ];
+
+  for (const relativePath of workPages) {
+    const html = await readFile(resolve(root, relativePath), "utf8");
+    assert.match(html, /portfolio\.css\?v=evidence2/);
+    assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
+  }
+
+  const workIndex = await readFile(resolve(root, "portfolio.html"), "utf8");
+  const workCss = await readFile(resolve(root, "assets", "portfolio.css"), "utf8");
+  assert.equal([...workIndex.matchAll(/class="case-thumb"/g)].length, 5);
+  assert.match(workCss, /fonts\/inter-latin-variable\.woff2/);
+  assert.match(workCss, /prefers-color-scheme:\s*dark/);
+  assert.doesNotMatch(workCss, /(?:linear|radial|repeating-linear)-gradient\(/);
+});
+
+test("the news index uses the shared CV design system", async () => {
+  const news = await readFile(resolve(root, "news.html"), "utf8");
+  const newsCss = await readFile(resolve(root, "assets", "news.css"), "utf8");
+
+  assert.match(news, /portfolio\.css\?v=evidence2/);
+  assert.match(news, /news\.css\?v=evidence2/);
+  assert.doesNotMatch(news, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
+  assert.match(newsCss, /\.news-item\s*\{[\s\S]*?border-bottom:/);
+  assert.doesNotMatch(newsCss, /(?:linear|radial|repeating-linear)-gradient\(/);
+});
+
 test("the Day 1 deck ships as a ready-to-render static document", async () => {
   const path = resolve(root, "teaching", "agentic-ai", "day-1.html");
   const html = await readFile(path, "utf8");
