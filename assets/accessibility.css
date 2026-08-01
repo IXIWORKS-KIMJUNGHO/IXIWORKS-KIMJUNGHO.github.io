@@ -25,13 +25,76 @@
   outline-offset: 3px;
 }
 
-:where(.button, .case-card, .course-card, .project-card[href], .back-link, .deck-archive-link, button, summary):active {
+.nav a[aria-current] {
+  font-weight: 800;
+}
+
+.nav a:not(.brand)[aria-current] {
+  text-decoration-line: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}
+
+:where(.button, .case-card, .course-card[href], .project-card[href], .back-link, .deck-archive-link, button, summary):active {
   transform: scale(0.98);
 }
 
 @media (hover: none), (pointer: coarse) {
-  :where(.button, .case-card, .course-card, .project-card, .news-item, .back-link, .deck-archive-link, button, summary):not(:active):hover {
+  :where(.button, .case-card, .course-card[href], .project-card, .news-item, .back-link, .deck-archive-link, button, summary):not(:active):hover {
     transform: none !important;
+  }
+
+  .material-card:not(:active):hover {
+    border-color: var(--line, #d7d2c8) !important;
+    border-left-color: var(--accent, #b64e35) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    color: inherit !important;
+    box-shadow: 0 12px 28px rgba(17, 24, 33, 0.06) !important;
+  }
+
+  .toc a:not(:active):hover {
+    background: transparent !important;
+    color: #364250 !important;
+  }
+
+  .overview-card:not(:focus-visible):not(:active):hover {
+    outline: 0 !important;
+  }
+
+  .back-link:not(:active):hover {
+    border-color: var(--line-strong, #c6bfb3) !important;
+    color: var(--ink-strong, #201e1b) !important;
+  }
+
+  .deck-archive-link:not(:active):hover {
+    border-color: rgba(255, 255, 255, 0.32) !important;
+    background: rgba(32, 30, 29, 0.88) !important;
+    color: #f3f2f2 !important;
+  }
+
+  .btn-primary:not(:active):hover {
+    background: var(--color-accent) !important;
+  }
+
+  :where(.btn-secondary, .btn-ghost):not(:active):hover,
+  .seg-opt:not(:has(input:checked)):not(:active):hover {
+    background: transparent !important;
+  }
+
+  .input:not(:focus-visible):not(:active):hover {
+    border-color: var(--color-divider) !important;
+  }
+
+  .radio:not(:has(input:checked)):not(:active):hover .dot {
+    border-color: var(--color-divider) !important;
+  }
+
+  .nav a:not([aria-current]):not(:active):hover {
+    color: inherit !important;
+  }
+
+  .table tbody tr:not(:active):hover {
+    background: transparent !important;
   }
 }
 

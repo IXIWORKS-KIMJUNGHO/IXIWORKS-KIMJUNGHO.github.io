@@ -1,33 +1,12 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { dirname, relative, resolve } from "node:path";
 import test from "node:test";
+import { findPublicHtmlFiles } from "../scripts/public-html-files.mjs";
 
 const root = resolve(import.meta.dirname, "..");
-const ignoredDirectories = new Set([".git", "_workspace", "dist", "node_modules"]);
-
-async function findHtmlFiles(directory = root) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = [];
-
-  for (const entry of entries) {
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
-
-    const path = resolve(directory, entry.name);
-    if (entry.isDirectory()) files.push(...(await findHtmlFiles(path)));
-    if (
-      entry.isFile() &&
-      entry.name.endsWith(".html") &&
-      !entry.name.endsWith(".bundle.html")
-    ) {
-      files.push(path);
-    }
-  }
-
-  return files;
-}
-
-const htmlFiles = await findHtmlFiles();
+const htmlFiles = await findPublicHtmlFiles(root);
 
 function displayPath(path) {
   return relative(root, path);
@@ -82,6 +61,8 @@ test("motion preferences and touch pointers are respected", async () => {
   assert.match(accessibilityCss, /pointer:\s*coarse/);
   assert.match(accessibilityCss, /:active/);
   assert.match(accessibilityCss, /:focus-visible/);
+  assert.match(accessibilityCss, /\.material-card[^}]*:hover[\s\S]*?background:/);
+  assert.match(accessibilityCss, /\.toc a[^}]*:hover[\s\S]*?background:/);
 
   const pagesMissingTheStylesheet = [];
   for (const path of htmlFiles) {
@@ -116,6 +97,40 @@ test("the Day 1 deck ships as a ready-to-render static document", async () => {
   assert.doesNotMatch(html, /__bundler|Unpacking\.\.\./);
   assert.doesNotMatch(html, /data:(?:font|image)\//);
   assert.ok(Buffer.byteLength(html) < 1_000_000, "Day 1 HTML should stay below 1 MB");
+});
+
+test("the Day 1 asset graph contains no unreferenced or duplicate files", async () => {
+  const html = await readFile(
+    resolve(root, "teaching", "agentic-ai", "day-1.html"),
+    "utf8",
+  );
+  const assetDirectory = resolve(root, "teaching", "agentic-ai", "day-1-assets");
+  const assetNames = (await readdir(assetDirectory)).sort();
+  const textAssets = assetNames.filter((name) => /\.(?:css|js|json|svg)$/i.test(name));
+  const referenceCorpus = [
+    html,
+    ...(await Promise.all(
+      textAssets.map((name) => readFile(resolve(assetDirectory, name), "utf8")),
+    )),
+  ].join("\n");
+  const unreferenced = assetNames.filter((name) => !referenceCorpus.includes(name));
+
+  const hashes = new Map();
+  const duplicates = [];
+  for (const name of assetNames) {
+    const bytes = await readFile(resolve(assetDirectory, name));
+    const hash = createHash("sha256").update(bytes).digest("hex");
+    if (hashes.has(hash)) duplicates.push(`${name} duplicates ${hashes.get(hash)}`);
+    else hashes.set(hash, name);
+  }
+
+  assert.deepEqual(unreferenced, []);
+  assert.deepEqual(duplicates, []);
+});
+
+test("the production build regenerates the Day 1 deck", async () => {
+  const packageJson = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+  assert.match(packageJson.scripts.build, /(?:^|&&|;)\s*npm run build:day1(?:\s|$)/);
 });
 
 test("documents expose one H1 and do not skip heading levels", async () => {
@@ -224,23 +239,23 @@ test("pages provide a keyboard shortcut to the main content", async () => {
 });
 
 test("primary navigation identifies the current page", async () => {
-  const corePages = [
-    "index.html",
-    "news.html",
-    "portfolio.html",
-    "projects/digital-twin-pipeline.html",
-    "projects/generative-ai-storyboard.html",
-    "projects/hyundai-mobis-connect.html",
-    "projects/spectrum-of-humanity.html",
-    "projects/vive-ai-uiux.html",
-  ];
   const violations = [];
 
-  for (const relativePath of corePages) {
-    const html = await readFile(resolve(root, relativePath), "utf8");
-    const navigation = html.match(/<nav\b[^>]*class="nav"[^>]*>[\s\S]*?<\/nav>/i)?.[0] ?? "";
-    const currentItems = [...navigation.matchAll(/\baria-current="page"/gi)].length;
-    if (currentItems !== 1) violations.push(`${relativePath}: ${currentItems} current items`);
+  for (const path of htmlFiles) {
+    const html = await readFile(path, "utf8");
+    const primaryNavigations = [
+      ...html.matchAll(/<nav\b[^>]*aria-label="Primary"[^>]*>[\s\S]*?<\/nav>/gi),
+    ];
+    for (const [index, match] of primaryNavigations.entries()) {
+      const currentItems = [
+        ...match[0].matchAll(/\baria-current="(?:page|location)"/gi),
+      ].length;
+      if (currentItems !== 1) {
+        violations.push(
+          `${displayPath(path)} primary nav ${index + 1}: ${currentItems} current items`,
+        );
+      }
+    }
   }
 
   assert.deepEqual(violations, []);

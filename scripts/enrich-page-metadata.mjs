@@ -1,31 +1,10 @@
-import { readFile, readdir, writeFile } from "node:fs/promises";
+import { readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { findPublicHtmlFiles } from "./public-html-files.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const siteOrigin = "https://creativeengineer-kimjungho.com";
-const ignoredDirectories = new Set([".git", "_workspace", "dist", "node_modules"]);
-
-async function findHtmlFiles(directory = root) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = [];
-
-  for (const entry of entries) {
-    if (entry.isDirectory() && ignoredDirectories.has(entry.name)) continue;
-
-    const path = resolve(directory, entry.name);
-    if (entry.isDirectory()) files.push(...(await findHtmlFiles(path)));
-    if (
-      entry.isFile() &&
-      entry.name.endsWith(".html") &&
-      !entry.name.endsWith(".bundle.html")
-    ) {
-      files.push(path);
-    }
-  }
-
-  return files;
-}
 
 function decodeEntities(value) {
   const named = new Map([
@@ -170,7 +149,7 @@ export function enrichPageMetadata(html, htmlPath) {
 }
 
 async function enrichAllPages() {
-  const htmlFiles = await findHtmlFiles();
+  const htmlFiles = await findPublicHtmlFiles(root);
   let changedFiles = 0;
 
   for (const path of htmlFiles) {

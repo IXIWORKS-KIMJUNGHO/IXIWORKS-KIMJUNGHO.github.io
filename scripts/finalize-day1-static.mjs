@@ -5,6 +5,7 @@ import {
   mkdir,
   open,
   readFile,
+  rename,
   rm,
   writeFile,
 } from "node:fs/promises";
@@ -19,6 +20,9 @@ const outputPath = join(root, "teaching", "agentic-ai", "day-1.html");
 const assetDirectory = join(root, "teaching", "agentic-ai", "day-1-assets");
 const temporaryHtml = `/private/tmp/day-1-rendered-${process.pid}.html`;
 const chromeProfile = `/private/tmp/day-1-chrome-${process.pid}`;
+const temporaryOutputPath = `${outputPath}.tmp-${process.pid}`;
+const temporaryAssetDirectory = `${assetDirectory}.tmp-${process.pid}`;
+const backupAssetDirectory = `${assetDirectory}.backup-${process.pid}`;
 
 const mimeExtensions = new Map([
   ["application/javascript", "js"],
@@ -65,6 +69,7 @@ async function findChrome() {
 
 async function renderBundle(chrome) {
   const output = await open(temporaryHtml, "w");
+  let browserErrors = "";
   const child = spawn(
     chrome,
     [
@@ -81,8 +86,11 @@ async function renderBundle(chrome) {
       "--dump-dom",
       new URL(`file://${bundlePath}`).href,
     ],
-    { stdio: ["ignore", output.fd, "inherit"] },
+    { stdio: ["ignore", output.fd, "pipe"] },
   );
+  child.stderr.on("data", (chunk) => {
+    browserErrors = `${browserErrors}${chunk}`.slice(-4_000);
+  });
 
   const timeout = setTimeout(() => child.kill("SIGTERM"), 25_000);
   const exitCode = await new Promise((resolveExit, reject) => {
@@ -94,25 +102,33 @@ async function renderBundle(chrome) {
 
   const rendered = await readFile(temporaryHtml, "utf8");
   if (!rendered.includes("<deck-stage") || !rendered.includes("</html>")) {
-    throw new Error(`Chrome did not finish rendering the deck (status ${exitCode})`);
+    throw new Error(
+      `Chrome did not finish rendering the deck (status ${exitCode})\n${browserErrors}`,
+    );
   }
 }
 
-async function extractManifestAssets(manifest) {
+async function extractRuntimeAssets(manifest, template, directory) {
   const references = new Map();
+  const scriptIds = new Set(
+    [...template.matchAll(/<script\b[^>]*\bsrc="([^"]+)"[^>]*>/gi)]
+      .map((match) => match[1])
+      .filter((id) => Object.hasOwn(manifest, id)),
+  );
 
-  for (const [id, entry] of Object.entries(manifest)) {
+  for (const id of scriptIds) {
+    const entry = manifest[id];
     const compressedBytes = Buffer.from(entry.data, "base64");
     const bytes = entry.compressed ? gunzipSync(compressedBytes) : compressedBytes;
     const filename = `${id}.${extensionFor(entry.mime)}`;
-    await writeFile(join(assetDirectory, filename), bytes);
+    await writeFile(join(directory, filename), bytes);
     references.set(id, `day-1-assets/${filename}`);
   }
 
   return references;
 }
 
-async function externalizeDataUrls(html) {
+async function externalizeDataUrls(html, directory) {
   const pendingWrites = new Map();
   const dataUrlPattern = /data:([a-z0-9.+-]+\/[a-z0-9.+-]+);base64,([a-z0-9+/=]+)/gi;
 
@@ -126,7 +142,7 @@ async function externalizeDataUrls(html) {
 
   await Promise.all(
     [...pendingWrites].map(([filename, bytes]) =>
-      writeFile(join(assetDirectory, filename), bytes),
+      writeFile(join(directory, filename), bytes),
     ),
   );
 
@@ -175,9 +191,46 @@ function finalizeDocument(html) {
   return result;
 }
 
+async function pathExists(path) {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function installGeneratedOutput() {
+  let movedPreviousAssets = false;
+  let installedNewAssets = false;
+
+  try {
+    if (await pathExists(assetDirectory)) {
+      await rename(assetDirectory, backupAssetDirectory);
+      movedPreviousAssets = true;
+    }
+    await rename(temporaryAssetDirectory, assetDirectory);
+    installedNewAssets = true;
+    await rename(temporaryOutputPath, outputPath);
+  } catch (error) {
+    if (installedNewAssets) {
+      await rm(assetDirectory, { recursive: true, force: true });
+    }
+    if (movedPreviousAssets && await pathExists(backupAssetDirectory)) {
+      await rename(backupAssetDirectory, assetDirectory);
+    }
+    throw error;
+  }
+
+  if (movedPreviousAssets) {
+    await rm(backupAssetDirectory, { recursive: true, force: true });
+  }
+}
+
 await mkdir(dirname(outputPath), { recursive: true });
-await rm(assetDirectory, { recursive: true, force: true });
-await mkdir(assetDirectory, { recursive: true });
+await rm(temporaryAssetDirectory, { recursive: true, force: true });
+await rm(temporaryOutputPath, { force: true });
+await mkdir(temporaryAssetDirectory, { recursive: true });
 
 try {
   const bundle = await readFile(bundlePath, "utf8");
@@ -187,19 +240,26 @@ try {
 
   await renderBundle(chrome);
 
-  const assetReferences = await extractManifestAssets(manifest);
+  const assetReferences = await extractRuntimeAssets(
+    manifest,
+    template,
+    temporaryAssetDirectory,
+  );
   let rendered = await readFile(temporaryHtml, "utf8");
   rendered = replaceRuntimeBlobScripts(rendered, template, assetReferences);
-  rendered = await externalizeDataUrls(rendered);
   rendered = finalizeDocument(rendered);
+  rendered = await externalizeDataUrls(rendered, temporaryAssetDirectory);
   rendered = await enrichHtmlImages(rendered, outputPath);
   rendered = enrichPageMetadata(rendered, outputPath);
   rendered = rendered.replace(/[ \t]+$/gm, "");
 
-  await writeFile(outputPath, rendered);
+  await writeFile(temporaryOutputPath, rendered);
+  await installGeneratedOutput();
   console.log(`Wrote ${outputPath}`);
-  console.log(`Wrote ${assetReferences.size} bundled assets to ${assetDirectory}`);
+  console.log(`Wrote ${assetReferences.size} bundled runtime assets to ${assetDirectory}`);
 } finally {
   await rm(temporaryHtml, { force: true });
   await rm(chromeProfile, { recursive: true, force: true });
+  await rm(temporaryOutputPath, { force: true });
+  await rm(temporaryAssetDirectory, { recursive: true, force: true });
 }

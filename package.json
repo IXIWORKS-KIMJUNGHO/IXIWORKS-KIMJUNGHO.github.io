@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "node scripts/build-sites-static.mjs",
+    "build": "npm run build:day1 && node scripts/build-sites-static.mjs",
     "build:day1": "node scripts/finalize-day1-static.mjs",
     "enrich:images": "node scripts/enrich-image-metadata.mjs",
     "enrich:pages": "node scripts/enrich-page-metadata.mjs",

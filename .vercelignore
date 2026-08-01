@@ -6,5 +6,6 @@ dist
 CONTEXT.md
 package.json
 scripts
+tests
 teaching/**/*.md
 teaching/agentic-ai/day-1.bundle.html
