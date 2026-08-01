@@ -2,9 +2,12 @@ import { readFile, writeFile } from "node:fs/promises";
 import { relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { findPublicHtmlFiles } from "./public-html-files.mjs";
+import {
+  publicUrlForHtml,
+  shareImageMetadataForHtml,
+} from "./site-config.mjs";
 
 const root = resolve(import.meta.dirname, "..");
-const siteOrigin = "https://creativeengineer-kimjungho.com";
 
 function decodeEntities(value) {
   const named = new Map([
@@ -46,16 +49,6 @@ function shorten(value, maximum = 170) {
   const characters = [...value];
   if (characters.length <= maximum) return value;
   return `${characters.slice(0, maximum - 1).join("").trimEnd()}…`;
-}
-
-function canonicalUrl(htmlPath) {
-  const relativePath = relative(root, htmlPath).split("\\").join("/");
-  const publicPath = relativePath === "index.html"
-    ? ""
-    : relativePath.endsWith("/index.html")
-      ? relativePath.slice(0, -"index.html".length)
-      : relativePath;
-  return `${siteOrigin}/${publicPath}`;
 }
 
 function extractDescription(html, title) {
@@ -125,8 +118,9 @@ export function enrichPageMetadata(html, htmlPath) {
   if (!title) throw new Error(`${relative(root, htmlPath)} has no title`);
 
   const description = extractDescription(html, title);
-  const canonical = canonicalUrl(htmlPath);
-  const shareImage = `${siteOrigin}/assets/cv-photo.png`;
+  const canonical = publicUrlForHtml(root, htmlPath);
+  const shareImage = shareImageMetadataForHtml(root, htmlPath);
+  const isTeachingPage = relative(root, htmlPath).split("\\").join("/").startsWith("teaching/");
   const escapedTitle = attributeValue(title);
   const escapedDescription = attributeValue(description);
   const metadata = [
@@ -137,12 +131,12 @@ export function enrichPageMetadata(html, htmlPath) {
     `  <meta property="og:description" content="${escapedDescription}">`,
     '  <meta property="og:type" content="website">',
     `  <meta property="og:url" content="${canonical}">`,
-    `  <meta property="og:image" content="${shareImage}">`,
-    '  <meta property="og:image:alt" content="Kim Jungho">',
-    '  <meta name="twitter:card" content="summary">',
+    `  <meta property="og:image" content="${shareImage.url}">`,
+    `  <meta property="og:image:alt" content="${attributeValue(shareImage.alt)}">`,
+    `  <meta name="twitter:card" content="${isTeachingPage ? "summary_large_image" : "summary"}">`,
     `  <meta name="twitter:title" content="${escapedTitle}">`,
     `  <meta name="twitter:description" content="${escapedDescription}">`,
-    `  <meta name="twitter:image" content="${shareImage}">`,
+    `  <meta name="twitter:image" content="${shareImage.url}">`,
   ].join("\n");
 
   let result = removeManagedMetadata(html);

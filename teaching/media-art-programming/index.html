@@ -11,141 +11,188 @@
   <meta property="og:description" content="p5.js 기반 프로그래밍 입문, 생성적 드로잉, 인터랙션, 데이터 시각화, 물리 시뮬레이션, 사운드 기반 미디어아트 제작 실습 자료입니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/media-art-programming/">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
-  <meta property="og:image:alt" content="Kim Jungho">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/media-art-programming/assets/7week/09_finished-examples-gallery.png">
+  <meta property="og:image:alt" content="Four interactive creative coding outcomes from the Media Art Programming course">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Media Art Programming | Kim Jungho">
   <meta name="twitter:description" content="p5.js 기반 프로그래밍 입문, 생성적 드로잉, 인터랙션, 데이터 시각화, 물리 시뮬레이션, 사운드 기반 미디어아트 제작 실습 자료입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
-  <style>
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
-:root{--font-latin:Futura,"Futura PT","Futura Std","Avenir Next",Avenir,Montserrat,sans-serif;--font-ko:Pretendard,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif;--font-mono:"SFMono-Regular",Consolas,"Liberation Mono",monospace;--page:#f3f4f5;--paper:#fff;--ink:#15171a;--soft-ink:#2d3136;--muted:#6e747b;--line:#d9dde2;--slate:#111316;--slate-2:#23272d;--accent:#343a40;--accent-soft:#f1f3f5;--shadow:0 22px 48px rgba(17,24,33,.10)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--ink);font-family:var(--font-latin),var(--font-ko);line-height:1.68;background:linear-gradient(90deg,rgba(17,19,22,.035) 1px,transparent 1px),linear-gradient(180deg,rgba(17,19,22,.045) 1px,transparent 1px),var(--page);background-size:42px 42px}a{color:#2d333a;text-decoration-thickness:1px;text-underline-offset:3px;overflow-wrap:anywhere;word-break:break-word}.topbar{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.topbar-inner{max-width:1240px;margin:0 auto;padding:10px 22px;display:flex;justify-content:space-between;gap:16px;color:#c9d3de;font-size:.78rem;font-weight:700;letter-spacing:0;text-transform:uppercase}.brand{color:#f2f4f6;font-weight:900}.hero{position:relative;overflow:hidden;border-bottom:1px solid #c8d0da;color:#f7f8f9;background:linear-gradient(135deg,rgba(255,255,255,.12),transparent 38%),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(180deg,rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(128deg,#101214 0%,#1a1f25 48%,#2a3038 100%);background-size:auto,44px 44px,44px 44px,auto}.hero:after{content:"";position:absolute;inset:auto 0 0;height:7px;background:linear-gradient(90deg,#f5f6f7,#9aa1aa 48%,#30343a)}.hero-inner{position:relative;max-width:1240px;margin:0 auto;padding:64px 22px 44px;display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:36px;align-items:end}.eyebrow{margin:0 0 14px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}h1{margin:0;max-width:920px;font-size:clamp(2.15rem,4.4vw,4.15rem);line-height:1.08;letter-spacing:0}.lead{max-width:840px;margin:20px 0 0;color:#d7dce2;font-size:1.08rem}.hero-meta{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}.hero-chip{padding:7px 10px;border:1px solid rgba(245,246,247,.34);border-radius:999px;background:rgba(17,24,33,.34);color:#eef1f4;font-size:.78rem;font-weight:800}.doc-card{border:1px solid rgba(255,255,255,.22);border-radius:8px;padding:18px;background:rgba(255,255,255,.10);box-shadow:0 18px 34px rgba(0,0,0,.18)}.doc-card-title{margin:0 0 12px;color:#f2f4f6;font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.meta-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:8px;padding:8px 0;border-top:1px solid rgba(255,255,255,.14);font-size:.88rem}.meta-row:first-of-type{border-top:0}.meta-key{color:#b8c0c9;font-weight:800}.meta-value{color:#f7f8f9;font-weight:720;overflow-wrap:anywhere}.layout{max-width:1240px;margin:0 auto;padding:34px 22px 78px;display:grid;grid-template-columns:minmax(0,1fr) 296px;gap:30px;align-items:start}.article{min-width:0;background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:38px;box-shadow:var(--shadow);counter-reset:section}.toc{position:sticky;top:62px;max-height:calc(100vh - 86px);overflow:auto;border:1px solid var(--line);border-radius:8px;padding:16px;background:rgba(255,255,255,.94);box-shadow:0 12px 30px rgba(17,24,33,.08)}.toc-title{margin:0 0 12px;color:var(--slate);font-size:.78rem;font-weight:900;letter-spacing:0;text-transform:uppercase}.toc ol{margin:0;padding-left:0;list-style:none;display:grid;gap:4px}.toc a{display:block;padding:8px 10px;border-radius:7px;color:#364250;text-decoration:none;font-size:.88rem;line-height:1.38}.toc a:hover{background:var(--accent-soft);color:#15171a}.toc-level-3 a{padding-left:22px;color:#5a6470;font-size:.82rem}.article h1{margin:0 0 24px;max-width:100%;color:var(--slate);font-size:2rem;line-height:1.22}.article h2{margin:50px 0 16px;padding-top:26px;border-top:1px solid var(--line);color:var(--slate);font-size:1.55rem;line-height:1.3;letter-spacing:0;display:flex;align-items:baseline;gap:12px}.article h2:first-child,.article h1+h2{margin-top:0}.article h2:before{counter-increment:section;content:counter(section,decimal-leading-zero);flex:0 0 auto;min-width:38px;color:#414750;font-size:.82rem;font-weight:900}.article h3{margin:34px 0 12px;color:#24323d;font-size:1.2rem;line-height:1.36;letter-spacing:0}.article h4{margin:22px 0 8px;color:#2e3d4d;font-size:1.04rem;line-height:1.4;letter-spacing:0}p{margin:0 0 16px}ul,ol{margin:0 0 18px;padding-left:24px}li{margin:7px 0}strong{font-weight:850}code{padding:2px 5px;border:1px solid #d9e2ec;border-radius:5px;background:#f6f8fb;font-family:var(--font-mono);font-size:.9em;overflow-wrap:anywhere;word-break:break-word;white-space:normal}pre{margin:18px 0 24px;padding:15px 17px;border:1px solid #cbd5df;border-left:5px solid var(--accent);border-radius:8px;background:#f8fafc;white-space:pre;overflow:auto}pre code{padding:0;border:0;background:transparent;white-space:pre}.table-wrap{width:100%;margin:18px 0 30px;overflow-x:auto}table{width:100%;table-layout:auto;border-collapse:collapse;border:1px solid #c6d0dc;font-size:.9rem}th,td{padding:10px 12px;border:1px solid var(--line);vertical-align:top;overflow-wrap:anywhere;word-break:keep-all}th{background:#171b20;color:#f4f5f6;font-weight:900}tr:nth-child(even) td{background:#f8fbfd}hr{border:0;border-top:1px solid var(--line);margin:30px 0}.lecture-figure{margin:22px 0 30px}.lecture-figure img,.article img{display:block;width:100%;height:auto;max-width:100%;margin:0 auto;border:1px solid #cfd7df;border-radius:8px;background:#eef2f5;box-shadow:0 14px 30px rgba(17,24,33,.08)}figcaption{max-width:760px;margin:10px auto 0;color:#5e6874;font-size:.88rem;text-align:center}.callout{margin:18px 0 26px;border:1px solid #d4d8dd;border-left:5px solid var(--accent);border-radius:8px;background:#f7f8f9;overflow:hidden}.callout-title{margin:0;padding:11px 15px 8px;color:#242a31;font-weight:900;background:rgba(255,255,255,.58)}.callout>:not(.callout-title){margin-left:15px;margin-right:15px}.callout>:last-child{margin-bottom:15px}.callout-abstract{border-left-color:#343a40}.callout-info,.callout-tip{border-left-color:#4b5158}.callout-warning{border-left-color:#85622b;background:#fff8ed}.callout-question{border-left-color:#375a7f;background:#eef5ff}.callout-success{border-left-color:#426b47;background:#eff8f0}blockquote{margin:18px 0 24px;padding:12px 16px;border-left:5px solid #c2cad3;border-radius:8px;background:#f8fafc;color:#333b45}blockquote p:last-child{margin-bottom:0}h1,.lead,.article h2,.article h3,.article h4,.article p,.article li,.callout-title{word-break:keep-all;overflow-wrap:break-word}.footer-note{max-width:1240px;margin:0 auto 42px;padding:0 22px;color:#68727d;font-size:.82rem}@media (max-width:980px){.hero-inner{grid-template-columns:1fr}.layout{grid-template-columns:1fr}.toc{position:static;order:-1}}@media (max-width:640px){.topbar-inner{padding:10px 16px}.hero-inner,.layout{padding-left:16px;padding-right:16px}.article{padding:24px 18px}.article h1{font-size:1.55rem}.article h2{font-size:1.28rem}.doc-card{display:none}}@media print{.topbar,.toc{display:none}.hero{background:#fff;color:#000}.layout{display:block}.article{box-shadow:none}.doc-card{box-shadow:none;color:#000;background:#fff}}
-.site-header{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(255,255,255,.12);background:rgba(17,24,33,.94);backdrop-filter:blur(14px)}.nav{max-width:1120px;min-height:58px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:24px;color:#c9d3de;font-size:.82rem;font-weight:760;text-transform:uppercase}.nav .brand{margin-right:auto;color:#f2f4f6;text-decoration:none}.nav a:not(.brand){color:#c9d3de;text-decoration:none}.nav a:not(.brand):hover{color:#fff}.page{max-width:1120px;margin:0 auto;padding:34px 22px 78px}.material-list{display:grid;gap:30px}.week-group{display:grid;gap:12px}.week-heading{display:grid;grid-template-columns:auto minmax(32px,1fr) auto;gap:12px;align-items:center;color:var(--soft-ink)}.week-heading-label{font-family:var(--font-mono);font-size:.8rem;font-weight:900;text-transform:uppercase}.week-heading-rule{height:1px;background:linear-gradient(90deg,#9aa1aa,rgba(154,161,170,.18))}.week-heading-topic{color:var(--muted);font-size:.82rem;font-weight:820;text-transform:uppercase}.week-cards{display:grid;gap:12px}.material-card{display:grid;grid-template-columns:118px minmax(0,1fr) auto;gap:18px;align-items:center;padding:18px;border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:8px;background:rgba(255,255,255,.94);color:inherit;text-decoration:none;box-shadow:0 12px 28px rgba(17,24,33,.06);transition:border-color 160ms ease,box-shadow 160ms ease,transform 160ms ease,background 160ms ease}.material-card:hover{background:#fff;border-color:#c9ced5;box-shadow:var(--shadow);text-decoration:none;transform:translateY(-1px)}.week{font-family:var(--font-mono);font-size:.78rem;font-weight:900;text-transform:uppercase;color:#4b5158}.material-title{display:block;color:var(--slate);font-size:1.04rem;font-weight:900;line-height:1.35}.material-meta{display:block;margin-top:5px;color:var(--muted);font-size:.9rem;line-height:1.45}.open-label{padding:7px 10px;border:1px solid var(--line);border-radius:999px;background:#f8fafc;color:#39414a;font-size:.76rem;font-weight:900;text-transform:uppercase}@media(max-width:680px){.material-card{grid-template-columns:1fr}.open-label{justify-self:start}}
-  </style>
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/media-art-programming/assets/7week/09_finished-examples-gallery.png">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
-<body>
+<body class="teaching-index course-media-art-programming">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
-  <header class="site-header"><nav class="nav" aria-label="Primary"><a class="brand" href="../../index.html">Kim Jungho</a><a href="../../index.html#teaching" aria-current="location">Teaching</a><a href="../../portfolio.html">Portfolio</a><a href="../../news.html">News</a></nav></header>
-  <section class="hero"><div class="hero-inner"><div><p class="eyebrow">Teaching Materials</p><h1>Media Art Programming Practice</h1><p class="lead">p5.js 기반 프로그래밍 입문, 생성적 드로잉, 인터랙션, 데이터 시각화, 물리 시뮬레이션, 사운드 기반 미디어아트 제작 실습 자료입니다.</p><div class="hero-meta"><span class="hero-chip">P5.JS</span><span class="hero-chip">INTERACTION</span><span class="hero-chip">MEDIA ART</span><span class="hero-chip">WEEKS 01-15</span></div></div></div></section>
-  <main id="main-content" class="page"><section aria-labelledby="media-art-programming"><h2 class="section-title" id="media-art-programming">Spring 2026</h2><div class="material-list">
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="/">Kim Jungho</a>
+      <a href="/news.html">News</a>
+      <a href="/portfolio.html">Work</a>
+      <a href="/#research">Research</a>
+      <a href="/teaching/" aria-current="page">Teaching</a>
+      <a href="/#cv-archive">CV</a>
+    </nav>
+  </header>
+  <header class="course-hero">
+    <div class="course-hero-inner">
+      <div>
+        <p class="course-kicker">p5.js / Creative coding / Media art</p>
+        <h1>Media Art Programming Practice</h1>
+        <p class="course-lead">p5.js 기반 프로그래밍 입문부터 생성적 드로잉, 인터랙션, 데이터, 물리, 사운드 기반 미디어아트 제작까지 이어지는 실습 과정입니다.</p>
+        <div class="course-meta" aria-label="Course information">
+          <span class="course-kind">Creative coding course</span>
+          <span class="course-term">Spring 2026</span>
+        </div>
+      </div>
+      <figure class="course-visual">
+        <img src="assets/7week/09_finished-examples-gallery.png" width="2400" height="1180" loading="eager" fetchpriority="high" decoding="async" alt="Four interactive creative coding outcomes from the Media Art Programming course">
+      </figure>
+    </div>
+  </header>
+  <div class="course-jump-wrap">
+    <nav class="course-jump" aria-label="Course weeks">
+      <a href="#week-01">Week 01</a>
+      <a href="#week-02">Week 02</a>
+      <a href="#week-03">Week 03</a>
+      <a href="#week-04">Week 04</a>
+      <a href="#week-05">Week 05</a>
+      <a href="#week-06">Week 06</a>
+      <a href="#week-07">Week 07</a>
+      <a href="#week-08">Week 08</a>
+      <a href="#week-09">Week 09</a>
+      <a href="#week-10">Week 10</a>
+      <a href="#week-11">Week 11</a>
+      <a href="#week-12">Week 12</a>
+      <a href="#week-13">Week 13</a>
+      <a href="#week-14">Week 14</a>
+      <a href="#week-15">Week 15</a>
+    </nav>
+  </div>
+  <main id="main-content" class="course-content">
+<section class="course-section" aria-labelledby="media-art-programming"><header class="course-section-heading">
+        <h2 class="course-section-title" id="media-art-programming">Spring 2026</h2>
+        <p class="course-section-note">15주 과정의 개념 강의와 학생 주도 실습 자료입니다.</p>
+      </header><div class="material-list">
 <section class="week-group" aria-labelledby="week-01">
-      <div class="week-heading"><span class="week-heading-label" id="week-01">Week 01</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">OT and P5.js Introduction</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-01">Week 01</span><span class="week-heading-topic">OT and P5.js Introduction</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-01-ot.html"><span class="week">OT</span><span><span class="material-title">1주차: OT 및 P5.js 소개</span><span class="material-meta">OT and P5.js Introduction · OT and P5.js Introduction</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-01-ot.html"><span class="week">OT</span><span><span class="material-title">1주차: OT 및 P5.js 소개</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-02">
-      <div class="week-heading"><span class="week-heading-label" id="week-02">Week 02</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Coordinates and Variables</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-02">Week 02</span><span class="week-heading-topic">Coordinates and Variables</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-02-period1.html"><span class="week">Period 01</span><span><span class="material-title">2주차 1교시 — 좌표계와 변수의 이해</span><span class="material-meta">Coordinates and Variables · 좌표계와 변수의 이해</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-02-period2.html"><span class="week">Period 02</span><span><span class="material-title">2주차 2교시 — 시스템 변수와 인터랙션 첫걸음</span><span class="material-meta">Coordinates and Variables · 시스템 변수와 인터랙션 첫걸음</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-02-period3.html"><span class="week">Period 03</span><span><span class="material-title">2주차 3교시 — 학생 주도 실습: 마우스를 따라다니는 나만의 캐릭터</span><span class="material-meta">Coordinates and Variables · 학생 주도 실습: 마우스를 따라다니는 나만의 캐릭터</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-02-period1.html"><span class="week">Period 01</span><span><span class="material-title">2주차 1교시 — 좌표계와 변수의 이해</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-02-period2.html"><span class="week">Period 02</span><span><span class="material-title">2주차 2교시 — 시스템 변수와 인터랙션 첫걸음</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-02-period3.html"><span class="week">Period 03</span><span><span class="material-title">2주차 3교시 — 학생 주도 실습: 마우스를 따라다니는 나만의 캐릭터</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-03">
-      <div class="week-heading"><span class="week-heading-label" id="week-03">Week 03</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Color and Repetition</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-03">Week 03</span><span class="week-heading-topic">Color and Repetition</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-03-period1.html"><span class="week">Period 01</span><span><span class="material-title">3주차 1교시 — 색상 체계: RGB, HSB, 투명도</span><span class="material-meta">Color and Repetition · 색상 체계: RGB, HSB, 투명도</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-03-period2.html"><span class="week">Period 02</span><span><span class="material-title">3주차 2교시 — for 반복문과 패턴</span><span class="material-meta">Color and Repetition · for 반복문과 패턴</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-03-period3.html"><span class="week">Period 03</span><span><span class="material-title">3주차 3교시 — 학생 주도 실습: 기하학적 패턴 아트</span><span class="material-meta">Color and Repetition · 학생 주도 실습: 기하학적 패턴 아트</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-03-period1.html"><span class="week">Period 01</span><span><span class="material-title">3주차 1교시 — 색상 체계: RGB, HSB, 투명도</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-03-period2.html"><span class="week">Period 02</span><span><span class="material-title">3주차 2교시 — for 반복문과 패턴</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-03-period3.html"><span class="week">Period 03</span><span><span class="material-title">3주차 3교시 — 학생 주도 실습: 기하학적 패턴 아트</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-04">
-      <div class="week-heading"><span class="week-heading-label" id="week-04">Week 04</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Conditionals and Interaction</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-04">Week 04</span><span class="week-heading-topic">Conditionals and Interaction</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-04-period1.html"><span class="week">Period 01</span><span><span class="material-title">4주차 1교시 — if/else 조건문</span><span class="material-meta">Conditionals and Interaction · if/else 조건문</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-04-period2.html"><span class="week">Period 02</span><span><span class="material-title">4주차 2교시 — 마우스·키보드 인터랙션</span><span class="material-meta">Conditionals and Interaction · 마우스·키보드 인터랙션</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-04-period3.html"><span class="week">Period 03</span><span><span class="material-title">4주차 3교시 — 학생 주도 실습: 인터랙티브 스케치</span><span class="material-meta">Conditionals and Interaction · 학생 주도 실습: 인터랙티브 스케치</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-04-period1.html"><span class="week">Period 01</span><span><span class="material-title">4주차 1교시 — if/else 조건문</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-04-period2.html"><span class="week">Period 02</span><span><span class="material-title">4주차 2교시 — 마우스·키보드 인터랙션</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-04-period3.html"><span class="week">Period 03</span><span><span class="material-title">4주차 3교시 — 학생 주도 실습: 인터랙티브 스케치</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-05">
-      <div class="week-heading"><span class="week-heading-label" id="week-05">Week 05</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Motion and Animation</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-05">Week 05</span><span class="week-heading-topic">Motion and Animation</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-05-period1.html"><span class="week">Period 01</span><span><span class="material-title">5주차 1교시 — 애니메이션 원리와 변수로 움직이기</span><span class="material-meta">Motion and Animation · 애니메이션 원리와 변수로 움직이기</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-05-period2.html"><span class="week">Period 02</span><span><span class="material-title">5주차 2교시 — random, 유틸리티 함수, 좌표 변환</span><span class="material-meta">Motion and Animation · random, 유틸리티 함수, 좌표 변환</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-05-period3.html"><span class="week">Period 03</span><span><span class="material-title">5주차 3교시 — 학생 주도 실습: 인터랙티브 애니메이션</span><span class="material-meta">Motion and Animation · 학생 주도 실습: 인터랙티브 애니메이션</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-05-period1.html"><span class="week">Period 01</span><span><span class="material-title">5주차 1교시 — 애니메이션 원리와 변수로 움직이기</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-05-period2.html"><span class="week">Period 02</span><span><span class="material-title">5주차 2교시 — random, 유틸리티 함수, 좌표 변환</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-05-period3.html"><span class="week">Period 03</span><span><span class="material-title">5주차 3교시 — 학생 주도 실습: 인터랙티브 애니메이션</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-06">
-      <div class="week-heading"><span class="week-heading-label" id="week-06">Week 06</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Functions and Arrays</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-06">Week 06</span><span class="week-heading-topic">Functions and Arrays</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-06-period1.html"><span class="week">Period 01</span><span><span class="material-title">6주차 1교시 — 사용자 정의 함수: 코드를 정리하는 도구</span><span class="material-meta">Functions and Arrays · 사용자 정의 함수: 코드를 정리하는 도구</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-06-period2.html"><span class="week">Period 02</span><span><span class="material-title">6주차 2교시 — 배열: 데이터를 한꺼번에 관리하자</span><span class="material-meta">Functions and Arrays · 배열: 데이터를 한꺼번에 관리하자</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-06-period3.html"><span class="week">Period 03</span><span><span class="material-title">6주차 3교시 — 학생 주도 실습: 함수와 배열로 다중 오브젝트</span><span class="material-meta">Functions and Arrays · 학생 주도 실습: 함수와 배열로 다중 오브젝트</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-06-period1.html"><span class="week">Period 01</span><span><span class="material-title">6주차 1교시 — 사용자 정의 함수: 코드를 정리하는 도구</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-06-period2.html"><span class="week">Period 02</span><span><span class="material-title">6주차 2교시 — 배열: 데이터를 한꺼번에 관리하자</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-06-period3.html"><span class="week">Period 03</span><span><span class="material-title">6주차 3교시 — 학생 주도 실습: 함수와 배열로 다중 오브젝트</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-07">
-      <div class="week-heading"><span class="week-heading-label" id="week-07">Week 07</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Classes and Objects</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-07">Week 07</span><span class="week-heading-topic">Classes and Objects</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-07-period1.html"><span class="week">Period 01</span><span><span class="material-title">7주차 1교시 — 왜 클래스가 필요한가 + class 기본 문법</span><span class="material-meta">Classes and Objects · 왜 클래스가 필요한가 + class 기본 문법</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-07-period2.html"><span class="week">Period 02</span><span><span class="material-title">7주차 2교시 — 객체 배열과 클래스 확장</span><span class="material-meta">Classes and Objects · 객체 배열과 클래스 확장</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-07-period3.html"><span class="week">Period 03</span><span><span class="material-title">7주차 3교시 — 학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품</span><span class="material-meta">Classes and Objects · 학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-07-period1.html"><span class="week">Period 01</span><span><span class="material-title">7주차 1교시 — 왜 클래스가 필요한가 + class 기본 문법</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-07-period2.html"><span class="week">Period 02</span><span><span class="material-title">7주차 2교시 — 객체 배열과 클래스 확장</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-07-period3.html"><span class="week">Period 03</span><span><span class="material-title">7주차 3교시 — 학생 주도 실습: 클래스를 활용한 다중 오브젝트 작품</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-08">
-      <div class="week-heading"><span class="week-heading-label" id="week-08">Week 08</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Midterm Exam</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-08">Week 08</span><span class="week-heading-topic">Midterm Exam</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-08-midterm.html"><span class="week">Exam</span><span><span class="material-title">중간고사 안내</span><span class="material-meta">1~7주차 범위 중간고사 안내와 제출 방식.</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-08-midterm.html"><span class="week">Exam</span><span><span class="material-title">중간고사 안내</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-09">
-      <div class="week-heading"><span class="week-heading-label" id="week-09">Week 09</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Vectors and Motion</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-09">Week 09</span><span class="week-heading-topic">Vectors and Motion</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-09-period1.html"><span class="week">Period 01</span><span><span class="material-title">9주차 1교시 — 벡터란 무엇인가 + p5.Vector 기본</span><span class="material-meta">Vectors and Motion · 벡터란 무엇인가 + p5.Vector 기본</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-09-period2.html"><span class="week">Period 02</span><span><span class="material-title">9주차 2교시 — 가속도, 삼각함수, 클래스 결합</span><span class="material-meta">Vectors and Motion · 가속도, 삼각함수, 클래스 결합</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-09-period3.html"><span class="week">Period 03</span><span><span class="material-title">9주차 3교시 — 학생 주도 실습: 벡터를 활용한 움직임 작품</span><span class="material-meta">Vectors and Motion · 학생 주도 실습: 벡터를 활용한 움직임 작품</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-09-period1.html"><span class="week">Period 01</span><span><span class="material-title">9주차 1교시 — 벡터란 무엇인가 + p5.Vector 기본</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-09-period2.html"><span class="week">Period 02</span><span><span class="material-title">9주차 2교시 — 가속도, 삼각함수, 클래스 결합</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-09-period3.html"><span class="week">Period 03</span><span><span class="material-title">9주차 3교시 — 학생 주도 실습: 벡터를 활용한 움직임 작품</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-10">
-      <div class="week-heading"><span class="week-heading-label" id="week-10">Week 10</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Forces and Physics Simulation</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-10">Week 10</span><span class="week-heading-topic">Forces and Physics Simulation</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-10-period1.html"><span class="week">Period 01</span><span><span class="material-title">10주차 1교시 — 뉴턴 제2법칙과 applyForce() 패턴</span><span class="material-meta">Forces and Physics Simulation · 뉴턴 제2법칙과 applyForce() 패턴</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-10-period2.html"><span class="week">Period 02</span><span><span class="material-title">10주차 2교시 — 다중 힘, 질량 차이, 마찰력</span><span class="material-meta">Forces and Physics Simulation · 다중 힘, 질량 차이, 마찰력</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-10-period3.html"><span class="week">Period 03</span><span><span class="material-title">10주차 3교시 — 학생 주도 실습: 힘으로 움직이는 물리 세계</span><span class="material-meta">Forces and Physics Simulation · 학생 주도 실습: 힘으로 움직이는 물리 세계</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-10-period1.html"><span class="week">Period 01</span><span><span class="material-title">10주차 1교시 — 뉴턴 제2법칙과 applyForce() 패턴</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-10-period2.html"><span class="week">Period 02</span><span><span class="material-title">10주차 2교시 — 다중 힘, 질량 차이, 마찰력</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-10-period3.html"><span class="week">Period 03</span><span><span class="material-title">10주차 3교시 — 학생 주도 실습: 힘으로 움직이는 물리 세계</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-11">
-      <div class="week-heading"><span class="week-heading-label" id="week-11">Week 11</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">External Data and Data Art</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-11">Week 11</span><span class="week-heading-topic">External Data and Data Art</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-11-period1.html"><span class="week">Period 01</span><span><span class="material-title">11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV</span><span class="material-meta">External Data and Data Art · 데이터를 코드로 불러오기: preload, JSON, CSV</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-11-period2.html"><span class="week">Period 02</span><span><span class="material-title">11주차 2교시 — 데이터를 시각으로 매핑하기</span><span class="material-meta">External Data and Data Art · 데이터를 시각으로 매핑하기</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-11-period3.html"><span class="week">Period 03</span><span><span class="material-title">11주차 3교시 — 학생 주도 실습: 데이터 시각화 한 점 완성</span><span class="material-meta">External Data and Data Art · 학생 주도 실습: 데이터 시각화 한 점 완성</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-11-period1.html"><span class="week">Period 01</span><span><span class="material-title">11주차 1교시 — 데이터를 코드로 불러오기: preload, JSON, CSV</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-11-period2.html"><span class="week">Period 02</span><span><span class="material-title">11주차 2교시 — 데이터를 시각으로 매핑하기</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-11-period3.html"><span class="week">Period 03</span><span><span class="material-title">11주차 3교시 — 학생 주도 실습: 데이터 시각화 한 점 완성</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-12">
-      <div class="week-heading"><span class="week-heading-label" id="week-12">Week 12</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Noise and Organic Motion</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-12">Week 12</span><span class="week-heading-topic">Noise and Organic Motion</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-12-period1.html"><span class="week">Period 01</span><span><span class="material-title">12주차: 노이즈와 자연스러운 움직임 (1교시 · 학생용)</span><span class="material-meta">Noise and Organic Motion · : 노이즈와 자연스러운 움직임 (1교시 · 학생용)</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-12-period2.html"><span class="week">Period 02</span><span><span class="material-title">12주차: 노이즈와 자연스러운 움직임 (2교시 · 학생용)</span><span class="material-meta">Noise and Organic Motion · : 노이즈와 자연스러운 움직임 (2교시 · 학생용)</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-12-period3.html"><span class="week">Period 03</span><span><span class="material-title">12주차: 노이즈와 자연스러운 움직임 (3교시 · 학생용)</span><span class="material-meta">Noise and Organic Motion · : 노이즈와 자연스러운 움직임 (3교시 · 학생용)</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-12-period1.html"><span class="week">Period 01</span><span><span class="material-title">12주차: 노이즈와 자연스러운 움직임 (1교시 / 학생용)</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-12-period2.html"><span class="week">Period 02</span><span><span class="material-title">12주차: 노이즈와 자연스러운 움직임 (2교시 / 학생용)</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-12-period3.html"><span class="week">Period 03</span><span><span class="material-title">12주차: 노이즈와 자연스러운 움직임 (3교시 / 학생용)</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-13">
-      <div class="week-heading"><span class="week-heading-label" id="week-13">Week 13</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Particle Systems</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-13">Week 13</span><span class="week-heading-topic">Particle Systems</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-13-period1.html"><span class="week">Period 01</span><span><span class="material-title">13주차 1교시 — 파티클의 탄생과 소멸</span><span class="material-meta">Particle Systems · 파티클의 탄생과 소멸</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-13-period2.html"><span class="week">Period 02</span><span><span class="material-title">13주차 2교시 — Emitter와 파티클 이펙트</span><span class="material-meta">Particle Systems · Emitter와 파티클 이펙트</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-13-period3.html"><span class="week">Period 03</span><span><span class="material-title">13주차 3교시 — 나만의 파티클 이펙트 실습</span><span class="material-meta">Particle Systems · 나만의 파티클 이펙트 실습</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-13-period1.html"><span class="week">Period 01</span><span><span class="material-title">13주차 1교시 — 파티클의 탄생과 소멸</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-13-period2.html"><span class="week">Period 02</span><span><span class="material-title">13주차 2교시 — Emitter와 파티클 이펙트</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-13-period3.html"><span class="week">Period 03</span><span><span class="material-title">13주차 3교시 — 나만의 파티클 이펙트 실습</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-14">
-      <div class="week-heading"><span class="week-heading-label" id="week-14">Week 14</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Sound, Media, and Final Project</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-14">Week 14</span><span class="week-heading-topic">Sound, Media, and Final Project</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-14-period1.html"><span class="week">Period 01</span><span><span class="material-title">14주차 1교시 — p5.sound: 사운드 로드, 재생, 음량 분석</span><span class="material-meta">Sound, Media, and Final Project · p5.sound: 사운드 로드, 재생, 음량 분석</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-14-period2.html"><span class="week">Period 02</span><span><span class="material-title">14주차 2교시 — FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내</span><span class="material-meta">Sound, Media, and Final Project · FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-14-period3.html"><span class="week">Period 03</span><span><span class="material-title">14주차 3교시 — 사운드 비주얼 실습 + 기말 프로젝트 구상</span><span class="material-meta">Sound, Media, and Final Project · 사운드 비주얼 실습 + 기말 프로젝트 구상</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-14-period1.html"><span class="week">Period 01</span><span><span class="material-title">14주차 1교시 — p5.sound: 사운드 로드, 재생, 음량 분석</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-14-period2.html"><span class="week">Period 02</span><span><span class="material-title">14주차 2교시 — FFT 주파수 분석 + 이미지/영상 + 기말 프로젝트 안내</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-14-period3.html"><span class="week">Period 03</span><span><span class="material-title">14주차 3교시 — 사운드 비주얼 실습 + 기말 프로젝트 구상</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
 <section class="week-group" aria-labelledby="week-15">
-      <div class="week-heading"><span class="week-heading-label" id="week-15">Week 15</span><span class="week-heading-rule" aria-hidden="true"></span><span class="week-heading-topic">Final Project Workshop</span></div>
+      <div class="week-heading"><span class="week-heading-label" id="week-15">Week 15</span><span class="week-heading-topic">Final Project Workshop</span></div>
       <div class="week-cards">
-        <a class="material-card" href="week-15-period1.html"><span class="week">Period 01</span><span><span class="material-title">1교시 — 진행 점검과 공통 가이드라인</span><span class="material-meta">Final Project Workshop · 진행 점검과 공통 가이드라인</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-15-period2.html"><span class="week">Period 02</span><span><span class="material-title">2교시 — 1:1 면담 라운드 1과 자율 작업</span><span class="material-meta">Final Project Workshop · 1:1 면담 라운드 1과 자율 작업</span></span><span class="open-label">Open</span></a>
-        <a class="material-card" href="week-15-period3.html"><span class="week">Period 03</span><span><span class="material-title">3교시 — 라운드 2 면담과 막판 점검</span><span class="material-meta">Final Project Workshop · 라운드 2 면담과 막판 점검</span></span><span class="open-label">Open</span></a>
+        <a class="material-card" href="week-15-period1.html"><span class="week">Period 01</span><span><span class="material-title">1교시 — 진행 점검과 공통 가이드라인</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-15-period2.html"><span class="week">Period 02</span><span><span class="material-title">2교시 — 1:1 면담 라운드 1과 자율 작업</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+        <a class="material-card" href="week-15-period3.html"><span class="week">Period 03</span><span><span class="material-title">3교시 — 라운드 2 면담과 막판 점검</span></span><span class="open-label" aria-hidden="true">↗</span></a>
       </div>
     </section>
-  </div></section></main>
+  </div></section>
+    <footer class="course-footer">
+      <a href="/teaching/">← Teaching archive</a>
+      <span>Kim Jungho / 2026</span>
+    </footer>
+  </main>
 </body>
 </html>

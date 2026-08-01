@@ -195,6 +195,10 @@ function replaceRuntimeBlobScripts(html, template, assetReferences) {
 function finalizeDocument(html) {
   let result = html
     .replace(/<script>window\.__resources = \{\};<\/script>\s*/i, "")
+    .replace(
+      /\s*<link\s+rel="preconnect"\s+href="https:\/\/fonts\.(?:googleapis|gstatic)\.com"[^>]*>/gi,
+      "",
+    )
     .replace(/\s*<span hidden(?:="")?>[\s\S]*?<\/span>/gi, "")
     .replace("<deck-stage ", "<main>\n<deck-stage ")
     .replace("</deck-stage>", "</deck-stage>\n</main>");

@@ -11,337 +11,70 @@
   <meta property="og:description" content="Unreal Engine, real-time production, interactive systems, and cinematic project-based prototyping course materials.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine/">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
-  <meta property="og:image:alt" content="Kim Jungho">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine/assets/09_final-rendered-frame.webp">
+  <meta property="og:image:alt" content="Final cinematic environment rendered for the Game Engine course">
+  <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Game Engine I / II | Kim Jungho">
   <meta name="twitter:description" content="Unreal Engine, real-time production, interactive systems, and cinematic project-based prototyping course materials.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
-  <style>
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
-
-:root {
-  --font-latin: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, Montserrat, sans-serif;
-  --font-ko: Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --page: #f3f4f5;
-  --paper: #ffffff;
-  --ink: #15171a;
-  --soft-ink: #2d3136;
-  --muted: #6e747b;
-  --line: #d9dde2;
-  --slate: #111316;
-  --slate-2: #23272d;
-  --accent: #343a40;
-  --accent-soft: #f1f3f5;
-  --shadow: 0 22px 48px rgba(17, 24, 33, .10);
-}
-
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
-
-body {
-  margin: 0;
-  color: var(--ink);
-  font-family: var(--font-latin), var(--font-ko);
-  line-height: 1.66;
-  background:
-    linear-gradient(90deg, rgba(17, 19, 22, .035) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(17, 19, 22, .045) 1px, transparent 1px),
-    var(--page);
-  background-size: 42px 42px;
-}
-
-a {
-  color: #2d333a;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  border-bottom: 1px solid rgba(255, 255, 255, .12);
-  background: rgba(17, 24, 33, .94);
-  backdrop-filter: blur(14px);
-}
-
-.nav {
-  max-width: 1120px;
-  min-height: 58px;
-  margin: 0 auto;
-  padding: 0 22px;
-  display: flex;
-  align-items: center;
-  gap: 24px;
-  color: #c9d3de;
-  font-size: .82rem;
-  font-weight: 760;
-  text-transform: uppercase;
-}
-
-.brand {
-  margin-right: auto;
-  color: #f2f4f6;
-  font-weight: 900;
-  text-decoration: none;
-}
-
-.nav a:not(.brand) {
-  color: #c9d3de;
-  text-decoration: none;
-}
-
-.nav a:not(.brand):hover { color: #fff; }
-
-.hero {
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid #c8d0da;
-  color: #f7f8f9;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, .12), transparent 38%),
-    linear-gradient(90deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(255, 255, 255, .045) 1px, transparent 1px),
-    linear-gradient(128deg, #101214 0%, #1a1f25 48%, #2a3038 100%);
-  background-size: auto, 44px 44px, 44px 44px, auto;
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: auto 0 0;
-  height: 7px;
-  background: linear-gradient(90deg, #f5f6f7, #9aa1aa 48%, #30343a);
-}
-
-.hero-inner {
-  position: relative;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 58px 22px 42px;
-}
-
-.kicker {
-  margin: 0 0 14px;
-  color: #f2f4f6;
-  font-size: .78rem;
-  font-weight: 900;
-  text-transform: uppercase;
-}
-
-h1 {
-  margin: 0;
-  max-width: 840px;
-  color: #fff;
-  font-size: clamp(2.15rem, 4.4vw, 4.1rem);
-  line-height: 1.08;
-  letter-spacing: 0;
-}
-
-.lead {
-  max-width: 760px;
-  margin: 18px 0 0;
-  color: #d7dce2;
-  font-size: 1.05rem;
-}
-
-.page {
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 34px 22px 78px;
-}
-
-.section-title {
-  margin: 0 0 18px;
-  padding-bottom: 11px;
-  border-bottom: 1px solid var(--line);
-  color: var(--slate);
-  font-size: 1.45rem;
-  font-weight: 900;
-  line-height: 1.25;
-}
-
-.material-list {
-  display: grid;
-  gap: 30px;
-}
-
-.week-group {
-  display: grid;
-  gap: 12px;
-}
-
-.week-heading {
-  display: grid;
-  grid-template-columns: auto minmax(32px, 1fr) auto;
-  gap: 12px;
-  align-items: center;
-  color: var(--soft-ink);
-}
-
-.week-heading-label {
-  font-family: var(--font-mono);
-  font-size: .8rem;
-  font-weight: 900;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.week-heading-rule {
-  height: 1px;
-  background: linear-gradient(90deg, #9aa1aa, rgba(154, 161, 170, .18));
-}
-
-.week-heading-topic {
-  color: var(--muted);
-  font-size: .82rem;
-  font-weight: 820;
-  text-transform: uppercase;
-}
-
-.week-cards {
-  display: grid;
-  gap: 12px;
-}
-
-.material-card {
-  display: grid;
-  grid-template-columns: 118px minmax(0, 1fr) auto;
-  gap: 18px;
-  align-items: center;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-left: 5px solid var(--accent);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, .94);
-  color: inherit;
-  text-decoration: none;
-  box-shadow: 0 12px 28px rgba(17, 24, 33, .06);
-  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
-}
-
-.material-card:hover {
-  background: #fff;
-  border-color: #c9ced5;
-  box-shadow: var(--shadow);
-  text-decoration: none;
-  transform: translateY(-1px);
-}
-
-.week {
-  color: var(--soft-ink);
-  font-family: var(--font-mono);
-  font-size: .78rem;
-  font-weight: 900;
-  line-height: 1.4;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.material-title {
-  display: block;
-  margin: 0;
-  color: var(--ink);
-  font-size: 1.05rem;
-  font-weight: 900;
-  line-height: 1.42;
-}
-
-.material-meta {
-  display: block;
-  margin: 4px 0 0;
-  color: var(--muted);
-  font-size: .92rem;
-  line-height: 1.5;
-}
-
-.open-label {
-  color: var(--soft-ink);
-  font-family: var(--font-mono);
-  font-size: .72rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.note {
-  margin: 28px 0 0;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: rgba(255, 255, 255, .9);
-  color: var(--muted);
-  font-size: .9rem;
-}
-
-@media (max-width: 720px) {
-  .nav {
-    min-height: 56px;
-    padding: 0 16px;
-    gap: 14px;
-    font-size: .76rem;
-  }
-
-  .hero-inner { padding: 42px 16px 34px; }
-  h1 { font-size: 2rem; }
-  .lead { font-size: 1rem; }
-  .page { padding: 26px 16px 62px; }
-
-  .material-card {
-    grid-template-columns: 1fr;
-    gap: 6px;
-  }
-
-  .week-heading {
-    grid-template-columns: 1fr;
-    gap: 3px;
-  }
-
-  .week-heading-rule { display: none; }
-
-  .open-label { margin-top: 4px; }
-}
-h1, .lead, .material-title, .material-meta,
-.article h2, .article h3, .article h4,
-.article p, .article li, .callout-title, .callout-body {
-  word-break: keep-all;
-  overflow-wrap: break-word;
-}
-
-</style>
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine/assets/09_final-rendered-frame.webp">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
-<body>
+<body class="teaching-index course-game-engine">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="site-header">
     <nav class="nav" aria-label="Primary">
-      <a class="brand" href="../../index.html">Kim Jungho</a>
-      <a href="../../index.html#teaching" aria-current="location">Teaching</a>
-      <a href="../../index.html#cv">CV</a>
+      <a class="brand" href="/">Kim Jungho</a>
+      <a href="/news.html">News</a>
+      <a href="/portfolio.html">Work</a>
+      <a href="/#research">Research</a>
+      <a href="/teaching/" aria-current="page">Teaching</a>
+      <a href="/#cv-archive">CV</a>
     </nav>
   </header>
-
-  <header class="hero">
-    <div class="hero-inner">
-      <p class="kicker">Teaching Archive</p>
-      <h1>Game Engine I / II</h1>
-      <p class="lead">Unreal Engine, real-time production, interactive systems, and cinematic project-based prototyping course materials.</p>
+  <header class="course-hero">
+    <div class="course-hero-inner">
+      <div>
+        <p class="course-kicker">Unreal Engine / Real-time production</p>
+        <h1>Game Engine I / II</h1>
+        <p class="course-lead">Unreal Engine, real-time production, interactive systems, and cinematic project-based prototyping course materials.</p>
+        <div class="course-meta" aria-label="Course information">
+          <span class="course-kind">Unreal Engine course</span>
+          <span class="course-term">36 public handouts</span>
+        </div>
+      </div>
+      <figure class="course-visual">
+        <img src="assets/09_final-rendered-frame.webp" width="1672" height="941" loading="eager" fetchpriority="high" decoding="async" alt="Final cinematic environment rendered for the Game Engine course">
+      </figure>
     </div>
   </header>
-
-  <main id="main-content" class="page">
-    <section aria-labelledby="game-engine-ii">
-      <h2 class="section-title" id="game-engine-ii">Game Engine II</h2>
+  <div class="course-jump-wrap">
+    <nav class="course-jump" aria-label="Course weeks">
+      <a href="#week-01">Week 01</a>
+      <a href="#week-02">Week 02</a>
+      <a href="#week-03">Week 03</a>
+      <a href="#week-04">Week 04</a>
+      <a href="#week-05">Week 05</a>
+      <a href="#week-06">Week 06</a>
+      <a href="#week-07">Week 07</a>
+      <a href="#week-09">Week 09</a>
+      <a href="#week-10">Week 10</a>
+      <a href="#week-11">Week 11</a>
+      <a href="#week-12">Week 12</a>
+      <a href="#week-13">Week 13</a>
+    </nav>
+  </div>
+  <main id="main-content" class="course-content">
+<section class="course-section" aria-labelledby="game-engine-ii">
+      <header class="course-section-heading">
+        <h2 class="course-section-title" id="game-engine-ii">Game Engine II</h2>
+        <p class="course-section-note">Course materials grouped by production topic and class session.</p>
+      </header>
       <div class="material-list">
         <section class="week-group" aria-labelledby="week-01">
           <div class="week-heading">
             <span class="week-heading-label" id="week-01">Week 01</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Orientation</span>
           </div>
           <div class="week-cards">
@@ -351,14 +84,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">OT and Unreal Engine Introduction</span>
                 <span class="material-meta">Course roadmap, UE5 cinematic pipeline, core technologies, AI usage policy, and installation guide.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-02">
           <div class="week-heading">
             <span class="week-heading-label" id="week-02">Week 02</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Editor Basics</span>
           </div>
           <div class="week-cards">
@@ -368,7 +101,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Editor Interface and Project Structure</span>
                 <span class="material-meta">UE5 editor panels, project creation, folder structure, naming rules, and viewport navigation.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-02-period2.html">
               <span class="week">Period 02</span>
@@ -376,7 +109,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Object Placement and Transform</span>
                 <span class="material-meta">Actor placement, Move/Rotate/Scale tools, World/Local coordinates, duplication, and Outliner organization.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-02-period3.html">
               <span class="week">Period 03</span>
@@ -384,14 +117,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Build a Space with Basic Shapes</span>
                 <span class="material-meta">Hands-on assignment using basic shapes, required checks, screenshot submission, and extension tasks.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-03">
           <div class="week-heading">
             <span class="week-heading-label" id="week-03">Week 03</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Materials</span>
           </div>
           <div class="week-cards">
@@ -401,7 +134,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Material System Basics and PBR</span>
                 <span class="material-meta">Material editor interface, PBR inputs, Metallic/Roughness combinations, and Emissive setup.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-03-period2.html">
               <span class="week">Period 02</span>
@@ -409,7 +142,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Texture, Parameters, and Material Instances</span>
                 <span class="material-meta">Texture maps, UV coordinates, tiling, parameterization, material instances, and Fab/Quixel workflow.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-03-period3.html">
               <span class="week">Period 03</span>
@@ -417,14 +150,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Materials and Instances</span>
                 <span class="material-meta">Hands-on PBR material assignment using a master material, instances, Fab assets, and scene application.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-04">
           <div class="week-heading">
             <span class="week-heading-label" id="week-04">Week 04</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Natural Environment</span>
           </div>
           <div class="week-cards">
@@ -434,7 +167,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Normal Maps, Fab Assets, and Foliage Basics</span>
                 <span class="material-meta">Normal map depth, Fab asset workflow, Nanite setup, and first foliage painting workflow.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-04-period2.html">
               <span class="week">Period 02</span>
@@ -442,7 +175,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Advanced Foliage and Landscape</span>
                 <span class="material-meta">Foliage wind, seasonal color variation, landscape sculpting, material layers, and UE natural environment technologies.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-04-period3.html">
               <span class="week">Period 03</span>
@@ -450,14 +183,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Natural Environment Scene</span>
                 <span class="material-meta">Hands-on scene production using Nanite foliage, wind materials, terrain, normal maps, and screenshot submission.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-05">
           <div class="week-heading">
             <span class="week-heading-label" id="week-05">Week 05</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Lighting and Asset Systems</span>
           </div>
           <div class="week-cards">
@@ -467,7 +200,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Environment Lighting Systems</span>
                 <span class="material-meta">Directional Light, SkyAtmosphere, SkyLight, Fog, Cloud, and natural environment lighting setup.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-05-period2.html">
               <span class="week">Period 02</span>
@@ -475,7 +208,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Fab Assets and Level Instances</span>
                 <span class="material-meta">Fab natural environment assets, Nanite, reusable placement units, and Packed Level Actor workflow.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-05-period3.html">
               <span class="week">Period 03</span>
@@ -483,14 +216,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Natural Environment Scene</span>
                 <span class="material-meta">Hands-on environment lighting, Quixel assets, level instances, collision, foliage, and screenshot checks.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-06">
           <div class="week-heading">
             <span class="week-heading-label" id="week-06">Week 06</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Collision and Level Design</span>
           </div>
           <div class="week-cards">
@@ -500,7 +233,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Collision and Cinematic Concept Development</span>
                 <span class="material-meta">Simple/Complex collision, Show Collision checks, cinematic reference analysis, moodboards, and concept documents.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-06-period2.html">
               <span class="week">Period 02</span>
@@ -508,7 +241,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Level Design Principles and Modeling Mode Blockout</span>
                 <span class="material-meta">Composition, visual flow, depth layers, Modeling Mode basics, canyon blockout, and asset replacement workflow.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-06-period3.html">
               <span class="week">Period 03</span>
@@ -516,14 +249,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Cinematic Level Composition</span>
                 <span class="material-meta">Hands-on cinematic environment scene production using concept selection, lighting setup, blockout, asset replacement, and screenshots.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-07">
           <div class="week-heading">
             <span class="week-heading-label" id="week-07">Week 07</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Storyboard and Midterm</span>
           </div>
           <div class="week-cards">
@@ -533,7 +266,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Cinematic Camera Theory</span>
                 <span class="material-meta">Midterm orientation, shot-size vocabulary, camera movement types, and cinematic examples for storyboard planning.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-07-period2.html">
               <span class="week">Period 02</span>
@@ -541,7 +274,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Storyboard Elements and AI Workflow</span>
                 <span class="material-meta">Script elements, storyboard production stages, camera notation, UE5 screenshot conversion, and Nano Banana workflow notes.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-07-period3.html">
               <span class="week">Period 03</span>
@@ -549,7 +282,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Storyboard Draft</span>
                 <span class="material-meta">Hands-on storyboard draft using UE5 screenshots, shot-size labels, camera movement notes, and LMS submission checks.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-07-midterm-guide.html">
               <span class="week">Guide</span>
@@ -557,14 +290,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Midterm Storyboard Submission Guide</span>
                 <span class="material-meta">Submission format, concept document requirements, storyboard checklist, grading rubric, shot-size reference, and FAQ.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-09">
           <div class="week-heading">
             <span class="week-heading-label" id="week-09">Week 09</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Cine Camera and Sequencer</span>
           </div>
           <div class="week-cards">
@@ -574,7 +307,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Cine Camera Film Language</span>
                 <span class="material-meta">Camera Actor vs Cine Camera Actor, Filmback, Focal Length, Aperture, Focus Distance, and cinematic look setup.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-09-period2.html">
               <span class="week">Period 02</span>
@@ -582,7 +315,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Level Sequencer and Keyframes</span>
                 <span class="material-meta">Level Sequence setup, camera tracks, transform and lens keyframes, interpolation, Rack Focus, and Dolly Zoom workflow.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-09-period3.html">
               <span class="week">Period 03</span>
@@ -590,14 +323,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Dolly Zoom Single Shot</span>
                 <span class="material-meta">Hands-on Cine Camera and Sequencer exercise using transform keyframes, focal-length animation, and 15-second shot review.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-10">
           <div class="week-heading">
             <span class="week-heading-label" id="week-10">Week 10</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Animation Retargeting</span>
           </div>
           <div class="week-cards">
@@ -607,7 +340,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Animation Retargeting and Mixamo Asset Prep</span>
                 <span class="material-meta">Retargeting concepts, rest poses, skeleton structure, and Mixamo character and animation download settings.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-10-period2.html">
               <span class="week">Period 02</span>
@@ -615,7 +348,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Unreal Import and IK Rig Setup</span>
                 <span class="material-meta">FBX import, asset naming, skeleton comparison, IK Rig chains, IK Retargeter, Edit Pose, and first export.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-10-period3.html">
               <span class="week">Period 03</span>
@@ -623,14 +356,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Fight Motion Retargeting</span>
                 <span class="material-meta">Batch retargeting Mixamo fight motions, Level Sequence assembly, 10-15 second capture, and submission checks.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-11">
           <div class="week-heading">
             <span class="week-heading-label" id="week-11">Week 11</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Cinematic Camera Work</span>
           </div>
           <div class="week-cards">
@@ -640,7 +373,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Fight Scene Grammar and Multi-Camera Setup</span>
                 <span class="material-meta">Shot size, angle, cut timing, Cine Camera naming, Spawnable conversion, Camera Cut track, and Cinematic Viewport.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-11-period2.html">
               <span class="week">Period 02</span>
@@ -648,7 +381,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Rail, Crane, Camera Shake, and FK Control Rig</span>
                 <span class="material-meta">Camera Rig Rail and Crane movement, Keep State, Camera Shake, FK Control Rig cleanup, and animation baking.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-11-period3.html">
               <span class="week">Period 03</span>
@@ -656,7 +389,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Multi-Camera Fight Cinematic</span>
                 <span class="material-meta">Hands-on Practice 04 workflow for Camera Cuts, Rail or Crane movement, Camera Shake, Keep State, capture, and rubric checks.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-11-practice4-notice.html">
               <span class="week">Notice</span>
@@ -664,14 +397,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice 04 Submission Notice</span>
                 <span class="material-meta">Assignment requirements, deadline, submission format, optional FK Control Rig challenge, checklist, and FAQ.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-12">
           <div class="week-heading">
             <span class="week-heading-label" id="week-12">Week 12</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">AI Assets and Environment Blockout</span>
           </div>
           <div class="week-cards">
@@ -681,7 +414,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Generative AI Asset Workflow</span>
                 <span class="material-meta">AI 3D pipeline, image-to-3D tools, mesh cleanup limits, licensing checks, and stable use cases for background props.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-12-period2.html">
               <span class="week">Period 02</span>
@@ -689,7 +422,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">External 3D Asset Import and Scene Integration</span>
                 <span class="material-meta">FBX and OBJ import, scale and material correction, Nanite, LOD, Collision, Packed Level Actor, and placement rules.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-12-period3.html">
               <span class="week">Period 03</span>
@@ -697,14 +430,14 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Final Concept Environment Blockout</span>
                 <span class="material-meta">Hands-on final-project environment base using storyboard keywords, cube blockout, imported assets, scale checks, and screenshot review.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
         <section class="week-group" aria-labelledby="week-13">
           <div class="week-heading">
             <span class="week-heading-label" id="week-13">Week 13</span>
-            <span class="week-heading-rule" aria-hidden="true"></span>
+
             <span class="week-heading-topic">Rendering and Color Grading</span>
           </div>
           <div class="week-cards">
@@ -714,7 +447,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Post Process Volume and Mood Effects</span>
                 <span class="material-meta">Infinite Extent setup, Manual Exposure, Bloom, Vignette, Depth of Field, and restraint through before-after checks.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-13-period2.html">
               <span class="week">Period 02</span>
@@ -722,7 +455,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Color Grading, LUT, and Movie Render Queue</span>
                 <span class="material-meta">White Balance, Global and range-based grading, LUT intensity, MRQ queue setup, anti-aliasing samples, and PNG sequence output.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
             <a class="material-card" href="week-13-period3.html">
               <span class="week">Period 03</span>
@@ -730,7 +463,7 @@ h1, .lead, .material-title, .material-meta,
                 <span class="material-title">Practice: Cinematic Rendering Workflow</span>
                 <span class="material-meta">Hands-on PPV, color grading, MRQ test render, PNG image sequence output, encoding flow, and final-project render rehearsal.</span>
               </span>
-              <span class="open-label">Open</span>
+              <span class="open-label" aria-hidden="true">↗</span>
             </a>
           </div>
         </section>
@@ -738,6 +471,10 @@ h1, .lead, .material-title, .material-meta,
     </section>
 
     <p class="note">Prepared as public student handouts for GitHub Pages.</p>
+    <footer class="course-footer">
+      <a href="/teaching/">← Teaching archive</a>
+      <span>Kim Jungho / 2026</span>
+    </footer>
   </main>
 </body>
 </html>

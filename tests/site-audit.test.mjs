@@ -1,9 +1,23 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
-import { readdir, readFile, stat } from "node:fs/promises";
-import { dirname, relative, resolve } from "node:path";
+import {
+  mkdir,
+  mkdtemp,
+  readdir,
+  readFile,
+  rm,
+  stat,
+  writeFile,
+} from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { dirname, join, relative, resolve } from "node:path";
 import test from "node:test";
+import { buildSitesStatic } from "../scripts/build-sites-static.mjs";
 import { findPublicHtmlFiles } from "../scripts/public-html-files.mjs";
+import {
+  publicUrlForHtml,
+  shareImageMetadataForHtml,
+} from "../scripts/site-config.mjs";
 
 const root = resolve(import.meta.dirname, "..");
 const htmlFiles = await findPublicHtmlFiles(root);
@@ -167,6 +181,99 @@ test("the news index uses the shared CV design system", async () => {
   assert.doesNotMatch(newsCss, /(?:linear|radial|repeating-linear)-gradient\(/);
 });
 
+test("the teaching archive has a shared, course-first design system", async () => {
+  const teachingIndex = await readFile(
+    resolve(root, "teaching", "index.html"),
+    "utf8",
+  );
+  const teachingCss = await readFile(
+    resolve(root, "assets", "teaching.css"),
+    "utf8",
+  );
+  const courseIndexes = [
+    "teaching/agentic-ai/index.html",
+    "teaching/game-engine/index.html",
+    "teaching/media-art-programming/index.html",
+  ];
+
+  for (const href of ["agentic-ai/", "game-engine/", "media-art-programming/"]) {
+    assert.match(teachingIndex, new RegExp(`href="${href.replace("/", "\\/")}"`));
+  }
+  assert.match(teachingIndex, /class="featured-course"/);
+  assert.match(teachingIndex, /teaching\.css\?v=teaching1/);
+  assert.doesNotMatch(teachingIndex, /<style\b|fonts\.googleapis\.com|cdn\.jsdelivr\.net/);
+
+  for (const relativePath of courseIndexes) {
+    const html = await readFile(resolve(root, relativePath), "utf8");
+    assert.match(html, /class="teaching-index\b/);
+    assert.match(html, /teaching\.css\?v=teaching1/);
+    assert.doesNotMatch(html, /<style\b|fonts\.googleapis\.com|cdn\.jsdelivr\.net/);
+  }
+
+  assert.match(teachingCss, /fonts\/inter-latin-variable\.woff2/);
+  assert.match(teachingCss, /prefers-color-scheme:\s*dark/);
+  assert.match(teachingCss, /\.course-jump/);
+  assert.match(teachingCss, /\.lesson-header/);
+  assert.doesNotMatch(teachingCss, /(?:linear|radial|repeating-linear)-gradient\(/);
+});
+
+test("teaching handouts provide consistent course and sequence navigation", async () => {
+  const courseDirectories = [
+    ["agentic-ai", new Set(["day-1.html"])],
+    ["game-engine", new Set()],
+    ["media-art-programming", new Set()],
+  ];
+  const violations = [];
+
+  for (const [course, exceptions] of courseDirectories) {
+    const directory = resolve(root, "teaching", course);
+    const names = (await readdir(directory))
+      .filter(
+        (name) =>
+          name.endsWith(".html") &&
+          name !== "index.html" &&
+          !name.endsWith(".bundle.html") &&
+          !exceptions.has(name),
+      );
+
+    for (const name of names) {
+      const html = await readFile(resolve(directory, name), "utf8");
+      if (!/<body\b[^>]*class="[^"]*\bteaching-document\b/i.test(html)) {
+        violations.push(`${course}/${name}: document class`);
+      }
+      if (!html.includes('data-teaching-shell="v1"')) {
+        violations.push(`${course}/${name}: teaching shell`);
+      }
+      if (!html.includes('href="/teaching/"')) {
+        violations.push(`${course}/${name}: teaching archive link`);
+      }
+      if (!html.includes('href="./"')) {
+        violations.push(`${course}/${name}: course index link`);
+      }
+      if (!html.includes("teaching.css?v=teaching1")) {
+        violations.push(`${course}/${name}: shared stylesheet`);
+      }
+    }
+  }
+
+  assert.deepEqual(violations, []);
+});
+
+test("search engines can discover the teaching archive", async () => {
+  const robots = await readFile(resolve(root, "robots.txt"), "utf8");
+  const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
+
+  assert.match(robots, /Sitemap: https:\/\/creativeengineer-kimjungho\.com\/sitemap\.xml/);
+  for (const path of [
+    "/teaching/",
+    "/teaching/agentic-ai/",
+    "/teaching/game-engine/",
+    "/teaching/media-art-programming/",
+  ]) {
+    assert.ok(sitemap.includes(`https://creativeengineer-kimjungho.com${path}`));
+  }
+});
+
 test("the Day 1 deck ships as a ready-to-render static document", async () => {
   const path = resolve(root, "teaching", "agentic-ai", "day-1.html");
   const html = await readFile(path, "utf8");
@@ -176,6 +283,7 @@ test("the Day 1 deck ships as a ready-to-render static document", async () => {
   assert.match(html, /<main(?:\s|>)/i);
   assert.doesNotMatch(html, /__bundler|Unpacking\.\.\./);
   assert.doesNotMatch(html, /data:(?:font|image)\//);
+  assert.doesNotMatch(html, /fonts\.(?:googleapis|gstatic)\.com/);
   assert.ok(Buffer.byteLength(html) < 1_000_000, "Day 1 HTML should stay below 1 MB");
 });
 
@@ -217,6 +325,61 @@ test("the production build regenerates the Day 1 deck", async () => {
   assert.match(packageJson.scripts.build, /(?:^|&&|;)\s*npm run build:day1(?:\s|$)/);
   assert.match(generator, /"\/usr\/bin\/google-chrome"/);
   assert.match(generator, /"\/usr\/bin\/chromium"/);
+});
+
+test("the static Sites build publishes the complete public site", async (context) => {
+  const fixtureRoot = await mkdtemp(join(tmpdir(), "personal-site-build-"));
+  context.after(() => rm(fixtureRoot, { recursive: true, force: true }));
+
+  await Promise.all([
+    mkdir(resolve(fixtureRoot, "assets"), { recursive: true }),
+    mkdir(resolve(fixtureRoot, "projects"), { recursive: true }),
+    mkdir(resolve(fixtureRoot, "teaching", "course"), { recursive: true }),
+  ]);
+  const fixtureFiles = new Map([
+    ["assets/teaching.css", "body {}"],
+    ["assets/.DS_Store", "ignored"],
+    ["projects/project.html", "<main>Project</main>"],
+    ["teaching/index.html", "<main>Teaching</main>"],
+    ["teaching/course/index.html", "<main>Course</main>"],
+    ["teaching/course/source.bundle.html", "not public"],
+    ["teaching/course/speaker-notes.md", "not public"],
+    ["index.html", "<main>Home</main>"],
+    ["news.html", "<main>News</main>"],
+    ["portfolio.html", "<main>Work</main>"],
+    ["robots.txt", "User-agent: *"],
+    ["sitemap.xml", "<urlset></urlset>"],
+  ]);
+  await Promise.all(
+    [...fixtureFiles].map(([path, contents]) =>
+      writeFile(resolve(fixtureRoot, path), contents),
+    ),
+  );
+
+  await buildSitesStatic(fixtureRoot);
+
+  for (const path of [
+    "dist/client/index.html",
+    "dist/client/assets/teaching.css",
+    "dist/client/projects/project.html",
+    "dist/client/teaching/index.html",
+    "dist/client/teaching/course/index.html",
+    "dist/client/robots.txt",
+    "dist/client/sitemap.xml",
+  ]) {
+    assert.ok((await stat(resolve(fixtureRoot, path))).isFile(), `${path} should exist`);
+  }
+  await assert.rejects(stat(resolve(fixtureRoot, "dist/client/assets/.DS_Store")));
+  await assert.rejects(
+    stat(resolve(fixtureRoot, "dist/client/teaching/course/source.bundle.html")),
+  );
+  await assert.rejects(
+    stat(resolve(fixtureRoot, "dist/client/teaching/course/speaker-notes.md")),
+  );
+
+  const worker = await readFile(resolve(fixtureRoot, "dist/server/index.js"), "utf8");
+  assert.match(worker, /url\.pathname \+= "index\.html"/);
+  assert.doesNotMatch(worker, /teaching\/agentic-ai/);
 });
 
 test("documents expose one H1 and do not skip heading levels", async () => {
@@ -280,18 +443,23 @@ test("pages publish canonical and social metadata for the custom domain", async 
   for (const path of htmlFiles) {
     const html = await readFile(path, "utf8");
     const relativePath = displayPath(path).split("\\").join("/");
-    const publicPath = relativePath.endsWith("/index.html")
-      ? relativePath.slice(0, -"index.html".length)
-      : relativePath === "index.html"
-        ? ""
-        : relativePath;
-    const canonical = `https://creativeengineer-kimjungho.com/${publicPath}`;
+    const canonical = publicUrlForHtml(root, path);
+    const shareImage = shareImageMetadataForHtml(root, path);
 
     if (!html.includes(`<link rel="canonical" href="${canonical}">`)) {
       violations.push(`${relativePath}: canonical`);
     }
     if (!html.includes('<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">')) {
       violations.push(`${relativePath}: favicon`);
+    }
+    if (!html.includes(`<meta property="og:image" content="${shareImage.url}">`)) {
+      violations.push(`${relativePath}: og:image`);
+    }
+    if (!html.includes(`<meta property="og:image:alt" content="${shareImage.alt}">`)) {
+      violations.push(`${relativePath}: og:image:alt`);
+    }
+    if (!html.includes(`<meta name="twitter:image" content="${shareImage.url}">`)) {
+      violations.push(`${relativePath}: twitter:image`);
     }
     for (const name of ["description", "twitter:card", "twitter:title", "twitter:description"]) {
       if (!new RegExp(`<meta name="${name}" content="[^"]+">`, "i").test(html)) {
@@ -408,6 +576,7 @@ test("local links, assets, and fragments resolve", async () => {
   const cssFiles = [
     resolve(root, "assets", "cv.css"),
     resolve(root, "assets", "portfolio.css"),
+    resolve(root, "assets", "teaching.css"),
     resolve(root, "assets", "accessibility.css"),
   ];
   for (const path of cssFiles) {
