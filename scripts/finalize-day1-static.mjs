@@ -53,6 +53,24 @@ async function findChrome() {
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
     "/Applications/Chromium.app/Contents/MacOS/Chromium",
     "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge",
+    "/usr/bin/google-chrome",
+    "/usr/bin/google-chrome-stable",
+    "/usr/bin/chromium",
+    "/usr/bin/chromium-browser",
+    process.env.PROGRAMFILES && join(
+      process.env.PROGRAMFILES,
+      "Google",
+      "Chrome",
+      "Application",
+      "chrome.exe",
+    ),
+    process.env.LOCALAPPDATA && join(
+      process.env.LOCALAPPDATA,
+      "Google",
+      "Chrome",
+      "Application",
+      "chrome.exe",
+    ),
   ].filter(Boolean);
 
   for (const candidate of candidates) {

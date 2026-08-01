@@ -55,7 +55,8 @@
       padding: 10px 13px;
       border: 1px solid rgba(255,255,255,.45);
       color: #fff;
-      background: rgba(32,30,29,.84);
+      --touch-resting-background: rgba(32,30,29,.84);
+      background: var(--touch-resting-background);
       text-decoration: none;
       font-weight: 800;
       font-size: 13px;
@@ -114,9 +115,10 @@
     .progress-bar { width: 0; height: 100%; background: var(--red); transition: width .2s ease; }
     .progress-text { min-width: 54px; font-weight: 900; text-align: center; }
     .reset-button, .copy-button {
+      --touch-resting-background: var(--ink);
       border: 0;
       color: #fff;
-      background: var(--ink);
+      background: var(--touch-resting-background);
       cursor: pointer;
       font-weight: 800;
     }

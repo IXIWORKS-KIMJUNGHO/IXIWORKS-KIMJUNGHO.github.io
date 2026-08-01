@@ -72,6 +72,10 @@
     color: #f3f2f2 !important;
   }
 
+  :where(.archive-link, .copy-button, .reset-button):not(:focus-visible):not(:active):hover {
+    background: var(--touch-resting-background) !important;
+  }
+
   .btn-primary:not(:active):hover {
     background: var(--color-accent) !important;
   }

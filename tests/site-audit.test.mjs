@@ -63,6 +63,12 @@ test("motion preferences and touch pointers are respected", async () => {
   assert.match(accessibilityCss, /:focus-visible/);
   assert.match(accessibilityCss, /\.material-card[^}]*:hover[\s\S]*?background:/);
   assert.match(accessibilityCss, /\.toc a[^}]*:hover[\s\S]*?background:/);
+  for (const selector of ["archive-link", "copy-button", "reset-button"]) {
+    assert.match(
+      accessibilityCss,
+      new RegExp(`\\.${selector}[^}]*:hover[\\s\\S]*?background:`),
+    );
+  }
 
   const pagesMissingTheStylesheet = [];
   for (const path of htmlFiles) {
@@ -130,7 +136,13 @@ test("the Day 1 asset graph contains no unreferenced or duplicate files", async 
 
 test("the production build regenerates the Day 1 deck", async () => {
   const packageJson = JSON.parse(await readFile(resolve(root, "package.json"), "utf8"));
+  const generator = await readFile(
+    resolve(root, "scripts", "finalize-day1-static.mjs"),
+    "utf8",
+  );
   assert.match(packageJson.scripts.build, /(?:^|&&|;)\s*npm run build:day1(?:\s|$)/);
+  assert.match(generator, /"\/usr\/bin\/google-chrome"/);
+  assert.match(generator, /"\/usr\/bin\/chromium"/);
 });
 
 test("documents expose one H1 and do not skip heading levels", async () => {
