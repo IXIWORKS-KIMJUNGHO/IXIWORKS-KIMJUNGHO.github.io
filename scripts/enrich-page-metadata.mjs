@@ -81,6 +81,7 @@ function extractDescription(html, title) {
 function removeManagedMetadata(html) {
   return html
     .replace(/\s*<link\s+rel="canonical"[^>]*>/gi, "")
+    .replace(/\s*<link\s+rel="icon"[^>]*>/gi, "")
     .replace(/\s*<meta\s+name="(?:description|twitter:[^"]+)"[^>]*>/gi, "")
     .replace(/\s*<meta\s+property="og:[^"]+"[^>]*>/gi, "");
 }
@@ -131,6 +132,7 @@ export function enrichPageMetadata(html, htmlPath) {
   const metadata = [
     `  <meta name="description" content="${escapedDescription}">`,
     `  <link rel="canonical" href="${canonical}">`,
+    '  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">',
     `  <meta property="og:title" content="${escapedTitle}">`,
     `  <meta property="og:description" content="${escapedDescription}">`,
     '  <meta property="og:type" content="website">',

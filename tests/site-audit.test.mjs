@@ -216,6 +216,9 @@ test("pages publish canonical and social metadata for the custom domain", async 
     if (!html.includes(`<link rel="canonical" href="${canonical}">`)) {
       violations.push(`${relativePath}: canonical`);
     }
+    if (!html.includes('<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">')) {
+      violations.push(`${relativePath}: favicon`);
+    }
     for (const name of ["description", "twitter:card", "twitter:title", "twitter:description"]) {
       if (!new RegExp(`<meta name="${name}" content="[^"]+">`, "i").test(html)) {
         violations.push(`${relativePath}: ${name}`);

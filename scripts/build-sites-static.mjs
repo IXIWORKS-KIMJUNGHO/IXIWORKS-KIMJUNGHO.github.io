@@ -32,6 +32,10 @@ await cp(
   join(root, "assets", "accessibility.css"),
   join(sharedAssetOutput, "accessibility.css"),
 );
+await cp(
+  join(root, "assets", "favicon.svg"),
+  join(sharedAssetOutput, "favicon.svg"),
+);
 await cp(join(root, "assets", "qr"), join(sharedAssetOutput, "qr"), {
   recursive: true,
 });
