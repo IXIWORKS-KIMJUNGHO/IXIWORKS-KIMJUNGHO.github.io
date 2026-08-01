@@ -3,1067 +3,21 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kim Jungho | Art Engineering</title>
-  <meta name="description" content="I connect generative AI, real-time engines, and immersive media into working creative production systems.">
+  <title>Kim Jungho | Creative Engineer &amp; Researcher</title>
+  <meta name="description" content="Creative engineer and researcher building production systems across generative AI, real-time 3D, and immersive media.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="Kim Jungho | Art Engineering">
-  <meta property="og:description" content="I connect generative AI, real-time engines, and immersive media into working creative production systems.">
+  <meta property="og:title" content="Kim Jungho | Creative Engineer &amp; Researcher">
+  <meta property="og:description" content="Creative engineer and researcher building production systems across generative AI, real-time 3D, and immersive media.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
   <meta property="og:image:alt" content="Kim Jungho">
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Kim Jungho | Art Engineering">
-  <meta name="twitter:description" content="I connect generative AI, real-time engines, and immersive media into working creative production systems.">
+  <meta name="twitter:title" content="Kim Jungho | Creative Engineer &amp; Researcher">
+  <meta name="twitter:description" content="Creative engineer and researcher building production systems across generative AI, real-time 3D, and immersive media.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/assets/cv-photo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg: #f4f1ea;
-      --paper: #fbf8f1;
-      --surface: #ede8dd;
-      --surface-strong: #e3dccf;
-      --ink: #2a2927;
-      --ink-strong: #121312;
-      --muted: #6e675e;
-      --muted-light: #91887b;
-      --line: #d8d0c2;
-      --line-strong: #b9ae9d;
-      --accent: #263f4b;
-      --accent-strong: #111c22;
-      --accent-soft: #e4e8e5;
-      --accent-line: #9aa9aa;
-      --link: #223c4a;
-      --shadow: 0 18px 45px rgba(37, 34, 29, 0.08);
-
-      --sans: Futura, "Futura PT", "Futura Std", "Avenir Next", Avenir, "Inter", "Helvetica Neue", Arial, sans-serif;
-      --mono: "IBM Plex Mono", "SF Mono", Menlo, ui-monospace, monospace;
-    }
-
-    * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      margin: 0;
-      background:
-        linear-gradient(90deg, rgba(18, 19, 18, 0.035) 1px, transparent 1px),
-        linear-gradient(180deg, rgba(18, 19, 18, 0.028) 1px, transparent 1px),
-        var(--bg);
-      background-size: 42px 42px;
-      color: var(--ink);
-      font-family: var(--sans);
-      font-size: 16px;
-      line-height: 1.66;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    a {
-      color: var(--link);
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      background: rgba(251, 248, 241, 0.94);
-      border-bottom: 1px solid var(--line);
-      backdrop-filter: blur(12px);
-    }
-
-    .nav {
-      width: min(1120px, calc(100% - 48px));
-      height: 72px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      gap: 40px;
-    }
-
-    .brand {
-      margin-right: 28px;
-      color: var(--ink-strong);
-      font-size: 21px;
-      font-weight: 800;
-      line-height: 1;
-      white-space: nowrap;
-    }
-
-    .nav a:not(.brand) {
-      color: var(--ink);
-      font-size: 16.5px;
-      font-weight: 500;
-    }
-
-    .nav a:not(.brand):hover {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .shell {
-      width: min(1120px, calc(100% - 48px));
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 176px minmax(0, 1fr);
-      gap: 64px;
-      padding: 56px 0 96px;
-    }
-
-    .sidebar {
-      position: sticky;
-      top: 112px;
-      align-self: start;
-    }
-
-    .portrait-wrap {
-      width: 124px;
-      height: 154px;
-      margin-bottom: 16px;
-      padding: 5px;
-      border: 1px solid var(--line);
-      border-radius: 50% / 42%;
-      background: var(--paper);
-      box-shadow: 0 14px 36px rgba(37, 34, 29, 0.08);
-      overflow: hidden;
-    }
-
-    .portrait {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border-radius: inherit;
-      object-fit: cover;
-      filter: saturate(0.96) contrast(1.02);
-    }
-
-    .side-name {
-      margin: 0 0 7px;
-      color: var(--ink-strong);
-      font-size: 18px;
-      font-weight: 800;
-      line-height: 1.25;
-    }
-
-    .side-role {
-      margin: 0 0 20px;
-      color: var(--muted);
-      font-size: 13.5px;
-      line-height: 1.62;
-      word-break: keep-all;
-    }
-
-    .side-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 8px;
-      color: var(--muted);
-      font-size: 13.5px;
-    }
-
-    .side-list li {
-      display: grid;
-      grid-template-columns: 20px 1fr;
-      align-items: baseline;
-      gap: 7px;
-    }
-
-    .side-list svg {
-      width: 14px;
-      height: 14px;
-      color: var(--muted);
-      transform: translateY(2px);
-    }
-
-    .side-list a {
-      color: inherit;
-    }
-
-    .side-list a:hover {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    .content {
-      min-width: 0;
-    }
-
-    .hero {
-      padding-top: 6px;
-      margin-bottom: 68px;
-    }
-
-    h1 {
-      margin: 0 0 18px;
-      color: var(--ink-strong);
-      font-size: 42px;
-      font-weight: 800;
-      letter-spacing: 0;
-      line-height: 1.08;
-    }
-
-    .intro-panel {
-      max-width: 780px;
-      margin: 0;
-      padding: 0 0 0 24px;
-      border-left: 3px solid var(--accent);
-    }
-
-    .lead {
-      max-width: 680px;
-      margin: 0 0 16px;
-      color: var(--muted);
-      font-size: 16px;
-      line-height: 1.7;
-      word-break: keep-all;
-    }
-
-    .intro-panel .lead {
-      color: var(--muted);
-    }
-
-    .lead-primary {
-      max-width: 760px;
-      margin-bottom: 16px;
-      color: var(--ink-strong);
-      font-size: 29px;
-      font-weight: 760;
-      line-height: 1.28;
-    }
-
-    .intro-panel .lead-primary {
-      color: var(--ink-strong);
-    }
-
-    .lead strong {
-      color: var(--ink-strong);
-      font-weight: 760;
-    }
-
-    .hero-actions {
-      margin: 28px 0 0;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .section-actions {
-      margin-top: 18px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 38px;
-      padding: 0 14px;
-      border: 1px solid var(--line-strong);
-      border-radius: 4px;
-      background: var(--paper);
-      color: var(--ink-strong);
-      font-size: 13px;
-      font-weight: 700;
-      line-height: 1;
-      box-shadow: 0 8px 18px rgba(37, 34, 29, 0.05);
-      transition: border-color 160ms ease, box-shadow 160ms ease, color 160ms ease, background 160ms ease, transform 160ms ease;
-    }
-
-    .button.primary {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: #fff;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .button:hover {
-        border-color: var(--accent-line);
-        color: var(--accent-strong);
-        text-decoration: none;
-        transform: translateY(-1px);
-      }
-
-      .button.primary:hover {
-        background: var(--accent-strong);
-        color: #fff;
-      }
-    }
-
-    .news-list {
-      display: grid;
-      gap: 9px;
-    }
-
-    .news-item {
-      display: grid;
-      grid-template-columns: 104px minmax(0, 1fr);
-      gap: 18px;
-      padding: 13px 15px;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--accent-line);
-      border-radius: 8px;
-      background: var(--surface);
-    }
-
-    .news-date {
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 11.5px;
-      font-weight: 600;
-      line-height: 1.5;
-      white-space: nowrap;
-    }
-
-    .news-title {
-      margin: 0;
-      color: var(--ink-strong);
-      font-size: 15.5px;
-      font-weight: 700;
-      line-height: 1.38;
-    }
-
-    .section {
-      scroll-margin-top: 104px;
-      margin-top: 70px;
-    }
-
-    .section:first-of-type {
-      margin-top: 0;
-    }
-
-    .section-title {
-      margin: 0 0 18px;
-      padding-bottom: 9px;
-      border-bottom: 1px solid var(--line);
-      color: var(--ink-strong);
-      font-size: 26px;
-      font-weight: 800;
-      line-height: 1.2;
-    }
-
-    .timeline {
-      display: grid;
-      --date-col: 150px;
-      --entry-gap: 28px;
-      gap: 0;
-    }
-
-    .entry {
-      position: relative;
-      display: grid;
-      grid-template-columns: var(--date-col) minmax(0, 1fr);
-      gap: var(--entry-gap);
-      padding: 0 0 24px;
-    }
-
-    .entry:last-child {
-      padding-bottom: 0;
-    }
-
-    .entry::before {
-      content: "";
-      position: absolute;
-      top: 7px;
-      left: calc(var(--date-col) + 10px);
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--paper);
-      border: 2px solid var(--accent-line);
-      z-index: 1;
-    }
-
-    .entry::after {
-      content: "";
-      position: absolute;
-      top: 22px;
-      bottom: 2px;
-      left: calc(var(--date-col) + 15px);
-      width: 1px;
-      background: var(--line);
-    }
-
-    .entry:last-child::after {
-      display: none;
-    }
-
-    .entry.current::before {
-      border-color: var(--accent);
-      background: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-soft);
-    }
-
-    .date {
-      color: var(--muted-light);
-      font-family: var(--mono);
-      font-size: 12.5px;
-      line-height: 1.55;
-      white-space: nowrap;
-    }
-
-    .entry-title {
-      margin: 0;
-      color: var(--ink-strong);
-      font-size: 17px;
-      font-weight: 700;
-      line-height: 1.5;
-      word-break: keep-all;
-    }
-
-    .entry-meta {
-      margin: 2px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.55;
-      word-break: keep-all;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      min-height: 20px;
-      margin-left: 8px;
-      padding: 0 7px;
-      border-radius: 3px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 10px;
-      font-weight: 600;
-      vertical-align: 1px;
-    }
-
-    .entry-note {
-      margin: 6px 0 0;
-      color: var(--muted);
-      font-size: 14.5px;
-      line-height: 1.55;
-      word-break: keep-all;
-    }
-
-    .publication-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      counter-reset: pub;
-      display: grid;
-      gap: 0;
-    }
-
-    .publication-list li {
-      counter-increment: pub;
-      display: grid;
-      grid-template-columns: 34px minmax(0, 1fr) auto 54px;
-      gap: 16px;
-      padding: 14px 0;
-      border-bottom: 1px solid var(--line);
-      align-items: baseline;
-    }
-
-    .publication-list li::before {
-      content: counter(pub, decimal-leading-zero);
-      color: var(--muted-light);
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .paper-title {
-      color: var(--ink);
-      font-size: 15px;
-      line-height: 1.55;
-      word-break: keep-all;
-    }
-
-    .pub-type,
-    .pub-year {
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 11px;
-      line-height: 1.45;
-      white-space: nowrap;
-    }
-
-    .pub-type {
-      padding: 3px 8px;
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      background: var(--surface);
-      color: var(--accent);
-      font-weight: 600;
-    }
-
-    .pub-year {
-      text-align: right;
-    }
-
-    .publication-archive {
-      counter-reset: pub 1;
-    }
-
-    .work-system-map {
-      display: grid;
-      grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.7fr);
-      gap: 16px;
-      align-items: center;
-      margin: 0 0 14px;
-      padding: 11px 0 12px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .axis-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .axis-tab {
-      min-height: 34px;
-      padding: 0 11px;
-      border: 1px solid var(--line-strong);
-      border-radius: 4px;
-      background: var(--paper);
-      color: var(--accent);
-      cursor: pointer;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1;
-      transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
-    }
-
-    .axis-tab:focus-visible {
-      border-color: var(--accent);
-      outline: 3px solid color-mix(in srgb, var(--accent) 34%, transparent);
-      outline-offset: 3px;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .axis-tab:hover {
-        border-color: var(--accent);
-      }
-    }
-
-    .axis-tab.is-active {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: var(--paper);
-    }
-
-    .axis-copy {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14.5px;
-      line-height: 1.55;
-      word-break: keep-all;
-    }
-
-    .grid-list {
-      display: grid;
-      gap: 14px;
-    }
-
-    .archive-panel {
-      margin-top: 14px;
-    }
-
-    .archive-panel summary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      min-height: 34px;
-      padding: 7px 11px;
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      background: var(--paper);
-      color: var(--accent);
-      cursor: pointer;
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1;
-      user-select: none;
-    }
-
-    .archive-panel summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .archive-panel summary::after {
-      content: "+";
-      display: inline-grid;
-      place-items: center;
-      width: 17px;
-      height: 17px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    .archive-panel[open] summary::after {
-      content: "-";
-    }
-
-    .archive-panel > .publication-list,
-    .archive-panel > .grid-list,
-    .archive-panel > .timeline {
-      margin-top: 14px;
-    }
-
-    .archive-panel summary + .publication-list,
-    .archive-panel summary + .subsection-title,
-    .archive-panel summary + .teaching-block {
-      margin-top: 14px;
-    }
-
-    .archive-panel .publication-list + .timeline,
-    .archive-panel .grid-list + .subsection-title,
-    .archive-panel .timeline + .subsection-title {
-      margin-top: 22px;
-    }
-
-    .background-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .background-card {
-      padding: 16px 17px;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--accent-line);
-      border-radius: 8px;
-      background: var(--surface);
-    }
-
-    .background-card h3 {
-      margin: 0 0 10px;
-      color: var(--ink-strong);
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.35;
-    }
-
-    .background-list {
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 18px;
-    }
-
-    .background-list li {
-      display: grid;
-      grid-template-columns: 124px minmax(0, 1fr);
-      gap: 14px;
-      align-items: baseline;
-    }
-
-    .background-list .date {
-      color: var(--accent);
-      font-size: 11.5px;
-      font-weight: 600;
-    }
-
-    .background-list strong {
-      display: block;
-      color: var(--ink-strong);
-      font-size: 14.5px;
-      line-height: 1.4;
-      word-break: keep-all;
-    }
-
-    .background-list span:not(.date) {
-      display: block;
-      margin-top: 2px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      word-break: keep-all;
-    }
-
-    .background-grid + .teaching-block {
-      margin-top: 18px;
-    }
-
-    .project-card {
-      position: relative;
-      display: grid;
-      grid-template-columns: 140px minmax(0, 1fr);
-      gap: 22px;
-      padding: 18px 18px 17px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--surface);
-      color: inherit;
-      overflow: hidden;
-      text-decoration: none;
-      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease, opacity 160ms ease;
-    }
-
-    .project-card::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      background: var(--accent-line);
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .project-card[href]:hover {
-        border-color: var(--accent-line);
-        background: var(--paper);
-        box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
-        text-decoration: none;
-        transform: translateY(-1px);
-      }
-    }
-
-    .project-card .date {
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 600;
-    }
-
-    .project-card.is-axis-match {
-      border-color: var(--accent);
-      background: var(--paper);
-      box-shadow: 0 14px 30px rgba(37, 34, 29, 0.08);
-    }
-
-    .project-card.is-axis-match::before {
-      background: var(--accent);
-    }
-
-    .project-card.is-axis-muted {
-      opacity: 0.68;
-    }
-
-    .project-title {
-      margin: 0;
-      color: var(--ink-strong);
-      font-size: 16px;
-      font-weight: 700;
-      line-height: 1.45;
-      word-break: keep-all;
-    }
-
-    .project-meta {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-      word-break: keep-all;
-    }
-
-    .teaching-block {
-      display: grid;
-      gap: 26px;
-    }
-
-    .subsection-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin: 0 0 12px;
-      color: var(--ink-strong);
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.25;
-    }
-
-    .subsection-title::before {
-      content: "";
-      width: 20px;
-      height: 2px;
-      background: var(--accent-line);
-    }
-
-    .course-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .course-card {
-      display: block;
-      padding: 15px 16px;
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: var(--paper);
-      color: inherit;
-      box-shadow: 0 10px 24px rgba(37, 34, 29, 0.04);
-      text-decoration: none;
-      transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
-    }
-
-    .course-card-wide {
-      grid-column: 1 / -1;
-    }
-
-    @media (hover: hover) and (pointer: fine) {
-      .course-card[href]:hover {
-        border-color: var(--accent-line);
-        background: var(--surface);
-        box-shadow: 0 14px 30px rgba(37, 34, 29, 0.07);
-        text-decoration: none;
-        transform: translateY(-1px);
-      }
-    }
-
-    .course-card h4 {
-      margin: 0;
-      color: var(--ink-strong);
-      font-size: 15.5px;
-      font-weight: 700;
-      line-height: 1.4;
-    }
-
-    .course-card p {
-      margin: 5px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
-    }
-
-    .course-link-label {
-      display: inline-flex;
-      margin-top: 12px;
-      color: var(--accent);
-      font-family: var(--mono);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1.3;
-      text-transform: uppercase;
-    }
-
-    .site-footer {
-      width: min(1120px, calc(100% - 48px));
-      margin: 0 auto;
-      padding: 28px 0 38px;
-      border-top: 1px solid var(--line);
-      color: var(--muted-light);
-      font-family: var(--mono);
-      font-size: 11px;
-    }
-
-    @media (max-width: 900px) {
-      body {
-        font-size: 15.5px;
-      }
-
-      .nav {
-        width: min(100% - 24px, 720px);
-        height: auto;
-        min-height: 68px;
-        gap: 11px;
-        overflow-x: auto;
-      }
-
-      .brand {
-        margin-right: 4px;
-        font-size: 16px;
-      }
-
-      .nav a:not(.brand) {
-        font-size: 13.5px;
-        white-space: nowrap;
-      }
-
-      .shell {
-        width: min(100% - 32px, 720px);
-        grid-template-columns: 1fr;
-        gap: 36px;
-        padding: 34px 0 72px;
-      }
-
-      .content {
-        display: contents;
-      }
-
-      .hero {
-        order: 1;
-      }
-
-      .sidebar {
-        order: 2;
-        position: static;
-        display: grid;
-        grid-template-columns: 96px minmax(0, 1fr);
-        gap: 16px;
-        align-items: center;
-        padding-top: 26px;
-        border-top: 1px solid var(--line);
-      }
-
-      .portrait-wrap {
-        width: 96px;
-        height: 120px;
-        margin: 0;
-      }
-
-      .side-list {
-        grid-column: 1 / -1;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      h1 {
-        margin-bottom: 14px;
-        font-size: 34px;
-      }
-
-      .content > .section {
-        order: 3;
-      }
-
-      .hero {
-        margin-bottom: 54px;
-      }
-
-      .lead {
-        font-size: 16.5px;
-        line-height: 1.68;
-      }
-
-      .lead-primary {
-        font-size: 20px;
-      }
-
-      .intro-panel {
-        padding-left: 18px;
-      }
-
-      .side-name {
-        font-size: 19px;
-      }
-
-      .side-role {
-        font-size: 14px;
-      }
-
-      .side-list {
-        font-size: 13.5px;
-      }
-
-      .entry-title {
-        font-size: 16.5px;
-      }
-
-      .entry-meta,
-      .entry-note {
-        font-size: 14.5px;
-      }
-
-      .paper-title {
-        font-size: 14.5px;
-      }
-
-      .project-title {
-        font-size: 15.5px;
-      }
-
-      .project-meta {
-        font-size: 14px;
-      }
-
-      .work-system-map {
-        grid-template-columns: 1fr;
-        gap: 10px;
-        padding: 10px 0 12px;
-      }
-
-      .axis-copy {
-        font-size: 14px;
-      }
-
-      .entry,
-      .project-card,
-      .publication-list li,
-      .background-grid,
-      .background-list li,
-      .course-grid,
-      .news-item {
-        grid-template-columns: 1fr;
-        gap: 6px;
-      }
-
-      .timeline {
-        --date-col: 0px;
-        --entry-gap: 0px;
-      }
-
-      .entry {
-        padding-left: 22px;
-      }
-
-      .entry::before {
-        left: 0;
-        top: 8px;
-      }
-
-      .entry::after {
-        left: 5px;
-        top: 23px;
-      }
-
-      .pub-year {
-        text-align: left;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .side-list {
-        grid-template-columns: 1fr;
-      }
-
-      .sidebar {
-        grid-template-columns: 82px minmax(0, 1fr);
-      }
-
-      .portrait-wrap {
-        width: 82px;
-        height: 102px;
-      }
-
-      .section-title {
-        font-size: 23px;
-      }
-
-      .axis-tabs {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
-
-      .axis-tab {
-        width: 100%;
-      }
-
-      h1 {
-        font-size: 31px;
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/cv.css?v=evidence1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
 <body>
@@ -1081,141 +35,190 @@
   <div class="shell" id="top">
     <aside class="sidebar" aria-label="Profile">
       <div class="portrait-wrap">
-        <img width="178" height="240" loading="eager" fetchpriority="high" decoding="async" class="portrait" src="assets/cv-photo.png" alt="Kim Jungho portrait">
+        <img class="portrait" src="assets/cv-photo.png" width="178" height="240" loading="eager" fetchpriority="high" decoding="async" alt="Portrait of Kim Jungho">
       </div>
-      <div>
-        <h2 class="side-name">Kim Jungho</h2>
-        <p class="side-role">Ph.D. · Art engineering researcher and developer in Seoul.</p>
+
+      <div class="profile-intro">
+        <p class="side-role">Creative Engineer / Researcher</p>
+        <p class="side-summary">Art engineering, generative AI, and real-time production systems.</p>
       </div>
-      <ul class="side-list">
-        <li>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
-          <span>Seoul, Korea</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 3 2 8l10 5 10-5-10-5Zm-7 8.25V18h3v-5.25l-3-1.5Zm5 2.5V18h4v-4.25l-2 .99-2-.99Zm6-.99V18h3v-6.75l-3 1.51ZM4 20v2h16v-2H4Z"/></svg>
-          <span>Chung-Ang University</span>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm9 8 8-6H4l8 6Zm0 2.5L4 9.5V17h16V9.5l-8 6Z"/></svg>
-          <a href="mailto:jungho10050@gmail.com">Email</a>
-        </li>
-        <li>
-          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 8.36 22.9c.58.11.79-.25.79-.56v-2.1c-3.22.7-3.9-1.38-3.9-1.38-.53-1.34-1.3-1.7-1.3-1.7-1.06-.72.08-.71.08-.71 1.17.08 1.79 1.21 1.79 1.21 1.04 1.78 2.73 1.27 3.4.97.1-.76.41-1.27.74-1.56-2.57-.29-5.27-1.28-5.27-5.72 0-1.26.45-2.3 1.2-3.11-.12-.29-.52-1.47.11-3.07 0 0 .98-.31 3.18 1.19a10.99 10.99 0 0 1 5.8 0c2.2-1.5 3.17-1.19 3.17-1.19.64 1.6.24 2.78.12 3.07.75.81 1.2 1.85 1.2 3.11 0 4.45-2.71 5.43-5.3 5.72.42.36.79 1.07.79 2.16v3.2c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5Z"/></svg>
-          <a href="https://github.com/IXIWORKS-KIMJUNGHO">GitHub</a>
-        </li>
+
+      <dl class="profile-meta">
+        <div>
+          <dt>Based in</dt>
+          <dd>Seoul, Korea</dd>
+        </div>
+        <div>
+          <dt>Affiliation</dt>
+          <dd>Chung-Ang University</dd>
+        </div>
+        <div>
+          <dt>Current practice</dt>
+          <dd>Founder, IXIWORKS</dd>
+        </div>
+      </dl>
+
+      <ul class="profile-links" aria-label="Profile links">
+        <li><a href="mailto:jungho10050@gmail.com">Email</a></li>
+        <li><a href="https://github.com/IXIWORKS-KIMJUNGHO">GitHub</a></li>
+        <li><a href="/assets/kim-jungho-cv.pdf" download>Download CV</a></li>
       </ul>
     </aside>
 
     <main id="main-content" class="content">
       <section class="hero" id="cv">
+        <p class="hero-role">Creative Engineer / Researcher</p>
         <h1>Kim Jungho</h1>
-        <div class="intro-panel">
-          <p class="lead lead-primary">I connect generative AI, real-time engines, and immersive media into working creative production systems.</p>
-          <p class="lead">Recent work includes AI storyboarding, digital twin pipelines, and interactive engine-based prototypes.</p>
-        </div>
-        <div class="hero-actions" aria-label="Featured links">
-          <a class="button primary" href="portfolio.html">View Portfolio</a>
-          <a class="button" href="#research">Research</a>
-        </div>
-      </section>
+        <p class="hero-statement">I build production systems across generative AI, real-time 3D, and immersive media.</p>
+        <p class="hero-support">My practice connects research, software, and exhibition delivery, turning emerging technologies into workflows that can be tested, taught, and deployed.</p>
+        <p class="print-contact">Seoul, Korea | jungho10050@gmail.com | creativeengineer-kimjungho.com</p>
 
-      <section class="section" id="news">
-        <h2 class="section-title">Latest News</h2>
-        <div class="news-list">
-          <article class="news-item">
-            <div class="news-date">2026.03.26</div>
-            <div>
-              <h3 class="news-title">Patent application filed for Agile Vibe Pre-Production Storyboard Patent.</h3>
-            </div>
-          </article>
-          <article class="news-item">
-            <div class="news-date">2025.06</div>
-            <div>
-              <h3 class="news-title">Founded IXIWORKS as a software and AI media content development company.</h3>
-            </div>
-          </article>
-          <article class="news-item">
-            <div class="news-date">2025</div>
-            <div>
-              <h3 class="news-title">Participated in the Korea-Canada convergence art special exhibition.</h3>
-            </div>
-          </article>
+        <div class="hero-actions" aria-label="Featured links">
+          <a class="button primary" href="#work">Selected Work</a>
+          <a class="button" href="/assets/kim-jungho-cv.pdf" download>Download CV</a>
         </div>
-        <div class="section-actions">
-          <a class="button" href="news.html">View all news</a>
-        </div>
+
+        <ul class="highlight-list" aria-label="CV highlights">
+          <li>
+            <span class="highlight-label">Practice</span>
+            <span class="highlight-value">Founder, IXIWORKS</span>
+          </li>
+          <li>
+            <span class="highlight-label">Degree</span>
+            <span class="highlight-value">Ph.D. in Art Engineering</span>
+          </li>
+          <li>
+            <span class="highlight-label">Research</span>
+            <span class="highlight-value">Springer and KCI publications</span>
+          </li>
+          <li>
+            <span class="highlight-label">Current work</span>
+            <span class="highlight-value">Patent filed in 2026</span>
+          </li>
+        </ul>
       </section>
 
       <section class="section" id="work">
-        <h2 class="section-title">Featured Work</h2>
-        <div class="work-system-map" data-work-system-map aria-label="Work system map">
-          <div class="axis-tabs" role="group" aria-label="Practice axes">
-            <button class="axis-tab is-active" type="button" data-axis="generative" aria-pressed="true">Generative AI</button>
-            <button class="axis-tab" type="button" data-axis="real-time" aria-pressed="false">Real-Time Engine</button>
-            <button class="axis-tab" type="button" data-axis="digital-twin" aria-pressed="false">Digital Twin</button>
-            <button class="axis-tab" type="button" data-axis="exhibition" aria-pressed="false">Exhibition System</button>
+        <header class="section-heading">
+          <h2 class="section-title">Selected Work</h2>
+          <p class="section-intro">Production systems where generated media, interfaces, and real-time engines become working public experiences.</p>
+        </header>
+
+        <a class="featured-project" href="projects/vive-ai-uiux.html">
+          <div class="featured-visual">
+            <img src="assets/vive-inspire-kiosk-installation.jpg" width="2048" height="1536" loading="eager" decoding="async" alt="VIVE AI kiosk installed in an exhibition environment">
           </div>
-          <p class="axis-copy" data-axis-copy>Generated media, prompts, and production logic become deployable creative workflows.</p>
+          <div class="featured-copy">
+            <div>
+              <div class="featured-meta">
+                <span class="project-kind">AI experience system</span>
+                <time class="project-year" datetime="2025">2025</time>
+              </div>
+              <h3 class="featured-title">VIVE AI Kiosk Experience Design</h3>
+              <p class="featured-description">An end-to-end kiosk workflow connecting AI-generated visuals, interaction design, and on-site exhibition operation.</p>
+            </div>
+            <span class="project-link-label">Open case study</span>
+          </div>
+        </a>
+
+        <div class="project-index" aria-label="Additional selected work">
+          <a class="project-row" href="projects/hyundai-mobis-connect.html">
+            <img class="project-thumb" src="assets/hyundai-mobis-system-hero-futura.png" width="1983" height="793" loading="lazy" decoding="async" alt="Hyundai Mobis Connect infotainment interface prototype">
+            <div class="project-row-copy">
+              <div class="row-meta">
+                <span class="project-kind">Real-time interface</span>
+                <time class="project-year" datetime="2025">2025</time>
+              </div>
+              <h3 class="project-title">Hyundai Mobis Connect</h3>
+              <p class="project-description">In-vehicle infotainment prototype implemented as real-time EXE and APK packages.</p>
+            </div>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a class="project-row" href="projects/digital-twin-pipeline.html">
+            <img class="project-thumb" src="assets/digital-twin-hero-rig.png" width="1086" height="1448" loading="lazy" decoding="async" alt="Digital human rig from the 3D digitizing pipeline">
+            <div class="project-row-copy">
+              <div class="row-meta">
+                <span class="project-kind">Digital twin research</span>
+                <time class="project-year" datetime="2024">2024 to 2025</time>
+              </div>
+              <h3 class="project-title">3D Human Digitizing Pipeline</h3>
+              <p class="project-description">A production pipeline connecting capture, reconstruction, optimization, and reusable digital human assets.</p>
+            </div>
+            <span class="project-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <div class="work-tail">
+            <a class="project-row" href="projects/spectrum-of-humanity.html">
+              <img class="project-thumb" src="assets/cinematic-vr-lead.jpg" width="1800" height="1012" loading="lazy" decoding="async" alt="Cinematic VR scene from Spectrum of Humanity">
+              <div class="project-row-copy">
+                <div class="row-meta">
+                  <span class="project-kind">Immersive media</span>
+                  <time class="project-year" datetime="2023">2023 to 2025</time>
+                </div>
+                <h3 class="project-title">Cinematic VR / AI Screening</h3>
+                <p class="project-description">Immersive work developed for festival, museum, and international exhibition contexts.</p>
+              </div>
+              <span class="project-arrow" aria-hidden="true">↗</span>
+            </a>
+
+            <p class="archive-note"><strong>Additional production, 2025:</strong> Healing Landscape-Style AI Media Art Content Production for the Jeonju University Industry-Academic Cooperation Foundation.</p>
+          </div>
         </div>
-        <div class="grid-list">
-          <article class="project-card" data-work-card data-axes="generative exhibition">
-            <div class="date">2025.10 &mdash; 2025.12</div>
-            <div>
-              <h3 class="project-title">Healing Landscape-Style AI Media Art Content Production</h3>
-            </div>
-          </article>
-          <a class="project-card" href="projects/vive-ai-uiux.html" data-work-card data-axes="generative exhibition">
-            <div class="date">2025.08 &mdash; 2025.11</div>
-            <div>
-              <h3 class="project-title">VIVE AI Kiosk Experience Design</h3>
-            </div>
-          </a>
-          <a class="project-card" href="projects/hyundai-mobis-connect.html" data-work-card data-axes="real-time">
-            <div class="date">2025.07 &mdash; 2025.12</div>
-            <div>
-              <h3 class="project-title">Hyundai Mobis Connect In-Vehicle Infotainment Prototype</h3>
-            </div>
-          </a>
-          <a class="project-card" href="projects/digital-twin-pipeline.html" data-work-card data-axes="digital-twin">
-            <div class="date">2025</div>
-            <div>
-              <h3 class="project-title">Digital Twin Pipeline for 3D Human Digitizing</h3>
-            </div>
-          </a>
-        </div>
+
         <div class="section-actions">
           <a class="button" href="portfolio.html">View portfolio archive</a>
         </div>
       </section>
 
       <section class="section" id="research">
-        <h2 class="section-title">Writing &amp; Research</h2>
-        <div class="grid-list">
-          <a class="project-card" href="projects/generative-ai-storyboard.html">
-            <div class="date">2026.03.26</div>
+        <header class="section-heading">
+          <h2 class="section-title">Selected Research</h2>
+          <p class="section-intro">Research into AI-assisted pre-production, digital human pipelines, and immersive content systems.</p>
+        </header>
+
+        <ol class="research-list">
+          <li class="research-item">
+            <span class="research-number">01</span>
             <div>
-              <h3 class="project-title">Agile Vibe Pre-Production Storyboard Patent</h3>
+              <h3 class="research-title"><a href="projects/generative-ai-storyboard.html">Agile Vibe Pre-Production Storyboard Patent</a></h3>
+              <p class="research-note">Application no. 10-2026-0054962 · Tae-Kyung Yoo, Jungho Kim</p>
             </div>
-          </a>
-          <a class="project-card" href="projects/digital-twin-pipeline.html">
-            <div class="date">2025</div>
+            <span class="research-venue">Patent application</span>
+            <time class="research-year" datetime="2026">2026</time>
+          </li>
+          <li class="research-item">
+            <span class="research-number">02</span>
             <div>
-              <h3 class="project-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System</h3>
+              <h3 class="research-title"><a href="projects/digital-twin-pipeline.html">Digital Twin Pipeline for Optimizing 3D Human Digitizing System</a></h3>
+              <p class="research-note">Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024, pp. 75-91. DOI: <a href="https://doi.org/10.1007/978-981-97-8093-8_6">10.1007/978-981-97-8093-8_6</a>.</p>
             </div>
-          </a>
-          <article class="project-card">
-            <div class="date">2024.05 &mdash; 2026.12</div>
+            <span class="research-venue">Springer</span>
+            <time class="research-year" datetime="2025">2025</time>
+          </li>
+          <li class="research-item">
+            <span class="research-number">03</span>
             <div>
-              <h3 class="project-title">Training R&amp;D Talent for Generative AI and Cloud-Based Content Production</h3>
+              <h3 class="research-title">Training R&amp;D Talent for Generative AI and Cloud-Based Content Production</h3>
+              <p class="research-note">Applied research and curriculum development connecting generative AI with production practice.</p>
             </div>
-          </article>
-        </div>
+            <span class="research-venue">R&amp;D program</span>
+            <time class="research-year" datetime="2024">2024 to 2026</time>
+          </li>
+          <li class="research-item">
+            <span class="research-number">04</span>
+            <div>
+              <h3 class="research-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Human Digitizing System</h3>
+              <p class="research-note">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</p>
+            </div>
+            <span class="research-venue">Ph.D. dissertation</span>
+            <time class="research-year" datetime="2024">2024</time>
+          </li>
+        </ol>
+
         <details class="archive-panel">
-          <summary>View publications &amp; patents</summary>
+          <summary>View remaining publications</summary>
           <ol class="publication-list">
-            <li><span class="paper-title">Digital Twin Pipeline for Optimizing 3D Human Digitizing System. Springer Lecture Notes in Networks and Systems, vol. 1153, CIPR 2024, pp. 75-91. DOI: 10.1007/978-981-97-8093-8_6.</span><span class="pub-type">Springer</span><span class="pub-year">2025</span></li>
-            <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Human Digitizing System.</span><span class="pub-type">Ph.D.</span><span class="pub-year">2024</span></li>
             <li><span class="paper-title">A Study on a Digital Twin Pipeline for Optimizing a 3D Facial Appearance Digitizing System. Journal of Broadcast Engineering, Vol. 28 No. 5, pp. 530-544. DOI: 10.5909/JBE.2023.28.5.530.</span><span class="pub-type">KCI</span><span class="pub-year">2023</span></li>
             <li><span class="paper-title">Detecting Branches in Silent Films Using a Center-of-Gravity Algorithm: Focusing on Dziga Vertov's &lt;Man with a Movie Camera&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
             <li><span class="paper-title">A Study on Immersive Content Production and Storytelling Methods Using Photogrammetry and Artificial Intelligence.</span><span class="pub-type">KCI</span><span class="pub-year">2022</span></li>
@@ -1226,118 +229,126 @@
             <li><span class="paper-title">A Study on Storyboarding for Pre-Production on Virtual Reality Platforms.</span><span class="pub-type">KCI</span><span class="pub-year">2020</span></li>
             <li><span class="paper-title">A Study on Directing Methods for VR Animation: Focusing on the VR Animation &lt;DreamTherapy&gt;.</span><span class="pub-type">KCI</span><span class="pub-year">2019</span></li>
           </ol>
-          <div class="timeline">
-            <article class="entry">
-              <div class="date">2026.03.26</div>
-              <div>
-                <h3 class="entry-title">Agile Vibe Pre-Production Storyboard Patent</h3>
-                <p class="entry-meta">Application no. 10-2026-0054962 · Tae-Kyung Yoo, Jungho Kim</p>
-              </div>
-            </article>
-          </div>
         </details>
       </section>
 
       <section class="section" id="cv-archive">
-        <h2 class="section-title">Background</h2>
-        <div class="background-grid">
-          <article class="background-card">
-            <h3>Experience</h3>
-            <ul class="background-list">
-              <li><span class="date">2025.06 &mdash; Present</span><div><strong>IXIWORKS</strong><span>CEO · AI software and digital media content development.</span></div></li>
-              <li><span class="date">2024.05 &mdash; Present</span><div><strong>Chung-Ang University Industry-Academic Cooperation Foundation</strong><span>Full-time researcher · Generative AI and cloud-based content production R&amp;D.</span></div></li>
-              <li><span class="date">2022.09 &mdash; Present</span><div><strong>College of Art &amp; Technology, Chung-Ang University</strong><span>Lecturer · Game engines, content programming, media art programming, and digital archiving.</span></div></li>
-            </ul>
-          </article>
-          <article class="background-card">
-            <h3>Education</h3>
-            <ul class="background-list">
-              <li><span class="date">2020.03 &mdash; 2024.02</span><div><strong>Ph.D. in Image Engineering / Art Engineering</strong><span>Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</span></div></li>
-              <li><span class="date">2018.03 &mdash; 2020.02</span><div><strong>M.A. in Image Engineering / Art Engineering</strong><span>Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</span></div></li>
-              <li><span class="date">2011.02 &mdash; 2017.02</span><div><strong>B.A. in Photography &amp; Video</strong><span>Kyungil University.</span></div></li>
-            </ul>
-          </article>
-        </div>
+        <header class="section-heading">
+          <h2 class="section-title">Experience &amp; Education</h2>
+          <p class="section-intro">A practice built across research, higher education, and independent production.</p>
+        </header>
 
-        <div class="teaching-block" id="teaching">
-          <h3 class="subsection-title">Teaching</h3>
-          <div class="course-grid">
-            <a class="course-card" href="teaching/game-engine/">
-              <h4>Game Engine I / II</h4>
-              <p>Unreal Engine, real-time production, interactive systems, and project-based prototyping.</p>
-              <span class="course-link-label">View course materials</span>
-            </a>
-            <article class="course-card">
-              <h4>Content Programming Practice</h4>
-              <p>Creative coding, production pipelines, and practical software prototyping for media content.</p>
-            </article>
-            <a class="course-card" href="teaching/media-art-programming/">
-              <h4>Media Art Programming Practice</h4>
-              <p>p5.js, interaction design, audiovisual media, and experimental computational expression.</p>
-              <span class="course-link-label">View course materials</span>
-            </a>
-            <article class="course-card">
-              <h4>Digital Archiving and Data Visualization</h4>
-              <p>Data storytelling, cultural data systems, visual analysis, and digital archive workflows.</p>
-            </article>
-            <a class="course-card course-card-wide" href="teaching/agentic-ai/">
-              <h4>프로그래밍은 몰라도 AI는 사용합니다만</h4>
-              <p>한국예술종합학교 융합예술센터 아트콜라이더 아카데미 바이브 코딩 워크숍.</p>
-              <span class="course-link-label">View workshop materials</span>
-            </a>
+        <div class="cv-columns">
+          <div class="cv-column">
+            <h3 class="subsection-title">Experience</h3>
+            <ol class="timeline-list">
+              <li class="timeline-item">
+                <time class="timeline-date" datetime="2025-06">2025.06 to present</time>
+                <h4 class="timeline-title">Founder / CEO, IXIWORKS</h4>
+                <p class="timeline-meta">AI software and digital media content development.</p>
+              </li>
+              <li class="timeline-item">
+                <time class="timeline-date" datetime="2024-05">2024.05 to present</time>
+                <h4 class="timeline-title">Full-time Researcher, Chung-Ang University Industry-Academic Cooperation Foundation</h4>
+                <p class="timeline-meta">Generative AI and cloud-based content production R&amp;D.</p>
+              </li>
+              <li class="timeline-item">
+                <time class="timeline-date" datetime="2022-09">2022.09 to present</time>
+                <h4 class="timeline-title">Lecturer, College of Art &amp; Technology, Chung-Ang University</h4>
+                <p class="timeline-meta">Game engines, content programming, media art programming, and digital archiving.</p>
+              </li>
+            </ol>
           </div>
+
+          <div class="cv-column">
+            <h3 class="subsection-title">Education</h3>
+            <ol class="timeline-list">
+              <li class="timeline-item">
+                <time class="timeline-date" datetime="2024-02">2020.03 to 2024.02</time>
+                <h4 class="timeline-title">Ph.D. in Image Engineering / Art Engineering</h4>
+                <p class="timeline-meta">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</p>
+              </li>
+              <li class="timeline-item">
+                <time class="timeline-date" datetime="2020-02">2018.03 to 2020.02</time>
+                <h4 class="timeline-title">M.A. in Image Engineering / Art Engineering</h4>
+                <p class="timeline-meta">Graduate School of Advanced Imaging Science, Multimedia &amp; Film, Chung-Ang University.</p>
+              </li>
+              <li class="timeline-item">
+                <time class="timeline-date" datetime="2017-02">2011.02 to 2017.02</time>
+                <h4 class="timeline-title">B.A. in Photography &amp; Video</h4>
+                <p class="timeline-meta">Kyungil University.</p>
+              </li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="teaching">
+        <header class="section-heading">
+          <h2 class="section-title">Teaching</h2>
+          <p class="section-intro">Project-based courses that translate technical systems into practical creative workflows.</p>
+        </header>
+
+        <div class="teaching-list">
+          <a class="teaching-row" href="teaching/game-engine/">
+            <h3 class="teaching-title">Game Engine I / II</h3>
+            <p class="teaching-description">Unreal Engine, real-time production, interactive systems, and project-based prototyping.</p>
+            <span class="teaching-arrow" aria-hidden="true">↗</span>
+          </a>
+          <div class="teaching-row teaching-row-static">
+            <h3 class="teaching-title">Content Programming Practice</h3>
+            <p class="teaching-description">Creative coding, production pipelines, and practical software prototyping for media content.</p>
+            <span class="teaching-arrow" aria-hidden="true">↗</span>
+          </div>
+          <a class="teaching-row" href="teaching/media-art-programming/">
+            <h3 class="teaching-title">Media Art Programming Practice</h3>
+            <p class="teaching-description">p5.js, interaction design, audiovisual media, and experimental computational expression.</p>
+            <span class="teaching-arrow" aria-hidden="true">↗</span>
+          </a>
+          <div class="teaching-row teaching-row-static">
+            <h3 class="teaching-title">Digital Archiving and Data Visualization</h3>
+            <p class="teaching-description">Data storytelling, cultural data systems, visual analysis, and digital archive workflows.</p>
+            <span class="teaching-arrow" aria-hidden="true">↗</span>
+          </div>
+          <a class="teaching-row" href="teaching/agentic-ai/">
+            <h3 class="teaching-title">프로그래밍은 몰라도 AI는 사용합니다만</h3>
+            <p class="teaching-description">한국예술종합학교 융합예술센터 아트콜라이더 아카데미 바이브 코딩 워크숍.</p>
+            <span class="teaching-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" id="news">
+        <header class="section-heading">
+          <h2 class="section-title">Latest News</h2>
+          <p class="section-intro">Recent milestones across research, company building, and exhibition work.</p>
+        </header>
+
+        <ol class="news-list">
+          <li class="news-item">
+            <time class="news-date" datetime="2026-03-26">2026.03.26</time>
+            <h3 class="news-title">Patent application filed for Agile Vibe Pre-Production Storyboard Patent.</h3>
+          </li>
+          <li class="news-item">
+            <time class="news-date" datetime="2025-06">2025.06</time>
+            <h3 class="news-title">Founded IXIWORKS as a software and AI media content development company.</h3>
+          </li>
+          <li class="news-item">
+            <time class="news-date" datetime="2025">2025</time>
+            <h3 class="news-title">Participated in the Korea-Canada convergence art special exhibition.</h3>
+          </li>
+        </ol>
+
+        <div class="section-actions">
+          <a class="button" href="news.html">View all news</a>
         </div>
       </section>
     </main>
   </div>
 
   <footer class="site-footer">
-    <span>Kim Jungho · Art Engineering · Updated 2026.07.16</span>
+    <span>Kim Jungho · Creative Engineer / Researcher</span>
+    <span>Updated 2026.08.01</span>
   </footer>
-  <script>
-    (() => {
-      const map = document.querySelector("[data-work-system-map]");
-      if (!map) return;
-
-      const descriptions = {
-        generative: "Generated media, prompts, and production logic become deployable creative workflows.",
-        "real-time": "Engine-based scenes turn interface, space, and media into working prototypes.",
-        "digital-twin": "Digitizing pipelines connect capture, 3D reconstruction, and production-scale assets.",
-        exhibition: "On-site systems translate AI media and immersive content into public experiences."
-      };
-      const buttons = Array.from(map.querySelectorAll("[data-axis]"));
-      const cards = Array.from(document.querySelectorAll("[data-work-card]"));
-      const copy = map.querySelector("[data-axis-copy]");
-      const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-      const setAxis = (axis) => {
-        buttons.forEach((button) => {
-          const active = button.dataset.axis === axis;
-          button.classList.toggle("is-active", active);
-          button.setAttribute("aria-pressed", String(active));
-        });
-
-        cards.forEach((card) => {
-          const axes = (card.dataset.axes || "").split(" ");
-          const match = axes.includes(axis);
-          card.classList.toggle("is-axis-match", match);
-          card.classList.toggle("is-axis-muted", !match);
-        });
-
-        if (copy && descriptions[axis]) {
-          copy.textContent = descriptions[axis];
-        }
-      };
-
-      buttons.forEach((button) => {
-        button.addEventListener("click", () => setAxis(button.dataset.axis));
-        if (canHover) {
-          button.addEventListener("mouseenter", () => setAxis(button.dataset.axis));
-        }
-      });
-
-      setAxis("generative");
-    })();
-  </script>
 </body>
 </html>

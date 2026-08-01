@@ -93,6 +93,45 @@ test("lift interactions are reserved for actionable cards", async () => {
   assert.doesNotMatch(news, /\.news-item:hover/);
 });
 
+test("the homepage presents an evidence-first, printable CV", async () => {
+  const homepage = await readFile(resolve(root, "index.html"), "utf8");
+  const homepageCss = await readFile(resolve(root, "assets", "cv.css"), "utf8");
+
+  const workIndex = homepage.indexOf('id="work"');
+  const researchIndex = homepage.indexOf('id="research"');
+  const backgroundIndex = homepage.indexOf('id="cv-archive"');
+  const teachingIndex = homepage.indexOf('id="teaching"');
+  const newsIndex = homepage.indexOf('id="news"');
+
+  assert.ok(workIndex > -1, "the selected work section should exist");
+  assert.ok(workIndex < researchIndex, "selected work should precede research");
+  assert.ok(researchIndex < backgroundIndex, "research should precede background");
+  assert.ok(backgroundIndex < teachingIndex, "background should precede teaching");
+  assert.ok(teachingIndex < newsIndex, "news should close the CV narrative");
+
+  assert.match(homepage, /aria-label="CV highlights"/);
+  assert.match(
+    homepage,
+    /href="\/assets\/kim-jungho-cv\.pdf"[^>]*\bdownload\b/,
+  );
+  assert.match(homepage, /class="featured-project"/);
+  assert.match(homepage, /class="project-row"/);
+  assert.match(homepage, /https:\/\/doi\.org\/10\.1007\/978-981-97-8093-8_6/);
+  assert.doesNotMatch(homepage, /data-work-system-map|data-axis=/);
+  assert.doesNotMatch(homepage, /<article class="(?:featured-project|project-row)"/);
+  assert.doesNotMatch(homepage, /fonts\.googleapis\.com/);
+
+  assert.doesNotMatch(homepageCss, /linear-gradient\(/);
+  assert.match(homepageCss, /fonts\/inter-latin-variable\.woff2/);
+  assert.match(
+    homepageCss,
+    /@media\s+\(hover:\s*hover\)\s+and\s+\(pointer:\s*fine\)[\s\S]*?\.project-row:hover/,
+  );
+  assert.match(homepageCss, /\.work-tail\s*\{\s*break-inside:\s*avoid;/);
+  assert.match(homepageCss, /@media\s+print/);
+  assert.match(homepageCss, /prefers-color-scheme:\s*dark/);
+});
+
 test("the Day 1 deck ships as a ready-to-render static document", async () => {
   const path = resolve(root, "teaching", "agentic-ai", "day-1.html");
   const html = await readFile(path, "utf8");
@@ -331,7 +370,11 @@ test("local links, assets, and fragments resolve", async () => {
     for (const reference of references) await resolveReference(path, reference);
   }
 
-  const cssFiles = [resolve(root, "assets", "portfolio.css"), resolve(root, "assets", "accessibility.css")];
+  const cssFiles = [
+    resolve(root, "assets", "cv.css"),
+    resolve(root, "assets", "portfolio.css"),
+    resolve(root, "assets", "accessibility.css"),
+  ];
   for (const path of cssFiles) {
     const css = await readFile(path, "utf8");
     for (const match of css.matchAll(/url\(\s*["']?([^"')]+)["']?\s*\)/gi)) {
