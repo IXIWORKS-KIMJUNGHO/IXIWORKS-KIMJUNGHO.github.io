@@ -20,6 +20,12 @@ const courses = {
       "agent-rules.html",
       "day4-deploy-runbook.html",
     ],
+    detailDocuments: new Set([
+      "mentoring-groups.html",
+      "day1-install-runbook.html",
+      "agent-rules.html",
+      "day4-deploy-runbook.html",
+    ]),
     exceptions: new Set(["day-1.html"]),
   },
   "game-engine": {
@@ -123,13 +129,19 @@ function removeLegacyDocumentHeader(html) {
     .replace(/\s*<header class="site-header">[\s\S]*?<\/header>\s*/i, "\n");
 }
 
-function lessonHeader(course, previous, next, titles) {
+function lessonHeader(course, current, previous, next, titles) {
   const config = courses[course];
+  const titleFor = (name) => {
+    const title = titles.get(name) ?? name;
+    return config.detailDocuments?.has(current)
+      ? title.replace(/[—–]/g, "-")
+      : title;
+  };
   const previousLink = previous
-    ? `<a href="${previous}" rel="prev" aria-label="이전 자료: ${escapeAttribute(titles.get(previous) ?? previous)}">← <span class="sequence-label">Previous</span></a>`
+    ? `<a href="${previous}" rel="prev" aria-label="이전 자료: ${escapeAttribute(titleFor(previous))}">← <span class="sequence-label">Previous</span></a>`
     : "";
   const nextLink = next
-    ? `<a href="${next}" rel="next" aria-label="다음 자료: ${escapeAttribute(titles.get(next) ?? next)}"><span class="sequence-label">Next</span> →</a>`
+    ? `<a href="${next}" rel="next" aria-label="다음 자료: ${escapeAttribute(titleFor(next))}"><span class="sequence-label">Next</span> →</a>`
     : "";
 
   return `  <header class="lesson-header" data-teaching-shell="v1">
@@ -190,6 +202,7 @@ async function refreshDocuments(course) {
 
     const header = lessonHeader(
       course,
+      name,
       documents[index - 1],
       documents[index + 1],
       titles,

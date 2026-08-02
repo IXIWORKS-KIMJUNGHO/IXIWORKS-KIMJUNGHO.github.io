@@ -337,6 +337,43 @@ test("the agentic AI course index keeps its mobile reading path intact", async (
   assert.doesNotMatch(courseIndex, /[—–]/);
 });
 
+test("the agentic AI runbooks share a readable responsive document system", async () => {
+  const handouts = [
+    ["mentoring-groups.html", "document-mentoring"],
+    ["day1-install-runbook.html", "document-install"],
+    ["agent-rules.html", "document-rules"],
+    ["day4-deploy-runbook.html", "document-deploy"],
+  ];
+  const handoutCss = await readFile(
+    resolve(root, "assets", "agentic-ai-handouts.css"),
+    "utf8",
+  );
+
+  for (const [name, pageClass] of handouts) {
+    const html = await readFile(
+      resolve(root, "teaching", "agentic-ai", name),
+      "utf8",
+    );
+
+    assert.match(html, new RegExp(`class="[^"]*\\b${pageClass}\\b`));
+    assert.match(html, /agentic-ai-handouts\.css\?v=readable1/);
+    assert.match(html, /id="main-content"/);
+    assert.doesNotMatch(html, /[—–]/);
+  }
+
+  assert.match(
+    handoutCss,
+    /body\.course-agentic-ai\.teaching-document\.handout-detail/,
+  );
+  assert.match(handoutCss, /font-size:\s*17px/);
+  assert.match(handoutCss, /prefers-color-scheme:\s*dark/);
+  assert.match(handoutCss, /@media\s+\(max-width:\s*760px\)/);
+  assert.match(
+    handoutCss,
+    /\.handout-detail \.start-card[\s\S]*?background:\s*var\(--handout-paper\)/,
+  );
+});
+
 test("teaching handouts provide consistent course and sequence navigation", async () => {
   const courseDirectories = [
     ["agentic-ai", new Set(["day-1.html"])],

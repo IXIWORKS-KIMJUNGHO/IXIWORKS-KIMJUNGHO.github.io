@@ -1,0 +1,1208 @@
+body.course-agentic-ai.teaching-document.handout-detail {
+  color-scheme: light;
+  --handout-page: #eef1ed;
+  --handout-paper: #fafbf8;
+  --handout-surface: #e5ebe6;
+  --handout-surface-strong: #d8e1da;
+  --handout-ink: #1d251f;
+  --handout-ink-strong: #0f1511;
+  --handout-muted: #515d54;
+  --handout-quiet: #667269;
+  --handout-line: rgb(15 21 17 / 0.17);
+  --handout-line-strong: rgb(15 21 17 / 0.32);
+  --handout-accent: #28515e;
+  --handout-accent-strong: #173843;
+  --handout-accent-soft: #dce8e9;
+  --handout-action: #244854;
+  --handout-action-hover: #173843;
+  --handout-action-text: #f2f5f1;
+  --handout-link: #17495a;
+  --handout-code: #18201c;
+  --handout-code-text: #eaf0eb;
+  --handout-code-muted: #c3cec6;
+  --handout-ok: #2b6848;
+  --handout-ok-strong: #1d593d;
+  --handout-ok-soft: #e0efe5;
+  --handout-warn: #80530d;
+  --handout-warn-soft: #f3ead7;
+  --handout-shadow: 0 18px 46px rgb(20 40 29 / 0.07);
+
+  /* Compatibility aliases for the four original handout templates. */
+  --bg: var(--handout-page);
+  --paper: var(--handout-paper);
+  --surface: var(--handout-surface);
+  --surface-soft: var(--handout-surface);
+  --surface-strong: var(--handout-surface-strong);
+  --soft: var(--handout-surface);
+  --text: var(--handout-ink);
+  --ink: var(--handout-ink);
+  --ink-strong: var(--handout-ink-strong);
+  --muted: var(--handout-muted);
+  --quiet: var(--handout-quiet);
+  --line: var(--handout-line);
+  --line-strong: var(--handout-line-strong);
+  --accent: var(--handout-accent);
+  --accent-strong: var(--handout-accent-strong);
+  --accent-soft: var(--handout-accent-soft);
+  --link: var(--handout-link);
+  --red: var(--handout-accent);
+  --red-dark: var(--handout-accent-strong);
+  --ok: var(--handout-ok);
+  --ok-soft: var(--handout-ok-soft);
+  --warn: var(--handout-warn);
+  --warn-soft: var(--handout-warn-soft);
+  --shadow: var(--handout-shadow);
+
+  margin: 0;
+  background: var(--handout-page);
+  color: var(--handout-ink);
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail ::selection {
+  background: var(--handout-accent-soft);
+  color: var(--handout-ink-strong);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail a {
+  color: var(--handout-link);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail main a:not(.overview-card) {
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(button, a, input):focus-visible {
+  outline-color: var(--handout-accent);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .skip-link {
+  background: var(--handout-action);
+  color: var(--handout-action-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(button, input) {
+  font: inherit;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(h1, h2, h3) {
+  color: var(--handout-ink-strong);
+  font-family: var(--sans);
+  text-wrap: balance;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(p, li) {
+  text-wrap: pretty;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(section, article)[id] {
+  scroll-margin-top: 88px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .lesson-header {
+  border-color: var(--handout-line);
+  background: color-mix(in srgb, var(--handout-paper) 94%, transparent);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .lesson-header-inner {
+  width: min(1040px, calc(100% - 48px));
+  min-height: 64px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .lesson-breadcrumb {
+  color: var(--handout-quiet);
+  font-size: 10.5px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .lesson-breadcrumb a {
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .lesson-breadcrumb .lesson-course {
+  color: var(--handout-ink-strong);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .lesson-sequence a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  border-color: var(--handout-line);
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .hero {
+  min-height: 0;
+  display: block;
+  padding: 0;
+  border-bottom: 1px solid var(--handout-line-strong);
+  background: var(--handout-paper);
+  color: var(--handout-ink);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .hero-inner {
+  width: min(1040px, calc(100% - 48px));
+  min-height: 0;
+  display: block;
+  margin: 0 auto;
+  padding: clamp(48px, 7vw, 72px) 0 54px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .eyebrow {
+  margin: 0 0 14px;
+  color: var(--handout-accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .hero h1 {
+  max-width: 900px;
+  margin: 0;
+  color: var(--handout-ink-strong);
+  font-size: clamp(38px, 5.4vw, 58px);
+  font-weight: 770;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .hero-copy {
+  max-width: 70ch;
+  margin: 18px 0 0;
+  color: var(--handout-muted);
+  font-size: 17px;
+  line-height: 1.72;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid var(--handout-line);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .badge {
+  min-height: 0;
+  padding: 0 14px 0 0;
+  border: 0;
+  border-right: 1px solid var(--handout-line-strong);
+  color: var(--handout-muted);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .badge:last-child {
+  padding-right: 0;
+  border-right: 0;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail main,
+body.course-agentic-ai.teaching-document.handout-detail .footer-inner {
+  width: min(1040px, calc(100% - 48px));
+  margin-inline: auto;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail main {
+  padding: 48px 0 104px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail h2 {
+  font-size: clamp(28px, 3.6vw, 39px);
+  font-weight: 740;
+  letter-spacing: -0.035em;
+  line-height: 1.18;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail h3 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.start-card, .copy-card, .check-card, .step, .tool-card, .pass-card, .help-card, .summary-card, .group-section, .overview-card) {
+  background: var(--handout-paper);
+  color: var(--handout-ink);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .start-card {
+  margin-bottom: 30px;
+  padding: 32px;
+  border: 1px solid var(--handout-line-strong);
+  border-top: 4px solid var(--handout-accent);
+  border-radius: 8px;
+  background: var(--handout-paper);
+  box-shadow: var(--handout-shadow);
+}
+
+body.course-agentic-ai.teaching-document.document-install .start-card,
+body.course-agentic-ai.teaching-document.document-deploy .start-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 34px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .start-card h2 {
+  margin: 0;
+  font-size: clamp(27px, 3.2vw, 36px);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .start-list {
+  margin: 18px 0 0;
+  padding-left: 1.45em;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .start-list li + li {
+  margin-top: 8px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.terminal-key, .freeze-box) {
+  align-content: center;
+  padding: 24px;
+  border-radius: 6px;
+  background: var(--handout-code);
+  color: var(--handout-code-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.terminal-key, .freeze-box) strong {
+  color: var(--handout-code-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.terminal-key, .freeze-box) p {
+  color: var(--handout-code-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .archive-link {
+  --touch-resting-background: transparent;
+  position: static;
+  width: min(1040px, calc(100% - 48px));
+  display: block;
+  margin: 18px auto -18px;
+  padding: 0;
+  border: 0;
+  background: transparent !important;
+  color: var(--handout-link);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .control-bar {
+  position: sticky;
+  top: 64px;
+  z-index: 30;
+  margin: 32px 0 48px;
+  padding: 14px 16px;
+  border: 1px solid var(--handout-line);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--handout-page) 94%, transparent);
+  box-shadow: 0 8px 26px rgb(19 38 27 / 0.08);
+  backdrop-filter: blur(12px);
+}
+
+body.course-agentic-ai.teaching-document.document-install .control-bar {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) minmax(300px, auto);
+}
+
+body.course-agentic-ai.teaching-document.document-deploy .control-bar {
+  display: flex;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .os-picker {
+  display: flex;
+  gap: 8px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.os-button, .reset-button, .copy-button) {
+  --touch-resting-background: var(--handout-action);
+  min-height: 44px;
+  padding: 9px 14px;
+  border: 1px solid var(--handout-action);
+  border-radius: 4px;
+  background: var(--touch-resting-background);
+  color: var(--handout-action-text);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .os-picker .os-button:not([aria-selected="true"]) {
+  --touch-resting-background: var(--handout-paper);
+  border-color: var(--handout-line-strong);
+  background: var(--handout-paper);
+  color: var(--handout-ink);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.os-button, .reset-button, .copy-button):hover {
+  background: var(--handout-action-hover);
+  color: var(--handout-action-text);
+  text-decoration: none;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.os-button, .reset-button, .copy-button):focus-visible {
+  background: var(--handout-action-hover);
+  color: var(--handout-action-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .progress-wrap {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .progress-track {
+  flex: 1;
+  height: 7px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--handout-surface-strong);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--handout-accent);
+  transition: width 180ms var(--ease-out);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .progress-text {
+  min-width: 58px;
+  color: var(--handout-ink-strong);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: right;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .section-heading {
+  display: block;
+  margin: 56px 0 22px;
+  padding: 0 0 16px;
+  border-bottom: 1px solid var(--handout-line-strong);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .section-heading h2 {
+  margin: 0;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .section-heading p {
+  max-width: 70ch;
+  margin: 9px 0 0;
+  color: var(--handout-muted);
+  font-size: 16px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .step {
+  overflow: hidden;
+  min-height: 0;
+  border: 1px solid var(--handout-line);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .step-head {
+  display: grid;
+  grid-template-columns: 50px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+  padding: 24px;
+  border-bottom: 1px solid var(--handout-line);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .step-number {
+  width: 50px;
+  height: 50px;
+  display: grid;
+  place-items: center;
+  border-radius: 4px;
+  background: var(--handout-action);
+  color: var(--handout-action-text);
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .step-title h3 {
+  margin: 0;
+  font-size: clamp(21px, 2.4vw, 27px);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .step-title p {
+  max-width: 68ch;
+  margin: 6px 0 0;
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .step-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 0.38fr);
+  gap: 28px;
+  padding: 26px 24px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .instruction-list {
+  margin-top: 0;
+  padding-left: 1.45em;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .instruction-list li + li {
+  margin-top: 10px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .where-box {
+  align-self: start;
+  padding: 18px;
+  border: 0;
+  border-left: 3px solid var(--handout-accent);
+  background: var(--handout-accent-soft);
+  color: var(--handout-ink);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .where-box strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--handout-accent-strong);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .where-box p {
+  margin: 0;
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .prompt-box {
+  margin: 16px 0;
+  padding: 18px;
+  border: 0;
+  border-left: 3px solid var(--handout-accent);
+  background: var(--handout-accent-soft);
+  color: var(--handout-ink);
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.68;
+  white-space: pre-wrap;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.command, .template, .source-wrap) {
+  background: var(--handout-code);
+  color: var(--handout-code-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .command {
+  border-color: var(--handout-code);
+  border-radius: 6px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .command code {
+  padding: 18px 108px 18px 18px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+body.course-agentic-ai.teaching-document.document-install :where(.command, .template) .copy-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  min-height: 40px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .template {
+  overflow: hidden;
+  border-radius: 6px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .template pre {
+  background: transparent;
+  color: inherit;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .source-wrap {
+  border-top: 1px solid rgb(234 240 235 / 0.14);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .source-wrap pre,
+body.course-agentic-ai.teaching-document.handout-detail .source-wrap code {
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .filename {
+  display: block;
+  margin-top: 16px;
+  padding: 13px 15px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--handout-code);
+  color: var(--handout-code-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .pass-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin: 0;
+  padding: 18px 24px;
+  border-top: 1px solid var(--handout-line);
+  background: var(--handout-ok-soft);
+  color: var(--handout-ink);
+  cursor: pointer;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .pass-check input {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  margin-top: 3px;
+  accent-color: var(--handout-ok);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .pass-check strong {
+  color: var(--handout-ok-strong);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .pass-check span {
+  color: var(--handout-ink);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .note {
+  margin-top: 16px;
+  padding: 16px 18px;
+  border: 0;
+  border-left: 3px solid var(--handout-warn);
+  background: var(--handout-warn-soft);
+  color: var(--handout-ink);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .note strong {
+  color: var(--handout-warn);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.pass-grid, .help-grid, .summary-grid, .tool-grid) {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.pass-card, .help-card, .summary-card, .tool-card) {
+  padding: 24px;
+  border: 1px solid var(--handout-line);
+  border-radius: 8px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.pass-card, .help-card, .summary-card, .tool-card) h3 {
+  margin: 0 0 10px;
+  font-size: 21px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail :where(.pass-card, .help-card, .summary-card, .tool-card) p {
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .sources {
+  margin-top: 64px;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .source-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.course-agentic-ai.teaching-document.handout-detail .source-list a {
+  min-height: 100%;
+  display: block;
+  padding: 16px 18px;
+  border: 1px solid var(--handout-line);
+  border-left: 3px solid var(--handout-accent);
+  border-radius: 6px;
+  background: var(--handout-paper);
+  color: var(--handout-link);
+}
+
+body.course-agentic-ai.teaching-document.document-rules .start-card {
+  padding-bottom: 30px;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .steps {
+  gap: 0;
+  margin-top: 22px;
+  border-top: 1px solid var(--handout-line);
+}
+
+body.course-agentic-ai.teaching-document.document-rules .step {
+  display: grid;
+  grid-template-columns: 72px minmax(180px, 0.55fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  padding: 18px 2px;
+  border: 0;
+  border-bottom: 1px solid var(--handout-line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .step-num {
+  margin: 0;
+  color: var(--handout-accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .step h3,
+body.course-agentic-ai.teaching-document.document-rules .step p {
+  margin: 0;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .step p {
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.document-rules .tool-grid {
+  margin-top: 28px;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .tool-card {
+  border-left: 3px solid var(--handout-accent);
+}
+
+body.course-agentic-ai.teaching-document.document-rules :where(.copy-card, .check-card) {
+  margin-top: 30px;
+  border: 1px solid var(--handout-line-strong);
+  border-radius: 8px;
+  box-shadow: var(--handout-shadow);
+}
+
+body.course-agentic-ai.teaching-document.document-rules .copy-head {
+  padding: 20px 24px;
+  background: var(--handout-code);
+  color: var(--handout-code-text);
+}
+
+body.course-agentic-ai.teaching-document.document-rules .copy-head h2 {
+  color: inherit;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .copy-status {
+  margin: 0;
+  padding: 11px 24px;
+  background: var(--handout-accent-soft);
+  color: var(--handout-accent-strong);
+}
+
+body.course-agentic-ai.teaching-document.document-rules .source-wrap {
+  max-height: 680px;
+  padding: 24px;
+}
+
+body.course-agentic-ai.teaching-document.document-rules .check-card {
+  padding: 30px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .principle {
+  display: grid;
+  grid-template-columns: 150px minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  padding: 28px 4px;
+  border: 0;
+  border-top: 1px solid var(--handout-line-strong);
+  border-bottom: 1px solid var(--handout-line);
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .principle-label {
+  min-height: 0;
+  display: block;
+  padding: 4px 0;
+  background: transparent;
+  color: var(--handout-accent);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .principle h2 {
+  font-size: clamp(24px, 3vw, 32px);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .principle p {
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring :where(.group-1, .group-2, .group-3) {
+  --group: var(--handout-accent);
+  --group-soft: var(--handout-accent-soft);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 34px;
+  border-top: 1px solid var(--handout-line);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview-card {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr) 170px;
+  gap: 20px;
+  align-items: center;
+  padding: 18px 4px;
+  border: 0;
+  border-bottom: 1px solid var(--handout-line);
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview-card:hover,
+body.course-agentic-ai.teaching-document.document-mentoring .overview-card:focus-visible {
+  outline: 0;
+  background: var(--handout-surface);
+  text-decoration: none;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview-num {
+  color: var(--handout-accent);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview-card h3 {
+  margin: 0;
+  font-size: 21px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview-mentor {
+  margin: 0;
+  padding: 0;
+  color: var(--handout-muted);
+  text-align: right;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .overview-mentor strong {
+  color: var(--handout-ink-strong);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .groups {
+  gap: 24px;
+  margin-top: 44px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-section {
+  overflow: hidden;
+  border: 1px solid var(--handout-line);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-head {
+  display: grid;
+  grid-template-columns: 88px minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+  border-top: 4px solid var(--handout-accent);
+  border-bottom: 1px solid var(--handout-line);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-number {
+  color: var(--handout-accent);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-head h2 {
+  margin: 0;
+  font-size: clamp(24px, 3vw, 32px);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .mentor {
+  padding: 4px 0 4px 16px;
+  border-left: 1px solid var(--handout-line-strong);
+  background: transparent;
+  color: var(--handout-ink);
+  font-size: 14px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 28px;
+  padding: 26px 24px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .member-list {
+  border: 0;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .member-list li {
+  grid-template-columns: 90px minmax(0, 1fr);
+  padding: 14px 0;
+  border-bottom: 1px solid var(--handout-line);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .member-list li:last-child {
+  border-bottom: 0;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .member-list span {
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-common {
+  padding: 22px;
+  border-left: 3px solid var(--handout-accent);
+  background: var(--handout-accent-soft);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-common h3 {
+  color: var(--handout-accent-strong);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .group-common p {
+  color: var(--handout-ink);
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .individual-note {
+  margin-top: 32px;
+  padding: 22px 24px;
+  border: 1px solid var(--handout-line-strong);
+  border-left: 4px solid var(--handout-accent);
+  border-radius: 6px;
+  background: var(--handout-surface);
+}
+
+body.course-agentic-ai.teaching-document.document-mentoring .individual-note p {
+  color: var(--handout-muted);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail footer {
+  padding: 28px 0;
+  background: var(--handout-code);
+  color: var(--handout-code-text);
+}
+
+body.course-agentic-ai.teaching-document.handout-detail footer p {
+  margin: 0;
+  color: var(--handout-code-muted);
+  font-size: 13px;
+}
+
+@media (max-width: 900px) {
+  body.course-agentic-ai.teaching-document.document-install .start-card,
+  body.course-agentic-ai.teaching-document.document-deploy .start-card,
+  body.course-agentic-ai.teaching-document.handout-detail .step-body,
+  body.course-agentic-ai.teaching-document.document-mentoring .group-body {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-agentic-ai.teaching-document.document-install .control-bar {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  body.course-agentic-ai.teaching-document.handout-detail {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .lesson-header-inner,
+  body.course-agentic-ai.teaching-document.handout-detail .hero-inner,
+  body.course-agentic-ai.teaching-document.handout-detail main,
+  body.course-agentic-ai.teaching-document.handout-detail .footer-inner,
+  body.course-agentic-ai.teaching-document.handout-detail .archive-link {
+    width: min(100% - 32px, 1040px);
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .lesson-header-inner {
+    min-height: 64px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .hero-inner {
+    padding: 38px 0 34px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .hero h1 {
+    font-size: clamp(34px, 10vw, 43px);
+    line-height: 1.1;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .hero-copy {
+    margin-top: 15px;
+    font-size: 16px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .hero-meta {
+    display: grid;
+    gap: 7px;
+    margin-top: 20px;
+    padding-top: 15px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .badge {
+    padding: 0;
+    border-right: 0;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail main {
+    padding: 30px 0 72px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail h2 {
+    font-size: 27px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .start-card {
+    padding: 22px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .control-bar {
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 13px;
+    margin: 24px 0 42px;
+    padding: 14px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .os-picker {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .os-button {
+    width: 100%;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .section-heading {
+    margin-top: 44px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .section-heading p {
+    font-size: 15px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .step-head {
+    grid-template-columns: 44px minmax(0, 1fr);
+    gap: 14px;
+    padding: 20px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .step-number {
+    width: 44px;
+    height: 44px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .step-title h3 {
+    font-size: 21px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .step-body {
+    padding: 20px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .pass-check {
+    padding: 17px 20px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail :where(.pass-grid, .help-grid, .summary-grid, .tool-grid, .source-list) {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-agentic-ai.teaching-document.document-rules .step {
+    grid-template-columns: 54px minmax(0, 1fr);
+    gap: 5px 14px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-rules .step p {
+    grid-column: 2;
+  }
+
+  body.course-agentic-ai.teaching-document.document-rules .copy-head {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  body.course-agentic-ai.teaching-document.document-rules .copy-button {
+    width: 100%;
+  }
+
+  body.course-agentic-ai.teaching-document.document-rules .source-wrap {
+    max-height: 540px;
+    padding: 18px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-rules .check-card {
+    padding: 22px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .principle {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    padding: 22px 2px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .overview-card {
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 10px 14px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .overview-mentor {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .group-head {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 20px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .mentor {
+    padding: 0;
+    border-left: 0;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .group-body {
+    padding: 20px;
+  }
+
+  body.course-agentic-ai.teaching-document.document-mentoring .member-list li {
+    grid-template-columns: 1fr;
+    gap: 3px;
+  }
+}
+
+@media (max-width: 540px) {
+  body.course-agentic-ai.teaching-document.document-install :where(.command, .template) .copy-button {
+    position: static;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .command code,
+  body.course-agentic-ai.teaching-document.handout-detail .template pre {
+    padding: 16px;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .progress-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .progress-track {
+    grid-column: 1 / -1;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .progress-text {
+    min-width: 0;
+    text-align: left;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body.course-agentic-ai.teaching-document.handout-detail {
+    color-scheme: dark;
+    --handout-page: #131715;
+    --handout-paper: #1a201c;
+    --handout-surface: #222a25;
+    --handout-surface-strong: #2a342d;
+    --handout-ink: #d8e2da;
+    --handout-ink-strong: #f0f4ef;
+    --handout-muted: #acb7ae;
+    --handout-quiet: #929e95;
+    --handout-line: rgb(235 243 236 / 0.14);
+    --handout-line-strong: rgb(235 243 236 / 0.27);
+    --handout-accent: #9bbfc7;
+    --handout-accent-strong: #c1dbe0;
+    --handout-accent-soft: #26383b;
+    --handout-action: #315f6c;
+    --handout-action-hover: #274f5b;
+    --handout-action-text: #f2f5f1;
+    --handout-link: #abd0d8;
+    --handout-code: #101411;
+    --handout-code-text: #e7eee8;
+    --handout-code-muted: #bdc8bf;
+    --handout-ok: #8ac5a0;
+    --handout-ok-strong: #b1dac0;
+    --handout-ok-soft: #1d3226;
+    --handout-warn: #dfbd7f;
+    --handout-warn-soft: #392f20;
+    --handout-shadow: 0 20px 52px rgb(0 0 0 / 0.2);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.course-agentic-ai.teaching-document.handout-detail .progress-bar {
+    transition: none;
+  }
+}
+
+@media print {
+  body.course-agentic-ai.teaching-document.handout-detail {
+    color-scheme: light;
+    --handout-page: #fefefe;
+    --handout-paper: #fefefe;
+    --handout-surface: #f2f2f2;
+    --handout-surface-strong: #e6e6e6;
+    --handout-ink: #111111;
+    --handout-ink-strong: #080808;
+    --handout-muted: #333333;
+    --handout-line: rgb(0 0 0 / 0.2);
+    --handout-line-strong: rgb(0 0 0 / 0.4);
+    --handout-accent: #244854;
+    --handout-accent-strong: #173843;
+    --handout-accent-soft: #e9eeee;
+    --handout-shadow: none;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail .hero-inner {
+    padding: 34px 0;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail main {
+    width: 100%;
+    padding: 24px 0;
+  }
+
+  body.course-agentic-ai.teaching-document.handout-detail :where(.start-card, .step, .copy-card, .check-card, .group-section) {
+    break-inside: avoid;
+    box-shadow: none;
+  }
+}
