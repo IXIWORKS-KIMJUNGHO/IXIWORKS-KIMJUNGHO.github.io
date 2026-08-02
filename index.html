@@ -60,10 +60,15 @@
       </dl>
 
       <ul class="profile-links" aria-label="Profile links">
-        <li><a href="mailto:jungho10050@gmail.com">Email</a></li>
+        <li>
+          <a href="mailto:jungho10050@gmail.com" data-email-action data-email="jungho10050@gmail.com">
+            <span data-email-label>Email</span>
+          </a>
+        </li>
         <li><a href="https://github.com/IXIWORKS-KIMJUNGHO">GitHub</a></li>
         <li><a href="/assets/kim-jungho-cv.pdf" download>Download CV</a></li>
       </ul>
+      <p class="visually-hidden" data-email-status role="status" aria-live="polite"></p>
     </aside>
 
     <main id="main-content" class="content">
@@ -355,5 +360,6 @@
     <span>Updated 2026.08.01</span>
   </footer>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="/assets/email-action.js" type="module"></script>
 </body>
 </html>

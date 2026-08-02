@@ -9,6 +9,6 @@
     "build:sitemap": "node scripts/generate-sitemap.mjs",
     "enrich:images": "node scripts/enrich-image-metadata.mjs",
     "enrich:pages": "node scripts/enrich-page-metadata.mjs",
-    "test": "node --test tests/site-audit.test.mjs"
+    "test": "node --test tests/*.test.mjs"
   }
 }
