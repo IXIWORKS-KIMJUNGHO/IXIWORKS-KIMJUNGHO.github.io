@@ -312,6 +312,31 @@ test("the teaching archive has a shared, course-first design system", async () =
   assert.doesNotMatch(teachingCss, /(?:linear|radial|repeating-linear)-gradient\(/);
 });
 
+test("the agentic AI course index keeps its mobile reading path intact", async () => {
+  const courseIndex = await readFile(
+    resolve(root, "teaching", "agentic-ai", "index.html"),
+    "utf8",
+  );
+  const courseCss = await readFile(
+    resolve(root, "assets", "agentic-ai-index.css"),
+    "utf8",
+  );
+
+  assert.match(courseIndex, /class="course-facts"/);
+  assert.match(courseIndex, /agentic-ai-index\.css\?v=readable1/);
+  assert.match(courseCss, /body\.course-agentic-ai/);
+  assert.match(courseCss, /@media\s+\(max-width:\s*760px\)/);
+  assert.match(
+    courseCss,
+    /\.course-agentic-ai \.course-hero h1\s*\{[\s\S]*?font-size:\s*clamp\(/,
+  );
+  assert.match(
+    courseCss,
+    /\.course-agentic-ai \.material-title\s*\{[\s\S]*?font-size:\s*18px/,
+  );
+  assert.doesNotMatch(courseIndex, /[—–]/);
+});
+
 test("teaching handouts provide consistent course and sequence navigation", async () => {
   const courseDirectories = [
     ["agentic-ai", new Set(["day-1.html"])],
