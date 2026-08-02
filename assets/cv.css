@@ -231,9 +231,41 @@ a {
   content: "↓";
 }
 
+.profile-links .profile-email-link {
+  display: grid;
+  width: max-content;
+  max-width: 100%;
+  grid-template-columns: max-content max-content;
+  gap: 3px 7px;
+}
+
+.profile-email-link::after {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.profile-link-label {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.profile-email-address {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
 .profile-links a:hover {
   color: var(--accent);
   text-decoration: none;
+}
+
+.profile-email-link:hover .profile-email-address {
+  color: var(--accent);
 }
 
 .content {
@@ -1106,6 +1138,11 @@ a.teaching-row {
 
   .profile-links {
     gap: 8px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .profile-links li:first-child {
+    grid-column: 1 / -1;
   }
 
   .hero-role {

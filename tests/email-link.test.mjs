@@ -33,4 +33,9 @@ test("the homepage Email link opens a pre-addressed Gmail draft", async () => {
     /\brel=["'][^"']*noopener[^"']*["']/i,
     "Expected the new-tab link to isolate the opener",
   );
+  assert.match(
+    emailLink[2],
+    /<span\b[^>]*class=["'][^"']*profile-email-address[^"']*["'][^>]*>\s*jungho10050@gmail\.com\s*<\/span>/i,
+    "Expected the email address to remain visibly written below the label",
+  );
 });
