@@ -288,6 +288,7 @@ test("the teaching archive has a shared, course-first design system", async () =
   const courseIndexes = [
     "teaching/agentic-ai/index.html",
     "teaching/contents-programming/index.html",
+    "teaching/game-engine-1/index.html",
     "teaching/game-engine/index.html",
     "teaching/media-art-programming/index.html",
   ];
@@ -295,6 +296,7 @@ test("the teaching archive has a shared, course-first design system", async () =
   for (const href of [
     "agentic-ai/",
     "contents-programming/",
+    "game-engine-1/",
     "game-engine/",
     "media-art-programming/",
   ]) {
@@ -340,6 +342,45 @@ test("the Contents Programming course publishes its syllabus structure", async (
   );
   assert.match(courseIndex, /Python/);
   assert.match(courseIndex, /Google Colab/);
+  assert.match(courseIndex, /이론\(1시간\)/);
+  assert.match(courseIndex, /실습\(2시간\)/);
+});
+
+test("the Game Engine I course publishes its Unity 2D and generative AI curriculum", async () => {
+  const courseIndex = await readFile(
+    resolve(root, "teaching", "game-engine-1", "index.html"),
+    "utf8",
+  );
+
+  for (const sectionId of [
+    "course-overview",
+    "ai-workflow",
+    "image-generation",
+    "curriculum",
+    "assessment",
+    "project-rules",
+  ]) {
+    assert.match(courseIndex, new RegExp(`id="${sectionId}"`));
+  }
+
+  assert.equal(
+    [...courseIndex.matchAll(/class="week-group"/g)].length,
+    16,
+    "the course index should list all 16 weeks",
+  );
+  assert.match(courseIndex, /Unity 6\.3 LTS/);
+  assert.match(courseIndex, /Ask/);
+  assert.match(courseIndex, /Plan/);
+  assert.match(courseIndex, /Agent/);
+  assert.match(courseIndex, /MCP/);
+  assert.match(courseIndex, /CLI/);
+  assert.match(courseIndex, /Sprite Generator/);
+  assert.match(courseIndex, /Remove Background/);
+  assert.match(courseIndex, /Inpaint/);
+  assert.match(courseIndex, /스프라이트시트/);
+  assert.match(courseIndex, /GeneratedAssets/);
+  assert.match(courseIndex, /API key/);
+  assert.match(courseIndex, /100점/);
   assert.match(courseIndex, /이론\(1시간\)/);
   assert.match(courseIndex, /실습\(2시간\)/);
 });
@@ -621,6 +662,7 @@ test("search engines can discover the teaching archive", async () => {
     "/teaching/",
     "/teaching/agentic-ai/",
     "/teaching/contents-programming/",
+    "/teaching/game-engine-1/",
     "/teaching/game-engine/",
     "/teaching/media-art-programming/",
   ]) {

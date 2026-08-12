@@ -11,6 +11,10 @@ export const TEACHING_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine/assets/09_final-rendered-frame.webp",
     alt: "Final cinematic environment rendered for the Game Engine course",
   }),
+  "game-engine-1": Object.freeze({
+    path: "/teaching/game-engine-1/assets/unity-2d-ai-pipeline.svg",
+    alt: "A prompt creates pixel art sprite variations that are integrated and tested in a Unity 2D scene",
+  }),
   "contents-programming": Object.freeze({
     path: "/teaching/contents-programming/assets/python-data-art.svg",
     alt: "Python code, plotted points, bars, and a waveform composed as data art",

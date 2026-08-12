@@ -750,6 +750,233 @@ body.teaching-document a {
   line-height: 1.5;
 }
 
+/* Structured course methodology and feature notes. */
+
+.method-flow,
+.feature-grid {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+  list-style: none;
+}
+
+.method-step,
+.feature-card {
+  min-width: 0;
+  padding: 24px;
+  background: var(--paper);
+}
+
+.method-step > span,
+.feature-label {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.method-step h3,
+.feature-card h3 {
+  margin: 0;
+  color: var(--ink-strong);
+  font-size: 17px;
+  font-weight: 730;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.method-step p,
+.feature-card p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.7;
+  word-break: keep-all;
+}
+
+.feature-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.feature-card strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.feature-card code {
+  padding: 2px 5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.course-callout,
+.course-sources {
+  margin-top: 18px;
+  padding: 19px 22px;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+}
+
+.course-callout p,
+.course-sources p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
+.course-callout strong,
+.course-sources strong {
+  color: var(--ink-strong);
+  font-weight: 720;
+}
+
+.course-callout-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 30px;
+}
+
+.course-sources ul {
+  margin: 14px 0 0;
+  padding: 14px 0 0;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  list-style: none;
+}
+
+.course-sources a {
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.rubric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.rubric-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.rubric-card-heading {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.rubric-card-heading span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.rubric-card-heading h3,
+.policy-block h3 {
+  margin: 7px 0 0;
+  color: var(--ink-strong);
+  font-size: 18px;
+  font-weight: 730;
+  letter-spacing: -0.02em;
+}
+
+.rubric-card dl {
+  margin: 0;
+  padding: 8px 22px;
+}
+
+.rubric-card dl > div {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+}
+
+.rubric-card dl > div:last-child {
+  border-bottom: 0;
+}
+
+.rubric-card dt,
+.rubric-card dd {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.rubric-card dt {
+  color: var(--muted);
+}
+
+.rubric-card dd {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 700;
+}
+
+.policy-block {
+  margin-top: 18px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+}
+
+.policy-block h3 {
+  margin-top: 0;
+}
+
+.policy-block ul {
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 28px;
+  list-style: none;
+}
+
+.policy-block li {
+  position: relative;
+  padding: 11px 0 11px 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.65;
+  word-break: keep-all;
+}
+
+.policy-block li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
 /* Shared navigation for individual handouts. */
 
 .lesson-header {
@@ -1310,6 +1537,14 @@ body.teaching-document .footer-note {
   .day-group {
     grid-template-columns: 1fr;
     gap: 18px;
+  }
+
+  .method-flow,
+  .feature-grid,
+  .course-callout-split,
+  .rubric-grid,
+  .policy-block ul {
+    grid-template-columns: 1fr;
   }
 
   .week-heading-topic,

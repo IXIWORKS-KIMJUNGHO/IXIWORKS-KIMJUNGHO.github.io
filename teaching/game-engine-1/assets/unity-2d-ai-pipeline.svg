@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Unity 2D generative AI production pipeline</title>
+  <desc id="desc">A prompt panel creates pixel art sprite variations, which are arranged inside a Unity 2D game scene and verified in play mode.</desc>
+  <rect width="1200" height="760" fill="#eef2ed"/>
+  <g stroke="#d7ded8" stroke-width="1">
+    <path d="M0 95H1200M0 190H1200M0 285H1200M0 380H1200M0 475H1200M0 570H1200M0 665H1200"/>
+    <path d="M100 0V760M200 0V760M300 0V760M400 0V760M500 0V760M600 0V760M700 0V760M800 0V760M900 0V760M1000 0V760M1100 0V760"/>
+  </g>
+
+  <g transform="translate(54 48)">
+    <rect width="1092" height="664" rx="18" fill="#f9faf8" stroke="#bec9c0" stroke-width="2"/>
+    <rect width="1092" height="54" rx="18" fill="#17251f"/>
+    <path d="M0 36H1092V54H0Z" fill="#17251f"/>
+    <circle cx="27" cy="27" r="6" fill="#78d29a"/>
+    <circle cx="48" cy="27" r="6" fill="#e8c86d"/>
+    <circle cx="69" cy="27" r="6" fill="#e27870"/>
+    <text x="96" y="33" fill="#f5f7f4" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15" font-weight="700">GAME ENGINE I / UNITY 2D + AI</text>
+    <text x="1042" y="33" text-anchor="end" fill="#9fb4a6" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12">PLAY</text>
+
+    <g transform="translate(28 82)">
+      <text x="0" y="16" fill="#2f7d52" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">01 / PROMPT</text>
+      <rect y="34" width="286" height="500" rx="10" fill="#f1f5f0" stroke="#c8d2ca"/>
+      <text x="18" y="69" fill="#27362f" font-family="Arial, sans-serif" font-size="14" font-weight="700">Sprite Generator</text>
+      <text x="18" y="99" fill="#617069" font-family="Arial, sans-serif" font-size="12">PROMPT</text>
+      <rect x="18" y="112" width="250" height="92" rx="7" fill="#ffffff" stroke="#c8d2ca"/>
+      <text x="32" y="138" fill="#3f4f47" font-family="Arial, sans-serif" font-size="12">small forest musician,</text>
+      <text x="32" y="159" fill="#3f4f47" font-family="Arial, sans-serif" font-size="12">side view, 16-bit pixel art,</text>
+      <text x="32" y="180" fill="#3f4f47" font-family="Arial, sans-serif" font-size="12">transparent background</text>
+      <text x="18" y="232" fill="#617069" font-family="Arial, sans-serif" font-size="12">REFERENCE</text>
+      <rect x="18" y="245" width="74" height="74" rx="6" fill="#dce9df" stroke="#b8c8bc"/>
+      <path d="M30 301l17-22 13 14 10-13 12 21z" fill="#5e9f72"/>
+      <circle cx="72" cy="264" r="8" fill="#e9c968"/>
+      <text x="106" y="275" fill="#3f4f47" font-family="Arial, sans-serif" font-size="12">style-board.png</text>
+      <text x="106" y="296" fill="#7a8981" font-family="Arial, sans-serif" font-size="11">palette reference</text>
+      <text x="18" y="352" fill="#617069" font-family="Arial, sans-serif" font-size="12">CONTROL</text>
+      <rect x="18" y="368" width="250" height="10" rx="5" fill="#d8e0da"/>
+      <rect x="18" y="368" width="164" height="10" rx="5" fill="#3e9b64"/>
+      <circle cx="182" cy="373" r="8" fill="#fff" stroke="#3e9b64" stroke-width="3"/>
+      <text x="18" y="405" fill="#3f4f47" font-family="Arial, sans-serif" font-size="11">Seed 2026  ·  4 variations</text>
+      <rect x="18" y="438" width="250" height="48" rx="7" fill="#2f7d52"/>
+      <text x="143" y="468" text-anchor="middle" fill="#ffffff" font-family="Arial, sans-serif" font-size="13" font-weight="700">GENERATE SPRITES</text>
+    </g>
+
+    <g transform="translate(342 82)">
+      <text x="0" y="16" fill="#2f7d52" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">02 / SELECT + EDIT</text>
+      <rect y="34" width="306" height="500" rx="10" fill="#f1f5f0" stroke="#c8d2ca"/>
+      <g transform="translate(18 54)">
+        <rect width="128" height="128" rx="7" fill="#dfeadf" stroke="#2f7d52" stroke-width="3"/>
+        <rect x="30" y="81" width="68" height="10" fill="#638d62"/>
+        <rect x="44" y="50" width="38" height="36" fill="#e5b85f"/>
+        <rect x="51" y="37" width="28" height="22" fill="#263c31"/>
+        <rect x="42" y="58" width="10" height="25" fill="#396b4b"/>
+        <rect x="80" y="59" width="22" height="7" fill="#af744f"/>
+        <rect x="95" y="54" width="4" height="17" fill="#684537"/>
+        <path d="M24 32h14v14H24zM96 25h12v12H96z" fill="#80bd8d"/>
+        <path d="M18 106h93" stroke="#bad1bd" stroke-width="2"/>
+        <circle cx="114" cy="14" r="9" fill="#2f7d52"/>
+        <path d="M110 14l3 3 6-7" fill="none" stroke="#fff" stroke-width="2"/>
+      </g>
+      <g transform="translate(160 54)">
+        <rect width="128" height="128" rx="7" fill="#e7e3d8" stroke="#c8d2ca"/>
+        <rect x="31" y="82" width="67" height="9" fill="#8a7c5d"/>
+        <rect x="46" y="50" width="36" height="36" fill="#d59b61"/>
+        <rect x="52" y="36" width="29" height="23" fill="#334139"/>
+        <rect x="38" y="59" width="13" height="25" fill="#5a6d56"/>
+        <rect x="80" y="60" width="22" height="6" fill="#805a48"/>
+        <path d="M20 34h14v14H20zM97 26h12v12H97z" fill="#b0a476"/>
+      </g>
+      <g transform="translate(18 196)">
+        <rect width="128" height="128" rx="7" fill="#dfe5e8" stroke="#c8d2ca"/>
+        <rect x="31" y="82" width="67" height="9" fill="#728c99"/>
+        <rect x="45" y="51" width="37" height="35" fill="#ddab67"/>
+        <rect x="51" y="36" width="29" height="24" fill="#344653"/>
+        <rect x="40" y="58" width="12" height="26" fill="#4d768a"/>
+        <rect x="80" y="60" width="23" height="6" fill="#93614d"/>
+        <path d="M22 34h14v14H22zM96 25h12v12H96z" fill="#88afc1"/>
+      </g>
+      <g transform="translate(160 196)">
+        <rect width="128" height="128" rx="7" fill="#e8dfe5" stroke="#c8d2ca"/>
+        <rect x="31" y="82" width="67" height="9" fill="#967a91"/>
+        <rect x="45" y="51" width="37" height="35" fill="#e0a469"/>
+        <rect x="52" y="37" width="28" height="23" fill="#4a3449"/>
+        <rect x="39" y="59" width="13" height="25" fill="#7f5178"/>
+        <rect x="80" y="60" width="23" height="6" fill="#905848"/>
+        <path d="M22 34h14v14H22zM96 25h12v12H96z" fill="#c188b8"/>
+      </g>
+      <g transform="translate(18 354)">
+        <rect width="270" height="48" rx="7" fill="#ffffff" stroke="#c8d2ca"/>
+        <text x="16" y="29" fill="#3f4f47" font-family="Arial, sans-serif" font-size="11">Remove BG</text>
+        <text x="104" y="29" fill="#3f4f47" font-family="Arial, sans-serif" font-size="11">Pixelate</text>
+        <text x="183" y="29" fill="#3f4f47" font-family="Arial, sans-serif" font-size="11">Recolor</text>
+      </g>
+      <rect x="18" y="418" width="270" height="70" rx="7" fill="#e8f1ea" stroke="#bdd2c1"/>
+      <text x="32" y="446" fill="#2f7d52" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="11" font-weight="700">GeneratedAssets/hero.png</text>
+      <text x="32" y="468" fill="#617069" font-family="Arial, sans-serif" font-size="11">human selected · edited · documented</text>
+    </g>
+
+    <g transform="translate(676 82)">
+      <text x="0" y="16" fill="#2f7d52" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="12" font-weight="700">03 / BUILD + VERIFY</text>
+      <rect y="34" width="388" height="500" rx="10" fill="#1e2a25" stroke="#101814"/>
+      <rect x="14" y="48" width="360" height="30" rx="4" fill="#293731"/>
+      <text x="28" y="68" fill="#b9c8c0" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">Scene  |  Game  |  Animator  |  Console</text>
+      <rect x="14" y="90" width="360" height="318" rx="5" fill="#afcfbe"/>
+      <circle cx="295" cy="143" r="39" fill="#f0d47b"/>
+      <path d="M14 274l72-78 52 46 60-101 81 96 46-42 49 58v155H14z" fill="#5f9271"/>
+      <path d="M14 317l70-45 56 30 62-52 82 54 52-30 38 25v109H14z" fill="#3f7153"/>
+      <path d="M14 358h360v50H14z" fill="#254d39"/>
+      <g transform="translate(146 265)">
+        <rect x="10" y="75" width="87" height="12" fill="#366044"/>
+        <rect x="31" y="34" width="43" height="46" fill="#e5b85f"/>
+        <rect x="37" y="18" width="32" height="26" fill="#263c31"/>
+        <rect x="27" y="42" width="12" height="35" fill="#396b4b"/>
+        <rect x="71" y="44" width="33" height="8" fill="#af744f"/>
+        <rect x="98" y="36" width="5" height="25" fill="#684537"/>
+        <rect x="38" y="80" width="10" height="15" fill="#263c31"/>
+        <rect x="61" y="80" width="10" height="15" fill="#263c31"/>
+      </g>
+      <g fill="#9fd4ad">
+        <rect x="60" y="335" width="6" height="14"/><rect x="68" y="330" width="6" height="19"/>
+        <rect x="315" y="340" width="6" height="9"/><rect x="323" y="333" width="6" height="16"/>
+      </g>
+      <rect x="14" y="422" width="174" height="94" rx="5" fill="#293731"/>
+      <text x="28" y="445" fill="#7fd39a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">PLAY MODE CHECK</text>
+      <text x="28" y="468" fill="#b9c8c0" font-family="Arial, sans-serif" font-size="11">Movement ✓</text>
+      <text x="28" y="488" fill="#b9c8c0" font-family="Arial, sans-serif" font-size="11">Collision ✓</text>
+      <text x="28" y="508" fill="#b9c8c0" font-family="Arial, sans-serif" font-size="11">Animation ✓</text>
+      <rect x="202" y="422" width="172" height="94" rx="5" fill="#293731"/>
+      <text x="216" y="445" fill="#7fd39a" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="10">AI LOG</text>
+      <text x="216" y="468" fill="#b9c8c0" font-family="Arial, sans-serif" font-size="11">prompt + source</text>
+      <text x="216" y="488" fill="#b9c8c0" font-family="Arial, sans-serif" font-size="11">selection + edits</text>
+      <text x="216" y="508" fill="#b9c8c0" font-family="Arial, sans-serif" font-size="11">test + reflection</text>
+    </g>
+  </g>
+</svg>

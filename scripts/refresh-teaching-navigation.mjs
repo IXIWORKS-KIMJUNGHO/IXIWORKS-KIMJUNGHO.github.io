@@ -31,7 +31,7 @@ const courses = {
   "game-engine": {
     label: "Game Engine II",
     kicker: "Unreal Engine / Real-time production",
-    title: "Game Engine I / II",
+    title: "Game Engine II",
     lead: "Unreal Engine, real-time production, interactive systems, and cinematic project-based prototyping course materials.",
     kind: "Unreal Engine course",
     term: "36 public handouts",
@@ -43,6 +43,9 @@ const courses = {
   },
   "contents-programming": {
     label: "Contents Programming Practice",
+  },
+  "game-engine-1": {
+    label: "Game Engine I",
   },
   "media-art-programming": {
     label: "Media Art Programming",
