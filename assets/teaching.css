@@ -909,6 +909,15 @@ body.teaching-document a {
   padding: 8px 22px;
 }
 
+.rubric-pending {
+  margin: 0;
+  padding: 22px;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.72;
+  word-break: keep-all;
+}
+
 .rubric-card dl > div {
   padding: 12px 0;
   border-bottom: 1px solid var(--line);

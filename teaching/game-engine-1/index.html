@@ -53,6 +53,8 @@
   <div class="course-jump-wrap">
     <nav class="course-jump" aria-label="Course sections">
       <a href="#course-overview">Overview</a>
+      <a href="#course-goals">Goals</a>
+      <a href="#learning-outcomes">Outcomes</a>
       <a href="#ai-workflow">AI workflow</a>
       <a href="#image-generation">Image generation</a>
       <a href="#curriculum">Curriculum</a>
@@ -67,8 +69,26 @@
         <h2 class="course-section-title" id="course-overview">강의 개요</h2>
         <p class="course-section-note">Unity fundamentals first, AI as a controlled production tool.</p>
       </header>
-      <p>본 강의는 게임 제작 경험이 없는 학생도 Unity 6.3 LTS를 이용해 작동하는 2D 게임을 설계하고 완성할 수 있도록 구성한 입문 교과목이다. 전반부에는 Scene, GameObject, Component, Prefab, C# Script, Input System, Rigidbody2D, Collider2D, Tilemap, Sprite Animation, UI와 Audio 등 게임 엔진의 핵심 구조를 직접 다룬다. 학생들은 플레이어 이동, 충돌, 수집물, 점수, 성공과 실패, 재시작을 하나씩 구현하면서 화면에 보이는 결과와 프로젝트 내부 구조의 관계를 익힌다. 매주 3시간은 이론 1시간과 실습 2시간으로 운영하며, 이론에서 게임 시스템과 시청각 표현의 원리를 이해한 뒤 같은 날 작은 기능으로 구현하고 개인적으로 변형한다.</p>
-      <p>후반부에는 Unity의 Sprite Generator, Texture2D 기반 UI 제작, Sound Generator, Assistant의 Ask·Plan·Agent, MCP, AI Gateway, Unity CLI와 Pipeline을 제작 과정에 단계적으로 도입한다. 생성형 AI는 게임 전체를 대신 만드는 도구가 아니라 아이디어를 빠르게 시각화하고, 여러 대안을 비교하고, 반복 작업을 줄이며, 오류의 원인을 설명받는 보조 도구로 사용한다. 학생은 AI가 만든 이미지와 코드를 그대로 제출하지 않고 생성 목적, 프롬프트와 참조 자료, 선택 이유, 직접 수정한 부분, Play Mode 검증 결과를 기록해야 한다. 중간고사에서는 AI Agent와 Generator 없이 Unity 기초 역량을 확인하고, 기말 프로젝트에서는 3~5분 안에 완결되는 작은 2D 게임을 제작하여 기술 이해와 인간의 선택이 생성 결과를 어떻게 작품으로 발전시켰는지 보여준다.</p>
+      <p>본 강의는 Unity 6.3 LTS를 활용하여 2D 게임의 기획부터 구현, 테스트, 빌드까지의 전체 제작 과정을 학습하는 이론·실습 중심의 교과목이다. 게임 개발이나 프로그래밍 경험이 없는 학생도 참여할 수 있도록 Unity Editor의 기본 사용법과 Scene, GameObject, Component, Transform, Prefab 등의 핵심 개념부터 단계적으로 다룬다. 이후 C# Script, Input System, Rigidbody2D, Collider2D, Trigger, Tilemap, Sprite Animation, UI, Audio 및 게임 상태 관리 등을 학습하며, 캐릭터 이동과 충돌, 수집물, 점수, 성공과 실패, 재시작 기능이 포함된 작은 2D 게임을 제작한다. 매주 수업은 이론 1시간과 실습 2시간으로 운영하며, 이론 시간에 게임 엔진의 구조와 게임 디자인 원리를 이해한 뒤 실습 시간에 해당 개념을 직접 구현하고 변형한다.</p>
+      <p>수업의 후반부에는 Unity의 Sprite Generator와 Texture2D 및 Sound Generator를 활용하여 캐릭터, 오브젝트, UI와 효과음 등의 임시 에셋을 제작하고 실제 게임에 적용한다. 또한 Unity Assistant의 Ask, Plan, Agent 기능을 이용하여 코드를 설명받고 작업 계획을 검토하며 제한된 범위에서 기능 구현을 보조받는 방법을 학습한다. MCP, AI Gateway, Unity CLI와 Pipeline 등 최근 Unity 제작 환경에서 활용되는 AI 연동 및 자동화 방식도 기초 수준에서 살펴본다. 생성형 AI는 게임을 대신 제작하는 도구가 아니라 아이디어를 시각화하고 여러 대안을 비교하며 반복 작업과 오류 해결을 보조하는 제작 도구로 활용한다. 학생은 AI가 생성한 결과를 그대로 사용하는 데 그치지 않고 생성 목적과 프롬프트, 참조 자료, 선택 이유, 직접 수정한 부분 및 테스트 결과를 기록해야 한다. 최종적으로 자신의 전공이나 관심 분야를 반영한 짧고 완결된 2D 게임을 기획하고 제작함으로써 게임 엔진의 기술적 구조와 시각적·청각적 표현, 생성형 AI 기반 제작 방법을 종합적으로 경험한다.</p>
+    </section>
+
+    <section class="course-section course-prose" aria-labelledby="course-goals">
+      <header class="course-section-heading">
+        <h2 class="course-section-title" id="course-goals">강의 목표</h2>
+        <p class="course-section-note">Course goals</p>
+      </header>
+      <p>본 강의는 학생들이 Unity의 기본 구조와 2D 게임 제작 원리를 이해하고 자신의 아이디어를 실제로 플레이할 수 있는 디지털 콘텐츠로 구현할 수 있도록 하는 것을 목표로 한다. 학생들은 Scene, GameObject, Component, Prefab과 Script 사이의 관계를 이해하고 복잡한 게임 기능을 입력, 조건, 상태 변화와 결과의 작은 단위로 나누어 설계하는 능력을 기른다. C#의 변수, 자료형, 조건문, 함수와 MonoBehaviour의 기본 구조를 학습하고 이를 캐릭터 이동, 충돌, 수집, 점수, 게임 상태와 같은 구체적인 기능에 적용한다. Rigidbody2D와 Collider2D를 활용한 물리적 상호작용, Tilemap을 활용한 레벨 구성, Sprite Animation과 Animator를 활용한 움직임, UI와 Audio를 활용한 시청각 피드백을 하나의 게임 시스템 안에 통합하는 것을 목표로 한다. 또한 게임의 기능을 구현하는 것에서 나아가 사용자가 목표와 상태 변화를 명확하게 이해할 수 있도록 시각적 요소와 인터랙션을 설계하는 능력을 기른다.</p>
+      <p>수업 후반부에는 생성형 AI를 활용하여 캐릭터와 오브젝트, UI, 효과음 등의 제작 방향을 탐색하고 여러 결과 중 프로젝트에 적합한 결과를 선택하고 수정하는 방법을 학습한다. Ask, Plan, Agent의 차이를 이해하고 AI가 제안한 코드와 프로젝트 변경 사항을 실행 전에 검토하며 최소한의 권한과 범위 안에서 활용하는 습관을 형성한다. Console, Inspector와 Play Mode를 이용하여 AI가 만든 결과를 직접 확인하고 오류와 예상하지 못한 동작을 수정하는 검증 능력도 함께 기른다. 생성 콘텐츠의 출처와 저작권, 개인정보, API key 보안 및 AI 사용 기록의 필요성을 이해하고 책임 있는 제작 태도를 갖추는 것도 중요한 목표이다. 최종적으로 학생이 자신의 전공적 배경과 관심사를 게임의 주제, 시각 스타일, 사운드 및 상호작용 방식에 반영하고 제작 과정과 기술적 구조를 다른 사람에게 논리적으로 설명할 수 있도록 한다.</p>
+    </section>
+
+    <section class="course-section course-prose" aria-labelledby="learning-outcomes">
+      <header class="course-section-heading">
+        <h2 class="course-section-title" id="learning-outcomes">학습 성과</h2>
+        <p class="course-section-note">Learning outcomes</p>
+      </header>
+      <p>본 강의를 이수한 학생은 Unity 6.3 LTS의 2D 프로젝트를 생성하고 Scene과 Project 구조를 정리하며 GameObject, Component, Transform과 Prefab을 목적에 맞게 구성할 수 있다. C#의 기본 문법과 MonoBehaviour의 작동 방식을 이해하고 Inspector에 노출되는 변수를 활용하여 간단한 게임 기능을 작성하고 수정할 수 있다. Input System을 이용하여 플레이어의 입력을 처리하고 Rigidbody2D와 Collider2D를 활용하여 이동, 충돌 및 물리적 상호작용을 구현할 수 있다. Collision과 Trigger, Layer와 Prefab을 이용하여 수집물, 장애물과 목표 지점을 제작하고 Tilemap을 활용하여 짧은 2D 레벨을 구성할 수 있다. Sprite를 불러오고 분할하여 Animation Clip과 Animator Controller를 제작하며 캐릭터의 상태와 애니메이션을 게임 로직에 연결할 수 있다. UI와 AudioSource를 활용하여 점수, 시간, 성공과 실패, 효과음과 재시작 기능을 구현하고 시작부터 종료까지 완결된 게임 상태를 구성할 수 있다.</p>
+      <p>Sprite Generator와 Texture2D 기반 이미지 제작 기능을 이용하여 캐릭터, 오브젝트와 UI 후보를 생성하고 배경 제거, 업스케일, 픽셀화, 재채색 및 인페인팅 등의 후처리를 수행할 수 있다. 생성된 스프라이트시트를 직접 수정하고 분할하여 Animation과 Animator에 연결하며, 생성 이미지의 일관성과 게임 화면에서의 가독성을 판단할 수 있다. Unity Assistant의 Ask, Plan과 Agent를 작업 목적에 따라 구분하여 사용하고 AI가 제안한 코드와 변경 사항을 검토한 뒤 Console, Inspector와 Play Mode에서 결과를 검증할 수 있다. MCP와 Unity CLI 기반 자동화의 기본 개념을 이해하고 제한된 명령을 실행한 뒤 예상한 변경 범위와 실제 결과를 비교할 수 있다. 또한 프롬프트, 참조 자료, 생성 결과, 선택 이유, 직접 수정한 부분과 테스트 결과를 제작 기록으로 정리하고 생성 콘텐츠의 출처와 권리를 확인할 수 있다. 최종적으로 하나의 핵심 행동과 명확한 목표, 시각적·청각적 피드백을 갖춘 짧은 2D 게임을 독립적으로 기획하고 제작하며 실행 가능한 build와 Unity project, 영상 및 작품설명서의 형태로 제출하고 발표할 수 있다.</p>
     </section>
 
     <section class="course-section" aria-labelledby="ai-workflow">
@@ -130,67 +150,67 @@
       <div class="material-list syllabus-list">
         <section class="week-group" id="week-01" aria-labelledby="week-01-label">
           <div class="week-heading"><span class="week-heading-label" id="week-01-label">Week 01</span><span class="week-heading-topic">Orientation</span></div>
-          <article class="syllabus-card"><h3>OT: Unity 2D와 생성형 AI 제작 환경</h3><p><strong>이론(1시간)</strong> 수업 목표, 평가, 2D 게임 제작 흐름, AI 사용 정책과 저작권</p><p><strong>실습(2시간)</strong> Unity 6.3 LTS 설치 확인, 2D 프로젝트 생성, Scene 저장과 Play Mode 체험</p><span class="assignment-label">제출 · 환경 점검표 및 관심 게임 분석</span></article>
+          <article class="syllabus-card"><h3>OT: Unity 2D와 생성형 AI 제작 환경</h3><p><strong>이론(1시간)</strong> 수업 목표, 평가, 2D 게임 제작 흐름, AI 사용 정책과 저작권</p><p><strong>실습(2시간)</strong> Unity 6.3 LTS 설치 확인, 2D 프로젝트 생성, Scene 저장과 Play Mode 체험</p></article>
         </section>
         <section class="week-group" id="week-02" aria-labelledby="week-02-label">
           <div class="week-heading"><span class="week-heading-label" id="week-02-label">Week 02</span><span class="week-heading-topic">Unity foundations</span></div>
-          <article class="syllabus-card"><h3>Scene, GameObject, Component와 Prefab</h3><p><strong>이론(1시간)</strong> Unity Editor, Transform, Component와 부모·자식 구조</p><p><strong>실습(2시간)</strong> Sprite 배치, Sorting Layer, Scene 구성과 Prefab 재사용</p><span class="assignment-label">제출 · 5개 이상의 Object로 구성한 2D 장면</span></article>
+          <article class="syllabus-card"><h3>Scene, GameObject, Component와 Prefab</h3><p><strong>이론(1시간)</strong> Unity Editor, Transform, Component와 부모·자식 구조</p><p><strong>실습(2시간)</strong> Sprite 배치, Sorting Layer, Scene 구성과 Prefab 재사용</p></article>
         </section>
         <section class="week-group" id="week-03" aria-labelledby="week-03-label">
           <div class="week-heading"><span class="week-heading-label" id="week-03-label">Week 03</span><span class="week-heading-topic">C# and MonoBehaviour</span></div>
-          <article class="syllabus-card"><h3>C#으로 오브젝트 움직이기</h3><p><strong>이론(1시간)</strong> 변수, 자료형, 조건문, 함수, MonoBehaviour 생명주기와 Inspector 직렬화</p><p><strong>실습(2시간)</strong> 이동·회전·시간 기반 변화 Script 작성과 공개 변수 조절</p><span class="assignment-label">제출 · 직접 작성한 Script와 코드 설명</span></article>
+          <article class="syllabus-card"><h3>C#으로 오브젝트 움직이기</h3><p><strong>이론(1시간)</strong> 변수, 자료형, 조건문, 함수, MonoBehaviour 생명주기와 Inspector 직렬화</p><p><strong>실습(2시간)</strong> 이동·회전·시간 기반 변화 Script 작성과 공개 변수 조절</p><span class="assignment-label">과제 1 · Unity 기초 장면과 C# Script</span></article>
         </section>
         <section class="week-group" id="week-04" aria-labelledby="week-04-label">
           <div class="week-heading"><span class="week-heading-label" id="week-04-label">Week 04</span><span class="week-heading-topic">Input and physics</span></div>
-          <article class="syllabus-card"><h3>입력, Rigidbody2D와 Collider2D</h3><p><strong>이론(1시간)</strong> Input System, frame과 physics step, 물리 기반 이동</p><p><strong>실습(2시간)</strong> 4방향 플레이어 Controller, 충돌과 속도 조절, 입력값 테스트</p><span class="assignment-label">제출 · 플레이어 Controller 및 테스트표</span></article>
+          <article class="syllabus-card"><h3>입력, Rigidbody2D와 Collider2D</h3><p><strong>이론(1시간)</strong> Input System, frame과 physics step, 물리 기반 이동</p><p><strong>실습(2시간)</strong> 4방향 플레이어 Controller, 충돌과 속도 조절, 입력값 테스트</p></article>
         </section>
         <section class="week-group" id="week-05" aria-labelledby="week-05-label">
           <div class="week-heading"><span class="week-heading-label" id="week-05-label">Week 05</span><span class="week-heading-topic">Interaction and level</span></div>
-          <article class="syllabus-card"><h3>Trigger, Layer와 작은 Tilemap 레벨</h3><p><strong>이론(1시간)</strong> Collision과 Trigger, Layer, Prefab 기반 레벨 설계</p><p><strong>실습(2시간)</strong> 수집물·장애물·목표 지점과 1분 길이의 Tilemap 레벨 제작</p><span class="assignment-label">제출 · 수집 또는 회피 prototype</span></article>
+          <article class="syllabus-card"><h3>Trigger, Layer와 작은 Tilemap 레벨</h3><p><strong>이론(1시간)</strong> Collision과 Trigger, Layer, Prefab 기반 레벨 설계</p><p><strong>실습(2시간)</strong> 수집물·장애물·목표 지점과 1분 길이의 Tilemap 레벨 제작</p><span class="assignment-label">과제 2 · 상호작용이 가능한 1분 2D prototype</span></article>
         </section>
         <section class="week-group" id="week-06" aria-labelledby="week-06-label">
           <div class="week-heading"><span class="week-heading-label" id="week-06-label">Week 06</span><span class="week-heading-topic">Animation and camera</span></div>
-          <article class="syllabus-card"><h3>Sprite Animation과 2D 카메라</h3><p><strong>이론(1시간)</strong> Sprite import·slicing, Animation Clip, Animator 상태 전환</p><p><strong>실습(2시간)</strong> idle·move 애니메이션, Cinemachine follow와 화면 경계</p><span class="assignment-label">제출 · 애니메이션과 카메라가 적용된 build</span></article>
+          <article class="syllabus-card"><h3>Sprite Animation과 2D 카메라</h3><p><strong>이론(1시간)</strong> Sprite import·slicing, Animation Clip, Animator 상태 전환</p><p><strong>실습(2시간)</strong> idle·move 애니메이션, Cinemachine follow와 화면 경계</p></article>
         </section>
         <section class="week-group" id="week-07" aria-labelledby="week-07-label">
           <div class="week-heading"><span class="week-heading-label" id="week-07-label">Week 07</span><span class="week-heading-topic">Game state and build</span></div>
-          <article class="syllabus-card"><h3>UI, Audio와 게임 상태</h3><p><strong>이론(1시간)</strong> HUD, AudioSource, 점수·시간·성공·실패·재시작의 상태 흐름</p><p><strong>실습(2시간)</strong> UI와 효과음을 결합하고 중간고사 사전 build 점검</p><span class="assignment-label">제출 · Midterm preflight build</span></article>
+          <article class="syllabus-card"><h3>UI, Audio와 게임 상태</h3><p><strong>이론(1시간)</strong> HUD, AudioSource, 점수·시간·성공·실패·재시작의 상태 흐름</p><p><strong>실습(2시간)</strong> UI와 효과음을 결합하고 중간고사 전 핵심 개념 점검</p></article>
         </section>
         <section class="week-group" id="week-08" aria-labelledby="week-08-label">
           <div class="week-heading"><span class="week-heading-label" id="week-08-label">Week 08</span><span class="week-heading-topic">Midterm exam</span></div>
-          <article class="syllabus-card"><h3>중간고사: Agent·Generator 없이 작은 2D 게임 완성하기</h3><p><strong>중간고사(3시간)</strong> 이동, 충돌, Trigger, Prefab, UI와 재시작을 포함한 개인 실기 및 2분 구조 설명</p><p><strong>허용 범위</strong> 공식 문서와 수업 노트는 허용하며, Ask는 읽기 전용 오류 설명에만 사용하고 질문과 답을 기록한다.</p><span class="assignment-label">제출 · 실행 build, Unity project 및 핵심 Script</span></article>
+          <article class="syllabus-card"><h3>중간고사</h3><p><strong>중간평가(3시간)</strong> 세부 시험 방식과 평가 기준은 추후 결정하여 공지</p></article>
         </section>
         <section class="week-group" id="week-09" aria-labelledby="week-09-label">
           <div class="week-heading"><span class="week-heading-label" id="week-09-label">Week 09</span><span class="week-heading-topic">AI art direction</span></div>
-          <article class="syllabus-card"><h3>생성형 AI와 게임 아트 디렉션</h3><p><strong>이론(1시간)</strong> 제작 단계 AI와 runtime AI, Ask·Plan·Agent, 권리·privacy·provenance</p><p><strong>실습(2시간)</strong> 한 문장 콘셉트와 style board 작성, 프롬프트·참조 이미지로 정적 Sprite 후보와 팔레트 탐색</p><span class="assignment-label">제출 · 1쪽 기획서, style board, Sprite 후보 및 AI 사용 계획</span></article>
+          <article class="syllabus-card"><h3>생성형 AI와 게임 아트 디렉션</h3><p><strong>이론(1시간)</strong> 제작 단계 AI와 runtime AI, Ask·Plan·Agent, 권리·privacy·provenance</p><p><strong>실습(2시간)</strong> 한 문장 콘셉트와 style board 작성, 프롬프트·참조 이미지로 정적 Sprite 후보와 팔레트 탐색</p></article>
         </section>
         <section class="week-group" id="week-10" aria-labelledby="week-10-label">
           <div class="week-heading"><span class="week-heading-label" id="week-10-label">Week 10</span><span class="week-heading-topic">AI sprite generation</span></div>
-          <article class="syllabus-card"><h3>생성 이미지를 게임 에셋으로 완성하기</h3><p><strong>이론(1시간)</strong> pixel density, 프레임·스타일 일관성, 생성 결과의 한계와 사람의 수정</p><p><strong>실습(2시간)</strong> Remove Background·Upscale·Pixelate·Recolor·Inpaint, Texture2D UI, 스프라이트시트 slicing·Animator 연결</p><span class="assignment-label">제출 · Sprite·UI kit, idle·move 애니메이션 및 수정 기록</span></article>
+          <article class="syllabus-card"><h3>생성 이미지를 게임 에셋으로 완성하기</h3><p><strong>이론(1시간)</strong> pixel density, 프레임·스타일 일관성, 생성 결과의 한계와 사람의 수정</p><p><strong>실습(2시간)</strong> Remove Background·Upscale·Pixelate·Recolor·Inpaint, Texture2D UI, 스프라이트시트 slicing·Animator 연결</p><span class="assignment-label">과제 3 · AI Sprite·UI asset kit와 제작 로그</span></article>
         </section>
         <section class="week-group" id="week-11" aria-labelledby="week-11-label">
           <div class="week-heading"><span class="week-heading-label" id="week-11-label">Week 11</span><span class="week-heading-topic">AI-assisted coding</span></div>
-          <article class="syllabus-card"><h3>Ask·Plan·Agent로 기능을 제한적으로 수정하기</h3><p><strong>이론(1시간)</strong> 문제 분해, hallucination, 권한, 예상 변경 파일, diff와 완료 조건</p><p><strong>실습(2시간)</strong> Ask → Plan → script-only Agent 순서로 핵심 mechanic 하나 구현·수정하고 코드 구술 확인</p><span class="assignment-label">제출 · 변경 전후 diff, 승인한 계획 및 Play Mode 테스트</span></article>
+          <article class="syllabus-card"><h3>Ask·Plan·Agent로 기능을 제한적으로 수정하기</h3><p><strong>이론(1시간)</strong> 문제 분해, hallucination, 권한, 예상 변경 파일, diff와 완료 조건</p><p><strong>실습(2시간)</strong> Ask → Plan → script-only Agent 순서로 핵심 mechanic 하나 구현·수정하고 코드 구술 확인</p></article>
         </section>
         <section class="week-group" id="week-12" aria-labelledby="week-12-label">
           <div class="week-heading"><span class="week-heading-label" id="week-12-label">Week 12</span><span class="week-heading-topic">MCP and CLI</span></div>
-          <article class="syllabus-card"><h3>MCP, AI Gateway와 Unity CLI 자동화</h3><p><strong>이론(1시간)</strong> MCP·Gateway·CLI·Pipeline의 차이, 최소 권한, 계정·API key 보안과 결정론적 자동화</p><p><strong>실습(2시간)</strong> Console·Scene 읽기와 작은 MCP 명령, <code>unity status</code>·Pipeline 연결·command 시연 또는 실습</p><span class="assignment-label">제출 · 자동화 로그, 예상 변경 범위 및 수동 검증표</span></article>
+          <article class="syllabus-card"><h3>MCP, AI Gateway와 Unity CLI 자동화</h3><p><strong>이론(1시간)</strong> MCP·Gateway·CLI·Pipeline의 차이, 최소 권한, 계정·API key 보안과 결정론적 자동화</p><p><strong>실습(2시간)</strong> Console·Scene 읽기와 작은 MCP 명령, <code>unity status</code>·Pipeline 연결·command 시연 또는 실습</p></article>
         </section>
         <section class="week-group" id="week-13" aria-labelledby="week-13-label">
           <div class="week-heading"><span class="week-heading-label" id="week-13-label">Week 13</span><span class="week-heading-topic">Sound, UI and playtest</span></div>
-          <article class="syllabus-card"><h3>생성 사운드·UI 통합과 플레이테스트</h3><p><strong>이론(1시간)</strong> Sound Generator와 UI prototype, AI-assisted QA, 2D build 최적화</p><p><strong>실습(2시간)</strong> 효과음과 UI 에셋 통합, 3인 플레이테스트, 오류·난이도·가독성 수정</p><span class="assignment-label">제출 · Alpha build, 테스트 3건 및 최종 제작 계획</span></article>
+          <article class="syllabus-card"><h3>생성 사운드·UI 통합과 플레이테스트</h3><p><strong>이론(1시간)</strong> Sound Generator와 UI prototype, AI-assisted QA, 2D build 최적화</p><p><strong>실습(2시간)</strong> 효과음과 UI 에셋 통합, 3인 플레이테스트, 오류·난이도·가독성 수정</p><span class="assignment-label">과제 4 · Alpha build와 3인 플레이테스트 기록</span></article>
         </section>
         <section class="week-group" id="week-14" aria-labelledby="week-14-label">
           <div class="week-heading"><span class="week-heading-label" id="week-14-label">Week 14</span><span class="week-heading-topic">Project mentoring I</span></div>
-          <article class="syllabus-card"><h3>기말 프로젝트 제작 및 1차 면담</h3><p><strong>이론(1시간)</strong> 핵심 mechanic, Scene·Prefab·Script 구조와 제작 범위 점검</p><p><strong>제작·면담(2시간)</strong> 1:1 면담, 핵심 Script 구술 설명과 blocking issue 해결</p><span class="assignment-label">제출 · 50% prototype, 면담 체크포인트 및 수정 목록</span></article>
+          <article class="syllabus-card"><h3>기말 프로젝트 제작 및 1차 면담</h3><p><strong>이론(1시간)</strong> 핵심 mechanic, Scene·Prefab·Script 구조와 제작 범위 점검</p><p><strong>제작·면담(2시간)</strong> 1:1 면담, 핵심 Script 구술 설명과 blocking issue 해결</p></article>
         </section>
         <section class="week-group" id="week-15" aria-labelledby="week-15-label">
           <div class="week-heading"><span class="week-heading-label" id="week-15-label">Week 15</span><span class="week-heading-topic">Project mentoring II</span></div>
-          <article class="syllabus-card"><h3>기말 프로젝트 제작 및 2차 면담</h3><p><strong>이론(1시간)</strong> UX, 시청각 일관성, 생성 에셋 권리와 최종 build 점검</p><p><strong>제작·면담(2시간)</strong> Release candidate 플레이, AI 에셋 분류, 오류 수정과 제출물 확인</p><span class="assignment-label">제출 · Release candidate와 provenance 초안</span></article>
+          <article class="syllabus-card"><h3>기말 프로젝트 제작 및 2차 면담</h3><p><strong>이론(1시간)</strong> UX, 시청각 일관성, 생성 에셋 권리와 최종 build 점검</p><p><strong>제작·면담(2시간)</strong> Release candidate 플레이, AI 에셋 분류, 오류 수정과 제출물 확인</p></article>
         </section>
         <section class="week-group" id="week-16" aria-labelledby="week-16-label">
           <div class="week-heading"><span class="week-heading-label" id="week-16-label">Week 16</span><span class="week-heading-topic">Final submission</span></div>
-          <article class="syllabus-card"><h3>기말 프로젝트 제출 및 플레이</h3><p><strong>기말평가(3시간)</strong> 3~5분 안에 완결되는 개인 2D 게임 상영·플레이와 제작 과정 회고</p><span class="assignment-label">제출 · 실행 build, Unity project, 1~2분 영상, 작품설명서 및 AI 제작 로그</span></article>
+          <article class="syllabus-card"><h3>기말 프로젝트 제출 및 플레이</h3><p><strong>기말평가(3시간)</strong> 3~5분 안에 완결되는 개인 2D 게임 상영·플레이와 제작 과정 회고</p><span class="assignment-label">기말평가 제출 · 실행 build, Unity project, 1~2분 영상, 작품설명서 및 AI 제작 로그</span></article>
         </section>
       </div>
     </section>
@@ -202,14 +222,8 @@
       </header>
       <div class="rubric-grid">
         <article class="rubric-card">
-          <div class="rubric-card-heading"><span>Week 08</span><h3>중간고사 · 100점</h3></div>
-          <dl>
-            <div><dt>입력·이동·물리·충돌의 정확성</dt><dd>30</dd></div>
-            <div><dt>Prefab·Scene·Component 구성</dt><dd>15</dd></div>
-            <div><dt>UI·게임 상태·재시작</dt><dd>20</dd></div>
-            <div><dt>코드 이해와 구술 설명</dt><dd>20</dd></div>
-            <div><dt>프로젝트 정리와 실행 build</dt><dd>15</dd></div>
-          </dl>
+          <div class="rubric-card-heading"><span>Week 08</span><h3>중간고사 · 추후 확정</h3></div>
+          <p class="rubric-pending">세부 시험 방식과 평가 기준은 수업 진행 상황과 학생의 기초 학습 수준을 검토한 뒤 결정하여 공지합니다.</p>
         </article>
         <article class="rubric-card">
           <div class="rubric-card-heading"><span>Week 16</span><h3>기말 프로젝트 · 100점</h3></div>

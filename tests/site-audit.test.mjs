@@ -354,6 +354,8 @@ test("the Game Engine I course publishes its Unity 2D and generative AI curricul
 
   for (const sectionId of [
     "course-overview",
+    "course-goals",
+    "learning-outcomes",
     "ai-workflow",
     "image-generation",
     "curriculum",
@@ -380,9 +382,27 @@ test("the Game Engine I course publishes its Unity 2D and generative AI curricul
   assert.match(courseIndex, /스프라이트시트/);
   assert.match(courseIndex, /GeneratedAssets/);
   assert.match(courseIndex, /API key/);
-  assert.match(courseIndex, /100점/);
   assert.match(courseIndex, /이론\(1시간\)/);
   assert.match(courseIndex, /실습\(2시간\)/);
+  assert.equal(
+    [...courseIndex.matchAll(/과제 [1-4]/g)].length,
+    4,
+    "the course should publish exactly four numbered assignments",
+  );
+  assert.match(courseIndex, /중간고사 · 추후 확정/);
+
+  const finalRubric = [...courseIndex.matchAll(/<article class="rubric-card">([\s\S]*?)<\/article>/g)]
+    .map((match) => match[1])
+    .find((card) => card.includes("Week 16"));
+  assert.ok(finalRubric, "the final project rubric should be present");
+  assert.match(finalRubric, /기말 프로젝트 · 100점/);
+  const finalScores = [...finalRubric.matchAll(/<dd>(\d+)<\/dd>/g)]
+    .map((match) => Number(match[1]));
+  assert.equal(
+    finalScores.reduce((total, score) => total + score, 0),
+    100,
+    "the final rubric scores should add up to 100",
+  );
 });
 
 test("the agentic AI course index keeps its mobile reading path intact", async () => {
