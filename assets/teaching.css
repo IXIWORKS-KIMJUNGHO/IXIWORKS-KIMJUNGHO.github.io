@@ -697,6 +697,59 @@ body.teaching-document a {
   font-size: 13px;
 }
 
+.course-prose > p {
+  max-width: 960px;
+  margin: 0;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.9;
+  word-break: keep-all;
+}
+
+.course-prose > p + p {
+  margin-top: 18px;
+}
+
+.syllabus-card {
+  min-width: 0;
+}
+
+.syllabus-card h3 {
+  margin: 0 0 12px;
+  color: var(--ink-strong);
+  font-size: 18px;
+  font-weight: 730;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+.syllabus-card p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.62;
+  word-break: keep-all;
+}
+
+.syllabus-card strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+.assignment-label {
+  display: inline-block;
+  margin-top: 13px;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
 /* Shared navigation for individual handouts. */
 
 .lesson-header {

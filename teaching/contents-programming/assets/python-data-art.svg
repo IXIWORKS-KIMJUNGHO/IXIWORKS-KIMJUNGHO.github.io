@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" role="img" aria-labelledby="title desc">
+  <title id="title">Python data art study</title>
+  <desc id="desc">A grid of plotted circles, data bars, waveforms, and Python code fragments representing a creative data workflow.</desc>
+  <rect width="1200" height="760" fill="#dce6e7"/>
+  <g stroke="#24424e" stroke-width="2" opacity="0.28">
+    <path d="M80 100H1120M80 220H1120M80 340H1120M80 460H1120M80 580H1120M80 700H1120"/>
+    <path d="M120 60V720M300 60V720M480 60V720M660 60V720M840 60V720M1020 60V720"/>
+  </g>
+  <g fill="none" stroke="#132c36" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M92 543C153 462 205 609 270 522S385 429 447 514 562 617 630 502 746 399 815 490 926 594 1106 420"/>
+    <path d="M94 301L184 255 274 317 364 184 454 264 544 139 634 229 724 171 814 290 904 212 994 250 1106 121" opacity="0.48"/>
+  </g>
+  <g fill="#24424e">
+    <circle cx="94" cy="301" r="15"/><circle cx="184" cy="255" r="10"/><circle cx="274" cy="317" r="22"/>
+    <circle cx="364" cy="184" r="13"/><circle cx="454" cy="264" r="27"/><circle cx="544" cy="139" r="17"/>
+    <circle cx="634" cy="229" r="12"/><circle cx="724" cy="171" r="21"/><circle cx="814" cy="290" r="14"/>
+    <circle cx="904" cy="212" r="25"/><circle cx="994" cy="250" r="11"/><circle cx="1106" cy="121" r="19"/>
+  </g>
+  <g fill="#fcfcf9" stroke="#132c36" stroke-width="5">
+    <rect x="118" y="604" width="84" height="76"/><rect x="230" y="558" width="84" height="122"/>
+    <rect x="342" y="624" width="84" height="56"/><rect x="454" y="520" width="84" height="160"/>
+    <rect x="566" y="580" width="84" height="100"/><rect x="678" y="494" width="84" height="186"/>
+  </g>
+  <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="30" font-weight="600">
+    <text x="820" y="625">for point in data:</text>
+    <text x="860" y="670">draw(point)</text>
+  </g>
+</svg>

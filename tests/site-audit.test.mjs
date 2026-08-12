@@ -287,11 +287,17 @@ test("the teaching archive has a shared, course-first design system", async () =
   );
   const courseIndexes = [
     "teaching/agentic-ai/index.html",
+    "teaching/contents-programming/index.html",
     "teaching/game-engine/index.html",
     "teaching/media-art-programming/index.html",
   ];
 
-  for (const href of ["agentic-ai/", "game-engine/", "media-art-programming/"]) {
+  for (const href of [
+    "agentic-ai/",
+    "contents-programming/",
+    "game-engine/",
+    "media-art-programming/",
+  ]) {
     assert.match(teachingIndex, new RegExp(`href="${href.replace("/", "\\/")}"`));
   }
   assert.match(teachingIndex, /class="featured-course"/);
@@ -310,6 +316,32 @@ test("the teaching archive has a shared, course-first design system", async () =
   assert.match(teachingCss, /\.course-jump/);
   assert.match(teachingCss, /\.lesson-header/);
   assert.doesNotMatch(teachingCss, /(?:linear|radial|repeating-linear)-gradient\(/);
+});
+
+test("the Contents Programming course publishes its syllabus structure", async () => {
+  const courseIndex = await readFile(
+    resolve(root, "teaching", "contents-programming", "index.html"),
+    "utf8",
+  );
+
+  for (const sectionId of [
+    "course-overview",
+    "course-goals",
+    "learning-outcomes",
+    "curriculum",
+  ]) {
+    assert.match(courseIndex, new RegExp(`id="${sectionId}"`));
+  }
+
+  assert.equal(
+    [...courseIndex.matchAll(/class="week-group"/g)].length,
+    16,
+    "the course index should list all 16 weeks",
+  );
+  assert.match(courseIndex, /Python/);
+  assert.match(courseIndex, /Google Colab/);
+  assert.match(courseIndex, /이론\(1시간\)/);
+  assert.match(courseIndex, /실습\(2시간\)/);
 });
 
 test("the agentic AI course index keeps its mobile reading path intact", async () => {
@@ -588,6 +620,7 @@ test("search engines can discover the teaching archive", async () => {
   for (const path of [
     "/teaching/",
     "/teaching/agentic-ai/",
+    "/teaching/contents-programming/",
     "/teaching/game-engine/",
     "/teaching/media-art-programming/",
   ]) {
