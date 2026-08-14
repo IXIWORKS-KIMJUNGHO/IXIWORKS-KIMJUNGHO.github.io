@@ -6,6 +6,7 @@ The mark combines an open **C** frame, three structured **E** rails, and a rust-
 
 - `creative-engineer-symbol.svg`: primary transparent symbol.
 - `creative-engineer-symbol-mono.svg`: one-color use, including stamps and engraving.
+- `creative-engineer-symbol-mono-white.svg`: one-color use on dark backgrounds.
 - `creative-engineer-symbol-reversed.svg`: symbol for dark backgrounds.
 - `creative-engineer-logo-horizontal.svg`: primary wordmark for light backgrounds.
 - `creative-engineer-logo-horizontal-reversed.svg`: wordmark for dark backgrounds.

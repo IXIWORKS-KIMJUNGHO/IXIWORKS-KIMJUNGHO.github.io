@@ -939,6 +939,7 @@ test("Creative Engineer identity assets stay complete and production-ready", asy
   const svgFiles = [
     "creative-engineer-symbol.svg",
     "creative-engineer-symbol-mono.svg",
+    "creative-engineer-symbol-mono-white.svg",
     "creative-engineer-symbol-reversed.svg",
     "creative-engineer-app-icon.svg",
     "creative-engineer-logo-horizontal.svg",
@@ -963,8 +964,8 @@ test("Creative Engineer identity assets stay complete and production-ready", asy
     resolve(brandRoot, "creative-engineer-logo-horizontal.svg"),
     "utf8",
   );
-  assert.match(horizontalLogo, />CREATIVE</);
-  assert.match(horizontalLogo, />ENGINEER</);
+  assert.match(horizontalLogo, /aria-label="CREATIVE ENGINEER"/);
+  assert.doesNotMatch(horizontalLogo, /<text\b/i);
 
   const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
   for (const file of [
@@ -977,12 +978,15 @@ test("Creative Engineer identity assets stay complete and production-ready", asy
     assert.ok(asset.byteLength > 1_000, `${file} must not be empty`);
   }
 
+  const brandCss = await readFile(resolve(root, "assets", "brand.css"), "utf8");
+  assert.match(brandCss, /\/assets\/brand\/creative-engineer-app-icon\.svg/);
+
   for (const file of ["cv.css", "portfolio.css", "teaching.css"]) {
     const css = await readFile(resolve(root, "assets", file), "utf8");
     assert.match(
       css,
-      /\/assets\/brand\/creative-engineer-app-icon\.svg/,
-      `${file} must apply the Creative Engineer mark to the header`,
+      /@import url\("\/assets\/brand\.css"\)/,
+      `${file} must import the shared brand header styles`,
     );
   }
 });
@@ -1046,6 +1050,7 @@ test("local links, assets, and fragments resolve", async () => {
     resolve(root, "assets", "cv.css"),
     resolve(root, "assets", "portfolio.css"),
     resolve(root, "assets", "teaching.css"),
+    resolve(root, "assets", "brand.css"),
     resolve(root, "assets", "accessibility.css"),
   ];
   for (const path of cssFiles) {

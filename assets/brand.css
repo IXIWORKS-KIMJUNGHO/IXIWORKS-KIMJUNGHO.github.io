@@ -1,0 +1,13 @@
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand::before {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  content: "";
+  background: url("/assets/brand/creative-engineer-app-icon.svg") center / contain no-repeat;
+}
