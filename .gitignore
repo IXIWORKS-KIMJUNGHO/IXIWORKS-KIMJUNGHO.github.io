@@ -2,3 +2,4 @@ dist/
 *.tgz
 .vercel
 .env*
+.agents/
