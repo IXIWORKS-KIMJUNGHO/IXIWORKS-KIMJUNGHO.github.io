@@ -934,6 +934,59 @@ test("primary navigation identifies the current page", async () => {
   assert.deepEqual(violations, []);
 });
 
+test("Creative Engineer identity assets stay complete and production-ready", async () => {
+  const brandRoot = resolve(root, "assets", "brand");
+  const svgFiles = [
+    "creative-engineer-symbol.svg",
+    "creative-engineer-symbol-mono.svg",
+    "creative-engineer-symbol-reversed.svg",
+    "creative-engineer-app-icon.svg",
+    "creative-engineer-logo-horizontal.svg",
+    "creative-engineer-logo-horizontal-reversed.svg",
+  ];
+
+  for (const file of svgFiles) {
+    const svg = await readFile(resolve(brandRoot, file), "utf8");
+    assert.match(svg, /<title(?:\s[^>]*)?>/, `${file} needs an accessible title`);
+    assert.doesNotMatch(svg, /<linearGradient|<radialGradient/i);
+  }
+
+  const symbol = await readFile(
+    resolve(brandRoot, "creative-engineer-symbol.svg"),
+    "utf8",
+  );
+  assert.match(symbol, /viewBox="0 0 128 128"/);
+  assert.match(symbol, /#24424E/);
+  assert.match(symbol, /#B64E35/);
+
+  const horizontalLogo = await readFile(
+    resolve(brandRoot, "creative-engineer-logo-horizontal.svg"),
+    "utf8",
+  );
+  assert.match(horizontalLogo, />CREATIVE</);
+  assert.match(horizontalLogo, />ENGINEER</);
+
+  const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47]);
+  for (const file of [
+    "creative-engineer-profile-512.png",
+    "creative-engineer-email-logo.png",
+    "creative-engineer-email-signature.png",
+  ]) {
+    const asset = await readFile(resolve(brandRoot, file));
+    assert.deepEqual(asset.subarray(0, 4), pngSignature, `${file} must be a PNG`);
+    assert.ok(asset.byteLength > 1_000, `${file} must not be empty`);
+  }
+
+  for (const file of ["cv.css", "portfolio.css", "teaching.css"]) {
+    const css = await readFile(resolve(root, "assets", file), "utf8");
+    assert.match(
+      css,
+      /\/assets\/brand\/creative-engineer-app-icon\.svg/,
+      `${file} must apply the Creative Engineer mark to the header`,
+    );
+  }
+});
+
 test("local links, assets, and fragments resolve", async () => {
   const violations = [];
   const documentCache = new Map();

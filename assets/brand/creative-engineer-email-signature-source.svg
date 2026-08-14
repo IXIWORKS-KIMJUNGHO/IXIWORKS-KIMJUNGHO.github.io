@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="240" viewBox="0 0 1000 240" role="img" aria-labelledby="title desc">
+  <title id="title">Kim Jungho Creative Engineer email signature</title>
+  <desc id="desc">A white-background email signature with the Creative Engineer identity, name, role, and website.</desc>
+  <rect width="1000" height="240" fill="#FFFFFF"/>
+  <g transform="translate(28 52)">
+    <rect width="136" height="136" rx="25" fill="#24424E"/>
+    <g transform="translate(4 4)">
+      <path fill="#FCFCF9" d="M20 20h70v17H37v54h53v17H20V20Zm43 21h45v15H63V41Zm0 18h36v15H63V59Zm0 18h45v15H63V77Z"/>
+      <circle cx="54" cy="67" r="8" fill="#B64E35"/>
+    </g>
+  </g>
+  <path d="M204 50v140" stroke="#DCE6E7" stroke-width="2"/>
+  <text x="244" y="83" fill="#0D110E" font-family="Inter, 'Avenir Next', Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="6">CREATIVE ENGINEER</text>
+  <text x="244" y="123" fill="#24424E" font-family="Inter, 'Avenir Next', Arial, sans-serif" font-size="22" font-weight="700" letter-spacing="2">KIM JUNGHO</text>
+  <text x="244" y="153" fill="#526368" font-family="Inter, 'Avenir Next', Arial, sans-serif" font-size="16" font-weight="500" letter-spacing="1.5">CREATIVE ENGINEER / RESEARCHER</text>
+  <circle cx="250" cy="181" r="5" fill="#B64E35"/>
+  <text x="268" y="187" fill="#526368" font-family="Inter, 'Avenir Next', Arial, sans-serif" font-size="16" font-weight="500">creativeengineer-kimjungho.com</text>
+</svg>

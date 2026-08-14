@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title desc">
+  <title id="title">Creative Engineer app icon</title>
+  <desc id="desc">The Creative Engineer symbol reversed on a deep blue-slate rounded square.</desc>
+  <rect width="128" height="128" rx="24" fill="#24424E"/>
+  <path fill="#FCFCF9" d="M20 20h70v17H37v54h53v17H20V20Zm43 21h45v15H63V41Zm0 18h36v15H63V59Zm0 18h45v15H63V77Z"/>
+  <circle cx="54" cy="67" r="8" fill="#B64E35"/>
+</svg>

@@ -107,12 +107,23 @@ a {
 
 .brand {
   margin-right: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   color: var(--ink-strong);
   font-size: 18px;
   font-weight: 800;
   letter-spacing: -0.02em;
   line-height: 1;
   white-space: nowrap;
+}
+
+.brand::before {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  content: "";
+  background: url("/assets/brand/creative-engineer-app-icon.svg") center / contain no-repeat;
 }
 
 .nav a:not(.brand) {

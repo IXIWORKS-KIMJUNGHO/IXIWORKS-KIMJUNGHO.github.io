@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="560" height="128" viewBox="0 0 560 128" role="img" aria-labelledby="title desc">
+  <title id="title">Creative Engineer reversed horizontal logo</title>
+  <desc id="desc">The reversed Creative Engineer symbol and a two-line Creative Engineer wordmark for dark backgrounds.</desc>
+  <path fill="#FCFCF9" d="M12 12h84v20H32v64h64v20H12V12Zm46 24h58v18H58V36Zm0 21h46v18H58V57Zm0 21h58v18H58V78Z"/>
+  <circle cx="48" cy="66" r="9" fill="#B64E35"/>
+  <path d="M150 18v92" stroke="#FCFCF9" stroke-width="2"/>
+  <g fill="#FCFCF9" font-family="Inter, 'Avenir Next', Arial, sans-serif" font-size="28" font-weight="650" letter-spacing="7">
+    <text x="184" y="51">CREATIVE</text>
+    <text x="184" y="91">ENGINEER</text>
+  </g>
+</svg>
