@@ -342,8 +342,33 @@ test("the Contents Programming course publishes its syllabus structure", async (
   );
   assert.match(courseIndex, /Python/);
   assert.match(courseIndex, /Google Colab/);
-  assert.match(courseIndex, /이론\(1시간\)/);
-  assert.match(courseIndex, /실습\(2시간\)/);
+  assert.match(courseIndex, /1·2교시 · 이론/);
+  assert.match(courseIndex, /3교시 · 개인 실습/);
+  assert.equal(
+    [...courseIndex.matchAll(/class="course-disclosure"/g)].length,
+    3,
+    "overview, goals, and outcomes should be collapsible",
+  );
+  assert.match(courseIndex, /src="\/assets\/details-motion\.js" defer/);
+
+  const orientation = await readFile(
+    resolve(root, "teaching", "contents-programming", "week-01-ot.html"),
+    "utf8",
+  );
+  for (const timeRange of [
+    "0-10분",
+    "10-40분",
+    "40-70분",
+    "70-82분",
+    "82-88분",
+    "88-90분",
+  ]) {
+    assert.match(orientation, new RegExp(timeRange));
+  }
+  assert.match(orientation, /same-data-three-outputs\.svg/);
+  assert.match(orientation, /https:\/\/reas\.com\/process/);
+  assert.match(orientation, /https:\/\/www\.dear-data\.com\/theproject/);
+  assert.doesNotMatch(orientation, /짝 활동|짝과|조별 활동/);
 });
 
 test("the Game Engine I course publishes its Unity 2D and generative AI curriculum", async () => {
@@ -510,7 +535,11 @@ test("teaching handouts provide consistent course and sequence navigation", asyn
 });
 
 test("teaching details use the shared interruptible motion controller", async () => {
-  const courseNames = ["game-engine", "media-art-programming"];
+  const courseNames = [
+    "game-engine",
+    "media-art-programming",
+    "contents-programming",
+  ];
   const violations = [];
   let detailsDocuments = 0;
   let detailsElements = 0;

@@ -1,7 +1,7 @@
 (() => {
   const closeFallbackDuration = 260;
   const detailsElements = document.querySelectorAll(
-    "body.teaching-document details, details.archive-panel, details.architecture-disclosure",
+    "body.teaching-document details, details.archive-panel, details.architecture-disclosure, details.course-disclosure",
   );
 
   for (const details of detailsElements) {

@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Casey Reas Process conceptual diagram</title>
+  <desc id="desc">A teaching diagram showing simple forms combined with behaviors to create elements and a complex generative output.</desc>
+  <rect width="1200" height="680" fill="#fcfcf9"/>
+  <g fill="none" stroke="#d0d8d3" stroke-width="2">
+    <path d="M64 110H1136M64 570H1136"/>
+    <path d="M365 80V600M815 80V600"/>
+  </g>
+  <g fill="#24424e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="600" letter-spacing="2">
+    <text x="72" y="76">01 / FORM</text>
+    <text x="405" y="76">02 / BEHAVIOR</text>
+    <text x="855" y="76">03 / PROCESS</text>
+  </g>
+  <g fill="none" stroke="#132c36" stroke-width="6">
+    <circle cx="210" cy="245" r="64"/>
+    <path d="M130 410H290"/>
+    <rect x="163" y="472" width="94" height="66"/>
+  </g>
+  <g fill="#616960" font-family="Inter, Apple SD Gothic Neo, sans-serif" font-size="20">
+    <text x="174" y="342">circle</text>
+    <text x="189" y="448">line</text>
+  </g>
+  <g fill="none" stroke="#24424e" stroke-linecap="round">
+    <path d="M455 210C520 136 650 136 716 210" stroke-width="5"/>
+    <path d="M699 188L720 211 691 220" stroke-width="5"/>
+    <path d="M457 330C522 405 650 405 716 330" stroke-width="5"/>
+    <path d="M692 321L719 329 705 354" stroke-width="5"/>
+    <path d="M478 476L696 476" stroke-width="5" stroke-dasharray="16 14"/>
+    <path d="M670 458L700 476 670 494" stroke-width="5"/>
+  </g>
+  <g fill="#132c36">
+    <circle cx="458" cy="210" r="16"/><circle cx="718" cy="330" r="16"/>
+    <circle cx="478" cy="476" r="16"/><circle cx="698" cy="476" r="16"/>
+  </g>
+  <g fill="#616960" font-family="Inter, Apple SD Gothic Neo, sans-serif" font-size="20">
+    <text x="515" y="265">move · turn</text>
+    <text x="493" y="440">avoid · repeat</text>
+  </g>
+  <g fill="none" stroke="#132c36" stroke-width="3" opacity=".9">
+    <path d="M862 186C943 120 1096 173 1061 257S883 326 874 414 1010 560 1104 477"/>
+    <path d="M846 257C910 204 1009 245 1001 318S860 385 906 476 1062 485 1110 405"/>
+    <path d="M895 142C1002 113 1114 229 1058 356S889 503 850 438"/>
+    <path d="M872 505C935 424 1093 430 1120 292"/>
+  </g>
+  <g fill="#24424e">
+    <circle cx="862" cy="186" r="12"/><circle cx="1061" cy="257" r="19"/><circle cx="874" cy="414" r="14"/>
+    <circle cx="1104" cy="477" r="11"/><circle cx="846" cy="257" r="16"/><circle cx="1001" cy="318" r="10"/>
+    <circle cx="906" cy="476" r="18"/><circle cx="895" cy="142" r="9"/><circle cx="1058" cy="356" r="15"/>
+    <circle cx="850" cy="438" r="10"/><circle cx="1120" cy="292" r="13"/>
+  </g>
+  <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">
+    <text x="72" y="632">FORM + BEHAVIOR = ELEMENT</text>
+    <text x="852" y="632">REPEAT → VARIABLE OUTPUT</text>
+  </g>
+</svg>
