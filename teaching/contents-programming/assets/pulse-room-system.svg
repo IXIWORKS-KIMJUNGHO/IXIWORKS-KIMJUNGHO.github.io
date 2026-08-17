@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Pulse Room interaction diagram</title>
+  <desc id="desc">A teaching diagram showing a participant's heartbeat detected by a sensor, stored in a queue, and replayed through a room of flashing light bulbs.</desc>
+  <rect width="1200" height="680" fill="#fcfcf9"/>
+  <g fill="none" stroke="#d0d8d3" stroke-width="2">
+    <path d="M64 112H1136M64 566H1136"/>
+    <path d="M365 82V598M815 82V598"/>
+  </g>
+  <g fill="#24424e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="600" letter-spacing="2">
+    <text x="72" y="76">01 / HEARTBEAT</text>
+    <text x="405" y="76">02 / RECORD + QUEUE</text>
+    <text x="855" y="76">03 / LIGHT RHYTHM</text>
+  </g>
+  <g transform="translate(82 144)">
+    <rect width="252" height="338" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <rect x="70" y="48" width="112" height="154" rx="56" fill="#fcfcf9" stroke="#24424e" stroke-width="4"/>
+    <circle cx="126" cy="124" r="29" fill="#132c36"/>
+    <path d="M126 89V38M126 210V252" stroke="#24424e" stroke-width="5"/>
+    <path d="M20 284H69L83 261L101 313L121 274L137 295H232" fill="none" stroke="#24424e" stroke-width="5" stroke-linejoin="round"/>
+    <text x="84" y="329" fill="#616960" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14">72 BPM</text>
+  </g>
+  <g transform="translate(408 144)">
+    <rect width="364" height="338" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <g fill="#616960" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13"><text x="26" y="36">RECENT PARTICIPANTS</text></g>
+    <g transform="translate(28 67)">
+      <g fill="#fcfcf9" stroke="#24424e" stroke-width="2">
+        <rect width="308" height="52" rx="4"/><rect y="66" width="308" height="52" rx="4"/><rect y="132" width="308" height="52" rx="4"/><rect y="198" width="308" height="52" rx="4"/>
+      </g>
+      <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14"><text x="14" y="32">NEW</text><text x="14" y="98">02</text><text x="14" y="164">03</text><text x="14" y="230">04</text></g>
+      <g fill="none" stroke="#24424e" stroke-width="3">
+        <path d="M72 27H110L119 13L130 42L142 19L152 27H286"/>
+        <path d="M72 93H101L111 78L121 108L134 82L145 93H286"/>
+        <path d="M72 159H115L124 145L134 175L147 151L158 159H286"/>
+        <path d="M72 225H96L107 207L119 243L132 216L146 225H286"/>
+      </g>
+    </g>
+  </g>
+  <g transform="translate(852 144)">
+    <rect width="284" height="338" rx="5" fill="#132c36"/>
+    <g stroke="#91aeb4" stroke-width="2"><path d="M0 85H284M0 169H284M0 253H284M71 0V338M142 0V338M213 0V338"/></g>
+    <g stroke="#f6f8f7" stroke-width="3">
+      <path d="M36 20V45M107 20V45M178 20V45M249 20V45M36 104V129M107 104V129M178 104V129M249 104V129M36 188V213M107 188V213M178 188V213M249 188V213M36 272V297M107 272V297M178 272V297M249 272V297"/>
+    </g>
+    <g fill="#fcfcf9">
+      <circle cx="36" cy="55" r="13"/><circle cx="107" cy="55" r="21"/><circle cx="178" cy="55" r="10"/><circle cx="249" cy="55" r="16"/>
+      <circle cx="36" cy="139" r="19"/><circle cx="107" cy="139" r="11"/><circle cx="178" cy="139" r="23"/><circle cx="249" cy="139" r="13"/>
+      <circle cx="36" cy="223" r="12"/><circle cx="107" cy="223" r="18"/><circle cx="178" cy="223" r="10"/><circle cx="249" cy="223" r="20"/>
+      <circle cx="36" cy="307" r="17"/><circle cx="107" cy="307" r="9"/><circle cx="178" cy="307" r="22"/><circle cx="249" cy="307" r="12"/>
+    </g>
+  </g>
+  <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">
+    <text x="72" y="632">BODY AS INPUT</text>
+    <text x="405" y="632">EACH RHYTHM IS STORED</text>
+    <text x="855" y="632">MEMORY BECOMES SPACE</text>
+  </g>
+</svg>

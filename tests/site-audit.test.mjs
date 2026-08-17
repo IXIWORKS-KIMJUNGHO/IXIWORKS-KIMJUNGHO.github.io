@@ -368,6 +368,14 @@ test("the Contents Programming course publishes its syllabus structure", async (
   assert.match(orientation, /same-data-three-outputs\.svg/);
   assert.match(orientation, /https:\/\/reas\.com\/process/);
   assert.match(orientation, /https:\/\/www\.dear-data\.com\/theproject/);
+  for (const [assetName, officialUrl] of [
+    ["flight-patterns-system.svg", "https://www.aaronkoblin.com/work/flightpatterns/"],
+    ["wind-map-system.svg", "https://www.moma.org/collection/works/163892"],
+    ["pulse-room-system.svg", "https://www.lozano-hemmer.com/pulse_room.php"],
+  ]) {
+    assert.ok(orientation.includes(assetName));
+    assert.ok(orientation.includes(officialUrl));
+  }
   assert.doesNotMatch(orientation, /짝 활동|짝과|조별 활동/);
 });
 

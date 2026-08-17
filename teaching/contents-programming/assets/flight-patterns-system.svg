@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Flight Patterns data transformation diagram</title>
+  <desc id="desc">A teaching diagram showing flight records transformed through position and time mapping into luminous flight trajectories.</desc>
+  <rect width="1200" height="680" fill="#fcfcf9"/>
+  <g fill="none" stroke="#d0d8d3" stroke-width="2">
+    <path d="M64 112H1136M64 566H1136"/>
+    <path d="M365 82V598M815 82V598"/>
+  </g>
+  <g fill="#24424e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="600" letter-spacing="2">
+    <text x="72" y="76">01 / FLIGHT RECORDS</text>
+    <text x="405" y="76">02 / MAP</text>
+    <text x="855" y="76">03 / TRAJECTORIES</text>
+  </g>
+  <g transform="translate(82 146)">
+    <rect width="252" height="330" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <g fill="#616960" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+      <text x="20" y="34">TIME</text><text x="92" y="34">X / Y</text><text x="190" y="34">ID</text>
+    </g>
+    <g stroke="#d0d8d3" stroke-width="2"><path d="M18 48H234M18 102H234M18 156H234M18 210H234M18 264H234"/></g>
+    <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="15">
+      <text x="20" y="82">00:04</text><text x="92" y="82">31 / 76</text><text x="190" y="82">A17</text>
+      <text x="20" y="136">00:11</text><text x="92" y="136">44 / 62</text><text x="190" y="136">B04</text>
+      <text x="20" y="190">00:18</text><text x="92" y="190">58 / 51</text><text x="190" y="190">C31</text>
+      <text x="20" y="244">00:25</text><text x="92" y="244">71 / 39</text><text x="190" y="244">D22</text>
+    </g>
+    <g fill="#24424e"><circle cx="34" cy="298" r="6"/><circle cx="70" cy="306" r="9"/><circle cx="112" cy="290" r="5"/><circle cx="154" cy="310" r="8"/><circle cx="208" cy="294" r="11"/></g>
+  </g>
+  <g transform="translate(408 142)">
+    <rect width="364" height="338" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <g fill="none" stroke="#91aeb4" stroke-width="2">
+      <path d="M34 54H330M34 112H330M34 170H330M34 228H330M34 286H330"/>
+      <path d="M84 30V308M154 30V308M224 30V308M294 30V308"/>
+    </g>
+    <g fill="#24424e"><circle cx="74" cy="226" r="7"/><circle cx="140" cy="142" r="7"/><circle cx="225" cy="102" r="7"/><circle cx="292" cy="192" r="7"/><circle cx="318" cy="78" r="7"/></g>
+    <g fill="none" stroke="#24424e" stroke-linecap="round">
+      <path d="M74 226C116 178 176 133 225 102S286 86 318 78" stroke-width="5"/>
+      <path d="M74 226C138 247 232 231 292 192" stroke-width="3"/>
+      <path d="M140 142C196 158 249 181 292 192" stroke-width="4"/>
+    </g>
+    <g fill="#616960" font-family="Inter, Apple SD Gothic Neo, sans-serif" font-size="15">
+      <text x="34" y="326">position · time · direction</text>
+    </g>
+  </g>
+  <g transform="translate(852 142)">
+    <rect width="284" height="338" rx="5" fill="#132c36"/>
+    <g fill="none" stroke-linecap="round">
+      <path d="M20 269C86 217 108 95 258 62" stroke="#f6f8f7" stroke-width="4"/>
+      <path d="M18 246C91 272 174 257 264 181" stroke="#91aeb4" stroke-width="5"/>
+      <path d="M35 109C117 146 161 168 250 268" stroke="#557985" stroke-width="4"/>
+      <path d="M46 296C109 229 194 152 248 88" stroke="#f6f8f7" stroke-width="2"/>
+      <path d="M27 164C108 182 176 135 260 123" stroke="#91aeb4" stroke-width="3"/>
+    </g>
+    <g fill="#f6f8f7"><circle cx="20" cy="269" r="5"/><circle cx="258" cy="62" r="5"/><circle cx="264" cy="181" r="5"/><circle cx="35" cy="109" r="5"/><circle cx="250" cy="268" r="5"/></g>
+  </g>
+  <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">
+    <text x="72" y="632">FAA DATA</text>
+    <text x="405" y="632">COORDINATES + TIME</text>
+    <text x="855" y="632">MOVING DATA PORTRAIT</text>
+  </g>
+</svg>

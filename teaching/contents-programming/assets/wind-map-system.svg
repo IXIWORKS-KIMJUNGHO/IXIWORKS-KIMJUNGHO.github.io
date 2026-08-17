@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
+  <title id="title">Wind Map data transformation diagram</title>
+  <desc id="desc">A teaching diagram showing hourly wind forecast data mapped by direction and speed into a living field of flowing lines.</desc>
+  <rect width="1200" height="680" fill="#fcfcf9"/>
+  <g fill="none" stroke="#d0d8d3" stroke-width="2">
+    <path d="M64 112H1136M64 566H1136"/>
+    <path d="M365 82V598M815 82V598"/>
+  </g>
+  <g fill="#24424e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="600" letter-spacing="2">
+    <text x="72" y="76">01 / FORECAST GRID</text>
+    <text x="405" y="76">02 / ENCODE</text>
+    <text x="855" y="76">03 / FLOW FIELD</text>
+  </g>
+  <g transform="translate(82 144)">
+    <rect width="252" height="338" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <g stroke="#d0d8d3" stroke-width="2"><path d="M0 84H252M0 168H252M0 252H252M84 0V338M168 0V338"/></g>
+    <g fill="none" stroke="#24424e" stroke-linecap="round" stroke-width="4">
+      <path d="M26 58L58 34M53 34H58V40"/><path d="M111 57L142 50M137 46L142 50L138 55"/><path d="M199 62L226 33M220 34L226 33L225 40"/>
+      <path d="M28 140L57 153M52 146L57 153L48 155"/><path d="M112 142L145 117M139 117L145 117L143 125"/><path d="M197 139L229 145M223 139L229 145L222 150"/>
+      <path d="M27 225L58 204M52 203L58 204L55 211"/><path d="M112 222L143 237M138 229L143 237L134 238"/><path d="M199 224L229 200M223 200L229 200L227 207"/>
+      <path d="M28 309L59 295M53 290L59 295L53 300"/><path d="M112 309L144 282M138 282L144 282L142 289"/><path d="M198 307L228 318M223 311L228 318L220 320"/>
+    </g>
+  </g>
+  <g transform="translate(408 144)">
+    <rect width="364" height="338" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="16">
+      <text x="32" y="55">DIRECTION</text><text x="32" y="139">SPEED</text><text x="32" y="223">UPDATE</text>
+    </g>
+    <g fill="none" stroke="#24424e" stroke-linecap="round">
+      <path d="M188 48H310M296 34L310 48L296 62" stroke-width="4"/>
+      <path d="M188 132H232M188 158H302" stroke-width="5"/>
+      <path d="M188 216A43 43 0 1 1 187 217" stroke-width="4"/>
+      <path d="M188 216L204 201M188 216L211 219" stroke-width="4"/>
+    </g>
+    <g fill="#616960" font-family="Inter, Apple SD Gothic Neo, sans-serif" font-size="15">
+      <text x="32" y="285">line angle</text><text x="153" y="285">line length</text><text x="271" y="285">motion</text>
+      <text x="32" y="316">revised hourly from public weather data</text>
+    </g>
+  </g>
+  <g transform="translate(852 144)">
+    <rect width="284" height="338" rx="5" fill="#e8ece9" stroke="#132c36" stroke-width="3"/>
+    <g fill="none" stroke="#24424e" stroke-linecap="round">
+      <path d="M22 74C78 28 162 36 256 90" stroke-width="3"/>
+      <path d="M18 97C81 50 164 61 261 113" stroke-width="5"/>
+      <path d="M24 124C97 88 180 95 256 143" stroke-width="2"/>
+      <path d="M30 183C92 130 170 139 244 199" stroke-width="4"/>
+      <path d="M38 210C105 172 178 180 251 234" stroke-width="3"/>
+      <path d="M28 275C89 229 167 244 250 295" stroke-width="5"/>
+      <path d="M42 305C102 274 170 284 236 317" stroke-width="2"/>
+    </g>
+    <g fill="#616960" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13"><text x="178" y="28">13:00</text></g>
+  </g>
+  <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">
+    <text x="72" y="632">WIND DIRECTION + SPEED</text>
+    <text x="405" y="632">VALUES → VISUAL MOTION</text>
+    <text x="855" y="632">A LIVING PORTRAIT</text>
+  </g>
+</svg>
