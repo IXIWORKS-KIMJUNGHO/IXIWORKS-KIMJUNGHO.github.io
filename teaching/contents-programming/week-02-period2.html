@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>2주차 2교시: 변수와 자료형 | Contents Programming Practice</title>
-  <meta name="description" content="값과 변수, 대입과 갱신, int, float, str, bool 자료형을 자기소개 데이터와 창작 데이터로 이해하는 2주차 2교시 강의 자료입니다.">
+  <meta name="description" content="값과 변수, 대입과 갱신, int, float, str, bool 자료형을 배우고 변수값이 이미지의 막대 길이와 원 크기로 연결되는 과정을 살펴보는 2주차 2교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period2.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="2주차 2교시: 변수와 자료형 | Contents Programming Practice">
-  <meta property="og:description" content="값에 읽을 수 있는 이름을 붙이고, 숫자와 글자와 참·거짓이 서로 다르게 처리되는 방식을 살펴봅니다.">
+  <meta property="og:description" content="값에 이름과 자료형을 부여하고, 숫자 데이터가 이미지의 시각 속성을 바꾸는 방식을 살펴봅니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period2.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="2주차 2교시: 변수와 자료형 | Contents Programming Practice">
-  <meta name="twitter:description" content="Python 변수와 네 가지 기본 자료형을 다루는 입문 강의입니다.">
+  <meta name="twitter:description" content="Python 변수와 네 가지 기본 자료형을 배우고 값이 이미지 속성으로 연결되는 과정을 살펴보는 입문 강의입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
@@ -42,7 +42,7 @@
       <div>
         <p class="eyebrow">Python / Variables / Data types</p>
         <h1>2주차 2교시: 변수와 자료형</h1>
-        <p class="lead">값에 읽을 수 있는 이름을 붙이고, 숫자와 글자와 참·거짓이 서로 다르게 처리되는 방식을 살펴봅니다.</p>
+        <p class="lead">값에 읽을 수 있는 이름을 붙이고, 숫자와 글자와 참·거짓이 서로 다르게 처리되며 이미지의 속성으로 연결되는 방식을 살펴봅니다.</p>
         <div class="hero-meta" role="group" aria-label="핵심 정보">
           <span class="hero-chip">WEEK 02</span>
           <span class="hero-chip">PERIOD 02</span>
@@ -70,23 +70,25 @@
           <li><strong>값, 변수, 대입</strong>의 관계를 자신의 말로 설명할 수 있습니다.</li>
           <li><code>변수명 = 값</code>을 오른쪽부터 읽고 실행 결과를 추적할 수 있습니다.</li>
           <li><code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>을 구분할 수 있습니다.</li>
+          <li>변수값의 변화가 이미지의 시각 속성 변화로 이어지는 과정을 설명할 수 있습니다.</li>
           <li>자료형에 따라 연산 결과가 달라지는 이유를 예측할 수 있습니다.</li>
           <li>의미가 드러나는 변수명을 작성하고 대표적인 오류의 원인을 찾을 수 있습니다.</li>
         </ul>
       </div>
 
-      <ul class="session-grid session-grid-six" aria-label="2교시 시간 구성">
+      <ul class="session-grid session-grid-seven" aria-label="2교시 시간 구성">
         <li><span class="session-label">0-5 min</span><strong>회상과 예측</strong><p>숫자와 글자의 + 결과를 다시 비교합니다.</p></li>
-        <li><span class="session-label">5-17 min</span><strong>값, 변수, 대입</strong><p>오른쪽 값을 왼쪽 이름과 연결하는 과정을 읽습니다.</p></li>
-        <li><span class="session-label">17-25 min</span><strong>값의 갱신</strong><p>같은 변수에 새로운 계산 결과를 다시 대입합니다.</p></li>
-        <li><span class="session-label">25-36 min</span><strong>네 가지 자료형</strong><p>정수, 실수, 문자열, 불리언을 창작 데이터와 연결합니다.</p></li>
-        <li><span class="session-label">36-44 min</span><strong>연산과 이름 짓기</strong><p>자료형별 연산과 읽기 좋은 변수명을 정리합니다.</p></li>
-        <li><span class="session-label">44-50 min</span><strong>오류 읽기와 확인</strong><p>오류의 마지막 줄을 읽고 실습 준비 상태를 점검합니다.</p></li>
+        <li><span class="session-label">5-15 min</span><strong>값, 변수, 대입</strong><p>오른쪽 값을 왼쪽 이름과 연결하는 과정을 읽습니다.</p></li>
+        <li><span class="session-label">15-23 min</span><strong>값의 갱신</strong><p>같은 변수에 새로운 계산 결과를 다시 대입합니다.</p></li>
+        <li><span class="session-label">23-33 min</span><strong>네 가지 자료형</strong><p>정수, 실수, 문자열, 불리언을 창작 데이터와 연결합니다.</p></li>
+        <li><span class="session-label">33-41 min</span><strong>값에서 이미지로</strong><p>숫자값이 막대 길이와 원 크기를 바꾸는 결과를 비교합니다.</p></li>
+        <li><span class="session-label">41-46 min</span><strong>연산과 이름 짓기</strong><p>자료형별 연산과 읽기 좋은 변수명을 정리합니다.</p></li>
+        <li><span class="session-label">46-50 min</span><strong>오류 읽기와 확인</strong><p>오류의 마지막 줄을 읽고 실습 준비 상태를 점검합니다.</p></li>
       </ul>
 
       <div class="callout callout-info">
         <p class="callout-title">표준 운영 기준</p>
-        <p>수업에서는 대입 추적, 네 가지 자료형, <code>TypeError</code> 한 가지를 중심으로 다룹니다. 변수명 세부 규칙과 추가 오류 예시는 시간이 부족하면 수업 후 복습 자료로 활용합니다.</p>
+        <p>수업에서는 대입 추적, 네 가지 자료형, 변수값과 이미지 속성의 연결, <code>TypeError</code> 한 가지를 중심으로 다룹니다. 변수명 세부 규칙과 추가 오류 예시는 시간이 부족하면 수업 후 복습 자료로 활용합니다.</p>
       </div>
 
       <h2 id="recall">0-5분 · 같은 기호가 다른 결과를 만드는 이유</h2>
@@ -111,7 +113,7 @@
         <div class="details-motion-content"><p>첫 결과는 <code>5</code>, 두 번째 결과는 <code>32</code>입니다. <code>3</code>과 <code>2</code>는 계산할 숫자이고, <code>"3"</code>과 <code>"2"</code>는 앞뒤로 연결할 글자입니다. 값의 종류가 다르면 허용되는 처리 방식도 달라집니다.</p></div>
       </details>
 
-      <h2 id="variable-basics">5-17분 · 값에 다시 사용할 이름 붙이기</h2>
+      <h2 id="variable-basics">5-15분 · 값에 다시 사용할 이름 붙이기</h2>
 
       <h3 id="value-variable-assignment">값, 변수, 대입</h3>
       <ul>
@@ -168,7 +170,7 @@ print("작업자:", name)</code></pre>
         <p><code>name</code>은 값을 찾기 위한 이름이고 <code>"name"</code>은 n, a, m, e라는 네 글자로 이루어진 문자열입니다. 변수 이름과 글자 데이터는 역할이 다릅니다.</p>
       </div>
 
-      <h2 id="reassignment">17-25분 · 변수의 값은 실행 중에 바뀔 수 있다</h2>
+      <h2 id="reassignment">15-23분 · 변수의 값은 실행 중에 바뀔 수 있다</h2>
 
       <p>변수는 한 번 정한 값을 영원히 보관하는 이름이 아닙니다. 새로운 값을 다시 대입하면 이후부터 그 이름은 새 값을 가리킵니다.</p>
 
@@ -200,7 +202,7 @@ print(minutes)</code></pre>
         <p>각 줄을 실행한 뒤 <code>minutes</code>의 값을 차례로 적습니다. 마지막 출력은 <strong>75</strong>입니다.</p>
       </div>
 
-      <h2 id="data-types">25-36분 · 네 가지 기본 자료형</h2>
+      <h2 id="data-types">23-33분 · 네 가지 기본 자료형</h2>
 
       <p><strong>자료형</strong>은 값이 어떤 종류의 데이터인지, 그리고 그 값에 어떤 연산을 할 수 있는지를 나타냅니다. 겉으로 비슷해 보여도 자료형이 다르면 Python의 처리 방식도 달라집니다.</p>
 
@@ -264,7 +266,59 @@ print(type(favorite_color))</code></pre>
 
       <p>출력에 보이는 <code>class</code>의 자세한 의미는 지금 다루지 않습니다. 이번 주에는 <code>int</code>와 <code>str</code>처럼 마지막에 표시되는 자료형 이름을 확인하면 충분합니다.</p>
 
-      <h2 id="operations-and-names">36-44분 · 자료형에 맞는 연산과 읽기 좋은 이름</h2>
+      <h2 id="visual-output">33-41분 · 변수값이 이미지가 되는 순간</h2>
+
+      <p>변수는 계산 결과를 출력하는 데만 쓰이지 않습니다. 프로그램이 변수값을 <strong>길이, 크기, 색, 표시 상태</strong> 같은 시각 속성과 연결하면 데이터가 이미지의 형태를 결정합니다. 아래 두 이미지는 이 대응 관계를 설명하기 위해 생성형 이미지 도구로 제작한 수업용 개념 시안이며, Python 코드의 실제 실행 화면은 아닙니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">교수자 시연 · 8분</span>
+        <ol>
+          <li><strong>33-35분:</strong> STATE A의 변수값만 읽고 어떤 모양이 나올지 각자 예상합니다.</li>
+          <li><strong>35-37분:</strong> 첫 이미지를 공개하고 각 변수와 시각 요소의 연결을 확인합니다.</li>
+          <li><strong>37-39분:</strong> STATE B와 비교해 달라질 요소 두 가지를 한 문장씩 적습니다.</li>
+          <li><strong>39-41분:</strong> 정답을 열어 변화한 값과 그대로인 값을 구분하고 3주차 이미지 프로그래밍으로 연결합니다.</li>
+        </ol>
+      </div>
+
+      <div class="profile-mapping" role="group" aria-label="변수와 이미지 속성의 연결">
+        <div><code>favorite_content</code><span aria-hidden="true">→</span><strong>카드의 설명</strong></div>
+        <div><code>weekly_hours</code><span aria-hidden="true">→</span><strong>막대 길이</strong></div>
+        <div><code>average_rating</code><span aria-hidden="true">→</span><strong>원 크기</strong></div>
+        <div><code>wants_to_create</code><span aria-hidden="true">→</span><strong>상태 타일 표시</strong></div>
+      </div>
+
+      <div class="generated-profile-grid" role="group" aria-label="변수값에 따른 두 데이터 프로필 이미지 비교">
+        <figure class="generated-profile-card">
+          <span class="visual-label">STATE A / LOWER VALUES</span>
+          <pre><code>favorite_content = "데이터 아트"
+weekly_hours = 4
+average_rating = 3.0
+wants_to_create = True</code></pre>
+          <img src="assets/week-02-data-profile-low.png" width="1448" height="1086" loading="lazy" decoding="async" alt="짧은 초록 막대와 중간 크기의 파란 원으로 표현한 낮은 변수값 데이터 프로필">
+          <figcaption><code>weekly_hours = 4</code>, <code>average_rating = 3.0</code>: 막대가 짧고 원이 비교적 작습니다.</figcaption>
+        </figure>
+        <figure class="generated-profile-card">
+          <span class="visual-label">STATE B / HIGHER VALUES</span>
+          <pre><code>favorite_content = "데이터 아트"
+weekly_hours = 12
+average_rating = 4.8
+wants_to_create = True</code></pre>
+          <img src="assets/week-02-data-profile-high.png" width="1448" height="1086" loading="lazy" decoding="async" alt="긴 초록 막대와 큰 파란 원으로 표현한 높은 변수값 데이터 프로필">
+          <figcaption><code>weekly_hours = 12</code>, <code>average_rating = 4.8</code>: 막대가 길어지고 원이 커집니다.</figcaption>
+        </figure>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">지금 배울 것과 다음에 배울 것</p>
+        <p>이번 2교시의 목표는 <strong>값이 바뀌면 연결된 시각 속성도 바뀐다</strong>는 원리를 읽는 것입니다. 이미지를 만드는 함수와 이미지 생성 문법 자체는 이번 시간의 학습 범위가 아닙니다. 3주차부터 픽셀, 좌표, RGB, 도형 그리기를 배우며 직접 구현합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">개별 관찰 · 두 이미지에서 바뀐 것과 그대로인 것은?</summary>
+        <div class="details-motion-content"><p><code>weekly_hours</code>가 4에서 12로 바뀌며 초록 막대가 길어졌고, <code>average_rating</code>이 3.0에서 4.8로 바뀌며 파란 원이 커졌습니다. 문자열 <code>favorite_content</code>와 불리언 <code>wants_to_create</code>는 같으므로 설명과 상태 타일은 그대로입니다. 이처럼 어떤 시각 요소가 바뀌는지는 그 요소와 연결된 변수에 달려 있습니다.</p></div>
+      </details>
+
+      <h2 id="operations-and-names">41-46분 · 자료형에 맞는 연산과 읽기 좋은 이름</h2>
 
       <h3 id="operations">자료형에 따라 달라지는 연산</h3>
       <div class="table-wrap">
@@ -313,7 +367,7 @@ print("전공:", major)</code></pre>
       <pre><code>이름: 서윤
 전공: 시각디자인</code></pre>
 
-      <h2 id="errors-and-check">44-50분 · 오류를 읽고 실습 준비 확인하기</h2>
+      <h2 id="errors-and-check">46-50분 · 오류를 읽고 실습 준비 확인하기</h2>
 
       <h3 id="error-reading">오류 메시지는 마지막 줄부터 읽는다</h3>
       <p>오류 화면 전체를 한 번에 이해하려고 하지 않습니다. 우선 마지막 줄에서 <strong>오류 이름</strong>과 <strong>오류 설명</strong>을 찾고, 그 위에서 문제가 발생한 코드 줄을 확인합니다.</p>
@@ -421,18 +475,19 @@ print("데이터 아트 관심 여부:", likes_data_art)</code></pre>
       <p class="toc-title">문서 구조</p>
       <ol>
         <li class="toc-level-2"><a href="#recall">0-5분 · 회상과 예측</a></li>
-        <li class="toc-level-2"><a href="#variable-basics">5-17분 · 값, 변수, 대입</a></li>
+        <li class="toc-level-2"><a href="#variable-basics">5-15분 · 값, 변수, 대입</a></li>
         <li class="toc-level-3"><a href="#value-variable-assignment">세 용어 구분</a></li>
         <li class="toc-level-3"><a href="#why-variables">변수가 필요한 이유</a></li>
-        <li class="toc-level-2"><a href="#reassignment">17-25분 · 값의 갱신</a></li>
-        <li class="toc-level-2"><a href="#data-types">25-36분 · 네 가지 자료형</a></li>
+        <li class="toc-level-2"><a href="#reassignment">15-23분 · 값의 갱신</a></li>
+        <li class="toc-level-2"><a href="#data-types">23-33분 · 네 가지 자료형</a></li>
         <li class="toc-level-3"><a href="#similar-values">비슷한 값 구분</a></li>
         <li class="toc-level-3"><a href="#type-function">type() 확인</a></li>
-        <li class="toc-level-2"><a href="#operations-and-names">36-44분 · 연산과 이름</a></li>
+        <li class="toc-level-2"><a href="#visual-output">33-41분 · 값에서 이미지로</a></li>
+        <li class="toc-level-2"><a href="#operations-and-names">41-46분 · 연산과 이름</a></li>
         <li class="toc-level-3"><a href="#operations">자료형별 연산</a></li>
         <li class="toc-level-3"><a href="#naming">변수명 작성 기준</a></li>
         <li class="toc-level-3"><a href="#print-values">설명과 값 출력</a></li>
-        <li class="toc-level-2"><a href="#errors-and-check">44-50분 · 오류와 확인</a></li>
+        <li class="toc-level-2"><a href="#errors-and-check">46-50분 · 오류와 확인</a></li>
         <li class="toc-level-3"><a href="#error-reading">오류 메시지 읽기</a></li>
         <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
         <li class="toc-level-3"><a href="#practice-bridge">3교시 연결</a></li>
