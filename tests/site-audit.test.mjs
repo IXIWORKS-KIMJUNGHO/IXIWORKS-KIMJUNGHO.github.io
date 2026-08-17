@@ -343,7 +343,7 @@ test("the Contents Programming course publishes its syllabus structure", async (
   assert.match(courseIndex, /Python/);
   assert.match(courseIndex, /Google Colab/);
   assert.match(courseIndex, /1·2교시 · 이론/);
-  assert.match(courseIndex, /3교시 · 개인 실습/);
+  assert.match(courseIndex, /3교시 · 목표 달성형 개인 실습/);
   assert.equal(
     [...courseIndex.matchAll(/class="course-disclosure"/g)].length,
     3,
@@ -446,6 +446,80 @@ test("Contents Programming week 2 teaches execution before variables and types",
 
   assert.match(period1, /href="week-02-period2\.html" rel="next"/);
   assert.match(period2, /href="week-02-period1\.html" rel="prev"/);
+});
+
+test("Contents Programming week 2 period 3 is a goal-based individual mission", async () => {
+  const courseDirectory = resolve(root, "teaching", "contents-programming");
+  const courseIndex = await readFile(resolve(courseDirectory, "index.html"), "utf8");
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-02-period2.html"),
+    "utf8",
+  );
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-02-period3.html"),
+    "utf8",
+  );
+  const notebook = JSON.parse(
+    await readFile(
+      resolve(courseDirectory, "assets", "week-02-profile-mission.ipynb"),
+      "utf8",
+    ),
+  );
+  const notebookCode = notebook.cells
+    .filter((cell) => cell.cell_type === "code")
+    .flatMap((cell) => cell.source)
+    .join("");
+
+  assert.match(courseIndex, /href="week-02-period3\.html"/);
+  assert.match(period2, /href="week-02-period3\.html" rel="next"/);
+  assert.match(period3, /href="week-02-period2\.html" rel="prev"/);
+
+  for (const pattern of [
+    /목표 달성형 개인 실습/,
+    /완료 즉시 제출 후 퇴실/,
+    /속도는 평가하지 않습니다/,
+    /class="mission-route"/,
+    /class="exit-gate"/,
+    /자동 검사 셀/,
+    /WEEK 02 MISSION COMPLETE/,
+    /런타임.*모두 실행/s,
+    /week02_학번_이름\.ipynb/,
+    /assets\/week-02-profile-mission\.ipynb/,
+    /student_name.*major.*favorite_content.*weekly_hours.*average_rating.*wants_to_create/s,
+    /monthly_hours\s*=\s*weekly_hours\s*\*\s*4/,
+    /type\(student_name\) is str/,
+    /type\(wants_to_create\) is bool/,
+    /initial_weekly_hours != weekly_hours/,
+    /mission_step1_execution.*mission_final_execution/s,
+  ]) {
+    assert.match(period3, pattern);
+  }
+
+  assert.equal(notebook.nbformat, 4);
+  assert.equal(
+    notebook.cells.filter((cell) => cell.cell_type === "code").length,
+    5,
+  );
+  for (const pattern of [
+    /student_name = "여기에 작성"/,
+    /monthly_hours = weekly_hours \* 4/,
+    /initial_output_snapshot/,
+    /changed_output_snapshot/,
+    /initial_weekly_hours != weekly_hours/,
+    /initial_average_rating != average_rating/,
+    /mission_stage == 4/,
+    /mission_step1_execution.*mission_final_execution/s,
+    /== \(1, 2, 3, 4, 5\)/,
+    /WEEK 02 MISSION COMPLETE/,
+  ]) {
+    assert.match(notebookCode, pattern);
+  }
+
+  assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
+  assert.ok(
+    [...period3.matchAll(/<details\b/gi)].length >= 4,
+    "the goal-based practice should include at least four on-demand help panels",
+  );
 });
 
 test("the Game Engine I course publishes its Unity 2D and generative AI curriculum", async () => {
