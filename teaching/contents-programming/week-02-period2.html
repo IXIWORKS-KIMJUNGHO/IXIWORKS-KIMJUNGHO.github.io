@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 2교시: 변수와 자료형 | Contents Programming Practice</title>
+  <meta name="description" content="값과 변수, 대입과 갱신, int, float, str, bool 자료형을 자기소개 데이터와 창작 데이터로 이해하는 2주차 2교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="2주차 2교시: 변수와 자료형 | Contents Programming Practice">
+  <meta property="og:description" content="값에 읽을 수 있는 이름을 붙이고, 숫자와 글자와 참·거짓이 서로 다르게 처리되는 방식을 살펴봅니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2주차 2교시: 변수와 자료형 | Contents Programming Practice">
+  <meta name="twitter:description" content="Python 변수와 네 가지 기본 자료형을 다루는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-02-period1.html" rel="prev" aria-label="이전 자료: 2주차 1교시: 컴퓨터는 어떻게 코드를 실행하는가 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+
+      </div>
+    </nav>
+  </header>
+<header class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Python / Variables / Data types</p>
+        <h1>2주차 2교시: 변수와 자료형</h1>
+        <p class="lead">값에 읽을 수 있는 이름을 붙이고, 숫자와 글자와 참·거짓이 서로 다르게 처리되는 방식을 살펴봅니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 02</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">50 MIN</span>
+          <span class="hero-chip">THEORY</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Lesson Spec</p>
+        <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">값, 변수, 대입, 자료형</span></div>
+        <div class="meta-row"><span class="meta-key">자료형</span><span class="meta-value">int, float, str, bool</span></div>
+        <div class="meta-row"><span class="meta-key">확인 방법</span><span class="meta-value">type(), print()</span></div>
+        <div class="meta-row"><span class="meta-key">연결 실습</span><span class="meta-value">자기소개 Colab 노트북</span></div>
+      </aside>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">정보에 이름과 성격 부여하기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li><strong>값, 변수, 대입</strong>의 관계를 자신의 말로 설명할 수 있습니다.</li>
+          <li><code>변수명 = 값</code>을 오른쪽부터 읽고 실행 결과를 추적할 수 있습니다.</li>
+          <li><code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>을 구분할 수 있습니다.</li>
+          <li>자료형에 따라 연산 결과가 달라지는 이유를 예측할 수 있습니다.</li>
+          <li>의미가 드러나는 변수명을 작성하고 대표적인 오류의 원인을 찾을 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-six" aria-label="2교시 시간 구성">
+        <li><span class="session-label">0-5 min</span><strong>회상과 예측</strong><p>숫자와 글자의 + 결과를 다시 비교합니다.</p></li>
+        <li><span class="session-label">5-17 min</span><strong>값, 변수, 대입</strong><p>오른쪽 값을 왼쪽 이름과 연결하는 과정을 읽습니다.</p></li>
+        <li><span class="session-label">17-25 min</span><strong>값의 갱신</strong><p>같은 변수에 새로운 계산 결과를 다시 대입합니다.</p></li>
+        <li><span class="session-label">25-36 min</span><strong>네 가지 자료형</strong><p>정수, 실수, 문자열, 불리언을 창작 데이터와 연결합니다.</p></li>
+        <li><span class="session-label">36-44 min</span><strong>연산과 이름 짓기</strong><p>자료형별 연산과 읽기 좋은 변수명을 정리합니다.</p></li>
+        <li><span class="session-label">44-50 min</span><strong>오류 읽기와 확인</strong><p>오류의 마지막 줄을 읽고 실습 준비 상태를 점검합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">표준 운영 기준</p>
+        <p>수업에서는 대입 추적, 네 가지 자료형, <code>TypeError</code> 한 가지를 중심으로 다룹니다. 변수명 세부 규칙과 추가 오류 예시는 시간이 부족하면 수업 후 복습 자료로 활용합니다.</p>
+      </div>
+
+      <h2 id="recall">0-5분 · 같은 기호가 다른 결과를 만드는 이유</h2>
+
+      <p>1교시 마지막에 살펴본 두 코드를 다시 비교합니다. 먼저 실행 결과를 적고, 그 결과가 달라지는 이유를 한 문장으로 설명해봅니다.</p>
+
+      <div class="value-contrast" role="group" aria-label="숫자와 문자열 더하기 회상 문제">
+        <div class="value-case">
+          <span class="visual-label">예측 A</span>
+          <pre><code>print(3 + 2)</code></pre>
+          <p class="value-result">?</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">예측 B</span>
+          <pre><code>print("3" + "2")</code></pre>
+          <p class="value-result">?</p>
+        </div>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">결과와 이유 확인</summary>
+        <div class="details-motion-content"><p>첫 결과는 <code>5</code>, 두 번째 결과는 <code>32</code>입니다. <code>3</code>과 <code>2</code>는 계산할 숫자이고, <code>"3"</code>과 <code>"2"</code>는 앞뒤로 연결할 글자입니다. 값의 종류가 다르면 허용되는 처리 방식도 달라집니다.</p></div>
+      </details>
+
+      <h2 id="variable-basics">5-17분 · 값에 다시 사용할 이름 붙이기</h2>
+
+      <h3 id="value-variable-assignment">값, 변수, 대입</h3>
+      <ul>
+        <li><strong>값</strong>은 프로그램이 처리하는 실제 데이터입니다. 예: <code>20</code>, <code>3.5</code>, <code>"blue"</code>, <code>True</code></li>
+        <li><strong>변수</strong>는 값을 다시 찾고 사용할 수 있도록 붙인 이름입니다. 예: <code>age</code>, <code>favorite_color</code></li>
+        <li><strong>대입</strong>은 계산된 값을 변수 이름과 연결하는 동작입니다. Python에서는 <code>=</code>으로 표시합니다.</li>
+      </ul>
+
+      <figure class="lesson-visual" aria-labelledby="assignment-caption">
+        <div class="assignment-visual">
+          <div class="assignment-side">
+            <span class="visual-label">1. 오른쪽을 먼저 평가</span>
+            <div class="assignment-equation">
+              <span class="assignment-token">name</span>
+              <span class="assignment-equals">=</span>
+              <span class="assignment-token">"서윤"</span>
+            </div>
+            <p>오른쪽의 <code>"서윤"</code>을 글자 값으로 확인합니다.</p>
+          </div>
+          <div class="assignment-side">
+            <span class="visual-label">2. 이름과 값 연결</span>
+            <div class="assignment-equation">
+              <span class="assignment-token">name</span>
+              <span class="assignment-equals">→</span>
+              <span class="assignment-token">"서윤"</span>
+            </div>
+            <p>이후 <code>name</code>을 사용하면 연결된 값 <code>"서윤"</code>을 찾습니다.</p>
+          </div>
+        </div>
+        <figcaption id="assignment-caption"><code>name = "서윤"</code>은 “name과 서윤은 같다”보다 “서윤이라는 값을 name이라는 이름과 연결한다”라고 읽는 편이 정확합니다.</figcaption>
+      </figure>
+
+      <h3 id="why-variables">변수가 필요한 이유</h3>
+      <p>값을 코드 곳곳에 직접 반복하면 수정할 위치가 늘어나고 각 값의 의미를 기억하기 어렵습니다. 변수는 값을 한 번 정의하고, 의미 있는 이름으로 여러 번 다시 사용하게 합니다.</p>
+
+      <div class="value-contrast" role="group" aria-label="직접 쓴 값과 변수를 사용한 코드 비교">
+        <div class="value-case">
+          <span class="visual-label">값을 직접 반복</span>
+          <pre><code>print("이름:", "서윤")
+print("작업자:", "서윤")</code></pre>
+          <p>이름이 바뀌면 모든 위치를 찾아 수정해야 합니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">변수를 다시 사용</span>
+          <pre><code>name = "서윤"
+print("이름:", name)
+print("작업자:", name)</code></pre>
+          <p>처음 대입한 값 하나만 바꾸면 이후 사용 위치에도 반영됩니다.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">변수 이름에는 따옴표를 붙이지 않습니다</p>
+        <p><code>name</code>은 값을 찾기 위한 이름이고 <code>"name"</code>은 n, a, m, e라는 네 글자로 이루어진 문자열입니다. 변수 이름과 글자 데이터는 역할이 다릅니다.</p>
+      </div>
+
+      <h2 id="reassignment">17-25분 · 변수의 값은 실행 중에 바뀔 수 있다</h2>
+
+      <p>변수는 한 번 정한 값을 영원히 보관하는 이름이 아닙니다. 새로운 값을 다시 대입하면 이후부터 그 이름은 새 값을 가리킵니다.</p>
+
+      <pre><code>score = 10
+score = score + 5
+print(score)</code></pre>
+
+      <figure aria-labelledby="trace-caption">
+        <div class="trace-board">
+          <div class="trace-state"><span class="visual-label">첫 줄 실행 후</span><code>score = 10</code><div class="trace-binding">score → 10</div></div>
+          <div class="trace-state"><span class="visual-label">둘째 줄 오른쪽 계산</span><code>score + 5</code><div class="trace-binding">10 + 5 → 15</div></div>
+          <div class="trace-state"><span class="visual-label">둘째 줄 대입 후</span><code>score = 15</code><div class="trace-binding">score → 15</div></div>
+        </div>
+        <figcaption id="trace-caption">오른쪽의 기존 <code>score</code> 값으로 먼저 계산한 뒤, 결과 15를 같은 이름에 다시 대입합니다.</figcaption>
+      </figure>
+
+      <div class="callout callout-question">
+        <p class="callout-title">수학의 등식과 다른 점</p>
+        <p>수학에서 <code>score = score + 5</code>는 성립하기 어렵지만, 프로그램에서는 순서가 있습니다. 오른쪽을 먼저 계산하고 그 결과를 왼쪽 이름에 다시 대입하므로 정상적인 명령입니다.</p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 추적 · 2분</span>
+        <h3>마지막 값 예상하기</h3>
+        <pre><code>minutes = 30
+minutes = minutes * 2
+minutes = minutes + 15
+print(minutes)</code></pre>
+        <p>각 줄을 실행한 뒤 <code>minutes</code>의 값을 차례로 적습니다. 마지막 출력은 <strong>75</strong>입니다.</p>
+      </div>
+
+      <h2 id="data-types">25-36분 · 네 가지 기본 자료형</h2>
+
+      <p><strong>자료형</strong>은 값이 어떤 종류의 데이터인지, 그리고 그 값에 어떤 연산을 할 수 있는지를 나타냅니다. 겉으로 비슷해 보여도 자료형이 다르면 Python의 처리 방식도 달라집니다.</p>
+
+      <div class="type-grid" role="group" aria-label="Python의 네 가지 기본 자료형">
+        <div class="type-card">
+          <span class="visual-label">int / integer</span>
+          <strong>정수</strong><br>
+          <code>pixel_x = 120</code>
+          <p>소수점이 없는 수입니다. 개수, 순서, 픽셀 좌표처럼 끊어 세는 값에 사용합니다.</p>
+        </div>
+        <div class="type-card">
+          <span class="visual-label">float / floating point</span>
+          <strong>실수</strong><br>
+          <code>opacity = 0.75</code>
+          <p>소수점이 있는 수입니다. 비율, 투명도, 시간처럼 연속적으로 변하는 값에 사용합니다.</p>
+        </div>
+        <div class="type-card">
+          <span class="visual-label">str / string</span>
+          <strong>문자열</strong><br>
+          <code>title = "Night Walk"</code>
+          <p>문자와 문장의 묶음입니다. 따옴표로 감싸며 이름, 제목, 색상명, 텍스트에 사용합니다.</p>
+        </div>
+        <div class="type-card">
+          <span class="visual-label">bool / boolean</span>
+          <strong>불리언</strong><br>
+          <code>is_visible = True</code>
+          <p>참과 거짓을 나타냅니다. 가능한 값은 <code>True</code>와 <code>False</code>이며 첫 글자는 대문자입니다.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">따옴표가 자료형을 바꾼다</p>
+        <p><code>True</code>는 참을 나타내는 <code>bool</code>이지만, <code>"True"</code>는 네 글자로 이루어진 <code>str</code>입니다. 숫자와 마찬가지로 참·거짓도 따옴표 유무를 구분합니다.</p>
+      </div>
+
+      <h3 id="similar-values">비슷해 보이는 값 구분하기</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>20을 서로 다른 방식으로 작성했을 때의 자료형</caption>
+          <thead><tr><th scope="col">코드에 적은 값</th><th scope="col">자료형</th><th scope="col">가능한 처리</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>20</code></th><td><code>int</code></td><td>정수 계산에 사용할 수 있습니다.</td></tr>
+            <tr><th scope="row"><code>20.0</code></th><td><code>float</code></td><td>소수점이 있는 수로 계산됩니다.</td></tr>
+            <tr><th scope="row"><code>"20"</code></th><td><code>str</code></td><td>글자 2와 글자 0의 묶음으로 처리됩니다.</td></tr>
+            <tr><th scope="row"><code>True</code></th><td><code>bool</code></td><td>참인 상태를 나타냅니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="type-function">자료형 확인하기: type()</h3>
+      <p>값이나 변수의 자료형이 헷갈리면 추측에 머물지 않고 <code>type()</code>으로 확인할 수 있습니다.</p>
+
+      <pre><code>age = 20
+favorite_color = "blue"
+
+print(type(age))
+print(type(favorite_color))</code></pre>
+
+      <pre><code>&lt;class 'int'&gt;
+&lt;class 'str'&gt;</code></pre>
+
+      <p>출력에 보이는 <code>class</code>의 자세한 의미는 지금 다루지 않습니다. 이번 주에는 <code>int</code>와 <code>str</code>처럼 마지막에 표시되는 자료형 이름을 확인하면 충분합니다.</p>
+
+      <h2 id="operations-and-names">36-44분 · 자료형에 맞는 연산과 읽기 좋은 이름</h2>
+
+      <h3 id="operations">자료형에 따라 달라지는 연산</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>이번 주에 사용하는 기본 연산</caption>
+          <thead><tr><th scope="col">코드</th><th scope="col">결과</th><th scope="col">설명</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>10 + 5</code></th><td><code>15</code></td><td>정수 덧셈</td></tr>
+            <tr><th scope="row"><code>10 / 2</code></th><td><code>5.0</code></td><td><code>/</code>로 나눈 결과는 실수</td></tr>
+            <tr><th scope="row"><code>"data" + " art"</code></th><td><code>"data art"</code></td><td>문자열 연결</td></tr>
+            <tr><th scope="row"><code>"ha" * 3</code></th><td><code>"hahaha"</code></td><td>문자열 반복</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">모든 자료형을 서로 더할 수 있는 것은 아닙니다</p>
+        <p><code>"20" + 1</code>처럼 문자열과 정수를 바로 더하면 Python은 두 값을 어떤 방식으로 합쳐야 하는지 결정할 수 없어 <code>TypeError</code>를 발생시킵니다. 자료형 변환은 이후 수업에서 다룹니다.</p>
+      </div>
+
+      <h3 id="naming">변수 이름은 값의 의미를 설명해야 한다</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>변수명 작성 기준</caption>
+          <thead><tr><th scope="col">기준</th><th scope="col">권장</th><th scope="col">피할 예</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">뜻이 드러나는 이름</th><td><code>daily_music_minutes</code></td><td><code>d</code>, <code>number</code></td></tr>
+            <tr><th scope="row">여러 단어 연결</th><td><code>favorite_color</code></td><td><code>favorite color</code></td></tr>
+            <tr><th scope="row">첫 글자</th><td><code>week2_score</code></td><td><code>2week_score</code></td></tr>
+            <tr><th scope="row">대소문자 일관성</th><td><code>student_name</code></td><td><code>StudentName</code>과 혼용</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>이 수업에서는 영문 소문자 단어를 밑줄로 연결하는 <strong>snake_case</strong>를 기본 규칙으로 사용합니다. 변수명에 공백은 사용할 수 없으며, 숫자로 시작할 수 없습니다.</p>
+
+      <h3 id="print-values">설명과 값을 함께 출력하기</h3>
+      <p><code>print()</code>의 괄호 안에 여러 값을 쉼표로 나누어 넣으면 Python이 값 사이에 공백을 두고 함께 출력합니다. 아직 문자열 포맷 문법을 배우지 않아도 읽기 쉬운 자기소개를 만들 수 있습니다.</p>
+
+      <pre><code>name = "서윤"
+major = "시각디자인"
+
+print("이름:", name)
+print("전공:", major)</code></pre>
+
+      <pre><code>이름: 서윤
+전공: 시각디자인</code></pre>
+
+      <h2 id="errors-and-check">44-50분 · 오류를 읽고 실습 준비 확인하기</h2>
+
+      <h3 id="error-reading">오류 메시지는 마지막 줄부터 읽는다</h3>
+      <p>오류 화면 전체를 한 번에 이해하려고 하지 않습니다. 우선 마지막 줄에서 <strong>오류 이름</strong>과 <strong>오류 설명</strong>을 찾고, 그 위에서 문제가 발생한 코드 줄을 확인합니다.</p>
+
+      <figure class="error-anatomy" aria-labelledby="error-caption">
+        <div class="error-code">total = "20" + 1</div>
+        <div class="error-message">TypeError: can only concatenate str (not "int") to str</div>
+        <div class="error-reading">
+          <span><strong>오류 이름</strong><code>TypeError</code>는 자료형이 맞지 않음을 알립니다.</span>
+          <span><strong>문제의 값</strong><code>str</code>과 <code>int</code>가 함께 사용되었습니다.</span>
+          <span><strong>확인할 질문</strong>두 값을 계산하려는가, 글자로 연결하려는가?</span>
+        </div>
+        <figcaption id="error-caption">오류는 프로그램이 멈췄다는 사실뿐 아니라, 무엇을 다시 확인해야 하는지도 알려줍니다.</figcaption>
+      </figure>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 출구 확인 · 3분</span>
+        <h4>자료형 탐정</h4>
+        <p>아래 네 값을 활용할 의미 있는 변수명을 각각 하나씩 만들고, 자료형을 옆에 적습니다.</p>
+        <ol>
+          <li><code>27</code></li>
+          <li><code>3.5</code></li>
+          <li><code>"blue"</code></li>
+          <li><code>False</code></li>
+        </ol>
+        <p><strong>예:</strong> <code>image_count = 27</code>은 <code>int</code>입니다.</p>
+      </div>
+
+      <h3 id="after-class-review">수업 후 개별 복습: 대표 오류와 개념 확인</h3>
+      <p>아래 오류 표와 접이식 질문은 50분 수업 시간에 모두 설명하지 않습니다. 수업 중에는 <code>TypeError</code> 예시 하나를 읽고, 나머지는 자신의 답을 작성한 뒤 개별 복습에 활용합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이번 주에 만날 수 있는 대표 오류</caption>
+          <thead><tr><th scope="col">오류</th><th scope="col">예시 원인</th><th scope="col">먼저 확인할 것</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>NameError</code></th><td><code>blue</code>를 따옴표 없이 사용하거나 정의하지 않은 변수를 사용</td><td>철자, 대소문자, 먼저 대입했는지 확인</td></tr>
+            <tr><th scope="row"><code>SyntaxError</code></th><td>따옴표나 괄호가 닫히지 않음</td><td>오류가 표시된 줄의 기호 짝 확인</td></tr>
+            <tr><th scope="row"><code>TypeError</code></th><td><code>"20" + 1</code>처럼 맞지 않는 자료형을 함께 연산</td><td><code>type()</code>으로 양쪽 값의 자료형 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="concept-check-list">
+        <details>
+          <summary>1. name = "서윤"에서 값, 변수, 대입 기호는 각각 무엇인가?</summary>
+          <div class="details-motion-content"><p>값은 <code>"서윤"</code>, 변수 이름은 <code>name</code>, 대입 기호는 <code>=</code>입니다. 오른쪽 값을 먼저 확인한 뒤 왼쪽 이름과 연결합니다.</p></div>
+        </details>
+        <details>
+          <summary>2. 20, 20.0, "20", False의 자료형은 각각 무엇인가?</summary>
+          <div class="details-motion-content"><p>차례로 <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>입니다. 따옴표와 소수점, <code>True</code> 또는 <code>False</code> 표기가 자료형을 구분하는 단서가 됩니다.</p></div>
+        </details>
+        <details>
+          <summary>3. score = 10 다음에 score = score + 5를 실행하면 score는 얼마인가?</summary>
+          <div class="details-motion-content"><p><code>15</code>입니다. 오른쪽의 기존 값 10에 5를 더한 뒤, 계산 결과 15를 같은 이름 <code>score</code>에 다시 대입합니다.</p></div>
+        </details>
+        <details>
+          <summary>4. favorite color가 변수명으로 적절하지 않은 이유는?</summary>
+          <div class="details-motion-content"><p>변수명에는 공백을 사용할 수 없습니다. 수업 규칙에 따라 <code>favorite_color</code>처럼 단어 사이를 밑줄로 연결합니다.</p></div>
+        </details>
+      </div>
+
+      <h3 id="practice-bridge">3교시 연결: 자기소개 노트북의 도착점</h3>
+      <p>3교시에는 아래 구조를 직접 Colab에 작성하고 자신의 정보로 바꿉니다. 이론 수업에서는 코드를 읽고 예측하는 데 집중하고, 실제 셀 생성과 실행, 저장과 제출은 3교시에서 진행합니다.</p>
+
+      <pre><code>name = "서윤"
+major = "시각디자인"
+favorite_color = "blue"
+daily_music_minutes = 75
+likes_data_art = True
+
+weekly_music_minutes = daily_music_minutes * 7
+
+print("이름:", name)
+print("전공:", major)
+print("좋아하는 색:", favorite_color)
+print("일주일 음악 감상 시간(분):", weekly_music_minutes)
+print("데이터 아트 관심 여부:", likes_data_art)</code></pre>
+
+      <div class="callout callout-success">
+        <p class="callout-title">3교시 시작 전 준비 완료 기준</p>
+        <ul>
+          <li><code>=</code>을 오른쪽부터 읽을 수 있습니다.</li>
+          <li>네 가지 값의 자료형을 구분할 수 있습니다.</li>
+          <li><code>print()</code>에 변수 이름을 넣었을 때 어떤 값이 나오는지 예측할 수 있습니다.</li>
+          <li>오류가 발생하면 마지막 줄의 오류 이름부터 확인할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">이번 시간에 아직 다루지 않는 것</p>
+        <p><code>input()</code>, 자료형 변환, 리스트, 조건문은 지금 외우지 않습니다. 이번 주의 목표는 직접 정한 값을 변수에 저장하고, 계산하고, 출력하는 작은 프로그램을 완성하는 것입니다.</p>
+      </div>
+
+      <h2 id="references">참고 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://docs.python.org/3/tutorial/introduction.html" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: 숫자, 텍스트, 변수</strong></a><small>Python을 계산기로 사용하고 숫자와 문자열을 다루는 공식 입문 예제</small></li>
+        <li><a href="https://docs.python.org/3/library/functions.html#type" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서: type()</strong></a><small>값의 자료형을 확인하는 내장 기능의 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/tutorial/errors.html" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: 오류와 예외</strong></a><small>문법 오류와 실행 중 오류를 읽는 공식 안내</small></li>
+        <li><a href="https://peps.python.org/pep-0008/#function-and-variable-names" target="_blank" rel="noopener noreferrer"><strong>PEP 8: 함수와 변수 이름</strong></a><small>Python 코드의 가독성과 변수명 작성 관례에 관한 공식 스타일 가이드</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#recall">0-5분 · 회상과 예측</a></li>
+        <li class="toc-level-2"><a href="#variable-basics">5-17분 · 값, 변수, 대입</a></li>
+        <li class="toc-level-3"><a href="#value-variable-assignment">세 용어 구분</a></li>
+        <li class="toc-level-3"><a href="#why-variables">변수가 필요한 이유</a></li>
+        <li class="toc-level-2"><a href="#reassignment">17-25분 · 값의 갱신</a></li>
+        <li class="toc-level-2"><a href="#data-types">25-36분 · 네 가지 자료형</a></li>
+        <li class="toc-level-3"><a href="#similar-values">비슷한 값 구분</a></li>
+        <li class="toc-level-3"><a href="#type-function">type() 확인</a></li>
+        <li class="toc-level-2"><a href="#operations-and-names">36-44분 · 연산과 이름</a></li>
+        <li class="toc-level-3"><a href="#operations">자료형별 연산</a></li>
+        <li class="toc-level-3"><a href="#naming">변수명 작성 기준</a></li>
+        <li class="toc-level-3"><a href="#print-values">설명과 값 출력</a></li>
+        <li class="toc-level-2"><a href="#errors-and-check">44-50분 · 오류와 확인</a></li>
+        <li class="toc-level-3"><a href="#error-reading">오류 메시지 읽기</a></li>
+        <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
+        <li class="toc-level-3"><a href="#practice-bridge">3교시 연결</a></li>
+        <li class="toc-level-2"><a href="#references">참고 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 02 · Period 02</p>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

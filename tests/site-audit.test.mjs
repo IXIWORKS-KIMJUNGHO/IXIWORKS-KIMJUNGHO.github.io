@@ -379,6 +379,75 @@ test("the Contents Programming course publishes its syllabus structure", async (
   assert.doesNotMatch(orientation, /짝 활동|짝과|조별 활동/);
 });
 
+test("Contents Programming week 2 teaches execution before variables and types", async () => {
+  const courseDirectory = resolve(root, "teaching", "contents-programming");
+  const courseIndex = await readFile(resolve(courseDirectory, "index.html"), "utf8");
+  const period1 = await readFile(
+    resolve(courseDirectory, "week-02-period1.html"),
+    "utf8",
+  );
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-02-period2.html"),
+    "utf8",
+  );
+
+  assert.match(courseIndex, /href="week-02-period1\.html"/);
+  assert.match(courseIndex, /href="week-02-period2\.html"/);
+
+  for (const [html, timeRanges] of [
+    [
+      period1,
+      ["0-5분", "5-15분", "15-28분", "28-38분", "38-46분", "46-50분"],
+    ],
+    [
+      period2,
+      ["0-5분", "5-17분", "17-25분", "25-36분", "36-44분", "44-50분"],
+    ],
+  ]) {
+    for (const timeRange of timeRanges) {
+      assert.match(html, new RegExp(timeRange));
+    }
+  }
+
+  for (const [html, requiredPatterns] of [
+    [
+      period1,
+      [
+        /class="execution-model"/,
+        /class="code-walkthrough"/,
+        /class="notebook-model"/,
+        /Python과 Google Colab은 무엇이 다른가/,
+        /CPU와 메모리/,
+        /수업 후 개별 복습/,
+        /https:\/\/research\.google\.com\/colaboratory\/faq\.html/,
+      ],
+    ],
+    [
+      period2,
+      [
+        /class="assignment-visual"/,
+        /class="trace-board"/,
+        /class="type-grid"/,
+        /class="error-anatomy"/,
+        /int.*float.*str.*bool/s,
+        /따옴표가 자료형을 바꾼다/,
+        /수업 후 개별 복습/,
+        /자기소개 노트북의 도착점/,
+      ],
+    ],
+  ]) {
+    assert.doesNotMatch(html, /짝 활동|짝과|조별 활동/);
+    assert.ok(
+      [...html.matchAll(/<details\b/gi)].length >= 4,
+      "each lesson should include at least four individual answer checks",
+    );
+    for (const pattern of requiredPatterns) assert.match(html, pattern);
+  }
+
+  assert.match(period1, /href="week-02-period2\.html" rel="next"/);
+  assert.match(period2, /href="week-02-period1\.html" rel="prev"/);
+});
+
 test("the Game Engine I course publishes its Unity 2D and generative AI curriculum", async () => {
   const courseIndex = await readFile(
     resolve(root, "teaching", "game-engine-1", "index.html"),

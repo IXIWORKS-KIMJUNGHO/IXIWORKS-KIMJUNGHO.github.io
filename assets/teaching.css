@@ -48,6 +48,7 @@
   --accent-strong: #132c36;
   --accent-soft: #dce6e7;
   --link: #1f3f4c;
+  --error-ink: #7a302a;
   --shadow: 0 18px 48px rgba(18, 31, 25, 0.08);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -1761,6 +1762,7 @@ body.course-contents-programming.teaching-document .worksheet {
   background: var(--surface);
 }
 
+body.course-contents-programming.teaching-document .worksheet h3,
 body.course-contents-programming.teaching-document .worksheet h4 {
   margin-top: 0;
 }
@@ -1800,6 +1802,312 @@ body.course-contents-programming.teaching-document .concept-check-list p {
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.75;
+}
+
+body.course-contents-programming.teaching-document .lesson-visual {
+  margin: 22px 0 30px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+body.course-contents-programming.teaching-document .lesson-visual > figcaption {
+  margin: 16px 0 0;
+  color: var(--muted);
+  text-align: left;
+}
+
+body.course-contents-programming.teaching-document .execution-model {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+body.course-contents-programming.teaching-document .execution-stage {
+  position: relative;
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--paper);
+}
+
+body.course-contents-programming.teaching-document .execution-stage:not(:last-child)::after {
+  content: "→";
+  position: absolute;
+  top: 50%;
+  right: -18px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-weight: 600;
+  transform: translateY(-50%);
+}
+
+body.course-contents-programming.teaching-document .execution-stage span,
+body.course-contents-programming.teaching-document .visual-label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-contents-programming.teaching-document .execution-stage strong {
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.course-contents-programming.teaching-document .execution-stage p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.teaching-document .code-walkthrough {
+  display: grid;
+  gap: 8px;
+}
+
+body.course-contents-programming.teaching-document .code-line {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 34px minmax(190px, 0.8fr) minmax(0, 1fr);
+  align-items: stretch;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.course-contents-programming.teaching-document .line-number {
+  padding: 13px 9px;
+  display: grid;
+  place-items: center;
+  background: var(--surface-strong);
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+body.course-contents-programming.teaching-document .code-source {
+  padding: 13px 15px;
+  border-right: 1px solid var(--line);
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 12.5px;
+  overflow-wrap: anywhere;
+}
+
+body.course-contents-programming.teaching-document .line-meaning {
+  padding: 13px 15px;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.teaching-document .value-contrast,
+body.course-contents-programming.teaching-document .notebook-model,
+body.course-contents-programming.teaching-document .assignment-visual {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+body.course-contents-programming.teaching-document .value-case,
+body.course-contents-programming.teaching-document .notebook-layer,
+body.course-contents-programming.teaching-document .assignment-side {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--paper);
+}
+
+body.course-contents-programming.teaching-document .value-case pre {
+  margin: 10px 0 12px;
+}
+
+body.course-contents-programming.teaching-document .value-result {
+  margin: 0;
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.teaching-document .notebook-layer ol {
+  margin-bottom: 0;
+}
+
+body.course-contents-programming.teaching-document .cell-stack {
+  display: grid;
+  gap: 9px;
+}
+
+body.course-contents-programming.teaching-document .cell-block {
+  padding: 12px 14px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 4px;
+  background: var(--surface);
+}
+
+body.course-contents-programming.teaching-document .cell-block strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 12.5px;
+}
+
+body.course-contents-programming.teaching-document .cell-block small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+body.course-contents-programming.teaching-document .assignment-equation {
+  margin: 10px 0 13px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+body.course-contents-programming.teaching-document .assignment-token {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 13px;
+  text-align: center;
+}
+
+body.course-contents-programming.teaching-document .assignment-equals {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.teaching-document .assignment-side p:last-child {
+  margin-bottom: 0;
+}
+
+body.course-contents-programming.teaching-document .trace-board {
+  margin: 18px 0 28px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+body.course-contents-programming.teaching-document .trace-state {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+}
+
+body.course-contents-programming.teaching-document .trace-state code {
+  display: block;
+  margin: 8px 0 12px;
+  color: var(--ink-strong);
+}
+
+body.course-contents-programming.teaching-document .trace-binding {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.teaching-document .type-grid {
+  margin: 20px 0 30px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+body.course-contents-programming.teaching-document .type-card {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  background: var(--surface);
+}
+
+body.course-contents-programming.teaching-document .type-card code {
+  display: inline-block;
+  margin: 8px 0 10px;
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.course-contents-programming.teaching-document .type-card p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+body.course-contents-programming.teaching-document .error-anatomy {
+  margin: 20px 0 28px;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.course-contents-programming.teaching-document .error-code,
+body.course-contents-programming.teaching-document .error-message,
+body.course-contents-programming.teaching-document .error-reading {
+  padding: 15px 17px;
+}
+
+body.course-contents-programming.teaching-document .error-code,
+body.course-contents-programming.teaching-document .error-message {
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12.5px;
+}
+
+body.course-contents-programming.teaching-document .error-message {
+  color: var(--error-ink);
+  background: var(--surface);
+}
+
+body.course-contents-programming.teaching-document .error-reading {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+body.course-contents-programming.teaching-document .error-reading span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.teaching-document .error-reading strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink-strong);
+}
+
+body.course-contents-programming.teaching-document .error-anatomy figcaption {
+  margin: 0;
+  padding: 0 17px 15px;
+  text-align: left;
 }
 
 body.course-contents-programming.teaching-document .reference-list {
@@ -2269,6 +2577,37 @@ body.teaching-document .footer-note {
     display: none;
   }
 
+  body.course-contents-programming.teaching-document .execution-model,
+  body.course-contents-programming.teaching-document .value-contrast,
+  body.course-contents-programming.teaching-document .notebook-model,
+  body.course-contents-programming.teaching-document .assignment-visual,
+  body.course-contents-programming.teaching-document .trace-board,
+  body.course-contents-programming.teaching-document .type-grid,
+  body.course-contents-programming.teaching-document .error-reading {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-contents-programming.teaching-document .execution-stage:not(:last-child)::after {
+    display: none;
+  }
+
+  body.course-contents-programming.teaching-document .code-line {
+    grid-template-columns: 32px minmax(0, 1fr);
+  }
+
+  body.course-contents-programming.teaching-document .code-source {
+    border-right: 0;
+  }
+
+  body.course-contents-programming.teaching-document .line-meaning {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+  }
+
+  body.course-contents-programming.teaching-document .lesson-visual {
+    padding: 17px;
+  }
+
   body.course-contents-programming.teaching-document .worksheet {
     padding: 18px;
   }
@@ -2313,6 +2652,7 @@ body.teaching-document .footer-note {
     --accent-strong: #c2dce3;
     --accent-soft: #26393d;
     --link: #aed0d8;
+    --error-ink: #f2aaa3;
     --shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
   }
 
