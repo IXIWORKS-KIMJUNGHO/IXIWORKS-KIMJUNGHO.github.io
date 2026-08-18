@@ -247,6 +247,8 @@ test("period 3 is a persistent, finite, goal-based 70 percent mission", async ()
     "자동 검사는 자연어 문장의 의미를 판정하지 않습니다",
     "검사용 입력",
     "own_source_filename",
+    "own_probe_filename",
+    "같은 형식과 구조",
     "approval_status = \"approved\"",
     "AUTOMATIC EVIDENCE READY",
     "teacher_gate = &quot;confirmed&quot;",
@@ -347,6 +349,7 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /project_track = "data"/,
     /project_mode = "provided"/,
     /own_source_filename = ""/,
+    /own_probe_filename = ""/,
     /baseline_mode = "provided"/,
     /approval_status = "EDIT:/,
     /approval_status in \{"provided", "approved"\}/,
@@ -375,7 +378,8 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /def build_project_outputs\(project_input=None\)/,
     /class TrackedProjectInput:/,
     /project_input\.read_count/,
-    /def make_probe\(self, track\):/,
+    /own_probe_input = TrackedProjectInput/,
+    /same_input_render_digests/,
     /own_input_response_digests/,
     /def apply_revision_contract\(/,
     /if project_track == "data"/,
@@ -525,6 +529,7 @@ test("week 15 notebook executes four guided paths and rejects false completion",
   assert.match(result.stdout, /서로 다른 두 수정 행동을 기록하세요/);
   assert.match(result.stdout, /own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다/);
   assert.match(result.stdout, /own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다/);
+  assert.match(result.stdout, /동일 own 입력은 같은 결과를 만들어야 합니다/);
   assert.match(result.stdout, /approval_status는 provided 또는 approved여야 합니다/);
   assert.match(result.stdout, /마지막 검사는 새 런타임에서 모두 실행해야 합니다/);
 });

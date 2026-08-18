@@ -639,7 +639,6 @@ def build_notebook() -> dict[str, object]:
             from html import escape
             import base64
             import gzip
-            import io
             import re
             import shutil
 
@@ -715,6 +714,7 @@ def build_notebook() -> dict[str, object]:
             project_track = "data"  # data / text / sound / image
             project_mode = "provided"  # provided / own
             own_source_filename = ""  # own일 때 승인된 실제 입력 파일명
+            own_probe_filename = ""  # own일 때 같은 형식의 검사용 입력 파일명
             baseline_mode = "provided"  # provided / upload
             baseline_source_filename = ""  # upload일 때 14주차 PNG 또는 HTML
 
@@ -756,15 +756,9 @@ def build_notebook() -> dict[str, object]:
             )
 
             class TrackedProjectInput:
-                def __init__(self, path=None, *, payload=None, label=None):
-                    assert path is not None or payload is not None
-                    self.path = Path(path) if path is not None else None
-                    self.label = label or (self.path.name if self.path else "probe")
-                    self._bytes = (
-                        self.path.read_bytes()
-                        if payload is None
-                        else bytes(payload)
-                    )
+                def __init__(self, path):
+                    self.path = Path(path)
+                    self._bytes = self.path.read_bytes()
                     self.digest = sha256(self._bytes).hexdigest()
                     self.read_count = 0
 
@@ -775,57 +769,22 @@ def build_notebook() -> dict[str, object]:
                 def read_text(self, encoding="utf-8"):
                     return self.read_bytes().decode(encoding)
 
-                def make_probe(self, track):
-                    payload = self._bytes
-                    if track == "data":
-                        source_text = payload.decode("utf-8")
-
-                        def increment_number(match):
-                            original = match.group(0)
-                            changed = float(original) + 1
-                            return str(int(changed)) if changed.is_integer() else str(changed)
-
-                        probe_text, count = re.subn(
-                            r"-?\\d+(?:\\.\\d+)?",
-                            increment_number,
-                            source_text,
-                            count=1,
-                        )
-                        assert count == 1, "data own 입력에는 검사할 숫자가 하나 이상 필요합니다."
-                        payload = probe_text.encode("utf-8")
-                    elif track == "text":
-                        payload = payload + "\\nweek15_probe_token".encode("utf-8")
-                    elif track == "sound":
-                        assert len(payload) > 44, "sound own 입력은 유효한 WAV 바이트여야 합니다."
-                        changed = bytearray(payload)
-                        changed[-1] ^= 1
-                        payload = bytes(changed)
-                    else:
-                        with Image.open(io.BytesIO(payload)) as source_image:
-                            probe_image = source_image.convert("RGBA")
-                        red, green, blue, alpha = probe_image.getpixel((0, 0))
-                        probe_image.putpixel(
-                            (0, 0),
-                            ((red + 1) % 256, green, blue, alpha),
-                        )
-                        probe_buffer = io.BytesIO()
-                        probe_image.save(probe_buffer, format="PNG")
-                        payload = probe_buffer.getvalue()
-
-                    assert payload != self._bytes, "검사용 입력 변형을 만들지 못했습니다."
-                    return TrackedProjectInput(
-                        payload=payload,
-                        label=f"{self.label}-probe",
-                    )
-
             own_source_path = None
             own_source_digest = None
             project_input = None
+            own_probe_path = None
+            own_probe_digest = None
+            own_probe_input = None
             if project_mode == "own":
                 own_source_path = Path(own_source_filename)
+                own_probe_path = Path(own_probe_filename)
                 assert own_source_path.is_file(), "own 경로의 승인된 실제 입력 파일을 찾을 수 없습니다."
+                assert own_probe_path.is_file(), "own 경로의 같은 형식 검사용 입력 파일을 찾을 수 없습니다."
                 project_input = TrackedProjectInput(own_source_path)
+                own_probe_input = TrackedProjectInput(own_probe_path)
                 own_source_digest = project_input.digest
+                own_probe_digest = own_probe_input.digest
+                assert own_source_digest != own_probe_digest, "own 원본과 검사용 입력은 실제 내용이 달라야 합니다."
 
             if baseline_mode == "upload":
                 baseline_source_path = Path(baseline_source_filename)
@@ -1047,23 +1006,36 @@ def build_notebook() -> dict[str, object]:
                 return sha256(bytes(figure.canvas.buffer_rgba())).hexdigest()
 
             own_input_response_digests = []
+            same_input_render_digests = []
             if project_mode == "own":
                 assert project_input.read_count > 0, "own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다."
-                own_probe_input = project_input.make_probe(project_track)
+                (
+                    own_repeat_baseline_figure,
+                    own_repeat_refined_figure,
+                    own_repeat_evidence,
+                ) = build_project_outputs(project_input)
                 (
                     own_probe_baseline_figure,
                     own_probe_refined_figure,
                     own_probe_evidence,
                 ) = build_project_outputs(own_probe_input)
                 assert own_probe_input.read_count > 0, "own 경로의 승인 코드는 검사용 입력도 실제로 읽어야 합니다."
+                assert required_core_fields <= own_repeat_evidence.keys()
                 assert required_core_fields <= own_probe_evidence.keys()
-                own_input_response_digests = [
+                same_input_render_digests = [
                     figure_pixel_digest(refined_figure),
+                    figure_pixel_digest(own_repeat_refined_figure),
+                ]
+                own_input_response_digests = [
+                    *same_input_render_digests,
                     figure_pixel_digest(own_probe_refined_figure),
                 ]
+                plt.close(own_repeat_baseline_figure)
+                plt.close(own_repeat_refined_figure)
                 plt.close(own_probe_baseline_figure)
                 plt.close(own_probe_refined_figure)
-                assert len(set(own_input_response_digests)) == 2, "own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다."
+                assert same_input_render_digests[0] == same_input_render_digests[1], "동일 own 입력은 같은 결과를 만들어야 합니다."
+                assert own_input_response_digests[0] != own_input_response_digests[2], "own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다."
 
             def apply_revision_contract(figure, core_evidence):
                 axis = figure.axes[0]
@@ -1170,9 +1142,11 @@ def build_notebook() -> dict[str, object]:
                 **core_project_evidence,
                 "input_origin": project_mode,
                 "input_digest": own_source_digest,
+                "probe_input_digest": own_probe_digest,
                 "input_binding_id": input_binding_id,
                 "source_read_count": project_input.read_count if project_input else 0,
                 "own_input_response_digests": own_input_response_digests,
+                "same_input_render_digests": same_input_render_digests,
                 "revision_evidence_id": revision_evidence_id,
                 "applied_revision_focuses": list(selected_revision_focuses),
                 "applied_revision_operations": list(selected_revision_operations),
@@ -1209,9 +1183,11 @@ def build_notebook() -> dict[str, object]:
                 "track",
                 "input_origin",
                 "input_digest",
+                "probe_input_digest",
                 "input_binding_id",
                 "source_read_count",
                 "own_input_response_digests",
+                "same_input_render_digests",
                 "revision_evidence_id",
                 "applied_revision_focuses",
                 "applied_revision_operations",
@@ -1227,6 +1203,7 @@ def build_notebook() -> dict[str, object]:
             assert project_evidence["track"] == project_track
             assert project_evidence["input_origin"] == project_mode, "own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다."
             assert project_evidence["input_digest"] == own_source_digest, "own 경로는 실제 입력 파일의 SHA-256 증거를 반환해야 합니다."
+            assert project_evidence["probe_input_digest"] == own_probe_digest, "own 경로는 검사용 입력 파일의 SHA-256 증거를 반환해야 합니다."
             assert project_evidence["revision_evidence_id"] == revision_evidence_id, "수정 행동 문장과 결과의 증거 ID가 일치해야 합니다."
             assert project_evidence["applied_revision_focuses"] == selected_revision_focuses, "선택한 두 수정 초점이 실제 결과와 일치해야 합니다."
             assert project_evidence["applied_revision_operations"] == selected_revision_operations, "구조화된 두 수정 동작이 실제 결과와 일치해야 합니다."
@@ -1235,7 +1212,8 @@ def build_notebook() -> dict[str, object]:
             assert len(set(project_evidence["revision_render_digests"])) == 3, "각 수정 행동이 화면 픽셀을 실제로 바꾸어야 합니다."
             if project_mode == "own":
                 assert project_evidence["source_read_count"] > 0, "own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다."
-                assert len(set(project_evidence["own_input_response_digests"])) == 2, "own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다."
+                assert project_evidence["same_input_render_digests"][0] == project_evidence["same_input_render_digests"][1], "동일 own 입력은 같은 결과를 만들어야 합니다."
+                assert project_evidence["own_input_response_digests"][0] != project_evidence["own_input_response_digests"][2], "own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다."
             assert project_evidence["input_count"] == project_evidence["visual_count"]
             assert project_evidence["value_match"] is True
 
@@ -1249,9 +1227,13 @@ def build_notebook() -> dict[str, object]:
                 "value_match": project_evidence["value_match"],
                 "input_origin": project_evidence["input_origin"],
                 "input_digest": project_evidence["input_digest"],
+                "probe_input_digest": project_evidence["probe_input_digest"],
                 "input_binding_id": project_evidence["input_binding_id"],
                 "own_input_response_digests": project_evidence[
                     "own_input_response_digests"
+                ],
+                "same_input_render_digests": project_evidence[
+                    "same_input_render_digests"
                 ],
                 "revision_evidence_id": project_evidence[
                     "revision_evidence_id"
@@ -1360,13 +1342,15 @@ def build_notebook() -> dict[str, object]:
             assert evidence_report["revision_evidence_id"] == revision_evidence_id
             if project_mode == "own":
                 assert sha256_file(own_source_path) == own_source_digest, "실행 중 own 입력 파일이 변경되었습니다."
+                assert sha256_file(own_probe_path) == own_probe_digest, "실행 중 own 검사용 입력 파일이 변경되었습니다."
             assert evidence_report["applied_revision_focuses"] == selected_revision_focuses
             assert evidence_report["applied_revision_operations"] == selected_revision_operations
             assert all(evidence_report["revision_render_proofs"].values())
             assert len(evidence_report["rendered_revision_markers"]) == 2
             assert len(set(evidence_report["revision_render_digests"])) == 3
             if project_mode == "own":
-                assert len(set(evidence_report["own_input_response_digests"])) == 2
+                assert evidence_report["same_input_render_digests"][0] == evidence_report["same_input_render_digests"][1]
+                assert evidence_report["own_input_response_digests"][0] != evidence_report["own_input_response_digests"][2]
             assert baseline_output_path.is_file()
             assert refined_output_path.is_file()
             assert revision_log_path.is_file()

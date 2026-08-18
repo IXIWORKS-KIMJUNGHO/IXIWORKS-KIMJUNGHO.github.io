@@ -51,12 +51,14 @@ def edited_cells(
     baseline_source_filename: str = "",
     project_mode: str = "provided",
     own_source_filename: str = "",
+    own_probe_filename: str = "",
     valid_own_adapter: bool = False,
     approval_status: str | None = None,
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
     revision_focuses: tuple[str, str] = ("accuracy", "readability"),
     read_but_ignore_own_input: bool = False,
+    unstable_own_adapter: bool = False,
 ) -> list[dict[str, object]]:
     """Return one fully edited student copy without changing the source notebook."""
 
@@ -91,6 +93,7 @@ def edited_cells(
         "project_track": track,
         "project_mode": project_mode,
         "own_source_filename": own_source_filename,
+        "own_probe_filename": own_probe_filename,
         "baseline_mode": baseline_mode,
         "baseline_source_filename": baseline_source_filename,
         "approval_status": approval_status
@@ -129,9 +132,16 @@ def edited_cells(
         raise AssertionError(f"could not replace every editable value: {missing}")
 
     if valid_own_adapter:
+        source_assignments = {
+            "data": "raw_values = [84, 63, 49]",
+            "text": "raw_values = [3, 8, 4, 6]",
+            "sound": "raw_values = [0.08, 0.16, 0.58, 0.22, 0.13, 0.31, 0.72, 0.18]",
+            "image": "raw_values = [52, 76, 44, 66, 58]",
+        }
+        cast = "float" if track == "sound" else "int"
         replacements = {
-            "raw_values = [84, 63, 49]": (
-                'raw_values = [int(value) for value in '
+            source_assignments[track]: (
+                f"raw_values = [{cast}(value) for value in "
                 'project_input.read_text(encoding="utf-8").split(",")]'
             ),
         }
@@ -160,6 +170,22 @@ def edited_cells(
                 insertion_count += 1
         if insertion_count != 1:
             raise AssertionError("could not install read-but-ignore own adapter")
+    if unstable_own_adapter:
+        replacement_count = 0
+        old = "raw_values = [84, 63, 49]"
+        new = (
+            "project_input.read_bytes()\n"
+            "        raw_values = [84 + project_input.read_count, 63, 49]"
+        )
+        for cell in cells:
+            source = "".join(cell["source"])
+            if old in source:
+                cell["source"] = source.replace(old, new, 1).splitlines(
+                    keepends=True
+                )
+                replacement_count += 1
+        if replacement_count != 1:
+            raise AssertionError("could not install unstable own adapter")
     return cells
 
 
@@ -209,10 +235,25 @@ def run_valid_scenario(
 
     with tempfile.TemporaryDirectory(prefix=f"week15-{track}-") as directory_name:
         directory = Path(directory_name)
-        own_source_filename = "approved_own_values.csv"
+        own_source_filename = f"approved_{track}_values.csv"
+        own_probe_filename = f"approved_{track}_probe_values.csv"
         if project_mode == "own":
+            own_values = {
+                "data": ("91,52,37", "90,52,37"),
+                "text": ("3,8,4,6", "3,9,4,6"),
+                "sound": (
+                    "0.08,0.16,0.58,0.22,0.13,0.31,0.72,0.18",
+                    "0.08,0.16,0.48,0.22,0.13,0.31,0.72,0.18",
+                ),
+                "image": ("52,76,44,66,58", "52,70,44,66,58"),
+            }
+            source_values, probe_values = own_values[track]
             (directory / own_source_filename).write_text(
-                "91,52,37",
+                source_values,
+                encoding="utf-8",
+            )
+            (directory / own_probe_filename).write_text(
+                probe_values,
                 encoding="utf-8",
             )
         baseline_filename = f"uploaded_week14_baseline.{baseline_upload_format}"
@@ -245,6 +286,9 @@ def run_valid_scenario(
             project_mode=project_mode,
             own_source_filename=(
                 own_source_filename if project_mode == "own" else ""
+            ),
+            own_probe_filename=(
+                own_probe_filename if project_mode == "own" else ""
             ),
             valid_own_adapter=project_mode == "own",
             revision_focuses=revision_focuses,
@@ -310,7 +354,11 @@ def run_valid_scenario(
             raise AssertionError("each revision action must change rendered pixels")
         if project_mode == "own":
             response_digests = evidence["own_input_response_digests"]
-            if len(response_digests) != 2 or len(set(response_digests)) != 2:
+            if (
+                len(response_digests) != 3
+                or response_digests[0] != response_digests[1]
+                or response_digests[0] == response_digests[2]
+            ):
                 raise AssertionError("the own render must respond to changed input content")
         if project_mode == "own" and evidence["input_digest"] != namespace["own_source_digest"]:
             raise AssertionError("own project evidence missed the actual input digest")
@@ -339,6 +387,7 @@ def run_expected_failure(
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
     read_but_ignore_own_input: bool = False,
+    unstable_own_adapter: bool = False,
     expected_message: str,
 ) -> str:
     """Confirm that a representative false completion is rejected."""
@@ -346,9 +395,14 @@ def run_expected_failure(
     with tempfile.TemporaryDirectory(prefix="week15-invalid-") as directory_name:
         directory = Path(directory_name)
         own_source_filename = "approved_own_values.csv"
+        own_probe_filename = "approved_own_probe_values.csv"
         if project_mode == "own":
             (directory / own_source_filename).write_text(
                 "91,52,37",
+                encoding="utf-8",
+            )
+            (directory / own_probe_filename).write_text(
+                "90,52,37",
                 encoding="utf-8",
             )
         cells = edited_cells(
@@ -358,10 +412,14 @@ def run_expected_failure(
             own_source_filename=(
                 own_source_filename if project_mode == "own" else ""
             ),
+            own_probe_filename=(
+                own_probe_filename if project_mode == "own" else ""
+            ),
             approval_status=approval_status,
             teacher_gate=teacher_gate,
             duplicate_actions=duplicate_actions,
             read_but_ignore_own_input=read_but_ignore_own_input,
+            unstable_own_adapter=unstable_own_adapter,
         )
         _namespace, output, failure = execute_cells(cells, directory)
         if failure is None:
@@ -417,12 +475,13 @@ def main() -> None:
             baseline_upload_format="png",
         )
     )
-    results.append(
+    results.extend(
         run_valid_scenario(
             code_cells,
-            track="data",
+            track=track,
             project_mode="own",
         )
+        for track in ("data", "text", "sound", "image")
     )
     results.append(
         run_valid_scenario(
@@ -467,6 +526,12 @@ def main() -> None:
             project_mode="own",
             read_but_ignore_own_input=True,
             expected_message="own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다",
+        ),
+        run_expected_failure(
+            code_cells,
+            project_mode="own",
+            unstable_own_adapter=True,
+            expected_message="동일 own 입력은 같은 결과를 만들어야 합니다",
         ),
         run_expected_failure(
             code_cells,
