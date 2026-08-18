@@ -137,6 +137,10 @@ test("Contents Programming week 4 period 3 is a goal-based rhythm grid mission",
   assert.match(courseIndex, /href="week-04-period3\.html"/);
   assert.match(period2, /href="week-04-period3\.html" rel="next"/);
   assert.match(period3, /href="week-04-period2\.html" rel="prev"/);
+  assert.match(period2, /3교시 고정 미션 계약/);
+  assert.match(period2, /팔레트.*4.*6.*기준.*두/s);
+  assert.match(period2, /columns.*6.*size_step.*4.*10/s);
+  assert.doesNotMatch(period2, /색, 크기, 간격 가운데 두 속성/);
   assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
   assert.ok(
     [...period3.matchAll(/<details\b/gi)].length >= 6,

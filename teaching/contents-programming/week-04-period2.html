@@ -424,30 +424,30 @@ image</code></pre>
 
       <h2 id="practice-bridge">46-50분 · 3교시 연결: 나만의 리듬 그리드</h2>
 
-      <p>3교시는 정해진 시간을 모두 채우는 방식이 아니라, 필수 목표를 완성하고 파일 검사를 통과하면 종료하는 <strong>목표 달성형 개인 실습</strong>으로 이어집니다. 2교시가 끝날 때에는 코드를 완성하지 않고, 아래 조건을 어떤 값으로 구현할지만 결정합니다. 강사는 표의 모든 문장을 다시 설명하지 않고 <strong>색 3개 이상, 도형 20개 이상, 두 속성 변화</strong>라는 세 통과 기준을 확인합니다.</p>
+      <p>3교시는 정해진 시간을 모두 채우는 방식이 아니라, 필수 목표를 완성하고 파일 검사를 통과하면 종료하는 <strong>목표 달성형 개인 실습</strong>으로 이어집니다. 자동 검사를 예측 가능하게 통과할 수 있도록 아래 조건을 <strong>3교시 고정 미션 계약</strong>으로 사용합니다. 2교시가 끝날 때에는 코드를 완성하지 않고, 바꿀 팔레트 두 색과 크기 변화량만 미리 결정합니다.</p>
 
       <div class="table-wrap">
         <table>
-          <caption>3교시 리듬 그리드의 필수 목표</caption>
-          <thead><tr><th scope="col">목표</th><th scope="col">최소 기준</th><th scope="col">2교시에서 결정할 것</th></tr></thead>
+          <caption>3교시 리듬 그리드의 고정 미션 계약</caption>
+          <thead><tr><th scope="col">목표</th><th scope="col">자동 검사 기준</th><th scope="col">2교시에서 결정할 것</th></tr></thead>
           <tbody>
-            <tr><th scope="row">색상 리스트</th><td>직접 정한 RGB 색상 3개 이상</td><td>배경과 구분되는 팔레트</td></tr>
-            <tr><th scope="row">중첩 반복</th><td><code>for row</code>와 <code>for column</code> 사용</td><td>행 수와 열 수</td></tr>
-            <tr><th scope="row">충분한 반복</th><td><code>rows * columns</code>가 20 이상</td><td>전체 도형 수 계산</td></tr>
-            <tr><th scope="row">좌표 규칙</th><td>x는 column, y는 row와 연결</td><td>시작점과 가로·세로 간격</td></tr>
-            <tr><th scope="row">의도적 변화</th><td>색, 크기, 간격 가운데 두 속성 이상 변화</td><td>어떤 변수와 계산식을 바꿀지</td></tr>
-            <tr><th scope="row">결과 파일</th><td>PNG와 실행 가능한 Colab 노트북 저장</td><td>파일명의 학번과 이름</td></tr>
+            <tr><th scope="row">색상 리스트</th><td>팔레트에 RGB 색상 4~6개, 서로 다른 색 최소 3개</td><td>기준 팔레트에서 바꿀 두 색</td></tr>
+            <tr><th scope="row">행과 열</th><td><code>rows = len(palette)</code>, <code>columns = 6</code></td><td>행 수는 팔레트의 색상 수와 같음</td></tr>
+            <tr><th scope="row">충분한 반복</th><td><code>rows * columns</code>가 20 이상</td><td>기본 4행 × 6열 = 원 24개</td></tr>
+            <tr><th scope="row">중첩 반복과 좌표</th><td><code>for row</code>와 <code>for column</code>, x는 column, y는 row와 연결</td><td>제공된 반복 코드는 수정하지 않음</td></tr>
+            <tr><th scope="row">색과 크기 변화</th><td>색은 행마다 바뀌고 <code>size_step</code>은 4~10</td><td>열마다 커질 픽셀 수</td></tr>
+            <tr><th scope="row">결과 파일</th><td>PNG와 실행 가능한 Colab 노트북 저장</td><td><code>week04_학번_이름</code> 파일명</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="worksheet">
         <span class="worksheet-label">개별 사전 설계 · 2분</span>
-        <h3>실습 시작 전에 세 결정을 남기기</h3>
+        <h3>실습 시작 전에 고정 조건과 선택값 구분하기</h3>
         <ol>
-          <li><code>rows = ____</code>, <code>columns = ____</code>, 따라서 <code>rows * columns = ____</code></li>
-          <li>변화시킬 속성 두 개: ________, ________</li>
-          <li>완성 이미지의 리듬을 설명하는 문장: “________이/가 ________ 방향으로 반복되며 ________한다.”</li>
+          <li>고정값: <code>columns = 6</code>, 팔레트 색상 수 = <code>rows</code>, 따라서 <code>rows * columns = ____</code></li>
+          <li>선택값: 기준 팔레트에서 바꿀 두 RGB 색과 <code>size_step = ____</code> (4~10)</li>
+          <li>리듬 문장: “색은 ________ 방향으로 바뀌고, 크기는 ________ 방향으로 ________한다.”</li>
         </ol>
       </div>
 
