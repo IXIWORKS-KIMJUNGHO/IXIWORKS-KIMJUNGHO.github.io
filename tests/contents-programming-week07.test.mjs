@@ -49,9 +49,31 @@ test("Contents Programming week 7 theory lessons explain transformation and comp
     resolve(courseDirectory, "week-07-period2.html"),
     "utf8",
   );
+  const linkedLessons = [
+    ...courseIndex.matchAll(/href="(week-\d{2}-period[123]\.html)"/g),
+  ].map((match) => match[1]);
+  const period1Index = linkedLessons.indexOf("week-07-period1.html");
+
+  assert.ok(
+    period1Index > 0,
+    "week 7 period 1 should follow an earlier published lesson",
+  );
+  const previousLesson = linkedLessons[period1Index - 1];
+  const previousPeriod = await readFile(
+    resolve(courseDirectory, previousLesson),
+    "utf8",
+  );
 
   assert.match(courseIndex, /href="week-07-period1\.html"/);
   assert.match(courseIndex, /href="week-07-period2\.html"/);
+  assert.ok(
+    period1.includes(`href="${previousLesson}" rel="prev"`),
+    `week 7 period 1 should link back to ${previousLesson}`,
+  );
+  assert.ok(
+    previousPeriod.includes('href="week-07-period1.html" rel="next"'),
+    `${previousLesson} should link forward to week 7 period 1`,
+  );
   assert.match(period1, /href="week-07-period2\.html" rel="next"/);
   assert.match(period2, /href="week-07-period1\.html" rel="prev"/);
 
