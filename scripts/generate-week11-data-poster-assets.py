@@ -863,6 +863,12 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     safe_student_name = str(student_name).strip()
     if "\\n" in poster_title or "\\r" in poster_title:
         raise AssertionError("질문형 제목은 줄바꿈 없이 한 줄로 작성하세요.")
+    if any(
+        line_break in text
+        for text in (main_observation, limitation_statement)
+        for line_break in ("\\n", "\\r")
+    ):
+        raise AssertionError("관찰과 한계는 줄바꿈 없이 각각 한 줄로 작성하세요.")
     safe_name_pattern = re.compile(r"^[0-9A-Za-z가-힣_-]+$")
     if not (
         safe_name_pattern.fullmatch(safe_student_id)
@@ -1182,7 +1188,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
                 """
                 ## STEP 5 · 관찰과 한계
 
-                그래프에서 실제로 확인한 합계를 포함해 관찰 문장을 작성합니다. 그다음 가상 자료와 좌표 그래프로 단정할 수 없는 내용을 한계로 적습니다.
+                그래프에서 실제로 확인한 합계를 포함해 관찰 문장을 작성합니다. 그다음 가상 자료와 좌표 그래프로 단정할 수 없는 내용을 한계로 적습니다. 두 문장은 줄바꿈 없이 각각 한 줄로 작성합니다.
                 """
             ),
             code_cell(writing_code),

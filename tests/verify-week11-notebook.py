@@ -39,7 +39,7 @@ def set_assignment(source: str, name: str, value: object) -> str:
 def set_multiline_assignment(source: str, name: str, value: str) -> str:
     updated, count = re.subn(
         rf"^{re.escape(name)}\s*=\s*\([\s\S]*?^\)",
-        f"{name} = {value!r}",
+        lambda _match: f"{name} = {value!r}",
         source,
         count=1,
         flags=re.MULTILINE,
@@ -73,6 +73,7 @@ def set_palette(source: str, palette: dict[str, str]) -> str:
 def edited_cells(
     notebook_cells: list[dict[str, object]],
     assignment_overrides: dict[str, str] | None = None,
+    writing_overrides: dict[str, str] | None = None,
 ) -> list[dict[str, object]]:
     cells = copy.deepcopy(notebook_cells)
     assignments = {
@@ -94,6 +95,11 @@ def edited_cells(
         "이 자료에는 이용자 수와 인구, 이동 시간이 없어 프로그램 수만으로 "
         "문화 서비스의 충분함이나 접근성을 판단할 수 없다."
     )
+    writing = {
+        "main_observation": observation,
+        "limitation_statement": limitation,
+    }
+    writing.update(writing_overrides or {})
 
     remaining = dict(assignments)
     palette_replaced = False
@@ -112,14 +118,14 @@ def edited_cells(
             source = set_multiline_assignment(
                 source,
                 "main_observation",
-                observation,
+                writing["main_observation"],
             )
             observation_replaced = True
         if re.search(r"^limitation_statement\s*=", source, re.MULTILINE):
             source = set_multiline_assignment(
                 source,
                 "limitation_statement",
-                limitation,
+                writing["limitation_statement"],
             )
             limitation_replaced = True
         cell["source"] = source.splitlines(keepends=True)
@@ -138,6 +144,7 @@ def run_scenario(
     *,
     use_valid_edits: bool,
     assignment_overrides: dict[str, str] | None = None,
+    writing_overrides: dict[str, str] | None = None,
     tamper_csv: bool = False,
     tamper_metadata: bool = False,
     tamper_visual_encoding: bool = False,
@@ -146,7 +153,7 @@ def run_scenario(
     expected_failure_label: str | None = None,
 ) -> None:
     cells = (
-        edited_cells(notebook_cells, assignment_overrides)
+        edited_cells(notebook_cells, assignment_overrides, writing_overrides)
         if use_valid_edits
         else copy.deepcopy(notebook_cells)
     )
@@ -218,8 +225,18 @@ def run_scenario(
             raise AssertionError("no system font contains the required Korean glyphs")
         unregistered_korean_font = temp_path / "NanumGothic.ttf"
         shutil.copyfile(korean_font_candidates[0], unregistered_korean_font)
+        copied_font_family = font_manager.FontProperties(
+            fname=unregistered_korean_font
+        ).get_name()
 
         original_find_system_fonts = font_manager.findSystemFonts
+        original_font_entries = list(font_manager.fontManager.ttflist)
+        font_manager.fontManager.ttflist[:] = [
+            entry
+            for entry in original_font_entries
+            if entry.name != copied_font_family
+        ]
+        font_manager.fontManager._findfont_cached.cache_clear()
 
         def deterministic_system_fonts(*_args, **_kwargs):
             return [str(unregistered_korean_font)]
@@ -245,6 +262,20 @@ def run_scenario(
                     except AssertionError as error:
                         failure = error
                         break
+
+                    if execution_count == 1:
+                        resolved_font = Path(
+                            font_manager.findfont(
+                                font_manager.FontProperties(
+                                    family=[copied_font_family]
+                                ),
+                                fallback_to_default=False,
+                            )
+                        ).resolve()
+                        if resolved_font != unregistered_korean_font.resolve():
+                            raise AssertionError(
+                                "STEP 0 did not register and select its Korean font"
+                            )
 
                     if execution_count == 1 and tamper_csv:
                         source_path = temp_path / "week11_public_facilities_clean.csv"
@@ -285,6 +316,8 @@ def run_scenario(
         finally:
             plt.close("all")
             font_manager.findSystemFonts = original_find_system_fonts
+            font_manager.fontManager.ttflist[:] = original_font_entries
+            font_manager.fontManager._findfont_cached.cache_clear()
             os.chdir(previous_directory)
 
 
@@ -338,6 +371,30 @@ def main() -> None:
         },
         should_pass=False,
         expected_failure_label="줄바꿈 없이 한 줄",
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        writing_overrides={
+            "main_observation": (
+                "문화센터 합계는 400으로 가장 크다.\n"
+                "도서관보다 크다.\n박물관보다도 크다."
+            ),
+        },
+        should_pass=False,
+        expected_failure_label="관찰과 한계는 줄바꿈 없이 각각 한 줄",
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        writing_overrides={
+            "limitation_statement": (
+                "이 자료에는 이용자 수가 없다.\n"
+                "인구도 없다.\n접근성은 판단할 수 없다."
+            ),
+        },
+        should_pass=False,
+        expected_failure_label="관찰과 한계는 줄바꿈 없이 각각 한 줄",
     )
     run_scenario(
         code_cells,

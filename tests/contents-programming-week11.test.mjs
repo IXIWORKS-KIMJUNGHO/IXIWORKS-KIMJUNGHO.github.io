@@ -226,6 +226,7 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
     "데이터 단서",
     "근거 없는 평가어",
     "줄바꿈 없이 한 줄",
+    "줄바꿈 없이 각각 한 줄",
     "제목의 의미는 교수 확인",
     "관찰 문장",
     "해석의 한계",
@@ -515,9 +516,7 @@ test("Contents Programming week 11 data and generated visuals stay complete and 
       `Week 11 asset generation failed:\n${generated.stdout}\n${generated.stderr}`,
     );
 
-    for (const filename of generatedFilenames.filter(
-      (candidate) => !candidate.endsWith(".png"),
-    )) {
+    for (const filename of generatedFilenames) {
       const [committed, regenerated] = await Promise.all([
         readFile(resolve(assetDirectory, filename)),
         readFile(resolve(outputDirectory, filename)),
@@ -525,33 +524,6 @@ test("Contents Programming week 11 data and generated visuals stay complete and 
       assert.ok(
         committed.equals(regenerated),
         `${filename} should match a clean regeneration`,
-      );
-    }
-    for (const filename of generatedFilenames.filter((candidate) =>
-      candidate.endsWith(".png"),
-    )) {
-      const pixelComparison = spawnSync(
-        "python3",
-        [
-          "-c",
-          [
-            "from PIL import Image, ImageChops",
-            "import sys",
-            "expected = Image.open(sys.argv[1]).convert('RGBA')",
-            "actual = Image.open(sys.argv[2]).convert('RGBA')",
-            "assert expected.size == actual.size",
-            "assert ImageChops.difference(expected, actual).getbbox() is None",
-            "print('pixel comparison PASS')",
-          ].join("\n"),
-          resolve(assetDirectory, filename),
-          resolve(outputDirectory, filename),
-        ],
-        { cwd: root, encoding: "utf8" },
-      );
-      assert.equal(
-        pixelComparison.status,
-        0,
-        `${filename} pixels differ from a clean regeneration:\n${pixelComparison.stdout}\n${pixelComparison.stderr}`,
       );
     }
   } finally {
