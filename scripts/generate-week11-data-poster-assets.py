@@ -19,7 +19,7 @@ import matplotlib
 matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
-from matplotlib import font_manager
+from matplotlib import font_manager, ft2font
 from matplotlib.patches import Rectangle
 
 
@@ -107,13 +107,38 @@ def pinned_runtime_versions() -> dict[str, str]:
     pins: dict[str, str] = {}
     for raw_line in RUNTIME_REQUIREMENTS_PATH.read_text(encoding="utf-8").splitlines():
         line = raw_line.strip()
-        if not line or line.startswith("#"):
+        if line.startswith("# runtime:"):
+            line = line.removeprefix("# runtime:").strip()
+        elif not line or line.startswith("#"):
             continue
         package_name, separator, package_version = line.partition("==")
         if not separator or not package_name or not package_version:
             raise ValueError(f"Week 11 runtime requirement must be pinned: {line}")
         pins[package_name] = package_version
     return pins
+
+
+def validate_runtime() -> dict[str, str]:
+    """Reject generation when any render-affecting runtime pin differs."""
+
+    installed_versions: dict[str, str] = {}
+    mismatches = []
+    for package_name, required_version in pinned_runtime_versions().items():
+        if package_name == "freetype":
+            installed_version = ft2font.__freetype_version__
+        else:
+            try:
+                installed_version = version(package_name)
+            except PackageNotFoundError:
+                installed_version = "not installed"
+        installed_versions[package_name] = installed_version
+        if installed_version != required_version:
+            mismatches.append(
+                f"{package_name} {required_version} required; found {installed_version}"
+            )
+    if mismatches:
+        raise SystemExit("Week 11 runtime mismatch: " + "; ".join(mismatches))
+    return installed_versions
 
 
 def apply_figure_style() -> None:
@@ -456,6 +481,11 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         observation_unit,
     )
 
+    POSTER_PAPER = "{PAPER}"
+    POSTER_INK = "{INK}"
+    POSTER_MUTED = "{MUTED}"
+    POSTER_CORAL = "{CORAL}"
+
     category_markers = {{
         "도서관": "o",
         "박물관": "s",
@@ -506,6 +536,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             "한글 글꼴을 찾지 못했습니다. Colab 새 런타임에서 STEP 0부터 다시 실행하세요."
         )
 
+    font_manager.fontManager.addfont(korean_font_path)
     korean_font_name = font_manager.FontProperties(
         fname=korean_font_path
     ).get_name()
@@ -613,7 +644,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         figsize=(8, 11),
         gridspec_kw={"height_ratios": [0.82, 1.28]},
     )
-    fig.patch.set_facecolor("#f3efe5")
+    fig.patch.set_facecolor(POSTER_PAPER)
     fig.subplots_adjust(
         left=0.14,
         right=0.74,
@@ -630,7 +661,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         palette=category_palette,
         errorbar=None,
         legend=False,
-        edgecolor="#202523",
+        edgecolor=POSTER_INK,
         ax=axes[0],
     )
     axes[0].set_xlim(left=0)
@@ -666,7 +697,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         markers=category_markers,
         sizes=(60, 300),
         alpha=0.82,
-        edgecolor="#202523",
+        edgecolor=POSTER_INK,
         linewidth=0.8,
         legend="brief",
         ax=axes[1],
@@ -830,6 +861,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
 
     safe_student_id = str(student_id).strip()
     safe_student_name = str(student_name).strip()
+    if "\\n" in poster_title or "\\r" in poster_title:
+        raise AssertionError("질문형 제목은 줄바꿈 없이 한 줄로 작성하세요.")
     safe_name_pattern = re.compile(r"^[0-9A-Za-z가-힣_-]+$")
     if not (
         safe_name_pattern.fullmatch(safe_student_id)
@@ -864,16 +897,16 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         0.865,
         "같은 24행 데이터를 범주별 합계와 상대적 위치로 다시 읽기",
         fontsize=11,
-        color="#59615e",
+        color=POSTER_MUTED,
     )
     observation_label_artist = fig.text(
-        0.10, 0.125, "핵심 관찰", fontsize=10, fontweight="bold", color="#a23d34"
+        0.10, 0.125, "핵심 관찰", fontsize=10, fontweight="bold", color=POSTER_CORAL
     )
     observation_artist = fig.text(
         0.10, 0.098, main_observation, fontsize=9.5, wrap=True
     )
     limitation_label_artist = fig.text(
-        0.10, 0.068, "해석의 한계", fontsize=10, fontweight="bold", color="#a23d34"
+        0.10, 0.068, "해석의 한계", fontsize=10, fontweight="bold", color=POSTER_CORAL
     )
     limitation_artist = fig.text(
         0.10, 0.041, limitation_statement, fontsize=9.5, wrap=True
@@ -883,7 +916,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         0.012,
         f"출처 · {dataset_source} · 기준일 {reference_date} · {len(facility_df)}행",
         fontsize=7.5,
-        color="#59615e",
+        color=POSTER_MUTED,
     )
 
     fig.canvas.draw()
@@ -921,7 +954,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     fig.savefig(
         output_filename,
         dpi=200,
-        facecolor="#f3efe5",
+        facecolor=POSTER_PAPER,
     )
     output_path = Path(output_filename)
     output_bytes = output_path.read_bytes()
@@ -960,7 +993,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         "위치",
         "어디",
     )
-    unsupported_title_terms = (
+    common_unsupported_title_terms = (
         "좋은",
         "최고",
         "인기",
@@ -970,9 +1003,9 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         "우수",
         "효율",
     )
-    title_uses_available_data = (
+    title_has_data_clue = (
         any(term in poster_title for term in title_data_terms)
-        and not any(term in poster_title for term in unsupported_title_terms)
+        and not any(term in poster_title for term in common_unsupported_title_terms)
     )
     current_metadata = (
         dataset_title,
@@ -1001,8 +1034,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             and len(poster_title.strip()) >= 15
             and len(poster_title.strip()) <= 50
             and poster_title.strip().endswith(("?", "？"))
-            and title_uses_available_data,
-            "15–50자이며 데이터 열로 답할 수 있는 질문형 제목",
+            and title_has_data_clue,
+            "15–50자이며 데이터 단서를 포함한 질문형 제목 형식",
         ),
         (
             len(palette_values) == 3
@@ -1392,21 +1425,8 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
+    installed_versions = validate_runtime()
     if args.check_runtime:
-        installed_versions: dict[str, str] = {}
-        mismatches = []
-        for package_name, required_version in pinned_runtime_versions().items():
-            try:
-                installed_version = version(package_name)
-            except PackageNotFoundError:
-                installed_version = "not installed"
-            installed_versions[package_name] = installed_version
-            if installed_version != required_version:
-                mismatches.append(
-                    f"{package_name} {required_version} required; found {installed_version}"
-                )
-        if mismatches:
-            raise SystemExit("Week 11 runtime mismatch: " + "; ".join(mismatches))
         summary = " · ".join(
             f"{package_name} {package_version}"
             for package_name, package_version in installed_versions.items()

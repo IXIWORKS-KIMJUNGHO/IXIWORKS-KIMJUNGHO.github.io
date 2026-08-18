@@ -202,7 +202,7 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
 
   assertIncludesAll(period3, [
     "목표 달성형 개인 실습",
-    "자동 검사 PASS + 두 파일 제출 = 즉시 귀가",
+    "자동 검사 PASS + 두 파일 제출·제목 확인 = 즉시 귀가",
     "작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다",
     "week-11-data-poster-mission.ipynb",
     "week-11-public-facilities-clean.csv",
@@ -224,6 +224,8 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
     "질문형 제목",
     "데이터 단서",
     "근거 없는 평가어",
+    "줄바꿈 없이 한 줄",
+    "제목의 의미는 교수 확인",
     "관찰 문장",
     "해석의 한계",
     "데이터 출처",
@@ -277,6 +279,11 @@ test("Contents Programming week 11 mission notebook contains a self-checking pos
     /import hashlib/,
     /def font_has_korean_glyphs/,
     /font_manager\.get_font\(font_path\)/,
+    /font_manager\.fontManager\.addfont\(korean_font_path\)/,
+    /POSTER_PAPER = "#f3efe5"/,
+    /POSTER_INK = "#202523"/,
+    /POSTER_MUTED = "#59615e"/,
+    /POSTER_CORAL = "#a23d34"/,
     /SAMPLE_CSV_PATH = "week11_public_facilities_clean\.csv"/,
     /Path\(SAMPLE_CSV_PATH\)\.write_text\(SAMPLE_CSV, encoding="utf-8"\)/,
     /EXPECTED_CSV_SHA256 = "[0-9a-f]{64}"/,
@@ -319,7 +326,7 @@ test("Contents Programming week 11 mission notebook contains a self-checking pos
     /scatter_markers_follow_category/,
     /scatter_sizes_follow_program_count/,
     /title_data_terms/,
-    /unsupported_title_terms/,
+    /common_unsupported_title_terms/,
     /"학번" not in safe_student_id/,
     /"이름" not in safe_student_name/,
     /poster_title\.strip\(\)\.endswith\(\(\"\?\", \"？\"\)\)/,
@@ -385,6 +392,7 @@ test("Contents Programming week 11 mission notebook passes and rejects real runt
   assert.match(runtimeProbe.stdout, /pandas 2\.3\.3/);
   assert.match(runtimeProbe.stdout, /seaborn 0\.13\.2/);
   assert.match(runtimeProbe.stdout, /Pillow 12\.3\.0/);
+  assert.match(runtimeProbe.stdout, /freetype 2\.6\.1/);
 
   const runtimeCheck = spawnSync(
     "python3",
@@ -458,6 +466,8 @@ test("Contents Programming week 11 data and generated visuals stay complete and 
   assert.match(requirements, /^pandas==\d+\.\d+\.\d+$/m);
   assert.match(requirements, /^seaborn==\d+\.\d+\.\d+$/m);
   assert.match(requirements, /^Pillow==\d+\.\d+\.\d+$/m);
+  assert.match(requirements, /^# runtime:freetype==\d+\.\d+\.\d+$/m);
+  assert.match(generator, /def validate_runtime\(\)/);
 
   const expectedDimensions = new Map([
     ["week-11-question-to-chart.png", [1440, 900]],

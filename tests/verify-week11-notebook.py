@@ -8,6 +8,7 @@ import io
 import json
 import os
 import re
+import shutil
 import sys
 import tempfile
 from pathlib import Path
@@ -25,7 +26,7 @@ from matplotlib import font_manager
 def set_assignment(source: str, name: str, value: object) -> str:
     updated, count = re.subn(
         rf"^{re.escape(name)}\s*=.*$",
-        f"{name} = {value!r}",
+        lambda _match: f"{name} = {value!r}",
         source,
         count=1,
         flags=re.MULTILINE,
@@ -215,12 +216,13 @@ def run_scenario(
                 continue
         if not korean_font_candidates:
             raise AssertionError("no system font contains the required Korean glyphs")
-        verified_korean_font = korean_font_candidates[0]
+        unregistered_korean_font = temp_path / "NanumGothic.ttf"
+        shutil.copyfile(korean_font_candidates[0], unregistered_korean_font)
 
         original_find_system_fonts = font_manager.findSystemFonts
 
         def deterministic_system_fonts(*_args, **_kwargs):
-            return [verified_korean_font]
+            return [str(unregistered_korean_font)]
 
         font_manager.findSystemFonts = deterministic_system_fonts
         previous_directory = Path.cwd()
@@ -318,7 +320,7 @@ def main() -> None:
             "poster_title": "가장 좋은 문화시설은 어디인가?",
         },
         should_pass=False,
-        expected_failure_label="데이터 열로 답할 수 있는 질문형 제목",
+        expected_failure_label="데이터 단서를 포함한 질문형 제목 형식",
     )
     run_scenario(
         code_cells,
@@ -327,6 +329,15 @@ def main() -> None:
             "poster_title": "프로그램 수 합계가 가장 큰 시설 범주는 무엇인가？",
         },
         should_pass=True,
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        assignment_overrides={
+            "poster_title": "프로그램 수 합계가 큰 범주는?\n두 번째 줄\n세 번째 줄",
+        },
+        should_pass=False,
+        expected_failure_label="줄바꿈 없이 한 줄",
     )
     run_scenario(
         code_cells,
