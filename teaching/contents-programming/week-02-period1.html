@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-two-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,8 +19,9 @@
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-02.css?v=week2-1">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-two-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -37,32 +38,30 @@
       </div>
     </nav>
   </header>
-<header class="hero">
+  <header class="hero week-two-hero">
     <div class="hero-inner">
-      <div>
+      <div class="week-two-hero-copy">
         <p class="eyebrow">Python / Google Colab / Program execution</p>
         <h1>2주차 1교시: 컴퓨터는 어떻게 코드를 실행하는가</h1>
         <p class="lead">사람의 의도를 데이터와 명령으로 바꾸고, 작성한 코드가 출력으로 이어지는 과정을 살펴봅니다.</p>
-        <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 02</span>
-          <span class="hero-chip">PERIOD 01</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">THEORY</span>
-        </div>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">대상</span><span class="meta-value">프로그래밍 입문자</span></div>
-        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">코드는 어떻게 결과가 되는가?</span></div>
-        <div class="meta-row"><span class="meta-key">이전 학습</span><span class="meta-value">입력, 규칙, 출력</span></div>
-        <div class="meta-row"><span class="meta-key">다음 학습</span><span class="meta-value">변수와 자료형</span></div>
-      </aside>
+      <figure class="week-two-hero-visual">
+        <img src="assets/python-data-art.svg" width="1200" height="760" alt="좌표 점, 막대, 파형과 Python 코드가 함께 구성된 데이터 아트" loading="eager" decoding="async" fetchpriority="high">
+        <figcaption>의도에서 코드로, 코드에서 출력으로 이어지는 이번 주의 학습 지도</figcaption>
+      </figure>
     </div>
   </header>
 
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">컴퓨터, 프로그램, 실행의 기본 구조</p>
+
+      <dl class="week-two-lesson-facts" aria-label="1교시 수업 정보">
+        <div><dt>대상</dt><dd>프로그래밍 입문자</dd></div>
+        <div><dt>핵심 질문</dt><dd>코드는 어떻게 결과가 되는가?</dd></div>
+        <div><dt>이전 학습</dt><dd>입력, 규칙, 출력</dd></div>
+        <div><dt>다음 학습</dt><dd>변수와 자료형</dd></div>
+      </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
@@ -383,7 +382,8 @@ name = "서윤"</code></pre>
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 02 · Period 01</p>
+  <p class="footer-note">Contents Programming Practice / Week 02 / Period 01</p>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-02.js?v=week2-1" defer></script>
 </body>
 </html>

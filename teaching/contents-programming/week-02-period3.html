@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-two-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,16 +11,17 @@
   <meta property="og:description" content="정해진 완료 조건을 달성하면 즉시 제출하고 퇴실할 수 있는 Python 기초 개인 실습입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period3.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-02-mission-preview.png">
+  <meta property="og:image:alt" content="변수와 계산 결과를 보여주는 2주차 자기소개 데이터 미션 미리보기">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="2주차 3교시: 자기소개 데이터 미션 | Contents Programming Practice">
   <meta name="twitter:description" content="Colab에서 변수와 자료형을 사용해 결과물을 완성하는 목표 달성형 개인 실습입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-02-mission-preview.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-02.css?v=week2-1">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-two-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -37,32 +38,37 @@
       </div>
     </nav>
   </header>
-<header class="hero">
+  <header class="hero week-two-hero">
     <div class="hero-inner">
-      <div>
+      <div class="week-two-hero-copy">
         <p class="eyebrow">Python / Colab / Individual mission</p>
         <h1>2주차 3교시: 자기소개 데이터 미션</h1>
         <p class="lead">자신의 콘텐츠 생활을 변수에 저장하고 계산과 출력으로 연결합니다. 정해진 조건을 모두 충족하면 완료 즉시 제출 후 퇴실할 수 있습니다.</p>
-        <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 02</span>
-          <span class="hero-chip">PERIOD 03</span>
-          <span class="hero-chip">GOAL-BASED</span>
-          <span class="hero-chip">INDIVIDUAL</span>
+        <div class="week-two-hero-actions" aria-label="실습 시작">
+          <a class="week-two-primary-action" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-02-profile-mission.ipynb" target="_blank" rel="noopener noreferrer">Colab에서 열기 <span aria-hidden="true">↗</span></a>
+          <a class="week-two-secondary-action" href="assets/week-02-profile-mission.ipynb" download>파일 받기 <span aria-hidden="true">↓</span></a>
         </div>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Mission Spec</p>
-        <div class="meta-row"><span class="meta-key">형식</span><span class="meta-value">목표 달성형 개인 실습</span></div>
-        <div class="meta-row"><span class="meta-key">최대 시간</span><span class="meta-value">50분</span></div>
-        <div class="meta-row"><span class="meta-key">완료 판정</span><span class="meta-value">자동 검사 PASS</span></div>
-        <div class="meta-row"><span class="meta-key">제출물</span><span class="meta-value">실행 결과가 저장된 .ipynb</span></div>
-      </aside>
+      <figure class="week-two-hero-visual week-two-mission-preview" aria-labelledby="mission-preview-caption">
+        <figcaption id="mission-preview-caption">실제 미션 코드와 출력</figcaption>
+        <pre><code>weekly_hours = 7
+monthly_hours = weekly_hours * 4
+print("한 달 예상:", monthly_hours)</code></pre>
+        <samp><span>한 달 예상: 28</span><strong>WEEK 02 MISSION COMPLETE</strong></samp>
+      </figure>
     </div>
   </header>
 
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">나의 콘텐츠 생활을 데이터로 표현하기</p>
+
+      <dl class="week-two-lesson-facts" aria-label="3교시 수업 정보">
+        <div><dt>형식</dt><dd>목표 달성형 개인 실습</dd></div>
+        <div><dt>최대 시간</dt><dd>50분</dd></div>
+        <div><dt>완료 판정</dt><dd>자동 검사 PASS</dd></div>
+        <div><dt>제출물</dt><dd>실행 결과가 저장된 .ipynb</dd></div>
+      </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 실습 목표</p>
@@ -120,20 +126,7 @@
 
       <h2 id="setup">STEP 0: 실습 노트북 준비</h2>
 
-      <p>아래 템플릿을 사용하면 단계와 자동 검사 셀이 이미 준비되어 있습니다. 템플릿을 내려받아 Colab에 업로드하거나, 공개 저장소의 노트북을 Colab에서 바로 엽니다.</p>
-
-      <div class="inline-resource-grid">
-        <a class="inline-resource-card" href="assets/week-02-profile-mission.ipynb" download>
-          <span>Starter notebook</span>
-          <strong>실습 템플릿 내려받기</strong>
-          <small>로컬에서도 바로 받을 수 있는 Week 02 미션 노트북</small>
-        </a>
-        <a class="inline-resource-card" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-02-profile-mission.ipynb" target="_blank" rel="noopener noreferrer">
-          <span>Open in Colab</span>
-          <strong>Colab에서 템플릿 열기</strong>
-          <small>공개 저장소의 노트북을 Google Colab으로 직접 엽니다.</small>
-        </a>
-      </div>
+      <p>위의 시작 버튼으로 Colab 템플릿을 바로 열거나 파일을 내려받습니다. 단계와 자동 검사 셀은 이미 준비되어 있습니다.</p>
 
       <ol>
         <li>내려받은 파일을 사용할 때는 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab</a>에서 <strong>파일 → 노트 업로드</strong>를 선택합니다.</li>
@@ -299,7 +292,7 @@ print("✅ 두 출력 셀 검사 통과")
 print("✅ 새 런타임 전체 실행 검사 통과")
 print("🎉 WEEK 02 MISSION COMPLETE")</code></pre>
 
-      <div class="check-output" role="status" aria-labelledby="check-output-title">
+      <div class="check-output" role="group" aria-label="자동 검사 완료 예시">
         <span class="visual-label">PASS OUTPUT</span>
         <p id="check-output-title">✅ 문자열, 정수, 실수, 불리언 검사 통과<br>✅ 변경 전후 값과 계산 결과 검사 통과<br>✅ 두 출력 셀 검사 통과<br>✅ 새 런타임 전체 실행 검사 통과<br><strong>🎉 WEEK 02 MISSION COMPLETE</strong></p>
       </div>
@@ -383,7 +376,8 @@ print("🎉 WEEK 02 MISSION COMPLETE")</code></pre>
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 02 · Period 03</p>
+  <p class="footer-note">Contents Programming Practice / Week 02 / Period 03</p>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-02.js?v=week2-1" defer></script>
 </body>
 </html>

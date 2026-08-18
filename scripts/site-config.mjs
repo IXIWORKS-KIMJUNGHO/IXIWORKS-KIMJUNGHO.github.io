@@ -25,6 +25,17 @@ export const TEACHING_SHARE_IMAGES = Object.freeze({
   }),
 });
 
+const PAGE_SHARE_IMAGES = Object.freeze({
+  "teaching/contents-programming/week-02-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
+    alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",
+  }),
+  "teaching/contents-programming/week-02-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-02-mission-preview.png",
+    alt: "변수와 계산 결과를 보여주는 2주차 자기소개 데이터 미션 미리보기",
+  }),
+});
+
 function relativeWebPath(root, path) {
   return relative(root, path).split("\\").join("/");
 }
@@ -50,6 +61,9 @@ export function shareImageMetadataForHtml(root, htmlPath) {
       image = candidate;
       break;
     }
+  }
+  if (PAGE_SHARE_IMAGES[relativePath]) {
+    image = PAGE_SHARE_IMAGES[relativePath];
   }
   if (relativePath === "teaching/index.html") {
     image = TEACHING_SHARE_IMAGES["agentic-ai"];

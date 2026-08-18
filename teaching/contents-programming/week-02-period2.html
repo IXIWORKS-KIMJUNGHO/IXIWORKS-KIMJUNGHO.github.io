@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-two-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,16 +11,17 @@
   <meta property="og:description" content="값에 이름과 자료형을 부여하고, 숫자 데이터가 이미지의 시각 속성을 바꾸는 방식을 살펴봅니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period2.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-02-data-profile-high.png">
+  <meta property="og:image:alt" content="변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="2주차 2교시: 변수와 자료형 | Contents Programming Practice">
   <meta name="twitter:description" content="Python 변수와 네 가지 기본 자료형을 배우고 값이 이미지 속성으로 연결되는 과정을 살펴보는 입문 강의입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-02-data-profile-high.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-02.css?v=week2-1">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-two-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -37,32 +38,30 @@
       </div>
     </nav>
   </header>
-<header class="hero">
+  <header class="hero week-two-hero">
     <div class="hero-inner">
-      <div>
+      <div class="week-two-hero-copy">
         <p class="eyebrow">Python / Variables / Data types</p>
         <h1>2주차 2교시: 변수와 자료형</h1>
         <p class="lead">값에 읽을 수 있는 이름을 붙이고, 숫자와 글자와 참·거짓이 서로 다르게 처리되며 이미지의 속성으로 연결되는 방식을 살펴봅니다.</p>
-        <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 02</span>
-          <span class="hero-chip">PERIOD 02</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">THEORY</span>
-        </div>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">값, 변수, 대입, 자료형</span></div>
-        <div class="meta-row"><span class="meta-key">자료형</span><span class="meta-value">int, float, str, bool</span></div>
-        <div class="meta-row"><span class="meta-key">확인 방법</span><span class="meta-value">type(), print()</span></div>
-        <div class="meta-row"><span class="meta-key">연결 실습</span><span class="meta-value">자기소개 Colab 노트북</span></div>
-      </aside>
+      <figure class="week-two-hero-visual week-two-profile-visual">
+        <img src="assets/week-02-data-profile-high.png" width="1448" height="1086" alt="주간 감상 시간과 콘텐츠 평점을 막대와 원으로 표현한 데이터 프로필" loading="eager" decoding="async" fetchpriority="high">
+        <figcaption>숫자 변수의 변화가 막대 길이와 원 크기로 이어진 결과</figcaption>
+      </figure>
     </div>
   </header>
 
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">정보에 이름과 성격 부여하기</p>
+
+      <dl class="week-two-lesson-facts" aria-label="2교시 수업 정보">
+        <div><dt>핵심 개념</dt><dd>값, 변수, 대입, 자료형</dd></div>
+        <div><dt>자료형</dt><dd>int, float, str, bool</dd></div>
+        <div><dt>확인 방법</dt><dd>type(), print()</dd></div>
+        <div><dt>연결 실습</dt><dd>자기소개 Colab 노트북</dd></div>
+      </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
@@ -496,7 +495,8 @@ print("데이터 아트 관심 여부:", likes_data_art)</code></pre>
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 02 · Period 02</p>
+  <p class="footer-note">Contents Programming Practice / Week 02 / Period 02</p>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-02.js?v=week2-1" defer></script>
 </body>
 </html>
