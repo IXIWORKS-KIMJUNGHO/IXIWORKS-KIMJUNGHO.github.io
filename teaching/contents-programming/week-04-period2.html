@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-four-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,16 +11,18 @@
   <meta property="og:description" content="여러 색을 리스트로 관리하고 행과 열을 중첩 반복해 리듬 그리드를 만드는 원리를 살펴봅니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-04-period2.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-04-period2-hero.webp">
+  <meta property="og:image:alt" content="색상 조각과 행렬 격자로 리스트와 중첩 반복을 보여 주는 4주차 2교시 이미지">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="4주차 2교시: 리스트와 중첩 반복으로 격자 만들기 | Contents Programming Practice">
   <meta name="twitter:description" content="리스트, 인덱스, 중첩 반복을 시각적 격자와 연결하는 입문 강의입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-04-period2-hero.webp">
+  <link rel="preload" as="image" href="assets/week-04-period2-hero.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-04.css?v=week4-1">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-four-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -37,35 +39,28 @@
       </div>
     </nav>
   </header>
-<div class="hero">
+  <div class="hero week-four-hero">
     <div class="hero-inner">
-      <div>
+      <div class="week-four-hero-copy">
         <p class="eyebrow">Lists / Nested loops / Grid</p>
-        <h1>4주차 2교시: 리스트와 중첩 반복으로 격자 만들기</h1>
-        <p class="lead">여러 색을 하나의 순서로 묶고, 행과 열을 차례로 반복해 한 줄의 패턴을 화면 전체의 격자로 확장합니다.</p>
-        <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 04</span>
-          <span class="hero-chip">PERIOD 02</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">+ 10 MIN EXTENSION</span>
-          <span class="hero-chip">THEORY</span>
-        </div>
+        <h1>리스트에서 격자까지</h1>
+        <p class="lead">색상 리스트와 두 겹의 반복을 연결해 한 줄의 패턴을 행과 열의 격자로 확장합니다.</p>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">한 줄의 반복을 어떻게 격자로 확장하는가?</span></div>
-        <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">리스트, 인덱스, 행, 열</span></div>
-        <div class="meta-row"><span class="meta-key">Python 문법</span><span class="meta-value">[ ], list[index], 중첩 for</span></div>
-        <div class="meta-row"><span class="meta-key">이전 학습</span><span class="meta-value">for, range, 좌표 계산</span></div>
-        <div class="meta-row"><span class="meta-key">실습 연결</span><span class="meta-value">나만의 리듬 그리드</span></div>
-        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
-      </aside>
+      <figure class="week-four-hero-visual">
+        <img src="assets/week-04-period2-hero.webp" width="1448" height="1086" alt="색상 조각과 행렬 격자로 리스트와 중첩 반복을 보여 주는 4주차 2교시 이미지" loading="eager" decoding="async" fetchpriority="high">
+      </figure>
     </div>
   </div>
 
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">여러 값을 묶고 두 방향의 반복을 설계하기</p>
+
+      <dl class="week-four-lesson-facts" aria-label="2교시 핵심 정보">
+        <div><dt>핵심 질문</dt><dd>한 줄의 반복을 어떻게 격자로 확장하는가?</dd></div>
+        <div><dt>문법</dt><dd>리스트, 인덱스, 중첩 <code>for</code></dd></div>
+        <div><dt>운영</dt><dd>기본 50분 / 확장 60분, + 10 MIN EXTENSION</dd></div>
+      </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
@@ -585,7 +580,8 @@ image</code></pre>
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 04 · Period 02</p>
+  <p class="footer-note">Contents Programming Practice / Week 04 / Period 02</p>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-04.js?v=week4-1" defer></script>
 </body>
 </html>

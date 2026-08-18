@@ -38,6 +38,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-03-period3-hero.webp",
     alt: "종이 위 기하학적 도형 작품과 색상표를 보여 주는 3주차 이미지 미션",
   }),
+  "teaching/contents-programming/week-04-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-04-period1-hero.webp",
+    alt: "종이 위 반복 도형과 간격 변화로 시각적 리듬을 보여 주는 4주차 1교시 이미지",
+  }),
+  "teaching/contents-programming/week-04-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-04-period2-hero.webp",
+    alt: "색상 조각과 행렬 격자로 리스트와 중첩 반복을 보여 주는 4주차 2교시 이미지",
+  }),
+  "teaching/contents-programming/week-04-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-04-period3-hero.webp",
+    alt: "완성된 리듬 그리드 출력물과 색상표를 보여 주는 4주차 개인 실습 이미지",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",
