@@ -10,7 +10,7 @@ import io
 import json
 from collections import defaultdict
 from dataclasses import dataclass
-from importlib.metadata import version
+from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
 from textwrap import dedent
 
@@ -25,15 +25,15 @@ from matplotlib.patches import Rectangle
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
-EXPECTED_MATPLOTLIB_VERSION = "3.10.8"
+RUNTIME_REQUIREMENTS_PATH = ROOT / "requirements-week11-assets.txt"
 
 PAPER = "#f3efe5"
 PANEL = "#fffdf8"
 INK = "#202523"
-MUTED = "#65706b"
+MUTED = "#59615e"
 LINE = "#c7c8be"
-TEAL = "#177f78"
-CORAL = "#b94b40"
+TEAL = "#116e68"
+CORAL = "#a23d34"
 BLUE = "#365f91"
 GOLD = "#b78916"
 PALE_TEAL = "#dcebe6"
@@ -99,6 +99,21 @@ CATEGORY_MARKERS = {
     "박물관": "s",
     "문화센터": "^",
 }
+
+
+def pinned_runtime_versions() -> dict[str, str]:
+    """Read the visual toolchain pins from its single requirements file."""
+
+    pins: dict[str, str] = {}
+    for raw_line in RUNTIME_REQUIREMENTS_PATH.read_text(encoding="utf-8").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        package_name, separator, package_version = line.partition("==")
+        if not separator or not package_name or not package_version:
+            raise ValueError(f"Week 11 runtime requirement must be pinned: {line}")
+        pins[package_name] = package_version
+    return pins
 
 
 def apply_figure_style() -> None:
@@ -240,14 +255,14 @@ def make_figure_axes(path: Path) -> None:
     )
     figure.text(0.075, 0.755, "FIGURE · 8 × 5.5 inches", fontproperties=FONT_BOLD, fontsize=13, color=CORAL)
 
-    bar_axis = figure.add_axes((0.10, 0.22, 0.34, 0.43))
+    bar_axis = figure.add_axes((0.14, 0.22, 0.30, 0.43))
     bar_axis.barh(["Museum", "Library", "Culture"], [326, 369, 400], color=[CORAL, TEAL, BLUE])
     bar_axis.set_xlim(0, 440)
     bar_axis.set_xlabel("program total · x Axis")
     bar_axis.set_title("Axes 01 · comparison", loc="left", fontproperties=FONT_BOLD, fontsize=14)
     style_axes(bar_axis)
 
-    scatter_axis = figure.add_axes((0.57, 0.22, 0.34, 0.43))
+    scatter_axis = figure.add_axes((0.58, 0.22, 0.27, 0.43))
     for category in CATEGORY_DISPLAY:
         records = [record for record in FACILITIES if record.category == category]
         scatter_axis.scatter(
@@ -265,8 +280,32 @@ def make_figure_axes(path: Path) -> None:
     scatter_axis.set_ylabel("latitude · y Axis")
     scatter_axis.set_title("Axes 02 · relative position", loc="left", fontproperties=FONT_BOLD, fontsize=14)
     scatter_axis.set_xticks([126.92, 126.96, 127.00, 127.04, 127.08])
-    scatter_axis.legend(frameon=False, fontsize=9)
+    scatter_legend = scatter_axis.legend(
+        bbox_to_anchor=(1.02, 1.0),
+        loc="upper left",
+        borderaxespad=0,
+        frameon=False,
+        fontsize=9,
+    )
     style_axes(scatter_axis)
+
+    figure.canvas.draw()
+    renderer = figure.canvas.get_renderer()
+    figure_width = figure.bbox.width
+    figure_height = figure.bbox.height
+    for chart_axis in (bar_axis, scatter_axis):
+        chart_bounds = chart_axis.get_tightbbox(renderer)
+        if not (
+            chart_bounds.x0 >= figure_width * 0.05
+            and chart_bounds.y0 >= figure_height * 0.10
+            and chart_bounds.x1 <= figure_width * 0.95
+            and chart_bounds.y1 <= figure_height * 0.80
+        ):
+            raise AssertionError("Figure/Axes teaching diagram crossed its Figure frame")
+    if scatter_legend.get_window_extent(renderer).overlaps(
+        scatter_axis.get_window_extent(renderer)
+    ):
+        raise AssertionError("Figure/Axes legend overlaps the coordinate chart")
 
     figure.text(
         0.50,
@@ -351,28 +390,37 @@ def code_cell(text: str) -> dict[str, object]:
 
 def build_notebook(sample_csv: str) -> dict[str, object]:
     sample_csv_sha256 = hashlib.sha256(sample_csv.encode("utf-8")).hexdigest()
+    runtime_versions = pinned_runtime_versions()
     setup_code = f'''\
     # STEP 0 · 실행 환경과 수업용 데이터 준비 — 이 셀은 수정하지 않습니다.
     from pathlib import Path
     import hashlib
     import importlib.util
+    from importlib.metadata import PackageNotFoundError, version as package_version
     import re
     import subprocess
     import sys
 
     required_packages = {{
-        "pandas": "pandas",
-        "matplotlib": "matplotlib",
-        "seaborn": "seaborn",
+        "pandas": ("pandas", "{runtime_versions['pandas']}"),
+        "matplotlib": ("matplotlib", "{runtime_versions['matplotlib']}"),
+        "seaborn": ("seaborn", "{runtime_versions['seaborn']}"),
+        "PIL": ("Pillow", "{runtime_versions['Pillow']}"),
     }}
-    missing_packages = [
-        package_name
-        for module_name, package_name in required_packages.items()
-        if importlib.util.find_spec(module_name) is None
-    ]
-    if missing_packages:
+    packages_to_install = []
+    for module_name, (package_name, required_version) in required_packages.items():
+        try:
+            installed_version = package_version(package_name)
+        except PackageNotFoundError:
+            installed_version = None
+        if (
+            importlib.util.find_spec(module_name) is None
+            or installed_version != required_version
+        ):
+            packages_to_install.append(f"{{package_name}}=={{required_version}}")
+    if packages_to_install:
         subprocess.check_call(
-            [sys.executable, "-m", "pip", "install", "-q", *missing_packages]
+            [sys.executable, "-m", "pip", "install", "-q", *packages_to_install]
         )
 
     import pandas as pd
@@ -413,6 +461,17 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     }}
 
 
+    def font_has_korean_glyphs(font_path):
+        try:
+            font = font_manager.get_font(font_path)
+        except (OSError, RuntimeError):
+            return False
+        return all(
+            font.get_char_index(ord(character))
+            for character in "한글이름출처"
+        )
+
+
     def find_korean_font():
         preferred_tokens = (
             "nanumgothic",
@@ -420,12 +479,18 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             "notosanskr",
             "applesdgothic",
             "malgun",
+            "pretendard",
         )
-        for font_path in font_manager.findSystemFonts():
+        supporting_fonts = [
+            font_path
+            for font_path in sorted(font_manager.findSystemFonts())
+            if font_has_korean_glyphs(font_path)
+        ]
+        for font_path in supporting_fonts:
             compact_name = Path(font_path).name.lower().replace(" ", "")
             if any(token in compact_name for token in preferred_tokens):
                 return font_path
-        return None
+        return supporting_fonts[0] if supporting_fonts else None
 
 
     korean_font_path = find_korean_font()
@@ -457,7 +522,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
 
     student_id = "학번"
     student_name = "이름"
-    poster_title = "EDIT: 세 시설 범주의 프로그램과 위치는 어떻게 다른가?"
+    poster_title = "EDIT: 어느 시설 범주의 프로그램 수 합계가 큰가?"
 
     category_palette = {
         "도서관": "#6b7280",
@@ -630,16 +695,43 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             legend_label_map.get(legend_text.get_text(), legend_text.get_text())
         )
 
-    plotted_offsets = [
-        collection.get_offsets()
+    plotted_collections = [
+        collection
         for collection in axes[1].collections
         if len(collection.get_offsets()) > 0
     ]
+    plotted_offsets = [
+        collection.get_offsets() for collection in plotted_collections
+    ]
     scatter_point_count = sum(len(offsets) for offsets in plotted_offsets)
+    scatter_unique_sizes = len({
+        round(float(size), 6)
+        for collection in plotted_collections
+        for size in collection.get_sizes()
+    })
+    scatter_unique_colors = len({
+        tuple(round(float(channel), 6) for channel in color)
+        for collection in plotted_collections
+        for color in collection.get_facecolors()
+    })
+    scatter_marker_signatures = {
+        (
+            path.codes.tobytes() if path.codes is not None else b"",
+            path.vertices.round(6).tobytes(),
+        )
+        for collection in plotted_collections
+        for path in collection.get_paths()
+    }
+    scatter_unique_markers = len(scatter_marker_signatures)
     plotted_place_ids = facility_df["place_id"].tolist()
 
     print("막대 수:", bar_count)
     print("좌표 점 수:", scatter_point_count)
+    print(
+        "좌표 표현:",
+        f"색상 {scatter_unique_colors} · 표식 {scatter_unique_markers} · "
+        f"크기 단계 {scatter_unique_sizes}",
+    )
     '''
 
     writing_code = '''
@@ -647,12 +739,10 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     mission_step5_execution = get_ipython().execution_count
 
     main_observation = (
-        "EDIT: 326, 369, 400 가운데 어떤 값이 무엇을 뜻하는지 "
-        "30자 이상의 자신의 문장으로 작성하세요."
+        "EDIT: 합계 326·369·400 중 하나를 근거로 30자 이상 관찰하세요."
     )
     limitation_statement = (
-        "EDIT: 가상 시설 24행과 좌표 그래프로 단정할 수 없는 내용을 "
-        "30자 이상의 자신의 문장으로 작성하세요."
+        "EDIT: 가상 자료만으로 단정할 수 없는 내용을 30자 이상 적으세요."
     )
 
     print("관찰:", main_observation)
@@ -665,11 +755,28 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
 
     safe_student_id = str(student_id).strip()
     safe_student_name = str(student_name).strip()
+    safe_name_pattern = re.compile(r"^[0-9A-Za-z가-힣_-]+$")
+    if not (
+        safe_name_pattern.fullmatch(safe_student_id)
+        and safe_name_pattern.fullmatch(safe_student_name)
+    ):
+        raise AssertionError(
+            "학번과 이름에는 한글·영문·숫자·밑줄·하이픈만 사용할 수 있습니다."
+        )
+    input_text_lengths_safe = (
+        len(poster_title.strip()) <= 50
+        and len(main_observation.strip()) <= 90
+        and len(limitation_statement.strip()) <= 90
+    )
+    if not input_text_lengths_safe:
+        raise AssertionError(
+            "제목은 50자, 관찰과 한계는 각각 90자 이내로 다듬어 주세요."
+        )
     output_filename = (
         f"week11_{safe_student_id}_{safe_student_name}_data_poster.png"
     )
 
-    fig.suptitle(
+    title_artist = fig.suptitle(
         poster_title,
         x=0.10,
         y=0.95,
@@ -677,24 +784,64 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         fontsize=22,
         fontweight="bold",
     )
-    fig.text(
+    subtitle_artist = fig.text(
         0.10,
         0.865,
         "같은 24행 데이터를 범주별 합계와 상대적 위치로 다시 읽기",
         fontsize=11,
-        color="#65706b",
+        color="#59615e",
     )
-    fig.text(0.10, 0.125, "핵심 관찰", fontsize=10, fontweight="bold", color="#b94b40")
-    fig.text(0.10, 0.098, main_observation, fontsize=9.5, wrap=True)
-    fig.text(0.10, 0.068, "해석의 한계", fontsize=10, fontweight="bold", color="#b94b40")
-    fig.text(0.10, 0.041, limitation_statement, fontsize=9.5, wrap=True)
-    fig.text(
+    observation_label_artist = fig.text(
+        0.10, 0.125, "핵심 관찰", fontsize=10, fontweight="bold", color="#a23d34"
+    )
+    observation_artist = fig.text(
+        0.10, 0.098, main_observation, fontsize=9.5, wrap=True
+    )
+    limitation_label_artist = fig.text(
+        0.10, 0.068, "해석의 한계", fontsize=10, fontweight="bold", color="#a23d34"
+    )
+    limitation_artist = fig.text(
+        0.10, 0.041, limitation_statement, fontsize=9.5, wrap=True
+    )
+    source_artist = fig.text(
         0.10,
         0.012,
         f"출처 · {dataset_source} · 기준일 {reference_date} · {len(facility_df)}행",
         fontsize=7.5,
-        color="#65706b",
+        color="#59615e",
     )
+
+    fig.canvas.draw()
+    renderer = fig.canvas.get_renderer()
+    figure_bounds = fig.bbox
+    poster_text_artists = (
+        title_artist,
+        subtitle_artist,
+        observation_label_artist,
+        observation_artist,
+        limitation_label_artist,
+        limitation_artist,
+        source_artist,
+    )
+    poster_text_inside_canvas = all(
+        text_artist.get_window_extent(renderer).x0 >= figure_bounds.x0
+        and text_artist.get_window_extent(renderer).y0 >= figure_bounds.y0
+        and text_artist.get_window_extent(renderer).x1 <= figure_bounds.x1
+        and text_artist.get_window_extent(renderer).y1 <= figure_bounds.y1
+        for text_artist in poster_text_artists
+    )
+    observation_bounds = observation_artist.get_window_extent(renderer)
+    limitation_label_bounds = limitation_label_artist.get_window_extent(renderer)
+    limitation_bounds = limitation_artist.get_window_extent(renderer)
+    source_bounds = source_artist.get_window_extent(renderer)
+    footer_blocks_separated = (
+        observation_bounds.y0 > limitation_label_bounds.y1
+        and limitation_bounds.y0 > source_bounds.y1
+    )
+    if not poster_text_inside_canvas or not footer_blocks_separated:
+        raise AssertionError(
+            "제목·관찰·한계가 포스터 경계를 넘거나 서로 겹칩니다. 문장을 줄여 주세요."
+        )
 
     fig.savefig(
         output_filename,
@@ -724,7 +871,6 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         mission_step6_execution,
         mission_step7_execution,
     )
-    safe_name_pattern = re.compile(r"^[0-9A-Za-z가-힣_-]+$")
     hex_color_pattern = re.compile(r"^#[0-9A-Fa-f]{6}$")
     palette_values = list(category_palette.values())
     current_metadata = (
@@ -741,8 +887,10 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             "새 런타임에서 STEP 0부터 여덟 셀을 순서대로 실행",
         ),
         (
-            safe_student_id not in {"", "학번"}
-            and safe_student_name not in {"", "이름"}
+            safe_student_id != ""
+            and safe_student_name != ""
+            and "학번" not in safe_student_id
+            and "이름" not in safe_student_name
             and safe_name_pattern.fullmatch(safe_student_id)
             and safe_name_pattern.fullmatch(safe_student_name),
             "학번·이름과 안전한 파일명",
@@ -750,7 +898,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         (
             not poster_title.strip().startswith("EDIT:")
             and len(poster_title.strip()) >= 15
-            and ("?" in poster_title or poster_title.rstrip().endswith("까")),
+            and poster_title.strip().endswith(("?", "？")),
             "15자 이상의 자신의 질문형 제목",
         ),
         (
@@ -786,6 +934,12 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             "정제 24행과 좌표 점 24개",
         ),
         (
+            scatter_unique_colors == 3
+            and scatter_unique_markers == 3
+            and scatter_unique_sizes > 1,
+            "색상·표식·크기로 구분한 좌표 점",
+        ),
+        (
             not main_observation.strip().startswith("EDIT:")
             and len(main_observation.strip()) >= 30
             and re.search(r"326|369|400", main_observation),
@@ -795,6 +949,12 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             not limitation_statement.strip().startswith("EDIT:")
             and len(limitation_statement.strip()) >= 30,
             "30자 이상의 해석 한계",
+        ),
+        (
+            input_text_lengths_safe
+            and poster_text_inside_canvas
+            and footer_blocks_separated,
+            "글자 수와 포스터 경계 안의 제목·관찰·한계",
         ),
         (
             output_path.exists()
@@ -935,7 +1095,7 @@ def make_data_poster_example(path: Path) -> None:
         20,
         1,
         left=0.19,
-        right=0.92,
+        right=0.75,
         top=0.78,
         bottom=0.16,
         hspace=1.20,
@@ -994,9 +1154,21 @@ def make_data_poster_example(path: Path) -> None:
     scatter_axis.set_xlabel("Longitude")
     scatter_axis.set_ylabel("Latitude")
     scatter_axis.set_title("24 points · color + marker = category · area = programs", loc="left", fontproperties=FONT_BOLD, fontsize=11)
-    scatter_axis.legend(frameon=False, loc="lower right", fontsize=8)
+    scatter_legend = scatter_axis.legend(
+        bbox_to_anchor=(1.02, 1.0),
+        loc="upper left",
+        borderaxespad=0,
+        frameon=False,
+        fontsize=8,
+    )
     scatter_axis.set_aspect("equal", adjustable="datalim")
     style_axes(scatter_axis)
+
+    figure.canvas.draw()
+    if scatter_legend.get_window_extent(figure.canvas.get_renderer()).overlaps(
+        scatter_axis.get_window_extent(figure.canvas.get_renderer())
+    ):
+        raise AssertionError("example poster legend overlaps a facility point")
 
     figure.text(0.10, 0.105, "OBSERVATION", fontproperties=FONT_BOLD, fontsize=9, color=CORAL)
     figure.text(
@@ -1092,8 +1264,9 @@ def make_honest_chart_cases(path: Path) -> None:
     complete.add_patch(Rectangle((0.08, 0.12), 0.84, 0.72, facecolor=PALE_TEAL, edgecolor=TEAL, linewidth=2))
     complete.text(0.14, 0.70, "TOTAL PROGRAM COUNT", transform=complete.transAxes, fontproperties=FONT_BOLD, fontsize=13)
     complete.text(0.14, 0.53, "1,095", transform=complete.transAxes, fontproperties=FONT_BOLD, fontsize=32, color=TEAL)
-    complete.text(0.14, 0.34, "24 facilities · sum · reference date 2026-08-18", transform=complete.transAxes, fontsize=9.5, color=INK)
-    complete.text(0.14, 0.22, "Source: fictional class dataset", transform=complete.transAxes, fontsize=9.5, color=MUTED)
+    complete.text(0.14, 0.35, "24 facilities · sum", transform=complete.transAxes, fontsize=9.5, color=INK)
+    complete.text(0.14, 0.26, "Reference date · 2026-08-18", transform=complete.transAxes, fontsize=9.5, color=INK)
+    complete.text(0.14, 0.17, "Source · fictional class dataset", transform=complete.transAxes, fontsize=9.5, color=MUTED)
     complete.set_title("C · Context restored", loc="left", fontproperties=FONT_BOLD, fontsize=14)
     complete.axis("off")
 
@@ -1110,12 +1283,25 @@ def parse_args() -> argparse.Namespace:
 def main() -> None:
     args = parse_args()
     if args.check_runtime:
-        actual = version("matplotlib")
-        if actual != EXPECTED_MATPLOTLIB_VERSION:
-            raise SystemExit(
-                f"Matplotlib {EXPECTED_MATPLOTLIB_VERSION} is required; found {actual}."
-            )
-        print(f"Week 11 visual runtime OK: matplotlib {actual}")
+        installed_versions: dict[str, str] = {}
+        mismatches = []
+        for package_name, required_version in pinned_runtime_versions().items():
+            try:
+                installed_version = version(package_name)
+            except PackageNotFoundError:
+                installed_version = "not installed"
+            installed_versions[package_name] = installed_version
+            if installed_version != required_version:
+                mismatches.append(
+                    f"{package_name} {required_version} required; found {installed_version}"
+                )
+        if mismatches:
+            raise SystemExit("Week 11 runtime mismatch: " + "; ".join(mismatches))
+        summary = " · ".join(
+            f"{package_name} {package_version}"
+            for package_name, package_version in installed_versions.items()
+        )
+        print("Week 11 visual runtime OK:", summary)
         return
 
     args.asset_dir.mkdir(parents=True, exist_ok=True)

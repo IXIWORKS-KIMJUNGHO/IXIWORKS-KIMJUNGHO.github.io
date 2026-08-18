@@ -40,6 +40,7 @@ test("Contents Programming week 11 period 1 teaches beginners to choose an hones
     "utf8",
   );
 
+  assert.match(period1, /href="week-09-period3\.html" rel="prev"/);
   assert.match(period1, /href="week-11-period2\.html" rel="next"/);
   assertTimeline(period1, [
     [0, 6],
@@ -183,6 +184,7 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
 
   assert.match(period2, /href="week-11-period3\.html" rel="next"/);
   assert.match(period3, /href="week-11-period2\.html" rel="prev"/);
+  assert.doesNotMatch(period3, /rel="next"/);
   assertTimeline(period3, [
     [0, 5],
     [5, 12],
@@ -226,6 +228,17 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
     "기준일",
     "새 런타임",
     "모두 실행",
+    "준비 · 노트북 사본 저장과 파일명 변경",
+    "기준 실행 · STEP 0부터 STEP 7까지 한 번 실행",
+    "STEP 1 · 제출 정보와 질문형 제목 작성",
+    "STEP 1 계속 · 세 범주의 HEX 색상 정하기",
+    "STEP 2–3 · 24행과 범주별 합계 검증",
+    "STEP 4 · 막대 3개와 점 24개 읽기",
+    "STEP 5 · 관찰 문장과 해석의 한계 작성",
+    "STEP 6 · 1600 × 2200 PNG 저장과 육안 점검",
+    "STEP 7 · 새 런타임 모두 실행과 FINAL CHECK",
+    "제출 · 두 파일 확인 후 즉시 귀가",
+    "category_palette",
     "WEEK 11 DATA POSTER COMPLETE",
     "자동 검사는 미적 취향을 채점하지 않는다",
     "FINAL CHECK 코드는 수정하지 않는다",
@@ -233,6 +246,7 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
     "귀가 조건이 아니며 추가 점수도 없습니다",
     "12주차 연결",
   ]);
+  assert.doesNotMatch(period3, /category_colors/);
 });
 
 test("Contents Programming week 11 mission notebook contains a self-checking poster workflow", async () => {
@@ -259,6 +273,8 @@ test("Contents Programming week 11 mission notebook contains a self-checking pos
     /import seaborn as sns/,
     /import matplotlib\.pyplot as plt/,
     /import hashlib/,
+    /def font_has_korean_glyphs/,
+    /font_manager\.get_font\(font_path\)/,
     /SAMPLE_CSV_PATH = "week11_public_facilities_clean\.csv"/,
     /Path\(SAMPLE_CSV_PATH\)\.write_text\(SAMPLE_CSV, encoding="utf-8"\)/,
     /EXPECTED_CSV_SHA256 = "[0-9a-f]{64}"/,
@@ -293,6 +309,14 @@ test("Contents Programming week 11 mission notebook contains a self-checking pos
     /current_metadata == expected_metadata/,
     /bar_count == 3/,
     /scatter_point_count == len\(facility_df\) == 24/,
+    /scatter_unique_colors == 3/,
+    /scatter_unique_markers == 3/,
+    /scatter_unique_sizes > 1/,
+    /"학번" not in safe_student_id/,
+    /"이름" not in safe_student_name/,
+    /poster_title\.strip\(\)\.endswith\(\(\"\?\", \"？\"\)\)/,
+    /poster_text_inside_canvas/,
+    /footer_blocks_separated/,
     /saved_image\.shape\[:2\] == \(2200, 1600\)/,
     /WEEK 11 DATA POSTER COMPLETE/,
     /files\.download\(output_filename\)/,
@@ -335,10 +359,7 @@ test("Contents Programming week 11 mission notebook passes and rejects real runt
   );
   const runtimeProbe = spawnSync(
     "python3",
-    [
-      "-c",
-      "import matplotlib, pandas, seaborn; print(matplotlib.__version__, pandas.__version__, seaborn.__version__)",
-    ],
+    [resolve(root, "scripts", "generate-week11-data-poster-assets.py"), "--check-runtime"],
     { cwd: root, encoding: "utf8" },
   );
   if (runtimeProbe.status !== 0) {
@@ -352,6 +373,10 @@ test("Contents Programming week 11 mission notebook passes and rejects real runt
     );
     return;
   }
+  assert.match(runtimeProbe.stdout, /matplotlib 3\.10\.8/);
+  assert.match(runtimeProbe.stdout, /pandas 2\.3\.3/);
+  assert.match(runtimeProbe.stdout, /seaborn 0\.13\.2/);
+  assert.match(runtimeProbe.stdout, /Pillow 12\.3\.0/);
 
   const runtimeCheck = spawnSync(
     "python3",

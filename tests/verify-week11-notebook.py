@@ -8,7 +8,6 @@ import io
 import json
 import os
 import re
-import shutil
 import sys
 import tempfile
 from pathlib import Path
@@ -72,6 +71,7 @@ def set_palette(source: str, palette: dict[str, str]) -> str:
 
 def edited_cells(
     notebook_cells: list[dict[str, object]],
+    assignment_overrides: dict[str, str] | None = None,
 ) -> list[dict[str, object]]:
     cells = copy.deepcopy(notebook_cells)
     assignments = {
@@ -79,6 +79,7 @@ def edited_cells(
         "student_name": "김포스터",
         "poster_title": "프로그램 수 합계가 가장 큰 시설 범주는 무엇인가?",
     }
+    assignments.update(assignment_overrides or {})
     palette = {
         "도서관": "#177f78",
         "박물관": "#b94b40",
@@ -135,31 +136,61 @@ def run_scenario(
     notebook_cells: list[dict[str, object]],
     *,
     use_valid_edits: bool,
+    assignment_overrides: dict[str, str] | None = None,
     tamper_csv: bool = False,
     tamper_metadata: bool = False,
+    tamper_visual_encoding: bool = False,
     should_pass: bool,
     expected_failure_label: str | None = None,
 ) -> None:
     cells = (
-        edited_cells(notebook_cells)
+        edited_cells(notebook_cells, assignment_overrides)
         if use_valid_edits
         else copy.deepcopy(notebook_cells)
     )
+    if tamper_visual_encoding:
+        old_encoding = '''    hue="category",
+    style="category",
+    size="program_count",
+    palette=category_palette,
+    markers=category_markers,
+    sizes=(60, 300),'''
+        new_encoding = '''    hue=None,
+    style=None,
+    size=None,
+    color="#6b7280",
+    marker="o",
+    s=120,'''
+        replacement_count = 0
+        for cell in cells:
+            source = "".join(cell["source"])
+            if old_encoding in source:
+                source = source.replace(old_encoding, new_encoding, 1)
+                cell["source"] = source.splitlines(keepends=True)
+                replacement_count += 1
+        if replacement_count != 1:
+            raise AssertionError("could not mutate the scatter visual encoding")
     shell = SimpleNamespace(execution_count=0)
     namespace = {"get_ipython": lambda: shell}
 
     with tempfile.TemporaryDirectory(prefix="week11-notebook-test-") as temp_dir:
         temp_path = Path(temp_dir)
-        fake_korean_font = temp_path / "NanumGothic.ttf"
-        bundled_font = (
-            Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans.ttf"
-        )
-        shutil.copy2(bundled_font, fake_korean_font)
+        korean_font_candidates = []
+        for font_path in sorted(font_manager.findSystemFonts()):
+            try:
+                font = font_manager.get_font(font_path)
+                if all(font.get_char_index(ord(character)) for character in "한글이름"):
+                    korean_font_candidates.append(font_path)
+            except (OSError, RuntimeError):
+                continue
+        if not korean_font_candidates:
+            raise AssertionError("no system font contains the required Korean glyphs")
+        verified_korean_font = korean_font_candidates[0]
 
         original_find_system_fonts = font_manager.findSystemFonts
 
         def deterministic_system_fonts(*_args, **_kwargs):
-            return [str(fake_korean_font)]
+            return [verified_korean_font]
 
         font_manager.findSystemFonts = deterministic_system_fonts
         previous_directory = Path.cwd()
@@ -242,6 +273,28 @@ def main() -> None:
         code_cells,
         use_valid_edits=True,
         should_pass=True,
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        assignment_overrides={"student_id": "학번123"},
+        should_pass=False,
+        expected_failure_label="학번·이름",
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        assignment_overrides={
+            "poster_title": "프로그램 수 합계가 가장 큰 시설 범주는 무엇인가？",
+        },
+        should_pass=True,
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        tamper_visual_encoding=True,
+        should_pass=False,
+        expected_failure_label="색상·표식·크기",
     )
     run_scenario(
         code_cells,
