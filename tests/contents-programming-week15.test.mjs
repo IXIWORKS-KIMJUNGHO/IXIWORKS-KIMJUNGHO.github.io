@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -88,6 +89,17 @@ test("week 15 lesson shells match the teaching navigation generator", () => {
   );
   assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
   assert.match(result.stdout, /0 document shell changes required/);
+
+  const unsafeGlobalCheck = spawnSync(
+    process.execPath,
+    [resolve(root, "scripts", "refresh-teaching-navigation.mjs"), "--check"],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.notEqual(unsafeGlobalCheck.status, 0);
+  assert.match(
+    `${unsafeGlobalCheck.stdout}\n${unsafeGlobalCheck.stderr}`,
+    /--check requires --course/,
+  );
 });
 
 test("period 1 teaches evidence-led revision with four concrete cases", async () => {
@@ -226,6 +238,14 @@ test("period 3 is a persistent, finite, goal-based 70 percent mission", async ()
     "week15_학번_이름_revision_log.html",
     "APPROVED PROJECT CODE ZONE",
     "project_input.read_text()",
+    "구조화된 수정 동작",
+    "show_count_check",
+    "clarify_title_unit",
+    "stamp_run_id",
+    "show_source_context",
+    "strengthen_contrast",
+    "자동 검사는 자연어 문장의 의미를 판정하지 않습니다",
+    "검사용 입력",
     "own_source_filename",
     "approval_status = \"approved\"",
     "AUTOMATIC EVIDENCE READY",
@@ -340,6 +360,9 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /revision_action_2 = "EDIT:/,
     /revision_focus_1 = "accuracy"/,
     /revision_focus_2 = "readability"/,
+    /revision_operation_1 = "show_count_check"/,
+    /revision_operation_2 = "clarify_title_unit"/,
+    /REVISION_OPERATIONS = \{/,
     /REVISION_LENS_LABELS = \{/,
     /"responsibility": "책임성"/,
     /"reproducibility": "재현성"/,
@@ -352,6 +375,8 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /def build_project_outputs\(project_input=None\)/,
     /class TrackedProjectInput:/,
     /project_input\.read_count/,
+    /def make_probe\(self, track\):/,
+    /own_input_response_digests/,
     /def apply_revision_contract\(/,
     /if project_track == "data"/,
     /elif project_track == "text"/,
@@ -363,6 +388,7 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /"revision_render_proofs": revision_render_proofs/,
     /"rendered_revision_markers": rendered_revision_markers/,
     /"revision_render_digests": revision_render_digests/,
+    /"applied_revision_operations": list\(selected_revision_operations\)/,
     /baseline_snapshot_digest = sha256_file/,
     /refined_output_digest = sha256_file/,
     /baseline_snapshot_digest != refined_output_digest/,
@@ -384,6 +410,10 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /AUTOMATIC EVIDENCE READY · TEACHER CHECK REQUIRED/,
     /teacher_gate == "confirmed"/,
     /sha256_file\(own_source_path\) == own_source_digest/,
+    /font_manager\.fontManager\.addfont/,
+    /font_manager\.get_font/,
+    /get_char_index/,
+    /require_korean_glyphs/,
     /_week15_step0_runs == 1/,
     /_run_order == \[0, 1, 2, 3, 4, 5, 6\]/,
     /WEEK 15 PROJECT REFINEMENT COMPLETE/,
@@ -412,6 +442,22 @@ test("week 15 visual assets have the published dimensions", async () => {
     assert.equal(buffer.readUInt32BE(20), height);
     assert.ok((await stat(path)).size > 20_000);
   }
+
+  const font = await readFile(
+    resolve(root, "assets", "fonts", "week15-korean-visual.ttf"),
+  );
+  assert.ok(font.length > 2_000_000);
+  assert.equal(
+    createHash("sha256").update(font).digest("hex"),
+    "87fd90eac183d32c2ce542cce8d4b72facc315a5adb05669e7074f89b370c900",
+  );
+  const compressedFont = await readFile(
+    resolve(root, "assets", "fonts", "week15-korean-visual.ttf.gz"),
+  );
+  assert.equal(
+    createHash("sha256").update(compressedFont).digest("hex"),
+    "2e287ff9f26edec4fd7e1cfc03a35933f79abea80cb7bd5a1ba16152f0a02e04",
+  );
 });
 
 test("week 15 generated assets stay reproducible in the pinned environment", async (t) => {
@@ -471,9 +517,14 @@ test("week 15 notebook executes four guided paths and rejects false completion",
     result.stdout,
     /"revision_focuses": \["responsibility", "presentation"\]/,
   );
+  assert.match(
+    result.stdout,
+    /"revision_focuses": \["reproducibility", "accuracy"\]/,
+  );
   assert.match(result.stdout, /교수의 증거 확인 뒤 teacher_gate를 confirmed로 바꾸세요/);
   assert.match(result.stdout, /서로 다른 두 수정 행동을 기록하세요/);
   assert.match(result.stdout, /own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다/);
+  assert.match(result.stdout, /own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다/);
   assert.match(result.stdout, /approval_status는 provided 또는 approved여야 합니다/);
   assert.match(result.stdout, /마지막 검사는 새 런타임에서 모두 실행해야 합니다/);
 });

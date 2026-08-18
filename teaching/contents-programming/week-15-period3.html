@@ -256,9 +256,24 @@
 
       <h2 id="revise">13-19분 · STEP 3에서 수정 행동 두 가지 실행하기</h2>
 
-      <p>STEP 3에서 <code>revision_focus_1</code>과 <code>revision_focus_2</code>를 정확성, 가독성, 재현성, 책임성, 발표 가능성 가운데 서로 다르게 고릅니다. 각 행동 문장은 선택한 렌즈의 한국어 이름으로 시작합니다. 예를 들어 <code>responsibility</code>를 골랐다면 <code>책임성:</code>으로 시작합니다. 노트북의 <code>apply_revision_contract()</code>는 선택한 두 초점과 행동을 결과 화면에 직접 적용하고 화면 증거를 검사합니다.</p>
+      <p>STEP 3에서 <code>revision_focus_1</code>과 <code>revision_focus_2</code>를 정확성, 가독성, 재현성, 책임성, 발표 가능성 가운데 서로 다르게 고릅니다. 각 초점에는 노트북이 실제로 실행할 수 있는 <strong>구조화된 수정 동작</strong>이 하나씩 연결됩니다. 행동 문장은 선택한 렌즈의 한국어 이름으로 시작하고 해당 동작 코드를 포함해야 합니다.</p>
 
-      <p>자신의 입력을 이어갈 때에는 교수와 확인한 제작 함수가 <code>project_input.read_text()</code> 또는 <code>project_input.read_bytes()</code>로 승인 파일을 실제로 읽어야 합니다. 입력 지문과 읽기 횟수는 승인 코드 밖에서 계산되므로 제공 예시를 그대로 둔 채 <code>own</code>이라고 표시하면 PASS하지 않습니다. 자동 검사 셀은 수정하지 않습니다.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>수정 초점</th><th>구조화된 수정 동작</th><th>자동으로 달라지는 화면</th></tr></thead>
+          <tbody>
+            <tr><td>정확성</td><td><code>show_count_check</code></td><td>입력 수와 표시 수 검사</td></tr>
+            <tr><td>가독성</td><td><code>clarify_title_unit</code></td><td>질문 제목과 단위</td></tr>
+            <tr><td>재현성</td><td><code>stamp_run_id</code></td><td>실행 ID와 입력 지문</td></tr>
+            <tr><td>책임성</td><td><code>show_source_context</code></td><td>출처와 기준일</td></tr>
+            <tr><td>발표 가능성</td><td><code>strengthen_contrast</code></td><td>배경, 대비, 불필요한 테두리</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>apply_revision_contract()</code>는 두 동작을 차례로 실행하고 각 단계의 픽셀 지문이 실제로 달라졌는지 검사합니다. <strong>자동 검사는 자연어 문장의 의미를 판정하지 않습니다.</strong> “왜 이 동작이 내 프로젝트의 문제를 해결하는가”는 수정 전후 위치를 가리키며 교수 확인에서 설명합니다.</p>
+
+      <p>자신의 입력을 이어갈 때에는 교수와 확인한 제작 함수가 <code>project_input.read_text()</code> 또는 <code>project_input.read_bytes()</code>로 승인 파일을 실제로 읽어야 합니다. 노트북은 원본의 한 값을 바꾼 <strong>검사용 입력</strong>으로 제작 함수를 한 번 더 실행하고, 수정 결과의 픽셀 지문이 달라지는지 비교합니다. 따라서 입력을 읽기만 하고 기존 하드코딩 결과를 그리면 PASS하지 않습니다. 자동 검사 셀은 수정하지 않습니다.</p>
 
       <div class="revision-case-grid">
         <section class="revision-case" aria-labelledby="mission-data"><span class="case-label">DATA</span><h3 id="mission-data">데이터</h3><p>결측 행 수를 출력하고 축 단위와 값 레이블을 추가합니다. 처리 배열과 막대 레이블을 항목별로 비교합니다.</p></section>
@@ -341,8 +356,8 @@
       <p><strong>교수 확인 대기열은 19분부터 열립니다.</strong> 빠르게 자동 증거를 만든 학생은 28분을 기다리지 않고 바로 확인받습니다. 모든 학생은 28분까지 자동 증거 준비를 목표로 하며, 그때 30명이 동시에 대기하더라도 한 명당 <strong>완성 순서대로 최대 30초</strong>, 전체 <strong>30명도 최대 15분</strong>이므로 43분까지 첫 확인을 마칠 수 있습니다. 43-47분은 지적된 한 항목만 고치고 재확인하는 완충 구간입니다.</p>
 
       <ol>
-        <li>수정 전후 화면과 두 수정 행동 표시</li>
-        <li>입력 지문, 출처, 기준일, 한계</li>
+        <li>수정 전후 화면에서 구조화된 두 동작이 바꾼 위치</li>
+        <li>자체 입력과 시각 요소의 실제 대응, 출처, 기준일, 한계</li>
         <li>독립적으로 열린 PNG와 HTML</li>
       </ol>
 

@@ -379,6 +379,10 @@ function parseArguments(argumentsList) {
   };
   const course = valueAfter("--course");
   const documentList = valueAfter("--documents");
+  const check = argumentsList.includes("--check");
+  if (check && !course) {
+    throw new Error("--check requires --course");
+  }
   if (documentList && !course) {
     throw new Error("--documents requires --course");
   }
@@ -386,7 +390,7 @@ function parseArguments(argumentsList) {
     throw new Error(`Unknown teaching course: ${course}`);
   }
   return {
-    check: argumentsList.includes("--check"),
+    check,
     course,
     selectedDocuments: documentList
       ? new Set(documentList.split(",").filter(Boolean))
@@ -421,5 +425,10 @@ async function refreshAll(options = {}) {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  await refreshAll(parseArguments(process.argv.slice(2)));
+  try {
+    await refreshAll(parseArguments(process.argv.slice(2)));
+  } catch (error) {
+    console.error(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  }
 }

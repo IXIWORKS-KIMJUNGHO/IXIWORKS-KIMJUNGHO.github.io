@@ -4,6 +4,9 @@
 from __future__ import annotations
 
 import argparse
+import base64
+import gzip
+import hashlib
 import json
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
@@ -43,6 +46,53 @@ FONT_BOLD_PATH = (
 )
 FONT = font_manager.FontProperties(fname=FONT_PATH)
 FONT_BOLD = font_manager.FontProperties(fname=FONT_BOLD_PATH)
+
+# Korean subset derived from NotoSansCJKkr-VF.ttf at notofonts/noto-cjk
+# commit f8d157532fbfaeda587e826d4cd5b21a49186f7c under the SIL OFL 1.1.
+NOTEBOOK_FONT_PATH = ROOT / "assets" / "fonts" / "week15-korean-visual.ttf"
+NOTEBOOK_FONT_SHA256 = (
+    "87fd90eac183d32c2ce542cce8d4b72facc315a5adb05669e7074f89b370c900"
+)
+NOTEBOOK_FONT_GZIP_PATH = ROOT / "assets" / "fonts" / "week15-korean-visual.ttf.gz"
+NOTEBOOK_FONT_GZIP_SHA256 = (
+    "2e287ff9f26edec4fd7e1cfc03a35933f79abea80cb7bd5a1ba16152f0a02e04"
+)
+NOTEBOOK_FONT_LICENSE_PATH = ROOT / "assets" / "fonts" / "OFL-NotoSansCJK.txt"
+NOTEBOOK_FONT_LICENSE_SHA256 = (
+    "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+)
+
+
+def validate_notebook_font_asset() -> bytes:
+    """Validate the embedded OFL Korean font and its full Hangul coverage."""
+
+    required_files = (
+        (NOTEBOOK_FONT_PATH, NOTEBOOK_FONT_SHA256, "font"),
+        (NOTEBOOK_FONT_GZIP_PATH, NOTEBOOK_FONT_GZIP_SHA256, "compressed font"),
+        (NOTEBOOK_FONT_LICENSE_PATH, NOTEBOOK_FONT_LICENSE_SHA256, "font license"),
+    )
+    for file_path, expected_digest, label in required_files:
+        if not file_path.is_file():
+            raise RuntimeError(f"Week 15 notebook {label} is missing: {file_path}")
+        actual_digest = hashlib.sha256(file_path.read_bytes()).hexdigest()
+        if actual_digest != expected_digest:
+            raise RuntimeError(
+                f"Week 15 notebook {label} checksum mismatch: {actual_digest}"
+            )
+
+    font = font_manager.get_font(NOTEBOOK_FONT_PATH)
+    missing_hangul = [
+        chr(codepoint)
+        for codepoint in range(0xAC00, 0xD7A4)
+        if not font.get_char_index(codepoint)
+    ]
+    if missing_hangul:
+        raise RuntimeError(
+            f"Week 15 notebook font is missing {len(missing_hangul)} Hangul glyphs."
+        )
+    if gzip.decompress(NOTEBOOK_FONT_GZIP_PATH.read_bytes()) != NOTEBOOK_FONT_PATH.read_bytes():
+        raise RuntimeError("Week 15 compressed notebook font does not match its TTF.")
+    return NOTEBOOK_FONT_GZIP_PATH.read_bytes()
 
 
 def pinned_runtime_versions() -> dict[str, str]:
@@ -564,6 +614,11 @@ def notebook_cell(cell_type: str, source: str) -> dict[str, object]:
 def build_notebook() -> dict[str, object]:
     """Build the student-facing Week 15 refinement mission notebook."""
 
+    compressed_notebook_font = validate_notebook_font_asset()
+    embedded_font_payload = base64.b64encode(compressed_notebook_font).decode(
+        "ascii"
+    )
+
     cells = [
         notebook_cell(
             "markdown",
@@ -583,11 +638,52 @@ def build_notebook() -> dict[str, object]:
             from hashlib import sha256
             from html import escape
             import base64
+            import gzip
+            import io
             import re
             import shutil
 
             import matplotlib.pyplot as plt
+            from matplotlib import font_manager
             from PIL import Image
+
+            EMBEDDED_KOREAN_FONT_GZIP_BASE64 = "__WEEK15_FONT_GZIP_BASE64__"
+            EMBEDDED_KOREAN_FONT_SHA256 = "87fd90eac183d32c2ce542cce8d4b72facc315a5adb05669e7074f89b370c900"
+            korean_font_path = Path("week15-korean-visual.ttf")
+            korean_font_bytes = gzip.decompress(
+                base64.b64decode(EMBEDDED_KOREAN_FONT_GZIP_BASE64)
+            )
+            assert sha256(korean_font_bytes).hexdigest() == EMBEDDED_KOREAN_FONT_SHA256
+            if (
+                not korean_font_path.is_file()
+                or sha256(korean_font_path.read_bytes()).hexdigest()
+                != EMBEDDED_KOREAN_FONT_SHA256
+            ):
+                korean_font_path.write_bytes(korean_font_bytes)
+            font_manager.fontManager.addfont(korean_font_path)
+            korean_font_name = font_manager.FontProperties(
+                fname=korean_font_path
+            ).get_name()
+            plt.rcParams["font.family"] = korean_font_name
+            plt.rcParams["axes.unicode_minus"] = False
+
+            def require_korean_glyphs(*values):
+                font = font_manager.get_font(korean_font_path)
+                required_characters = {
+                    character
+                    for value in values
+                    for character in str(value)
+                    if not character.isspace()
+                }
+                missing_characters = sorted(
+                    character
+                    for character in required_characters
+                    if not font.get_char_index(ord(character))
+                )
+                assert not missing_characters, (
+                    "고정 한글 글꼴에 없는 문자가 있습니다: "
+                    + "".join(missing_characters)
+                )
 
             _week15_step0_runs = globals().get("_week15_step0_runs", 0) + 1
             _run_order = [0]
@@ -606,7 +702,9 @@ def build_notebook() -> dict[str, object]:
                 return text
 
             print("STEP 0 READY")
-            """,
+            """.replace(
+                "__WEEK15_FONT_GZIP_BASE64__", embedded_font_payload
+            ),
         ),
         notebook_cell(
             "code",
@@ -658,9 +756,15 @@ def build_notebook() -> dict[str, object]:
             )
 
             class TrackedProjectInput:
-                def __init__(self, path):
-                    self.path = Path(path)
-                    self._bytes = self.path.read_bytes()
+                def __init__(self, path=None, *, payload=None, label=None):
+                    assert path is not None or payload is not None
+                    self.path = Path(path) if path is not None else None
+                    self.label = label or (self.path.name if self.path else "probe")
+                    self._bytes = (
+                        self.path.read_bytes()
+                        if payload is None
+                        else bytes(payload)
+                    )
                     self.digest = sha256(self._bytes).hexdigest()
                     self.read_count = 0
 
@@ -670,6 +774,49 @@ def build_notebook() -> dict[str, object]:
 
                 def read_text(self, encoding="utf-8"):
                     return self.read_bytes().decode(encoding)
+
+                def make_probe(self, track):
+                    payload = self._bytes
+                    if track == "data":
+                        source_text = payload.decode("utf-8")
+
+                        def increment_number(match):
+                            original = match.group(0)
+                            changed = float(original) + 1
+                            return str(int(changed)) if changed.is_integer() else str(changed)
+
+                        probe_text, count = re.subn(
+                            r"-?\\d+(?:\\.\\d+)?",
+                            increment_number,
+                            source_text,
+                            count=1,
+                        )
+                        assert count == 1, "data own 입력에는 검사할 숫자가 하나 이상 필요합니다."
+                        payload = probe_text.encode("utf-8")
+                    elif track == "text":
+                        payload = payload + "\\nweek15_probe_token".encode("utf-8")
+                    elif track == "sound":
+                        assert len(payload) > 44, "sound own 입력은 유효한 WAV 바이트여야 합니다."
+                        changed = bytearray(payload)
+                        changed[-1] ^= 1
+                        payload = bytes(changed)
+                    else:
+                        with Image.open(io.BytesIO(payload)) as source_image:
+                            probe_image = source_image.convert("RGBA")
+                        red, green, blue, alpha = probe_image.getpixel((0, 0))
+                        probe_image.putpixel(
+                            (0, 0),
+                            ((red + 1) % 256, green, blue, alpha),
+                        )
+                        probe_buffer = io.BytesIO()
+                        probe_image.save(probe_buffer, format="PNG")
+                        payload = probe_buffer.getvalue()
+
+                    assert payload != self._bytes, "검사용 입력 변형을 만들지 못했습니다."
+                    return TrackedProjectInput(
+                        payload=payload,
+                        label=f"{self.label}-probe",
+                    )
 
             own_source_path = None
             own_source_digest = None
@@ -709,8 +856,10 @@ def build_notebook() -> dict[str, object]:
             # STEP 3 · EDIT: 두 수정 행동과 승인된 프로젝트 코드
             revision_focus_1 = "accuracy"
             revision_focus_2 = "readability"
-            revision_action_1 = "EDIT: 정확성: 값과 화면의 일치를 높이는 수정"
-            revision_action_2 = "EDIT: 가독성: 제목, 단위 또는 설명을 높이는 수정"
+            revision_operation_1 = "show_count_check"
+            revision_operation_2 = "clarify_title_unit"
+            revision_action_1 = "EDIT: 정확성: show_count_check로 값과 화면의 일치를 표시한다"
+            revision_action_2 = "EDIT: 가독성: clarify_title_unit로 제목과 단위를 명확하게 한다"
 
             REVISION_LENS_LABELS = {
                 "accuracy": "정확성",
@@ -719,11 +868,29 @@ def build_notebook() -> dict[str, object]:
                 "responsibility": "책임성",
                 "presentation": "발표 가능성",
             }
+            REVISION_OPERATIONS = {
+                "accuracy": "show_count_check",
+                "readability": "clarify_title_unit",
+                "reproducibility": "stamp_run_id",
+                "responsibility": "show_source_context",
+                "presentation": "strengthen_contrast",
+            }
             selected_revision_focuses = [revision_focus_1, revision_focus_2]
+            selected_revision_operations = [
+                revision_operation_1,
+                revision_operation_2,
+            ]
             assert all(
                 focus in REVISION_LENS_LABELS for focus in selected_revision_focuses
             ), "수정 초점은 다섯 검토 렌즈 가운데 선택하세요."
             assert len(set(selected_revision_focuses)) == 2, "서로 다른 두 수정 초점을 선택하세요."
+            assert all(
+                REVISION_OPERATIONS[focus] == operation
+                for focus, operation in zip(
+                    selected_revision_focuses,
+                    selected_revision_operations,
+                )
+            ), "수정 초점과 구조화된 수정 동작이 일치해야 합니다."
             ensure_written(revision_action_1, "수정 행동 1")
             ensure_written(revision_action_2, "수정 행동 2")
             expected_prefix_1 = f"{REVISION_LENS_LABELS[revision_focus_1]}:"
@@ -732,12 +899,28 @@ def build_notebook() -> dict[str, object]:
             assert revision_action_2.startswith(expected_prefix_2), f"수정 행동 2는 '{expected_prefix_2}'으로 시작하세요."
             revision_action_detail_1 = revision_action_1.split(":", 1)[1].strip()
             revision_action_detail_2 = revision_action_2.split(":", 1)[1].strip()
+            assert revision_operation_1 in revision_action_detail_1, "수정 행동 1에 구조화된 수정 동작을 포함하세요."
+            assert revision_operation_2 in revision_action_detail_2, "수정 행동 2에 구조화된 수정 동작을 포함하세요."
+            revision_action_claim_1 = revision_action_detail_1.replace(
+                revision_operation_1, ""
+            ).strip()
+            revision_action_claim_2 = revision_action_detail_2.replace(
+                revision_operation_2, ""
+            ).strip()
             ensure_written(revision_action_detail_1, "수정 행동 1의 구체적 내용")
             ensure_written(revision_action_detail_2, "수정 행동 2의 구체적 내용")
-            assert revision_action_detail_1 != revision_action_detail_2, "서로 다른 두 수정 행동을 기록하세요."
+            assert revision_action_claim_1 != revision_action_claim_2, "서로 다른 두 수정 행동을 기록하세요."
             revision_evidence_id = sha256(
                 f"{revision_action_1}\\n{revision_action_2}".encode("utf-8")
             ).hexdigest()[:12]
+            require_korean_glyphs(
+                project_question,
+                source_title,
+                reference_date,
+                revision_action_1,
+                revision_action_2,
+                *REVISION_LENS_LABELS.values(),
+            )
 
             # APPROVED PROJECT CODE ZONE
             # 자신의 프로젝트를 이어갈 때에는 이 함수 안의 제공 예시만 승인된 코드로 교체합니다.
@@ -859,8 +1042,28 @@ def build_notebook() -> dict[str, object]:
             assert core_project_evidence["track"] == project_track
             assert core_project_evidence["input_count"] == core_project_evidence["visual_count"]
             assert core_project_evidence["value_match"] is True
+            def figure_pixel_digest(figure):
+                figure.canvas.draw()
+                return sha256(bytes(figure.canvas.buffer_rgba())).hexdigest()
+
+            own_input_response_digests = []
             if project_mode == "own":
                 assert project_input.read_count > 0, "own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다."
+                own_probe_input = project_input.make_probe(project_track)
+                (
+                    own_probe_baseline_figure,
+                    own_probe_refined_figure,
+                    own_probe_evidence,
+                ) = build_project_outputs(own_probe_input)
+                assert own_probe_input.read_count > 0, "own 경로의 승인 코드는 검사용 입력도 실제로 읽어야 합니다."
+                assert required_core_fields <= own_probe_evidence.keys()
+                own_input_response_digests = [
+                    figure_pixel_digest(refined_figure),
+                    figure_pixel_digest(own_probe_refined_figure),
+                ]
+                plt.close(own_probe_baseline_figure)
+                plt.close(own_probe_refined_figure)
+                assert len(set(own_input_response_digests)) == 2, "own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다."
 
             def apply_revision_contract(figure, core_evidence):
                 axis = figure.axes[0]
@@ -878,8 +1081,12 @@ def build_notebook() -> dict[str, object]:
                     else sha256(f"provided:{project_track}".encode("utf-8")).hexdigest()[:12]
                 )
 
-                for index, (focus, action) in enumerate(
-                    zip(selected_revision_focuses, actions)
+                for index, (focus, operation, action) in enumerate(
+                    zip(
+                        selected_revision_focuses,
+                        selected_revision_operations,
+                        actions,
+                    )
                 ):
                     action_detail = action.split(":", 1)[1].strip()
                     marker = f"{REVISION_LENS_LABELS[focus]} · {action_detail}"
@@ -893,7 +1100,7 @@ def build_notebook() -> dict[str, object]:
                     rendered_markers.append(marker)
                     proof = marker_artist in figure.texts and marker_artist.get_text() == marker
 
-                    if focus == "accuracy":
+                    if operation == "show_count_check":
                         axis.grid(axis="x", color="#c7c8be", linewidth=0.6, alpha=0.6)
                         check_text = f"COUNT CHECK {core_evidence['input_count']} = {core_evidence['visual_count']}"
                         check_artist = axis.text(
@@ -906,10 +1113,10 @@ def build_notebook() -> dict[str, object]:
                             fontsize=7,
                         )
                         proof = proof and check_artist.get_text() == check_text
-                    elif focus == "readability":
+                    elif operation == "clarify_title_unit":
                         axis.set_title(project_question)
                         proof = proof and axis.get_title() == project_question and bool(core_evidence["unit"])
-                    elif focus == "reproducibility":
+                    elif operation == "stamp_run_id":
                         reproducibility_artist = figure.text(
                             0.99,
                             0.012,
@@ -918,7 +1125,7 @@ def build_notebook() -> dict[str, object]:
                             fontsize=6.5,
                         )
                         proof = proof and revision_evidence_id in reproducibility_artist.get_text()
-                    elif focus == "responsibility":
+                    elif operation == "show_source_context":
                         responsibility_artist = figure.text(
                             0.01,
                             0.012,
@@ -926,14 +1133,14 @@ def build_notebook() -> dict[str, object]:
                             fontsize=6.5,
                         )
                         proof = proof and source_title in responsibility_artist.get_text()
-                    elif focus == "presentation":
+                    elif operation == "strengthen_contrast":
                         figure.set_facecolor("#f3efe5")
                         axis.set_facecolor("#fffdf8")
                         axis.spines[["top", "right"]].set_visible(False)
                         axis.tick_params(colors="#202523")
                         proof = proof and not axis.spines["top"].get_visible() and not axis.spines["right"].get_visible()
 
-                    render_proofs[focus] = bool(proof)
+                    render_proofs[operation] = bool(proof)
                     figure.canvas.draw()
                     render_digests.append(
                         sha256(bytes(figure.canvas.buffer_rgba())).hexdigest()
@@ -965,8 +1172,10 @@ def build_notebook() -> dict[str, object]:
                 "input_digest": own_source_digest,
                 "input_binding_id": input_binding_id,
                 "source_read_count": project_input.read_count if project_input else 0,
+                "own_input_response_digests": own_input_response_digests,
                 "revision_evidence_id": revision_evidence_id,
                 "applied_revision_focuses": list(selected_revision_focuses),
+                "applied_revision_operations": list(selected_revision_operations),
                 "revision_render_proofs": revision_render_proofs,
                 "rendered_revision_markers": rendered_revision_markers,
                 "revision_render_digests": revision_render_digests,
@@ -1002,8 +1211,10 @@ def build_notebook() -> dict[str, object]:
                 "input_digest",
                 "input_binding_id",
                 "source_read_count",
+                "own_input_response_digests",
                 "revision_evidence_id",
                 "applied_revision_focuses",
+                "applied_revision_operations",
                 "revision_render_proofs",
                 "rendered_revision_markers",
                 "revision_render_digests",
@@ -1018,11 +1229,13 @@ def build_notebook() -> dict[str, object]:
             assert project_evidence["input_digest"] == own_source_digest, "own 경로는 실제 입력 파일의 SHA-256 증거를 반환해야 합니다."
             assert project_evidence["revision_evidence_id"] == revision_evidence_id, "수정 행동 문장과 결과의 증거 ID가 일치해야 합니다."
             assert project_evidence["applied_revision_focuses"] == selected_revision_focuses, "선택한 두 수정 초점이 실제 결과와 일치해야 합니다."
+            assert project_evidence["applied_revision_operations"] == selected_revision_operations, "구조화된 두 수정 동작이 실제 결과와 일치해야 합니다."
             assert all(project_evidence["revision_render_proofs"].values()), "선택한 수정 초점의 화면 증거가 부족합니다."
             assert len(project_evidence["rendered_revision_markers"]) == 2, "두 수정 행동이 결과 화면에 표시되어야 합니다."
             assert len(set(project_evidence["revision_render_digests"])) == 3, "각 수정 행동이 화면 픽셀을 실제로 바꾸어야 합니다."
             if project_mode == "own":
                 assert project_evidence["source_read_count"] > 0, "own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다."
+                assert len(set(project_evidence["own_input_response_digests"])) == 2, "own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다."
             assert project_evidence["input_count"] == project_evidence["visual_count"]
             assert project_evidence["value_match"] is True
 
@@ -1037,11 +1250,17 @@ def build_notebook() -> dict[str, object]:
                 "input_origin": project_evidence["input_origin"],
                 "input_digest": project_evidence["input_digest"],
                 "input_binding_id": project_evidence["input_binding_id"],
+                "own_input_response_digests": project_evidence[
+                    "own_input_response_digests"
+                ],
                 "revision_evidence_id": project_evidence[
                     "revision_evidence_id"
                 ],
                 "applied_revision_focuses": project_evidence[
                     "applied_revision_focuses"
+                ],
+                "applied_revision_operations": project_evidence[
+                    "applied_revision_operations"
                 ],
                 "revision_render_proofs": project_evidence[
                     "revision_render_proofs"
@@ -1131,7 +1350,9 @@ def build_notebook() -> dict[str, object]:
 
             assert revision_action_1.startswith(expected_prefix_1), f"수정 행동 1은 '{expected_prefix_1}'으로 시작하세요."
             assert revision_action_2.startswith(expected_prefix_2), f"수정 행동 2는 '{expected_prefix_2}'으로 시작하세요."
-            assert revision_action_detail_1 != revision_action_detail_2, "서로 다른 두 수정 행동을 기록하세요."
+            assert revision_operation_1 in revision_action_detail_1
+            assert revision_operation_2 in revision_action_detail_2
+            assert revision_action_claim_1 != revision_action_claim_2, "서로 다른 두 수정 행동을 기록하세요."
             assert evidence_report["baseline_digest"] != evidence_report["refined_digest"]
             assert evidence_report["value_match"] is True
             assert evidence_report["input_origin"] == project_mode
@@ -1140,9 +1361,12 @@ def build_notebook() -> dict[str, object]:
             if project_mode == "own":
                 assert sha256_file(own_source_path) == own_source_digest, "실행 중 own 입력 파일이 변경되었습니다."
             assert evidence_report["applied_revision_focuses"] == selected_revision_focuses
+            assert evidence_report["applied_revision_operations"] == selected_revision_operations
             assert all(evidence_report["revision_render_proofs"].values())
             assert len(evidence_report["rendered_revision_markers"]) == 2
             assert len(set(evidence_report["revision_render_digests"])) == 3
+            if project_mode == "own":
+                assert len(set(evidence_report["own_input_response_digests"])) == 2
             assert baseline_output_path.is_file()
             assert refined_output_path.is_file()
             assert revision_log_path.is_file()

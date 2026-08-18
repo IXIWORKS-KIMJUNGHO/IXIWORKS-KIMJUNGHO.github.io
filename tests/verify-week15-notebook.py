@@ -56,6 +56,7 @@ def edited_cells(
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
     revision_focuses: tuple[str, str] = ("accuracy", "readability"),
+    read_but_ignore_own_input: bool = False,
 ) -> list[dict[str, object]]:
     """Return one fully edited student copy without changing the source notebook."""
 
@@ -66,12 +67,23 @@ def edited_cells(
         "responsibility": "책임성",
         "presentation": "발표 가능성",
     }
+    lens_operations = {
+        "accuracy": "show_count_check",
+        "readability": "clarify_title_unit",
+        "reproducibility": "stamp_run_id",
+        "responsibility": "show_source_context",
+        "presentation": "strengthen_contrast",
+    }
     first_detail = "전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
-    first_action = f"{lens_labels[revision_focuses[0]]}: {first_detail}"
+    first_operation = lens_operations[revision_focuses[0]]
+    second_operation = lens_operations[revision_focuses[1]]
+    first_action = (
+        f"{lens_labels[revision_focuses[0]]}: {first_operation}로 {first_detail}"
+    )
     second_action = (
-        f"{lens_labels[revision_focuses[1]]}: {first_detail}"
+        f"{lens_labels[revision_focuses[1]]}: {second_operation}로 {first_detail}"
         if duplicate_actions
-        else f"{lens_labels[revision_focuses[1]]}: 제목과 축 단위, 출처가 저장 이미지에서 읽히도록 정리한다"
+        else f"{lens_labels[revision_focuses[1]]}: {second_operation}로 제목과 축 단위, 출처가 저장 이미지에서 읽히도록 정리한다"
     )
     values = {
         "student_id": "20261234",
@@ -92,6 +104,8 @@ def edited_cells(
         "privacy_check": "실명과 연락처를 포함하지 않는 가상 자료임을 확인했다",
         "revision_focus_1": revision_focuses[0],
         "revision_focus_2": revision_focuses[1],
+        "revision_operation_1": first_operation,
+        "revision_operation_2": second_operation,
         "revision_action_1": first_action,
         "revision_action_2": second_action,
         "main_observation": "수정 결과에는 처리한 모든 항목과 값 레이블이 함께 표시된다",
@@ -132,6 +146,20 @@ def edited_cells(
                     replacement_count += 1
             if replacement_count != 1:
                 raise AssertionError(f"could not install own adapter for {old!r}")
+    if read_but_ignore_own_input:
+        insertion_count = 0
+        for cell in cells:
+            source = "".join(cell["source"])
+            marker = "def build_project_outputs(project_input=None):\n"
+            if marker in source:
+                cell["source"] = source.replace(
+                    marker,
+                    marker + "    project_input.read_bytes()\n",
+                    1,
+                ).splitlines(keepends=True)
+                insertion_count += 1
+        if insertion_count != 1:
+            raise AssertionError("could not install read-but-ignore own adapter")
     return cells
 
 
@@ -270,6 +298,8 @@ def run_valid_scenario(
             raise AssertionError("revision text is not connected to the rendered evidence")
         if evidence["applied_revision_focuses"] != list(revision_focuses):
             raise AssertionError("selected revision focuses are not connected to the result")
+        if len(evidence["applied_revision_operations"]) != 2:
+            raise AssertionError("both structured revision operations must be applied")
         if not all(evidence["revision_render_proofs"].values()):
             raise AssertionError("a selected revision focus lacks rendered evidence")
         if len(evidence["rendered_revision_markers"]) != 2:
@@ -278,6 +308,10 @@ def run_valid_scenario(
             raise AssertionError("both revision actions need before/after render digests")
         if len(set(evidence["revision_render_digests"])) != 3:
             raise AssertionError("each revision action must change rendered pixels")
+        if project_mode == "own":
+            response_digests = evidence["own_input_response_digests"]
+            if len(response_digests) != 2 or len(set(response_digests)) != 2:
+                raise AssertionError("the own render must respond to changed input content")
         if project_mode == "own" and evidence["input_digest"] != namespace["own_source_digest"]:
             raise AssertionError("own project evidence missed the actual input digest")
         if namespace["baseline_snapshot_digest"] == namespace["refined_output_digest"]:
@@ -304,6 +338,7 @@ def run_expected_failure(
     approval_status: str | None = None,
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
+    read_but_ignore_own_input: bool = False,
     expected_message: str,
 ) -> str:
     """Confirm that a representative false completion is rejected."""
@@ -326,6 +361,7 @@ def run_expected_failure(
             approval_status=approval_status,
             teacher_gate=teacher_gate,
             duplicate_actions=duplicate_actions,
+            read_but_ignore_own_input=read_but_ignore_own_input,
         )
         _namespace, output, failure = execute_cells(cells, directory)
         if failure is None:
@@ -403,6 +439,13 @@ def main() -> None:
             revision_focuses=("responsibility", "presentation"),
         )
     )
+    results.append(
+        run_valid_scenario(
+            code_cells,
+            track="data",
+            revision_focuses=("reproducibility", "accuracy"),
+        )
+    )
     failures = [
         run_expected_failure(
             code_cells,
@@ -418,6 +461,12 @@ def main() -> None:
             code_cells,
             project_mode="own",
             expected_message="own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다",
+        ),
+        run_expected_failure(
+            code_cells,
+            project_mode="own",
+            read_but_ignore_own_input=True,
+            expected_message="own 입력 내용을 바꾸면 수정 결과도 달라져야 합니다",
         ),
         run_expected_failure(
             code_cells,
