@@ -1,26 +1,26 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="ko" class="week-11-root">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>11주차 2교시: Matplotlib·Seaborn으로 그래프와 포스터 구성하기 | Contents Programming Practice</title>
+  <title>11주차 2교시: 데이터 포스터 만들기 | Contents Programming</title>
   <meta name="description" content="Matplotlib의 Figure·Axes 구조를 이해하고 pandas 집계, Seaborn 가로 막대그래프와 관계·좌표 산점도, 색상과 표식의 중복 인코딩, 1600×2200 데이터 포스터 저장을 초보자의 언어와 실행 가능한 코드로 배우는 11주차 2교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period2.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="11주차 2교시: Matplotlib·Seaborn으로 그래프와 포스터 구성하기 | Contents Programming Practice">
+  <meta property="og:title" content="11주차 2교시: 데이터 포스터 만들기 | Contents Programming">
   <meta property="og:description" content="두 그래프를 한 Figure 안에 배치하고 제목·관찰·한계·출처가 있는 데이터 포스터로 저장합니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period2.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-figure-axes.png">
+  <meta property="og:image:alt" content="하나의 Figure 안에 제목, 막대그래프, 산점도와 설명을 배치한 11주차 구조 도해">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="11주차 2교시: Matplotlib·Seaborn으로 그래프와 포스터 구성하기">
   <meta name="twitter:description" content="pandas 집계부터 두 그래프와 1600×2200 PNG 저장까지 한 단계씩 배우는 입문 강의입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-figure-axes.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-11-document">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -51,15 +51,10 @@
           <span class="hero-chip">CODE THEORY</span>
         </div>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">두 그래프를 한 주장으로 어떻게 묶는가?</span></div>
-        <div class="meta-row"><span class="meta-key">작업 구조</span><span class="meta-value">Figure 1개, Axes 2개</span></div>
-        <div class="meta-row"><span class="meta-key">비교 그래프</span><span class="meta-value">범주별 합계 가로 막대</span></div>
-        <div class="meta-row"><span class="meta-key">공간 그래프</span><span class="meta-value">24개 시설 좌표 산점도</span></div>
-        <div class="meta-row"><span class="meta-key">출력</span><span class="meta-value">1600 × 2200 PNG</span></div>
-        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
-      </aside>
+      <a class="hero-visual-link" href="assets/week-11-figure-axes.png" target="_blank" rel="noopener noreferrer">
+        <img class="hero-visual-image" src="assets/week-11-figure-axes.png" width="1440" height="900" loading="eager" decoding="async" alt="세로형 Figure 안에 질문형 제목, 가로 막대그래프, 좌표 산점도와 설명 영역을 나눈 도해">
+        <span class="hero-visual-caption"><strong>Figure와 두 Axes</strong><small>구조 도해 크게 보기 ↗</small></span>
+      </a>
     </div>
   </div>
 
@@ -91,7 +86,7 @@
 
       <div class="callout callout-info">
         <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
-        <p><strong>기본 50분</strong>에는 Figure·Axes, 집계, 가로 막대그래프, 두 종류의 산점도, 읽기 점검, 포스터 저장까지 진행합니다. 코드는 설명을 읽은 뒤 짧은 단위로 실행합니다. 모든 개별 확인이 빠르게 끝난 경우에만 <strong>50-60분 확장</strong>에서 데이터와 축을 유지한 채 제목과 그래프 크기의 위계를 바꿉니다.</p>
+        <p><strong>기본 50분 / 확장 60분</strong>으로 운영합니다. 기본 수업에는 Figure·Axes, 집계, 가로 막대그래프, 두 종류의 산점도, 읽기 점검, 포스터 저장까지 진행합니다. 코드는 설명을 읽은 뒤 짧은 단위로 실행합니다. 모든 개별 확인이 빠르게 끝난 경우에만 <strong>50-60분 확장</strong>에서 데이터와 축을 유지한 채 제목과 그래프 크기의 위계를 바꿉니다.</p>
       </div>
 
       <div class="callout callout-success">
@@ -434,10 +429,10 @@ fig.savefig(
       <h2 id="references">공식 자료</h2>
 
       <ul class="reference-list">
-        <li><a href="https://matplotlib.org/stable/users/explain/axes/index.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서 — Axes and subplots</strong></a><small>Figure 안의 Axes, Axis, 제목·범례·주석 구조</small></li>
-        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서 — <code>savefig</code></strong></a><small>파일명, 출력 형식, dpi, 배경과 여백 옵션</small></li>
-        <li><a href="https://seaborn.pydata.org/generated/seaborn.barplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서 — <code>barplot</code></strong></a><small>범주별 집계값을 막대로 표현하고 0을 축 범위에 포함하는 이유</small></li>
-        <li><a href="https://seaborn.pydata.org/generated/seaborn.scatterplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서 — <code>scatterplot</code></strong></a><small><code>hue</code>, <code>size</code>, <code>style</code>과 중복 인코딩의 접근성</small></li>
+        <li><a href="https://matplotlib.org/stable/users/explain/axes/index.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서: Axes and subplots</strong></a><small>Figure 안의 Axes, Axis, 제목·범례·주석 구조</small></li>
+        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서: <code>savefig</code></strong></a><small>파일명, 출력 형식, dpi, 배경과 여백 옵션</small></li>
+        <li><a href="https://seaborn.pydata.org/generated/seaborn.barplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서: <code>barplot</code></strong></a><small>범주별 집계값을 막대로 표현하고 0을 축 범위에 포함하는 이유</small></li>
+        <li><a href="https://seaborn.pydata.org/generated/seaborn.scatterplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서: <code>scatterplot</code></strong></a><small><code>hue</code>, <code>size</code>, <code>style</code>과 중복 인코딩의 접근성</small></li>
       </ul>
     </article>
 

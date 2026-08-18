@@ -1,26 +1,26 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="ko" class="week-11-root">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>11주차 3교시: 데이터 포스터 미션 | Contents Programming Practice</title>
+  <title>11주차 3교시: 데이터 포스터 미션 | Contents Programming</title>
   <meta name="description" content="정제된 공공문화시설 데이터로 범주별 가로 막대그래프와 좌표 산점도를 만들고, 질문·관찰·한계·출처를 갖춘 1600×2200 데이터 포스터를 완성하는 목표 달성형 개인 실습입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period3.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="11주차 3교시: 데이터 포스터 미션 | Contents Programming Practice">
+  <meta property="og:title" content="11주차 3교시: 데이터 포스터 미션 | Contents Programming">
   <meta property="og:description" content="두 그래프와 해석을 한 장에 구성하고 자동 검사 PASS 후 두 파일을 제출하는 개인 실습입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period3.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-data-poster-example.png">
+  <meta property="og:image:alt" content="막대그래프, 좌표 산점도, 관찰과 한계를 한 장에 구성한 11주차 데이터 포스터 예시">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="11주차 3교시: 데이터 포스터 미션">
   <meta name="twitter:description" content="자동 검사 PASS와 두 파일 제출을 완료하면 즉시 귀가하는 데이터 포스터 실습입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-data-poster-example.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-11-document">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -51,15 +51,10 @@
           <span class="hero-chip">PASS &amp; LEAVE</span>
         </div>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Mission Spec</p>
-        <div class="meta-row"><span class="meta-key">입력</span><span class="meta-value">정제된 시설 데이터 24행</span></div>
-        <div class="meta-row"><span class="meta-key">그래프</span><span class="meta-value">가로 막대 1개 + 좌표 산점도 1개</span></div>
-        <div class="meta-row"><span class="meta-key">편집</span><span class="meta-value">STEP 1 + STEP 5</span></div>
-        <div class="meta-row"><span class="meta-key">출력</span><span class="meta-value">1600 × 2200 PNG</span></div>
-        <div class="meta-row"><span class="meta-key">제출</span><span class="meta-value">.ipynb + .png</span></div>
-        <div class="meta-row"><span class="meta-key">귀가 조건</span><span class="meta-value">PASS + 두 파일 + 교수 제목 확인</span></div>
-      </aside>
+      <a class="hero-visual-link hero-visual-portrait" href="assets/week-11-data-poster-example.png" target="_blank" rel="noopener noreferrer">
+        <img class="hero-visual-image" src="assets/week-11-data-poster-example.png" width="1600" height="2200" loading="eager" decoding="async" alt="질문형 제목, 막대그래프, 좌표 산점도, 관찰, 한계와 출처를 세로로 구성한 데이터 포스터 예시">
+        <span class="hero-visual-caption"><strong>완성 포스터 예시</strong><small>전체 이미지 크게 보기 ↗</small></span>
+      </a>
     </div>
   </div>
 
@@ -78,6 +73,31 @@
           <li>새 런타임의 모두 실행에서 자동 검사 PASS를 받고 노트북과 포스터를 제출할 수 있습니다.</li>
         </ul>
       </div>
+
+      <h2 id="outputs">실습 자료: 노트북부터 시작하기</h2>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card resource-primary" href="assets/week-11-data-poster-mission.ipynb" download>
+          <span class="resource-kicker">START HERE · COLAB</span>
+          <strong>실습 노트북 내려받기</strong>
+          <small>week-11-data-poster-mission.ipynb</small>
+          <span class="resource-action">DOWNLOAD .IPYNB ↓</span>
+        </a>
+        <a class="inline-resource-card" href="assets/week-11-public-facilities-clean.csv" download>
+          <span class="resource-kicker">REFERENCE DATA</span>
+          <strong>정제 CSV 내려받기</strong>
+          <small>week-11-public-facilities-clean.csv</small>
+          <span class="resource-action">DOWNLOAD .CSV ↓</span>
+        </a>
+        <a class="inline-resource-card" href="assets/week-11-data-poster-example.png" target="_blank" rel="noopener noreferrer">
+          <span class="resource-kicker">OUTPUT PREVIEW</span>
+          <strong>완성 예시 크게 보기</strong>
+          <small>week-11-data-poster-example.png</small>
+          <span class="resource-action">OPEN .PNG ↗</span>
+        </a>
+      </div>
+
+      <p>노트북 안에는 같은 정제 CSV가 포함되어 있으므로 Colab에서 별도로 업로드하지 않아도 됩니다. CSV는 표의 구조를 직접 확인하려는 학생을 위한 참고 파일입니다. 완성 예시는 복제할 정답이 아니라 <strong>제목 → 비교 그래프 → 공간 그래프 → 관찰 → 한계 → 출처</strong>의 읽기 순서를 확인하는 자료입니다.</p>
 
       <div class="goal-contract" role="group" aria-labelledby="goal-contract-title">
         <div>
@@ -100,40 +120,6 @@
         <li><span>09</span><strong>제출</strong><small>두 파일 확인</small></li>
       </ol>
 
-      <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
-        <div>
-          <p class="exit-gate-label">EXIT GATE</p>
-          <h2 id="exit-gate-title">완료 문구 + 실행 결과가 있는 노트북 + 열리는 포스터</h2>
-          <p>자동 검사는 필수 구조와 데이터 정확성을 확인합니다. 교수는 제출함에서 두 파일의 이름, 실행 결과, 포스터의 실제 가독성과 질문이 현재 데이터로 답할 수 있는지를 확인합니다.</p>
-        </div>
-        <strong>WEEK 11 DATA POSTER COMPLETE</strong>
-      </div>
-
-      <h2 id="outputs">먼저 확인할 자료와 최종 결과물</h2>
-
-      <div class="inline-resource-grid">
-        <a class="inline-resource-card" href="assets/week-11-data-poster-mission.ipynb" download>
-          <span class="resource-kicker">START HERE · COLAB</span>
-          <strong>실습 노트북 내려받기</strong>
-          <small>week-11-data-poster-mission.ipynb</small>
-          <span class="resource-action">DOWNLOAD .IPYNB ↓</span>
-        </a>
-        <a class="inline-resource-card" href="assets/week-11-public-facilities-clean.csv" download>
-          <span class="resource-kicker">REFERENCE DATA</span>
-          <strong>정제 CSV 내려받기</strong>
-          <small>week-11-public-facilities-clean.csv</small>
-          <span class="resource-action">DOWNLOAD .CSV ↓</span>
-        </a>
-        <a class="inline-resource-card" href="assets/week-11-data-poster-example.png" download>
-          <span class="resource-kicker">OUTPUT PREVIEW</span>
-          <strong>완성 예시 크게 보기</strong>
-          <small>week-11-data-poster-example.png</small>
-          <span class="resource-action">OPEN .PNG ↗</span>
-        </a>
-      </div>
-
-      <p>노트북 안에는 같은 정제 CSV가 포함되어 있으므로 Colab에서 별도로 업로드하지 않아도 됩니다. CSV는 표의 구조를 직접 확인하려는 학생을 위한 참고 파일입니다. 완성 예시는 복제할 정답이 아니라 <strong>제목 → 비교 그래프 → 공간 그래프 → 관찰 → 한계 → 출처</strong>의 읽기 순서를 확인하는 자료입니다.</p>
-
       <figure class="lesson-visual" aria-labelledby="poster-example-caption">
         <img src="assets/week-11-data-poster-example.png" width="1600" height="2200" loading="eager" decoding="async" alt="질문형 제목, 범주별 프로그램 수 합계 막대그래프, 24개 시설 좌표 산점도, 핵심 관찰, 해석의 한계와 데이터 출처가 위에서 아래로 배치된 데이터 포스터 예시">
         <figcaption id="poster-example-caption">완성 예시는 장식보다 읽기 순서를 우선합니다. 위쪽에서는 질문과 범주별 합계를 읽고, 가운데에서는 24개 시설의 상대적 위치를 살핀 뒤, 아래쪽에서 관찰·한계·출처를 확인합니다.</figcaption>
@@ -147,18 +133,18 @@
       <h2 id="completion-criteria">귀가 조건: 제출 전에 열두 가지 확인</h2>
 
       <ol class="completion-criteria">
-        <li><span>01</span><p><strong>제출 정보</strong>학번과 이름이 실제 값이며 파일명에 사용할 수 있습니다.</p></li>
-        <li><span>02</span><p><strong>질문형 제목 · 교수 확인</strong>현재 열로 답할 수 있고 물음표로 끝나는 자신의 질문입니다.</p></li>
-        <li><span>03</span><p><strong>색상 규칙</strong>세 범주에 서로 다른 HEX 색상을 지정했습니다.</p></li>
-        <li><span>04</span><p><strong>원본 보존</strong>노트북이 제공한 CSV 내용과 출처 메타데이터를 바꾸지 않았습니다.</p></li>
-        <li><span>05</span><p><strong>데이터 구조</strong>24행, 범주 3개, 각 범주 8개가 확인됩니다.</p></li>
-        <li><span>06</span><p><strong>집계 정확성</strong>범주별 합계가 326, 369, 400과 일치합니다.</p></li>
-        <li><span>07</span><p><strong>비교 그래프</strong>0에서 시작하는 가로 막대 3개가 보입니다.</p></li>
-        <li><span>08</span><p><strong>공간 그래프</strong>경도·위도 위치에 점 24개가 보입니다.</p></li>
-        <li><span>09</span><p><strong>접근 가능한 구분</strong>범주를 색상과 표식 모양으로 함께 구분합니다.</p></li>
-        <li><span>10</span><p><strong>해석</strong>숫자가 포함된 관찰 문장과 자료의 해석의 한계를 작성했습니다.</p></li>
-        <li><span>11</span><p><strong>출력 규격</strong>포스터가 1600 × 2200 PNG로 저장됩니다.</p></li>
-        <li><span>12</span><p><strong>재현</strong>새 런타임에서 모두 실행한 뒤 완료 문구가 보입니다.</p></li>
+        <li><p><strong>제출 정보</strong>학번과 이름이 실제 값이며 파일명에 사용할 수 있습니다.</p></li>
+        <li><p><strong>질문형 제목 · 교수 확인</strong>현재 열로 답할 수 있고 물음표로 끝나는 자신의 질문입니다.</p></li>
+        <li><p><strong>색상 규칙</strong>세 범주에 서로 다른 HEX 색상을 지정했습니다.</p></li>
+        <li><p><strong>원본 보존</strong>노트북이 제공한 CSV 내용과 출처 메타데이터를 바꾸지 않았습니다.</p></li>
+        <li><p><strong>데이터 구조</strong>24행, 범주 3개, 각 범주 8개가 확인됩니다.</p></li>
+        <li><p><strong>집계 정확성</strong>범주별 합계가 326, 369, 400과 일치합니다.</p></li>
+        <li><p><strong>비교 그래프</strong>0에서 시작하는 가로 막대 3개가 보입니다.</p></li>
+        <li><p><strong>공간 그래프</strong>경도·위도 위치에 점 24개가 보입니다.</p></li>
+        <li><p><strong>접근 가능한 구분</strong>범주를 색상과 표식 모양으로 함께 구분합니다.</p></li>
+        <li><p><strong>해석</strong>숫자가 포함된 관찰 문장과 자료의 해석의 한계를 작성했습니다.</p></li>
+        <li><p><strong>출력 규격</strong>포스터가 1600 × 2200 PNG로 저장됩니다.</p></li>
+        <li><p><strong>재현</strong>새 런타임에서 모두 실행한 뒤 완료 문구가 보입니다.</p></li>
       </ol>
 
       <div class="callout callout-warning">
@@ -292,7 +278,7 @@ poster_title = "프로그램 수 합계가 가장 큰 시설 범주는 무엇인
         <div class="details-motion-content"><p>색 이름이 아니라 밝기와 명도의 차이를 봅니다. 아주 밝은 색 세 개 또는 어두운 색 세 개만 고르지 말고, 완성 PNG를 화면에서 축소했을 때도 범주가 나뉘는지 확인합니다. 표식 모양과 범례도 함께 남겨 둡니다.</p></div>
       </details>
 
-      <h2 id="step-four">STEP 2–3 · 24행과 범주별 합계 검증</h2>
+      <h2 id="step-four">STEP 2와 3 · 24행과 범주별 합계 검증</h2>
 
       <p>STEP 2와 STEP 3은 데이터를 읽고 검증한 뒤 집계표를 만듭니다. 이 셀은 수정하지 않습니다. 각 출력은 다음 그래프가 올바른 데이터를 사용하고 있다는 증거입니다.</p>
 
@@ -469,10 +455,26 @@ limitation_statement = (
         <li>마지막 FINAL CHECK의 확인 항목과 완료 문구를 읽습니다.</li>
       </ol>
 
-      <div class="check-output" role="status" aria-labelledby="check-output-title">
-        <span class="visual-label">PASS OUTPUT</span>
-        <p id="check-output-title">✅ 새 런타임에서 STEP 0부터 여덟 셀 순서대로 실행<br>✅ 실제 학번·이름과 안전한 파일명<br>✅ 데이터 단서를 포함한 질문형 제목 형식<br>✅ 세 범주의 서로 다른 HEX 색상<br>✅ 제공 CSV와 출처 메타데이터 보존<br>✅ 24행·세 범주·각 범주 8개<br>✅ 박물관 326 · 도서관 369 · 문화센터 400<br>✅ 0에서 시작하는 막대 3개<br>✅ 색상·표식·크기로 구분한 점 24개<br>✅ 원본 데이터와 색상·표식·크기의 대응<br>✅ 근거 수치가 있는 관찰 문장과 해석의 한계<br>✅ 글자 수와 포스터 경계 안의 제목·관찰·한계<br>✅ 1600 × 2200 PNG 저장<br><strong>🎉 WEEK 11 DATA POSTER COMPLETE</strong><br>※ 제목의 의미는 교수 확인 후 최종 승인</p>
-      </div>
+      <section class="check-output" aria-labelledby="check-output-title">
+        <p class="visual-label">PASS OUTPUT</p>
+        <h2 id="check-output-title">FINAL CHECK가 확인할 항목</h2>
+        <ul class="pass-output-list">
+          <li>새 런타임에서 STEP 0부터 여덟 셀 순서대로 실행</li>
+          <li>실제 학번·이름과 안전한 파일명</li>
+          <li>데이터 단서를 포함한 질문형 제목 형식</li>
+          <li>세 범주의 서로 다른 HEX 색상</li>
+          <li>제공 CSV와 출처 메타데이터 보존</li>
+          <li>24행·세 범주·각 범주 8개</li>
+          <li>박물관 326 · 도서관 369 · 문화센터 400</li>
+          <li>0에서 시작하는 막대 3개</li>
+          <li>색상·표식·크기로 구분한 점 24개</li>
+          <li>원본 데이터와 색상·표식·크기의 대응</li>
+          <li>근거 수치가 있는 관찰 문장과 해석의 한계</li>
+          <li>글자 수와 포스터 경계 안의 제목·관찰·한계</li>
+          <li>1600 × 2200 PNG 저장</li>
+        </ul>
+        <p class="pass-complete"><strong>WEEK 11 DATA POSTER COMPLETE</strong><span>제목의 의미는 교수 확인 후 최종 승인</span></p>
+      </section>
 
       <div class="callout callout-warning">
         <p class="callout-title">FINAL CHECK 코드는 수정하지 않는다</p>
@@ -554,15 +556,15 @@ limitation_statement = (
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>
-        <li class="toc-level-2"><a href="#goal-contract-title">목표 달성형 운영</a></li>
         <li class="toc-level-2"><a href="#outputs">자료와 결과물</a></li>
+        <li class="toc-level-2"><a href="#goal-contract-title">목표 달성형 운영</a></li>
         <li class="toc-level-2"><a href="#completion-criteria">귀가 조건</a></li>
         <li class="toc-level-2"><a href="#time-guide">50분 진행 기준</a></li>
         <li class="toc-level-2"><a href="#step-zero">준비 · 사본 저장</a></li>
-        <li class="toc-level-2"><a href="#step-one">기준 실행 · STEP 0–7</a></li>
+        <li class="toc-level-2"><a href="#step-one">기준 실행 · STEP 0부터 7</a></li>
         <li class="toc-level-2"><a href="#step-two">STEP 1 · 제목</a></li>
         <li class="toc-level-2"><a href="#step-three">STEP 1 · 색상</a></li>
-        <li class="toc-level-2"><a href="#step-four">STEP 2–3 · 데이터 검증</a></li>
+        <li class="toc-level-2"><a href="#step-four">STEP 2와 3 · 데이터 검증</a></li>
         <li class="toc-level-2"><a href="#step-five">STEP 4 · 그래프 읽기</a></li>
         <li class="toc-level-2"><a href="#step-six">STEP 5 · 관찰과 한계</a></li>
         <li class="toc-level-2"><a href="#step-seven">STEP 6 · 저장</a></li>
@@ -574,7 +576,10 @@ limitation_statement = (
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 11 · Period 03</p>
+  <footer class="course-footer">
+    <a href="./">← Contents Programming Practice</a>
+    <span>Week 11 · Period 03</span>
+  </footer>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

@@ -255,7 +255,7 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
     "기준 실행 · STEP 0부터 STEP 7까지 한 번 실행",
     "STEP 1 · 제출 정보와 질문형 제목 작성",
     "STEP 1 계속 · 세 범주의 HEX 색상 정하기",
-    "STEP 2–3 · 24행과 범주별 합계 검증",
+    "STEP 2와 3 · 24행과 범주별 합계 검증",
     "STEP 4 · 막대 3개와 점 24개 읽기",
     "STEP 5 · 관찰 문장과 해석의 한계 작성",
     "STEP 6 · 1600 × 2200 PNG 저장과 육안 점검",
@@ -554,4 +554,207 @@ test("Contents Programming week 11 publishes all three lesson routes from the co
   for (const period of [1, 2, 3]) {
     assert.match(courseIndex, new RegExp(`href="week-11-period${period}\\.html"`));
   }
+});
+
+test("Contents Programming week 11 keeps reading and navigation usable at every viewport", async () => {
+  const [teachingCss, accessibilityCss, ...lessons] = await Promise.all([
+    readFile(resolve(root, "assets", "teaching.css"), "utf8"),
+    readFile(resolve(root, "assets", "accessibility.css"), "utf8"),
+    ...[1, 2, 3].map((period) =>
+      readFile(resolve(courseDirectory, `week-11-period${period}.html`), "utf8"),
+    ),
+  ]);
+
+  for (const lesson of lessons) {
+    assert.match(lesson, /<html lang="ko" class="week-11-root">/);
+    assert.match(
+      lesson,
+      /<body class="teaching-document course-contents-programming week-11-document">/,
+    );
+  }
+
+  assert.match(
+    teachingCss,
+    /html\.week-11-root\s*\{[^}]*scroll-behavior:\s*auto;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.article img\s*\{[^}]*max-width:\s*100%;[^}]*height:\s*auto;[^}]*display:\s*block;/s,
+  );
+  assert.match(
+    teachingCss,
+    /@media \(max-width: 980px\)[\s\S]*?body\.course-contents-programming\.teaching-document\.week-11-document \.toc\s*\{[^}]*position:\s*sticky;[^}]*max-height:\s*none;[^}]*overflow-x:\s*auto;/,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.article h2\s*\{[^}]*counter-increment:\s*none;/s,
+  );
+  assert.match(
+    teachingCss,
+    /@media \(max-width: 760px\)[\s\S]*?body\.course-contents-programming\.teaching-document\.week-11-document \.toc\s*\{[^}]*top:\s*69px;/,
+  );
+  assert.match(
+    teachingCss,
+    /@media \(max-width: 760px\)[\s\S]*?@media print\s*\{[\s\S]*?body\.course-contents-programming\.teaching-document\.week-11-document \.toc\s*\{[^}]*display:\s*none;[\s\S]*?body\.course-contents-programming\.teaching-document\.week-11-document \.course-footer\s*\{[^}]*width:\s*100%;[^}]*margin:\s*32px 0 0;/,
+  );
+  assert.match(
+    accessibilityCss,
+    /\.skip-link\s*\{[^}]*transition:\s*none;/s,
+  );
+  assert.match(
+    accessibilityCss,
+    /\.toc a:not\(:active\):hover\s*\{[^}]*color:\s*var\(--muted\)/s,
+  );
+  assert.doesNotMatch(
+    accessibilityCss,
+    /\.toc a:not\(:active\):hover\s*\{[^}]*color:\s*#364250/s,
+  );
+});
+
+test("Contents Programming week 11 period 3 presents one clear start and completion path", async () => {
+  const [period3, teachingCss] = await Promise.all([
+    readFile(resolve(courseDirectory, "week-11-period3.html"), "utf8"),
+    readFile(resolve(root, "assets", "teaching.css"), "utf8"),
+  ]);
+  const completionCriteria = period3.match(
+    /<ol class="completion-criteria">([\s\S]*?)<\/ol>/,
+  );
+
+  assert.ok(completionCriteria, "the mission should publish completion criteria");
+  assert.equal(
+    [...completionCriteria[1].matchAll(/<li>/g)].length,
+    12,
+    "the mission should keep exactly twelve completion checks",
+  );
+  assert.doesNotMatch(completionCriteria[1], /<li><span>\d{2}<\/span>/);
+  assert.ok(
+    period3.indexOf("resource-primary") < period3.indexOf("goal-contract"),
+    "the notebook download should appear before the operating contract",
+  );
+  assert.match(
+    period3,
+    /class="inline-resource-card resource-primary" href="assets\/week-11-data-poster-mission\.ipynb" download/,
+  );
+  assert.match(
+    period3,
+    /href="assets\/week-11-data-poster-example\.png" target="_blank" rel="noopener noreferrer"/,
+  );
+  assert.doesNotMatch(
+    period3,
+    /href="assets\/week-11-data-poster-example\.png" download/,
+  );
+  assert.doesNotMatch(period3, /class="exit-gate"/);
+  assert.match(
+    period3,
+    /<section class="check-output" aria-labelledby="check-output-title">/,
+  );
+  assert.doesNotMatch(period3, /class="check-output" role="status"/);
+  assert.doesNotMatch(period3, /✅|🎉/u);
+
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.resource-primary\s*\{[^}]*grid-column:\s*1 \/ -1;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.submission-strip\s*\{[^}]*grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\);/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.completion-criteria li\s*\{[^}]*display:\s*list-item;[^}]*counter-increment:\s*none;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.completion-criteria li::before\s*\{[^}]*content:\s*none;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.inline-resource-card:active\s*\{[^}]*transform:\s*scale\(0\.985\);/s,
+  );
+  assert.match(
+    teachingCss,
+    /@media \(hover: hover\) and \(pointer: fine\)[\s\S]*?body\.course-contents-programming\.teaching-document\.week-11-document \.inline-resource-card:not\(:active\):hover/,
+  );
+});
+
+test("Contents Programming week 11 gives every lesson a distinct visual identity and quiet reading hierarchy", async () => {
+  const [teachingCss, siteConfig, ...lessons] = await Promise.all([
+    readFile(resolve(root, "assets", "teaching.css"), "utf8"),
+    readFile(resolve(root, "scripts", "site-config.mjs"), "utf8"),
+    ...[1, 2, 3].map((period) =>
+      readFile(resolve(courseDirectory, `week-11-period${period}.html`), "utf8"),
+    ),
+  ]);
+  const lessonImages = [
+    "week-11-question-to-chart.png",
+    "week-11-figure-axes.png",
+    "week-11-data-poster-example.png",
+  ];
+
+  lessons.forEach((lesson, index) => {
+    const period = index + 1;
+    const image = lessonImages[index];
+    const title = lesson.match(/<title>([^<]+)<\/title>/)?.[1] ?? "";
+
+    assert.match(lesson, /^<!DOCTYPE html>/);
+    assert.ok(title.length <= 70, `period ${period} title should stay concise`);
+    assert.match(
+      lesson,
+      new RegExp(
+        `class="hero-visual-link[^"]*" href="assets/${image.replaceAll(".", "\\.")}"`,
+      ),
+    );
+    assert.doesNotMatch(lesson, /<aside class="doc-card"/);
+    assert.match(
+      lesson,
+      new RegExp(
+        `property="og:image" content="https://creativeengineer-kimjungho\\.com/teaching/contents-programming/assets/${image.replaceAll(".", "\\.")}"`,
+      ),
+    );
+    assert.match(
+      lesson,
+      new RegExp(
+        `name="twitter:image" content="https://creativeengineer-kimjungho\\.com/teaching/contents-programming/assets/${image.replaceAll(".", "\\.")}"`,
+      ),
+    );
+    assert.match(lesson, /<footer class="course-footer">/);
+    assert.doesNotMatch(lesson, /[—–]/u);
+    assert.match(
+      siteConfig,
+      new RegExp(
+        `"teaching/contents-programming/week-11-period${period}\\.html"[\\s\\S]*?${image.replaceAll(".", "\\.")}`,
+      ),
+    );
+  });
+
+  assert.match(
+    lessons[0],
+    /<div class="pipeline" role="group" aria-label="질문에서 검증까지의 시각화 설계 흐름">/,
+  );
+  assert.match(
+    lessons[0],
+    /<img src="https:\/\/cdn\.loc\.gov\/service\/pnp\/ppmsca\/33900\/33900r\.jpg" width="609" height="640"[^>]*>/,
+  );
+  assert.match(
+    lessons[0],
+    /href="https:\/\/www\.loc\.gov\/pictures\/item\/2013650365\/" target="_blank" rel="noopener noreferrer"/,
+  );
+  assert.doesNotMatch(lessons[2], /class="footer-note"/);
+
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.hero-visual-link\s*\{[^}]*display:\s*grid;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.hero-visual-image\s*\{[^}]*width:\s*100%;[^}]*object-fit:\s*cover;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.article\s*\{[^}]*border:\s*0;[^}]*box-shadow:\s*none;/s,
+  );
+  assert.match(
+    teachingCss,
+    /body\.course-contents-programming\.teaching-document\.week-11-document \.course-footer\s*\{[^}]*width:\s*min\(1180px, calc\(100% - 48px\)\);/s,
+  );
 });

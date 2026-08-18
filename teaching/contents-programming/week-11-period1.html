@@ -1,26 +1,26 @@
-<!doctype html>
-<html lang="ko">
+<!DOCTYPE html>
+<html lang="ko" class="week-11-root">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>11주차 1교시: 질문을 시각적 인코딩으로 번역하기 | Contents Programming Practice</title>
+  <title>11주차 1교시: 질문에서 그래프로 | Contents Programming</title>
   <meta name="description" content="비교·분포·관계·공간 질문을 구분하고 위치·길이·색상·크기·문자라는 시각적 인코딩을 선택하며, 오해를 만드는 그래프와 W.E.B. Du Bois의 데이터 초상을 초보자의 언어로 살펴보는 11주차 1교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period1.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="11주차 1교시: 질문을 시각적 인코딩으로 번역하기 | Contents Programming Practice">
+  <meta property="og:title" content="11주차 1교시: 질문에서 그래프로 | Contents Programming">
   <meta property="og:description" content="질문에 맞는 그래프를 고르고 같은 데이터를 과장하지 않게 표현하는 시각적 인코딩 입문 강의입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period1.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-question-to-chart.png">
+  <meta property="og:image:alt" content="비교, 분포, 관계, 공간 질문을 네 가지 그래프에 연결하는 11주차 도해">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="11주차 1교시: 질문을 시각적 인코딩으로 번역하기">
   <meta name="twitter:description" content="그래프를 그리기 전에 질문의 유형과 시각적 표현 규칙을 판단하는 입문 강의입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-question-to-chart.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-11-document">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -51,15 +51,10 @@
           <span class="hero-chip">THEORY</span>
         </div>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">무엇을 보여 줄지 어떻게 정하는가?</span></div>
-        <div class="meta-row"><span class="meta-key">질문 유형</span><span class="meta-value">비교, 분포, 관계, 공간</span></div>
-        <div class="meta-row"><span class="meta-key">시각 변수</span><span class="meta-value">위치, 길이, 색상, 크기, 문자</span></div>
-        <div class="meta-row"><span class="meta-key">공식 사례</span><span class="meta-value">W.E.B. Du Bois 데이터 초상</span></div>
-        <div class="meta-row"><span class="meta-key">다음 학습</span><span class="meta-value">Matplotlib·Seaborn 구현</span></div>
-        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
-      </aside>
+      <a class="hero-visual-link" href="assets/week-11-question-to-chart.png" target="_blank" rel="noopener noreferrer">
+        <img class="hero-visual-image" src="assets/week-11-question-to-chart.png" width="1440" height="900" loading="eager" decoding="async" alt="비교, 분포, 관계, 공간 질문이 각각 막대그래프, 히스토그램, 관계 산점도, 좌표 산점도로 이어지는 도해">
+        <span class="hero-visual-caption"><strong>질문에서 그래프로</strong><small>전체 도해 크게 보기 ↗</small></span>
+      </a>
     </div>
   </div>
 
@@ -91,7 +86,7 @@
 
       <div class="callout callout-info">
         <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
-        <p><strong>기본 50분</strong>에는 10주차 연결, 질문 네 유형, 시각적 인코딩, 오해를 만드는 세 사례, 공식 사례와 개별 선택 기록까지 진행합니다. 설명과 확인이 빠르게 끝난 경우에만 <strong>50-60분 확장</strong>에서 잘린 축을 고치고 맥락 문장을 보완합니다. 확장은 필수 과제나 추가 점수가 아닙니다.</p>
+        <p><strong>기본 50분 / 확장 60분</strong>으로 운영합니다. 기본 수업에는 10주차 연결, 질문 네 유형, 시각적 인코딩, 오해를 만드는 세 사례, 공식 사례와 개별 선택 기록까지 진행합니다. 설명과 확인이 빠르게 끝난 경우에만 <strong>50-60분 확장</strong>에서 잘린 축을 고치고 맥락 문장을 보완합니다. 확장은 필수 과제나 추가 점수가 아닙니다.</p>
       </div>
 
       <div class="callout callout-success">
@@ -191,7 +186,7 @@
 
       <p>정확한 크기 비교에는 대체로 공통 축의 <strong>위치와 길이</strong>가 유리합니다. 색상과 면적은 범주나 대략적인 차이를 빠르게 보여 줄 수 있지만 정확한 수치 비교에는 한계가 있습니다. 그래서 3교시 포스터는 합계를 가로 막대그래프로 보여 주고, 위치 좌표 산점도에서는 색상과 표식 모양을 함께 사용합니다.</p>
 
-      <div class="pipeline" aria-label="질문에서 검증까지의 시각화 설계 흐름">
+      <div class="pipeline" role="group" aria-label="질문에서 검증까지의 시각화 설계 흐름">
         <div class="pipeline-step"><span class="pipeline-label">QUESTION</span><strong>한 문장</strong><p>무엇을 비교하거나 찾으려는가?</p></div>
         <span class="pipeline-arrow" aria-hidden="true">→</span>
         <div class="pipeline-step"><span class="pipeline-label">FIELDS</span><strong>필요한 열</strong><p>범주와 수치, 좌표 가운데 무엇이 필요한가?</p></div>
@@ -253,10 +248,16 @@
 
       <div class="official-case-grid">
         <article class="official-case-card">
+          <figure class="official-case-figure">
+            <a href="https://www.loc.gov/pictures/item/2013650365/" target="_blank" rel="noopener noreferrer">
+              <img src="https://cdn.loc.gov/service/pnp/ppmsca/33900/33900r.jpg" width="609" height="640" loading="lazy" decoding="async" alt="1900년 미국 내 아프리카계 미국인 인구 분포를 색과 면적으로 표현한 Du Bois 팀의 지도형 통계 도표">
+            </a>
+            <figcaption>미국 내 아프리카계 미국인 인구 분포, 약 1900년. Atlanta University 학생들이 제작하고 W.E.B. Du Bois가 수집한 원본 디지털 이미지입니다. 이미지: Library of Congress, LC-DIG-ppmsca-33900. 알려진 출판 제한 없음.</figcaption>
+          </figure>
           <div class="official-case-copy">
             <span class="case-kicker">PRIMARY SOURCE</span>
             <h3><a href="https://www.loc.gov/pictures/item/2005679642/" target="_blank" rel="noopener noreferrer">Library of Congress 원본 컬렉션 ↗</a></h3>
-            <p>썸네일의 색상과 형태만 감상하지 않고 제목, 제작 시기, 전시 목적, 조사 대상, 비교 기준을 차례대로 확인합니다. 디지털 이미지가 제공되는 항목은 개별 기록으로 들어가 큰 이미지를 살펴봅니다.</p>
+            <p>실제 도표를 보며 제목, 제작 시기, 전시 목적, 조사 대상, 비교 기준을 차례대로 확인합니다. 위 이미지를 선택하면 도표의 개별 기록과 큰 이미지를 함께 살펴볼 수 있습니다.</p>
             <dl class="case-data-map">
               <div><dt>제작 맥락</dt><dd>1900년 파리 만국박람회</dd></div>
               <div><dt>표현 대상</dt><dd>해방 이후의 경제·사회적 변화</dd></div>
@@ -347,9 +348,9 @@
       <h2 id="references">공식 자료</h2>
 
       <ul class="reference-list">
-        <li><a href="https://www.loc.gov/pictures/item/2005679642/" target="_blank" rel="noopener noreferrer"><strong>Library of Congress — W.E.B. Du Bois 관련 차트와 그래프 컬렉션</strong></a><small>1900년 파리 만국박람회 전시를 위해 준비된 자료의 목록, 제작 정보, 디지털 이미지</small></li>
-        <li><a href="https://seaborn.pydata.org/generated/seaborn.barplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서 — <code>barplot</code></strong></a><small>막대가 집계값을 표현하며 0을 축 범위에 포함하는 이유</small></li>
-        <li><a href="https://seaborn.pydata.org/generated/seaborn.scatterplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서 — <code>scatterplot</code></strong></a><small><code>hue</code>, <code>size</code>, <code>style</code>을 이용한 시각적 의미 연결과 중복 인코딩</small></li>
+        <li><a href="https://www.loc.gov/pictures/item/2005679642/" target="_blank" rel="noopener noreferrer"><strong>Library of Congress: W.E.B. Du Bois 관련 차트와 그래프 컬렉션</strong></a><small>1900년 파리 만국박람회 전시를 위해 준비된 자료의 목록, 제작 정보, 디지털 이미지</small></li>
+        <li><a href="https://seaborn.pydata.org/generated/seaborn.barplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서: <code>barplot</code></strong></a><small>막대가 집계값을 표현하며 0을 축 범위에 포함하는 이유</small></li>
+        <li><a href="https://seaborn.pydata.org/generated/seaborn.scatterplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서: <code>scatterplot</code></strong></a><small><code>hue</code>, <code>size</code>, <code>style</code>을 이용한 시각적 의미 연결과 중복 인코딩</small></li>
       </ul>
     </article>
 

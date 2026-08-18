@@ -11,7 +11,7 @@
   font: 700 14px/1.2 system-ui, sans-serif;
   text-decoration: none;
   transform: translateY(-120%);
-  transition: transform 160ms ease;
+  transition: none;
 }
 
 .skip-link:focus-visible {
@@ -80,7 +80,7 @@ details[data-details-motion-instant="true"] > .details-motion-content {
 
   .toc a:not(:active):hover {
     background: transparent !important;
-    color: #364250 !important;
+    color: var(--muted) !important;
   }
 
   .overview-card:not(:focus-visible):not(:active):hover {
