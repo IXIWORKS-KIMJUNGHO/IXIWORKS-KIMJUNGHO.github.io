@@ -136,7 +136,11 @@ function removeLegacyDocumentHeader(html) {
 }
 
 function lessonNavigationCopy(course, current) {
-  const usesKoreanCopy = course === "contents-programming";
+  const usesKoreanCopy =
+    course === "contents-programming" &&
+    (current.startsWith("week-09-") ||
+      current.startsWith("week-14-") ||
+      current.startsWith("week-15-"));
 
   return usesKoreanCopy
     ? {
