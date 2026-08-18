@@ -335,6 +335,7 @@ test("Contents Programming week 11 mission notebook contains a self-checking pos
     /footer_blocks_separated/,
     /saved_image\.shape\[:2\] == \(2200, 1600\)/,
     /WEEK 11 DATA POSTER COMPLETE/,
+    /제목의 의미는 교수 확인 후 최종 승인/,
     /files\.download\(output_filename\)/,
   ]) {
     assert.match(notebookCode, pattern);

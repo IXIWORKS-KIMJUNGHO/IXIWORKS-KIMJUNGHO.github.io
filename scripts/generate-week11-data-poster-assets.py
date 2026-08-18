@@ -1126,6 +1126,7 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         )
 
     print("🎉 WEEK 11 DATA POSTER COMPLETE")
+    print("※ 자동 검사 PASS입니다. 제목의 의미는 교수 확인 후 최종 승인됩니다.")
     if files is not None:
         files.download(output_filename)
     '''
@@ -1140,7 +1141,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
 
                 - 수정할 곳은 `STEP 1 · EDIT`와 `STEP 5 · EDIT` 두 셀뿐입니다.
                 - 나머지 셀은 위에서 아래로 실행하고 코드를 수정하지 않습니다.
-                - 마지막에 모든 초록 확인과 `WEEK 11 DATA POSTER COMPLETE`가 보이면 완료입니다.
+                - 마지막에 모든 초록 확인과 `WEEK 11 DATA POSTER COMPLETE`가 보이면 자동 검사를 통과한 것입니다.
+                - 최종 완료와 귀가는 두 파일을 제출하고, 제목이 현재 데이터로 답할 수 있다는 교수 확인을 받은 뒤 승인됩니다.
                 """
             ),
             code_cell(setup_code),
