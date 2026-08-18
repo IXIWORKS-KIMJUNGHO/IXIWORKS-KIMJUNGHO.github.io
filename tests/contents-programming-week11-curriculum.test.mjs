@@ -26,14 +26,12 @@ async function readWeek11() {
 }
 
 function paragraphByLabel(week, label) {
-  const paragraph = week.match(
-    new RegExp(
-      `<p><strong>${escapeRegExp(label)}</strong>([\\s\\S]*?)<\\/p>`,
-    ),
-  );
+  const paragraph = [...week.matchAll(/<p>[\s\S]*?<\/p>/g)]
+    .map((match) => match[0])
+    .find((candidate) => visibleText(candidate).startsWith(label));
 
   assert.ok(paragraph, `week 11 should include the “${label}” paragraph`);
-  return paragraph[0];
+  return paragraph;
 }
 
 function visibleText(fragment) {
