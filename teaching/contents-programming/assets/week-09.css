@@ -4,25 +4,25 @@ html.week-09-page {
   scroll-behavior: auto;
 }
 
-.week-09 .skip-link {
+body.week-09.teaching-document .skip-link {
   transition: none;
 }
 
-.week-09 .article h2[id], .week-09 .article h3[id] {
+body.week-09.teaching-document .article h2[id], body.week-09.teaching-document .article h3[id] {
   scroll-margin-top: 86px;
 }
 
 /* Keep frequent navigation immediate and make the current section visible. */
-.week-09 .lesson-toc > summary {
+body.week-09.teaching-document .lesson-toc > summary {
   display: none;
 }
 
-.week-09 .toc-links {
+body.week-09.teaching-document .toc-links {
   display: grid;
   gap: 2px;
 }
 
-.week-09 .toc a[aria-current="location"] {
+body.week-09.teaching-document .toc a[aria-current="location"] {
   background: var(--accent-soft);
   color: var(--accent-strong);
   font-weight: 720;
@@ -30,7 +30,7 @@ html.week-09-page {
 }
 
 /* Concept checks are disclosures, not equal-weight callout cards. */
-.week-09 details.callout-question {
+body.week-09.teaching-document details.callout-question {
   margin: 18px 0 28px;
   padding: 0;
   border: 0;
@@ -40,28 +40,28 @@ html.week-09-page {
   background: transparent;
 }
 
-.week-09 details.callout-question > summary {
+body.week-09.teaching-document details.callout-question > summary {
   margin: 0;
   padding: 15px 44px 15px 0;
   color: var(--ink-strong);
 }
 
-.week-09 details.callout-question > .details-motion-content {
+body.week-09.teaching-document details.callout-question > .details-motion-content {
   padding: 0 36px 16px 0;
 }
 
-.week-09 details.callout-question > .details-motion-content p {
+body.week-09.teaching-document details.callout-question > .details-motion-content p {
   color: var(--muted);
   font-size: 13.5px;
   line-height: 1.75;
 }
 
 /* Semantic replacement for the raster observation diagram. */
-.week-09 .observation-flow-diagram {
+body.week-09.teaching-document .observation-flow-diagram {
   color: var(--ink);
 }
 
-.week-09 .observation-flow {
+body.week-09.teaching-document ol.observation-flow {
   margin: 0;
   padding: 0;
   border: 1px solid var(--line-strong);
@@ -72,7 +72,7 @@ html.week-09-page {
   list-style: none;
 }
 
-.week-09 .observation-flow > li {
+body.week-09.teaching-document .observation-flow > li {
   min-width: 0;
   margin: 0;
   padding: 17px;
@@ -80,11 +80,11 @@ html.week-09-page {
   background: var(--paper);
 }
 
-.week-09 .observation-flow > li:first-child {
+body.week-09.teaching-document .observation-flow > li:first-child {
   border-left: 0;
 }
 
-.week-09 .diagram-step {
+body.week-09.teaching-document .diagram-step {
   display: block;
   margin-bottom: 8px;
   color: var(--accent);
@@ -93,7 +93,7 @@ html.week-09-page {
   font-weight: 650;
 }
 
-.week-09 .observation-flow strong {
+body.week-09.teaching-document .observation-flow strong {
   display: block;
   min-height: 3.2em;
   color: var(--ink-strong);
@@ -101,42 +101,42 @@ html.week-09-page {
   line-height: 1.55;
 }
 
-.week-09 .observation-flow p {
+body.week-09.teaching-document .observation-flow p {
   margin: 10px 0 0;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.6;
 }
 
-.week-09 .diagram-record {
+body.week-09.teaching-document .diagram-record {
   margin: 13px 0 0;
   display: grid;
   gap: 6px;
 }
 
-.week-09 .diagram-record div {
+body.week-09.teaching-document .diagram-record div {
   display: grid;
   grid-template-columns: minmax(58px, 0.8fr) minmax(0, 1fr);
   gap: 7px;
 }
 
-.week-09 .diagram-record dt,
-.week-09 .diagram-record dd {
+body.week-09.teaching-document .diagram-record dt,
+body.week-09.teaching-document .diagram-record dd {
   margin: 0;
   font-size: 11px;
   line-height: 1.45;
 }
 
-.week-09 .diagram-record dt {
+body.week-09.teaching-document .diagram-record dt {
   color: var(--quiet);
 }
 
-.week-09 .diagram-record dd {
+body.week-09.teaching-document .diagram-record dd {
   color: var(--ink-strong);
   font-weight: 650;
 }
 
-.week-09 .diagram-mini-row {
+body.week-09.teaching-document .diagram-mini-row {
   margin-top: 13px;
   border: 1px solid var(--line-strong);
   display: grid;
@@ -144,7 +144,7 @@ html.week-09-page {
   background: var(--surface);
 }
 
-.week-09 .diagram-mini-row span {
+body.week-09.teaching-document .diagram-mini-row span {
   padding: 8px 6px;
   border-left: 1px solid var(--line);
   color: var(--ink-strong);
@@ -153,11 +153,11 @@ html.week-09-page {
   text-align: center;
 }
 
-.week-09 .diagram-mini-row span:first-child {
+body.week-09.teaching-document .diagram-mini-row span:first-child {
   border-left: 0;
 }
 
-.week-09 .diagram-equation {
+body.week-09.teaching-document p.diagram-equation {
   margin: 14px 0 0;
   display: flex;
   flex-wrap: wrap;
@@ -169,32 +169,32 @@ html.week-09-page {
   font-weight: 650;
 }
 
-.week-09 .diagram-equation span[aria-hidden="true"] {
+body.week-09.teaching-document .diagram-equation span[aria-hidden="true"] {
   color: var(--quiet);
 }
 
 /* Semantic DataFrame diagram. The table scrolls instead of shrinking text. */
-.week-09 .dataframe-anatomy-diagram {
+body.week-09.teaching-document .dataframe-anatomy-diagram {
   min-width: 0;
 }
 
-.week-09 .anatomy-legend {
+body.week-09.teaching-document .anatomy-legend {
   margin: 0 0 13px;
   display: flex;
   flex-wrap: wrap;
   gap: 7px 14px;
 }
 
-.week-09 .anatomy-legend span {
+body.week-09.teaching-document .anatomy-legend span {
   color: var(--muted);
   font-size: 11px;
 }
 
-.week-09 .anatomy-legend strong {
+body.week-09.teaching-document .anatomy-legend strong {
   color: var(--accent);
 }
 
-.week-09 .anatomy-table-scroll {
+body.week-09.teaching-document .anatomy-table-scroll {
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--line-strong);
@@ -203,7 +203,7 @@ html.week-09-page {
   overscroll-behavior-inline: contain;
 }
 
-.week-09 .dataframe-anatomy-diagram table {
+body.week-09.teaching-document .dataframe-anatomy-diagram table {
   min-width: 700px;
   margin: 0;
   border: 0;
@@ -212,8 +212,8 @@ html.week-09-page {
   font-size: 12px;
 }
 
-.week-09 .dataframe-anatomy-diagram th,
-.week-09 .dataframe-anatomy-diagram td {
+body.week-09.teaching-document .dataframe-anatomy-diagram th,
+body.week-09.teaching-document .dataframe-anatomy-diagram td {
   padding: 12px 13px;
   border: 0;
   border-right: 1px solid var(--line);
@@ -223,26 +223,26 @@ html.week-09-page {
   white-space: nowrap;
 }
 
-.week-09 .dataframe-anatomy-diagram thead th {
+body.week-09.teaching-document .dataframe-anatomy-diagram thead th {
   background: var(--surface-strong);
   color: var(--ink-strong);
 }
 
-.week-09 .dataframe-anatomy-diagram .index-cell {
+body.week-09.teaching-document .dataframe-anatomy-diagram .index-cell {
   background: color-mix(in srgb, var(--surface) 72%, var(--paper));
   color: var(--accent-strong);
   font-weight: 700;
 }
 
-.week-09 .dataframe-anatomy-diagram .focus-row > * {
+body.week-09.teaching-document .dataframe-anatomy-diagram .focus-row > * {
   box-shadow: inset 0 2px 0 var(--accent), inset 0 -2px 0 var(--accent);
 }
 
-.week-09 .dataframe-anatomy-diagram .focus-column {
+body.week-09.teaching-document .dataframe-anatomy-diagram .focus-column {
   background: var(--accent-soft);
 }
 
-.week-09 .dataframe-anatomy-diagram .missing-cell {
+body.week-09.teaching-document .dataframe-anatomy-diagram .missing-cell {
   color: var(--error-ink);
   font-weight: 750;
   text-decoration: underline;
@@ -250,7 +250,7 @@ html.week-09-page {
   text-underline-offset: 4px;
 }
 
-.week-09 .dtype-map {
+body.week-09.teaching-document ul.dtype-map {
   margin: 12px 0 0;
   padding: 0;
   display: grid;
@@ -259,7 +259,7 @@ html.week-09-page {
   list-style: none;
 }
 
-.week-09 .dtype-map li {
+body.week-09.teaching-document .dtype-map li {
   min-width: 0;
   margin: 0;
   padding: 10px;
@@ -267,12 +267,12 @@ html.week-09-page {
   background: var(--paper);
 }
 
-.week-09 .dtype-map code {
+body.week-09.teaching-document .dtype-map code {
   display: block;
   overflow-wrap: anywhere;
 }
 
-.week-09 .dtype-map span {
+body.week-09.teaching-document .dtype-map span {
   display: block;
   margin-top: 5px;
   color: var(--muted);
@@ -280,7 +280,7 @@ html.week-09-page {
 }
 
 /* A structural visual for the two official art cases. */
-.week-09 .case-lens-visual {
+body.week-09.teaching-document .case-lens-visual {
   margin: 22px 0 30px;
   border: 1px solid var(--line-strong);
   border-radius: 6px;
@@ -288,46 +288,46 @@ html.week-09-page {
   background: var(--paper);
 }
 
-.week-09 .case-lens-grid {
+body.week-09.teaching-document .case-lens-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.week-09 .case-lens-grid section {
+body.week-09.teaching-document .case-lens-grid section {
   min-width: 0;
   padding: 22px;
 }
 
-.week-09 .case-lens-grid section + section {
+body.week-09.teaching-document .case-lens-grid section + section {
   border-left: 1px solid var(--line);
   background: var(--surface);
 }
 
-.week-09 .case-lens-grid span {
+body.week-09.teaching-document .case-lens-grid span {
   color: var(--accent);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 650;
 }
 
-.week-09 .case-lens-grid strong {
+body.week-09.teaching-document .case-lens-grid strong {
   display: block;
   margin: 8px 0 11px;
   color: var(--ink-strong);
   font-size: 17px;
 }
 
-.week-09 .case-lens-grid ol {
+body.week-09.teaching-document .case-lens-grid ol {
   margin: 0;
   padding-left: 20px;
 }
 
-.week-09 .case-lens-grid li {
+body.week-09.teaching-document .case-lens-grid li {
   color: var(--muted);
   font-size: 12.5px;
 }
 
-.week-09 .case-lens-visual figcaption {
+body.week-09.teaching-document .case-lens-visual figcaption {
   margin: 0;
   padding: 13px 22px;
   border-top: 1px solid var(--line);
@@ -336,7 +336,7 @@ html.week-09-page {
 }
 
 /* The example is the real HTML output, not a shrunken screenshot. */
-.week-09 .reading-card-preview {
+body.week-09.teaching-document .reading-card-preview {
   width: 100%;
   min-height: 720px;
   border: 1px solid var(--line-strong);
@@ -345,7 +345,7 @@ html.week-09-page {
   background: var(--paper);
 }
 
-.week-09 .visual-actions {
+body.week-09.teaching-document p.visual-actions {
   margin: 12px 0 0;
   display: flex;
   flex-wrap: wrap;
@@ -354,7 +354,7 @@ html.week-09-page {
 }
 
 /* Put the first lab action above explanatory material. */
-.week-09 .quick-start {
+body.week-09.teaching-document .quick-start {
   margin: 0 0 30px;
   padding: 22px;
   border: 1px solid var(--line-strong);
@@ -363,14 +363,14 @@ html.week-09-page {
   background: var(--surface);
 }
 
-.week-09 .quick-start-kicker {
+body.week-09.teaching-document .quick-start-kicker {
   color: var(--success-ink);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 700;
 }
 
-.week-09 .quick-start h2 {
+body.week-09.teaching-document .quick-start h2 {
   margin: 7px 0 9px;
   padding: 0;
   border: 0;
@@ -379,23 +379,23 @@ html.week-09-page {
   counter-increment: none;
 }
 
-.week-09 .quick-start h2::before {
+body.week-09.teaching-document .quick-start h2::before {
   content: none;
 }
 
-.week-09 .quick-start p {
+body.week-09.teaching-document .quick-start p {
   max-width: 65ch;
   color: var(--muted);
 }
 
-.week-09 .quick-start-actions {
+body.week-09.teaching-document .quick-start-actions {
   margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
   gap: 9px;
 }
 
-.week-09 .quick-start-actions a {
+body.week-09.teaching-document .quick-start-actions a {
   min-height: 42px;
   padding: 10px 13px;
   border: 1px solid var(--line-strong);
@@ -412,31 +412,31 @@ html.week-09-page {
   transition: transform 120ms var(--ease-out);
 }
 
-.week-09 .quick-start-actions a:first-child {
+body.week-09.teaching-document .quick-start-actions a:first-child {
   border-color: var(--accent-strong);
   background: var(--accent-strong);
   color: var(--paper);
 }
 
-.week-09 .quick-start-actions a:active {
+body.week-09.teaching-document .quick-start-actions a:active {
   transform: scale(0.98);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .week-09 .quick-start-actions a:hover {
+  body.week-09.teaching-document .quick-start-actions a:hover {
     border-color: var(--accent);
     text-decoration: none;
   }
 }
 
 @media (max-width: 980px) {
-  .week-09 .lesson-toc {
+  body.week-09.teaching-document .lesson-toc {
     max-height: none;
     padding: 0;
     overflow: visible;
   }
 
-  .week-09 .lesson-toc > summary {
+  body.week-09.teaching-document .lesson-toc > summary {
     min-height: 48px;
     margin: 0;
     padding: 14px 44px 14px 16px;
@@ -444,75 +444,75 @@ html.week-09-page {
     color: var(--accent);
   }
 
-  .week-09 .lesson-toc > .details-motion-content,
-  .week-09 .lesson-toc > .toc-links {
+  body.week-09.teaching-document .lesson-toc > .details-motion-content,
+  body.week-09.teaching-document .lesson-toc > .toc-links {
     max-height: min(54vh, 320px);
     padding: 0 8px 9px;
     overflow: auto;
   }
 
-  .week-09 .lesson-toc .toc-links {
+  body.week-09.teaching-document .lesson-toc .toc-links {
     padding-top: 3px;
   }
 }
 
 @media (max-width: 760px) {
-  .week-09 .observation-flow,
-  .week-09 .case-lens-grid,
-  .week-09 .dtype-map {
+  body.week-09.teaching-document .observation-flow,
+  body.week-09.teaching-document .case-lens-grid,
+  body.week-09.teaching-document .dtype-map {
     grid-template-columns: 1fr;
   }
 
-  .week-09 .observation-flow > li,
-  .week-09 .observation-flow > li:first-child {
+  body.week-09.teaching-document .observation-flow > li,
+  body.week-09.teaching-document .observation-flow > li:first-child {
     border-top: 1px solid var(--line);
     border-left: 0;
   }
 
-  .week-09 .observation-flow > li:first-child {
+  body.week-09.teaching-document .observation-flow > li:first-child {
     border-top: 0;
   }
 
-  .week-09 .observation-flow strong {
+  body.week-09.teaching-document .observation-flow strong {
     min-height: 0;
   }
 
-  .week-09 .case-lens-grid section + section {
+  body.week-09.teaching-document .case-lens-grid section + section {
     border-top: 1px solid var(--line);
     border-left: 0;
   }
 
-  .week-09 .reading-card-preview {
+  body.week-09.teaching-document .reading-card-preview {
     min-height: 650px;
   }
 
-  .week-09 .quick-start-actions {
+  body.week-09.teaching-document .quick-start-actions {
     display: grid;
   }
 
-  .week-09 .quick-start-actions a {
+  body.week-09.teaching-document .quick-start-actions a {
     width: 100%;
   }
 
-  .week-09 details.callout-question > .details-motion-content {
+  body.week-09.teaching-document details.callout-question > .details-motion-content {
     padding-right: 0;
   }
 }
 
 @media (prefers-color-scheme: dark) {
-  .week-09 .observation-flow > li,
-  .week-09 .diagram-mini-row,
-  .week-09 .dataframe-anatomy-diagram th,
-  .week-09 .dataframe-anatomy-diagram td,
-  .week-09 .dtype-map li,
-  .week-09 .case-lens-visual,
-  .week-09 .case-lens-visual figcaption,
-  .week-09 .reading-card-preview {
+  body.week-09.teaching-document .observation-flow > li,
+  body.week-09.teaching-document .diagram-mini-row,
+  body.week-09.teaching-document .dataframe-anatomy-diagram th,
+  body.week-09.teaching-document .dataframe-anatomy-diagram td,
+  body.week-09.teaching-document .dtype-map li,
+  body.week-09.teaching-document .case-lens-visual,
+  body.week-09.teaching-document .case-lens-visual figcaption,
+  body.week-09.teaching-document .reading-card-preview {
     background: var(--paper);
   }
 
-  .week-09 .dataframe-anatomy-diagram .index-cell,
-  .week-09 .case-lens-grid section + section {
+  body.week-09.teaching-document .dataframe-anatomy-diagram .index-cell,
+  body.week-09.teaching-document .case-lens-grid section + section {
     background: var(--surface);
   }
 }
@@ -522,27 +522,27 @@ html.week-09-page {
     scroll-behavior: auto;
   }
 
-  .week-09 .quick-start-actions,
-  .week-09 .visual-actions,
-  .week-09 .reading-card-preview {
+  body.week-09.teaching-document .quick-start-actions,
+  body.week-09.teaching-document .visual-actions,
+  body.week-09.teaching-document .reading-card-preview {
     display: none !important;
   }
 
-  .week-09 details:not([open]) > .details-motion-content,
-  .week-09 details[open] > .details-motion-content {
+  body.week-09.teaching-document details:not([open]) > .details-motion-content,
+  body.week-09.teaching-document details[open] > .details-motion-content {
     display: block !important;
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
   }
 
-  .week-09 details.callout-question > summary::after {
+  body.week-09.teaching-document details.callout-question > summary::after {
     display: none;
   }
 
-  .week-09 .lesson-visual,
-  .week-09 .case-lens-visual,
-  .week-09 .quick-start {
+  body.week-09.teaching-document .lesson-visual,
+  body.week-09.teaching-document .case-lens-visual,
+  body.week-09.teaching-document .quick-start {
     break-inside: avoid;
   }
 }
