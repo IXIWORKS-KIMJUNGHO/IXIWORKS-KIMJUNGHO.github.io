@@ -13,6 +13,17 @@ const courseIndexPath = resolve(
   "index.html",
 );
 const courseDirectory = resolve(root, "teaching", "contents-programming");
+const week9GeneratedFilenames = [
+  "week-09-creative-activity.csv",
+  "week-09-data-literacy-mission.ipynb",
+  "week-09-observation-to-table.png",
+  "week-09-dataframe-anatomy.png",
+  "week-09-data-reading-card-example.html",
+  "week-09-data-reading-card-example.png",
+];
+const week9PngFilenames = week9GeneratedFilenames.filter((filename) =>
+  filename.endsWith(".png")
+);
 
 test("Contents Programming week 9 introduces data as recorded and situated material", async () => {
   const courseIndex = await readFile(courseIndexPath, "utf8");
@@ -298,6 +309,12 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
   assert.doesNotMatch(notebookCode, /len\(needed_columns\) >= 2/);
   assert.doesNotMatch(notebookCode, /selected_value_token/);
   assert.doesNotMatch(notebookCode, /<article class="question/);
+  assert.doesNotMatch(notebookCode, /CARD_CSS_CUSTOM_PROPERTIES\s*=/);
+  assert.doesNotMatch(
+    notebookCode,
+    /ANSWERABLE QUESTION|NOT ANSWERABLE YET|COLUMNS \/|MISSING VALUES|ONE VALUE IN CONTEXT|READ BEFORE VISUALIZE/,
+  );
+  assert.match(notebookCode, /답할 수 있는 질문.*아직 답할 수 없는 질문/s);
   assert.match(period3, /질문에 필요한 열 한 개 이상/);
 
   const csvLines = sampleCsv.trimEnd().split(/\r?\n/);
@@ -323,6 +340,7 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
   }
   assert.match(sampleCard, /<div class="question">/);
   assert.doesNotMatch(sampleCard, /<(?:article|section) class="question/);
+  assert.doesNotMatch(sampleCard, /필요한 열|답할 수 있는 질문|아직 답할 수 없는 질문/);
 
   const runtimeCheck = spawnSync(
     "python3",
@@ -355,53 +373,37 @@ test("Contents Programming week 9 declares deterministic asset inputs", async ()
     "utf8",
   );
 
-  const generatedFilenames = [
-    "week-09-creative-activity.csv",
-    "week-09-data-literacy-mission.ipynb",
-    "week-09-observation-to-table.png",
-    "week-09-dataframe-anatomy.png",
-    "week-09-data-reading-card-example.html",
-    "week-09-data-reading-card-example.png",
-  ];
-  for (const filename of generatedFilenames) {
+  for (const filename of week9GeneratedFilenames) {
     assert.match(generator, new RegExp(filename.replaceAll(".", "\\.")));
   }
   assert.match(generator, /def make_observation_to_table/);
   assert.match(generator, /def make_dataframe_anatomy/);
   assert.match(generator, /def make_reading_card/);
   assert.match(generator, /inter-latin-variable\.woff2/);
-  assert.match(generator, /PILLOW_VERSION = "11\.1\.0"/);
-  assert.match(generator, /FREETYPE_VERSION = "2\.13\.2"/);
+  assert.match(generator, /def parse_visual_runtime_requirements/);
+  assert.match(generator, /--check-runtime/);
+  assert.doesNotMatch(generator, /^PILLOW_VERSION\s*=|^FREETYPE_VERSION\s*=/m);
   assert.match(generator, /CORAL = CARD_COLORS\["coral"\]/);
   assert.match(generator, /GOLD_TEXT = \(139, 94, 0, 255\)/);
   assert.match(generator, /CARD_CSS_CUSTOM_PROPERTIES/);
   assert.doesNotMatch(generator, /System\/Library\/Fonts|DejaVuSans/);
-  assert.match(requirements, /^Pillow==11\.1\.0$/m);
+  assert.match(requirements, /^Pillow==\d+\.\d+\.\d+$/m);
+  assert.match(requirements, /^# FreeType==\d+\.\d+\.\d+/m);
 });
 
 test("Contents Programming week 9 generated assets stay reproducible", async (t) => {
   const generatorPath = resolve(root, "scripts", "generate-week09-data-assets.py");
-  const generatedFilenames = [
-    "week-09-creative-activity.csv",
-    "week-09-data-literacy-mission.ipynb",
-    "week-09-observation-to-table.png",
-    "week-09-dataframe-anatomy.png",
-    "week-09-data-reading-card-example.html",
-    "week-09-data-reading-card-example.png",
-  ];
   const runtimeProbe = spawnSync(
     "python3",
-    [
-      "-c",
-      [
-        "from PIL import __version__, features",
-        "assert __version__ == '11.1.0'",
-        "assert features.version('freetype2') == '2.13.2'",
-      ].join("; "),
-    ],
+    [generatorPath, "--check-runtime"],
     { cwd: root, encoding: "utf8" },
   );
   if (runtimeProbe.status !== 0) {
+    if (process.env.WEEK09_STRICT_ASSET_TEST === "1") {
+      assert.fail(
+        `pinned Week 9 visual runtime is unavailable:\n${runtimeProbe.stdout}\n${runtimeProbe.stderr}`,
+      );
+    }
     t.skip(
       "install the pinned visual toolchain with `npm run setup:week09-assets`",
     );
@@ -420,13 +422,31 @@ test("Contents Programming week 9 generated assets stay reproducible", async (t)
       0,
       `week 9 asset generation failed:\n${generated.stdout}\n${generated.stderr}`,
     );
-    for (const filename of generatedFilenames) {
+    for (const filename of week9GeneratedFilenames.filter(
+      (candidate) => !candidate.endsWith(".png"),
+    )) {
       const [expected, actual] = await Promise.all([
         readFile(resolve(courseDirectory, "assets", filename)),
         readFile(resolve(outputDirectory, filename)),
       ]);
       assert.deepEqual(actual, expected, `${filename} should regenerate byte-for-byte`);
     }
+    const pixelComparison = spawnSync(
+      "python3",
+      [
+        resolve(root, "tests", "compare-week09-png.py"),
+        ...week9PngFilenames.flatMap((filename) => [
+          resolve(courseDirectory, "assets", filename),
+          resolve(outputDirectory, filename),
+        ]),
+      ],
+      { cwd: root, encoding: "utf8" },
+    );
+    assert.equal(
+      pixelComparison.status,
+      0,
+      `week 9 PNG pixels differ:\n${pixelComparison.stdout}\n${pixelComparison.stderr}`,
+    );
   } finally {
     await rm(outputDirectory, { recursive: true, force: true });
   }

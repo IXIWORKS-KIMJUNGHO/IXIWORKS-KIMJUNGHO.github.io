@@ -1,2 +1,2 @@
-# The generator also verifies Pillow's bundled FreeType is 2.13.2.
+# FreeType==2.13.2 (bundled by the Pillow wheel and verified at generation time)
 Pillow==11.1.0

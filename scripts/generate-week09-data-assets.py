@@ -6,6 +6,7 @@ import argparse
 import csv
 import inspect
 import json
+import re
 from dataclasses import asdict, dataclass
 from html import escape
 from io import StringIO
@@ -17,9 +18,7 @@ from PIL import features
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
-
-PILLOW_VERSION = "11.1.0"
-FREETYPE_VERSION = "2.13.2"
+RUNTIME_REQUIREMENTS_PATH = ROOT / "requirements-week09-assets.txt"
 
 CARD_COLORS = {
     "ink": (28, 31, 30, 255),
@@ -51,20 +50,39 @@ CARD_CSS_CUSTOM_PROPERTIES = "; ".join(
 ) + ";"
 
 
-def verify_visual_runtime() -> None:
+def parse_visual_runtime_requirements() -> tuple[str, str]:
+    """Read the Pillow and bundled FreeType versions from one manifest."""
+
+    requirements = RUNTIME_REQUIREMENTS_PATH.read_text(encoding="utf-8")
+    pillow_match = re.search(r"^Pillow==([^\s#]+)$", requirements, re.MULTILINE)
+    freetype_match = re.search(
+        r"^# FreeType==([^\s]+)",
+        requirements,
+        re.MULTILINE,
+    )
+    if pillow_match is None or freetype_match is None:
+        raise RuntimeError(
+            f"Missing Pillow or FreeType pin in {RUNTIME_REQUIREMENTS_PATH.name}"
+        )
+    return pillow_match.group(1), freetype_match.group(1)
+
+
+def verify_visual_runtime() -> tuple[str, str]:
     """Refuse to emit byte-unstable PNGs from an unpinned raster toolchain."""
 
+    pillow_version, freetype_version = parse_visual_runtime_requirements()
     freetype_runtime_version = features.version("freetype2")
     if (
-        PILLOW_RUNTIME_VERSION != PILLOW_VERSION
-        or freetype_runtime_version != FREETYPE_VERSION
+        PILLOW_RUNTIME_VERSION != pillow_version
+        or freetype_runtime_version != freetype_version
     ):
         raise RuntimeError(
             "Week 9 visuals require "
-            f"Pillow {PILLOW_VERSION} / FreeType {FREETYPE_VERSION}; got "
+            f"Pillow {pillow_version} / FreeType {freetype_version}; got "
             f"Pillow {PILLOW_RUNTIME_VERSION} / FreeType {freetype_runtime_version}. "
             "Run `npm run setup:week09-assets`."
         )
+    return pillow_version, freetype_version
 
 
 @dataclass(frozen=True)
@@ -162,17 +180,18 @@ def render_question_cards(
     needed_columns: list[object],
     unanswerable: object,
     missing_reason: object,
+    labels: dict[str, str],
 ) -> str:
     """Render the shared, non-sectioning question-card fragment."""
 
     safe_needed = " + ".join(escape(str(name)) for name in needed_columns)
     return f"""<div class="question">
-        <span>ANSWERABLE QUESTION</span>
+        <span>{escape(labels['answerable'])}</span>
         <strong>{escape(str(answerable))}</strong>
-        <p>필요한 열 / Needed columns: {safe_needed}</p>
+        <p>{escape(labels['needed'])}: {safe_needed}</p>
       </div>
       <div class="question missing">
-        <span>NOT ANSWERABLE YET</span>
+        <span>{escape(labels['unanswerable'])}</span>
         <strong>{escape(str(unanswerable))}</strong>
         <p>{escape(str(missing_reason))}</p>
       </div>"""
@@ -367,6 +386,11 @@ def reading_card_html() -> str:
         ["activity", "duration_min"],
         "Which sessions included another person?",
         "No collaborator column was recorded.",
+        {
+            "answerable": "ANSWERABLE QUESTION",
+            "needed": "Needed columns",
+            "unanswerable": "NOT ANSWERABLE YET",
+        },
     )
     return f"""<!doctype html>
 <html lang="en">
@@ -590,8 +614,6 @@ print("나의 설명:", selected_value_explanation)
 # STEP 4 · 데이터 읽기 카드 HTML 생성 — 이 셀은 수정하지 않습니다.
 mission_step4_execution = get_ipython().execution_count
 
-CARD_CSS_CUSTOM_PROPERTIES = "__CARD_CSS_CUSTOM_PROPERTIES__"
-
 __QUESTION_CARDS_RENDERER_SOURCE__
 
 def build_data_reading_card(metadata, dataframe, questions, evidence):
@@ -608,6 +630,11 @@ def build_data_reading_card(metadata, dataframe, questions, evidence):
         questions["needed_columns"],
         questions["unanswerable"],
         questions["missing_reason"],
+        {
+            "answerable": "답할 수 있는 질문",
+            "needed": "필요한 열",
+            "unanswerable": "아직 답할 수 없는 질문",
+        },
     )
 
     return f"""<!doctype html>
@@ -615,7 +642,7 @@ def build_data_reading_card(metadata, dataframe, questions, evidence):
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{escape(str(metadata['title']))} · Data Reading Card</title>
+  <title>{escape(str(metadata['title']))} · 데이터 읽기 카드</title>
   <style>
     :root {{ color-scheme: light; __CARD_CSS_CUSTOM_PROPERTIES__ }}
     * {{ box-sizing:border-box; }}
@@ -645,24 +672,24 @@ def build_data_reading_card(metadata, dataframe, questions, evidence):
 <body>
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <main id="main-content">
-    <p class="kicker">DATA READING CARD / WEEK 09</p>
+    <p class="kicker">데이터 읽기 카드 / 9주차</p>
     <h1>{escape(str(metadata['title']))}</h1>
     <div class="meta">
-      <div><span>SIZE</span><strong>{dataframe.shape[0]} rows × {dataframe.shape[1]} columns</strong></div>
-      <div><span>OBSERVATION UNIT</span><strong>{escape(str(metadata['unit']))}</strong></div>
-      <div><span>TIME RANGE</span><strong>{escape(str(metadata['period']))}</strong></div>
-      <div><span>SOURCE</span><strong>{escape(str(metadata['source']))}</strong></div>
-      <div><span>USE CONDITION</span><strong>{escape(str(metadata['license']))}</strong></div>
-      <div><span>AUTHOR</span><strong>{escape(str(metadata['student_id']))} · {escape(str(metadata['student_name']))}</strong></div>
+      <div><span>크기</span><strong>{dataframe.shape[0]}행 × {dataframe.shape[1]}열</strong></div>
+      <div><span>관찰 단위</span><strong>{escape(str(metadata['unit']))}</strong></div>
+      <div><span>시간 범위</span><strong>{escape(str(metadata['period']))}</strong></div>
+      <div><span>출처</span><strong>{escape(str(metadata['source']))}</strong></div>
+      <div><span>이용 조건</span><strong>{escape(str(metadata['license']))}</strong></div>
+      <div><span>작성자</span><strong>{escape(str(metadata['student_id']))} · {escape(str(metadata['student_name']))}</strong></div>
     </div>
-    <h2>COLUMNS / 열</h2>
+    <h2>열</h2>
     <div class="columns">{safe_columns}</div>
-    <h2>MISSING VALUES / 결측값</h2>
+    <h2>결측값</h2>
     <ul class="missing-list">{safe_missing}</ul>
     <div class="questions">{question_cards}</div>
-    <h2>ONE VALUE IN CONTEXT / 실제 값 읽기</h2>
-    <p class="evidence"><strong>index {evidence['row_index']} · {escape(str(evidence['column']))} = {escape(str(evidence['value']))}</strong><br>{escape(str(evidence['explanation']))}</p>
-    <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
+    <h2>실제 값 읽기</h2>
+    <p class="evidence"><strong>인덱스 {evidence['row_index']} · {escape(str(evidence['column']))} = {escape(str(evidence['value']))}</strong><br>{escape(str(evidence['explanation']))}</p>
+    <footer><span>시각화 전에 읽기</span><span>구조 → 맥락 → 질문</span></footer>
   </main>
 </body>
 </html>"""
@@ -913,8 +940,21 @@ def parse_args() -> argparse.Namespace:
         default=DEFAULT_ASSET_DIR,
         help="output directory (defaults to the course asset directory)",
     )
+    parser.add_argument(
+        "--check-runtime",
+        action="store_true",
+        help="verify the pinned Pillow/FreeType toolchain without writing assets",
+    )
     return parser.parse_args()
 
 
 if __name__ == "__main__":
-    generate_assets(parse_args().asset_dir.resolve())
+    arguments = parse_args()
+    if arguments.check_runtime:
+        expected_pillow, expected_freetype = verify_visual_runtime()
+        print(
+            "Week 9 visual runtime PASS: "
+            f"Pillow {expected_pillow} / FreeType {expected_freetype}"
+        )
+    else:
+        generate_assets(arguments.asset_dir.resolve())
