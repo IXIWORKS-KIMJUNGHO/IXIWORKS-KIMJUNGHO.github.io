@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 3교시: 데이터 읽기 카드 미션 | Contents Programming Practice</title>
+  <meta name="description" content="창작 활동 CSV를 pandas로 점검하고 데이터의 구조, 맥락, 가능한 질문과 한계를 HTML 카드로 만드는 목표 달성형 개인 실습입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-09-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="9주차 3교시: 데이터 읽기 카드 미션 | Contents Programming Practice">
+  <meta property="og:description" content="CSV 구조를 여섯 단계로 검사하고 실행 가능한 노트북과 데이터 읽기 카드 HTML을 제출하는 개인 실습입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-09-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="9주차 3교시: 데이터 읽기 카드 미션">
+  <meta name="twitter:description" content="완료 조건을 충족하면 즉시 귀가하는 목표 달성형 데이터 읽기 실습입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-09-period2.html" rel="prev" aria-label="이전 자료: 9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+
+      </div>
+    </nav>
+  </header>
+<div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Goal-based Lab / Inspect / Explain / Export</p>
+        <h1>9주차 3교시: 데이터 읽기 카드 미션</h1>
+        <p class="lead">수업용 CSV의 구조와 맥락을 코드로 확인하고, 무엇을 답할 수 있으며 무엇이 더 필요한지 설명하는 독립 HTML 결과물을 완성합니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 09</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">UP TO 50 MIN</span>
+          <span class="hero-chip">INDIVIDUAL</span>
+          <span class="hero-chip">PASS &amp; LEAVE</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Mission Spec</p>
+        <div class="meta-row"><span class="meta-key">입력</span><span class="meta-value">수업용 또는 자신의 CSV</span></div>
+        <div class="meta-row"><span class="meta-key">검사</span><span class="meta-value">구조 6단계 + 원본 보존</span></div>
+        <div class="meta-row"><span class="meta-key">설명</span><span class="meta-value">맥락 + 실제 값 + 질문 2개</span></div>
+        <div class="meta-row"><span class="meta-key">결과물</span><span class="meta-value">Data Reading Card HTML</span></div>
+        <div class="meta-row"><span class="meta-key">제출</span><span class="meta-value">.ipynb + .html</span></div>
+        <div class="meta-row"><span class="meta-key">귀가 조건</span><span class="meta-value">PASS + 두 파일 제출 확인</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">데이터를 그리기 전에 읽을 수 있다는 사실을 두 결과물로 증명하기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 실습 목표</p>
+        <ul>
+          <li>CSV를 pandas의 DataFrame으로 불러오되 원본 파일을 수정하지 않을 수 있습니다.</li>
+          <li><code>head()</code>, <code>shape</code>, <code>columns</code>, <code>dtypes</code>, <code>isna().sum()</code>의 결과를 확인할 수 있습니다.</li>
+          <li>데이터의 제목, 출처, 이용 조건, 관찰 단위, 시간 범위를 기록할 수 있습니다.</li>
+          <li>실제 행·열·값 하나를 골라 데이터 안에서 무엇을 뜻하는지 자신의 문장으로 설명할 수 있습니다.</li>
+          <li>현재 열로 답할 수 있는 질문과 누락된 정보 때문에 답할 수 없는 질문을 각각 작성할 수 있습니다.</li>
+          <li>데이터 읽기 카드 HTML을 만들고 새 런타임 전체 실행에서 자동 검사 PASS를 확인할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="goal-contract" role="group" aria-labelledby="goal-contract-title">
+        <div>
+          <span class="visual-label">목표 달성형 개인 실습</span>
+          <h2 id="goal-contract-title">자동 검사 PASS + 두 파일 제출 = 즉시 귀가</h2>
+          <p>0-6분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 자동 검사 PASS를 확인하고 <code>.ipynb</code>와 <code>.html</code> 두 파일 제출을 마친 학생은 남은 수업 시간을 기다리지 않고 즉시 귀가합니다.</p>
+        </div>
+        <p class="goal-contract-note"><strong>속도를 채점하지 않습니다.</strong> 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다. 빠르게 끝내기 위해 설명을 비우는 것보다 모든 조건을 정확히 증명하는 것이 중요합니다.</p>
+      </div>
+
+      <ol class="mission-route" aria-label="실습 완료 경로">
+        <li><span>01</span><strong>준비</strong><small>사본 저장과 파일명</small></li>
+        <li><span>02</span><strong>기준 실행</strong><small>수정 전 데이터 확인</small></li>
+        <li><span>03</span><strong>맥락 기록</strong><small>출처·단위·기간</small></li>
+        <li><span>04</span><strong>구조 검사</strong><small>행·열·형식·빈 값</small></li>
+        <li><span>05</span><strong>질문 작성</strong><small>가능한 질문과 한계</small></li>
+        <li><span>06</span><strong>카드 생성</strong><small>독립 HTML 결과물</small></li>
+        <li><span>07</span><strong>검증</strong><small>새 런타임 전체 실행</small></li>
+        <li><span>08</span><strong>귀가</strong><small>두 파일 제출 확인</small></li>
+      </ol>
+
+      <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
+        <div class="exit-pass" aria-hidden="true">PASS</div>
+        <div>
+          <p class="exit-gate-label">EXIT GATE</p>
+          <h2 id="exit-gate-title">완료 문구 + 실행 결과가 보이는 노트북 + 열리는 HTML</h2>
+          <p>세 항목을 교수가 확인하면 실습을 마칩니다. 예시와 같은 문장을 복사하는 것이 아니라 선택한 데이터에 맞는 설명을 작성해야 합니다.</p>
+        </div>
+      </div>
+
+      <h2 id="outputs">이번 주에 만들 수 있는 결과물</h2>
+
+      <figure class="lesson-visual" aria-labelledby="output-example-caption">
+        <img src="assets/week-09-data-reading-card-example.png" width="1200" height="900" loading="eager" decoding="async" alt="창작 활동 기록의 24행 10열 구조, 관찰 단위, 기간, 열, 답할 수 있는 질문과 아직 답할 수 없는 질문을 정리한 데이터 읽기 카드 예시">
+        <figcaption id="output-example-caption">두 번째 제출물인 데이터 읽기 카드의 예시입니다. CSV의 값을 다시 꾸민 포스터가 아니라, 데이터의 구조·맥락·가능성·한계를 한 화면에 정리한 읽기 도구입니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <caption>두 결과물의 역할과 파일명</caption>
+          <thead><tr><th scope="col">결과물</th><th scope="col">증명하는 것</th><th scope="col">제출 파일명</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">실행 가능한 Colab 노트북</th><td>CSV를 불러오고 행·열·자료형·결측값을 점검한 과정, 자신의 설명, 자동 검사 PASS</td><td><code>week09_학번_이름.ipynb</code></td></tr>
+            <tr><th scope="row">데이터 읽기 카드 HTML</th><td>제목·출처·이용 조건·관찰 단위·시간 범위, 구조, 실제 값, 가능한 질문과 한계를 읽을 수 있는 독립 문서</td><td><code>week09_학번_이름_data_reading_card.html</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-09-data-literacy-mission.ipynb" download>
+          <span>Starter notebook</span>
+          <strong>Week 09 미션 노트북 내려받기</strong>
+          <small>수업용 CSV, 구조 검사, HTML 생성, 자동 검사가 포함된 템플릿</small>
+        </a>
+        <a class="inline-resource-card" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-09-data-literacy-mission.ipynb" target="_blank" rel="noopener noreferrer">
+          <span>Open in Colab</span>
+          <strong>Colab에서 미션 노트북 열기 ↗</strong>
+          <small>공개 저장소의 템플릿을 Colab으로 직접 엽니다.</small>
+        </a>
+        <a class="inline-resource-card" href="assets/week-09-creative-activity.csv" download>
+          <span>Sample CSV</span>
+          <strong>창작 활동 기록 CSV 내려받기</strong>
+          <small>별도 업로드 연습이 필요할 때 사용하는 24행 × 10열 자료</small>
+        </a>
+        <a class="inline-resource-card" href="assets/week-09-data-reading-card-example.html" target="_blank">
+          <span>Example output</span>
+          <strong>예시 데이터 읽기 카드 열기</strong>
+          <small>제출할 HTML이 브라우저에서 어떻게 보이는지 확인합니다.</small>
+        </a>
+      </div>
+
+      <h2 id="completion-criteria">귀가 조건: 제출 전에 열 가지 확인</h2>
+
+      <ol class="completion-criteria">
+        <li><strong>노트북 파일명</strong><span><code>week09_학번_이름.ipynb</code> 형식으로 바꾸었습니다.</span></li>
+        <li><strong>제출 정보</strong><span>STEP 1의 학번과 이름을 자신의 정보로 바꾸었습니다.</span></li>
+        <li><strong>데이터 선택</strong><span>수업용 CSV 또는 개인정보를 제거한 자신의 CSV가 정상적으로 열립니다.</span></li>
+        <li><strong>맥락 기록</strong><span>제목, 출처, 이용 조건, 관찰 단위, 시간 범위를 모두 작성했습니다.</span></li>
+        <li><strong>구조 확인</strong><span>행, 열, 자료형, 결측값을 출력하고 그 의미를 확인했습니다.</span></li>
+        <li><strong>실제 값 설명</strong><span>존재하는 행·열·값 하나를 선택하고 20자 이상의 문장으로 설명했습니다.</span></li>
+        <li><strong>가능한 질문</strong><span>현재 데이터로 답할 수 있는 질문과 필요한 열 두 개 이상을 적었습니다.</span></li>
+        <li><strong>한계 질문</strong><span>답할 수 없는 질문과 추가로 필요한 정보를 각각 15자 이상 적었습니다.</span></li>
+        <li><strong>새 런타임 검증</strong><span>런타임을 다시 시작하고 모두 실행해 <code>🎉 WEEK 09 DATA READING COMPLETE</code>를 확인했습니다.</span></li>
+        <li><strong>두 파일 제출</strong><span>실행 결과가 포함된 <code>.ipynb</code>와 브라우저에서 열리는 <code>.html</code>을 제출했습니다.</span></li>
+      </ol>
+
+      <div class="callout callout-info">
+        <p class="callout-title">자동 검사는 질문의 미적 취향을 채점하지 않는다</p>
+        <p>검사는 학번·이름, 데이터 출처와 이용 조건, 행·열의 최소 구조, 질문 길이, 실제 열의 존재, 원본 보존, HTML 생성과 파일명을 확인합니다. 어떤 주제가 더 흥미로운지, 어떤 문장이 더 세련되어 보이는지는 자동으로 판정하지 않습니다.</p>
+      </div>
+
+      <h2 id="time-guide">50분 진행 기준</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>처음 참여하는 학생을 위한 권장 진행 시간</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">단계</th><th scope="col">완료 표시</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0-6분</th><td>공통 안내, 노트북 열기, 사본 저장, 파일명 변경</td><td>자신의 Drive 사본이 열림</td></tr>
+            <tr><th scope="row">6-12분</th><td>수정 전 STEP 0부터 STEP 4까지 기준 실행</td><td>표 미리보기와 예시 카드가 보임</td></tr>
+            <tr><th scope="row">12-20분</th><td>학번·이름, 제목·출처·이용 조건·관찰 단위·시간 범위 작성</td><td>STEP 1 출력에 자신의 정보가 보임</td></tr>
+            <tr><th scope="row">20-30분</th><td>여섯 가지 구조 출력 읽기, 실제 행·열·값 선택과 설명 작성</td><td>STEP 2와 STEP 3 출력 확인</td></tr>
+            <tr><th scope="row">30-38분</th><td>답할 수 있는 질문·필요한 열, 답할 수 없는 질문·누락 정보 작성</td><td>두 질문이 데이터 범위와 맞음</td></tr>
+            <tr><th scope="row">38-44분</th><td>HTML 카드 생성, 내용과 줄바꿈, 실제 값 설명 확인</td><td>카드가 화면에 보이고 파일이 생성됨</td></tr>
+            <tr><th scope="row">44-48분</th><td>새 런타임에서 모두 실행, 자동 검사 PASS 확인</td><td>완료 문구가 마지막 셀에 보임</td></tr>
+            <tr><th scope="row">48-50분</th><td>노트북과 HTML 다운로드, 두 파일 업로드 상태 확인</td><td>제출 확인 후 즉시 귀가</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>시간표는 기다려야 하는 시각이 아니라 길을 잃지 않기 위한 기준입니다. 32분에 모든 조건을 충족했다면 그때 검사를 실행하고 두 파일을 제출할 수 있습니다. 반대로 시간이 더 필요한 학생은 50분까지 같은 목표를 자신의 속도로 수행합니다.</p>
+
+      <h2 id="step-zero">STEP 0 · 노트북 사본과 파일명 준비</h2>
+
+      <ol>
+        <li>위의 <strong>Colab에서 미션 노트북 열기</strong>를 누르거나 내려받은 파일을 Colab에 업로드합니다.</li>
+        <li><strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
+        <li>상단 파일명을 눌러 <code>week09_학번_이름.ipynb</code>로 바꿉니다.</li>
+        <li>처음에는 코드를 수정하지 않고 STEP 0부터 STEP 4까지 한 번 실행합니다.</li>
+      </ol>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">노트북이 Colab에서 직접 열리지 않을 때</summary>
+        <div class="details-motion-content"><p>Starter notebook을 내려받은 뒤 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab ↗</a>의 <strong>업로드</strong> 탭에서 <code>.ipynb</code>를 선택합니다. 브라우저가 파일 내용을 문자로 보여 주면 뒤로 돌아와 링크의 내려받기를 사용합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">사본을 저장해야 하는 이유</summary>
+        <div class="details-motion-content"><p>원본 템플릿은 모든 학생이 함께 사용하는 출발점입니다. Drive 사본을 만들면 자신의 입력과 실행 결과가 개인 파일에 저장되고, 제출할 노트북의 소유권과 파일명이 분명해집니다.</p></div>
+      </details>
+
+      <h2 id="step-one">STEP 1 · 수정 전 기준 실행</h2>
+
+      <p>템플릿은 수업용 CSV가 보이지 않으면 같은 24개 기록을 자동으로 생성합니다. STEP 0부터 STEP 4까지 순서대로 실행했을 때 앞의 다섯 행, <code>(24, 10)</code>, 열 이름, 자료형, 결측값 개수와 예시 카드가 보이면 환경이 정상입니다.</p>
+
+      <div class="output-preview">
+        <p><span>기준 출력</span><samp>shape (rows, columns): (24, 10)</samp></p>
+        <p><span>기준 출력</span><samp>focus_level · missing 2</samp></p>
+        <p><span>기준 출력</span><samp>카드 저장 완료: week09_학번_이름_data_reading_card.html</samp></p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title"><code>NameError</code>가 나오면 무엇을 확인하는가?</summary>
+        <div class="details-motion-content"><p>현재 셀보다 위의 셀이 실행되지 않았을 가능성이 큽니다. STEP 번호가 낮은 셀부터 차례대로 실행합니다. 임의로 변수나 함수를 새로 만들기보다 <strong>런타임 → 다시 시작 및 모두 실행</strong>으로 순서를 복구합니다.</p></div>
+      </details>
+
+      <h2 id="step-two">STEP 2 · 데이터 맥락과 질문 작성</h2>
+
+      <p>노트북의 STEP 1에서 <code>EDIT</code>로 표시된 값만 바꿉니다. 수업용 자료를 쓰면 <code>source_choice = "provided"</code>를 유지합니다. 자신의 CSV를 쓰는 경우에만 <code>"own"</code>으로 바꾸고 파일을 업로드한 뒤 제목·출처·이용 조건·관찰 단위·시간 범위를 실제 자료에 맞게 모두 수정합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>맥락 항목을 작성하는 기준</caption>
+          <thead><tr><th scope="col">항목</th><th scope="col">작성할 내용</th><th scope="col">피해야 할 내용</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>dataset_title</code></th><td>표가 담은 대상을 드러내는 짧은 제목</td><td>data, final처럼 의미 없는 이름</td></tr>
+            <tr><th scope="row"><code>dataset_source</code></th><td>기록자 또는 제공 기관과 원본 위치</td><td>인터넷처럼 찾을 수 없는 표현</td></tr>
+            <tr><th scope="row"><code>dataset_license</code></th><td>허용된 이용 범위 또는 공개 라이선스</td><td>확인하지 않은 자유 이용 주장</td></tr>
+            <tr><th scope="row"><code>observation_unit</code></th><td>한 행이 대표하는 대상</td><td>열 이름의 나열</td></tr>
+            <tr><th scope="row"><code>time_range</code></th><td>기록 시작일과 종료일 또는 기준 시점</td><td>최근, 예전처럼 범위가 모호한 말</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">자신의 CSV를 사용해도 되는가?</summary>
+        <div class="details-motion-content"><p>가능합니다. 단, 최소 5행 4열이며 수치형 열과 문자 또는 범주형 열을 각각 하나 이상 포함해야 합니다. 이름, 전화번호, 이메일, 정확한 주소·위치처럼 다른 사람을 식별할 수 있는 정보는 제거합니다. 출처와 이용 조건을 모르면 수업용 CSV를 사용합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">“수업용 예시 데이터”의 이용 조건은 왜 적는가?</summary>
+        <div class="details-motion-content"><p>작은 연습 파일도 누가 제공했고 어디까지 사용할 수 있는지 남기는 습관을 만들기 위해서입니다. 공개 데이터나 외부 창작물을 사용할 때 같은 위치에 기관명, 원본 주소, 라이선스를 기록할 수 있습니다.</p></div>
+      </details>
+
+      <h2 id="step-three">STEP 3 · 구조 검사와 실제 값 설명</h2>
+
+      <p>STEP 2 코드 셀은 원본 파일의 바이트를 기억한 뒤 <code>pd.read_csv(source_path)</code>로 DataFrame을 만듭니다. 이어서 앞부분, 크기, 열 이름, 자료형, 결측값을 출력합니다. 이 셀은 값을 삭제하거나 바꾸지 않습니다.</p>
+
+      <pre><code>preview = df.head()
+dataset_shape = df.shape
+column_names = df.columns.tolist()
+column_types = df.dtypes.astype(str).to_dict()
+missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
+
+      <p>STEP 3에서는 실제로 존재하는 행과 열을 하나 고릅니다. 예를 들어 <code>selected_row_index = 1</code>, <code>selected_column = "duration_min"</code>을 선택했다면 값 55를 보고 “두 번째 창작 활동이 55분 동안 이어졌다”라고 설명합니다. 단순히 “값은 55다”라고 반복하지 말고 현실에서 무엇을 뜻하는지 적습니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title"><code>KeyError</code>가 나오면 무엇을 확인하는가?</summary>
+        <div class="details-motion-content"><p><code>selected_column</code>의 철자와 대소문자가 <code>columns</code> 출력에 있는 이름과 정확히 같은지 확인합니다. <code>duration min</code>과 <code>duration_min</code>은 다른 이름입니다. 복사할 때 따옴표 안에 적습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">선택한 값이 <code>NaN</code>이어도 되는가?</summary>
+        <div class="details-motion-content"><p>가능하지만 “값이 없다”에서 멈추지 않습니다. 해당 관찰의 그 변수가 기록되지 않았으며, 그것이 0과 다르다는 점을 설명해야 합니다. 처음에는 의미가 분명한 실제 값을 고르는 편이 쉽습니다.</p></div>
+      </details>
+
+      <h2 id="step-four">STEP 4 · 답할 수 있는 질문과 답할 수 없는 질문</h2>
+
+      <p><strong>답할 수 있는 질문</strong>은 현재 표의 열과 값으로 확인할 수 있어야 합니다. 필요한 열을 <code>needed_columns</code> 목록에 정확한 이름으로 적습니다. <strong>답할 수 없는 질문</strong>은 현재 데이터에 없는 정보를 요구해야 하며, 어떤 열이나 기록이 더 필요한지도 함께 설명합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>질문과 필요한 정보의 일치 여부</caption>
+          <thead><tr><th scope="col">판정</th><th scope="col">질문</th><th scope="col">이유</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">답할 수 있음</th><td>활동 종류에 따라 지속 시간은 어떻게 다른가?</td><td><code>activity</code>와 <code>duration_min</code>이 있음</td></tr>
+            <tr><th scope="row">답할 수 있음</th><td>참고 자료를 사용한 활동은 몇 개인가?</td><td><code>used_reference</code>가 있음</td></tr>
+            <tr><th scope="row">아직 답할 수 없음</th><td>다른 사람과 함께하면 집중도가 높아지는가?</td><td>함께한 사람을 기록한 열이 없음</td></tr>
+            <tr><th scope="row">아직 답할 수 없음</th><td>날씨가 기분 변화에 영향을 주는가?</td><td>날씨 정보가 없음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">질문을 쓰는 것과 답을 계산하는 것은 다르다</p>
+        <p>이번 주에는 “어떤 열이 있으면 이 질문을 검토할 수 있는가?”까지 판단합니다. 실제 평균, 합계, 그래프는 아직 만들지 않습니다. 현재 데이터만으로 인과관계를 증명할 수 있다는 표현도 사용하지 않습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">좋은 답할 수 없는 질문을 고르는 방법</summary>
+        <div class="details-motion-content"><p>현재 열 목록을 먼저 읽고, 자신의 관심과 연결되지만 아직 기록하지 않은 변수를 하나 찾습니다. 질문과 누락 정보가 정확히 대응해야 합니다. “날씨와 집중도의 관계”를 묻는다면 필요한 정보는 날짜가 아니라 날씨 상태 또는 기상 데이터입니다.</p></div>
+      </details>
+
+      <h2 id="step-five">STEP 5 · HTML 카드 생성과 내용 확인</h2>
+
+      <p>STEP 4 코드는 작성한 정보와 DataFrame 검사 결과를 HTML 문자열로 조립한 뒤 <code>Path(output_filename).write_text(...)</code>로 저장합니다. 카드가 노트북 안에 보이는 것과 왼쪽 파일 패널에 <code>.html</code> 파일이 생기는 것을 모두 확인합니다.</p>
+
+      <ol>
+        <li>제목과 작성자 정보가 자신의 내용인지 확인합니다.</li>
+        <li>행·열 수와 열 이름이 STEP 2 출력과 같은지 확인합니다.</li>
+        <li>출처·이용 조건·관찰 단위·시간 범위가 비어 있지 않은지 확인합니다.</li>
+        <li>두 질문과 실제 값 설명이 카드 안에서 끝까지 보이는지 확인합니다.</li>
+        <li>Colab 왼쪽 파일 패널에서 HTML을 내려받아 브라우저로 한 번 엽니다.</li>
+      </ol>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">HTML 파일을 눌렀는데 코드 문자만 보일 때</summary>
+        <div class="details-motion-content"><p>Colab의 파일 미리보기는 HTML을 웹페이지로 실행하지 않고 문자로 보여 줄 수 있습니다. 파일 오른쪽의 점 세 개 메뉴에서 <strong>다운로드</strong>한 뒤 컴퓨터의 브라우저로 엽니다. 확장자가 <code>.html</code>인지도 확인합니다.</p></div>
+      </details>
+
+      <h2 id="step-six">STEP 6 · 새 런타임 전체 실행과 PASS</h2>
+
+      <ol>
+        <li><strong>런타임 → 런타임 다시 시작</strong>을 선택합니다.</li>
+        <li><strong>런타임 → 모두 실행</strong>을 선택합니다.</li>
+        <li>여섯 코드 셀의 실행 번호가 <code>[1]</code>부터 <code>[6]</code>까지 이어지는지 확인합니다.</li>
+        <li>FINAL CHECK에서 <code>FIX</code>가 보이면 해당 설명을 읽고 EDIT 값을 고칩니다.</li>
+        <li>다시 런타임을 시작하고 모두 실행해 <code>🎉 WEEK 09 DATA READING COMPLETE</code>를 확인합니다.</li>
+      </ol>
+
+      <div class="check-output" aria-label="자동 검사 완료 예시">
+        <p><strong>PASS</strong> · 원본 CSV 보존</p>
+        <p><strong>PASS</strong> · 질문에 필요한 열 2개 이상</p>
+        <p><strong>PASS</strong> · 카드에 실제 값 설명 포함</p>
+        <p><strong>🎉 WEEK 09 DATA READING COMPLETE</strong></p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">실행 번호 검사가 실패하는 이유</summary>
+        <div class="details-motion-content"><p>중간 셀만 여러 번 실행하면 번호가 1~6으로 이어지지 않습니다. 이는 제출 후 다른 사람이 처음부터 재현할 수 있는지를 확인하기 위한 조건입니다. 수정이 끝난 뒤 반드시 런타임을 다시 시작하고 모두 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">검사에서 질문 길이가 부족하다고 나올 때</summary>
+        <div class="details-motion-content"><p>단어만 늘리지 말고 비교 대상과 관찰 대상을 분명히 합니다. “시간은?” 대신 “활동 종류에 따라 작업 지속 시간은 어떻게 달라지는가?”처럼 무엇을 어떤 기준으로 볼지 포함합니다.</p></div>
+      </details>
+
+      <h2 id="step-seven">STEP 7 · 두 파일 제출 후 귀가</h2>
+
+      <div class="submission-strip" role="group" aria-label="제출 파일 두 개">
+        <span><small>SUBMIT 01</small><strong>week09_학번_이름.ipynb</strong></span>
+        <span><small>SUBMIT 02</small><strong>week09_학번_이름_data_reading_card.html</strong></span>
+      </div>
+
+      <ol>
+        <li>Colab에서 <strong>파일 → 다운로드 → .ipynb 다운로드</strong>를 선택합니다.</li>
+        <li>왼쪽 파일 패널에서 생성된 HTML의 점 세 개 메뉴를 눌러 내려받습니다.</li>
+        <li>노트북을 다시 열었을 때 실행 결과와 완료 문구가 저장되어 있는지 확인합니다.</li>
+        <li>HTML을 브라우저로 열어 제목, 질문, 실제 값 설명이 보이는지 확인합니다.</li>
+        <li>두 파일을 제출하고 업로드 완료 표시를 교수에게 보여 줍니다.</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <p class="callout-title">필수 실습 완료</p>
+        <p>완료 문구와 두 파일 제출이 확인되면 즉시 귀가합니다. 추가 활동은 점수나 귀가 조건에 영향을 주지 않습니다.</p>
+      </div>
+
+      <h2 id="optional">선택 확장 · 자신의 CSV로 같은 카드 만들기</h2>
+
+      <p>필수 실습을 완료한 뒤 남아서 더 해보고 싶은 학생만 진행합니다. 자신의 관심 분야에서 개인정보가 없는 CSV를 선택하고 <code>source_choice = "own"</code>으로 바꿉니다. 최소 5행 4열, 수치형 열 하나 이상, 문자 또는 범주형 열 하나 이상이 필요합니다. 제목과 출처, 이용 조건, 관찰 단위, 기간, 두 질문, 실제 값 설명을 전부 새 자료에 맞게 고쳐야 합니다.</p>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">선택 확장은 추가 점수가 아니다</p>
+        <p>수업용 자료로 PASS한 학생과 자신의 CSV로 PASS한 학생의 필수 실습 평가는 같습니다. 개인정보나 이용 조건이 불분명한 자료를 억지로 사용하는 것보다 제공 자료를 정확히 읽는 편이 적절합니다.</p>
+      </div>
+
+      <h2 id="next-week">10주차 연결</h2>
+
+      <p>이번 주에는 주어진 표를 읽고 가능한 질문과 누락된 정보를 찾았습니다. 10주차에는 이 판단을 바탕으로 원본과 작업 사본을 분리하고, 열 이름·자료형·중복·결측값을 일관된 기준으로 정리합니다. 이번 카드의 “NOT ANSWERABLE YET” 영역은 다음 데이터 수집과 정리에서 무엇이 더 필요한지 알려 주는 설계 메모가 됩니다.</p>
+
+      <h2 id="references">도움말과 공식 자료</h2>
+
+      <ul>
+        <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer">Google Colab 시작 안내 ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>read_csv</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>DataFrame.head</code> ↗</a></li>
+        <li><a href="https://data.seoul.go.kr/" target="_blank" rel="noopener noreferrer">서울 열린데이터광장 ↗</a></li>
+      </ul>
+    </article>
+
+    <aside class="toc" aria-label="이 페이지의 목차">
+      <p class="toc-title">On this page</p>
+      <a href="#outputs">결과물</a>
+      <a href="#completion-criteria">귀가 조건</a>
+      <a href="#time-guide">50분 진행</a>
+      <a href="#step-zero">STEP 0</a>
+      <a href="#step-one">STEP 1</a>
+      <a href="#step-two">STEP 2</a>
+      <a href="#step-three">STEP 3</a>
+      <a href="#step-four">STEP 4</a>
+      <a href="#step-five">STEP 5</a>
+      <a href="#step-six">STEP 6</a>
+      <a href="#step-seven">STEP 7</a>
+      <a href="#next-week">10주차 연결</a>
+    </aside>
+  </main>
+
+  <footer class="course-footer">
+    <a href="./">← Contents Programming Practice</a>
+    <span>Week 09 · Period 03</span>
+  </footer>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

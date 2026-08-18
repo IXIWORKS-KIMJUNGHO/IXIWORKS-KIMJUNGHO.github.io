@@ -10,6 +10,7 @@ const courseIndexPath = resolve(
   "contents-programming",
   "index.html",
 );
+const courseDirectory = resolve(root, "teaching", "contents-programming");
 
 test("Contents Programming week 9 introduces data as recorded and situated material", async () => {
   const courseIndex = await readFile(courseIndexPath, "utf8");
@@ -86,6 +87,8 @@ test("Contents Programming week 9 introduces data as recorded and situated mater
         "답할 수 없는 질문",
         "자동 검사 PASS",
         "Colab 노트북",
+        "데이터 읽기 카드 HTML",
+        "두 파일 제출",
         "즉시 귀가",
       ],
     ],
@@ -108,7 +111,219 @@ test("Contents Programming week 9 introduces data as recorded and situated mater
 
   assert.match(
     week9,
-    /<span class="assignment-label">제출 · CSV 탐색 Colab 노트북 및 데이터 질문서<\/span>/,
+    /<span class="assignment-label">제출 · CSV 탐색 Colab 노트북 및 데이터 읽기 카드 HTML<\/span>/,
   );
   assert.doesNotMatch(week9, /짝 활동|짝과|조별 활동/);
+});
+
+test("Contents Programming week 9 theory lessons explain situated data and table structure for beginners", async () => {
+  const courseIndex = await readFile(courseIndexPath, "utf8");
+  const period1 = await readFile(
+    resolve(courseDirectory, "week-09-period1.html"),
+    "utf8",
+  );
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-09-period2.html"),
+    "utf8",
+  );
+
+  for (const lesson of ["period1", "period2", "period3"]) {
+    assert.match(courseIndex, new RegExp(`href="week-09-${lesson}\\.html"`));
+  }
+  assert.match(period1, /href="week-09-period2\.html" rel="next"/);
+  assert.match(period2, /href="week-09-period1\.html" rel="prev"/);
+  assert.match(period2, /href="week-09-period3\.html" rel="next"/);
+
+  for (const [html, timeRanges] of [
+    [
+      period1,
+      ["0-6분", "6-15분", "15-25분", "25-35분", "35-43분", "43-50분", "50-60분"],
+    ],
+    [
+      period2,
+      ["0-5분", "5-14분", "14-25분", "25-35분", "35-44분", "44-50분", "50-60분"],
+    ],
+  ]) {
+    for (const timeRange of timeRanges) {
+      assert.match(html, new RegExp(timeRange));
+    }
+    assert.doesNotMatch(html, /짝 활동|짝과|조별 활동/);
+    assert.ok(
+      [...html.matchAll(/<details\b/gi)].length >= 5,
+      "each week 9 theory lesson should include individual answer checks",
+    );
+    assert.match(html, /\+ 10 MIN EXTENSION/);
+    assert.match(html, /기본 50분 \/ 확장 60분/);
+    assert.match(html, /수업 후 개별 복습/);
+  }
+
+  for (const pattern of [
+    /8주차.*생성 포스터.*매개변수.*행.*열/s,
+    /데이터.*질문.*관찰.*기록/s,
+    /관찰 단위.*변수.*값.*메타데이터/s,
+    /사실.*해석.*구분/s,
+    /Dear Data/,
+    /The Library of Missing Datasets/,
+    /선택.*누락.*중립/s,
+    /week-09-observation-to-table\.png/,
+    /https:\/\/www\.dear-data\.com\/theproject/,
+    /https:\/\/www\.moma\.org\/collection\/works\/215813/,
+    /https:\/\/www\.mimionuoha\.com\//,
+    /https:\/\/art21\.org\/artist\/mimi-onuoha\//,
+  ]) {
+    assert.match(period1, pattern);
+  }
+
+  for (const pattern of [
+    /CSV.*쉼표.*텍스트 파일/s,
+    /DataFrame.*2차원.*표/s,
+    /행.*열.*헤더.*인덱스.*셀/s,
+    /수치.*범주.*문자열.*날짜/s,
+    /결측값.*0.*같지/s,
+    /pd\.read_csv\(\).*head\(\).*shape.*columns.*dtypes.*isna\(\)\.sum\(\)/s,
+    /시각화와 통계 계산보다.*구조.*확인/s,
+    /week-09-dataframe-anatomy\.png/,
+    /week-09-data-reading-card-example\.png/,
+    /week-09-data-reading-card-example\.html/,
+    /week-09-creative-activity\.csv/,
+    /https:\/\/pandas\.pydata\.org\/docs\/reference\/api\/pandas\.read_csv\.html/,
+    /https:\/\/data\.seoul\.go\.kr\//,
+    /3교시 고정 미션 계약/,
+    /데이터 읽기 카드.*HTML/s,
+  ]) {
+    assert.match(period2, pattern);
+  }
+});
+
+test("Contents Programming week 9 period 3 produces a verified data reading card", async () => {
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-09-period3.html"),
+    "utf8",
+  );
+  const notebook = JSON.parse(
+    await readFile(
+      resolve(courseDirectory, "assets", "week-09-data-literacy-mission.ipynb"),
+      "utf8",
+    ),
+  );
+  const notebookCode = notebook.cells
+    .filter((cell) => cell.cell_type === "code")
+    .flatMap((cell) => cell.source)
+    .join("");
+  const sampleCsv = await readFile(
+    resolve(courseDirectory, "assets", "week-09-creative-activity.csv"),
+    "utf8",
+  );
+  const sampleCard = await readFile(
+    resolve(
+      courseDirectory,
+      "assets",
+      "week-09-data-reading-card-example.html",
+    ),
+    "utf8",
+  );
+
+  assert.match(period3, /href="week-09-period2\.html" rel="prev"/);
+  assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
+  assert.ok(
+    [...period3.matchAll(/<details\b/gi)].length >= 8,
+    "the week 9 mission should include on-demand beginner help",
+  );
+  for (const timeRange of [
+    "0-6분",
+    "6-12분",
+    "12-20분",
+    "20-30분",
+    "30-38분",
+    "38-44분",
+    "44-48분",
+    "48-50분",
+  ]) {
+    assert.match(period3, new RegExp(timeRange));
+  }
+  for (const pattern of [
+    /목표 달성형 개인 실습/,
+    /자동 검사 PASS.*두 파일 제출.*즉시 귀가/s,
+    /week-09-data-literacy-mission\.ipynb/,
+    /week-09-creative-activity\.csv/,
+    /week09_학번_이름\.ipynb/,
+    /week09_학번_이름_data_reading_card\.html/,
+    /제목.*출처.*이용 조건.*관찰 단위.*시간 범위/s,
+    /행.*열.*자료형.*결측값/s,
+    /답할 수 있는 질문.*답할 수 없는 질문/s,
+    /자동 검사는 질문의 미적 취향을 채점하지 않는다/,
+    /WEEK 09 DATA READING COMPLETE/,
+    /작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다/,
+    /week-09-data-reading-card-example\.png/,
+  ]) {
+    assert.match(period3, pattern);
+  }
+
+  assert.equal(notebook.nbformat, 4);
+  assert.equal(
+    notebook.cells.filter((cell) => cell.cell_type === "code").length,
+    6,
+  );
+  for (const pattern of [
+    /import pandas as pd/,
+    /pd\.read_csv\(source_path\)/,
+    /df\.head\(\)/,
+    /df\.shape/,
+    /df\.columns/,
+    /df\.dtypes/,
+    /df\.isna\(\)\.sum\(\)/,
+    /source_bytes_before/,
+    /dataset_title.*dataset_source.*dataset_license.*observation_unit.*time_range/s,
+    /answerable_question.*needed_columns.*unanswerable_question.*missing_information/s,
+    /selected_row_index.*selected_column.*selected_value_explanation/s,
+    /build_data_reading_card/,
+    /Path\(output_filename\)\.write_text/,
+    /mission_step0_execution = get_ipython\(\)\.execution_count/,
+    /mission_final_execution = get_ipython\(\)\.execution_count/,
+    /== \(1, 2, 3, 4, 5, 6\)/,
+    /WEEK 09 DATA READING COMPLETE/,
+  ]) {
+    assert.match(notebookCode, pattern);
+  }
+
+  const csvLines = sampleCsv.trimEnd().split(/\r?\n/);
+  assert.equal(csvLines.length, 25, "the sample should contain 24 records");
+  assert.equal(
+    csvLines[0],
+    "record_id,date,activity,duration_min,focus_level,mood_before,mood_after,location_type,used_reference,note",
+  );
+  assert.match(sampleCsv, /,,/);
+  assert.doesNotMatch(csvLines[0], /name|email|phone|address|latitude|longitude/i);
+
+  for (const pattern of [
+    /<!doctype html>/i,
+    /DATA READING CARD/,
+    /24 rows/,
+    /10 columns/,
+    /ANSWERABLE QUESTION/,
+    /NOT ANSWERABLE YET/,
+    /READ BEFORE VISUALIZE/,
+  ]) {
+    assert.match(sampleCard, pattern);
+  }
+});
+
+test("Contents Programming week 9 generated assets stay reproducible", async () => {
+  const generator = await readFile(
+    resolve(root, "scripts", "generate-week09-data-assets.py"),
+    "utf8",
+  );
+
+  for (const filename of [
+    "week-09-creative-activity.csv",
+    "week-09-observation-to-table.png",
+    "week-09-dataframe-anatomy.png",
+    "week-09-data-reading-card-example.html",
+    "week-09-data-reading-card-example.png",
+  ]) {
+    assert.match(generator, new RegExp(filename.replaceAll(".", "\\.")));
+  }
+  assert.match(generator, /def make_observation_to_table/);
+  assert.match(generator, /def make_dataframe_anatomy/);
+  assert.match(generator, /def make_reading_card/);
 });

@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice</title>
+  <meta name="description" content="CSV와 pandas DataFrame의 행, 열, 헤더, 인덱스, 셀, 자료형과 결측값을 실제 창작 활동 데이터와 코드 출력으로 차근차근 읽는 9주차 2교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-09-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice">
+  <meta property="og:description" content="표를 계산하기 전에 행·열·자료형·결측값과 출처를 읽는 여섯 단계 점검법을 배웁니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-09-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="9주차 2교시: CSV와 DataFrame의 구조 읽기">
+  <meta name="twitter:description" content="CSV를 불러오고 DataFrame의 구조를 여섯 가지 출력으로 읽는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-09-period1.html" rel="prev" aria-label="이전 자료: 9주차 1교시: 데이터는 발견되는가, 만들어지는가 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-09-period3.html" rel="next" aria-label="다음 자료: 9주차 3교시: 데이터 읽기 카드 미션 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">CSV / DataFrame / Inspect / Describe</p>
+        <h1>9주차 2교시: CSV와 DataFrame의 구조 읽기</h1>
+        <p class="lead">파일을 불러온 뒤 곧바로 계산하거나 그림을 그리지 않고, 표의 크기와 열, 자료형, 빈 값, 출처를 먼저 확인하는 순서를 익힙니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 09</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">50 MIN</span>
+          <span class="hero-chip">+ 10 MIN EXTENSION</span>
+          <span class="hero-chip">THEORY</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Lesson Spec</p>
+        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">처음 받은 표를 어떤 순서로 읽는가?</span></div>
+        <div class="meta-row"><span class="meta-key">파일</span><span class="meta-value">CSV</span></div>
+        <div class="meta-row"><span class="meta-key">Python 객체</span><span class="meta-value">pandas DataFrame</span></div>
+        <div class="meta-row"><span class="meta-key">검사 도구</span><span class="meta-value">head, shape, dtypes, isna</span></div>
+        <div class="meta-row"><span class="meta-key">수업 결과</span><span class="meta-value">데이터 읽기 카드 설계</span></div>
+        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">표의 내용을 믿거나 바꾸기 전에 구조와 맥락부터 확인하기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>CSV 파일과 DataFrame 객체의 차이를 파일과 작업 공간의 관계로 설명할 수 있습니다.</li>
+          <li>DataFrame에서 행, 열, 헤더, 인덱스, 셀을 가리킬 수 있습니다.</li>
+          <li>수치, 범주, 문자열, 날짜 자료형을 실제 열과 연결할 수 있습니다.</li>
+          <li>결측값과 숫자 0, 빈 문자열이 같은 뜻이 아님을 설명할 수 있습니다.</li>
+          <li><code>pd.read_csv()</code>, <code>head()</code>, <code>shape</code>, <code>columns</code>, <code>dtypes</code>, <code>isna().sum()</code>의 출력을 읽을 수 있습니다.</li>
+          <li>데이터의 출처·이용 조건·관찰 단위·기간과 답할 수 있는 질문을 한 장의 HTML 카드로 정리할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-seven" aria-label="2교시 시간 구성">
+        <li><span class="session-label">0-5분</span><strong>1교시 회상</strong><p>관찰 단위와 변수를 행과 열에 연결합니다.</p></li>
+        <li><span class="session-label">5-14분</span><strong>CSV 읽기</strong><p>쉼표로 구분된 텍스트와 표의 관계를 봅니다.</p></li>
+        <li><span class="session-label">14-25분</span><strong>DataFrame 해부</strong><p>행, 열, 헤더, 인덱스, 셀을 구분합니다.</p></li>
+        <li><span class="session-label">25-35분</span><strong>자료형과 결측값</strong><p>값의 종류와 비어 있음의 의미를 판단합니다.</p></li>
+        <li><span class="session-label">35-44분</span><strong>여섯 단계 점검</strong><p>코드 출력으로 구조를 차례대로 확인합니다.</p></li>
+        <li><span class="session-label">44-50분</span><strong>결과물 설계</strong><p>3교시 데이터 읽기 카드의 계약을 확정합니다.</p></li>
+        <li><span class="session-label">50-60분</span><strong>확장 진단</strong><p>서로 다른 세 표의 문제를 개별 판단합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에는 CSV, DataFrame 구조, 자료형, 결측값, 여섯 단계 점검, 3교시 결과물 계약까지 진행합니다. 모든 확인이 빠르게 끝난 경우에만 <strong>50-60분 확장</strong>에서 구조가 다른 세 표를 진단합니다. 이번 시간에는 시각화와 통계 계산보다 데이터의 구조와 맥락 확인에 집중합니다.</p>
+      </div>
+
+      <h2 id="recall">0-5분 · 1교시의 언어를 표의 위치로 연결하기</h2>
+
+      <p>1교시에는 “한 번의 창작 활동”을 <strong>관찰 단위</strong>로 정하고, 활동 종류·지속 시간·집중도처럼 매번 같은 기준으로 묻는 항목을 <strong>변수</strong>라고 했습니다. 표에서는 한 관찰 단위가 주로 <strong>한 행</strong>을 차지하고, 변수는 주로 <strong>한 열</strong>을 차지합니다. 실제 관찰에서 얻은 값은 행과 열이 만나는 셀에 들어갑니다.</p>
+
+      <div class="callout callout-success">
+        <p class="callout-title">오늘 계속 사용할 변환 문장</p>
+        <p><strong>한 번의 관찰 → 한 행, 반복해서 묻는 항목 → 한 열, 실제로 기록된 내용 → 한 값</strong></p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 손가락 확인 · 60초</span>
+        <h3>한 행과 한 열 가리키기</h3>
+        <p>아래에 제공되는 DataFrame 도해에서 “2026-05-06의 한 행”과 “duration_min의 한 열”을 각각 찾습니다. 아직 코드를 읽지 않아도 됩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 한 행은 언제나 한 사람을 뜻하는가?</summary>
+        <div class="details-motion-content"><p>아닙니다. 한 행은 데이터셋이 정한 관찰 단위 하나를 뜻합니다. 사람 한 명일 수도 있고, 한 번의 활동, 한 작품, 한 날짜, 한 지역일 수도 있습니다. 따라서 표를 읽기 전에 관찰 단위를 먼저 확인해야 합니다.</p></div>
+      </details>
+
+      <h2 id="csv">5-14분 · CSV는 쉼표로 값을 구분한 텍스트 파일이다</h2>
+
+      <p><strong>CSV</strong>는 Comma-Separated Values의 약자로, 값을 <strong>쉼표</strong>로 구분해 저장하는 <strong>텍스트 파일</strong> 형식입니다. 스프레드시트처럼 칸이 보이는 화면이 파일 안에 저장되는 것이 아니라, 줄바꿈과 구분 기호로 표의 구조를 표현합니다.</p>
+
+      <pre><code>record_id,date,activity,duration_min,focus_level
+1,2026-05-04,sketch,35,3
+2,2026-05-05,coding,55,4
+3,2026-05-06,reading,25,2</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>CSV의 문자와 표 구조 연결</caption>
+          <thead><tr><th scope="col">CSV에서 보이는 것</th><th scope="col">표에서의 의미</th><th scope="col">위 예시</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">첫 줄</th><td>열 이름을 적은 헤더</td><td><code>record_id,date,...</code></td></tr>
+            <tr><th scope="row">쉼표</th><td>한 줄 안의 값을 나누는 구분자</td><td><code>1</code>과 <code>2026-05-04</code> 사이</td></tr>
+            <tr><th scope="row">줄바꿈</th><td>한 관찰과 다음 관찰을 나누는 경계</td><td>기록 1, 2, 3</td></tr>
+            <tr><th scope="row">빈 자리</th><td>기록되지 않은 값일 가능성</td><td><code>...,55,,coding</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>CSV는 단순해서 여러 프로그램이 읽을 수 있지만, 파일 자체가 모든 의미를 설명하지는 않습니다. <code>duration_min</code>이 분 단위인지, <code>focus_level</code>의 범위가 1~5인지, 누가 언제 기록했는지는 별도의 메타데이터가 필요합니다.</p>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-09-creative-activity.csv" download>
+          <span>Sample data</span>
+          <strong>창작 활동 기록 CSV 내려받기</strong>
+          <small>개인 식별 정보 없이 24회의 활동과 10개 열을 담은 3교시 수업용 자료</small>
+        </a>
+        <a class="inline-resource-card" href="https://data.seoul.go.kr/" target="_blank" rel="noopener noreferrer">
+          <span>Official data portal</span>
+          <strong>서울 열린데이터광장 살펴보기 ↗</strong>
+          <small>공공데이터의 제목, 제공 기관, 갱신 주기, 이용 조건을 함께 확인하는 사례</small>
+        </a>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">CSV를 Excel에서 열면 Excel 파일이 되는가?</summary>
+        <div class="details-motion-content"><p>열어 보는 프로그램이 Excel일 뿐 원본 파일 형식은 여전히 CSV입니다. 여러 시트, 셀 색상, 수식 같은 Excel 전용 기능은 CSV에 보존되지 않습니다. 저장할 때 확장자와 형식을 확인해야 합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">값 안에 쉼표가 있으면 열이 잘못 나뉘는가?</summary>
+        <div class="details-motion-content"><p>표준 CSV에서는 쉼표가 포함된 값을 큰따옴표로 감쌀 수 있습니다. 예를 들어 <code>"sketch, color study"</code>는 하나의 값으로 읽힙니다. 수업에서는 pandas가 이 규칙을 처리하므로 임의로 문자열을 나누지 않습니다.</p></div>
+      </details>
+
+      <h2 id="dataframe">14-25분 · DataFrame은 Python 안의 2차원 표다</h2>
+
+      <p><strong>DataFrame</strong>은 pandas가 Python 안에서 다루는 <strong>2차원 표</strong> 형태의 객체입니다. CSV가 저장 공간에 있는 파일이라면 DataFrame은 그 파일을 읽어 현재 실행 중인 Python의 작업 공간에 펼쳐 놓은 표에 가깝습니다.</p>
+
+      <pre><code>import pandas as pd
+
+source_path = "week-09-creative-activity.csv"
+df = pd.read_csv(source_path)</code></pre>
+
+      <p><code>pd.read_csv(source_path)</code>는 경로에 있는 CSV를 읽어 DataFrame을 만들고, 등호 왼쪽의 <code>df</code>가 그 객체를 가리키게 합니다. 이 코드는 원본 CSV의 내용을 바꾸지 않습니다. 파일을 읽어 메모리에 표 형태로 준비하는 단계입니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="dataframe-anatomy-caption">
+        <img src="assets/week-09-dataframe-anatomy.png" width="1440" height="900" loading="eager" decoding="async" alt="DataFrame 표에서 헤더, 왼쪽 인덱스, 가로 한 행, 세로 한 열, NA 결측값을 색 테두리로 표시한 구조 도해">
+        <figcaption id="dataframe-anatomy-caption">헤더는 열의 이름, 인덱스는 DataFrame 안에서 행을 가리키는 표지입니다. 행과 열이 만나는 한 칸이 셀이며, 셀 안에는 값 또는 결측값이 들어갑니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <caption>DataFrame을 이루는 다섯 요소</caption>
+          <thead><tr><th scope="col">요소</th><th scope="col">역할</th><th scope="col">주의할 점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">행</th><td>관찰 단위 하나의 기록</td><td>모든 행은 같은 변수 구조를 따라야 함</td></tr>
+            <tr><th scope="row">열</th><td>반복해서 기록한 변수 하나</td><td>한 열의 값은 가능한 한 같은 의미와 단위를 가져야 함</td></tr>
+            <tr><th scope="row">헤더</th><td>열의 이름</td><td>값이 아니라 구조를 설명하는 이름</td></tr>
+            <tr><th scope="row">인덱스</th><td>DataFrame 안에서 행을 찾는 표지</td><td>원본의 <code>record_id</code> 열과 자동 인덱스는 별개일 수 있음</td></tr>
+            <tr><th scope="row">셀</th><td>행과 열이 만나는 한 칸</td><td>하나의 일관된 값 또는 결측값을 담음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 인덱스 0과 record_id 1이 다른 이유는 무엇인가?</summary>
+        <div class="details-motion-content"><p>pandas는 CSV를 읽을 때 기본적으로 0부터 시작하는 인덱스를 새로 만듭니다. <code>record_id</code>는 원본 데이터에 이미 있던 식별 열입니다. 둘이 우연히 비슷해 보여도 역할이 다르므로 구분해서 읽습니다.</p></div>
+      </details>
+
+      <h2 id="types-and-missing">25-35분 · 자료형과 결측값은 값의 의미를 제한한다</h2>
+
+      <p>컴퓨터는 모든 값을 같은 방식으로 다루지 않습니다. 더하거나 평균을 낼 수 있는 수치, 몇 가지 이름으로 분류하는 범주, 자유롭게 적은 문자열, 시간 순서를 가진 날짜는 서로 다른 연산을 요구합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>수업용 CSV에서 예상하는 자료형</caption>
+          <thead><tr><th scope="col">의미상 자료형</th><th scope="col">열 예시</th><th scope="col">값 예시</th><th scope="col">가능한 질문</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">수치</th><td><code>duration_min</code>, <code>focus_level</code></td><td>55, 4</td><td>가장 긴 활동은 무엇인가?</td></tr>
+            <tr><th scope="row">범주</th><td><code>activity</code>, <code>location_type</code></td><td>coding, school</td><td>각 활동은 몇 번 기록되었는가?</td></tr>
+            <tr><th scope="row">문자열</th><td><code>note</code></td><td>fixed small bug</td><td>어떤 메모가 남아 있는가?</td></tr>
+            <tr><th scope="row">날짜</th><td><code>date</code></td><td>2026-05-05</td><td>기록 기간은 언제부터 언제까지인가?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>CSV에는 자료형 정보가 별도로 저장되지 않으므로 pandas가 값을 보고 자료형을 추론합니다. 날짜처럼 보이는 값이 처음에는 일반 문자열인 <code>object</code>로 읽힐 수 있고, 숫자 열에 빈 값이 있으면 정수 대신 실수형으로 읽힐 수 있습니다. <code>dtypes</code>는 “무엇으로 보여야 하는가?”가 아니라 “현재 pandas가 무엇으로 읽었는가?”를 보여 줍니다.</p>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">결측값은 숫자 0과 같지 않다</p>
+        <p><strong>0</strong>은 측정 결과가 영이라는 실제 값입니다. <strong>결측값</strong>은 기록하지 않았거나 알 수 없음을 뜻합니다. 집중도 0을 “집중하지 못함”으로 정의했다면 값이지만, 빈 셀은 그날 집중도를 기록하지 않았다는 뜻입니다. 이유를 모른 채 빈칸을 0으로 바꾸면 데이터의 의미가 달라집니다.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>비어 보이는 값 세 가지 구분</caption>
+          <thead><tr><th scope="col">표현</th><th scope="col">가능한 뜻</th><th scope="col">바로 0으로 바꿔도 되는가?</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>NaN</code> 또는 <code>NA</code></th><td>pandas가 인식한 결측값</td><td>아니요. 누락 이유와 변수의 의미를 먼저 확인</td></tr>
+            <tr><th scope="row"><code>0</code></th><td>측정되거나 기록된 영</td><td>이미 하나의 값이므로 결측과 구분</td></tr>
+            <tr><th scope="row"><code>""</code></th><td>길이가 0인 문자열 또는 빈 입력</td><td>파일을 읽는 설정에 따라 결측으로 처리될 수 있음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: <code>focus_level</code>이 <code>float64</code>이면 집중도는 소수로 측정했다는 뜻인가?</summary>
+        <div class="details-motion-content"><p>반드시 그렇지는 않습니다. 원래 1~5 정수 척도여도 결측값을 함께 표현하기 위해 pandas가 실수형으로 읽을 수 있습니다. 자료형 출력만 보지 말고 실제 값과 결측값의 존재를 함께 확인해야 합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 날짜가 <code>object</code>이면 잘못된 데이터인가?</summary>
+        <div class="details-motion-content"><p>데이터가 틀렸다는 뜻은 아닙니다. 현재 문자열처럼 읽혔다는 뜻입니다. 10주차에 필요하면 날짜형으로 변환하지만, 이번 주에는 값의 형식이 일관적인지와 기록 기간이 무엇인지 먼저 읽습니다.</p></div>
+      </details>
+
+      <h2 id="inspection">35-44분 · 계산 전 여섯 단계로 구조 점검하기</h2>
+
+      <p>처음 받은 데이터는 아래 순서로 점검합니다. <code>pd.read_csv()</code>로 불러오고, <code>head()</code>, <code>shape</code>, <code>columns</code>, <code>dtypes</code>, <code>isna().sum()</code>을 차례대로 봅니다. 한꺼번에 긴 출력 하나를 만드는 대신 각 질문에 맞는 작은 출력을 읽습니다.</p>
+
+      <pre><code>import pandas as pd
+
+df = pd.read_csv(source_path)   # 1. 파일을 DataFrame으로 읽기
+df.head()                       # 2. 앞부분의 값과 배치 보기
+df.shape                        # 3. 행 수와 열 수 보기
+df.columns.tolist()             # 4. 정확한 열 이름 보기
+df.dtypes                       # 5. pandas가 읽은 자료형 보기
+df.isna().sum()                 # 6. 열마다 결측값 개수 보기</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>여섯 출력에서 답할 수 있는 질문</caption>
+          <thead><tr><th scope="col">코드</th><th scope="col">읽는 질문</th><th scope="col">수업용 CSV의 예상</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>pd.read_csv()</code></th><td>파일을 정상적으로 읽었는가?</td><td><code>df</code>가 생성됨</td></tr>
+            <tr><th scope="row"><code>head()</code></th><td>첫 행들과 값의 형태는 어떠한가?</td><td>기본 5행</td></tr>
+            <tr><th scope="row"><code>shape</code></th><td>행과 열은 각각 몇 개인가?</td><td><code>(24, 10)</code></td></tr>
+            <tr><th scope="row"><code>columns</code></th><td>열 이름의 철자와 순서는 무엇인가?</td><td>10개 이름</td></tr>
+            <tr><th scope="row"><code>dtypes</code></th><td>각 열을 현재 어떤 자료형으로 읽었는가?</td><td>수치형과 object가 함께 있음</td></tr>
+            <tr><th scope="row"><code>isna().sum()</code></th><td>어느 열에 빈 값이 몇 개인가?</td><td>일부 열에서 0보다 큼</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>shape</code>의 결과는 항상 <strong>(행 수, 열 수)</strong> 순서입니다. <code>(24, 10)</code>은 24열이 아니라 24행과 10열입니다. 괄호가 함수 호출처럼 보여도 <code>df.shape</code>에는 뒤에 괄호를 붙이지 않습니다. <code>shape</code>, <code>columns</code>, <code>dtypes</code>는 현재 객체의 상태를 담은 속성이고, <code>head()</code>와 <code>isna()</code>, <code>sum()</code>은 실행하는 메서드입니다.</p>
+
+      <div class="callout callout-info">
+        <p class="callout-title">공식 문서에서 코드 읽는 법</p>
+        <p><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas <code>read_csv</code> 공식 문서 ↗</a>에는 매우 많은 선택 항목이 있습니다. 처음부터 전부 외우지 않습니다. 이번 주에는 첫 번째 입력인 파일 경로와 반환 결과가 DataFrame이라는 점만 확인합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: <code>head()</code>에 문제가 없으면 전체 데이터도 문제없는가?</summary>
+        <div class="details-motion-content"><p>아닙니다. <code>head()</code>는 앞부분만 보여 줍니다. 파일이 올바르게 열렸는지 빠르게 확인하는 데 유용하지만, 뒤쪽의 결측값이나 형식 오류까지 보장하지 않습니다. 그래서 <code>shape</code>, <code>dtypes</code>, <code>isna().sum()</code>을 함께 봅니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">오류: <code>FileNotFoundError</code>가 나오면 무엇부터 확인하는가?</summary>
+        <div class="details-motion-content"><p>코드를 바꾸기 전에 Colab 왼쪽 파일 패널에서 CSV가 실제로 업로드되었는지, 파일명의 대소문자·띄어쓰기·확장자가 <code>source_path</code>와 정확히 같은지 확인합니다. 오류는 데이터 내용이 아니라 경로를 찾지 못했다는 뜻입니다.</p></div>
+      </details>
+
+      <h2 id="mission-contract">44-50분 · 3교시 고정 미션 계약</h2>
+
+      <p>3교시의 결과물은 그래프가 아닙니다. <strong>데이터를 바꾸거나 시각화하기 전에 무엇을 담고 있는지 설명하는 데이터 읽기 카드 HTML</strong>입니다. 노트북이 CSV를 읽고 카드 파일을 자동 생성하며, 학생은 데이터의 맥락과 질문, 실제 행·열·값의 의미를 자신의 문장으로 채웁니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="reading-card-caption">
+        <img src="assets/week-09-data-reading-card-example.png" width="1200" height="900" loading="lazy" decoding="async" alt="24행 10열, 관찰 단위, 기간, 주요 열, 답할 수 있는 질문과 아직 답할 수 없는 질문이 정리된 데이터 읽기 카드 예시">
+        <figcaption id="reading-card-caption">완성 예시입니다. 결과물은 데이터의 크기와 구조, 맥락, 가능한 질문과 한계를 한 화면에서 읽게 합니다. 같은 디자인을 복제하는 것이 아니라 자신의 데이터 설명을 정확히 작성하는 것이 목표입니다.</figcaption>
+      </figure>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-09-data-reading-card-example.html" target="_blank">
+          <span>Example output</span>
+          <strong>데이터 읽기 카드 HTML 열기</strong>
+          <small>브라우저에서 실제 제출 형태와 포함 정보를 확인합니다.</small>
+        </a>
+        <a class="inline-resource-card" href="assets/week-09-creative-activity.csv" download>
+          <span>Source data</span>
+          <strong>수업용 CSV 내려받기</strong>
+          <small>24행과 10열, 수치·범주·문자열·날짜 및 일부 결측값을 포함합니다.</small>
+        </a>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>3교시 제출물과 각각의 역할</caption>
+          <thead><tr><th scope="col">제출물</th><th scope="col">보여 주는 것</th><th scope="col">파일명</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Colab 노트북</th><td>CSV를 불러오고 구조를 검사한 실행 과정</td><td><code>week09_학번_이름.ipynb</code></td></tr>
+            <tr><th scope="row">데이터 읽기 카드</th><td>구조, 맥락, 질문, 한계를 정리한 독립 결과물</td><td><code>week09_학번_이름_data_reading_card.html</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">이번 주에 만들지 않는 것</p>
+        <p>평균 비교 그래프, 빈도 차트, 데이터 포스터는 아직 만들지 않습니다. 구조를 확인하지 않은 채 시각화하면 잘못 읽힌 자료형과 누락된 맥락을 그대로 확대할 수 있습니다. 10주차에 데이터를 정리하고, 11주차에 시각적 인코딩을 설계합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 카드의 “답할 수 없는 질문”은 실패를 적는 칸인가?</summary>
+        <div class="details-motion-content"><p>아닙니다. 현재 데이터의 범위를 정확히 이해했다는 증거입니다. 예를 들어 함께 작업한 사람이 누구인지 기록한 열이 없다면 “어떤 활동을 다른 사람과 함께했는가?”에는 답할 수 없습니다. 이를 밝히면 다음 수집에서 필요한 정보를 설계할 수 있습니다.</p></div>
+      </details>
+
+      <h2 id="extension">50-60분 · 확장: 구조가 다른 표 세 개 진단하기</h2>
+
+      <p>기본 학습을 모두 마친 경우에만 개별로 진행합니다. 각 사례에서 관찰 단위, 구조 문제, 먼저 확인할 코드를 한 가지씩 적습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>확장 진단용 세 사례</caption>
+          <thead><tr><th scope="col">사례</th><th scope="col">보이는 구조</th><th scope="col">진단 질문</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">A · 활동 기록</th><td>24행, 10열, 일부 빈 집중도</td><td>빈 값은 어느 열에 몇 개인가?</td></tr>
+            <tr><th scope="row">B · 전시 방문</th><td>열 이름 두 개가 <code>Unnamed</code>, 날짜가 여러 형식</td><td>첫 줄이 정말 헤더인가?</td></tr>
+            <tr><th scope="row">C · 색상 조사</th><td>한 셀에 <code>red/blue/yellow</code> 세 값</td><td>한 셀의 값이 어떤 단위를 나타내는가?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ol>
+        <li><code>head()</code>로 첫 행의 배치를 확인합니다.</li>
+        <li><code>shape</code>로 예상한 행·열 수와 맞는지 봅니다.</li>
+        <li><code>columns</code>로 이름이 빠지거나 밀리지 않았는지 봅니다.</li>
+        <li><code>dtypes</code>와 <code>isna().sum()</code>으로 자료형과 빈 값을 확인합니다.</li>
+        <li>지금 단계에서 알 수 없는 내용은 추측하지 않고 메타데이터 필요 항목으로 적습니다.</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <p class="callout-title">확장 활동의 완료 기준</p>
+        <p>세 사례 각각에 대해 “한 행이 무엇인지”, “가장 먼저 확인할 구조 문제”, “사용할 검사 코드”를 한 줄씩 적으면 완료입니다. 값을 직접 정리하는 작업은 10주차에 진행합니다.</p>
+      </div>
+
+      <h2 id="review">수업 후 개별 복습</h2>
+
+      <ol>
+        <li>CSV 파일과 DataFrame 객체의 차이를 “저장된 파일”과 “Python 안의 작업 표”라는 표현으로 설명합니다.</li>
+        <li><code>(24, 10)</code>을 24행 10열로 읽습니다.</li>
+        <li>인덱스와 원본의 식별자 열이 왜 다를 수 있는지 설명합니다.</li>
+        <li>결측값과 0을 바꾸어 쓰면 안 되는 이유를 예와 함께 적습니다.</li>
+        <li>여섯 단계 검사 코드를 파일 불러오기부터 결측값 확인까지 순서대로 적습니다.</li>
+      </ol>
+
+      <h2 id="references">공식 자료</h2>
+
+      <ul>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>read_csv</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>DataFrame.head</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/user_guide/10min.html" target="_blank" rel="noopener noreferrer">pandas User Guide — 10 minutes to pandas ↗</a></li>
+        <li><a href="https://data.seoul.go.kr/" target="_blank" rel="noopener noreferrer">서울 열린데이터광장 ↗</a></li>
+      </ul>
+    </article>
+
+    <aside class="toc" aria-label="이 페이지의 목차">
+      <p class="toc-title">On this page</p>
+      <a href="#recall">1교시 회상</a>
+      <a href="#csv">CSV</a>
+      <a href="#dataframe">DataFrame 구조</a>
+      <a href="#types-and-missing">자료형과 결측값</a>
+      <a href="#inspection">여섯 단계 점검</a>
+      <a href="#mission-contract">3교시 미션 계약</a>
+      <a href="#extension">50-60분 확장</a>
+      <a href="#review">개별 복습</a>
+      <a href="#references">공식 자료</a>
+    </aside>
+  </main>
+
+  <footer class="course-footer">
+    <a href="./">← Contents Programming Practice</a>
+    <span>Week 09 · Period 02</span>
+  </footer>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

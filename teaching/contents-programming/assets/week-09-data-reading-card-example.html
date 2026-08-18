@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Week 09 Data Reading Card Example</title>
+  <meta name="description" content="A sample data reading card that records a dataset's structure, context, answerable question, and missing information before visualization.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-09-data-reading-card-example.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="Week 09 Data Reading Card Example">
+  <meta property="og:description" content="A sample card for reading a dataset's structure, context, questions, and limits before visualization.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-09-data-reading-card-example.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Week 09 Data Reading Card Example">
+  <meta name="twitter:description" content="A sample card for reading a dataset before visualization.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <style>
+    :root { color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#db5b4a; --line:#aaa69b; }
+    * { box-sizing:border-box; }
+    body { margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }
+    .skip-link { position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }
+    .skip-link:focus { top:12px; }
+    main { max-width:980px; margin:auto; border:3px solid var(--ink); background:var(--panel); padding:38px; }
+    .kicker { color:var(--coral); font-weight:800; letter-spacing:.12em; }
+    h1 { margin:.25rem 0 1rem; font-size:clamp(2rem,6vw,4.6rem); line-height:.95; }
+    .meta { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+    .meta div { background:var(--panel); padding:18px; }
+    .meta span,.question span { display:block; color:var(--teal); font-size:.78rem; font-weight:800; letter-spacing:.08em; margin-bottom:6px; }
+    .columns { display:flex; flex-wrap:wrap; gap:8px; margin:22px 0; }
+    .columns code { border:1px solid var(--ink); background:white; padding:8px 10px; }
+    .questions { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .question { border:2px solid var(--ink); padding:20px; min-height:140px; }
+    .question.missing { border-color:var(--coral); }
+    footer { margin-top:24px; padding-top:16px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; font-weight:800; }
+    @media (max-width:720px) { body{padding:16px} .meta,.questions{grid-template-columns:1fr} main{padding:24px} }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <main id="main-content">
+    <p class="kicker">DATA READING CARD / WEEK 09</p>
+    <h1>Creative Activity Log</h1>
+    <div class="meta">
+      <div><span>SIZE</span><strong>24 rows × 10 columns</strong></div>
+      <div><span>OBSERVATION UNIT</span><strong>one creative session</strong></div>
+      <div><span>TIME RANGE</span><strong>2026-05-04 — 2026-05-27</strong></div>
+      <div><span>SOURCE</span><strong>course-provided sample</strong></div>
+      <div><span>USE</span><strong>course use / provided asset</strong></div>
+      <div><span>MISSING</span><strong>focus 2 / mood_after 1</strong></div>
+    </div>
+    <div class="columns"><code>record_id</code><code>date</code><code>activity</code><code>duration_min</code><code>focus_level</code><code>mood_before</code><code>mood_after</code><code>location_type</code><code>used_reference</code><code>note</code></div>
+    <div class="questions">
+      <section class="question">
+        <span>ANSWERABLE QUESTION</span>
+        <strong>How does average duration differ by activity?</strong>
+        <p>Needed columns: activity + duration_min</p>
+      </section>
+      <section class="question missing">
+        <span>NOT ANSWERABLE YET</span>
+        <strong>Which sessions included another person?</strong>
+        <p>No collaborator column was recorded.</p>
+      </section>
+    </div>
+    <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
+  </main>
+</body>
+</html>
