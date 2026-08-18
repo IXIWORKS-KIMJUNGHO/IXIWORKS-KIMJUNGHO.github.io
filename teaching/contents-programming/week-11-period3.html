@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>11주차 3교시: 데이터 포스터 미션 | Contents Programming Practice</title>
+  <meta name="description" content="정제된 공공문화시설 데이터로 범주별 가로 막대그래프와 좌표 산점도를 만들고, 질문·관찰·한계·출처를 갖춘 1600×2200 데이터 포스터를 완성하는 목표 달성형 개인 실습입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="11주차 3교시: 데이터 포스터 미션 | Contents Programming Practice">
+  <meta property="og:description" content="두 그래프와 해석을 한 장에 구성하고 자동 검사 PASS 후 두 파일을 제출하는 개인 실습입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-11-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-data-poster-example.png">
+  <meta property="og:image:alt" content="범주별 가로 막대그래프와 시설 좌표 산점도, 관찰과 한계를 세로로 배치한 데이터 포스터 예시">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="11주차 3교시: 데이터 포스터 미션">
+  <meta name="twitter:description" content="자동 검사 PASS와 두 파일 제출을 완료하면 즉시 귀가하는 데이터 포스터 실습입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-11-data-poster-example.png">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-11-period2.html" rel="prev" aria-label="이전 자료: 11주차 2교시: Matplotlib·Seaborn으로 그래프와 포스터 구성하기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="./#week-12" rel="next" aria-label="다음 주차: 12주차 수업 개요 | Contents Programming Practice"><span class="sequence-label">Next Week</span> →</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Goal-based Lab / Compare / Locate / Explain / Verify</p>
+        <h1>11주차 3교시: 데이터 포스터 미션</h1>
+        <p class="lead">정제된 데이터의 범주별 합계와 시설 위치를 서로 다른 그래프로 표현하고, 두 그래프가 말하는 사실과 말할 수 없는 한계를 한 장의 포스터로 완성합니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 11</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">UP TO 50 MIN</span>
+          <span class="hero-chip">INDIVIDUAL</span>
+          <span class="hero-chip">PASS &amp; LEAVE</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Mission Spec</p>
+        <div class="meta-row"><span class="meta-key">입력</span><span class="meta-value">정제된 시설 데이터 24행</span></div>
+        <div class="meta-row"><span class="meta-key">그래프</span><span class="meta-value">가로 막대 1개 + 좌표 산점도 1개</span></div>
+        <div class="meta-row"><span class="meta-key">편집</span><span class="meta-value">STEP 1 + STEP 5</span></div>
+        <div class="meta-row"><span class="meta-key">출력</span><span class="meta-value">1600 × 2200 PNG</span></div>
+        <div class="meta-row"><span class="meta-key">제출</span><span class="meta-value">.ipynb + .png</span></div>
+        <div class="meta-row"><span class="meta-key">귀가 조건</span><span class="meta-value">PASS + 두 파일 제출 확인</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">데이터에서 확인한 사실을 두 그래프와 세 문장으로 증명하기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 실습 목표</p>
+        <ul>
+          <li>정제 CSV의 24행과 세 범주가 그대로 유지되었는지 확인할 수 있습니다.</li>
+          <li>범주별 프로그램 수 합계를 막대 3개로 정확하게 비교할 수 있습니다.</li>
+          <li>시설 24곳을 경도와 위도에 따라 점 24개로 배치할 수 있습니다.</li>
+          <li>범주를 색상과 표식 모양으로 중복 표현하고, 프로그램 수를 점의 크기로 나타낼 수 있습니다.</li>
+          <li>질문형 제목, 관찰 문장, 해석의 한계, 데이터 출처와 기준일을 한 장의 읽기 순서로 구성할 수 있습니다.</li>
+          <li>새 런타임의 모두 실행에서 자동 검사 PASS를 받고 노트북과 포스터를 제출할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="goal-contract" role="group" aria-labelledby="goal-contract-title">
+        <div>
+          <span class="visual-label">목표 달성형 개인 실습</span>
+          <h2 id="goal-contract-title">자동 검사 PASS + 두 파일 제출 = 즉시 귀가</h2>
+          <p>0-5분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 마지막 셀의 완료 문구를 확인하고, 실행 결과가 남은 노트북과 열리는 포스터 PNG를 제출한 학생은 수업 종료 시각을 기다리지 않고 귀가할 수 있습니다.</p>
+        </div>
+        <p class="goal-contract-note"><strong>속도는 평가 기준이 아닙니다.</strong> 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다. 빠른 제출보다 데이터 보존, 정확한 그래프, 근거가 있는 관찰과 한계를 모두 증명하는 것이 중요합니다.</p>
+      </div>
+
+      <ol class="mission-route" aria-label="실습 완료 경로">
+        <li><span>01</span><strong>준비</strong><small>사본 저장과 파일명</small></li>
+        <li><span>02</span><strong>기준 실행</strong><small>전체 구조 확인</small></li>
+        <li><span>03</span><strong>편집</strong><small>정보·제목·색상</small></li>
+        <li><span>04</span><strong>검증</strong><small>24행과 합계</small></li>
+        <li><span>05</span><strong>표현</strong><small>막대 3개·점 24개</small></li>
+        <li><span>06</span><strong>설명</strong><small>관찰과 한계</small></li>
+        <li><span>07</span><strong>저장</strong><small>1600 × 2200 PNG</small></li>
+        <li><span>08</span><strong>재실행</strong><small>자동 검사 PASS</small></li>
+        <li><span>09</span><strong>제출</strong><small>두 파일 확인</small></li>
+      </ol>
+
+      <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
+        <div>
+          <p class="exit-gate-label">EXIT GATE</p>
+          <h2 id="exit-gate-title">완료 문구 + 실행 결과가 있는 노트북 + 열리는 포스터</h2>
+          <p>자동 검사는 필수 구조와 데이터 정확성을 확인합니다. 교수는 제출함에서 두 파일의 이름, 실행 결과와 포스터의 실제 가독성을 확인합니다.</p>
+        </div>
+        <strong>WEEK 11 DATA POSTER COMPLETE</strong>
+      </div>
+
+      <h2 id="outputs">먼저 확인할 자료와 최종 결과물</h2>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-11-data-poster-mission.ipynb" download>
+          <span class="resource-kicker">START HERE · COLAB</span>
+          <strong>실습 노트북 내려받기</strong>
+          <small>week-11-data-poster-mission.ipynb</small>
+          <span class="resource-action">DOWNLOAD .IPYNB ↓</span>
+        </a>
+        <a class="inline-resource-card" href="assets/week-11-public-facilities-clean.csv" download>
+          <span class="resource-kicker">REFERENCE DATA</span>
+          <strong>정제 CSV 내려받기</strong>
+          <small>week-11-public-facilities-clean.csv</small>
+          <span class="resource-action">DOWNLOAD .CSV ↓</span>
+        </a>
+        <a class="inline-resource-card" href="assets/week-11-data-poster-example.png" download>
+          <span class="resource-kicker">OUTPUT PREVIEW</span>
+          <strong>완성 예시 크게 보기</strong>
+          <small>week-11-data-poster-example.png</small>
+          <span class="resource-action">OPEN .PNG ↗</span>
+        </a>
+      </div>
+
+      <p>노트북 안에는 같은 정제 CSV가 포함되어 있으므로 Colab에서 별도로 업로드하지 않아도 됩니다. CSV는 표의 구조를 직접 확인하려는 학생을 위한 참고 파일입니다. 완성 예시는 복제할 정답이 아니라 <strong>제목 → 비교 그래프 → 공간 그래프 → 관찰 → 한계 → 출처</strong>의 읽기 순서를 확인하는 자료입니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="poster-example-caption">
+        <img src="assets/week-11-data-poster-example.png" width="1600" height="2200" loading="eager" decoding="async" alt="질문형 제목, 범주별 프로그램 수 합계 막대그래프, 24개 시설 좌표 산점도, 핵심 관찰, 해석의 한계와 데이터 출처가 위에서 아래로 배치된 데이터 포스터 예시">
+        <figcaption id="poster-example-caption">완성 예시는 장식보다 읽기 순서를 우선합니다. 위쪽에서는 질문과 범주별 합계를 읽고, 가운데에서는 24개 시설의 상대적 위치를 살핀 뒤, 아래쪽에서 관찰·한계·출처를 확인합니다.</figcaption>
+      </figure>
+
+      <div class="callout callout-info">
+        <p class="callout-title">예시의 숫자는 검증 기준이기도 합니다</p>
+        <p>정제 데이터는 <strong>24행</strong>이며 도서관 8개, 박물관 8개, 문화센터 8개로 구성됩니다. 프로그램 수 합계는 <strong>박물관 326</strong>, <strong>도서관 369</strong>, <strong>문화센터 400</strong>입니다. 결과가 다르면 디자인을 고치기 전에 데이터와 집계 과정을 먼저 확인합니다.</p>
+      </div>
+
+      <h2 id="completion-criteria">귀가 조건: 제출 전에 열두 가지 확인</h2>
+
+      <ol class="completion-criteria">
+        <li><span>01</span><p><strong>제출 정보</strong>학번과 이름이 실제 값이며 파일명에 사용할 수 있습니다.</p></li>
+        <li><span>02</span><p><strong>질문형 제목</strong>현재 열로 답할 수 있고 물음표로 끝나는 자신의 질문입니다.</p></li>
+        <li><span>03</span><p><strong>색상 규칙</strong>세 범주에 서로 다른 HEX 색상을 지정했습니다.</p></li>
+        <li><span>04</span><p><strong>원본 보존</strong>노트북이 제공한 CSV 내용과 출처 메타데이터를 바꾸지 않았습니다.</p></li>
+        <li><span>05</span><p><strong>데이터 구조</strong>24행, 범주 3개, 각 범주 8개가 확인됩니다.</p></li>
+        <li><span>06</span><p><strong>집계 정확성</strong>범주별 합계가 326, 369, 400과 일치합니다.</p></li>
+        <li><span>07</span><p><strong>비교 그래프</strong>0에서 시작하는 가로 막대 3개가 보입니다.</p></li>
+        <li><span>08</span><p><strong>공간 그래프</strong>경도·위도 위치에 점 24개가 보입니다.</p></li>
+        <li><span>09</span><p><strong>접근 가능한 구분</strong>범주를 색상과 표식 모양으로 함께 구분합니다.</p></li>
+        <li><span>10</span><p><strong>해석</strong>숫자가 포함된 관찰 문장과 자료의 해석의 한계를 작성했습니다.</p></li>
+        <li><span>11</span><p><strong>출력 규격</strong>포스터가 1600 × 2200 PNG로 저장됩니다.</p></li>
+        <li><span>12</span><p><strong>재현</strong>새 런타임에서 모두 실행한 뒤 완료 문구가 보입니다.</p></li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">자동 검사가 확인하는 범위</p>
+        <p><strong>자동 검사는 미적 취향을 채점하지 않는다</strong>는 점을 기억합니다. 자동 검사는 데이터 행 수, 합계, 그래프 요소 수, 색상 형식, 문장과 파일 규격을 확인합니다. 교수는 정보 위계와 글자 가독성을 별도로 확인합니다. 검사를 속이는 것보다 화면에서 실제로 읽히는 포스터를 만드는 것이 목표입니다.</p>
+      </div>
+
+      <h2 id="time-guide">50분 진행 기준</h2>
+
+      <ul class="session-grid session-grid-seven" aria-label="3교시 시간 구성">
+        <li><span class="session-label">0-5분</span><strong>미션 계약</strong><p>귀가 조건과 두 제출 파일을 확인합니다.</p></li>
+        <li><span class="session-label">5-12분</span><strong>준비·기준 실행</strong><p>사본을 저장하고 전체 셀을 한 번 실행합니다.</p></li>
+        <li><span class="session-label">12-22분</span><strong>정보·색상 편집</strong><p>학번, 이름, 제목과 세 HEX 색상을 바꿉니다.</p></li>
+        <li><span class="session-label">22-32분</span><strong>데이터·그래프 확인</strong><p>24행, 합계, 막대 3개와 점 24개를 확인합니다.</p></li>
+        <li><span class="session-label">32-41분</span><strong>관찰·한계 작성</strong><p>화면의 근거와 단정할 수 없는 내용을 씁니다.</p></li>
+        <li><span class="session-label">41-46분</span><strong>저장·육안 점검</strong><p>PNG를 열어 잘림과 가독성을 확인합니다.</p></li>
+        <li><span class="session-label">46-50분</span><strong>재실행·제출</strong><p>새 런타임 PASS 후 두 파일을 제출합니다.</p></li>
+      </ul>
+
+      <p>위 시간은 순서를 놓치지 않기 위한 기준입니다. 특정 구간이 빨리 끝나면 다음 단계로 이동합니다. 막힌 경우에는 아래의 접이식 문제 해결 항목을 먼저 확인하고, 그래도 해결되지 않을 때 교수에게 현재 STEP 번호와 오류 문장을 보여 줍니다.</p>
+
+      <h2 id="step-zero">STEP 0 · 노트북 사본 저장과 파일명 변경</h2>
+
+      <ol>
+        <li>실습 노트북을 내려받아 Google Colab에서 엽니다.</li>
+        <li><strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
+        <li>사본의 이름을 <code>week11_학번_이름.ipynb</code> 형식으로 바꿉니다.</li>
+        <li>상단에 자신의 Google 계정과 저장 완료 표시가 보이는지 확인합니다.</li>
+        <li>오늘 수정할 곳이 <strong>STEP 1</strong>과 <strong>STEP 5</strong>뿐인지 확인합니다.</li>
+      </ol>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 00</span>
+        <p>노트북 제목에 자신의 학번과 이름이 있고, 원본 파일이 아니라 Drive 사본을 편집하고 있습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">Colab에서 노트북이 열리지 않을 때</summary>
+        <div class="details-motion-content"><p><a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab</a>을 먼저 연 뒤 <strong>파일 → 노트북 업로드</strong>에서 내려받은 <code>.ipynb</code>를 선택합니다. 브라우저가 파일을 글자로 보여 주는 경우에는 새 탭에서 직접 열지 말고 Colab의 업로드 메뉴를 사용합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">사본 저장과 파일명 변경의 차이가 무엇인가?</summary>
+        <div class="details-motion-content"><p>사본 저장은 편집 가능한 자신의 파일을 만드는 일이고, 파일명 변경은 제출자를 식별할 이름을 붙이는 일입니다. 두 단계가 모두 필요합니다. 파일명에는 슬래시, 역슬래시, 물음표를 넣지 않습니다.</p></div>
+      </details>
+
+      <h2 id="step-one">STEP 1 · 기준 상태를 처음부터 끝까지 한 번 실행</h2>
+
+      <p>수정하기 전에 <strong>런타임 → 모두 실행</strong>을 선택합니다. 첫 실행에서는 필요한 라이브러리와 한글 글꼴을 준비하고, 노트북 안의 CSV를 파일로 만든 뒤, 기본 포스터와 자동 검사 결과를 보여 줍니다.</p>
+
+      <div class="output-preview">
+        <p><span>데이터</span><samp>24 rows · 3 categories · 8 / 8 / 8</samp></p>
+        <p><span>합계</span><samp>박물관 326 · 도서관 369 · 문화센터 400</samp></p>
+        <p><span>기본 검사</span><samp>EDIT 표시 때문에 일부 조건은 의도적으로 FAIL</samp></p>
+      </div>
+
+      <p>처음부터 PASS가 되는 것이 정상이 아닙니다. 학번·이름, 제목, 색상, 관찰과 한계에 기본 문장이 들어 있으므로 편집 조건은 실패해야 합니다. 다만 24행과 세 합계, 막대 3개와 점 24개가 출력되면 환경과 데이터는 정상입니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">설치 셀의 실행이 오래 걸릴 때</summary>
+        <div class="details-motion-content"><p>STEP 0은 pandas, Matplotlib, Seaborn 또는 한글 글꼴이 없을 때만 설치합니다. 완료 표시가 나타날 때까지 기다리고 다음 셀을 따로 실행하지 않습니다. 설치 후 세션을 다시 시작하라는 안내가 나타나면 다시 시작한 뒤 모두 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">한글이 네모로 보일 때</summary>
+        <div class="details-motion-content"><p>글꼴 설치가 끝난 뒤 이전에 그린 그림은 자동으로 바뀌지 않습니다. <strong>런타임 → 세션 다시 시작</strong> 후 <strong>모두 실행</strong>을 선택합니다. 그래도 문제가 있으면 STEP 0 출력의 선택된 글꼴 이름을 교수에게 보여 줍니다.</p></div>
+      </details>
+
+      <h2 id="step-two">STEP 2 · 제출 정보와 질문형 제목 작성</h2>
+
+      <p>STEP 1에서 <code>student_id</code>, <code>student_name</code>, <code>poster_title</code>을 수정합니다. 따옴표는 문자열의 경계이므로 지우지 않고 안쪽 내용만 바꿉니다.</p>
+
+      <pre><code>student_id = "20261234"
+student_name = "김포스터"
+poster_title = "프로그램 수 합계가 가장 큰 시설 범주는 무엇인가?"</code></pre>
+
+      <p>질문형 제목은 포스터를 읽는 방향을 결정합니다. 현재 데이터에는 시설 이름, 범주, 프로그램 수, 위도와 경도가 있습니다. 따라서 “가장 좋은 시설은 어디인가?”처럼 좋음의 기준이 없는 질문보다 “프로그램 수 합계가 가장 큰 시설 범주는 무엇인가?”처럼 실제 열과 계산으로 답할 수 있는 질문이 적절합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>질문형 제목의 적합성 비교</caption>
+          <thead><tr><th scope="col">제목</th><th scope="col">판정</th><th scope="col">이유</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">공공문화시설 데이터 포스터</th><td>수정 필요</td><td>주제는 있지만 무엇을 확인할지 알 수 없습니다.</td></tr>
+            <tr><th scope="row">가장 좋은 문화시설은 어디인가?</th><td>수정 필요</td><td>좋음을 판단할 이용자 만족도·접근성 자료가 없습니다.</td></tr>
+            <tr><th scope="row">프로그램 수 합계가 가장 큰 시설 범주는 무엇인가?</th><td>사용 가능</td><td><code>category</code>와 <code>program_count</code>로 답할 수 있습니다.</td></tr>
+            <tr><th scope="row">프로그램 수가 큰 시설은 좌표상 어디에 나타나는가?</th><td>사용 가능</td><td>점의 위치와 크기로 살펴볼 수 있습니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">학번과 이름 검사가 실패할 때</summary>
+        <div class="details-motion-content"><p><code>"학번"</code>과 <code>"이름"</code>이라는 기본값을 자신의 정보로 바꿉니다. 빈칸만 추가하거나 기본 단어를 포함한 채 숫자를 덧붙이면 통과하지 않습니다. 수정 뒤 STEP 1을 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">제목 검사에서 물음표 오류가 날 때</summary>
+        <div class="details-motion-content"><p>제목 끝에 <code>?</code> 또는 <code>？</code>를 넣고, <code>EDIT:</code> 표시를 삭제합니다. 제목은 단순히 길기만 한 문장이 아니라 범주, 프로그램 수, 위치처럼 현재 데이터로 확인할 대상을 포함해야 합니다.</p></div>
+      </details>
+
+      <h2 id="step-three">STEP 3 · 세 범주의 HEX 색상 정하기</h2>
+
+      <p>같은 STEP 1에서 <code>category_colors</code>의 세 값을 수정합니다. HEX 색상은 <code>#</code> 뒤에 0-9 또는 a-f로 이루어진 여섯 글자를 적는 방식입니다. 세 값은 서로 달라야 하며 범주 이름과 중괄호, 쉼표는 그대로 둡니다.</p>
+
+      <pre><code>category_colors = {
+    "도서관": "#177f78",
+    "박물관": "#b94b40",
+    "문화센터": "#365f91",
+}</code></pre>
+
+      <p>색상만으로 범주를 구분하면 색각 특성이나 흑백 출력에서 정보가 사라질 수 있습니다. 노트북은 같은 <code>category</code>를 색상과 표식 모양에 함께 연결합니다. 색상이 비슷하게 보이더라도 원·사각형·마름모의 차이로 범주를 다시 확인할 수 있습니다.</p>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 01</span>
+        <p>세 값이 모두 <code>#123abc</code>와 같은 형식이며, 서로 다른 HEX 색상입니다. 산점도 범례에서 세 범주가 색상과 표식 모양으로 구분됩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">HEX 색상 형식이 유효하지 않다고 나올 때</summary>
+        <div class="details-motion-content"><p><code>#</code>을 포함해 정확히 일곱 글자인지 확인합니다. 알파벳은 a부터 f까지만 사용할 수 있습니다. 예를 들어 <code>#177f78</code>은 가능하지만 <code>177f78</code>, <code>#17green</code>, <code>#1234</code>는 사용할 수 없습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">세 색상이 다른데도 구분이 어려울 때</summary>
+        <div class="details-motion-content"><p>색 이름이 아니라 밝기와 명도의 차이를 봅니다. 아주 밝은 색 세 개 또는 어두운 색 세 개만 고르지 말고, 완성 PNG를 화면에서 축소했을 때도 범주가 나뉘는지 확인합니다. 표식 모양과 범례도 함께 남겨 둡니다.</p></div>
+      </details>
+
+      <h2 id="step-four">STEP 4 · 24행과 범주별 합계 검증</h2>
+
+      <p>STEP 2와 STEP 3은 데이터를 읽고 검증한 뒤 집계표를 만듭니다. 이 셀은 수정하지 않습니다. 각 출력은 다음 그래프가 올바른 데이터를 사용하고 있다는 증거입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>그래프를 그리기 전 확인할 데이터 기준</caption>
+          <thead><tr><th scope="col">검사</th><th scope="col">기대 결과</th><th scope="col">그래프와의 연결</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">전체 행</th><td>24행</td><td>산점도의 점 24개와 일대일로 연결됩니다.</td></tr>
+            <tr><th scope="row">범주</th><td>도서관 8개 · 박물관 8개 · 문화센터 8개</td><td>색상·표식과 범례의 세 항목이 됩니다.</td></tr>
+            <tr><th scope="row">범주별 합계</th><td>박물관 326 · 도서관 369 · 문화센터 400</td><td>가로 막대 3개의 길이가 됩니다.</td></tr>
+            <tr><th scope="row">좌표</th><td>결측값 없는 위도·경도 24쌍</td><td>점 24개의 가로·세로 위치가 됩니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>이번 CSV는 10주차에 정제한 24행 구조를 이어받습니다. 10주차에는 한 행을 지도 마커 하나로 바꾸었다면, 이번에는 같은 한 행을 좌표 산점도의 점 하나로 바꿉니다. 동시에 <code>groupby()</code>로 24행을 세 범주의 합계로 요약하여 비교 그래프를 만듭니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">범주별 합계가 예시와 다를 때</summary>
+        <div class="details-motion-content"><p>CSV 셀이나 데이터 검증 셀을 수정했는지 확인합니다. 이번 실습에서는 원본 데이터와 집계 코드를 바꾸지 않습니다. Drive 사본을 새로 만든 뒤 STEP 1의 개인 정보·제목·색상만 다시 옮기면 원본 상태를 복구할 수 있습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">왜 각 범주 8개인데 합계는 서로 다른가?</summary>
+        <div class="details-motion-content"><p>시설 수는 범주마다 8개로 같지만 각 시설의 <code>program_count</code> 값이 다르기 때문입니다. 시설 수를 세는 <code>count()</code>와 프로그램 수를 더하는 <code>sum()</code>은 서로 다른 질문에 답합니다.</p></div>
+      </details>
+
+      <h2 id="step-five">STEP 5 · 막대 3개와 점 24개 읽기</h2>
+
+      <p>STEP 4는 Figure 한 장과 Axes 두 개를 만듭니다. 위쪽 가로 막대그래프는 세 범주의 프로그램 수 합계를 비교하고, 아래쪽 좌표 산점도는 시설 24곳의 상대적 위치와 프로그램 수를 보여 줍니다.</p>
+
+      <div class="type-grid" role="group" aria-label="가로 막대그래프와 좌표 산점도의 역할 비교">
+        <div class="type-card">
+          <p class="visual-label">COMPARISON</p>
+          <h3>가로 막대그래프</h3>
+          <p><strong>한 막대 = 한 범주</strong>입니다. 막대 길이는 프로그램 수 합계이며 축은 0에서 시작합니다. 세 범주의 순위와 차이를 읽는 데 사용합니다.</p>
+          <pre><code>sns.barplot(
+    data=category_summary,
+    x="program_count",
+    y="category",
+    errorbar=None,
+)</code></pre>
+        </div>
+        <div class="type-card">
+          <p class="visual-label">LOCATION</p>
+          <h3>좌표 산점도</h3>
+          <p><strong>한 점 = 한 시설</strong>입니다. 경도는 가로 위치, 위도는 세로 위치, 범주는 색상·표식, 프로그램 수는 점 크기에 연결됩니다.</p>
+          <pre><code>sns.scatterplot(
+    data=facility_df,
+    x="longitude",
+    y="latitude",
+    hue="category",
+    style="category",
+    size="program_count",
+)</code></pre>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">좌표 산점도를 관계 산점도로 해석하지 않기</p>
+        <p>점이 오른쪽 위에 있다는 사실은 해당 시설이 동쪽과 북쪽에 있다는 뜻입니다. 경도와 위도의 상관관계나 한 변수가 다른 변수의 원인이라는 뜻이 아닙니다. 점의 크기도 원의 면적을 정확한 숫자로 읽는 도구가 아니라 큰 값과 작은 값의 대략적인 차이를 살피는 보조 표현입니다.</p>
+      </div>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 02</span>
+        <p>위쪽에 0에서 시작하는 막대 3개, 아래쪽에 점 24개가 있으며 산점도 범례에 범주와 프로그램 수가 모두 설명되어 있습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">막대가 세 개보다 많거나 적을 때</summary>
+        <div class="details-motion-content"><p><code>category_summary</code> 출력이 세 행인지 확인합니다. 범주 이름의 띄어쓰기나 원본 CSV를 수정하면 같은 범주가 둘로 나뉠 수 있습니다. 데이터 셀을 고치지 말고 원본 노트북 사본으로 돌아갑니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">점이 겹쳐서 24개로 보이지 않을 때</summary>
+        <div class="details-motion-content"><p>가까운 좌표의 점은 일부 겹쳐 보일 수 있습니다. 이것은 곧 데이터가 빠졌다는 뜻이 아닙니다. STEP 3의 행 수 출력과 마지막 자동 검사의 <code>scatter point count: 24</code>를 함께 확인합니다. 임의로 좌표를 옮기지 않습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">범례가 그래프를 가릴 때</summary>
+        <div class="details-motion-content"><p>노트북은 범례 위치와 여백을 미리 설정합니다. Figure 크기나 Axes 배치를 수정하면 범례가 겹칠 수 있으므로 필수 실습에서는 해당 코드를 유지합니다. 저장 PNG에서도 가림이 계속되면 새 사본에서 STEP 1과 STEP 5만 다시 편집합니다.</p></div>
+      </details>
+
+      <h2 id="step-six">STEP 6 · 관찰 문장과 해석의 한계 작성</h2>
+
+      <p>STEP 5에서 <code>main_observation</code>과 <code>limitation_statement</code>를 수정합니다. 관찰은 그래프에서 직접 확인한 사실이고, 한계는 현재 자료만으로 답할 수 없는 내용을 밝히는 문장입니다. 두 문장 모두 <code>EDIT:</code>을 삭제하고 30자 이상으로 작성합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>관찰과 해석의 한계 구분</caption>
+          <thead><tr><th scope="col">문장</th><th scope="col">판정</th><th scope="col">이유</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">문화센터가 가장 좋다.</th><td>사용 불가</td><td>좋음을 판단하는 기준과 근거가 없습니다.</td></tr>
+            <tr><th scope="row">문화센터의 프로그램 수 합계는 400으로 세 범주 중 가장 크다.</th><td>관찰</td><td>막대그래프의 수치와 순위를 직접 확인했습니다.</td></tr>
+            <tr><th scope="row">동쪽의 큰 시설은 시민에게 더 유익하다.</th><td>사용 불가</td><td>위치는 보이지만 이용 효과 자료가 없습니다.</td></tr>
+            <tr><th scope="row">이 자료에는 이용자 수와 인구가 없어 서비스의 충분함은 판단할 수 없다.</th><td>한계</td><td>현재 자료에 없는 변수를 구체적으로 밝혔습니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <pre><code>main_observation = (
+    "문화센터의 프로그램 수 합계는 400으로 세 범주 중 가장 크며, "
+    "큰 점은 여러 좌표에 나뉘어 나타난다."
+)
+
+limitation_statement = (
+    "이 자료에는 이용자 수, 인구와 이동 시간이 없어 프로그램 수만으로 "
+    "문화 서비스의 충분함이나 접근성을 판단할 수 없다."
+)</code></pre>
+
+      <p>관찰 문장에는 <strong>박물관 326, 도서관 369, 문화센터 400</strong> 가운데 실제 합계 하나 이상을 포함합니다. 숫자를 넣는 이유는 문장을 길게 만들기 위해서가 아니라 어떤 막대를 근거로 읽었는지 분명히 하기 위해서입니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">관찰 문장이 너무 짧다고 나올 때</summary>
+        <div class="details-motion-content"><p>“문화센터가 가장 많다”에서 끝내지 말고 무엇이 얼마나 많은지 적습니다. 예를 들어 범주, 프로그램 수 합계 400, 세 범주 중 순위를 한 문장에 넣으면 근거가 분명해집니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">관찰에 숫자가 없다고 나올 때</summary>
+        <div class="details-motion-content"><p>임의의 숫자를 쓰지 말고 집계표에서 326, 369, 400 가운데 자신이 설명할 값을 선택합니다. 숫자와 함께 “프로그램 수 합계”라는 단위를 적으면 무엇을 셌는지도 명확해집니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">한계 문장에는 무엇을 써야 하는가?</summary>
+        <div class="details-motion-content"><p>현재 데이터에 없는 이용자 수, 인구, 운영 시간, 시설 면적, 이동 시간 가운데 하나를 고릅니다. 그 정보가 없어서 만족도, 접근성, 효율 또는 서비스의 충분함을 판단할 수 없다고 연결합니다.</p></div>
+      </details>
+
+      <h2 id="step-seven">STEP 7 · 1600 × 2200 PNG 저장과 육안 점검</h2>
+
+      <p>STEP 6을 실행하면 노트북이 Figure 전체를 PNG로 저장합니다. <code>figsize=(8, 11)</code>과 <code>dpi=200</code>을 곱하면 가로 1600픽셀, 세로 2200픽셀이 됩니다. 출력 파일명은 자동으로 <code>week11_학번_이름_data_poster.png</code> 형식이 됩니다.</p>
+
+      <div class="output-preview">
+        <p><span>노트북</span><samp>week11_학번_이름.ipynb</samp></p>
+        <p><span>포스터</span><samp>week11_학번_이름_data_poster.png · 1600 × 2200</samp></p>
+      </div>
+
+      <ol>
+        <li>Colab 왼쪽 파일 목록에서 생성된 PNG를 찾습니다.</li>
+        <li>파일을 두 번 눌러 미리보기로 엽니다.</li>
+        <li>질문형 제목이 한눈에 보이고 잘리지 않는지 확인합니다.</li>
+        <li>막대의 범주 이름·값, 산점도의 축·범례를 읽을 수 있는지 확인합니다.</li>
+        <li>관찰 문장, 해석의 한계, 데이터 출처와 기준일이 아래쪽에서 잘리지 않는지 확인합니다.</li>
+        <li>파일 메뉴에서 PNG를 다운로드한 뒤 컴퓨터에서도 한 번 엽니다.</li>
+      </ol>
+
+      <div class="callout callout-info">
+        <p class="callout-title">출처 표기에 포함된 정보</p>
+        <p>포스터 아래에는 수업용 가상 공공문화시설 데이터라는 <strong>데이터 출처</strong>, 이용 조건, <strong>기준일</strong>, 한 행이 무엇을 뜻하는지 설명하는 관찰 단위가 표시됩니다. 제공된 메타데이터는 삭제하거나 실제 공공기관의 실측 자료처럼 바꾸지 않습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">PNG 파일이 만들어지지 않을 때</summary>
+        <div class="details-motion-content"><p>STEP 6 셀의 왼쪽에 완료 표시가 있는지 확인합니다. 앞 단계에서 오류가 났다면 저장 코드까지 도달하지 못합니다. 가장 먼저 나타난 빨간 오류의 STEP으로 돌아가 수정한 뒤 STEP 6을 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">제목이나 문장이 잘릴 때</summary>
+        <div class="details-motion-content"><p>포스터 크기 코드를 바꾸기보다 제목과 문장을 간결하게 다듬습니다. 한 문장에 여러 주장을 넣지 말고, 관찰은 한 가지 수치 패턴에 집중합니다. 그래도 잘리면 수정한 셀부터 저장 셀까지 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">수정한 문장이 PNG에 반영되지 않을 때</summary>
+        <div class="details-motion-content"><p>STEP 5를 수정한 뒤 문장 셀과 포스터 생성·저장 셀을 다시 실행해야 합니다. 가장 안전한 방법은 모든 수정이 끝난 뒤 새 런타임에서 모두 실행하여 PNG를 새로 만드는 것입니다.</p></div>
+      </details>
+
+      <h2 id="step-eight">STEP 8 · 새 런타임 모두 실행과 FINAL CHECK</h2>
+
+      <ol>
+        <li>STEP 1과 STEP 5에 <code>EDIT:</code>이 남아 있지 않은지 확인합니다.</li>
+        <li><strong>런타임 → 세션 다시 시작</strong>을 선택해 새 런타임을 만듭니다.</li>
+        <li><strong>런타임 → 모두 실행</strong>을 한 번만 선택합니다.</li>
+        <li>여덟 코드 셀이 위에서 아래로 끝날 때까지 기다립니다.</li>
+        <li>마지막 FINAL CHECK의 확인 항목과 완료 문구를 읽습니다.</li>
+      </ol>
+
+      <div class="check-output" role="status" aria-labelledby="check-output-title">
+        <span class="visual-label">PASS OUTPUT</span>
+        <p id="check-output-title">✅ 새 런타임에서 STEP 0부터 여덟 셀 순서대로 실행<br>✅ 실제 학번·이름과 안전한 파일명<br>✅ 자신의 질문형 제목과 서로 다른 HEX 색상<br>✅ 제공 CSV와 출처 메타데이터 보존<br>✅ 24행·세 범주·각 범주 8개<br>✅ 박물관 326 · 도서관 369 · 문화센터 400<br>✅ 0에서 시작하는 막대 3개<br>✅ 색상·표식·크기가 있는 점 24개<br>✅ 근거 수치가 있는 관찰 문장과 해석의 한계<br>✅ 1600 × 2200 PNG 저장<br><strong>🎉 WEEK 11 DATA POSTER COMPLETE</strong></p>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">FINAL CHECK 코드는 수정하지 않는다</p>
+        <p>마지막 셀에는 아직 배우지 않은 검사 코드가 포함되어 있습니다. 직접 고칠 필요가 없습니다. 빨간 오류 문장을 읽고 STEP 1 또는 STEP 5의 값만 수정합니다. 데이터나 검사 코드를 바꾸어 PASS를 만들면 결과의 정확성을 증명할 수 없습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">실행 순서 검사만 실패할 때</summary>
+        <div class="details-motion-content"><p>중간 셀을 따로 다시 실행하면 실행 번호가 연속되지 않을 수 있습니다. 수정 내용을 저장하고 세션을 다시 시작한 뒤 <strong>모두 실행</strong>을 한 번만 선택합니다. 완료 전에는 개별 셀의 재생 버튼을 누르지 않습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">그래프 요소 수 검사만 실패할 때</summary>
+        <div class="details-motion-content"><p>필수 그래프 코드나 데이터 셀을 수정했을 가능성이 큽니다. 막대는 세 범주의 요약이므로 3개, 산점도는 시설 24행과 대응하므로 24개여야 합니다. 새 노트북 사본에 STEP 1과 STEP 5의 내용만 옮겨 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">완료 문구는 보이지만 제출해도 되는지 불안할 때</summary>
+        <div class="details-motion-content"><p>완료 문구는 필수 구조가 통과했다는 뜻입니다. 마지막으로 PNG를 직접 열어 글자 잘림, 범례 가림, 지나치게 비슷한 색상이 없는지 확인합니다. 자동 검사와 육안 점검을 모두 통과하면 제출합니다.</p></div>
+      </details>
+
+      <h2 id="submission">STEP 9 · 두 파일 제출 후 즉시 귀가</h2>
+
+      <div class="submission-strip" role="group" aria-label="제출 파일 두 개">
+        <span><small>SUBMIT 01</small><strong>week11_학번_이름.ipynb</strong></span>
+        <span><small>SUBMIT 02</small><strong>week11_학번_이름_data_poster.png</strong></span>
+      </div>
+
+      <ol>
+        <li>마지막 셀에 <strong>WEEK 11 DATA POSTER COMPLETE</strong>가 보이는지 확인합니다.</li>
+        <li><strong>파일 → 다운로드 → .ipynb 다운로드</strong>로 실행 결과가 포함된 노트북을 받습니다.</li>
+        <li>Colab 왼쪽 파일 목록에서 1600 × 2200 포스터 PNG를 다운로드합니다.</li>
+        <li>두 파일의 학번과 이름이 같고, 포스터가 실제로 열리는지 확인합니다.</li>
+        <li>제출함에 두 파일을 올리고 업로드 완료 상태를 교수에게 보여 줍니다.</li>
+        <li>제출 확인을 받으면 남은 시간과 관계없이 즉시 귀가합니다.</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <p class="callout-title">완료 판정</p>
+        <p>새 런타임 자동 검사 PASS, 실행 결과가 있는 노트북, 읽을 수 있는 데이터 포스터가 모두 확인되면 오늘의 필수 학습 목표를 달성했습니다. 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">노트북 다운로드 파일에 실행 결과가 없을 때</summary>
+        <div class="details-motion-content"><p>새 런타임 모두 실행이 끝난 뒤 Drive 저장 완료 표시를 기다립니다. 그 다음 Colab 메뉴에서 <code>.ipynb</code>를 내려받습니다. 실행 전의 원본 노트북이나 컴퓨터에 있던 이전 파일을 제출하지 않도록 수정 시간을 확인합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">제출함에 같은 이름의 파일이 이미 있을 때</summary>
+        <div class="details-motion-content"><p>컴퓨터에서 <code>(1)</code>이 붙은 최신 파일과 이전 파일을 혼동하지 않습니다. 두 파일을 열어 학번·이름, 질문과 완료 문구를 확인한 뒤 최신 결과만 제출합니다.</p></div>
+      </details>
+
+      <h2 id="optional">선택 확장 · 필수 제출을 마친 뒤에만</h2>
+
+      <p>아래 활동은 <strong>귀가 조건이 아니며 추가 점수도 없습니다</strong>. 통과한 두 파일을 먼저 제출하고 보존한 뒤, 더 살펴보고 싶은 학생만 노트북 사본에서 진행합니다.</p>
+
+      <ul>
+        <li>질문은 유지하고 세 색상의 명도 차이를 바꾸어 흑백 화면에서도 범주 순서가 읽히는지 비교합니다.</li>
+        <li>범주별 합계 옆에 시설 수 8개를 함께 적어 합계와 표본 수를 동시에 읽게 만듭니다.</li>
+        <li>좌표 산점도의 점 크기 범위를 좁혔을 때와 넓혔을 때 값 차이가 어떻게 과장되거나 약해지는지 관찰합니다.</li>
+        <li>같은 데이터로 시설당 평균 프로그램 수를 계산하되, 합계 질문과 평균 질문이 어떻게 다른지 별도 문장으로 설명합니다.</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">12주차 연결</p>
+        <p>11주차에는 수치와 좌표를 길이·위치·색상·크기로 번역했습니다. 12주차에는 텍스트를 정리하고 단어 빈도와 문장 패턴으로 바꾸는 과정을 다룹니다. 매체는 달라지지만 <strong>질문 설정 → 데이터 정리 → 표현 규칙 선택 → 관찰과 한계 작성</strong>이라는 작업 순서는 그대로 이어집니다.</p>
+      </div>
+
+      <h2 id="references">도움말과 공식 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer"><strong>Google Colab 공식 입문 노트북</strong></a><small>코드 셀 실행, Drive 사본 저장과 런타임 사용법</small></li>
+        <li><a href="https://matplotlib.org/stable/users/explain/axes/index.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서: Axes와 subplots</strong></a><small>Figure 안에서 실제 그래프를 그리는 Axes의 구조</small></li>
+        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서: savefig</strong></a><small>Figure를 PNG로 저장하는 함수와 DPI 설정</small></li>
+        <li><a href="https://seaborn.pydata.org/generated/seaborn.barplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서: barplot</strong></a><small>범주별 수치를 막대 길이로 표현하는 방법</small></li>
+        <li><a href="https://seaborn.pydata.org/generated/seaborn.scatterplot.html" target="_blank" rel="noopener noreferrer"><strong>Seaborn 공식 문서: scatterplot</strong></a><small>색상, 크기와 표식 모양을 데이터 변수에 연결하는 방법</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#goal-contract-title">목표 달성형 운영</a></li>
+        <li class="toc-level-2"><a href="#outputs">자료와 결과물</a></li>
+        <li class="toc-level-2"><a href="#completion-criteria">귀가 조건</a></li>
+        <li class="toc-level-2"><a href="#time-guide">50분 진행 기준</a></li>
+        <li class="toc-level-2"><a href="#step-zero">STEP 0 · 준비</a></li>
+        <li class="toc-level-2"><a href="#step-one">STEP 1 · 기준 실행</a></li>
+        <li class="toc-level-2"><a href="#step-two">STEP 2 · 제목</a></li>
+        <li class="toc-level-2"><a href="#step-three">STEP 3 · 색상</a></li>
+        <li class="toc-level-2"><a href="#step-four">STEP 4 · 데이터 검증</a></li>
+        <li class="toc-level-2"><a href="#step-five">STEP 5 · 그래프 읽기</a></li>
+        <li class="toc-level-2"><a href="#step-six">STEP 6 · 관찰과 한계</a></li>
+        <li class="toc-level-2"><a href="#step-seven">STEP 7 · 저장</a></li>
+        <li class="toc-level-2"><a href="#step-eight">STEP 8 · 자동 검사</a></li>
+        <li class="toc-level-2"><a href="#submission">STEP 9 · 제출과 귀가</a></li>
+        <li class="toc-level-2"><a href="#optional">선택 확장</a></li>
+        <li class="toc-level-2"><a href="#references">공식 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 11 · Period 03</p>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

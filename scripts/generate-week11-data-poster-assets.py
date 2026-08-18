@@ -1,0 +1,1132 @@
+#!/usr/bin/env python3
+"""Generate deterministic Week 11 data-poster teaching assets."""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import io
+import json
+from collections import defaultdict
+from dataclasses import dataclass
+from importlib.metadata import version
+from pathlib import Path
+from textwrap import dedent
+
+import matplotlib
+
+matplotlib.use("Agg")
+
+import matplotlib.pyplot as plt
+from matplotlib import font_manager
+from matplotlib.patches import Rectangle
+
+
+ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
+EXPECTED_MATPLOTLIB_VERSION = "3.10.8"
+
+PAPER = "#f3efe5"
+PANEL = "#fffdf8"
+INK = "#202523"
+MUTED = "#65706b"
+LINE = "#c7c8be"
+TEAL = "#177f78"
+CORAL = "#b94b40"
+BLUE = "#365f91"
+GOLD = "#b78916"
+PALE_TEAL = "#dcebe6"
+PALE_CORAL = "#f0ddd8"
+
+FONT_PATH = Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans.ttf"
+FONT_BOLD_PATH = (
+    Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans-Bold.ttf"
+)
+FONT = font_manager.FontProperties(fname=FONT_PATH)
+FONT_BOLD = font_manager.FontProperties(fname=FONT_BOLD_PATH)
+
+
+@dataclass(frozen=True)
+class Facility:
+    place_id: str
+    place_name: str
+    category: str
+    program_count: int
+    latitude: float
+    longitude: float
+
+
+FACILITIES = [
+    Facility("C001", "햇살도서관", "도서관", 48, 37.5665, 126.9780),
+    Facility("C002", "나무도서관", "도서관", 35, 37.5720, 126.9900),
+    Facility("C003", "구름도서관", "도서관", 62, 37.5840, 127.0120),
+    Facility("C004", "샘물도서관", "도서관", 29, 37.5510, 126.9650),
+    Facility("C005", "새봄도서관", "도서관", 54, 37.5380, 126.9920),
+    Facility("C006", "한강도서관", "도서관", 41, 37.5200, 126.9400),
+    Facility("C007", "별빛도서관", "도서관", 67, 37.6030, 127.0250),
+    Facility("C008", "마루도서관", "도서관", 33, 37.6120, 126.9580),
+    Facility("C009", "모양박물관", "박물관", 23, 37.5790, 126.9480),
+    Facility("C010", "시간박물관", "박물관", 38, 37.5900, 126.9820),
+    Facility("C011", "기록박물관", "박물관", 57, 37.5610, 127.0280),
+    Facility("C012", "생활박물관", "박물관", 31, 37.5430, 127.0550),
+    Facility("C013", "도시박물관", "박물관", 72, 37.5280, 127.0180),
+    Facility("C014", "소리박물관", "박물관", 26, 37.5110, 126.9740),
+    Facility("C015", "빛박물관", "박물관", 45, 37.5960, 127.0670),
+    Facility("C016", "종이박물관", "박물관", 34, 37.6170, 127.0020),
+    Facility("C017", "푸른문화센터", "문화센터", 52, 37.5700, 127.0440),
+    Facility("C018", "열린문화센터", "문화센터", 64, 37.5480, 126.9250),
+    Facility("C019", "다온문화센터", "문화센터", 28, 37.5320, 126.9550),
+    Facility("C020", "누리문화센터", "문화센터", 49, 37.5150, 127.0410),
+    Facility("C021", "이음문화센터", "문화센터", 70, 37.5880, 126.9300),
+    Facility("C022", "마을문화센터", "문화센터", 37, 37.6070, 127.0480),
+    Facility("C023", "함께문화센터", "문화센터", 58, 37.6250, 126.9850),
+    Facility("C024", "오늘문화센터", "문화센터", 42, 37.5020, 127.0120),
+]
+
+CATEGORY_DISPLAY = {
+    "도서관": "Library",
+    "박물관": "Museum",
+    "문화센터": "Culture center",
+}
+CATEGORY_COLORS = {
+    "도서관": TEAL,
+    "박물관": CORAL,
+    "문화센터": BLUE,
+}
+CATEGORY_MARKERS = {
+    "도서관": "o",
+    "박물관": "s",
+    "문화센터": "^",
+}
+
+
+def apply_figure_style() -> None:
+    """Use only bundled fonts and fixed colors for portable output."""
+
+    plt.rcParams.update(
+        {
+            "font.family": FONT.get_name(),
+            "font.size": 13,
+            "axes.labelcolor": INK,
+            "axes.edgecolor": LINE,
+            "axes.titlecolor": INK,
+            "xtick.color": MUTED,
+            "ytick.color": MUTED,
+            "text.color": INK,
+            "figure.facecolor": PAPER,
+            "axes.facecolor": PANEL,
+            "savefig.facecolor": PAPER,
+            "axes.unicode_minus": False,
+        }
+    )
+
+
+def style_axes(axis: plt.Axes) -> None:
+    axis.spines[["top", "right"]].set_visible(False)
+    axis.spines[["left", "bottom"]].set_color(LINE)
+    axis.grid(axis="y", color=LINE, linewidth=0.8, alpha=0.55)
+    axis.set_axisbelow(True)
+
+
+def save_figure(figure: plt.Figure, path: Path, *, dpi: int = 100) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    figure.savefig(
+        path,
+        dpi=dpi,
+        facecolor=PAPER,
+        metadata={"Software": "Contents Programming Week 11"},
+    )
+    plt.close(figure)
+
+
+def make_question_to_chart(path: Path) -> None:
+    """Show how four data questions lead to four chart structures."""
+
+    apply_figure_style()
+    figure, axes = plt.subplots(2, 2, figsize=(14.4, 9), dpi=100)
+    figure.subplots_adjust(left=0.075, right=0.965, top=0.80, bottom=0.09, hspace=0.48, wspace=0.30)
+    figure.text(
+        0.075,
+        0.94,
+        "ONE DATASET · FOUR QUESTIONS",
+        fontproperties=FONT_BOLD,
+        fontsize=30,
+        color=INK,
+    )
+    figure.text(
+        0.075,
+        0.885,
+        "Choose the chart after naming what you need to compare, distribute, relate, or locate.",
+        fontproperties=FONT,
+        fontsize=15,
+        color=MUTED,
+    )
+
+    comparison = axes[0, 0]
+    categories = ["Museum", "Library", "Culture"]
+    totals = [326, 369, 400]
+    comparison.barh(categories, totals, color=[CORAL, TEAL, BLUE], height=0.55)
+    comparison.set_xlim(0, 440)
+    comparison.set_xlabel("Total programs")
+    comparison.set_title("COMPARISON · Which category is larger?", loc="left", fontproperties=FONT_BOLD, fontsize=15)
+    for row, value in enumerate(totals):
+        comparison.text(value + 8, row, str(value), va="center", fontproperties=FONT_BOLD, fontsize=11)
+    style_axes(comparison)
+
+    distribution = axes[0, 1]
+    program_counts = [23, 26, 28, 29, 31, 33, 34, 35, 37, 38, 41, 42, 45, 48, 49, 52, 54, 57, 58, 62, 64, 67, 70, 72]
+    distribution.hist(program_counts, bins=[20, 30, 40, 50, 60, 70, 80], color=GOLD, edgecolor=INK, linewidth=1.2)
+    distribution.set_xlabel("Programs per facility")
+    distribution.set_ylabel("Facility count")
+    distribution.set_title("DISTRIBUTION · Where do values gather?", loc="left", fontproperties=FONT_BOLD, fontsize=15)
+    style_axes(distribution)
+
+    relationship = axes[1, 0]
+    duration = [20, 28, 35, 42, 49, 55, 63, 70, 78]
+    focus = [2.0, 2.4, 2.7, 3.1, 3.0, 3.8, 4.1, 4.0, 4.6]
+    relationship.scatter(duration, focus, s=90, color=TEAL, edgecolor=INK, linewidth=1)
+    relationship.set_xlabel("duration_min")
+    relationship.set_ylabel("focus_level")
+    relationship.set_title("RELATIONSHIP · Do two measures vary together?", loc="left", fontproperties=FONT_BOLD, fontsize=15)
+    style_axes(relationship)
+
+    spatial = axes[1, 1]
+    longitude = [126.925, 126.948, 126.978, 126.990, 127.012, 127.028, 127.048, 127.067]
+    latitude = [37.548, 37.579, 37.566, 37.572, 37.584, 37.561, 37.607, 37.596]
+    spatial.scatter(longitude, latitude, s=[120, 70, 95, 82, 140, 110, 88, 130], color=BLUE, edgecolor=INK, linewidth=1)
+    spatial.set_xlabel("longitude")
+    spatial.set_ylabel("latitude")
+    spatial.set_title("SPATIAL · Where are the records?", loc="left", fontproperties=FONT_BOLD, fontsize=15)
+    spatial.set_aspect("equal", adjustable="datalim")
+    style_axes(spatial)
+
+    figure.text(
+        0.075,
+        0.025,
+        "A coordinate scatterplot restores relative position. It does not claim that longitude causes latitude.",
+        fontproperties=FONT_BOLD,
+        fontsize=12,
+        color=CORAL,
+    )
+    save_figure(figure, path)
+
+
+def make_figure_axes(path: Path) -> None:
+    """Explain Figure, Axes, and Axis using a two-panel poster sketch."""
+
+    apply_figure_style()
+    figure = plt.figure(figsize=(14.4, 9), dpi=100)
+    figure.text(0.055, 0.93, "FIGURE → AXES → AXIS", fontproperties=FONT_BOLD, fontsize=32)
+    figure.text(
+        0.055,
+        0.875,
+        "The Figure is the whole output. Each Axes is one chart area. An Axis measures one direction.",
+        fontproperties=FONT,
+        fontsize=15,
+        color=MUTED,
+    )
+    figure.patches.append(
+        Rectangle(
+            (0.05, 0.10),
+            0.90,
+            0.70,
+            transform=figure.transFigure,
+            facecolor=PANEL,
+            edgecolor=INK,
+            linewidth=3,
+            zorder=-10,
+        )
+    )
+    figure.text(0.075, 0.755, "FIGURE · 8 × 5.5 inches", fontproperties=FONT_BOLD, fontsize=13, color=CORAL)
+
+    bar_axis = figure.add_axes((0.10, 0.22, 0.34, 0.43))
+    bar_axis.barh(["Museum", "Library", "Culture"], [326, 369, 400], color=[CORAL, TEAL, BLUE])
+    bar_axis.set_xlim(0, 440)
+    bar_axis.set_xlabel("program total · x Axis")
+    bar_axis.set_title("Axes 01 · comparison", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    style_axes(bar_axis)
+
+    scatter_axis = figure.add_axes((0.57, 0.22, 0.34, 0.43))
+    for category in CATEGORY_DISPLAY:
+        records = [record for record in FACILITIES if record.category == category]
+        scatter_axis.scatter(
+            [record.longitude for record in records],
+            [record.latitude for record in records],
+            s=[record.program_count * 2.5 for record in records],
+            c=CATEGORY_COLORS[category],
+            marker=CATEGORY_MARKERS[category],
+            label=CATEGORY_DISPLAY[category],
+            edgecolor=INK,
+            linewidth=0.8,
+            alpha=0.82,
+        )
+    scatter_axis.set_xlabel("longitude · x Axis")
+    scatter_axis.set_ylabel("latitude · y Axis")
+    scatter_axis.set_title("Axes 02 · relative position", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    scatter_axis.set_xticks([126.92, 126.96, 127.00, 127.04, 127.08])
+    scatter_axis.legend(frameon=False, fontsize=9)
+    style_axes(scatter_axis)
+
+    figure.text(
+        0.50,
+        0.16,
+        "two chart areas inside one output",
+        ha="center",
+        fontproperties=FONT_BOLD,
+        fontsize=13,
+        color=TEAL,
+    )
+    figure.text(
+        0.055,
+        0.035,
+        "fig, axes = plt.subplots(1, 2) gives one Figure and two Axes objects.",
+        fontproperties=FONT_BOLD,
+        fontsize=14,
+        color=INK,
+    )
+    save_figure(figure, path)
+
+
+def category_totals() -> dict[str, int]:
+    totals: defaultdict[str, int] = defaultdict(int)
+    for record in FACILITIES:
+        totals[record.category] += record.program_count
+    return dict(totals)
+
+
+def clean_csv_text() -> str:
+    output = io.StringIO(newline="")
+    writer = csv.writer(output, lineterminator="\n")
+    writer.writerow(
+        [
+            "place_id",
+            "place_name",
+            "category",
+            "program_count",
+            "latitude",
+            "longitude",
+        ]
+    )
+    for record in FACILITIES:
+        writer.writerow(
+            [
+                record.place_id,
+                record.place_name,
+                record.category,
+                record.program_count,
+                f"{record.latitude:.4f}",
+                f"{record.longitude:.4f}",
+            ]
+        )
+    return output.getvalue()
+
+
+def write_clean_csv(path: Path) -> None:
+    path.write_text(clean_csv_text(), encoding="utf-8")
+
+
+def source_lines(text: str) -> list[str]:
+    normalized = dedent(text).strip("\n") + "\n"
+    return normalized.splitlines(keepends=True)
+
+
+def markdown_cell(text: str) -> dict[str, object]:
+    return {
+        "cell_type": "markdown",
+        "metadata": {},
+        "source": source_lines(text),
+    }
+
+
+def code_cell(text: str) -> dict[str, object]:
+    return {
+        "cell_type": "code",
+        "execution_count": None,
+        "metadata": {},
+        "outputs": [],
+        "source": source_lines(text),
+    }
+
+
+def build_notebook(sample_csv: str) -> dict[str, object]:
+    sample_csv_sha256 = hashlib.sha256(sample_csv.encode("utf-8")).hexdigest()
+    setup_code = f'''\
+    # STEP 0 · 실행 환경과 수업용 데이터 준비 — 이 셀은 수정하지 않습니다.
+    from pathlib import Path
+    import hashlib
+    import importlib.util
+    import re
+    import subprocess
+    import sys
+
+    required_packages = {{
+        "pandas": "pandas",
+        "matplotlib": "matplotlib",
+        "seaborn": "seaborn",
+    }}
+    missing_packages = [
+        package_name
+        for module_name, package_name in required_packages.items()
+        if importlib.util.find_spec(module_name) is None
+    ]
+    if missing_packages:
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "-q", *missing_packages]
+        )
+
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    from matplotlib import font_manager
+    from matplotlib import image as mpimg
+    import seaborn as sns
+
+    try:
+        from google.colab import files
+    except ImportError:
+        files = None
+
+    mission_step0_execution = get_ipython().execution_count
+
+    SAMPLE_CSV_PATH = "week11_public_facilities_clean.csv"
+    SAMPLE_CSV = {sample_csv!r}
+    EXPECTED_CSV_SHA256 = "{sample_csv_sha256}"
+    Path(SAMPLE_CSV_PATH).write_text(SAMPLE_CSV, encoding="utf-8")
+
+    dataset_title = "수업용 가상 공공문화시설 정제 데이터"
+    dataset_source = "Contents Programming Practice Week 11 · 교수자 제공 가상 자료"
+    dataset_license = "수업 목적 사용 허용"
+    reference_date = "2026-08-18"
+    observation_unit = "공공문화시설 한 곳"
+    expected_metadata = (
+        dataset_title,
+        dataset_source,
+        dataset_license,
+        reference_date,
+        observation_unit,
+    )
+
+    category_markers = {{
+        "도서관": "o",
+        "박물관": "s",
+        "문화센터": "^",
+    }}
+
+
+    def find_korean_font():
+        preferred_tokens = (
+            "nanumgothic",
+            "notosanscjk",
+            "notosanskr",
+            "applesdgothic",
+            "malgun",
+        )
+        for font_path in font_manager.findSystemFonts():
+            compact_name = Path(font_path).name.lower().replace(" ", "")
+            if any(token in compact_name for token in preferred_tokens):
+                return font_path
+        return None
+
+
+    korean_font_path = find_korean_font()
+    if korean_font_path is None and Path("/etc/debian_version").exists():
+        subprocess.check_call(["apt-get", "update", "-qq"])
+        subprocess.check_call(["apt-get", "install", "-y", "-qq", "fonts-nanum"])
+        korean_font_path = find_korean_font()
+
+    if korean_font_path is None:
+        raise RuntimeError(
+            "한글 글꼴을 찾지 못했습니다. Colab 새 런타임에서 STEP 0부터 다시 실행하세요."
+        )
+
+    korean_font_name = font_manager.FontProperties(
+        fname=korean_font_path
+    ).get_name()
+    plt.rcParams["font.family"] = korean_font_name
+    plt.rcParams["axes.unicode_minus"] = False
+    sns.set_theme(style="whitegrid", font=korean_font_name)
+
+    print("준비 파일:", SAMPLE_CSV_PATH)
+    print("데이터:", dataset_title)
+    print("한글 글꼴:", korean_font_name)
+    '''
+
+    settings_code = '''
+    # STEP 1 · EDIT — 학번·이름, 질문형 제목과 세 범주 색상을 수정합니다.
+    mission_step1_execution = get_ipython().execution_count
+
+    student_id = "학번"
+    student_name = "이름"
+    poster_title = "EDIT: 세 시설 범주의 프로그램과 위치는 어떻게 다른가?"
+
+    category_palette = {
+        "도서관": "#6b7280",
+        "박물관": "#6b7280",
+        "문화센터": "#6b7280",
+    }
+
+    print("제출자:", student_id, student_name)
+    print("포스터 질문:", poster_title)
+    print("범주 색상:", category_palette)
+    '''
+
+    load_code = '''
+    # STEP 2 · 정제 CSV 불러오기와 구조 확인 — 이 셀은 수정하지 않습니다.
+    mission_step2_execution = get_ipython().execution_count
+
+    source_path = Path(SAMPLE_CSV_PATH)
+    source_bytes_before = source_path.read_bytes()
+    assert (
+        hashlib.sha256(source_bytes_before).hexdigest() == EXPECTED_CSV_SHA256
+    ), "제공 CSV 내용이 수업 기준과 다릅니다. 새 런타임에서 다시 실행하세요."
+    facility_df = pd.read_csv(source_path)
+    source_snapshot = facility_df.copy(deep=True)
+
+    required_columns = {
+        "place_id",
+        "place_name",
+        "category",
+        "program_count",
+        "latitude",
+        "longitude",
+    }
+    missing_columns = sorted(required_columns - set(facility_df.columns))
+    if missing_columns:
+        raise KeyError("필요한 열이 없습니다: " + ", ".join(missing_columns))
+
+    assert len(facility_df) == 24, "수업용 정제 데이터는 24행이어야 합니다."
+    assert facility_df["category"].nunique() == 3, "시설 범주는 세 개여야 합니다."
+    assert facility_df["place_id"].nunique() == 24, "place_id가 중복되었습니다."
+    assert facility_df[["program_count", "latitude", "longitude"]].notna().all().all()
+    assert facility_df["latitude"].between(-90, 90).all()
+    assert facility_df["longitude"].between(-180, 180).all()
+
+    print("데이터 크기:", facility_df.shape)
+    print("범주별 시설 수:")
+    print(facility_df["category"].value_counts().sort_index())
+    print("앞 5행:")
+    print(facility_df.head().to_string(index=False))
+    '''
+
+    aggregate_code = '''
+    # STEP 3 · 범주별 프로그램 수 합계 만들기 — 이 셀은 수정하지 않습니다.
+    mission_step3_execution = get_ipython().execution_count
+
+    category_summary = (
+        facility_df
+        .groupby("category", as_index=False)["program_count"]
+        .sum()
+        .sort_values("program_count")
+        .reset_index(drop=True)
+    )
+
+    expected_totals = {
+        "박물관": 326,
+        "도서관": 369,
+        "문화센터": 400,
+    }
+    actual_totals = dict(
+        zip(
+            category_summary["category"],
+            category_summary["program_count"],
+        )
+    )
+    assert actual_totals == expected_totals, "범주별 합계가 수업 기준과 다릅니다."
+
+    print(category_summary.to_string(index=False))
+    '''
+
+    charts_code = '''
+    # STEP 4 · 가로 막대그래프와 위치 좌표 산점도 만들기 — 이 셀은 수정하지 않습니다.
+    mission_step4_execution = get_ipython().execution_count
+
+    fig, axes = plt.subplots(
+        nrows=2,
+        ncols=1,
+        figsize=(8, 11),
+        gridspec_kw={"height_ratios": [0.82, 1.28]},
+    )
+    fig.patch.set_facecolor("#f3efe5")
+    fig.subplots_adjust(
+        left=0.14,
+        right=0.74,
+        top=0.77,
+        bottom=0.18,
+        hspace=0.58,
+    )
+
+    sns.barplot(
+        data=category_summary,
+        x="program_count",
+        y="category",
+        hue="category",
+        palette=category_palette,
+        errorbar=None,
+        legend=False,
+        edgecolor="#202523",
+        ax=axes[0],
+    )
+    axes[0].set_xlim(left=0)
+    axes[0].set_xlabel("프로그램 수 합계")
+    axes[0].set_ylabel("")
+    axes[0].set_title(
+        "어느 시설 범주의 프로그램 수 합계가 큰가?",
+        loc="left",
+        fontweight="bold",
+    )
+
+    for bar in axes[0].patches:
+        value = int(round(bar.get_width()))
+        axes[0].text(
+            value + 6,
+            bar.get_y() + bar.get_height() / 2,
+            str(value),
+            va="center",
+            fontweight="bold",
+        )
+
+    bar_count = len(axes[0].patches)
+    bar_axis_left_limit = axes[0].get_xlim()[0]
+
+    scatter_plot = sns.scatterplot(
+        data=facility_df,
+        x="longitude",
+        y="latitude",
+        hue="category",
+        style="category",
+        size="program_count",
+        palette=category_palette,
+        markers=category_markers,
+        sizes=(60, 300),
+        alpha=0.82,
+        edgecolor="#202523",
+        linewidth=0.8,
+        legend="brief",
+        ax=axes[1],
+    )
+    axes[1].set_xlabel("경도")
+    axes[1].set_ylabel("위도")
+    axes[1].set_title(
+        "시설 24개는 서로 어디에 놓였는가?",
+        loc="left",
+        fontweight="bold",
+    )
+    axes[1].set_xticks([126.90, 126.95, 127.00, 127.05, 127.10])
+    axes[1].set_aspect("equal", adjustable="datalim")
+    scatter_legend = axes[1].legend(
+        bbox_to_anchor=(1.02, 1.0),
+        loc="upper left",
+        borderaxespad=0,
+        frameon=True,
+        framealpha=0.94,
+        fontsize=8,
+    )
+    legend_label_map = {
+        "category": "시설 범주",
+        "program_count": "프로그램 수",
+    }
+    for legend_text in scatter_legend.get_texts():
+        legend_text.set_text(
+            legend_label_map.get(legend_text.get_text(), legend_text.get_text())
+        )
+
+    plotted_offsets = [
+        collection.get_offsets()
+        for collection in axes[1].collections
+        if len(collection.get_offsets()) > 0
+    ]
+    scatter_point_count = sum(len(offsets) for offsets in plotted_offsets)
+    plotted_place_ids = facility_df["place_id"].tolist()
+
+    print("막대 수:", bar_count)
+    print("좌표 점 수:", scatter_point_count)
+    '''
+
+    writing_code = '''
+    # STEP 5 · EDIT — 그래프에서 확인한 관찰과 해석의 한계를 작성합니다.
+    mission_step5_execution = get_ipython().execution_count
+
+    main_observation = (
+        "EDIT: 326, 369, 400 가운데 어떤 값이 무엇을 뜻하는지 "
+        "30자 이상의 자신의 문장으로 작성하세요."
+    )
+    limitation_statement = (
+        "EDIT: 가상 시설 24행과 좌표 그래프로 단정할 수 없는 내용을 "
+        "30자 이상의 자신의 문장으로 작성하세요."
+    )
+
+    print("관찰:", main_observation)
+    print("한계:", limitation_statement)
+    '''
+
+    save_code = '''
+    # STEP 6 · 포스터 설명 배치와 1600 × 2200 PNG 저장 — 이 셀은 수정하지 않습니다.
+    mission_step6_execution = get_ipython().execution_count
+
+    safe_student_id = str(student_id).strip()
+    safe_student_name = str(student_name).strip()
+    output_filename = (
+        f"week11_{safe_student_id}_{safe_student_name}_data_poster.png"
+    )
+
+    fig.suptitle(
+        poster_title,
+        x=0.10,
+        y=0.95,
+        ha="left",
+        fontsize=22,
+        fontweight="bold",
+    )
+    fig.text(
+        0.10,
+        0.865,
+        "같은 24행 데이터를 범주별 합계와 상대적 위치로 다시 읽기",
+        fontsize=11,
+        color="#65706b",
+    )
+    fig.text(0.10, 0.125, "핵심 관찰", fontsize=10, fontweight="bold", color="#b94b40")
+    fig.text(0.10, 0.098, main_observation, fontsize=9.5, wrap=True)
+    fig.text(0.10, 0.068, "해석의 한계", fontsize=10, fontweight="bold", color="#b94b40")
+    fig.text(0.10, 0.041, limitation_statement, fontsize=9.5, wrap=True)
+    fig.text(
+        0.10,
+        0.012,
+        f"출처 · {dataset_source} · 기준일 {reference_date} · {len(facility_df)}행",
+        fontsize=7.5,
+        color="#65706b",
+    )
+
+    fig.savefig(
+        output_filename,
+        dpi=200,
+        facecolor="#f3efe5",
+    )
+    output_path = Path(output_filename)
+    output_bytes = output_path.read_bytes()
+    saved_image = mpimg.imread(output_path)
+
+    print("저장 파일:", output_filename)
+    print("저장 크기:", saved_image.shape[:2])
+    plt.show()
+    '''
+
+    final_check_code = '''
+    # STEP 7 · FINAL CHECK — 이 셀은 수정하지 않습니다.
+    mission_step7_execution = get_ipython().execution_count
+
+    execution_sequence = (
+        mission_step0_execution,
+        mission_step1_execution,
+        mission_step2_execution,
+        mission_step3_execution,
+        mission_step4_execution,
+        mission_step5_execution,
+        mission_step6_execution,
+        mission_step7_execution,
+    )
+    safe_name_pattern = re.compile(r"^[0-9A-Za-z가-힣_-]+$")
+    hex_color_pattern = re.compile(r"^#[0-9A-Fa-f]{6}$")
+    palette_values = list(category_palette.values())
+    current_metadata = (
+        dataset_title,
+        dataset_source,
+        dataset_license,
+        reference_date,
+        observation_unit,
+    )
+
+    checks = [
+        (
+            execution_sequence == (1, 2, 3, 4, 5, 6, 7, 8),
+            "새 런타임에서 STEP 0부터 여덟 셀을 순서대로 실행",
+        ),
+        (
+            safe_student_id not in {"", "학번"}
+            and safe_student_name not in {"", "이름"}
+            and safe_name_pattern.fullmatch(safe_student_id)
+            and safe_name_pattern.fullmatch(safe_student_name),
+            "학번·이름과 안전한 파일명",
+        ),
+        (
+            not poster_title.strip().startswith("EDIT:")
+            and len(poster_title.strip()) >= 15
+            and ("?" in poster_title or poster_title.rstrip().endswith("까")),
+            "15자 이상의 자신의 질문형 제목",
+        ),
+        (
+            len(palette_values) == 3
+            and len(set(palette_values)) == 3
+            and all(hex_color_pattern.fullmatch(color) for color in palette_values),
+            "세 범주의 서로 다른 HEX 색상",
+        ),
+        (
+            source_path.read_bytes() == source_bytes_before
+            and hashlib.sha256(source_bytes_before).hexdigest()
+            == EXPECTED_CSV_SHA256
+            and facility_df.equals(source_snapshot),
+            "제공 CSV와 불러온 24행 원본 보존",
+        ),
+        (
+            len(facility_df) == 24
+            and facility_df["category"].nunique() == 3
+            and facility_df["place_id"].nunique() == 24,
+            "시설 24행과 세 범주",
+        ),
+        (
+            actual_totals == {"박물관": 326, "도서관": 369, "문화센터": 400},
+            "범주별 프로그램 수 합계 326·369·400",
+        ),
+        (
+            bar_count == 3 and abs(bar_axis_left_limit) < 1e-9,
+            "0에서 시작하는 막대 세 개",
+        ),
+        (
+            scatter_point_count == len(facility_df) == 24
+            and len(plotted_place_ids) == len(set(plotted_place_ids)) == 24,
+            "정제 24행과 좌표 점 24개",
+        ),
+        (
+            not main_observation.strip().startswith("EDIT:")
+            and len(main_observation.strip()) >= 30
+            and re.search(r"326|369|400", main_observation),
+            "실제 합계를 포함한 30자 이상의 관찰 문장",
+        ),
+        (
+            not limitation_statement.strip().startswith("EDIT:")
+            and len(limitation_statement.strip()) >= 30,
+            "30자 이상의 해석 한계",
+        ),
+        (
+            output_path.exists()
+            and len(output_bytes) > 50000
+            and saved_image.shape[:2] == (2200, 1600),
+            "1600 × 2200 데이터 포스터 PNG",
+        ),
+        (
+            current_metadata == expected_metadata,
+            "출처·이용 조건·기준일·관찰 단위",
+        ),
+    ]
+
+    failed_checks = []
+    for passed, label in checks:
+        if passed:
+            print("✅", label)
+        else:
+            print("❌", label)
+            failed_checks.append(label)
+
+    if failed_checks:
+        raise AssertionError(
+            "위의 빨간 조건을 수정한 뒤 새 런타임에서 모두 실행하세요: "
+            + ", ".join(failed_checks)
+        )
+
+    print("🎉 WEEK 11 DATA POSTER COMPLETE")
+    if files is not None:
+        files.download(output_filename)
+    '''
+
+    return {
+        "cells": [
+            markdown_cell(
+                """
+                # WEEK 11 · 질문에 맞는 데이터 포스터 미션
+
+                이 노트북은 **범주별 프로그램 수 합계 가로 막대그래프**와 **시설 24개의 위치 좌표 산점도**를 한 장의 1600 × 2200 포스터로 만듭니다.
+
+                - 수정할 곳은 `STEP 1 · EDIT`와 `STEP 5 · EDIT` 두 셀뿐입니다.
+                - 나머지 셀은 위에서 아래로 실행하고 코드를 수정하지 않습니다.
+                - 마지막에 모든 초록 확인과 `WEEK 11 DATA POSTER COMPLETE`가 보이면 완료입니다.
+                """
+            ),
+            code_cell(setup_code),
+            markdown_cell(
+                """
+                ## STEP 1 · 제출 정보와 시각 규칙
+
+                학번·이름을 입력하고, 데이터로 답할 수 있는 질문형 제목을 작성합니다. 세 범주에는 서로 다른 여섯 자리 HEX 색상을 지정합니다.
+                """
+            ),
+            code_cell(settings_code),
+            markdown_cell(
+                """
+                ## STEP 2 · 정제 데이터 확인
+
+                수업용 24행 CSV를 불러오고 열, 행, 범주, 좌표의 유효성을 확인합니다. 제공 파일과 DataFrame은 수정하지 않습니다.
+                """
+            ),
+            code_cell(load_code),
+            markdown_cell(
+                """
+                ## STEP 3 · 범주별 합계
+
+                시설 24행을 세 범주로 묶고 프로그램 수를 더한 뒤 작은 값부터 정렬합니다.
+                """
+            ),
+            code_cell(aggregate_code),
+            markdown_cell(
+                """
+                ## STEP 4 · 두 그래프
+
+                위쪽 Axes에는 0에서 시작하는 막대 세 개를, 아래쪽 Axes에는 시설 24개의 좌표 점을 만듭니다. 좌표 점의 색상과 표식은 범주, 면적은 프로그램 수를 나타냅니다.
+                """
+            ),
+            code_cell(charts_code),
+            markdown_cell(
+                """
+                ## STEP 5 · 관찰과 한계
+
+                그래프에서 실제로 확인한 합계를 포함해 관찰 문장을 작성합니다. 그다음 가상 자료와 좌표 그래프로 단정할 수 없는 내용을 한계로 적습니다.
+                """
+            ),
+            code_cell(writing_code),
+            markdown_cell(
+                """
+                ## STEP 6 · 포스터 저장
+
+                제목, 두 그래프, 관찰, 한계, 출처를 Figure 안에 배치하고 1600 × 2200 PNG로 저장합니다.
+                """
+            ),
+            code_cell(save_code),
+            markdown_cell(
+                """
+                ## STEP 7 · 자동 검사와 내려받기
+
+                수정하지 않습니다. 실패한 조건의 한글 설명을 읽고 STEP 1 또는 STEP 5만 고친 뒤, 새 런타임에서 모두 실행합니다.
+                """
+            ),
+            code_cell(final_check_code),
+        ],
+        "metadata": {
+            "colab": {
+                "name": "week-11-data-poster-mission.ipynb",
+                "provenance": [],
+            },
+            "kernelspec": {
+                "display_name": "Python 3",
+                "language": "python",
+                "name": "python3",
+            },
+            "language_info": {
+                "name": "python",
+                "version": "3",
+            },
+        },
+        "nbformat": 4,
+        "nbformat_minor": 5,
+    }
+
+
+def write_notebook(path: Path) -> None:
+    notebook = build_notebook(clean_csv_text())
+    path.write_text(
+        json.dumps(notebook, ensure_ascii=False, indent=1) + "\n",
+        encoding="utf-8",
+    )
+
+
+def make_data_poster_example(path: Path) -> None:
+    """Create the 1600 × 2200 reference poster used in periods 2 and 3."""
+
+    apply_figure_style()
+    figure = plt.figure(figsize=(8, 11), dpi=200)
+    grid = figure.add_gridspec(
+        20,
+        1,
+        left=0.19,
+        right=0.92,
+        top=0.78,
+        bottom=0.16,
+        hspace=1.20,
+    )
+    figure.text(0.10, 0.945, "WHERE IS CULTURAL PROGRAM", fontproperties=FONT_BOLD, fontsize=22, color=INK)
+    figure.text(0.10, 0.910, "ACTIVITY CONCENTRATED?", fontproperties=FONT_BOLD, fontsize=22, color=INK)
+    figure.text(
+        0.10,
+        0.865,
+        "The same 24 facilities become a category comparison and a coordinate view.",
+        fontproperties=FONT,
+        fontsize=9.5,
+        color=MUTED,
+    )
+    figure.text(0.10, 0.820, "01 · COMPARE TOTALS", fontproperties=FONT_BOLD, fontsize=9.5, color=CORAL)
+
+    bar_axis = figure.add_subplot(grid[0:6, 0])
+    totals = category_totals()
+    ordered = sorted(totals, key=totals.get)
+    colors = [CATEGORY_COLORS[category] for category in ordered]
+    bars = bar_axis.barh(
+        [CATEGORY_DISPLAY[category] for category in ordered],
+        [totals[category] for category in ordered],
+        color=colors,
+        height=0.56,
+    )
+    bar_axis.set_xlim(0, 440)
+    bar_axis.set_xlabel("Total number of programs")
+    bar_axis.set_title("Culture centers record the largest total", loc="left", fontproperties=FONT_BOLD, fontsize=12)
+    for bar, category in zip(bars, ordered, strict=True):
+        bar_axis.text(
+            totals[category] + 8,
+            bar.get_y() + bar.get_height() / 2,
+            str(totals[category]),
+            va="center",
+            fontproperties=FONT_BOLD,
+            fontsize=9,
+        )
+    style_axes(bar_axis)
+
+    figure.text(0.10, 0.555, "02 · RESTORE RELATIVE POSITION", fontproperties=FONT_BOLD, fontsize=9.5, color=CORAL)
+    scatter_axis = figure.add_subplot(grid[8:17, 0])
+    for category in CATEGORY_DISPLAY:
+        records = [record for record in FACILITIES if record.category == category]
+        scatter_axis.scatter(
+            [record.longitude for record in records],
+            [record.latitude for record in records],
+            s=[record.program_count * 4 for record in records],
+            c=CATEGORY_COLORS[category],
+            marker=CATEGORY_MARKERS[category],
+            label=CATEGORY_DISPLAY[category],
+            edgecolor=INK,
+            linewidth=0.65,
+            alpha=0.80,
+        )
+    scatter_axis.set_xlabel("Longitude")
+    scatter_axis.set_ylabel("Latitude")
+    scatter_axis.set_title("24 points · color + marker = category · area = programs", loc="left", fontproperties=FONT_BOLD, fontsize=11)
+    scatter_axis.legend(frameon=False, loc="lower right", fontsize=8)
+    scatter_axis.set_aspect("equal", adjustable="datalim")
+    style_axes(scatter_axis)
+
+    figure.text(0.10, 0.105, "OBSERVATION", fontproperties=FONT_BOLD, fontsize=9, color=CORAL)
+    figure.text(
+        0.10,
+        0.081,
+        "Culture centers total 400 programs, 31 more than libraries and 74 more than museums.",
+        fontproperties=FONT,
+        fontsize=8.5,
+        color=INK,
+    )
+    figure.text(0.10, 0.052, "LIMIT", fontproperties=FONT_BOLD, fontsize=9, color=CORAL)
+    figure.text(
+        0.10,
+        0.029,
+        "Fictional facilities cannot explain access, quality, demand, or causes. Coordinates show position, not correlation.",
+        fontproperties=FONT,
+        fontsize=7.8,
+        color=INK,
+    )
+    figure.text(
+        0.10,
+        0.012,
+        "SOURCE · Contents Programming Practice Week 11 fictional dataset · 24 facilities · reference date 2026-08-18",
+        fontproperties=FONT,
+        fontsize=6.5,
+        color=MUTED,
+    )
+    save_figure(figure, path, dpi=200)
+
+
+def make_honest_chart_cases(path: Path) -> None:
+    """Contrast three misleading choices with clearer alternatives."""
+
+    apply_figure_style()
+    figure, axes = plt.subplots(2, 3, figsize=(14.4, 9), dpi=100)
+    figure.subplots_adjust(left=0.06, right=0.97, top=0.78, bottom=0.08, hspace=0.55, wspace=0.30)
+    figure.text(0.06, 0.94, "SAME VALUES · DIFFERENT IMPRESSIONS", fontproperties=FONT_BOLD, fontsize=30)
+    figure.text(
+        0.06,
+        0.885,
+        "Check the baseline, the visual scale, and the missing context before believing the first impression.",
+        fontproperties=FONT,
+        fontsize=15,
+        color=MUTED,
+    )
+    figure.text(0.018, 0.56, "MISLEADING", rotation=90, va="center", fontproperties=FONT_BOLD, fontsize=13, color=CORAL)
+    figure.text(0.018, 0.20, "CLEARER", rotation=90, va="center", fontproperties=FONT_BOLD, fontsize=13, color=TEAL)
+
+    totals = [326, 369, 400]
+    labels = ["Museum", "Library", "Culture"]
+
+    cropped = axes[0, 0]
+    cropped.bar(labels, totals, color=CORAL)
+    cropped.set_ylim(300, 410)
+    cropped.set_title("A · Cropped baseline", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    cropped.text(0.03, 0.88, "Small gaps feel huge", transform=cropped.transAxes, color=CORAL, fontproperties=FONT_BOLD, fontsize=9)
+    style_axes(cropped)
+
+    honest = axes[1, 0]
+    honest.bar(labels, totals, color=TEAL)
+    honest.set_ylim(0, 440)
+    honest.set_title("A · Baseline begins at 0", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    honest.text(0.03, 0.88, "Lengths stay proportional", transform=honest.transAxes, color=TEAL, fontproperties=FONT_BOLD, fontsize=9)
+    style_axes(honest)
+
+    bad_area = axes[0, 1]
+    bad_area.scatter([0, 1], [0, 0], s=[600, 9600], color=[GOLD, CORAL], alpha=0.82, edgecolor=INK)
+    bad_area.set_xlim(-0.55, 1.55)
+    bad_area.set_ylim(-0.65, 0.65)
+    bad_area.set_xticks([0, 1], ["25", "100"])
+    bad_area.set_yticks([])
+    bad_area.set_title("B · Radius follows value", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    bad_area.text(0.03, 0.08, "Area becomes 16×, not 4×", transform=bad_area.transAxes, color=CORAL, fontproperties=FONT_BOLD, fontsize=10)
+
+    good_area = axes[1, 1]
+    good_area.scatter([0, 1], [0, 0], s=[900, 3600], color=[GOLD, TEAL], alpha=0.82, edgecolor=INK)
+    good_area.set_xlim(-0.55, 1.55)
+    good_area.set_ylim(-0.65, 0.65)
+    good_area.set_xticks([0, 1], ["25", "100"])
+    good_area.set_yticks([])
+    good_area.set_title("B · Area follows value", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    good_area.text(0.03, 0.08, "Area becomes 4× with the data", transform=good_area.transAxes, color=TEAL, fontproperties=FONT_BOLD, fontsize=10)
+
+    missing = axes[0, 2]
+    missing.add_patch(Rectangle((0.08, 0.18), 0.84, 0.62, facecolor=PALE_CORAL, edgecolor=CORAL, linewidth=2))
+    missing.text(0.14, 0.68, "PROGRAMS INCREASED", transform=missing.transAxes, fontproperties=FONT_BOLD, fontsize=14)
+    missing.text(0.14, 0.50, "+23%", transform=missing.transAxes, fontproperties=FONT_BOLD, fontsize=34, color=CORAL)
+    missing.text(0.14, 0.30, "No period · no denominator · no source", transform=missing.transAxes, fontsize=10, color=MUTED)
+    missing.set_title("C · Context removed", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    missing.axis("off")
+
+    complete = axes[1, 2]
+    complete.add_patch(Rectangle((0.08, 0.12), 0.84, 0.72, facecolor=PALE_TEAL, edgecolor=TEAL, linewidth=2))
+    complete.text(0.14, 0.70, "TOTAL PROGRAM COUNT", transform=complete.transAxes, fontproperties=FONT_BOLD, fontsize=13)
+    complete.text(0.14, 0.53, "1,095", transform=complete.transAxes, fontproperties=FONT_BOLD, fontsize=32, color=TEAL)
+    complete.text(0.14, 0.34, "24 facilities · sum · reference date 2026-08-18", transform=complete.transAxes, fontsize=9.5, color=INK)
+    complete.text(0.14, 0.22, "Source: fictional class dataset", transform=complete.transAxes, fontsize=9.5, color=MUTED)
+    complete.set_title("C · Context restored", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    complete.axis("off")
+
+    save_figure(figure, path)
+
+
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--asset-dir", type=Path, default=DEFAULT_ASSET_DIR)
+    parser.add_argument("--check-runtime", action="store_true")
+    return parser.parse_args()
+
+
+def main() -> None:
+    args = parse_args()
+    if args.check_runtime:
+        actual = version("matplotlib")
+        if actual != EXPECTED_MATPLOTLIB_VERSION:
+            raise SystemExit(
+                f"Matplotlib {EXPECTED_MATPLOTLIB_VERSION} is required; found {actual}."
+            )
+        print(f"Week 11 visual runtime OK: matplotlib {actual}")
+        return
+
+    args.asset_dir.mkdir(parents=True, exist_ok=True)
+    write_clean_csv(args.asset_dir / "week-11-public-facilities-clean.csv")
+    make_question_to_chart(args.asset_dir / "week-11-question-to-chart.png")
+    make_honest_chart_cases(args.asset_dir / "week-11-honest-chart-cases.png")
+    make_figure_axes(args.asset_dir / "week-11-figure-axes.png")
+    make_data_poster_example(args.asset_dir / "week-11-data-poster-example.png")
+    write_notebook(args.asset_dir / "week-11-data-poster-mission.ipynb")
+    print(f"Generated Week 11 teaching visuals in {args.asset_dir}")
+
+
+if __name__ == "__main__":
+    main()
