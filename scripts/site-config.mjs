@@ -79,7 +79,7 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     alt: "입력, 원본 보존, 처리, 시각적 매핑, 파일 저장과 검토 증거를 연결한 30퍼센트 프로토타입 도해",
   }),
   "teaching/contents-programming/week-14-period3.html": Object.freeze({
-    path: "/teaching/contents-programming/assets/week-14-three-track-preview.png",
+    path: "/teaching/contents-programming/assets/week-14-four-path-preview.png",
     alt: "데이터 막대, 텍스트 빈도 막대, 사운드 에너지 선, 규칙 기반 원 구성으로 이루어진 네 가지 프로젝트 경로 예시",
   }),
 });

@@ -35,13 +35,31 @@ function assertTimeline(source, expectedRanges) {
 }
 
 test("Contents Programming week 11 period 1 teaches beginners to choose an honest visual encoding", async () => {
-  const [period1, period9Mission] = await Promise.all([
+  const [period1, courseIndex] = await Promise.all([
     readFile(resolve(courseDirectory, "week-11-period1.html"), "utf8"),
-    readFile(resolve(courseDirectory, "week-09-period3.html"), "utf8"),
+    readFile(courseIndexPath, "utf8"),
   ]);
 
-  assert.match(period9Mission, /href="week-11-period1\.html" rel="next"/);
-  assert.match(period1, /href="week-09-period3\.html" rel="prev"/);
+  const lessonOrder = [
+    ...new Set(
+      [...courseIndex.matchAll(/href="(week-\d+-period\d+\.html)"/g)].map(
+        ([, href]) => href,
+      ),
+    ),
+  ];
+  const currentIndex = lessonOrder.indexOf("week-11-period1.html");
+  assert.ok(currentIndex > 0, "week 11 period 1 should follow a published lesson");
+  const previousLessonName = lessonOrder[currentIndex - 1];
+  const previousLesson = await readFile(
+    resolve(courseDirectory, previousLessonName),
+    "utf8",
+  );
+
+  assert.match(previousLesson, /href="week-11-period1\.html" rel="next"/);
+  assert.match(
+    period1,
+    new RegExp(`href="${previousLessonName.replaceAll(".", "\\.")}" rel="prev"`),
+  );
   assert.match(period1, /href="week-11-period2\.html" rel="next"/);
   assertTimeline(period1, [
     [0, 6],
@@ -185,7 +203,6 @@ test("Contents Programming week 11 period 3 is a finite individual data-poster m
 
   assert.match(period2, /href="week-11-period3\.html" rel="next"/);
   assert.match(period3, /href="week-11-period2\.html" rel="prev"/);
-  assert.doesNotMatch(period3, /rel="next"/);
   assertTimeline(period3, [
     [0, 5],
     [5, 12],

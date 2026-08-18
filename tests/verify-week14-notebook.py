@@ -174,10 +174,10 @@ def mutate_cells(
 
 def write_own_input(directory: Path, track: str) -> str:
     filenames = {
-        "data": "own-data.csv",
-        "text": "own-text.txt",
-        "sound": "own-sound.wav",
-        "image": "own-image.csv",
+        "data": "week14_20261234_김프로토_source.csv",
+        "text": "week14_20261234_김프로토_source.txt",
+        "sound": "week14_20261234_김프로토_source.wav",
+        "image": "week14_20261234_김프로토_source.csv",
     }
     path = directory / filenames[track]
     if track == "data":
@@ -269,6 +269,18 @@ def run_scenario(
             output_path = temp_dir / str(namespace["output_filename"])
             if not output_path.is_file():
                 raise AssertionError(f"{track} valid scenario did not save its preview")
+            if output_format == "html":
+                html_output = output_path.read_text(encoding="utf-8")
+                for required_html in (
+                    "max-width:100%;height:auto",
+                    "<figcaption>",
+                    "<strong>관찰:</strong>",
+                    "<strong>한계:</strong>",
+                ):
+                    if required_html not in html_output:
+                        raise AssertionError(
+                            f"{track} HTML missed {required_html!r}"
+                        )
             return {
                 "track": track,
                 "input_mode": input_mode,
@@ -349,6 +361,32 @@ def main() -> None:
         run_scenario(
             code_cells,
             track="data",
+            input_mode="own",
+            use_valid_edits=True,
+            invalid_own_payload=b"category,value\nArchive,-4\nStudio,5\n",
+            should_pass=False,
+            expected_failure="0 이상의 값",
+        )
+    )
+    results.append(
+        run_scenario(
+            code_cells,
+            track="text",
+            input_mode="own",
+            use_valid_edits=True,
+            mutation=(
+                "own_source_filename = 'week14_20261234_김프로토_source.txt'",
+                "own_source_filename = 'renamed-after-run.txt'",
+                "own-source-filename",
+            ),
+            should_pass=False,
+            expected_failure="자신의 입력 파일명을",
+        )
+    )
+    results.append(
+        run_scenario(
+            code_cells,
+            track="data",
             use_valid_edits=True,
             mutation=(
                 "mapping_visual_values = np.array([bar.get_width() for bar in visual_artists], dtype=float)",
@@ -367,6 +405,20 @@ def main() -> None:
             mutation=("teacher_gate = 'confirmed'", "teacher_gate = 'pending'", "teacher-gate"),
             should_pass=False,
             expected_failure="교수의 최종 확인",
+        )
+    )
+    results.append(
+        run_scenario(
+            code_cells,
+            track="image",
+            use_valid_edits=True,
+            mutation=(
+                "c=processed_colors,",
+                "c=['#116e68'] * len(processed_colors),",
+                "image-color-mapping",
+            ),
+            should_pass=False,
+            expected_failure="도형의 색",
         )
     )
     results.append(

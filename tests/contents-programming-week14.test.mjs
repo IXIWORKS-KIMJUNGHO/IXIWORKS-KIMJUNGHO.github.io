@@ -157,10 +157,12 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
     "출처, 이용 권한, 개인정보",
     "승인",
     "범위 축소 후 승인",
-    "대체 자료로 전환",
+    "이번 주에는 제공 경로로 전환",
     "60–90초",
-    "수강 인원에 따른 1차 면담 시간 계산",
-    "15분에는 약 10–15명",
+    "수강 인원에 따른 신청자 면담과 최종 증거 게이트 시간 계산",
+    "최대 10–15명",
+    "30명 × 30–45초 = 15–22.5분",
+    "Folium 독립 HTML을 공통 노트북 안에 직접 합치는 작업은 이번 주 승인 재사용 범위가 아니며",
     "APPROVED REUSE ZONE",
     "mapping_source_values",
     "새 런타임",
@@ -195,13 +197,16 @@ test("Contents Programming week 14 period 3 is a finite four-path individual mis
   assert.doesNotMatch(period3, /짝 활동|짝과|조별|팀 활동/);
   assertIncludesAll(period3, [
     "목표 달성형 개인 실습",
-    "자동 검사 PASS + 결과 파일 열림 + 출처 확인 + 교수 범위 확인 + 필수 파일 제출 = 즉시 귀가",
+    "자동 검사 PASS + 결과 파일 열림 + 출처 확인 + 교수 증거 확인 + 필수 파일 제출 = 즉시 귀가",
     "작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다",
     "week-14-project-prototype-mission.ipynb",
-    "week-14-three-track-preview.png",
+    "week-14-four-path-preview.png",
     "week14_학번_이름_prototype.ipynb",
     "week14_학번_이름_preview.png",
     "week14_학번_이름_source.확장자",
+    "완성 순서대로 30–45초",
+    "30명도 최대 22.5분",
+    "이번 HTML은 정적 증거 문서입니다",
     "data",
     "text",
     "sound",
@@ -271,6 +276,7 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
     /project_track = "data"/,
     /input_mode = "provided"/,
     /own_source_filename = ""/,
+    /expected_own_source_filename =/,
     /output_format = "png"/,
     /approval_status = "EDIT:/,
     /approval_note = "EDIT:/,
@@ -308,11 +314,17 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
     /saved_image\.size == \(1600, 1000\)/,
     /pd\.testing\.assert_frame_equal\(raw_data, raw_snapshot\)/,
     /pd\.testing\.assert_frame_equal\(raw_image_params, raw_snapshot\)/,
+    /source_path\.name == expected_own_source_filename/,
     /source_path\.read_bytes\(\) == source_bytes_before/,
     /candidate_data\["category"\]\.notna\(\)\.all\(\)/,
     /np\.isfinite\(numeric_values\.to_numpy\(dtype=float\)\)\.all\(\)/,
+    /numeric_values\.ge\(0\)\.all\(\)/,
     /np\.allclose\(mapping_visual_values, mapping_source_values\)/,
     /mapping_position_values.*processed_times/s,
+    /expected_colors = np\.asarray\(\[to_rgba\(color\) for color in processed_colors\]/,
+    /np\.allclose\(rendered_colors, expected_colors\)/,
+    /max-width:100%;height:auto/,
+    /<figcaption>/,
     /observation_evidence = "EDIT:/,
     /observation_evidence in main_observation/,
     /teacher_feedback = "EDIT:/,
@@ -329,7 +341,7 @@ test("Week 14 generated visual assets have the published dimensions", async () =
   const expectedDimensions = new Map([
     ["week-14-scope-to-slice.png", [1440, 900]],
     ["week-14-prototype-contract.png", [1440, 900]],
-    ["week-14-three-track-preview.png", [1600, 900]],
+    ["week-14-four-path-preview.png", [1600, 900]],
   ]);
   for (const [filename, [width, height]] of expectedDimensions) {
     const buffer = await readFile(resolve(assetDirectory, filename));
@@ -354,6 +366,12 @@ test("Week 14 preview generation guards contrast, bounds, and shared fixtures", 
   );
   assert.match(generator, /token_counts = Counter\(PROVIDED_TEXT\.split\(\)\)/);
   assert.match(generator, /signal = provided_sound\(\)/);
+  assert.match(generator, /PROVIDED_SOUND_PARAMETERS = \{/);
+  assert.match(generator, /inspect\.getsource\(synthesize_provided_sound\)/);
+  assert.equal(
+    [...generator.matchAll(/parameters\["carrier_hz"\] \* time_values/g)].length,
+    1,
+  );
 });
 
 test("Week 14 generated assets stay reproducible in the pinned environment", async (t) => {
@@ -377,7 +395,7 @@ test("Week 14 generated assets stay reproducible in the pinned environment", asy
     for (const filename of [
       "week-14-scope-to-slice.png",
       "week-14-prototype-contract.png",
-      "week-14-three-track-preview.png",
+      "week-14-four-path-preview.png",
       "week-14-project-prototype-mission.ipynb",
     ]) {
       const [committed, regenerated] = await Promise.all([
@@ -411,7 +429,10 @@ test("Week 14 notebook passes four valid paths and rejects corrupted evidence", 
   assert.match(result.stdout, /"output_format": "html"/);
   assert.match(result.stdout, /수업 제공 원본이 변경되었습니다/);
   assert.match(result.stdout, /category 열에 결측값이 있습니다/);
+  assert.match(result.stdout, /value 열에는 0 이상의 값만 사용할 수 있습니다/);
+  assert.match(result.stdout, /자신의 입력 파일명을/);
   assert.match(result.stdout, /화면에 매핑된 값이 처리 결과와 일치하지 않습니다/);
+  assert.match(result.stdout, /도형의 색이 처리 결과와 일치하지 않습니다/);
   assert.match(result.stdout, /교수의 최종 확인 뒤 teacher_gate를 confirmed로 바꾸세요/);
   assert.match(result.stdout, /관찰 문장에 화면에서 가리킬 관찰 근거를 그대로 포함하세요/);
 });

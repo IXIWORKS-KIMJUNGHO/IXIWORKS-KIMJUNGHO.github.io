@@ -5,11 +5,12 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import inspect
 import json
 from collections import Counter
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
-from textwrap import dedent
+from textwrap import dedent, indent
 
 import matplotlib
 
@@ -58,6 +59,12 @@ PROVIDED_TEXT = (
 )
 PROVIDED_SAMPLE_RATE = 8000
 PROVIDED_SOUND_SECONDS = 4
+PROVIDED_SOUND_PARAMETERS = {
+    "base_amplitude": 0.20,
+    "modulation_amplitude": 0.13,
+    "modulation_hz": 0.42,
+    "carrier_hz": 220.0,
+}
 PROVIDED_IMAGE_CSV = """x,y,size,color
 0.18,0.24,58,#116e68
 0.38,0.68,92,#365f91
@@ -74,17 +81,30 @@ FONT = font_manager.FontProperties(fname=FONT_PATH)
 FONT_BOLD = font_manager.FontProperties(fname=FONT_BOLD_PATH)
 
 
+def synthesize_provided_sound(
+    time_values: np.ndarray,
+    parameters: dict[str, float],
+) -> np.ndarray:
+    """Synthesize the shared teaching signal from explicit parameters."""
+
+    return (
+        (
+            parameters["base_amplitude"]
+            + parameters["modulation_amplitude"]
+            * np.sin(2 * np.pi * parameters["modulation_hz"] * time_values)
+        )
+        * np.sin(2 * np.pi * parameters["carrier_hz"] * time_values)
+    ).astype(np.float64)
+
+
 def provided_sound() -> np.ndarray:
     """Return the deterministic four-second teaching signal."""
 
-    time = (
+    time_values = (
         np.arange(PROVIDED_SAMPLE_RATE * PROVIDED_SOUND_SECONDS, dtype=np.float64)
         / PROVIDED_SAMPLE_RATE
     )
-    return (
-        (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * time))
-        * np.sin(2 * np.pi * 220 * time)
-    ).astype(np.float64)
+    return synthesize_provided_sound(time_values, PROVIDED_SOUND_PARAMETERS)
 
 
 def pinned_runtime_versions() -> dict[str, str]:
@@ -580,14 +600,16 @@ def build_notebook() -> dict[str, object]:
     PROVIDED_TEXT = __PROVIDED_TEXT__
     PROVIDED_SAMPLE_RATE = __PROVIDED_SAMPLE_RATE__
     PROVIDED_SOUND_SECONDS = __PROVIDED_SOUND_SECONDS__
+    PROVIDED_SOUND_PARAMETERS = __PROVIDED_SOUND_PARAMETERS__
+__PROVIDED_SOUND_FUNCTION__
     PROVIDED_TIME = (
         np.arange(PROVIDED_SAMPLE_RATE * PROVIDED_SOUND_SECONDS, dtype=np.float64)
         / PROVIDED_SAMPLE_RATE
     )
-    PROVIDED_SOUND = (
-        (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * PROVIDED_TIME))
-        * np.sin(2 * np.pi * 220 * PROVIDED_TIME)
-    ).astype(np.float64)
+    PROVIDED_SOUND = synthesize_provided_sound(
+        PROVIDED_TIME,
+        PROVIDED_SOUND_PARAMETERS,
+    )
     PROVIDED_IMAGE_CSV = __PROVIDED_IMAGE_CSV__
     EXPECTED_PROVIDED_DIGESTS = __EXPECTED_PROVIDED_DIGESTS__
 
@@ -608,6 +630,13 @@ def build_notebook() -> dict[str, object]:
 
     source_path = None
     source_bytes_before = None
+    if input_mode == "own":
+        assert Path(own_source_filename).name == own_source_filename, (
+            "own_source_filename에는 폴더가 아닌 업로드한 파일명만 입력하세요."
+        )
+        assert own_source_filename == expected_own_source_filename, (
+            f"자신의 입력 파일명을 {expected_own_source_filename}(으)로 바꾸고 STEP 1부터 다시 실행하세요."
+        )
     if project_track == "data":
         if input_mode == "provided":
             raw_payload = PROVIDED_DATA_CSV.encode("utf-8")
@@ -627,6 +656,7 @@ def build_notebook() -> dict[str, object]:
         numeric_values = pd.to_numeric(candidate_data["value"], errors="coerce")
         assert numeric_values.notna().all(), "value 열에 결측값 또는 숫자가 아닌 값이 있습니다."
         assert np.isfinite(numeric_values.to_numpy(dtype=float)).all(), "value 열에는 유한한 숫자만 사용할 수 있습니다."
+        assert numeric_values.ge(0).all(), "value 열에는 0 이상의 값만 사용할 수 있습니다."
         raw_data = pd.DataFrame({"category": category_values, "value": numeric_values})
         raw_snapshot = raw_data.copy(deep=True)
     elif project_track == "text":
@@ -702,6 +732,11 @@ def build_notebook() -> dict[str, object]:
         .replace("__PROVIDED_TEXT__", repr(PROVIDED_TEXT))
         .replace("__PROVIDED_SAMPLE_RATE__", repr(PROVIDED_SAMPLE_RATE))
         .replace("__PROVIDED_SOUND_SECONDS__", repr(PROVIDED_SOUND_SECONDS))
+        .replace("__PROVIDED_SOUND_PARAMETERS__", repr(PROVIDED_SOUND_PARAMETERS))
+        .replace(
+            "__PROVIDED_SOUND_FUNCTION__",
+            indent(dedent(inspect.getsource(synthesize_provided_sound)), "    ").rstrip(),
+        )
         .replace("__PROVIDED_IMAGE_CSV__", repr(PROVIDED_IMAGE_CSV))
         .replace("__EXPECTED_PROVIDED_DIGESTS__", repr(digests))
     )
@@ -716,7 +751,7 @@ def build_notebook() -> dict[str, object]:
             - 선택 경로: `data`, `text`, `sound`, `image`
             - 막히면 `input_mode = "provided"`를 유지하고 수업 제공 가상 자료로 먼저 완성합니다.
             - 자신의 파일을 쓰려면 프로젝트 면담에서 승인받고, 아래 규격에 맞춘 뒤 `input_mode = "own"`으로 바꿉니다.
-            - 9–13주차의 개인 코드를 재사용하려면 교수에게 처리·매핑 규칙을 승인받고 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. `processed_values`, `mapping_source_values`, `mapping_visual_values`라는 검증 계약은 유지합니다.
+            - 9–13주차의 개인 코드를 재사용하려면 2교시 신청자 면담에서 처리·매핑 규칙을 승인받고 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. 이 구역은 Matplotlib Figure를 만드는 계약이며 Folium·별도 웹페이지 전체를 넣지 않습니다. `processed_values`, `mapping_source_values`, `mapping_visual_values`라는 검증 계약은 유지합니다.
             - 마지막에는 새 런타임에서 **모두 실행**하고 `WEEK 14 PROJECT PROTOTYPE COMPLETE`를 확인합니다.
             """
         ),
@@ -759,6 +794,7 @@ def build_notebook() -> dict[str, object]:
             import pandas as pd
             from PIL import Image
             from matplotlib import font_manager
+            from matplotlib.colors import to_rgba
 
             def font_has_korean_glyphs(font_path):
                 try:
@@ -816,11 +852,11 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 1 · 프로젝트 카드 입력
 
-            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`를 유지하는 것이 가장 안전합니다. 1차 면담 뒤 판정과 축소 범위를 기록하고, 최종 교수 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
+            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`를 유지하는 것이 가장 안전합니다. 제공 경로는 `approval_status = "provided"`를 기록합니다. 자기 자료·이전 코드는 2교시 승인이 있을 때만 `approved` 또는 `scoped`를 기록합니다. 최종 30–45초 증거 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
 
             자신의 입력을 사용할 때의 규격은 다음과 같습니다.
 
-            - 데이터: `category`, `value` 열이 있는 UTF-8 CSV
+            - 데이터: `category`, `value` 열이 있는 UTF-8 CSV (`value`는 0 이상의 수)
             - 텍스트: UTF-8 TXT
             - 소리: 모노 PCM WAV
             - 규칙 기반 이미지: `x`, `y`, `size`, `color` 열이 있는 UTF-8 CSV (`x`, `y`는 0–1, `color`는 `#RRGGBB`)
@@ -834,7 +870,7 @@ def build_notebook() -> dict[str, object]:
 
             project_track = "data"  # data, text, sound, image 가운데 하나
             input_mode = "provided"  # provided 또는 own
-            own_source_filename = ""  # own일 때만 같은 폴더의 파일명 입력
+            own_source_filename = ""  # own일 때 week14_학번_이름_source.확장자 입력
             output_format = "png"  # png 또는 html
 
             approval_status = "EDIT: approved / scoped / provided 가운데 1차 면담 판정"
@@ -853,6 +889,21 @@ def build_notebook() -> dict[str, object]:
             processing_rule = "EDIT: 입력에서 무엇을 계산하거나 변환하는가"
             visual_rule = "EDIT: 어떤 값을 위치, 길이, 색상 또는 시간에 연결하는가"
 
+            def safe_filename_part(value):
+                return re.sub(r"[^0-9A-Za-z가-힣_-]+", "-", str(value).strip()).strip("-")
+
+            safe_student_id = safe_filename_part(student_id)
+            safe_student_name = safe_filename_part(student_name)
+            own_source_suffix = {
+                "data": ".csv",
+                "text": ".txt",
+                "sound": ".wav",
+                "image": ".csv",
+            }.get(project_track, "")
+            expected_own_source_filename = (
+                f"week14_{safe_student_id}_{safe_student_name}_source{own_source_suffix}"
+            )
+
             _run_order.append(1)
             print("STEP 1 READY · 프로젝트 카드 입력 완료")
             """
@@ -861,7 +912,7 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 2 · 입력 불러오기와 원본 보존
 
-            네 경로는 입력 모양이 다르지만, **처리하기 전 원본을 별도 변수에 보존하고 지문(digest)을 기록한다**는 원칙은 같습니다. 제공 자료는 수업을 위해 만든 가상 자료입니다. 데이터와 이미지 CSV는 결측값·빈 범주·무한대까지 먼저 검사합니다.
+            네 경로는 입력 모양이 다르지만, **처리하기 전 원본을 별도 변수에 보존하고 지문(digest)을 기록한다**는 원칙은 같습니다. 제공 자료는 수업을 위해 만든 가상 자료입니다. 데이터와 이미지 CSV는 결측값·빈 범주·무한대까지 먼저 검사하며, 데이터 막대 경로의 `value`는 0 이상이어야 합니다. `own` 파일은 업로드 전에 `week14_학번_이름_source.확장자`로 이름을 바꾸고 STEP 1에도 같은 이름을 기록합니다.
             """
         ),
         code_cell(step_two_source),
@@ -874,7 +925,7 @@ def build_notebook() -> dict[str, object]:
             - 소리 경로는 짧은 구간마다 RMS 에너지를 계산합니다.
             - 규칙 기반 이미지 경로는 위치·크기·색 매개변수를 유효한 도형 값으로 준비합니다.
 
-            출력되는 숫자는 장식이 아니라 시각화가 어떤 값을 사용했는지 보여 주는 증거입니다. 면담에서 다른 처리 규칙을 승인받았다면 아래 `APPROVED REUSE ZONE`의 해당 분기만 이전 주차 코드로 교체하되, 마지막의 `processed_values` 검증 계약을 유지합니다.
+            출력되는 숫자는 장식이 아니라 시각화가 어떤 값을 사용했는지 보여 주는 증거입니다. 2교시 신청자 면담에서 다른 처리 규칙을 승인받았다면 아래 `APPROVED REUSE ZONE`의 해당 분기만 이전 주차 코드로 교체하되, 마지막의 `processed_values` 검증 계약을 유지합니다. Folium·별도 HTML 저장은 이번 구역에 넣지 않고 15주차 행동으로 기록합니다.
             """
         ),
         code_cell(
@@ -1018,17 +1069,12 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 6 · PNG 또는 HTML 저장
 
-            `output_format`에 따라 1600 × 1000 PNG 또는 같은 PNG를 내부에 포함한 독립 HTML을 저장합니다. 저장한 뒤 노트북 밖에서 직접 열어 빈 화면, 글자 잘림, 지나치게 작은 글자가 없는지 확인합니다.
+            `output_format`에 따라 1600 × 1000 PNG 또는 같은 PNG와 질문·관찰·한계·출처를 내부에 포함한 반응형 HTML을 저장합니다. 이 HTML은 정적 증거 문서이며 Folium·별도 인터랙티브 웹페이지를 합치는 옵션이 아닙니다. 저장한 뒤 노트북 밖에서 직접 열어 빈 화면, 글자 잘림, 지나치게 작은 글자가 없는지 확인합니다.
             """
         ),
         code_cell(
             """
             # STEP 6 · 1600 × 1000 PNG 또는 독립 HTML 저장
-            def safe_filename_part(value):
-                return re.sub(r"[^0-9A-Za-z가-힣_-]+", "-", str(value).strip()).strip("-")
-
-            safe_student_id = safe_filename_part(student_id)
-            safe_student_name = safe_filename_part(student_name)
             output_filename = f"week14_{safe_student_id}_{safe_student_name}_preview.{output_format}"
             output_path = Path(output_filename)
 
@@ -1048,10 +1094,15 @@ def build_notebook() -> dict[str, object]:
                 html_source = html_module.escape(project_source)
                 html_rights = html_module.escape(usage_rights)
                 html_limit = html_module.escape(limitation_statement)
+                html_observation = html_module.escape(main_observation)
+                html_alt = html_module.escape(
+                    f"{project_track} 경로의 핵심 시각화. {main_observation}",
+                    quote=True,
+                )
                 html_output = f'''<!doctype html>
             <html lang="ko">
-            <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html_title}</title></head>
-            <body><main><h1>{html_title}</h1><img src="data:image/png;base64,{encoded_preview}" width="1600" height="1000" alt="프로젝트 핵심 시각화"><p>출처: {html_source}</p><p>이용 근거: {html_rights}</p><p>한계: {html_limit}</p></main></body>
+            <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html_title}</title><style>body{{margin:0;background:#f3efe5;color:#202523;font-family:system-ui,sans-serif}}main{{width:min(92vw,68rem);margin:0 auto;padding:2rem 0 4rem}}img{{display:block;max-width:100%;height:auto}}figcaption{{line-height:1.6}}figure{{margin:1.5rem 0}}</style></head>
+            <body><main><h1>{html_title}</h1><figure><img src="data:image/png;base64,{encoded_preview}" width="1600" height="1000" alt="{html_alt}"><figcaption><p><strong>관찰:</strong> {html_observation}</p><p><strong>한계:</strong> {html_limit}</p></figcaption></figure><p><strong>출처:</strong> {html_source}</p><p><strong>이용 근거:</strong> {html_rights}</p></main></body>
             </html>'''
                 output_path.write_text(html_output, encoding="utf-8")
             _run_order.append(6)
@@ -1077,6 +1128,10 @@ def build_notebook() -> dict[str, object]:
             assert safe_student_id and student_id not in {"학번", "student_id"}, "실제 학번을 입력하세요."
             assert safe_student_name and student_name not in {"이름", "student_name"}, "실제 이름을 입력하세요."
             assert approval_status in {"approved", "scoped", "provided"}, "1차 면담 판정을 approved, scoped, provided 가운데 하나로 기록하세요."
+            if input_mode == "provided":
+                assert approval_status == "provided", "제공 경로는 approval_status를 provided로 기록하세요."
+            else:
+                assert approval_status in {"approved", "scoped"}, "자신의 입력은 1차 면담 승인 또는 범위 축소 승인이 필요합니다."
             assert is_finished_text(approval_note, 10, 180), "승인 또는 축소 범위를 10~180자로 기록하세요."
             assert is_finished_text(project_question, 15, 70), "질문을 15~70자의 한 줄로 작성하세요."
             assert project_question.rstrip().endswith(("?", "？")), "프로젝트 질문은 물음표로 끝내세요."
@@ -1113,6 +1168,7 @@ def build_notebook() -> dict[str, object]:
             if input_mode == "provided":
                 assert source_digest_before == EXPECTED_PROVIDED_DIGESTS[project_track], "제공 입력의 내용이 달라졌습니다."
             else:
+                assert source_path.name == expected_own_source_filename, "제출 원본 파일명이 STEP 1의 표준 파일명과 다릅니다."
                 assert source_path.read_bytes() == source_bytes_before, "외부 입력 파일이 실행 중 변경되었습니다."
 
             assert visual_element_count == len(mapping_source_values), "처리 결과와 화면 요소 수가 다릅니다."
@@ -1125,6 +1181,10 @@ def build_notebook() -> dict[str, object]:
             elif project_track == "image":
                 assert np.allclose(mapping_position_values[:, 0], processed_x), "도형의 x 위치가 처리 결과와 일치하지 않습니다."
                 assert np.allclose(mapping_position_values[:, 1], processed_y), "도형의 y 위치가 처리 결과와 일치하지 않습니다."
+                rendered_colors = np.asarray(visual_artist.get_facecolors(), dtype=float)
+                expected_colors = np.asarray([to_rgba(color) for color in processed_colors], dtype=float)
+                assert rendered_colors.shape == expected_colors.shape, "도형의 색 개수가 처리 결과와 일치하지 않습니다."
+                assert np.allclose(rendered_colors, expected_colors), "도형의 색이 처리 결과와 일치하지 않습니다."
 
             assert output_path.is_file() and output_path.stat().st_size > 20_000, "미리보기 파일을 찾을 수 없거나 비어 있습니다."
             if output_format == "png":
@@ -1132,6 +1192,9 @@ def build_notebook() -> dict[str, object]:
             else:
                 checked_html = output_path.read_text(encoding="utf-8")
                 assert checked_html.lower().startswith("<!doctype html>"), "HTML 결과에 문서 선언이 없습니다."
+                assert "max-width:100%;height:auto" in checked_html, "HTML 이미지에 반응형 크기 규칙이 없습니다."
+                assert "<figcaption>" in checked_html and html_observation in checked_html, "HTML 결과에 관찰 설명이 없습니다."
+                assert f'alt="{html_alt}"' in checked_html, "HTML 이미지 대체 설명이 결과와 일치하지 않습니다."
                 encoded_match = re.search(r"data:image/png;base64,([A-Za-z0-9+/=]+)", checked_html)
                 assert encoded_match, "HTML 결과에 미리보기 이미지가 포함되지 않았습니다."
                 checked_preview_bytes = base64.b64decode(encoded_match.group(1), validate=True)
@@ -1160,7 +1223,7 @@ def build_notebook() -> dict[str, object]:
             2. `week14_학번_이름_preview.png` 또는 `week14_학번_이름_preview.html`
             3. `input_mode = "own"`이면 실행에 사용한 원본 파일
 
-            결과 파일을 직접 열고 교수에게 질문·권한·관찰·한계·두 수정 행동·가독성을 확인받습니다. 확인 뒤 `teacher_gate`를 변경하고 새 런타임에서 모두 실행해 PASS를 받은 다음 제출합니다.
+            `own`이면 노트북이 실제로 읽은 표준 이름의 원본 파일을 이름을 바꾸지 않고 함께 제출합니다. 결과 파일과 STEP 1·5를 한 화면에 준비해 교수에게 30–45초 증거 확인을 받고, `teacher_gate`를 변경한 뒤 새 런타임에서 모두 실행해 PASS를 받은 다음 제출합니다.
             """
         ),
     ]
@@ -1198,9 +1261,9 @@ def main() -> None:
     args.asset_dir.mkdir(parents=True, exist_ok=True)
     make_scope_to_slice(args.asset_dir / "week-14-scope-to-slice.png")
     make_prototype_contract(args.asset_dir / "week-14-prototype-contract.png")
-    make_project_path_preview(args.asset_dir / "week-14-three-track-preview.png")
+    make_project_path_preview(args.asset_dir / "week-14-four-path-preview.png")
     write_notebook(args.asset_dir / "week-14-project-prototype-mission.ipynb")
-    print("Generated Week 14 scope, prototype, track, and notebook assets.")
+    print("Generated Week 14 scope, prototype, four-path, and notebook assets.")
 
 
 if __name__ == "__main__":
