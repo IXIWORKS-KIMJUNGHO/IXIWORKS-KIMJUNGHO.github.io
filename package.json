@@ -15,6 +15,9 @@
     "generate:week11-assets": "python3 scripts/generate-week11-data-poster-assets.py",
     "setup:week11-assets": "python3 -m pip install -r requirements-week11-assets.txt",
     "test:week11-assets": "WEEK11_STRICT_ASSET_TEST=1 WEEK11_STRICT_NOTEBOOK_TEST=1 node --test tests/contents-programming-week11.test.mjs",
+    "generate:week14-assets": "python3 scripts/generate-week14-project-assets.py",
+    "setup:week14-assets": "python3 -m pip install -r requirements-week14-assets.txt",
+    "test:week14-assets": "WEEK14_STRICT_ASSET_TEST=1 WEEK14_STRICT_NOTEBOOK_TEST=1 node --test tests/contents-programming-week14.test.mjs",
     "test": "node --test tests/*.test.mjs"
   }
 }

@@ -70,6 +70,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-mission-preview.png",
     alt: "변수와 계산 결과를 보여주는 2주차 자기소개 데이터 미션 미리보기",
   }),
+  "teaching/contents-programming/week-14-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-14-scope-to-slice.png",
+    alt: "넓은 프로젝트 아이디어를 한 질문, 한 입력, 한 규칙, 한 표현과 한 결과로 줄이는 범위 설계 도해",
+  }),
+  "teaching/contents-programming/week-14-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-14-prototype-contract.png",
+    alt: "입력, 원본 보존, 처리, 시각적 매핑, 파일 저장과 검토 증거를 연결한 30퍼센트 프로토타입 도해",
+  }),
+  "teaching/contents-programming/week-14-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-14-three-track-preview.png",
+    alt: "데이터 막대, 텍스트 빈도 막대, 사운드 에너지 선으로 구성된 세 가지 프로젝트 경로 예시",
+  }),
 });
 
 function relativeWebPath(root, path) {
