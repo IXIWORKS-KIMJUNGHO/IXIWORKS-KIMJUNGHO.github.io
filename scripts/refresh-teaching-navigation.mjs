@@ -136,10 +136,9 @@ function removeLegacyDocumentHeader(html) {
 }
 
 function lessonNavigationCopy(course, current) {
-  const usesKoreanWeek9Copy =
-    course === "contents-programming" && current.startsWith("week-09-");
+  const usesKoreanCopy = course === "contents-programming";
 
-  return usesKoreanWeek9Copy
+  return usesKoreanCopy
     ? {
         navigationLabel: "강의 이동",
         previousText: "이전",
@@ -195,7 +194,10 @@ async function documentOrder(course) {
   )];
 }
 
-async function refreshDocuments(course) {
+async function refreshDocuments(
+  course,
+  { selectedDocuments = null, writeChanges = true } = {},
+) {
   const config = courses[course];
   const directory = resolve(teachingRoot, course);
   const order = await documentOrder(course);
@@ -215,6 +217,7 @@ async function refreshDocuments(course) {
   let changed = 0;
   for (const [index, name] of documents.entries()) {
     if (config.exceptions?.has(name)) continue;
+    if (selectedDocuments && !selectedDocuments.has(name)) continue;
 
     const path = resolve(directory, name);
     const before = await readFile(path, "utf8");
@@ -238,7 +241,7 @@ async function refreshDocuments(course) {
     after = after.replace(/[ \t]+$/gm, "");
 
     if (after !== before) {
-      await writeFile(path, after);
+      if (writeChanges) await writeFile(path, after);
       changed += 1;
     }
   }
@@ -365,7 +368,44 @@ ${updatedMain.trim()}
   if (after !== before) await writeFile(path, after);
 }
 
-async function refreshAll() {
+function parseArguments(argumentsList) {
+  const valueAfter = (flag) => {
+    const index = argumentsList.indexOf(flag);
+    return index === -1 ? null : argumentsList[index + 1] ?? null;
+  };
+  const course = valueAfter("--course");
+  const documentList = valueAfter("--documents");
+  if (documentList && !course) {
+    throw new Error("--documents requires --course");
+  }
+  if (course && !courses[course]) {
+    throw new Error(`Unknown teaching course: ${course}`);
+  }
+  return {
+    check: argumentsList.includes("--check"),
+    course,
+    selectedDocuments: documentList
+      ? new Set(documentList.split(",").filter(Boolean))
+      : null,
+  };
+}
+
+async function refreshAll(options = {}) {
+  const { check = false, course = null, selectedDocuments = null } = options;
+  if (course) {
+    const changedDocuments = await refreshDocuments(course, {
+      selectedDocuments,
+      writeChanges: !check,
+    });
+    if (check) {
+      console.log(`${changedDocuments} document shell changes required.`);
+      if (changedDocuments > 0) process.exitCode = 1;
+    } else {
+      console.log(`Refreshed ${changedDocuments} ${course} document shells.`);
+    }
+    return;
+  }
+
   await refreshCourseIndex("game-engine");
   await refreshCourseIndex("media-art-programming");
 
@@ -377,5 +417,5 @@ async function refreshAll() {
 }
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  await refreshAll();
+  await refreshAll(parseArguments(process.argv.slice(2)));
 }

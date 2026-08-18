@@ -657,12 +657,28 @@ def build_notebook() -> dict[str, object]:
                 f"week15_{safe_student_id}_{safe_student_name}_revision_log.html"
             )
 
+            class TrackedProjectInput:
+                def __init__(self, path):
+                    self.path = Path(path)
+                    self._bytes = self.path.read_bytes()
+                    self.digest = sha256(self._bytes).hexdigest()
+                    self.read_count = 0
+
+                def read_bytes(self):
+                    self.read_count += 1
+                    return self._bytes
+
+                def read_text(self, encoding="utf-8"):
+                    return self.read_bytes().decode(encoding)
+
             own_source_path = None
             own_source_digest = None
+            project_input = None
             if project_mode == "own":
                 own_source_path = Path(own_source_filename)
                 assert own_source_path.is_file(), "own 경로의 승인된 실제 입력 파일을 찾을 수 없습니다."
-                own_source_digest = sha256_file(own_source_path)
+                project_input = TrackedProjectInput(own_source_path)
+                own_source_digest = project_input.digest
 
             if baseline_mode == "upload":
                 baseline_source_path = Path(baseline_source_filename)
@@ -696,11 +712,24 @@ def build_notebook() -> dict[str, object]:
             revision_action_1 = "EDIT: 정확성: 값과 화면의 일치를 높이는 수정"
             revision_action_2 = "EDIT: 가독성: 제목, 단위 또는 설명을 높이는 수정"
 
-            assert {revision_focus_1, revision_focus_2} == {"accuracy", "readability"}
+            REVISION_LENS_LABELS = {
+                "accuracy": "정확성",
+                "readability": "가독성",
+                "reproducibility": "재현성",
+                "responsibility": "책임성",
+                "presentation": "발표 가능성",
+            }
+            selected_revision_focuses = [revision_focus_1, revision_focus_2]
+            assert all(
+                focus in REVISION_LENS_LABELS for focus in selected_revision_focuses
+            ), "수정 초점은 다섯 검토 렌즈 가운데 선택하세요."
+            assert len(set(selected_revision_focuses)) == 2, "서로 다른 두 수정 초점을 선택하세요."
             ensure_written(revision_action_1, "수정 행동 1")
             ensure_written(revision_action_2, "수정 행동 2")
-            assert revision_action_1.startswith("정확성:"), "수정 행동 1은 '정확성:'으로 시작하세요."
-            assert revision_action_2.startswith("가독성:"), "수정 행동 2는 '가독성:'으로 시작하세요."
+            expected_prefix_1 = f"{REVISION_LENS_LABELS[revision_focus_1]}:"
+            expected_prefix_2 = f"{REVISION_LENS_LABELS[revision_focus_2]}:"
+            assert revision_action_1.startswith(expected_prefix_1), f"수정 행동 1은 '{expected_prefix_1}'으로 시작하세요."
+            assert revision_action_2.startswith(expected_prefix_2), f"수정 행동 2는 '{expected_prefix_2}'으로 시작하세요."
             revision_action_detail_1 = revision_action_1.split(":", 1)[1].strip()
             revision_action_detail_2 = revision_action_2.split(":", 1)[1].strip()
             ensure_written(revision_action_detail_1, "수정 행동 1의 구체적 내용")
@@ -712,9 +741,9 @@ def build_notebook() -> dict[str, object]:
 
             # APPROVED PROJECT CODE ZONE
             # 자신의 프로젝트를 이어갈 때에는 이 함수 안의 제공 예시만 승인된 코드로 교체합니다.
-            # own 경로는 input_origin="own", own_source_digest와 실제 적용한 두 revision focus를 증거로 반환해야 합니다.
-            # 함수는 수정 전 Figure, 수정 후 Figure, 화면 증거 사전을 반환해야 합니다.
-            def build_project_outputs():
+            # own 경로는 project_input.read_bytes() 또는 read_text()로 승인 입력을 읽습니다.
+            # 함수는 수정 전 Figure, 수정 후 Figure, 핵심 값 증거를 반환합니다.
+            def build_project_outputs(project_input=None):
                 baseline_figure, baseline_axis = plt.subplots(figsize=(8, 5), dpi=200)
                 refined_figure, refined_axis = plt.subplots(figsize=(8, 5), dpi=200)
 
@@ -806,25 +835,9 @@ def build_notebook() -> dict[str, object]:
 
                 baseline_axis.set_title(f"{project_track.upper()} · BASELINE")
                 refined_axis.set_title(f"{project_track.upper()} · REFINED")
-                refined_axis.spines[["top", "right"]].set_visible(False)
-                refined_figure.text(
-                    0.01,
-                    0.035,
-                    f"APPLIED: {revision_focus_1.upper()} + {revision_focus_2.upper()} · {revision_evidence_id}",
-                    fontsize=7,
-                )
-                refined_figure.text(0.01, 0.012, f"Source: {source_title} | Date: {reference_date}", fontsize=7)
-                refined_figure.tight_layout(rect=(0, 0.065, 1, 1))
 
                 evidence = {
                     "track": project_track,
-                    "input_origin": "provided",
-                    "input_digest": None,
-                    "revision_evidence_id": revision_evidence_id,
-                    "applied_revision_focuses": [
-                        revision_focus_1,
-                        revision_focus_2,
-                    ],
                     "input_count": len(raw_values),
                     "visual_count": len(refined_values),
                     "value_match": sorted(raw_values) == sorted(refined_values),
@@ -832,7 +845,132 @@ def build_notebook() -> dict[str, object]:
                 }
                 return baseline_figure, refined_figure, evidence
 
-            baseline_figure, refined_figure, project_evidence = build_project_outputs()
+            baseline_figure, refined_figure, core_project_evidence = build_project_outputs(
+                project_input
+            )
+            required_core_fields = {
+                "track",
+                "input_count",
+                "visual_count",
+                "value_match",
+                "unit",
+            }
+            assert required_core_fields <= core_project_evidence.keys(), "승인 코드의 핵심 값 증거가 부족합니다."
+            assert core_project_evidence["track"] == project_track
+            assert core_project_evidence["input_count"] == core_project_evidence["visual_count"]
+            assert core_project_evidence["value_match"] is True
+            if project_mode == "own":
+                assert project_input.read_count > 0, "own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다."
+
+            def apply_revision_contract(figure, core_evidence):
+                axis = figure.axes[0]
+                actions = [revision_action_1, revision_action_2]
+                rendered_markers = []
+                render_proofs = {}
+                figure.tight_layout(rect=(0, 0.13, 1, 0.97))
+                figure.canvas.draw()
+                render_digests = [
+                    sha256(bytes(figure.canvas.buffer_rgba())).hexdigest()
+                ]
+                input_binding_id = (
+                    own_source_digest[:12]
+                    if own_source_digest
+                    else sha256(f"provided:{project_track}".encode("utf-8")).hexdigest()[:12]
+                )
+
+                for index, (focus, action) in enumerate(
+                    zip(selected_revision_focuses, actions)
+                ):
+                    action_detail = action.split(":", 1)[1].strip()
+                    marker = f"{REVISION_LENS_LABELS[focus]} · {action_detail}"
+                    marker_artist = figure.text(
+                        0.01,
+                        0.09 - index * 0.027,
+                        marker,
+                        fontsize=6.5,
+                        color="#202523",
+                    )
+                    rendered_markers.append(marker)
+                    proof = marker_artist in figure.texts and marker_artist.get_text() == marker
+
+                    if focus == "accuracy":
+                        axis.grid(axis="x", color="#c7c8be", linewidth=0.6, alpha=0.6)
+                        check_text = f"COUNT CHECK {core_evidence['input_count']} = {core_evidence['visual_count']}"
+                        check_artist = axis.text(
+                            0.99,
+                            0.02,
+                            check_text,
+                            transform=axis.transAxes,
+                            ha="right",
+                            va="bottom",
+                            fontsize=7,
+                        )
+                        proof = proof and check_artist.get_text() == check_text
+                    elif focus == "readability":
+                        axis.set_title(project_question)
+                        proof = proof and axis.get_title() == project_question and bool(core_evidence["unit"])
+                    elif focus == "reproducibility":
+                        reproducibility_artist = figure.text(
+                            0.99,
+                            0.012,
+                            f"RUN {revision_evidence_id} · INPUT {input_binding_id}",
+                            ha="right",
+                            fontsize=6.5,
+                        )
+                        proof = proof and revision_evidence_id in reproducibility_artist.get_text()
+                    elif focus == "responsibility":
+                        responsibility_artist = figure.text(
+                            0.01,
+                            0.012,
+                            f"SOURCE {source_title} · {reference_date}",
+                            fontsize=6.5,
+                        )
+                        proof = proof and source_title in responsibility_artist.get_text()
+                    elif focus == "presentation":
+                        figure.set_facecolor("#f3efe5")
+                        axis.set_facecolor("#fffdf8")
+                        axis.spines[["top", "right"]].set_visible(False)
+                        axis.tick_params(colors="#202523")
+                        proof = proof and not axis.spines["top"].get_visible() and not axis.spines["right"].get_visible()
+
+                    render_proofs[focus] = bool(proof)
+                    figure.canvas.draw()
+                    render_digests.append(
+                        sha256(bytes(figure.canvas.buffer_rgba())).hexdigest()
+                    )
+
+                binding_artist = figure.text(
+                    0.5,
+                    0.012,
+                    f"INPUT BINDING {input_binding_id}",
+                    ha="center",
+                    fontsize=6.5,
+                )
+                rendered_text = {artist.get_text() for artist in figure.texts}
+                assert all(marker in rendered_text for marker in rendered_markers), "선택한 수정 행동이 결과 화면에 적용되지 않았습니다."
+                assert binding_artist.get_text() in rendered_text, "실제 입력의 지문이 결과 화면에 연결되지 않았습니다."
+                assert all(render_proofs.values()), "선택한 수정 초점의 화면 증거가 부족합니다."
+                assert len(set(render_digests)) == 3, "각 수정 행동이 화면 픽셀을 실제로 바꾸어야 합니다."
+                return render_proofs, rendered_markers, render_digests, input_binding_id
+
+            (
+                revision_render_proofs,
+                rendered_revision_markers,
+                revision_render_digests,
+                input_binding_id,
+            ) = apply_revision_contract(refined_figure, core_project_evidence)
+            project_evidence = {
+                **core_project_evidence,
+                "input_origin": project_mode,
+                "input_digest": own_source_digest,
+                "input_binding_id": input_binding_id,
+                "source_read_count": project_input.read_count if project_input else 0,
+                "revision_evidence_id": revision_evidence_id,
+                "applied_revision_focuses": list(selected_revision_focuses),
+                "revision_render_proofs": revision_render_proofs,
+                "rendered_revision_markers": rendered_revision_markers,
+                "revision_render_digests": revision_render_digests,
+            }
             if baseline_mode == "provided":
                 baseline_figure.savefig(baseline_output_path, dpi=200, facecolor="#f3efe5")
             plt.close(baseline_figure)
@@ -862,8 +1000,13 @@ def build_notebook() -> dict[str, object]:
                 "track",
                 "input_origin",
                 "input_digest",
+                "input_binding_id",
+                "source_read_count",
                 "revision_evidence_id",
                 "applied_revision_focuses",
+                "revision_render_proofs",
+                "rendered_revision_markers",
+                "revision_render_digests",
                 "input_count",
                 "visual_count",
                 "value_match",
@@ -874,7 +1017,12 @@ def build_notebook() -> dict[str, object]:
             assert project_evidence["input_origin"] == project_mode, "own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다."
             assert project_evidence["input_digest"] == own_source_digest, "own 경로는 실제 입력 파일의 SHA-256 증거를 반환해야 합니다."
             assert project_evidence["revision_evidence_id"] == revision_evidence_id, "수정 행동 문장과 결과의 증거 ID가 일치해야 합니다."
-            assert set(project_evidence["applied_revision_focuses"]) == {"accuracy", "readability"}, "정확성과 가독성 수정이 모두 실제 결과에 적용되어야 합니다."
+            assert project_evidence["applied_revision_focuses"] == selected_revision_focuses, "선택한 두 수정 초점이 실제 결과와 일치해야 합니다."
+            assert all(project_evidence["revision_render_proofs"].values()), "선택한 수정 초점의 화면 증거가 부족합니다."
+            assert len(project_evidence["rendered_revision_markers"]) == 2, "두 수정 행동이 결과 화면에 표시되어야 합니다."
+            assert len(set(project_evidence["revision_render_digests"])) == 3, "각 수정 행동이 화면 픽셀을 실제로 바꾸어야 합니다."
+            if project_mode == "own":
+                assert project_evidence["source_read_count"] > 0, "own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다."
             assert project_evidence["input_count"] == project_evidence["visual_count"]
             assert project_evidence["value_match"] is True
 
@@ -888,11 +1036,21 @@ def build_notebook() -> dict[str, object]:
                 "value_match": project_evidence["value_match"],
                 "input_origin": project_evidence["input_origin"],
                 "input_digest": project_evidence["input_digest"],
+                "input_binding_id": project_evidence["input_binding_id"],
                 "revision_evidence_id": project_evidence[
                     "revision_evidence_id"
                 ],
                 "applied_revision_focuses": project_evidence[
                     "applied_revision_focuses"
+                ],
+                "revision_render_proofs": project_evidence[
+                    "revision_render_proofs"
+                ],
+                "rendered_revision_markers": project_evidence[
+                    "rendered_revision_markers"
+                ],
+                "revision_render_digests": project_evidence[
+                    "revision_render_digests"
                 ],
             }
 
@@ -915,6 +1073,18 @@ def build_notebook() -> dict[str, object]:
             refined_data_uri = "data:image/png;base64," + base64.b64encode(
                 refined_output_path.read_bytes()
             ).decode("ascii")
+            track_labels = {
+                "data": "데이터",
+                "text": "텍스트",
+                "sound": "사운드",
+                "image": "규칙 기반 이미지",
+            }
+            baseline_alt = f"{track_labels[project_track]} 경로의 수정 전 기준 화면. 프로젝트 질문: {project_question}"
+            refined_alt = (
+                f"{track_labels[project_track]} 경로의 수정 후 결과. "
+                f"적용한 수정은 {revision_action_1}, {revision_action_2}. "
+                f"핵심 관찰: {main_observation}"
+            )
 
             revision_log_html = f'''<!doctype html>
             <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -923,8 +1093,8 @@ def build_notebook() -> dict[str, object]:
             main{{padding:28px;border:1px solid #c7c8be;background:#fffdf8}}img{{width:100%;height:auto;border:1px solid #c7c8be}}
             .compare{{display:grid;grid-template-columns:1fr 1fr;gap:18px}}dt{{font-weight:700}}dd{{margin:0 0 12px}}@media(max-width:760px){{.compare{{grid-template-columns:1fr}}}}
             </style></head><body><main><h1>{escape(project_question)}</h1>
-            <div class="compare"><figure><img src="{baseline_data_uri}" alt="수정 전 결과"><figcaption>수정 전</figcaption></figure>
-            <figure><img src="{refined_data_uri}" alt="수정 후 결과"><figcaption>수정 후</figcaption></figure></div>
+            <div class="compare"><figure><img src="{baseline_data_uri}" alt="{escape(baseline_alt)}"><figcaption>수정 전 기준점</figcaption></figure>
+            <figure><img src="{refined_data_uri}" alt="{escape(refined_alt)}"><figcaption>두 수정 행동이 적용된 결과</figcaption></figure></div>
             <dl><dt>수정 행동 1</dt><dd>{escape(revision_action_1)}</dd><dt>수정 행동 2</dt><dd>{escape(revision_action_2)}</dd>
             <dt>수정 증거 ID</dt><dd>{revision_evidence_id}</dd><dt>관찰</dt><dd>{escape(main_observation)}</dd><dt>한계</dt><dd>{escape(limitation_statement)}</dd>
             <dt>출처</dt><dd>{escape(source_title)} / {escape(usage_rights)} / {escape(reference_date)}</dd>
@@ -959,8 +1129,8 @@ def build_notebook() -> dict[str, object]:
             ]:
                 ensure_written(value, label)
 
-            assert revision_action_1.startswith("정확성:"), "수정 행동 1은 '정확성:'으로 시작하세요."
-            assert revision_action_2.startswith("가독성:"), "수정 행동 2는 '가독성:'으로 시작하세요."
+            assert revision_action_1.startswith(expected_prefix_1), f"수정 행동 1은 '{expected_prefix_1}'으로 시작하세요."
+            assert revision_action_2.startswith(expected_prefix_2), f"수정 행동 2는 '{expected_prefix_2}'으로 시작하세요."
             assert revision_action_detail_1 != revision_action_detail_2, "서로 다른 두 수정 행동을 기록하세요."
             assert evidence_report["baseline_digest"] != evidence_report["refined_digest"]
             assert evidence_report["value_match"] is True
@@ -969,7 +1139,10 @@ def build_notebook() -> dict[str, object]:
             assert evidence_report["revision_evidence_id"] == revision_evidence_id
             if project_mode == "own":
                 assert sha256_file(own_source_path) == own_source_digest, "실행 중 own 입력 파일이 변경되었습니다."
-            assert set(evidence_report["applied_revision_focuses"]) == {"accuracy", "readability"}
+            assert evidence_report["applied_revision_focuses"] == selected_revision_focuses
+            assert all(evidence_report["revision_render_proofs"].values())
+            assert len(evidence_report["rendered_revision_markers"]) == 2
+            assert len(set(evidence_report["revision_render_digests"])) == 3
             assert baseline_output_path.is_file()
             assert refined_output_path.is_file()
             assert revision_log_path.is_file()

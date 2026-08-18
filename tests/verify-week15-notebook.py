@@ -55,14 +55,23 @@ def edited_cells(
     approval_status: str | None = None,
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
+    revision_focuses: tuple[str, str] = ("accuracy", "readability"),
 ) -> list[dict[str, object]]:
     """Return one fully edited student copy without changing the source notebook."""
 
-    first_action = "정확성: 전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
+    lens_labels = {
+        "accuracy": "정확성",
+        "readability": "가독성",
+        "reproducibility": "재현성",
+        "responsibility": "책임성",
+        "presentation": "발표 가능성",
+    }
+    first_detail = "전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
+    first_action = f"{lens_labels[revision_focuses[0]]}: {first_detail}"
     second_action = (
-        "가독성: 전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
+        f"{lens_labels[revision_focuses[1]]}: {first_detail}"
         if duplicate_actions
-        else "가독성: 제목과 축 단위, 출처가 저장 이미지에서 읽히도록 정리한다"
+        else f"{lens_labels[revision_focuses[1]]}: 제목과 축 단위, 출처가 저장 이미지에서 읽히도록 정리한다"
     )
     values = {
         "student_id": "20261234",
@@ -81,6 +90,8 @@ def edited_cells(
         "usage_rights": "수업 실습과 제출을 위해 사용할 수 있는 교수자 제공 자료",
         "reference_date": "2026-08-18 수업 기준 자료",
         "privacy_check": "실명과 연락처를 포함하지 않는 가상 자료임을 확인했다",
+        "revision_focus_1": revision_focuses[0],
+        "revision_focus_2": revision_focuses[1],
         "revision_action_1": first_action,
         "revision_action_2": second_action,
         "main_observation": "수정 결과에는 처리한 모든 항목과 값 레이블이 함께 표시된다",
@@ -107,10 +118,8 @@ def edited_cells(
         replacements = {
             "raw_values = [84, 63, 49]": (
                 'raw_values = [int(value) for value in '
-                'own_source_path.read_text(encoding="utf-8").split(",")]'
+                'project_input.read_text(encoding="utf-8").split(",")]'
             ),
-            '"input_origin": "provided",': '"input_origin": "own",',
-            '"input_digest": None,': '"input_digest": own_source_digest,',
         }
         for old, new in replacements.items():
             replacement_count = 0
@@ -166,6 +175,7 @@ def run_valid_scenario(
     baseline_mode: str = "provided",
     baseline_upload_format: str = "png",
     project_mode: str = "provided",
+    revision_focuses: tuple[str, str] = ("accuracy", "readability"),
 ) -> dict[str, object]:
     """Execute one valid guided path and inspect the three submission files."""
 
@@ -174,7 +184,7 @@ def run_valid_scenario(
         own_source_filename = "approved_own_values.csv"
         if project_mode == "own":
             (directory / own_source_filename).write_text(
-                "84,63,49",
+                "91,52,37",
                 encoding="utf-8",
             )
         baseline_filename = f"uploaded_week14_baseline.{baseline_upload_format}"
@@ -209,6 +219,7 @@ def run_valid_scenario(
                 own_source_filename if project_mode == "own" else ""
             ),
             valid_own_adapter=project_mode == "own",
+            revision_focuses=revision_focuses,
         )
         namespace, output, failure = execute_cells(cells, directory)
         if failure is not None:
@@ -257,6 +268,16 @@ def run_valid_scenario(
         expected_evidence_id = namespace["revision_evidence_id"]
         if evidence["revision_evidence_id"] != expected_evidence_id:
             raise AssertionError("revision text is not connected to the rendered evidence")
+        if evidence["applied_revision_focuses"] != list(revision_focuses):
+            raise AssertionError("selected revision focuses are not connected to the result")
+        if not all(evidence["revision_render_proofs"].values()):
+            raise AssertionError("a selected revision focus lacks rendered evidence")
+        if len(evidence["rendered_revision_markers"]) != 2:
+            raise AssertionError("both revision actions must be rendered")
+        if len(evidence["revision_render_digests"]) != 3:
+            raise AssertionError("both revision actions need before/after render digests")
+        if len(set(evidence["revision_render_digests"])) != 3:
+            raise AssertionError("each revision action must change rendered pixels")
         if project_mode == "own" and evidence["input_digest"] != namespace["own_source_digest"]:
             raise AssertionError("own project evidence missed the actual input digest")
         if namespace["baseline_snapshot_digest"] == namespace["refined_output_digest"]:
@@ -266,6 +287,7 @@ def run_valid_scenario(
             "track": track,
             "project_mode": project_mode,
             "baseline_mode": baseline_mode,
+            "revision_focuses": list(revision_focuses),
             "baseline_source_suffix": (
                 f".{baseline_upload_format}" if baseline_mode == "upload" else ""
             ),
@@ -291,7 +313,7 @@ def run_expected_failure(
         own_source_filename = "approved_own_values.csv"
         if project_mode == "own":
             (directory / own_source_filename).write_text(
-                "84,63,49",
+                "91,52,37",
                 encoding="utf-8",
             )
         cells = edited_cells(
@@ -374,6 +396,13 @@ def main() -> None:
             baseline_upload_format="html",
         )
     )
+    results.append(
+        run_valid_scenario(
+            code_cells,
+            track="data",
+            revision_focuses=("responsibility", "presentation"),
+        )
+    )
     failures = [
         run_expected_failure(
             code_cells,
@@ -388,7 +417,7 @@ def main() -> None:
         run_expected_failure(
             code_cells,
             project_mode="own",
-            expected_message="own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다",
+            expected_message="own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다",
         ),
         run_expected_failure(
             code_cells,

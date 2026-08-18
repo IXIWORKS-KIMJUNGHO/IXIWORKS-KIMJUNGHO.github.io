@@ -73,6 +73,23 @@ test("Contents Programming week 15 publishes three connected lessons", async () 
   assert.doesNotMatch(period3, /rel="next"/);
 });
 
+test("week 15 lesson shells match the teaching navigation generator", () => {
+  const result = spawnSync(
+    process.execPath,
+    [
+      resolve(root, "scripts", "refresh-teaching-navigation.mjs"),
+      "--check",
+      "--course",
+      "contents-programming",
+      "--documents",
+      "week-15-period1.html,week-15-period2.html,week-15-period3.html",
+    ],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  assert.match(result.stdout, /0 document shell changes required/);
+});
+
 test("period 1 teaches evidence-led revision with four concrete cases", async () => {
   const period1 = await readFile(
     resolve(courseDirectory, "week-15-period1.html"),
@@ -166,7 +183,7 @@ test("period 2 teaches final QA and uses a bounded review queue", async () => {
     "60-90초",
     "최대 10명",
     "나머지 학생은 기다리지 않습니다",
-    "30명도 최대 22.5분",
+    "30명도 최대 15분",
     "수정 계약서",
     "3교시 준비",
     "기본 50분 / 확장 60분",
@@ -182,12 +199,13 @@ test("period 3 is a persistent, finite, goal-based 70 percent mission", async ()
   );
 
   assertTimeline(period3, [
-    [0, 5],
-    [5, 11],
-    [11, 19],
-    [19, 29],
-    [29, 37],
-    [37, 43],
+    [0, 3],
+    [3, 7],
+    [7, 13],
+    [13, 19],
+    [19, 24],
+    [24, 28],
+    [28, 43],
     [43, 47],
     [47, 50],
   ]);
@@ -207,15 +225,15 @@ test("period 3 is a persistent, finite, goal-based 70 percent mission", async ()
     "week15_학번_이름_refined.png",
     "week15_학번_이름_revision_log.html",
     "APPROVED PROJECT CODE ZONE",
-    "input_origin = &quot;own&quot;",
+    "project_input.read_text()",
     "own_source_filename",
     "approval_status = \"approved\"",
     "AUTOMATIC EVIDENCE READY",
     "teacher_gate = &quot;confirmed&quot;",
     "새 런타임",
-    "완성 순서대로 30-45초",
-    "교수 확인 대기열은 19분부터 열리고 47분까지 제작과 병행합니다",
-    "30명도 최대 22.5분",
+    "완성 순서대로 최대 30초",
+    "교수 확인 대기열은 19분부터 열립니다",
+    "30명도 최대 15분",
     "WEEK 15 PROJECT REFINEMENT COMPLETE",
     "선택 확장",
     "추가 점수에 포함하지 않습니다",
@@ -322,20 +340,29 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /revision_action_2 = "EDIT:/,
     /revision_focus_1 = "accuracy"/,
     /revision_focus_2 = "readability"/,
+    /REVISION_LENS_LABELS = \{/,
+    /"responsibility": "책임성"/,
+    /"reproducibility": "재현성"/,
+    /"presentation": "발표 가능성"/,
     /main_observation = "EDIT:/,
     /limitation_statement = "EDIT:/,
     /teacher_feedback = "EDIT:/,
     /teacher_gate = "pending"/,
     /APPROVED PROJECT CODE ZONE/,
-    /def build_project_outputs\(/,
+    /def build_project_outputs\(project_input=None\)/,
+    /class TrackedProjectInput:/,
+    /project_input\.read_count/,
+    /def apply_revision_contract\(/,
     /if project_track == "data"/,
     /elif project_track == "text"/,
     /elif project_track == "sound"/,
     /"track": project_track/,
-    /"input_origin": "provided"/,
-    /"input_digest": None/,
+    /"input_origin": project_mode/,
+    /"input_digest": own_source_digest/,
     /"revision_evidence_id": revision_evidence_id/,
-    /"applied_revision_focuses": \[/,
+    /"revision_render_proofs": revision_render_proofs/,
+    /"rendered_revision_markers": rendered_revision_markers/,
+    /"revision_render_digests": revision_render_digests/,
     /baseline_snapshot_digest = sha256_file/,
     /refined_output_digest = sha256_file/,
     /baseline_snapshot_digest != refined_output_digest/,
@@ -347,6 +374,8 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /<dt>관찰<\/dt>/,
     /<dt>한계<\/dt>/,
     /<dt>수정 증거 ID<\/dt>/,
+    /baseline_alt = f/,
+    /refined_alt = \(/,
     /Image\.open\(refined_output_path\)/,
     /saved_image\.size == \(1600, 1000\)/,
     /week15_\{safe_student_id\}_\{safe_student_name\}_baseline\.png/,
@@ -366,6 +395,7 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /\b(?:figure|axis|raw_values|refined_values)\b/,
     "FINAL CHECK should depend on published evidence rather than hidden plot state",
   );
+  assert.doesNotMatch(notebookCode, /alt="수정 (?:전|후) 결과"/);
 });
 
 test("week 15 visual assets have the published dimensions", async () => {
@@ -437,9 +467,13 @@ test("week 15 notebook executes four guided paths and rejects false completion",
   assert.match(result.stdout, /"baseline_mode": "upload"/);
   assert.match(result.stdout, /"baseline_source_suffix": "\.html"/);
   assert.match(result.stdout, /"project_mode": "own"/);
+  assert.match(
+    result.stdout,
+    /"revision_focuses": \["responsibility", "presentation"\]/,
+  );
   assert.match(result.stdout, /교수의 증거 확인 뒤 teacher_gate를 confirmed로 바꾸세요/);
   assert.match(result.stdout, /서로 다른 두 수정 행동을 기록하세요/);
-  assert.match(result.stdout, /own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다/);
+  assert.match(result.stdout, /own 경로의 승인 코드는 project_input을 실제로 읽어야 합니다/);
   assert.match(result.stdout, /approval_status는 provided 또는 approved여야 합니다/);
   assert.match(result.stdout, /마지막 검사는 새 런타임에서 모두 실행해야 합니다/);
 });
