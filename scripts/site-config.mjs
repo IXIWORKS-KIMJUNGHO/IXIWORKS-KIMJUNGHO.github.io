@@ -150,6 +150,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-14-four-path-preview.png",
     alt: "데이터 막대, 텍스트 빈도 막대, 사운드 에너지 선, 규칙 기반 원 구성으로 이루어진 네 가지 프로젝트 경로 예시",
   }),
+  "teaching/contents-programming/week-15-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-15-progress-ladder.png",
+    alt: "30%, 70%, 100% 프로젝트 단계와 다섯 검토 기준을 연결한 진행 사다리",
+  }),
+  "teaching/contents-programming/week-15-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-15-submission-package.png",
+    alt: "노트북, 수정 결과 이미지, 수정 기록, 조건부 원본 파일이 증거 확인 단계로 모이는 제출 패키지 도표",
+  }),
+  "teaching/contents-programming/week-15-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-15-before-after.png",
+    alt: "네 프로젝트 경로의 수정 전과 수정 후 비교 사례",
+  }),
 });
 
 function relativeWebPath(root, path) {

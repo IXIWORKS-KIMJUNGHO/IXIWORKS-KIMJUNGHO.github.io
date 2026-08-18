@@ -1,0 +1,4 @@
+matplotlib==3.10.8
+numpy==2.4.2
+Pillow==11.1.0
+# runtime:freetype==2.6.1

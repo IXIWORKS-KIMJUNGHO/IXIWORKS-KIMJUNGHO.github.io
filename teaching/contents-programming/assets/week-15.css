@@ -1,0 +1,533 @@
+/* Week 15: evidence-led project revision and a persistent individual mission. */
+
+html.week-15-root {
+  scroll-behavior: auto;
+}
+
+body.week-15-document .article h2 {
+  display: block;
+  counter-increment: none;
+}
+
+body.week-15-document .article h2::before {
+  content: none;
+  display: none;
+}
+
+body.week-15-document .article img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+body.week-15-document .lesson-visual img,
+body.week-15-document .lesson-figure img {
+  width: 100%;
+}
+
+body.week-15-document .lesson-figure a {
+  display: block;
+}
+
+body.week-15-document .week-15-toc > summary {
+  margin: 0;
+  list-style: none;
+  cursor: pointer;
+}
+
+body.week-15-document .week-15-toc > summary::-webkit-details-marker {
+  display: none;
+}
+
+body.week-15-document .toc-group-title {
+  margin: 15px 9px 6px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.week-15-document .toc-group-title:first-child {
+  margin-top: 12px;
+}
+
+body.week-15-document .overview-disclosures {
+  margin: 22px 0 30px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  overflow: hidden;
+  background: var(--surface);
+}
+
+body.week-15-document .overview-disclosure {
+  min-width: 0;
+  border-left: 1px solid var(--line);
+}
+
+body.week-15-document .overview-disclosure:first-child {
+  border-left: 0;
+}
+
+body.week-15-document .overview-disclosure > summary {
+  min-height: 58px;
+  padding: 17px 48px 17px 18px;
+  display: flex;
+  align-items: center;
+  color: var(--ink-strong);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+body.week-15-document .overview-disclosure > .details-motion-content {
+  padding: 0 18px 18px;
+}
+
+body.week-15-document .overview-disclosure p,
+body.week-15-document .overview-disclosure ul {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+body.week-15-document .revision-lenses {
+  margin: 22px 0 30px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  overflow: hidden;
+  list-style: none;
+}
+
+body.week-15-document .revision-lenses li {
+  min-width: 0;
+  margin: 0;
+  padding: 19px 17px;
+  border-left: 1px solid var(--line);
+  background: var(--paper);
+}
+
+body.week-15-document .revision-lenses li:first-child {
+  border-left: 0;
+}
+
+body.week-15-document .revision-lenses span,
+body.week-15-document .case-label,
+body.week-15-document .evidence-label {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.week-15-document .revision-lenses strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.week-15-document .revision-lenses p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+body.week-15-document .revision-case-grid {
+  margin: 22px 0 30px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+body.week-15-document .revision-case {
+  min-width: 0;
+  padding: 21px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+body.week-15-document .revision-case h3,
+body.week-15-document .revision-case h4 {
+  margin: 0 0 11px;
+}
+
+body.week-15-document .revision-case p:last-child,
+body.week-15-document .revision-case ul:last-child {
+  margin-bottom: 0;
+}
+
+body.week-15-document .before-after-copy {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+body.week-15-document .before-after-copy > div {
+  padding-top: 11px;
+  border-top: 1px solid var(--line);
+}
+
+body.week-15-document .before-after-copy strong {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--ink-strong);
+  font-size: 13px;
+}
+
+body.week-15-document .before-after-copy p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+body.week-15-document .revision-contract,
+body.week-15-document .qa-sequence {
+  margin: 22px 0 30px;
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+body.week-15-document .revision-contract h3,
+body.week-15-document .qa-sequence h3 {
+  margin-top: 0;
+}
+
+body.week-15-document .contract-fields {
+  margin: 16px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  list-style: none;
+}
+
+body.week-15-document .contract-fields li {
+  margin: 0;
+  padding: 11px 0;
+  border-top: 1px solid var(--line);
+}
+
+body.week-15-document .contract-fields strong {
+  color: var(--ink-strong);
+}
+
+body.week-15-document .evidence-strip {
+  margin: 22px 0 30px;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+}
+
+body.week-15-document .evidence-strip > div {
+  min-width: 0;
+  padding: 18px;
+  border-left: 1px solid var(--line);
+  background: var(--paper);
+}
+
+body.week-15-document .evidence-strip > div:first-child {
+  border-left: 0;
+}
+
+body.week-15-document .evidence-strip strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 13.5px;
+}
+
+body.week-15-document .evidence-strip p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+body.week-15-document .inline-resource-card {
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+
+body.week-15-document .inline-resource-card:active {
+  transform: scale(0.985);
+}
+
+body.week-15-document .goal-contract-copy,
+body.week-15-document .exit-gate-copy {
+  min-width: 0;
+}
+
+body.week-15-document .mission-progress {
+  position: sticky;
+  top: 72px;
+  z-index: 6;
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.week-15-document .mission-progress p {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+body.week-15-document .mission-progress span {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+body.week-15-document .mission-progress strong {
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.week-15-document .mission-progress[data-complete="true"] {
+  border-color: var(--success-ink);
+}
+
+body.week-15-document .mission-progress[data-complete="true"] strong {
+  color: var(--success-ink);
+}
+
+body.week-15-document .mission-progress button {
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 650 12px/1.35 var(--sans);
+  cursor: pointer;
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+
+body.week-15-document .mission-progress button:active {
+  transform: scale(0.97);
+}
+
+body.week-15-document .mission-progress-note {
+  margin: 9px 0 18px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+body.week-15-document .completion-criteria li {
+  min-height: 72px;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  counter-increment: none;
+}
+
+body.week-15-document .completion-criteria li::before {
+  content: none;
+  display: none;
+}
+
+body.week-15-document .completion-check {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  justify-self: center;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+body.week-15-document .completion-criteria label {
+  min-height: 56px;
+  display: grid;
+  gap: 4px;
+  align-content: center;
+  cursor: pointer;
+}
+
+body.week-15-document .completion-criteria label span {
+  grid-column: auto;
+}
+
+body.week-15-document .completion-criteria li[data-checked="true"] strong {
+  color: var(--success-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.week-15-document .inline-resource-card:not(:active):hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  body.week-15-document .mission-progress button:not(:active):hover {
+    border-color: var(--accent);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  body.week-15-document .inline-resource-card:not(:active):hover {
+    border-color: var(--line);
+    transform: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body.week-15-document .lesson-visual img,
+  body.week-15-document .lesson-figure img {
+    filter: brightness(0.88) contrast(1.08);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  body.week-15-document .mission-progress {
+    background: var(--paper);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.week-15-document .inline-resource-card,
+  body.week-15-document .mission-progress button {
+    transition: none;
+  }
+
+  body.week-15-document .inline-resource-card:active,
+  body.week-15-document .mission-progress button:active {
+    transform: none;
+  }
+}
+
+@media (max-width: 980px) {
+  body.week-15-document .week-15-toc {
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  body.week-15-document .week-15-toc > summary {
+    min-height: 48px;
+    padding: 16px 48px 16px 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  body.week-15-document .week-15-toc nav {
+    max-height: min(58vh, 520px);
+    padding: 0 10px 14px;
+    overflow: auto;
+  }
+
+  body.week-15-document .revision-lenses {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body.week-15-document .revision-lenses li:nth-child(4) {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  body.week-15-document .revision-lenses li:nth-child(5) {
+    border-top: 1px solid var(--line);
+  }
+}
+
+@media (max-width: 760px) {
+  body.week-15-document .doc-card {
+    padding: 15px 16px;
+    border: 1px solid var(--line-strong);
+    border-radius: 5px;
+    display: block;
+    background: var(--surface);
+  }
+
+  body.week-15-document .doc-card .meta-row {
+    display: grid;
+    grid-template-columns: minmax(76px, 0.32fr) minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  body.week-15-document .overview-disclosures,
+  body.week-15-document .revision-lenses,
+  body.week-15-document .revision-case-grid,
+  body.week-15-document .before-after-copy,
+  body.week-15-document .contract-fields,
+  body.week-15-document .evidence-strip {
+    grid-template-columns: 1fr;
+  }
+
+  body.week-15-document .overview-disclosure,
+  body.week-15-document .overview-disclosure:first-child,
+  body.week-15-document .revision-lenses li,
+  body.week-15-document .revision-lenses li:nth-child(4),
+  body.week-15-document .revision-lenses li:nth-child(5),
+  body.week-15-document .evidence-strip > div,
+  body.week-15-document .evidence-strip > div:first-child {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  body.week-15-document .overview-disclosure:first-child,
+  body.week-15-document .revision-lenses li:first-child,
+  body.week-15-document .evidence-strip > div:first-child {
+    border-top: 0;
+  }
+
+  body.week-15-document .mission-progress {
+    top: 66px;
+  }
+}
+
+@media (max-width: 420px) {
+  body.week-15-document .mission-progress {
+    align-items: stretch;
+  }
+
+  body.week-15-document .mission-progress p {
+    display: grid;
+    gap: 2px;
+  }
+}
+
+@media print {
+  body.week-15-document .mission-progress {
+    position: static;
+    background: transparent;
+  }
+
+  body.week-15-document .mission-progress button {
+    display: none;
+  }
+}

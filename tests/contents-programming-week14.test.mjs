@@ -184,7 +184,7 @@ test("Contents Programming week 14 period 3 is a finite four-path individual mis
 
   assert.match(period2, /href="week-14-period3\.html" rel="next"/);
   assert.match(period3, /href="week-14-period2\.html" rel="prev"/);
-  assert.doesNotMatch(period3, /rel="next"/);
+  assert.match(period3, /href="week-15-period1\.html" rel="next"/);
   assertTimeline(period3, [
     [0, 5],
     [5, 12],
