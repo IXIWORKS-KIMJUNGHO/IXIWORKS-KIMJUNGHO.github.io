@@ -11,12 +11,12 @@
   <meta property="og:description" content="29행 위치 데이터를 유효한 24행으로 정제하고 마커 24개가 있는 Folium 지도 HTML을 완성하는 개인 실습입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-10-period3.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
-  <meta property="og:image:alt" content="위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-map-mission-preview.png">
+  <meta property="og:image:alt" content="지도 마커 24개와 원본 보존·정제·인코딩·해석·세 파일 제출을 확인하는 10주차 지도 미션 도해">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="10주차 3교시: 인터랙티브 위치 데이터 지도 미션">
   <meta name="twitter:description" content="자동 검사 PASS와 세 파일 제출을 완료하면 즉시 귀가하는 Folium 위치 데이터 지도 실습입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-map-mission-preview.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
 </head>
@@ -110,11 +110,11 @@
       <h2 id="outputs">이번 주에 완성할 세 결과물</h2>
 
       <figure class="lesson-visual" aria-labelledby="mission-map-caption">
-        <a class="lesson-visual-link" href="assets/week-10-location-encoding.png" target="_blank" rel="noopener noreferrer">
-          <img src="assets/week-10-location-encoding.png" width="1440" height="900" loading="eager" decoding="async" alt="장소별 표의 위도·경도, 프로그램 수, 시설 범주와 이름이 지도 위의 위치, 원 크기, 색상과 문자 정보로 변환되는 도해">
+        <a class="lesson-visual-link" href="assets/week-10-map-mission-preview.png" target="_blank" rel="noopener noreferrer">
+          <img src="assets/week-10-map-mission-preview.png" width="1440" height="900" loading="eager" decoding="async" alt="지도 마커 24개와 원본 보존, 29행에서 24행으로 정제, 시각적 인코딩, 관찰과 한계, 노트북·CSV·HTML 제출을 순서대로 확인하는 미션 도해">
           <span class="lesson-visual-action">원본 크기로 보기 ↗</span>
         </a>
-        <figcaption id="mission-map-caption">정제된 한 행은 마커 하나가 됩니다. 위치·크기·색상·문자의 연결이 모든 행에서 유지되는지가 이번 미션의 중심입니다.</figcaption>
+        <figcaption id="mission-map-caption">정제된 한 행은 마커 하나가 됩니다. 원본 보존부터 세 파일 제출까지 모든 증거를 확인해야 마지막 PASS가 성립합니다.</figcaption>
       </figure>
 
       <div class="table-wrap">
@@ -148,7 +148,7 @@
         <a class="inline-resource-card" href="assets/week-10-interactive-map-example.html" target="_blank" rel="noopener noreferrer">
           <span>Example output</span>
           <strong>완성 예시 지도 열기 ↗</strong>
-          <small>확대·이동, 크기·색상, 툴팁·팝업과 설명 패널을 직접 확인합니다.</small>
+          <small>확대·이동, 크기·색상, 설명 패널과 시설 24개 텍스트 표를 직접 확인합니다.</small>
         </a>
       </div>
 
@@ -168,7 +168,7 @@
         <li><input class="completion-check" id="week10-check-06" type="checkbox"><label for="week10-check-06"><strong>크기 규칙</strong><span>최소 4~최대 28픽셀 범위에서 최댓값이 최솟값보다 6 이상 큽니다.</span></label></li>
         <li><input class="completion-check" id="week10-check-07" type="checkbox"><label for="week10-check-07"><strong>색상 규칙</strong><span>검증된 팔레트 하나를 골라 세 범주에 일관되게 적용했습니다.</span></label></li>
         <li><input class="completion-check" id="week10-check-08" type="checkbox"><label for="week10-check-08"><strong>마커 대응</strong><span>정제된 24행과 지도 마커 24개가 일대일로 대응합니다.</span></label></li>
-        <li><input class="completion-check" id="week10-check-09" type="checkbox"><label for="week10-check-09"><strong>문자 정보</strong><span>각 마커의 툴팁과 팝업에서 장소명·범주·실제 프로그램 수를 확인했습니다.</span></label></li>
+        <li><input class="completion-check" id="week10-check-09" type="checkbox"><label for="week10-check-09"><strong>문자 정보</strong><span>툴팁·팝업과 시설 24개 텍스트 표에서 장소명·범주·실제 프로그램 수를 확인했습니다.</span></label></li>
         <li><input class="completion-check" id="week10-check-10" type="checkbox"><label for="week10-check-10"><strong>관찰과 한계</strong><span>지도에서 확인한 패턴과 단정할 수 없는 내용을 각각 30자 이상 작성했습니다.</span></label></li>
         <li><input class="completion-check" id="week10-check-11" type="checkbox"><label for="week10-check-11"><strong>새 런타임 검증</strong><span>세션을 다시 시작하고 모두 실행해 <code>🎉 WEEK 10 INTERACTIVE MAP COMPLETE</code>를 확인했습니다.</span></label></li>
         <li><input class="completion-check" id="week10-check-12" type="checkbox"><label for="week10-check-12"><strong>세 파일 제출</strong><span>실행 결과가 있는 노트북, 24행 CSV, 브라우저에서 열리는 지도 HTML을 제출했습니다.</span></label></li>
@@ -343,6 +343,7 @@ palette_name = "해안"</code></pre>
         <li>작은 원과 큰 원을 찾아 팝업의 프로그램 수가 실제로 다른지 확인합니다.</li>
         <li>같은 색의 마커를 두 개 골라 툴팁의 시설 범주가 같은지 확인합니다.</li>
         <li>세 색상이 범례의 도서관·박물관·문화센터와 일치하는지 확인합니다.</li>
+        <li>설명 패널을 열고 <strong>시설 24개 텍스트 표</strong>를 키보드로 펼쳐 같은 장소·범주·프로그램 수를 읽을 수 있는지 확인합니다.</li>
         <li>출력된 정제 행 수와 생성 마커 수가 모두 24인지 확인합니다.</li>
       </ol>
 
@@ -408,6 +409,7 @@ limitation_statement = (
         <li>지도 HTML을 내려받아 브라우저로 엽니다.</li>
         <li>지도 확대·이동, 툴팁과 팝업이 작동하는지 확인합니다.</li>
         <li>왼쪽 설명 패널에 자신의 제목·질문·관찰·한계가 보이는지 확인합니다.</li>
+        <li>설명 패널의 시설 24개 텍스트 표가 키보드로 열리고 모든 장소 정보를 제공하는지 확인합니다.</li>
         <li>오른쪽 범례의 세 색상과 실제 마커 색상이 일치하는지 확인합니다.</li>
       </ol>
 

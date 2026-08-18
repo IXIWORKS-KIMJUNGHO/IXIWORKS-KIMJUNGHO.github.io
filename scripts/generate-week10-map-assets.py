@@ -2,15 +2,21 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
+import PIL
 from PIL import Image, ImageDraw, ImageFont
+from PIL import features
 
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
+FONT_PATH = ROOT / "assets" / "fonts" / "inter-latin-variable.woff2"
+EXPECTED_PILLOW_VERSION = "11.1.0"
+EXPECTED_FREETYPE_VERSION = "2.13.2"
 
 INK = (28, 31, 30, 255)
 PAPER = (244, 241, 232, 255)
@@ -79,21 +85,39 @@ FIELDNAMES = list(asdict(ALL_RECORDS[0]).keys())
 
 
 def font(size: int, bold: bool = False) -> ImageFont.ImageFont:
-    """Return an available Latin font for portable generated diagrams."""
+    """Load the repository font at a fixed weight for reproducible diagrams."""
 
-    candidates = (
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-        if bold
-        else "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-        if bold
-        else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+    if not FONT_PATH.is_file():
+        raise FileNotFoundError(f"missing generated-asset font: {FONT_PATH}")
+    loaded_font = ImageFont.truetype(str(FONT_PATH), size=size)
+    loaded_font.set_variation_by_name("Bold" if bold else "Regular")
+    return loaded_font
+
+
+def validate_runtime() -> None:
+    """Require the image stack used to create the committed PNG bytes."""
+
+    freetype_version = features.version_module("freetype2")
+    versions = {
+        "Pillow": PIL.__version__,
+        "freetype": freetype_version,
+    }
+    expected = {
+        "Pillow": EXPECTED_PILLOW_VERSION,
+        "freetype": EXPECTED_FREETYPE_VERSION,
+    }
+    if versions != expected:
+        raise RuntimeError(
+            "Week 10 asset runtime mismatch: "
+            + ", ".join(
+                f"{name} {versions[name]} (expected {expected[name]})"
+                for name in expected
+            )
+        )
+    print(
+        "Week 10 asset runtime:",
+        ", ".join(f"{name} {version}" for name, version in versions.items()),
     )
-    for candidate in candidates:
-        path = Path(candidate)
-        if path.exists():
-            return ImageFont.truetype(str(path), size=size)
-    return ImageFont.load_default()
 
 
 def rounded_panel(
@@ -149,7 +173,7 @@ def project_point(latitude: float, longitude: float) -> tuple[int, int]:
 def make_location_encoding() -> Image.Image:
     image = Image.new("RGBA", (1440, 900), PAPER)
     draw = ImageDraw.Draw(image)
-    draw.text((54, 38), "LOCATION DATA → VISUAL VARIABLES", fill=INK, font=font(44, bold=True))
+    draw.text((54, 38), "LOCATION DATA > VISUAL VARIABLES", fill=INK, font=font(44, bold=True))
     draw.text(
         (54, 91),
         "A map is a visual encoding system, not a neutral container.",
@@ -187,10 +211,10 @@ def make_location_encoding() -> Image.Image:
 
     draw.text((78, 624), "COLUMN ROLES", fill=CORAL_TEXT, font=font(24, bold=True))
     role_lines = [
-        "lat + lon  → position",
-        "value      → radius",
-        "category   → color",
-        "name       → tooltip",
+        "lat + lon  -> position",
+        "value      -> radius",
+        "category   -> color",
+        "name       -> tooltip",
     ]
     for index, line in enumerate(role_lines):
         draw.text((78, 658 + index * 30), line, fill=INK, font=font(22, bold=index == 0))
@@ -238,7 +262,7 @@ def make_location_encoding() -> Image.Image:
 def make_cleaning_to_map() -> Image.Image:
     image = Image.new("RGBA", (1440, 900), PAPER)
     draw = ImageDraw.Draw(image)
-    draw.text((54, 38), "RAW CSV → CLEAN TABLE → FOLIUM MAP", fill=INK, font=font(44, bold=True))
+    draw.text((54, 38), "RAW CSV > CLEAN TABLE > FOLIUM MAP", fill=INK, font=font(44, bold=True))
     draw.text(
         (54, 91),
         "Cleaning decisions change which places can appear on the map.",
@@ -292,7 +316,7 @@ def make_cleaning_to_map() -> Image.Image:
         "pd.to_numeric",
         "errors = coerce",
         "",
-        "unknown → NaN",
+        "unknown -> NaN",
     ]
     y = 302
     for line in convert_lines:
@@ -300,7 +324,7 @@ def make_cleaning_to_map() -> Image.Image:
             draw.text(
                 (422, y),
                 line,
-                fill=INK if "→" not in line else CORAL_TEXT,
+                fill=INK if "->" not in line else CORAL_TEXT,
                 font=font(21, bold="numeric" in line or "NaN" in line),
             )
         y += 42
@@ -351,18 +375,99 @@ def make_cleaning_to_map() -> Image.Image:
     return image
 
 
-def main() -> None:
-    ASSET_DIR.mkdir(parents=True, exist_ok=True)
-    write_practice_csv(ASSET_DIR / "week-10-public-facilities-practice.csv")
+def make_map_mission_preview() -> Image.Image:
+    image = Image.new("RGBA", (1440, 900), PAPER)
+    draw = ImageDraw.Draw(image)
+    draw.text((54, 38), "INTERACTIVE MAP MISSION", fill=INK, font=font(44, bold=True))
+    draw.text(
+        (54, 91),
+        "Clean 29 rows, encode 24 places, verify three files, then leave.",
+        fill=MUTED,
+        font=font(27),
+    )
+
+    rounded_panel(draw, (48, 158, 958, 782), outline=BLUE, width=5)
+    draw.text((78, 184), "24 VALID ROWS = 24 MAP MARKERS", fill=BLUE, font=font(27, bold=True))
+    map_box = (76, 238, 930, 742)
+    draw.rectangle(map_box, fill=(234, 236, 226, 255), outline=INK, width=3)
+    draw.polygon(
+        [(76, 570), (230, 510), (390, 548), (548, 488), (720, 530), (930, 455), (930, 625), (742, 660), (560, 615), (372, 680), (200, 635), (76, 690)],
+        fill=PALE_BLUE,
+    )
+    for offset in (72, 218, 364, 510, 656, 802):
+        draw.line((76 + offset, 250, 112 + offset, 730), fill=ROAD, width=12)
+    for offset in (68, 168, 268, 368):
+        draw.line((88, 250 + offset, 916, 286 + offset), fill=ROAD, width=10)
+
+    category_colors = {"도서관": TEAL, "박물관": CORAL, "문화센터": BLUE}
+    for record in VALID_RECORDS:
+        assert isinstance(record.latitude, float)
+        assert isinstance(record.longitude, float)
+        assert isinstance(record.program_count, int)
+        x = 108 + int((record.longitude - 126.90) / 0.19 * 786)
+        y = 700 - int((record.latitude - 37.49) / 0.15 * 424)
+        radius = marker_radius(record.program_count)
+        color = category_colors[record.category]
+        draw.ellipse(
+            (x - radius, y - radius, x + radius, y + radius),
+            fill=(*color[:3], 212),
+            outline=INK,
+            width=2,
+        )
+
+    rounded_panel(draw, (594, 274, 898, 392), fill=WHITE, outline=TEAL, width=4, radius=14)
+    draw.text((616, 292), "OPEN CULTURE CENTER", fill=INK, font=font(20, bold=True))
+    draw.text((616, 326), "category  culture", fill=MUTED, font=font(18))
+    draw.text((616, 354), "programs  64", fill=CORAL_TEXT, font=font(19, bold=True))
+
+    rounded_panel(draw, (994, 158, 1392, 782), outline=TEAL, width=5)
+    draw.text((1024, 184), "EXIT GATE", fill=TEAL, font=font(24, bold=True))
+    draw.text((1024, 224), "PASS", fill=INK, font=font(54, bold=True))
+    draw.text((1024, 286), "Complete every proof.", fill=MUTED, font=font(20))
+
+    checks = [
+        ("01", "SOURCE PRESERVED", "raw_df stays 29 rows"),
+        ("02", "CLEAN DATA", "29 > 27 > 26 > 24"),
+        ("03", "VISUAL ENCODING", "position · size · color · text"),
+        ("04", "INTERPRETATION", "observation + limitation"),
+        ("05", "THREE FILES", "notebook · CSV · HTML"),
+    ]
+    y = 338
+    for number, title, note in checks:
+        draw.rectangle((1022, y, 1364, y + 72), fill=WHITE, outline=LINE, width=2)
+        draw.ellipse((1038, y + 20, 1070, y + 52), fill=TEAL, outline=INK, width=1)
+        draw.text((1044, y + 28), "OK", fill=WHITE, font=font(11, bold=True))
+        draw.text((1086, y + 12), number + "  " + title, fill=INK, font=font(18, bold=True))
+        draw.text((1086, y + 40), note, fill=MUTED, font=font(16))
+        y += 84
+
+    draw.text((54, 838), "CLEAN · ENCODE · MAP · VERIFY", fill=CORAL_TEXT, font=font(27, bold=True))
+    draw.text((608, 840), "A finite individual mission with visible evidence.", fill=MUTED, font=font(23))
+    return image
+
+
+def main(asset_dir: Path = ASSET_DIR) -> None:
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    write_practice_csv(asset_dir / "week-10-public-facilities-practice.csv")
     make_location_encoding().convert("RGB").save(
-        ASSET_DIR / "week-10-location-encoding.png",
+        asset_dir / "week-10-location-encoding.png",
         optimize=True,
     )
     make_cleaning_to_map().convert("RGB").save(
-        ASSET_DIR / "week-10-cleaning-to-map.png",
+        asset_dir / "week-10-cleaning-to-map.png",
+        optimize=True,
+    )
+    make_map_mission_preview().convert("RGB").save(
+        asset_dir / "week-10-map-mission-preview.png",
         optimize=True,
     )
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--asset-dir", type=Path, default=ASSET_DIR)
+    parser.add_argument("--check-runtime", action="store_true")
+    arguments = parser.parse_args()
+    validate_runtime()
+    if not arguments.check_runtime:
+        main(arguments.asset_dir)

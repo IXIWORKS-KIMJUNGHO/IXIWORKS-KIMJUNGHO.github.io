@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 from html import escape
@@ -17,14 +18,17 @@ ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
 SOURCE_CSV = ASSET_DIR / "week-10-public-facilities-practice.csv"
 NOTEBOOK_PATH = ASSET_DIR / "week-10-interactive-map-mission.ipynb"
 EXAMPLE_MAP_PATH = ASSET_DIR / "week-10-interactive-map-example.html"
+EXPECTED_FOLIUM_VERSION = "0.20.0"
+EXPECTED_PANDAS_VERSION = "3.0.5"
 
 SITE_ORIGIN = "https://creativeengineer-kimjungho.com"
 SHARE_IMAGE_URL = (
     SITE_ORIGIN
-    + "/teaching/contents-programming/assets/week-10-location-encoding.png"
+    + "/teaching/contents-programming/assets/week-10-map-mission-preview.png"
 )
 SHARE_IMAGE_ALT = (
-    "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해"
+    "지도 마커 24개와 원본 보존·정제·인코딩·해석·세 파일 제출을 확인하는 "
+    "10주차 지도 미션 도해"
 )
 
 APPROVED_PALETTES = {
@@ -117,6 +121,55 @@ MAP_OVERLAY_CSS = dedent(
     .week10-map-panel-body p { margin: 8px 0; }
     .week10-map-panel-body > small { color: #555b57; }
 
+    .week10-map-data { margin-top: 12px; }
+
+    .week10-map-data summary {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      color: #25696f;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .week10-map-data summary:focus-visible {
+      outline: 3px solid #25696f;
+      outline-offset: 2px;
+    }
+
+    .week10-map-table-scroll {
+      max-height: 230px;
+      overflow: auto;
+      border: 1px solid #8c918c;
+    }
+
+    .week10-map-data table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      font-size: 12px;
+    }
+
+    .week10-map-data caption {
+      padding: 8px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .week10-map-data th,
+    .week10-map-data td {
+      padding: 7px 8px;
+      border-top: 1px solid #c7cac6;
+      text-align: left;
+      white-space: nowrap;
+    }
+
+    .week10-map-data thead th {
+      position: sticky;
+      top: 0;
+      background: #edf1ee;
+    }
+
     .week10-map-legend {
       right: 16px;
       bottom: 32px;
@@ -197,14 +250,29 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     setup_code = f'''\
     # STEP 0 · 수업용 데이터와 실행 환경 준비 - 이 셀은 수정하지 않습니다.
     from html import escape
+    from importlib import metadata
     from pathlib import Path
-    import importlib.util
     import re
     import subprocess
     import sys
 
-    if importlib.util.find_spec("folium") is None:
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "folium"])
+    required_packages = {{
+        "folium": "0.20.0",
+        "pandas": "3.0.5",
+    }}
+    packages_to_install = []
+    for package_name, required_version in required_packages.items():
+        try:
+            installed_version = metadata.version(package_name)
+        except metadata.PackageNotFoundError:
+            installed_version = None
+        if installed_version != required_version:
+            packages_to_install.append(f"{{package_name}}=={{required_version}}")
+
+    if packages_to_install:
+        subprocess.check_call(
+            [sys.executable, "-m", "pip", "install", "-q", *packages_to_install]
+        )
 
     import folium
     import pandas as pd
@@ -465,12 +533,40 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         "이 지도로 단정할 수 없는 내용과 데이터의 범위를 자신의 문장으로 작성하세요."
     )
 
-    safe_student_id = str(student_id).strip()
-    safe_student_name = str(student_name).strip()
-    cleaned_filename = f"week10_{safe_student_id}_{safe_student_name}_cleaned.csv"
-    map_filename = f"week10_{safe_student_id}_{safe_student_name}_map.html"
+    trimmed_student_id = str(student_id).strip()
+    trimmed_student_name = str(student_name).strip()
+    filename_student_id = re.sub(
+        r"[^0-9A-Za-z가-힣_-]+",
+        "_",
+        trimmed_student_id,
+    ).strip("_")
+    filename_student_name = re.sub(
+        r"[^0-9A-Za-z가-힣_-]+",
+        "_",
+        trimmed_student_name,
+    ).strip("_")
+    cleaned_filename = (
+        f"week10_{filename_student_id}_{filename_student_name}_cleaned.csv"
+    )
+    map_filename = f"week10_{filename_student_id}_{filename_student_name}_map.html"
 
-    information_html = f'''<details class="week10-map-panel week10-map-info"><summary>{escape(map_title)}<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · {escape(map_question)}</p><p><b>관찰</b> · {escape(pattern_observation)}</p><p><b>한계</b> · {escape(limitation_statement)}</p><small>{escape(dataset_source)} · 기준일 {escape(reference_date)} · 정제 {len(clean_df)}행</small></div></details>'''
+    facility_table_rows = "".join(
+        "<tr>"
+        + f"<th scope='row'>{escape(str(row['place_name']))}</th>"
+        + f"<td>{escape(str(row['category']))}</td>"
+        + f"<td>{int(row['program_count'])}</td>"
+        + "</tr>"
+        for _, row in clean_df.iterrows()
+    )
+    facility_table_html = (
+        '<details class="week10-map-data"><summary>시설 24개 텍스트 표</summary>'
+        '<div class="week10-map-table-scroll"><table>'
+        '<caption>지도 마커의 텍스트 대체 정보</caption>'
+        '<thead><tr><th scope="col">장소</th><th scope="col">범주</th>'
+        '<th scope="col">프로그램 수</th></tr></thead>'
+        f'<tbody>{facility_table_rows}</tbody></table></div></details>'
+    )
+    information_html = f'''<details class="week10-map-panel week10-map-info"><summary>{escape(map_title)}<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · {escape(map_question)}</p><p><b>관찰</b> · {escape(pattern_observation)}</p><p><b>한계</b> · {escape(limitation_statement)}</p><small>{escape(dataset_source)} · 기준일 {escape(reference_date)} · 정제 {len(clean_df)}행</small>{facility_table_html}</div></details>'''
     facility_map.get_root().html.add_child(folium.Element(information_html))
 
     clean_df.to_csv(
@@ -484,9 +580,9 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         ", maximum-scale=1.0, user-scalable=no",
         "",
     )
-    saved_map_text = "\n".join(
+    saved_map_text = "\\n".join(
         line.rstrip() for line in saved_map_text.splitlines()
-    ) + "\n"
+    ) + "\\n"
     Path(map_filename).write_text(saved_map_text, encoding="utf-8")
 
     print("정제 CSV 저장:", cleaned_filename)
@@ -513,17 +609,19 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     expected_categories = {"도서관", "박물관", "문화센터"}
     expected_clean_ids = {f"C{number:03d}" for number in range(1, 25)}
     expected_cleaned_filename = (
-        f"week10_{safe_student_id}_{safe_student_name}_cleaned.csv"
+        f"week10_{filename_student_id}_{filename_student_name}_cleaned.csv"
     )
     expected_map_filename = (
-        f"week10_{safe_student_id}_{safe_student_name}_map.html"
+        f"week10_{filename_student_id}_{filename_student_name}_map.html"
     )
 
     identity_ok = (
-        safe_student_id not in {"", "학번", "20260000"}
-        and safe_student_name not in {"", "이름", "홍길동"}
-        and "/" not in safe_student_id + safe_student_name
-        and "\\\\" not in safe_student_id + safe_student_name
+        trimmed_student_id not in {"", "학번", "20260000"}
+        and trimmed_student_name not in {"", "이름", "홍길동"}
+        and filename_student_id != ""
+        and filename_student_name != ""
+        and "/" not in trimmed_student_id + trimmed_student_name
+        and "\\\\" not in trimmed_student_id + trimmed_student_name
     )
     title_question_ok = (
         map_title != "공공문화시설 프로그램 지도"
@@ -619,6 +717,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         and all(name in saved_map_html for name in clean_df["place_name"])
         and "week10-map-info" in saved_map_html
         and "week10-map-legend" in saved_map_html
+        and "week10-map-data" in saved_map_html
+        and "지도 마커의 텍스트 대체 정보" in saved_map_html
         and "user-scalable=no" not in saved_map_html
     )
 
@@ -759,8 +859,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     }
 
 
-def clean_source_data() -> pd.DataFrame:
-    raw_df = pd.read_csv(SOURCE_CSV)
+def clean_source_data(source_csv: Path = SOURCE_CSV) -> pd.DataFrame:
+    raw_df = pd.read_csv(source_csv)
     clean_df = raw_df.copy(deep=True)
     for column_name in ["program_count", "latitude", "longitude"]:
         clean_df[column_name] = pd.to_numeric(
@@ -808,8 +908,29 @@ def contrast_ratio(first_color: str, second_color: str) -> float:
     return (lighter + 0.05) / (darker + 0.05)
 
 
-def build_example_map() -> folium.Map:
-    clean_df = clean_source_data()
+def build_facility_table_html(clean_df: pd.DataFrame) -> str:
+    """Return a keyboard-readable alternative to the map markers."""
+
+    rows = "".join(
+        "<tr>"
+        + f'<th scope="row">{escape(str(row["place_name"]))}</th>'
+        + f'<td>{escape(str(row["category"]))}</td>'
+        + f'<td>{int(row["program_count"])}</td>'
+        + "</tr>"
+        for _, row in clean_df.iterrows()
+    )
+    return (
+        '<details class="week10-map-data"><summary>시설 24개 텍스트 표</summary>'
+        '<div class="week10-map-table-scroll"><table>'
+        '<caption>지도 마커의 텍스트 대체 정보</caption>'
+        '<thead><tr><th scope="col">장소</th><th scope="col">범주</th>'
+        '<th scope="col">프로그램 수</th></tr></thead>'
+        f"<tbody>{rows}</tbody></table></div></details>"
+    )
+
+
+def build_example_map(source_csv: Path = SOURCE_CSV) -> folium.Map:
+    clean_df = clean_source_data(source_csv)
     colors = APPROVED_PALETTES["해안"]
     minimum_value = int(clean_df["program_count"].min())
     maximum_value = int(clean_df["program_count"].max())
@@ -861,7 +982,8 @@ def build_example_map() -> folium.Map:
         for category, color in colors.items()
     )
     legend_html = f'''<aside class="week10-map-panel week10-map-legend" aria-label="시설 범주 범례"><strong>시설 범주</strong><ul>{legend_items}</ul><small>원 크기 = 프로그램 수</small></aside>'''
-    summary_html = '''<details class="week10-map-panel week10-map-info"><summary>서울 가상 공공문화시설 프로그램 지도<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · 프로그램 수가 많은 시설은 어느 위치와 범주에 나타나는가?</p><p><b>관찰</b> · 큰 원은 여러 지역에 흩어져 있으며 세 범주 모두에서 프로그램 수의 차이가 보인다.</p><p><b>한계</b> · 가상 자료이며 시설의 접근성·이용자 수·지역 인구를 포함하지 않아 서비스 수준을 판단할 수 없다.</p><small>교수자 제공 가상 자료 · 기준일 2026-08-18 · 정제 24행</small></div></details>'''
+    facility_table_html = build_facility_table_html(clean_df)
+    summary_html = f'''<details class="week10-map-panel week10-map-info"><summary>서울 가상 공공문화시설 프로그램 지도<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · 프로그램 수가 많은 시설은 어느 위치와 범주에 나타나는가?</p><p><b>관찰</b> · 큰 원은 여러 지역에 흩어져 있으며 세 범주 모두에서 프로그램 수의 차이가 보인다.</p><p><b>한계</b> · 가상 자료이며 시설의 접근성·이용자 수·지역 인구를 포함하지 않아 서비스 수준을 판단할 수 없다.</p><small>교수자 제공 가상 자료 · 기준일 2026-08-18 · 정제 24행</small>{facility_table_html}</div></details>'''
     example_map.get_root().html.add_child(folium.Element(legend_html))
     example_map.get_root().html.add_child(folium.Element(summary_html))
     assign_deterministic_ids(example_map.get_root(), "root")
@@ -941,7 +1063,11 @@ def normalize_generated_html_whitespace(html: str) -> str:
     return "\n".join(line.rstrip() for line in html.splitlines()) + "\n"
 
 
-def validate_outputs(notebook: dict[str, object], example_html: str) -> None:
+def validate_outputs(
+    notebook: dict[str, object],
+    example_html: str,
+    source_csv: Path = SOURCE_CSV,
+) -> None:
     code_cells = [
         cell
         for cell in notebook["cells"]
@@ -949,12 +1075,14 @@ def validate_outputs(notebook: dict[str, object], example_html: str) -> None:
     ]
     assert notebook["nbformat"] == 4
     assert len(code_cells) == 7
-    assert SOURCE_CSV.read_text(encoding="utf-8").count("\n") == 30
+    assert source_csv.read_text(encoding="utf-8").count("\n") == 30
     assert example_html.count("L.circleMarker(") == 24
     assert "maximum-scale" not in example_html
     assert "user-scalable" not in example_html
     assert "week10-map-info" in example_html
     assert "week10-map-legend" in example_html
+    assert "week10-map-data" in example_html
+    assert "지도 마커의 텍스트 대체 정보" in example_html
     for palette in APPROVED_PALETTES.values():
         assert set(palette) == {"도서관", "박물관", "문화센터"}
         assert len(set(palette.values())) == 3
@@ -967,27 +1095,61 @@ def validate_outputs(notebook: dict[str, object], example_html: str) -> None:
     )
 
 
-def main() -> None:
-    ASSET_DIR.mkdir(parents=True, exist_ok=True)
-    sample_csv = SOURCE_CSV.read_text(encoding="utf-8")
+def validate_runtime() -> None:
+    """Require the mapping stack used to create the committed HTML bytes."""
+
+    versions = {
+        "folium": folium.__version__,
+        "pandas": pd.__version__,
+    }
+    expected = {
+        "folium": EXPECTED_FOLIUM_VERSION,
+        "pandas": EXPECTED_PANDAS_VERSION,
+    }
+    if versions != expected:
+        raise RuntimeError(
+            "Week 10 map runtime mismatch: "
+            + ", ".join(
+                f"{name} {versions[name]} (expected {expected[name]})"
+                for name in expected
+            )
+        )
+    print(
+        "Week 10 map runtime:",
+        ", ".join(f"{name} {version}" for name, version in versions.items()),
+    )
+
+
+def main(asset_dir: Path = ASSET_DIR) -> None:
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    source_csv = asset_dir / SOURCE_CSV.name
+    notebook_path = asset_dir / NOTEBOOK_PATH.name
+    example_map_path = asset_dir / EXAMPLE_MAP_PATH.name
+    sample_csv = source_csv.read_text(encoding="utf-8")
     notebook = build_notebook(sample_csv)
-    NOTEBOOK_PATH.write_text(
+    notebook_path.write_text(
         json.dumps(notebook, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
 
-    example_map = build_example_map()
-    example_map.save(EXAMPLE_MAP_PATH)
-    example_html = EXAMPLE_MAP_PATH.read_text(encoding="utf-8")
+    example_map = build_example_map(source_csv)
+    example_map.save(example_map_path)
+    example_html = example_map_path.read_text(encoding="utf-8")
     example_html = normalize_generated_html_ids(example_html)
     example_html = add_example_page_metadata(example_html)
     example_html = normalize_generated_html_whitespace(example_html)
-    EXAMPLE_MAP_PATH.write_text(example_html, encoding="utf-8")
+    example_map_path.write_text(example_html, encoding="utf-8")
 
-    validate_outputs(notebook, example_html)
-    print("generated", NOTEBOOK_PATH.relative_to(ROOT))
-    print("generated", EXAMPLE_MAP_PATH.relative_to(ROOT))
+    validate_outputs(notebook, example_html, source_csv)
+    print("generated", notebook_path)
+    print("generated", example_map_path)
 
 
 if __name__ == "__main__":
-    main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--asset-dir", type=Path, default=ASSET_DIR)
+    parser.add_argument("--check-runtime", action="store_true")
+    arguments = parser.parse_args()
+    validate_runtime()
+    if not arguments.check_runtime:
+        main(arguments.asset_dir)

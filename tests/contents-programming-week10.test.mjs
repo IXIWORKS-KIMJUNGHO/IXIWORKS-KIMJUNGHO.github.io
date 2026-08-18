@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import test from "node:test";
 
 const root = resolve(import.meta.dirname, "..");
@@ -58,6 +60,10 @@ test("Contents Programming week 10 turns cleaned location data into an interacti
 
 test("Contents Programming week 10 theory lessons connect location ethics to an executable Folium map", async () => {
   const courseIndex = await readFile(courseIndexPath, "utf8");
+  const period09Mission = await readFile(
+    resolve(courseDirectory, "week-09-period3.html"),
+    "utf8",
+  );
   const period1 = await readFile(
     resolve(courseDirectory, "week-10-period1.html"),
     "utf8",
@@ -66,21 +72,29 @@ test("Contents Programming week 10 theory lessons connect location ethics to an 
     resolve(courseDirectory, "week-10-period2.html"),
     "utf8",
   );
+  const period11Opening = await readFile(
+    resolve(courseDirectory, "week-11-period1.html"),
+    "utf8",
+  );
 
   assert.match(courseIndex, /href="week-10-period1\.html"/);
   assert.match(courseIndex, /href="week-10-period2\.html"/);
+  assert.match(period09Mission, /href="week-10-period1\.html" rel="next"/);
   assert.match(period1, /href="week-09-period3\.html" rel="prev"/);
   assert.match(period1, /href="week-10-period2\.html" rel="next"/);
   assert.match(period2, /href="week-10-period1\.html" rel="prev"/);
+  assert.match(period11Opening, /href="week-10-period3\.html" rel="prev"/);
 
-  for (const [html, timeRanges] of [
+  for (const [html, timeRanges, expectedShareImage] of [
     [
       period1,
       ["0-5분", "5-13분", "13-23분", "23-33분", "33-41분", "41-50분", "50-60분"],
+      "week-10-location-encoding.png",
     ],
     [
       period2,
       ["0-5분", "5-12분", "12-24분", "24-32분", "32-43분", "43-50분", "50-60분"],
+      "week-10-cleaning-to-map.png",
     ],
   ]) {
     for (const timeRange of timeRanges) {
@@ -108,9 +122,10 @@ test("Contents Programming week 10 theory lessons connect location ethics to an 
       5,
       "week 10 lesson specs should not repeat hero timing metadata",
     );
-    assert.match(
-      html,
-      /og:image" content="https:\/\/creativeengineer-kimjungho\.com\/teaching\/contents-programming\/assets\/week-10-location-encoding\.png"/,
+    assert.ok(
+      html.includes(
+        `og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/${expectedShareImage}"`,
+      ),
     );
     assert.doesNotMatch(html, /python-data-art\.svg/);
   }
@@ -153,6 +168,7 @@ test("Contents Programming week 10 theory lessons connect location ethics to an 
     /folium\.CircleMarker\([\s\S]*tooltip=tooltip_text,[\s\S]*popup=popup_text/s,
     /assert marker_count == len\(clean_df\)/,
     /CircleMarker.*픽셀.*Circle.*미터/s,
+    /키보드.*화면 낭독기.*텍스트 표/s,
     /clean_df\.to_csv\([\s\S]*facility_map\.save\(map_filename\)/,
     /files\.download\(cleaned_filename\)[\s\S]*files\.download\(map_filename\)/,
     /자동 검사 PASS와 세 파일 제출.*즉시 귀가/s,
@@ -213,6 +229,7 @@ test("Contents Programming week 10 period 3 is a goal-based interactive map miss
     /검증된 팔레트.*세 범주/s,
     /정제된 24행.*지도 마커 24개/s,
     /툴팁.*팝업.*장소명.*범주.*실제 프로그램 수/s,
+    /시설 24개 텍스트 표/,
     /관찰.*한계.*각각 30자 이상/s,
     /새 런타임.*모두 실행/s,
     /🎉 WEEK 10 INTERACTIVE MAP COMPLETE/,
@@ -232,6 +249,11 @@ test("Contents Programming week 10 period 3 is a goal-based interactive map miss
   );
   assert.equal([...period3.matchAll(/class="hero-chip"/g)].length, 3);
   assert.equal([...period3.matchAll(/class="meta-row"/g)].length, 5);
+  assert.match(
+    period3,
+    /og:image" content="https:\/\/creativeengineer-kimjungho\.com\/teaching\/contents-programming\/assets\/week-10-map-mission-preview\.png"/,
+  );
+  assert.match(period3, /assets\/week-10-map-mission-preview\.png/);
   assert.equal(
     [...period3.matchAll(/class="completion-check"/g)].length,
     12,
@@ -272,6 +294,9 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
 
   for (const pattern of [
     /SAMPLE_CSV_PATH = "week10_public_facilities_raw\.csv"/,
+    /"folium": "0\.20\.0"/,
+    /"pandas": "3\.0\.5"/,
+    /packages_to_install/,
     /Path\(SAMPLE_CSV_PATH\)\.write_text\(SAMPLE_CSV, encoding="utf-8"\)/,
     /dataset_source.*dataset_license.*reference_date.*observation_unit/s,
     /privacy_statement.*개인의 집·학교·이동 경로/s,
@@ -294,6 +319,9 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
     /marker_records\.append\(/,
     /legend_html/,
     /pattern_observation.*limitation_statement/s,
+    /filename_student_id = re\.sub/,
+    /facility_table_html/,
+    /지도 마커의 텍스트 대체 정보/,
     /clean_df\.to_csv\([\s\S]*facility_map\.save\(map_filename\)/,
     /== \(1, 2, 3, 4, 5, 6, 7\)/,
     /raw_df\.equals\(raw_snapshot\)/,
@@ -325,7 +353,9 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
     /class="week10-map-panel week10-map-legend"/,
     /@media \(max-width: 760px\)/,
     /<details class="week10-map-panel week10-map-info">/,
-    /week-10-location-encoding\.png/,
+    /week-10-map-mission-preview\.png/,
+    /class="week10-map-data"/,
+    /지도 마커의 텍스트 대체 정보/,
   ]) {
     assert.match(exampleMap, pattern);
   }
@@ -334,11 +364,13 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
   assert.doesNotMatch(exampleMap, /style="position:fixed/);
   assert.doesNotMatch(exampleMap, /[ \t]+\n/);
   assert.equal(exampleMap.match(/L\.circleMarker\(/g)?.length, 24);
+  assert.equal(exampleMap.match(/<tr>/g)?.length, 25);
 
   for (const pattern of [
     /week10_map_overlay_css/,
     /week10-map-info/,
     /week10-map-legend/,
+    /week10-map-data/,
     /maximum-scale=1\.0, user-scalable=no/,
     /palette_name in approved_palette_names/,
   ]) {
@@ -348,11 +380,14 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
   for (const pattern of [
     /def build_notebook/,
     /def clean_source_data/,
+    /def build_facility_table_html/,
     /def build_example_map/,
     /def assign_deterministic_ids/,
     /def normalize_generated_html_ids/,
     /def normalize_generated_html_whitespace/,
+    /def validate_runtime/,
     /def validate_outputs/,
+    /--asset-dir/,
     /week-10-interactive-map-mission\.ipynb/,
     /week-10-interactive-map-example\.html/,
   ]) {
@@ -390,6 +425,7 @@ test("Contents Programming week 10 practice data and diagrams stay complete and 
     "week-10-public-facilities-practice.csv",
     "week-10-location-encoding.png",
     "week-10-cleaning-to-map.png",
+    "week-10-map-mission-preview.png",
   ]) {
     assert.match(generator, new RegExp(filename.replaceAll(".", "\\.")));
   }
@@ -397,18 +433,25 @@ test("Contents Programming week 10 practice data and diagrams stay complete and 
   assert.match(generator, /def write_practice_csv/);
   assert.match(generator, /def make_location_encoding/);
   assert.match(generator, /def make_cleaning_to_map/);
+  assert.match(generator, /def make_map_mission_preview/);
+  assert.match(generator, /inter-latin-variable\.woff2/);
+  assert.match(generator, /set_variation_by_name/);
+  assert.match(generator, /def validate_runtime/);
+  assert.doesNotMatch(generator, /System\/Library\/Fonts|usr\/share\/fonts/);
   assert.match(generator, /CORAL_TEXT = \(166, 54, 43, 255\)/);
   assert.match(generator, /OCHRE_TEXT = \(117, 82, 0, 255\)/);
   assert.doesNotMatch(generator, /fill=YELLOW, font=/);
-  assert.match(requirements, /^folium==/m);
-  assert.match(requirements, /^pandas==/m);
-  assert.match(requirements, /^Pillow==/m);
+  assert.match(requirements, /^folium==0\.20\.0$/m);
+  assert.match(requirements, /^pandas==3\.0\.5$/m);
+  assert.match(requirements, /^Pillow==11\.1\.0$/m);
+  assert.match(requirements, /^# runtime:freetype==2\.13\.2$/m);
   assert.match(packageJson, /"generate:week10-assets"/);
   assert.match(packageJson, /"test:week10-assets"/);
 
   for (const filename of [
     "week-10-location-encoding.png",
     "week-10-cleaning-to-map.png",
+    "week-10-map-mission-preview.png",
   ]) {
     const png = await readFile(resolve(assetDirectory, filename));
     assert.equal(png.subarray(0, 8).toString("hex"), "89504e470d0a1a0a");
@@ -416,6 +459,117 @@ test("Contents Programming week 10 practice data and diagrams stay complete and 
     assert.equal(png.readUInt32BE(20), 900);
     assert.ok(png.length > 20_000, `${filename} should contain a complete diagram`);
   }
+});
+
+test("Contents Programming week 10 generated assets match a clean pinned regeneration", async (t) => {
+  const pythonExecutable = process.env.WEEK10_PYTHON || "python3";
+  const assetGenerator = resolve(
+    root,
+    "scripts",
+    "generate-week10-map-assets.py",
+  );
+  const mapGenerator = resolve(
+    root,
+    "scripts",
+    "generate-week10-map-mission.py",
+  );
+  const probes = [
+    spawnSync(pythonExecutable, [assetGenerator, "--check-runtime"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+    spawnSync(pythonExecutable, [mapGenerator, "--check-runtime"], {
+      cwd: root,
+      encoding: "utf8",
+    }),
+  ];
+  const failedProbe = probes.find((probe) => probe.status !== 0);
+  if (failedProbe) {
+    if (process.env.WEEK10_STRICT_ASSET_TEST === "1") {
+      assert.fail(
+        `the pinned Week 10 asset runtime is unavailable:\n${failedProbe.stdout}\n${failedProbe.stderr}`,
+      );
+    }
+    t.skip("install the pinned asset toolchain with `npm run setup:week10-assets`");
+    return;
+  }
+
+  assert.match(probes[0].stdout, /Pillow 11\.1\.0, freetype 2\.13\.2/);
+  assert.match(probes[1].stdout, /folium 0\.20\.0, pandas 3\.0\.5/);
+
+  const outputDirectory = await mkdtemp(join(tmpdir(), "week10-assets-"));
+  try {
+    for (const generator of [assetGenerator, mapGenerator]) {
+      const generated = spawnSync(
+        pythonExecutable,
+        [generator, "--asset-dir", outputDirectory],
+        { cwd: root, encoding: "utf8" },
+      );
+      assert.equal(
+        generated.status,
+        0,
+        `Week 10 generation failed:\n${generated.stdout}\n${generated.stderr}`,
+      );
+    }
+
+    for (const filename of [
+      "week-10-public-facilities-practice.csv",
+      "week-10-location-encoding.png",
+      "week-10-cleaning-to-map.png",
+      "week-10-map-mission-preview.png",
+      "week-10-interactive-map-mission.ipynb",
+      "week-10-interactive-map-example.html",
+    ]) {
+      const [committed, regenerated] = await Promise.all([
+        readFile(resolve(assetDirectory, filename)),
+        readFile(resolve(outputDirectory, filename)),
+      ]);
+      assert.ok(
+        committed.equals(regenerated),
+        `${filename} should match a clean regeneration`,
+      );
+    }
+  } finally {
+    await rm(outputDirectory, { recursive: true, force: true });
+  }
+});
+
+test("Contents Programming week 10 notebook passes a real fresh-session scenario", (t) => {
+  const pythonExecutable = process.env.WEEK10_PYTHON || "python3";
+  const mapGenerator = resolve(
+    root,
+    "scripts",
+    "generate-week10-map-mission.py",
+  );
+  const runtimeProbe = spawnSync(
+    pythonExecutable,
+    [mapGenerator, "--check-runtime"],
+    { cwd: root, encoding: "utf8" },
+  );
+  if (runtimeProbe.status !== 0) {
+    if (process.env.WEEK10_STRICT_NOTEBOOK_TEST === "1") {
+      assert.fail(
+        `the pinned Week 10 notebook runtime is unavailable:\n${runtimeProbe.stdout}\n${runtimeProbe.stderr}`,
+      );
+    }
+    t.skip("install the pinned notebook toolchain with `npm run setup:week10-assets`");
+    return;
+  }
+
+  const verification = spawnSync(
+    pythonExecutable,
+    [
+      resolve(root, "tests", "verify-week10-notebook.py"),
+      resolve(assetDirectory, "week-10-interactive-map-mission.ipynb"),
+    ],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.equal(
+    verification.status,
+    0,
+    `Week 10 notebook scenarios failed:\n${verification.stdout}\n${verification.stderr}`,
+  );
+  assert.match(verification.stdout, /week10 notebook scenarios PASS/);
 });
 
 test("Contents Programming week 10 visuals and interactions remain readable and scoped", async () => {
@@ -458,6 +612,9 @@ test("Contents Programming week 10 visuals and interactions remain readable and 
     /@media \(hover: hover\) and \(pointer: fine\)[\s\S]*?\.inline-resource-card:not\(:active\):hover/,
     /\.mission-progress/,
     /\.completion-check/,
+    /\.mission-progress span\s*\{[\s\S]*?font-size:\s*12px/,
+    /\.mission-progress button\s*\{[\s\S]*?font:\s*650 12px\/1\.35/,
+    /@media \(prefers-reduced-motion: reduce\)[\s\S]*?body\.week-10-document \.inline-resource-card[\s\S]*?transition:\s*none/,
   ]) {
     assert.match(teachingCss, pattern);
   }
@@ -472,13 +629,16 @@ test("Contents Programming week 10 visuals and interactions remain readable and 
     assert.match(progressScript, pattern);
   }
   assert.doesNotMatch(progressScript, /window\.addEventListener\(["']scroll/);
-  assert.equal(
-    [
-      ...siteConfig.matchAll(
-        /path: "\/teaching\/contents-programming\/assets\/week-10-location-encoding\.png"/g,
+  for (const imagePath of [
+    "week-10-location-encoding.png",
+    "week-10-cleaning-to-map.png",
+    "week-10-map-mission-preview.png",
+  ]) {
+    assert.match(
+      siteConfig,
+      new RegExp(
+        `path: "/teaching/contents-programming/assets/${imagePath.replaceAll(".", "\\.")}"`,
       ),
-    ].length,
-    4,
-    "all Week 10 lessons and the map example should keep their course-specific share image",
-  );
+    );
+  }
 });

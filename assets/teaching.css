@@ -3290,8 +3290,9 @@ body.week-10-document .mission-progress p {
 body.week-10-document .mission-progress span {
   color: var(--quiet);
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 650;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -3315,7 +3316,7 @@ body.week-10-document .mission-progress button {
   border-radius: 4px;
   background: var(--surface);
   color: var(--ink);
-  font: 650 11px/1 var(--sans);
+  font: 650 12px/1.35 var(--sans);
   cursor: pointer;
   transition:
     transform 140ms var(--ease-out),
@@ -3393,6 +3394,18 @@ body.week-10-document .completion-criteria li[data-checked="true"] strong {
     background: var(--paper);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.week-10-document .inline-resource-card,
+  body.week-10-document .mission-progress button {
+    transition: none;
+  }
+
+  body.week-10-document .inline-resource-card:active,
+  body.week-10-document .mission-progress button:active {
+    transform: none;
   }
 }
 

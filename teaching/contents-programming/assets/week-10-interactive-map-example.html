@@ -9,12 +9,12 @@
 <meta property="og:description" content="정제된 공공문화시설 24행을 크기와 범주 색상이 있는 마커로 표현한 완성 예시입니다.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-interactive-map-example.html">
-<meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
-<meta property="og:image:alt" content="위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해">
+<meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-map-mission-preview.png">
+<meta property="og:image:alt" content="지도 마커 24개와 원본 보존·정제·인코딩·해석·세 파일 제출을 확인하는 10주차 지도 미션 도해">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="10주차 인터랙티브 위치 데이터 지도 예시">
 <meta name="twitter:description" content="정제된 위치 데이터 24행을 Folium 마커 24개로 표현한 완성 예시입니다.">
-<meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
+<meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-map-mission-preview.png">
 <style>
   #main-content { width:100%; height:100%; }
   .skip-link { position:fixed; left:12px; top:-80px; z-index:10001; padding:10px 14px; color:#fff; background:#1c1f1e; font:700 14px Arial,sans-serif; }
@@ -88,6 +88,55 @@
 
 .week10-map-panel-body p { margin: 8px 0; }
 .week10-map-panel-body > small { color: #555b57; }
+
+.week10-map-data { margin-top: 12px; }
+
+.week10-map-data summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  color: #25696f;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.week10-map-data summary:focus-visible {
+  outline: 3px solid #25696f;
+  outline-offset: 2px;
+}
+
+.week10-map-table-scroll {
+  max-height: 230px;
+  overflow: auto;
+  border: 1px solid #8c918c;
+}
+
+.week10-map-data table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  font-size: 12px;
+}
+
+.week10-map-data caption {
+  padding: 8px;
+  text-align: left;
+  font-weight: 700;
+}
+
+.week10-map-data th,
+.week10-map-data td {
+  padding: 7px 8px;
+  border-top: 1px solid #c7cac6;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.week10-map-data thead th {
+  position: sticky;
+  top: 0;
+  background: #edf1ee;
+}
 
 .week10-map-legend {
   right: 16px;
@@ -187,7 +236,7 @@
 <body><a class="skip-link" href="#main-content">본문 바로가기</a><main id="main-content"><h1 class="map-visually-hidden">10주차 인터랙티브 위치 데이터 지도 예시</h1>
 
     <aside class="week10-map-panel week10-map-legend" aria-label="시설 범주 범례"><strong>시설 범주</strong><ul><li><span class="week10-map-swatch" style="--marker-color:#25696f"></span><span>도서관</span></li><li><span class="week10-map-swatch" style="--marker-color:#b94736"></span><span>박물관</span></li><li><span class="week10-map-swatch" style="--marker-color:#455b92"></span><span>문화센터</span></li></ul><small>원 크기 = 프로그램 수</small></aside>
-    <details class="week10-map-panel week10-map-info"><summary>서울 가상 공공문화시설 프로그램 지도<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · 프로그램 수가 많은 시설은 어느 위치와 범주에 나타나는가?</p><p><b>관찰</b> · 큰 원은 여러 지역에 흩어져 있으며 세 범주 모두에서 프로그램 수의 차이가 보인다.</p><p><b>한계</b> · 가상 자료이며 시설의 접근성·이용자 수·지역 인구를 포함하지 않아 서비스 수준을 판단할 수 없다.</p><small>교수자 제공 가상 자료 · 기준일 2026-08-18 · 정제 24행</small></div></details>
+    <details class="week10-map-panel week10-map-info"><summary>서울 가상 공공문화시설 프로그램 지도<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · 프로그램 수가 많은 시설은 어느 위치와 범주에 나타나는가?</p><p><b>관찰</b> · 큰 원은 여러 지역에 흩어져 있으며 세 범주 모두에서 프로그램 수의 차이가 보인다.</p><p><b>한계</b> · 가상 자료이며 시설의 접근성·이용자 수·지역 인구를 포함하지 않아 서비스 수준을 판단할 수 없다.</p><small>교수자 제공 가상 자료 · 기준일 2026-08-18 · 정제 24행</small><details class="week10-map-data"><summary>시설 24개 텍스트 표</summary><div class="week10-map-table-scroll"><table><caption>지도 마커의 텍스트 대체 정보</caption><thead><tr><th scope="col">장소</th><th scope="col">범주</th><th scope="col">프로그램 수</th></tr></thead><tbody><tr><th scope="row">햇살도서관</th><td>도서관</td><td>48</td></tr><tr><th scope="row">나무도서관</th><td>도서관</td><td>35</td></tr><tr><th scope="row">구름도서관</th><td>도서관</td><td>62</td></tr><tr><th scope="row">샘물도서관</th><td>도서관</td><td>29</td></tr><tr><th scope="row">새봄도서관</th><td>도서관</td><td>54</td></tr><tr><th scope="row">한강도서관</th><td>도서관</td><td>41</td></tr><tr><th scope="row">별빛도서관</th><td>도서관</td><td>67</td></tr><tr><th scope="row">마루도서관</th><td>도서관</td><td>33</td></tr><tr><th scope="row">모양박물관</th><td>박물관</td><td>23</td></tr><tr><th scope="row">시간박물관</th><td>박물관</td><td>38</td></tr><tr><th scope="row">기록박물관</th><td>박물관</td><td>57</td></tr><tr><th scope="row">생활박물관</th><td>박물관</td><td>31</td></tr><tr><th scope="row">도시박물관</th><td>박물관</td><td>72</td></tr><tr><th scope="row">소리박물관</th><td>박물관</td><td>26</td></tr><tr><th scope="row">빛박물관</th><td>박물관</td><td>45</td></tr><tr><th scope="row">종이박물관</th><td>박물관</td><td>34</td></tr><tr><th scope="row">푸른문화센터</th><td>문화센터</td><td>52</td></tr><tr><th scope="row">열린문화센터</th><td>문화센터</td><td>64</td></tr><tr><th scope="row">다온문화센터</th><td>문화센터</td><td>28</td></tr><tr><th scope="row">누리문화센터</th><td>문화센터</td><td>49</td></tr><tr><th scope="row">이음문화센터</th><td>문화센터</td><td>70</td></tr><tr><th scope="row">마을문화센터</th><td>문화센터</td><td>37</td></tr><tr><th scope="row">함께문화센터</th><td>문화센터</td><td>58</td></tr><tr><th scope="row">오늘문화센터</th><td>문화센터</td><td>42</td></tr></tbody></table></div></details></div></details>
 
             <div class="folium-map" id="map_week10_root_000" ></div>
 

@@ -91,16 +91,16 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
   }),
   "teaching/contents-programming/week-10-period2.html": Object.freeze({
-    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
-    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+    path: "/teaching/contents-programming/assets/week-10-cleaning-to-map.png",
+    alt: "원본 CSV 29행을 숫자 변환과 필터링으로 24행까지 정제해 지도 마커 24개로 바꾸는 10주차 2교시 도해",
   }),
   "teaching/contents-programming/week-10-period3.html": Object.freeze({
-    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
-    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+    path: "/teaching/contents-programming/assets/week-10-map-mission-preview.png",
+    alt: "지도 마커 24개와 원본 보존·정제·인코딩·해석·세 파일 제출을 확인하는 10주차 지도 미션 도해",
   }),
   "teaching/contents-programming/assets/week-10-interactive-map-example.html": Object.freeze({
-    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
-    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+    path: "/teaching/contents-programming/assets/week-10-map-mission-preview.png",
+    alt: "지도 마커 24개와 원본 보존·정제·인코딩·해석·세 파일 제출을 확인하는 10주차 지도 미션 도해",
   }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
