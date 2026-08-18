@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import inspect
 import json
+import re
 from collections import Counter
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
@@ -73,37 +74,56 @@ PROVIDED_IMAGE_CSV = """x,y,size,color
 0.84,0.28,66,#116e68
 """
 
-def supports_korean_glyphs(font_path: Path) -> bool:
-    """Return whether a font contains the Hangul used by the teaching visuals."""
+# Korean subset derived from NotoSansKR-VF.ttf at notofonts/noto-cjk
+# commit f8d157532fbfaeda587e826d4cd5b21a49186f7c under the SIL OFL 1.1.
+FONT_PATH = ROOT / "assets" / "fonts" / "week14-korean-visual.ttf"
+FONT_SHA256 = "7ad6be80e7d7201976cdff42ec02afc87241d50cb4d9b10ebb70569dcd5284e3"
+FONT_LICENSE_PATH = ROOT / "assets" / "fonts" / "OFL-NotoSansCJK.txt"
+FONT_LICENSE_SHA256 = (
+    "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2"
+)
 
-    try:
-        font = font_manager.get_font(font_path)
-    except (OSError, RuntimeError):
-        return False
-    return all(font.get_char_index(ord(character)) for character in "한글입력처리표현저장")
 
+def validate_visual_font() -> None:
+    """Require the committed OFL font subset used by every generated visual."""
 
-def find_visual_font() -> Path:
-    """Choose a Korean-capable font while keeping one deterministic local choice."""
-
-    explicit_candidates = [
-        Path("/System/Library/Fonts/Supplemental/AppleGothic.ttf"),
-        Path("/System/Library/Fonts/AppleSDGothicNeo.ttc"),
-        Path("/usr/share/fonts/truetype/nanum/NanumGothic.ttf"),
-        Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
-    ]
-    system_candidates = [
-        Path(font_path) for font_path in sorted(font_manager.findSystemFonts())
-    ]
-    for font_path in [*explicit_candidates, *system_candidates]:
-        if font_path.is_file() and supports_korean_glyphs(font_path):
-            return font_path
-    raise RuntimeError(
-        "Week 14 visual generation requires a Korean-capable system font."
+    required_files = (
+        (FONT_PATH, FONT_SHA256, "font"),
+        (FONT_LICENSE_PATH, FONT_LICENSE_SHA256, "font license"),
     )
+    for file_path, expected_digest, label in required_files:
+        if not file_path.is_file():
+            raise RuntimeError(f"Week 14 {label} is missing: {file_path}")
+        actual_digest = hashlib.sha256(file_path.read_bytes()).hexdigest()
+        if actual_digest != expected_digest:
+            raise RuntimeError(
+                f"Week 14 {label} checksum mismatch: {actual_digest}"
+            )
+
+    source = Path(__file__).read_text(encoding="utf-8")
+    visual_start = source.find("\ndef make_scope_to_slice(")
+    visual_end = source.find("\ndef build_notebook(")
+    if visual_start < 0 or visual_end < visual_start:
+        raise RuntimeError("Week 14 visual source boundary could not be found.")
+
+    required_glyphs = frozenset(
+        re.findall(r"[가-힣]", source[visual_start:visual_end])
+    )
+    font = font_manager.get_font(FONT_PATH)
+    missing_glyphs = sorted(
+        character
+        for character in required_glyphs
+        if not font.get_char_index(ord(character))
+    )
+    if missing_glyphs:
+        raise RuntimeError(
+            "Week 14 visual font is missing Korean glyphs: "
+            + "".join(missing_glyphs)
+        )
 
 
-FONT_PATH = find_visual_font()
+validate_visual_font()
+font_manager.fontManager.addfont(FONT_PATH)
 FONT_BOLD_PATH = FONT_PATH
 FONT = font_manager.FontProperties(fname=FONT_PATH)
 FONT_BOLD = font_manager.FontProperties(fname=FONT_BOLD_PATH)
@@ -176,7 +196,7 @@ def validate_runtime() -> dict[str, str]:
 
 
 def apply_style() -> None:
-    """Apply a fixed editorial style using Matplotlib's bundled fonts."""
+    """Apply a fixed editorial style using the committed Korean font."""
 
     plt.rcParams.update(
         {
@@ -397,29 +417,29 @@ def make_scope_to_slice(path: Path) -> None:
 
 
 def make_prototype_contract(path: Path) -> None:
-    """Visualize the five-stage path and the evidence produced at each stage."""
+    """Visualize one data flow and the evidence produced along that flow."""
 
     apply_style()
     figure, axis = plt.subplots(figsize=(14.4, 9), dpi=100)
     axis.set_axis_off()
     figure.subplots_adjust(left=0.04, right=0.96, top=0.96, bottom=0.05)
     axis.text(0.04, 0.93, "30% = 처음부터 끝까지 이어진 한 경로", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=29, color=INK)
-    axis.text(0.04, 0.872, "각 단계는 다음 단계가 사용할 값과 검토자가 확인할 증거를 남깁니다.", transform=axis.transAxes, fontproperties=FONT, fontsize=14, color=MUTED)
+    axis.text(0.04, 0.872, "각 흐름 요소는 다음 요소가 사용할 값과 검토자가 확인할 증거를 남깁니다.", transform=axis.transAxes, fontproperties=FONT, fontsize=14, color=MUTED)
 
     cards = [
-        ("01", "입력 INPUT", "승인된\n자료 하나", PALE_BLUE, BLUE),
-        ("02", "보존 PRESERVE", "원본 사본 +\n입력 지문", PALE_GOLD, GOLD),
-        ("03", "처리 PROCESS", "집계·규칙·\n측정 하나", PALE_TEAL, TEAL),
-        ("04", "표현 MAP", "값 → 위치·\n길이·색", PALE_CORAL, CORAL),
-        ("05", "저장 EXPORT", "다시 열리는\nPNG 또는 HTML", PANEL, INK),
+        ("입력 INPUT", "승인된\n자료 하나", PALE_BLUE, BLUE),
+        ("보존 PRESERVE", "원본 사본 +\n입력 지문", PALE_GOLD, GOLD),
+        ("처리 PROCESS", "집계·규칙·\n측정 하나", PALE_TEAL, TEAL),
+        ("표현 MAP", "값 → 위치·\n길이·색", PALE_CORAL, CORAL),
+        ("저장 EXPORT", "다시 열리는\nPNG 또는 HTML", PANEL, INK),
     ]
     width = 0.158
     gap = 0.026
     start_x = 0.04
-    for index, (number, title, body, facecolor, accent) in enumerate(cards):
+    for index, (title, body, facecolor, accent) in enumerate(cards):
         x = start_x + index * (width + gap)
         axis.add_patch(FancyBboxPatch((x, 0.50), width, 0.245, boxstyle="round,pad=0.010,rounding_size=0.018", linewidth=1.5, edgecolor=accent, facecolor=facecolor))
-        axis.text(x + 0.020, 0.705, number, transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=11, color=accent)
+        axis.text(x + 0.020, 0.705, "데이터 흐름", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=9.5, color=accent)
         axis.text(x + 0.020, 0.650, title, transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=15, color=INK)
         axis.text(x + 0.020, 0.585, body, transform=axis.transAxes, fontproperties=FONT, fontsize=10.5, color=MUTED, linespacing=1.5)
         if index < len(cards) - 1:
@@ -779,7 +799,7 @@ __PROVIDED_SOUND_FUNCTION__
             - 선택 경로: `data`, `text`, `sound`, `image`
             - 막히면 `input_mode = "provided"`를 유지하고 수업 제공 가상 자료로 먼저 완성합니다.
             - 자신의 파일을 쓰려면 프로젝트 면담에서 승인받고, 아래 규격에 맞춘 뒤 `input_mode = "own"`으로 바꿉니다.
-            - 9–13주차의 개인 코드를 재사용하려면 2교시 신청자 면담에서 처리·매핑 규칙을 승인받고 `reuse_status`를 `approved` 또는 `scoped`로 기록한 뒤 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. 제공 입력을 쓰면서 승인 코드를 재사용할 수도 있습니다. 이 구역은 Matplotlib Figure를 만드는 계약이며 Folium·별도 웹페이지 전체를 넣지 않습니다.
+            - 9-13주차의 개인 코드를 재사용하려면 2교시 신청자 면담에서 처리·매핑 규칙을 승인받고 `reuse_status`를 `approved` 또는 `scoped`로 기록한 뒤 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. 제공 입력을 쓰면서 승인 코드를 재사용할 수도 있습니다. 이 구역은 Matplotlib Figure를 만드는 계약이며 Folium·별도 웹페이지 전체를 넣지 않습니다.
             - 마지막에는 새 런타임에서 **모두 실행**하고 `WEEK 14 PROJECT PROTOTYPE COMPLETE`를 확인합니다.
             """
         ),
@@ -880,14 +900,14 @@ __PROVIDED_SOUND_FUNCTION__
             """
             ## STEP 1 · 프로젝트 카드 입력
 
-            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`, `reuse_status = "guided"`를 유지하는 것이 가장 안전합니다. 입력 판정과 코드 재사용 판정은 서로 다릅니다. 제공 입력은 `approval_status = "provided"`, 자기 입력은 승인 뒤 `approved` 또는 `scoped`를 기록합니다. 공통 코드를 유지하면 `reuse_status = "guided"`, STEP 3·4를 바꾸면 승인 뒤 `approved` 또는 `scoped`를 기록합니다. 최종 30–45초 증거 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
+            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`, `reuse_status = "guided"`를 유지하는 것이 가장 안전합니다. 입력 판정과 코드 재사용 판정은 서로 다릅니다. 제공 입력은 `approval_status = "provided"`, 자기 입력은 승인 뒤 `approved` 또는 `scoped`를 기록합니다. 공통 코드를 유지하면 `reuse_status = "guided"`, STEP 3·4를 바꾸면 승인 뒤 `approved` 또는 `scoped`를 기록합니다. 최종 30-45초 증거 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
 
             자신의 입력을 사용할 때의 규격은 다음과 같습니다.
 
             - 데이터: `category`, `value` 열이 있는 UTF-8 CSV (`value`는 0 이상의 수)
             - 텍스트: UTF-8 TXT
             - 소리: 모노 PCM WAV
-            - 규칙 기반 이미지: `x`, `y`, `size`, `color` 열이 있는 UTF-8 CSV (`x`, `y`는 0–1, `color`는 `#RRGGBB`)
+            - 규칙 기반 이미지: `x`, `y`, `size`, `color` 열이 있는 UTF-8 CSV (`x`, `y`는 0-1, `color`는 `#RRGGBB`)
             """
         ),
         code_cell(
@@ -1013,14 +1033,19 @@ __PROVIDED_SOUND_FUNCTION__
             """
             ## STEP 4 · 처리 결과를 한 가지 시각 규칙에 연결
 
-            네 경로 모두 같은 크기의 Figure를 사용합니다. 막대 경로는 처리된 값을 **길이**에, 소리 경로는 시간과 에너지를 **가로·세로 위치**에, 규칙 이미지 경로는 값을 **위치·크기·색**에 연결합니다. 승인받은 개인 표현은 아래 공통 어댑터 계약을 모두 지킵니다.
+            네 경로 모두 같은 크기의 Figure를 사용합니다. 막대 경로는 처리된 값을 **길이**에, 소리 경로는 시간과 에너지를 **가로·세로 위치**에, 규칙 이미지 경로는 값을 **위치·크기·색**에 연결합니다. 공통 코드를 사용하는 학생은 아래 코드 셀을 수정하지 않고 실행합니다.
 
-            - 모든 경로: `mapping_source_values`, `mapping_visual_values`
-            - 데이터·텍스트: `mapping_source_labels`, `mapping_visual_labels`
-            - 소리·이미지: `mapping_source_positions`, `mapping_visual_positions`
-            - 이미지: `mapping_source_colors`, `mapping_visual_colors`
-
-            사용하지 않는 쌍은 `None`으로 둡니다. FINAL CHECK는 이 공개 변수만 읽으며 `visual_element_count`는 화면 값의 길이에서 자동 계산합니다.
+            <details>
+            <summary><strong>승인 재사용 학생만 · 어댑터 증거 계약</strong></summary>
+            <p>승인받은 개인 표현은 다음 공통 어댑터 계약을 모두 지킵니다.</p>
+            <ul>
+              <li>모든 경로: <code>mapping_source_values</code>, <code>mapping_visual_values</code></li>
+              <li>데이터·텍스트: <code>mapping_source_labels</code>, <code>mapping_visual_labels</code></li>
+              <li>소리·이미지: <code>mapping_source_positions</code>, <code>mapping_visual_positions</code></li>
+              <li>이미지: <code>mapping_source_colors</code>, <code>mapping_visual_colors</code></li>
+            </ul>
+            <p>사용하지 않는 쌍은 <code>None</code>으로 둡니다. FINAL CHECK는 이 공개 변수만 읽으며 <code>visual_element_count</code>는 화면 값의 길이에서 자동 계산합니다.</p>
+            </details>
             """
         ),
         code_cell(
@@ -1296,7 +1321,7 @@ __PROVIDED_SOUND_FUNCTION__
             2. `week14_학번_이름_preview.png` 또는 `week14_학번_이름_preview.html`
             3. `input_mode = "own"`이면 실행에 사용한 원본 파일
 
-            `own`이면 노트북이 실제로 읽은 표준 이름의 원본 파일을 이름을 바꾸지 않고 함께 제출합니다. 결과 파일과 STEP 1·5를 한 화면에 준비해 교수에게 30–45초 증거 확인을 받고, `teacher_gate`를 변경한 뒤 새 런타임에서 모두 실행해 PASS를 받은 다음 제출합니다.
+            `own`이면 노트북이 실제로 읽은 표준 이름의 원본 파일을 이름을 바꾸지 않고 함께 제출합니다. 결과 파일과 STEP 1·5를 한 화면에 준비해 교수에게 30-45초 증거 확인을 받고, `teacher_gate`를 변경한 뒤 새 런타임에서 모두 실행해 PASS를 받은 다음 제출합니다.
             """
         ),
     ]

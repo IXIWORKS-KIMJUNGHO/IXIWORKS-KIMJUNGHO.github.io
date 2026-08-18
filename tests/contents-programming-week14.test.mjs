@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { createHash } from "node:crypto";
 import { mkdtemp, readFile, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -309,6 +310,10 @@ test("Contents Programming week 14 uses one eight-step learning hierarchy", asyn
   assertIncludesAll(period1, ["category", "value", "15주차"]);
   assertIncludesAll(period2, ["여덟 STEP", "STEP 0부터 STEP 7까지"]);
   assert.doesNotMatch(period2, /여섯 (?:코드 )?구역|4·6\. 표현과 저장/);
+  assert.doesNotMatch(
+    period2,
+    /좌표 숫자 변환, 유효 범위|유효 좌표 수|결측값 제거 수/,
+  );
   for (let step = 0; step <= 7; step += 1) {
     assert.match(period2, new RegExp(`<th scope="row">STEP ${step}`));
   }
@@ -353,6 +358,16 @@ test("Contents Programming week 14 period 3 has a persistent fifteen-item comple
   assert.match(week14Css, /@media \(hover: none\), \(pointer: coarse\)/);
   assert.match(week14Css, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(week14Css, /\.inline-resource-card:active/);
+  assert.doesNotMatch(
+    week14Css,
+    /^\s*body\.week-14-/m,
+    "Week 14 overrides must outrank the shared course selectors",
+  );
+  assert.doesNotMatch(week14Css, /week-14-toc > summary::.*details-marker/);
+  assert.match(
+    week14Css,
+    /\.completion-criteria label span\s*\{\s*grid-column: auto;/,
+  );
   assert.match(week14Css, /\.week-14-period-3 \.article > h2::before/);
 });
 
@@ -384,12 +399,21 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
   );
   const notebook = JSON.parse(await readFile(notebookPath, "utf8"));
   const codeCells = notebook.cells.filter((cell) => cell.cell_type === "code");
+  const notebookMarkdown = notebook.cells
+    .filter((cell) => cell.cell_type === "markdown")
+    .flatMap((cell) => cell.source)
+    .join("");
   const notebookCode = codeCells.flatMap((cell) => cell.source).join("");
   const finalCheckCode = codeCells.at(-1).source.join("");
 
   assert.equal(notebook.nbformat, 4);
   assert.equal(notebook.nbformat_minor, 5);
   assert.equal(codeCells.length, 8);
+  assert.doesNotMatch(notebookMarkdown, /[—–]/);
+  assert.match(
+    notebookMarkdown,
+    /<details>[\s\S]*?<summary><strong>승인 재사용 학생만 · 어댑터 증거 계약<\/strong><\/summary>[\s\S]*?mapping_source_values[\s\S]*?<\/details>/,
+  );
   assert.equal(
     [...notebookCode.matchAll(/# STEP \d · EDIT/g)].length,
     2,
@@ -489,6 +513,19 @@ test("Week 14 generated visual assets have the published dimensions", async () =
     assert.equal(buffer.readUInt32BE(20), height);
     assert.ok((await stat(resolve(assetDirectory, filename))).size > 20_000);
   }
+
+  const [visualFont, visualFontLicense] = await Promise.all([
+    readFile(resolve(root, "assets", "fonts", "week14-korean-visual.ttf")),
+    readFile(resolve(root, "assets", "fonts", "OFL-NotoSansCJK.txt")),
+  ]);
+  assert.equal(
+    createHash("sha256").update(visualFont).digest("hex"),
+    "7ad6be80e7d7201976cdff42ec02afc87241d50cb4d9b10ebb70569dcd5284e3",
+  );
+  assert.equal(
+    createHash("sha256").update(visualFontLicense).digest("hex"),
+    "6a73f9541c2de74158c0e7cf6b0a58ef774f5a780bf191f2d7ec9cc53efe2bf2",
+  );
 });
 
 test("Week 14 preview generation guards contrast, bounds, and shared fixtures", async () => {
@@ -507,6 +544,10 @@ test("Week 14 preview generation guards contrast, bounds, and shared fixtures", 
   assert.match(generator, /signal = provided_sound\(\)/);
   assert.match(generator, /PROVIDED_SOUND_PARAMETERS = \{/);
   assert.match(generator, /inspect\.getsource\(synthesize_provided_sound\)/);
+  assert.match(generator, /assets" \/ "fonts" \/ "week14-korean-visual\.ttf/);
+  assert.match(generator, /def validate_visual_font/);
+  assert.match(generator, /re\.findall\(r"\[가-힣\]"/);
+  assert.doesNotMatch(generator, /def find_visual_font/);
   assertIncludesAll(generator, [
     "넓은 아이디어에서 제작 가능한 핵심으로",
     "30% = 처음부터 끝까지 이어진 한 경로",
@@ -514,6 +555,7 @@ test("Week 14 preview generation guards contrast, bounds, and shared fixtures", 
   ]);
   assert.doesNotMatch(generator, /FROM BROAD IDEA TO BUILDABLE SLICE/);
   assert.doesNotMatch(generator, /FOUR PATHS · ONE PROTOTYPE CONTRACT/);
+  assert.doesNotMatch(generator, /\("01", "입력 INPUT"/);
   assert.equal(
     [...generator.matchAll(/parameters\["carrier_hz"\] \* time_values/g)].length,
     1,

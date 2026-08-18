@@ -83,7 +83,7 @@
       </div>
 
       <ul class="session-grid session-grid-seven" aria-label="2교시 시간 구성">
-        <li><span class="session-label">0-7분</span><strong>공통 경로</strong><p>서로 다른 프로젝트의 다섯 단계를 비교합니다.</p></li>
+        <li><span class="session-label">0-7분</span><strong>공통 경로</strong><p>서로 다른 프로젝트에 공통인 데이터 흐름을 비교합니다.</p></li>
         <li><span class="session-label">7-17분</span><strong>여덟 STEP</strong><p>한 셀이 한 질문에 답하도록 구조를 나눕니다.</p></li>
         <li><span class="session-label">17-27분</span><strong>검증 문장</strong><p>수치·관계·파일 검사를 초보자의 언어로 읽습니다.</p></li>
         <li><span class="session-label">27-35분</span><strong>출처와 권한</strong><p>입력의 이용 조건과 개인정보 위험을 확인합니다.</p></li>
@@ -108,10 +108,10 @@
 
       <figure class="lesson-visual" aria-labelledby="prototype-contract-caption">
         <a class="lesson-visual-link" href="assets/week-14-prototype-contract.png" target="_blank" rel="noopener noreferrer">
-          <img src="assets/week-14-prototype-contract.png" width="1440" height="900" loading="eager" decoding="async" alt="승인된 입력, 원본 보존, 처리, 시각적 매핑, 파일 저장의 다섯 단계와 질문·콘솔·시각 요소·파일·기록이라는 검토 증거를 보여 주는 도해">
+          <img src="assets/week-14-prototype-contract.png" width="1440" height="900" loading="eager" decoding="async" alt="승인된 입력에서 원본 보존, 처리, 시각적 매핑, 파일 저장으로 이어지는 데이터 흐름과 질문·콘솔·시각 요소·파일·기록이라는 검토 증거를 보여 주는 도해">
           <span class="lesson-visual-action">원본 크기로 보기 ↗</span>
         </a>
-        <figcaption id="prototype-contract-caption">30% 프로토타입은 다섯 단계가 모두 이어진 한 경로입니다. 각 단계는 다음 단계가 사용할 값과 검토자가 확인할 증거를 남깁니다.</figcaption>
+        <figcaption id="prototype-contract-caption">30% 프로토타입은 입력부터 저장까지 데이터 흐름이 끊기지 않은 한 경로입니다. 각 흐름 요소는 다음 요소가 사용할 값과 검토자가 확인할 증거를 남깁니다.</figcaption>
       </figure>
 
       <div class="table-wrap">
@@ -192,7 +192,7 @@ assert len(processed) &gt; 0                 # 처리 결과가 존재하는가?
           <thead><tr><th scope="col">현재 경로</th><th scope="col">재사용 후보</th><th scope="col">가져올 핵심</th><th scope="col">그대로 복사하면 안 되는 것</th></tr></thead>
           <tbody>
             <tr><th scope="row">데이터</th><td>9·11주차</td><td><code>read_csv</code>, 원본 사본, <code>groupby</code>, 막대그래프, <code>savefig</code></td><td>예전 열 이름, 고정 합계, 출처 문장</td></tr>
-            <tr><th scope="row">위치 지도</th><td>10주차</td><td>좌표 숫자 변환, 유효 범위, 행 수와 범주 집계</td><td>Folium HTML 저장 코드, 예전 중심점, 장소명, 범주 색상</td></tr>
+            <tr><th scope="row">위치 지도</th><td>10주차</td><td>위치 표의 범주를 <code>category</code>, 비교값을 <code>value</code>로 정리하는 원리</td><td>위도·경도 검사, Folium HTML, 예전 중심점은 15주차 전까지 복사하지 않음</td></tr>
             <tr><th scope="row">텍스트</th><td>12주차</td><td>정규식 토큰화, <code>Counter</code>, 상위 빈도, 텍스트 시각화</td><td>제공 발췌문의 제목·권한·단어 수</td></tr>
             <tr><th scope="row">사운드</th><td>13주차</td><td>샘플링 레이트, 프레임, RMS, 시간축, PNG 저장</td><td>6초·22,050Hz 같은 예전 입력 전용 수치</td></tr>
             <tr><th scope="row">규칙 기반 이미지</th><td>5·6·7주차</td><td>시드, 반복, 함수, 원본 보존, 합성, PNG 저장</td><td>중간고사 전용 캔버스와 도형 개수</td></tr>
@@ -218,7 +218,7 @@ assert len(processed) &gt; 0                 # 처리 결과가 존재하는가?
 
       <details class="callout callout-question">
         <summary class="callout-title">확인: 최종 결과가 지도라면 14주차 미리보기도 완성된 지도여야 하는가?</summary>
-        <div class="details-motion-content"><p>아닙니다. 이번 주 미리보기는 최종 매체의 축소판이 아니라 핵심 데이터 경로가 작동한다는 증거입니다. 위치 자료의 행 수, 유효 좌표 수, 범주별 수량 가운데 질문에 필요한 값 하나를 정적 화면으로 저장하고, 이미 만든 Folium 지도를 다시 연결하는 일은 15주차 행동으로 기록합니다.</p></div>
+        <div class="details-motion-content"><p>아닙니다. 이번 주 미리보기는 최종 매체의 축소판이 아니라 핵심 데이터 경로가 작동한다는 증거입니다. <code>category</code>와 <code>value</code>의 결측 여부를 확인하고 범주별 수량 또는 합계를 정적 막대로 저장합니다. 위도·경도 검증과 이미 만든 Folium 지도 재연결은 15주차 행동으로 기록합니다.</p></div>
       </details>
 
       <details class="callout callout-question">
@@ -262,7 +262,7 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
           <thead><tr><th scope="col">경로</th><th scope="col">입력 증거</th><th scope="col">처리 증거</th><th scope="col">화면 증거</th><th scope="col">육안 확인</th></tr></thead>
           <tbody>
             <tr><th scope="row">데이터</th><td>행 수, 열 이름, 원본 지문</td><td>범주 수와 합계 값</td><td>막대 수와 실제 길이</td><td>축 단위, 이름 잘림, 0 기준</td></tr>
-            <tr><th scope="row">위치 지도</th><td><code>category</code>, <code>value</code>, 원본 지문</td><td>결측값 제거 수와 범주별 수량 또는 합계</td><td>처리한 범주 수와 같은 정적 막대</td><td>위도·경도와 Folium 연결은 15주차에 재개</td></tr>
+            <tr><th scope="row">위치 지도</th><td><code>category</code>, <code>value</code>, 원본 지문</td><td><code>category</code>·<code>value</code>에 결측이 없다는 확인과 범주별 수량 또는 합계</td><td>처리한 범주 수와 같은 정적 막대</td><td>위도·경도와 Folium 연결은 15주차에 재개</td></tr>
             <tr><th scope="row">텍스트</th><td>문자 수, 토큰 수, 원문 지문</td><td>상위 단어와 빈도</td><td>단어 수만큼의 막대와 길이</td><td>긴 단어 잘림, 불용어 맥락, 출처</td></tr>
             <tr><th scope="row">사운드</th><td>샘플 수, 샘플링 레이트, 파일 지문</td><td>프레임 수와 RMS 범위</td><td>시간 배열과 선의 x·y 값</td><td>재생 가능, 초 단위, 빈 구간</td></tr>
             <tr><th scope="row">규칙 이미지</th><td>매개변수 수, 필수 열, 원본 지문</td><td>유효한 위치·크기·색 값</td><td>도형 수, 좌표와 크기 일치</td><td>잘림, 겹침의 의도, 색 대비</td></tr>
