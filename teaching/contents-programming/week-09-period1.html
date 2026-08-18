@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-09-page">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,11 +19,12 @@
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-09.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-09">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
-    <nav class="lesson-header-inner" aria-label="Course">
+    <nav class="lesson-header-inner" aria-label="강의 이동">
       <div class="lesson-breadcrumb">
         <a class="lesson-home" href="/">Kim Jungho</a>
         <span aria-hidden="true">/</span>
@@ -32,27 +33,27 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-07-period3.html" rel="prev" aria-label="이전 자료: 7주차 3교시: 변형·합성 프로토타입 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
-        <a href="week-09-period2.html" rel="next" aria-label="다음 자료: 9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+        <a href="week-07-period3.html" rel="prev" aria-label="이전 자료: 7주차 3교시: 변형·합성 프로토타입 미션 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
+        <a href="week-09-period2.html" rel="next" aria-label="다음 자료: 9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
       </div>
     </nav>
   </header>
 <div class="hero">
     <div class="hero-inner">
       <div>
-        <p class="eyebrow">Question / Observe / Record / Context</p>
+        <p class="eyebrow">질문 / 관찰 / 기록 / 맥락</p>
         <h1>9주차 1교시: 데이터는 발견되는가, 만들어지는가</h1>
         <p class="lead">데이터를 이미 존재하는 숫자의 묶음으로 보지 않고, 질문에 따라 대상을 관찰하고 기준을 정해 남긴 기록으로 이해합니다.</p>
         <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 09</span>
-          <span class="hero-chip">PERIOD 01</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">+ 10 MIN EXTENSION</span>
-          <span class="hero-chip">THEORY</span>
+          <span class="hero-chip">9주차</span>
+          <span class="hero-chip">1교시</span>
+          <span class="hero-chip">기본 50분</span>
+          <span class="hero-chip">확장 10분</span>
+          <span class="hero-chip">이론</span>
         </div>
       </div>
       <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
+        <p class="doc-card-title">강의 개요</p>
         <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">기록하기 전 무엇을 결정하는가?</span></div>
         <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">관찰 단위, 변수, 값, 메타데이터</span></div>
         <div class="meta-row"><span class="meta-key">공식 사례</span><span class="meta-value">Dear Data, Missing Datasets</span></div>
@@ -133,7 +134,39 @@
       <p>교실에 의자가 스무 개 있다는 사실만으로는 아직 수업에 쓸 데이터셋이 생기지 않습니다. “수업 중 어느 좌석이 자주 사용되는가?”라는 <strong>질문</strong>을 정하고, 수업 한 회를 <strong>관찰</strong>하고, 좌석 번호와 사용 여부를 같은 규칙으로 <strong>기록</strong>해야 비교 가능한 데이터가 됩니다. 질문이 달라지면 관찰하고 기록할 항목도 달라집니다.</p>
 
       <figure class="lesson-visual" aria-labelledby="observation-table-caption">
-        <img src="assets/week-09-observation-to-table.png" width="1440" height="820" loading="eager" decoding="async" alt="어떤 활동이 집중에 도움이 되는가라는 질문이 한 번의 활동 관찰, 활동·시간·집중도·장소 기록, 표의 한 행으로 이어지는 네 단계 도해">
+        <div class="observation-flow-diagram">
+          <ol class="observation-flow">
+            <li>
+              <span class="diagram-step">01 질문</span>
+              <strong>어떤 활동이 집중에 도움이 되는가?</strong>
+              <p>질문이 관찰할 범위와 기록에서 제외할 범위를 정합니다.</p>
+            </li>
+            <li>
+              <span class="diagram-step">02 관찰</span>
+              <strong>창작 활동 한 번을 살펴봅니다.</strong>
+              <p>한 번의 활동을 표의 한 행이 될 관찰 단위로 정합니다.</p>
+            </li>
+            <li>
+              <span class="diagram-step">03 기록</span>
+              <strong>같은 기준으로 값을 적습니다.</strong>
+              <dl class="diagram-record">
+                <div><dt>활동</dt><dd>코딩</dd></div>
+                <div><dt>시간</dt><dd>55분</dd></div>
+                <div><dt>집중도</dt><dd>4 / 5</dd></div>
+                <div><dt>장소</dt><dd>학교</dd></div>
+              </dl>
+            </li>
+            <li>
+              <span class="diagram-step">04 표</span>
+              <strong>기록 한 번이 한 행이 됩니다.</strong>
+              <div class="diagram-mini-row" aria-label="표에 추가된 한 행">
+                <span>2</span><span>코딩</span><span>55</span>
+              </div>
+              <p>같은 열을 사용하면 다음 활동과 비교할 수 있습니다.</p>
+            </li>
+          </ol>
+          <p class="diagram-equation">질문 <span aria-hidden="true">→</span> 관찰 단위 <span aria-hidden="true">→</span> 변수 <span aria-hidden="true">→</span> 값 <span aria-hidden="true">→</span> 행</p>
+        </div>
         <figcaption id="observation-table-caption">질문이 먼저 기록의 방향을 정합니다. 한 번의 창작 활동을 관찰하고 이름 붙인 값으로 기록하면 표의 한 행이 됩니다. 도해 아래의 흐름은 질문 → 관찰 단위 → 변수 → 값 → 행입니다.</figcaption>
       </figure>
 
@@ -205,10 +238,34 @@
 
       <p><em>Dear Data</em>는 Giorgia Lupi와 Stefanie Posavec가 1년 동안 매주 서로 다른 일상 주제를 기록하고 손으로 시각화한 엽서를 주고받은 프로젝트입니다. 중요한 점은 그림의 모양만이 아닙니다. 매주 무엇을 데이터로 볼지 질문하고, 어떤 기호로 기록할지 규칙을 설계하고, 뒷면의 범례로 그 규칙을 설명했다는 점입니다.</p>
 
+      <figure class="case-lens-visual" aria-labelledby="case-lens-caption">
+        <div class="case-lens-grid">
+          <section>
+            <span>Dear Data</span>
+            <strong>기록된 것을 읽는 순서</strong>
+            <ol>
+              <li>한 주의 질문을 확인합니다.</li>
+              <li>반복해서 관찰한 사건을 찾습니다.</li>
+              <li>기호와 색을 범례의 설명에 연결합니다.</li>
+            </ol>
+          </section>
+          <section>
+            <span>Missing Datasets</span>
+            <strong>기록되지 않은 것을 묻는 순서</strong>
+            <ol>
+              <li>누가 수집 기준을 정했는지 확인합니다.</li>
+              <li>표에 빠진 대상과 변수를 찾습니다.</li>
+              <li>누락으로 답할 수 없게 된 질문을 적습니다.</li>
+            </ol>
+          </section>
+        </div>
+        <figcaption id="case-lens-caption">두 사례는 반대 방향에서 같은 원리를 보여 줍니다. 하나는 기록 규칙이 어떻게 의미를 만드는지, 다른 하나는 기록의 부재가 무엇을 보이지 않게 하는지 드러냅니다.</figcaption>
+      </figure>
+
       <div class="official-case-grid">
         <article class="official-case-card">
           <div class="official-case-copy">
-            <span class="case-kicker">OFFICIAL PROJECT</span>
+            <span class="case-kicker">공식 프로젝트</span>
             <h3><a href="https://www.dear-data.com/theproject" target="_blank" rel="noopener noreferrer">Dear Data: The Project ↗</a></h3>
             <p>공식 프로젝트 설명과 여러 주의 기록 주제를 함께 봅니다. “한 주의 불평”, “웃음”, “휴대전화 사용”처럼 일상의 행동과 감정이 어떤 관찰 규칙을 통해 데이터가 되었는지 확인합니다.</p>
             <dl class="case-data-map">
@@ -220,7 +277,7 @@
         </article>
         <article class="official-case-card">
           <div class="official-case-copy">
-            <span class="case-kicker">MUSEUM COLLECTION</span>
+            <span class="case-kicker">미술관 소장 자료</span>
             <h3><a href="https://www.moma.org/collection/works/215813" target="_blank" rel="noopener noreferrer">MoMA: Dear Data ↗</a></h3>
             <p>미술관 소장품 페이지에서 실제 엽서의 앞면과 뒷면을 비교합니다. 앞면의 시각 패턴만 보지 말고, 뒷면 범례가 없다면 어떤 정보를 해석할 수 없는지 찾습니다.</p>
             <dl class="case-data-map">
@@ -255,14 +312,14 @@
       <div class="official-case-grid">
         <article class="official-case-card">
           <div class="official-case-copy">
-            <span class="case-kicker">ARTIST ARCHIVE</span>
+            <span class="case-kicker">작가 공식 기록</span>
             <h3><a href="https://www.mimionuoha.com/" target="_blank" rel="noopener noreferrer">Mimi Ọnụọha 공식 웹사이트 ↗</a></h3>
             <p>작가의 공식 기록에서 프로젝트와 작업 맥락을 확인합니다. 목록에 무엇이 있는지만 읽지 않고, 왜 해당 데이터가 빠져 있을 수 있는지를 질문합니다.</p>
           </div>
         </article>
         <article class="official-case-card">
           <div class="official-case-copy">
-            <span class="case-kicker">ARTIST INTERVIEW</span>
+            <span class="case-kicker">작가 인터뷰</span>
             <h3><a href="https://art21.org/artist/mimi-onuoha/" target="_blank" rel="noopener noreferrer">Art21: Mimi Ọnụọha ↗</a></h3>
             <p>작가 소개와 인터뷰 자료를 통해 데이터 수집이 기술적 행동에 그치지 않고 사회의 관심과 권한을 반영한다는 관점을 살펴봅니다.</p>
           </div>
@@ -354,31 +411,34 @@
       <h2 id="references">공식 자료</h2>
 
       <ul>
-        <li><a href="https://www.dear-data.com/theproject" target="_blank" rel="noopener noreferrer">Dear Data — The Project ↗</a></li>
-        <li><a href="https://www.moma.org/collection/works/215813" target="_blank" rel="noopener noreferrer">The Museum of Modern Art — Dear Data ↗</a></li>
-        <li><a href="https://www.mimionuoha.com/" target="_blank" rel="noopener noreferrer">Mimi Ọnụọha — Official Website ↗</a></li>
-        <li><a href="https://art21.org/artist/mimi-onuoha/" target="_blank" rel="noopener noreferrer">Art21 — Mimi Ọnụọha ↗</a></li>
+        <li><a href="https://www.dear-data.com/theproject" target="_blank" rel="noopener noreferrer">Dear Data: 프로젝트 소개 ↗</a></li>
+        <li><a href="https://www.moma.org/collection/works/215813" target="_blank" rel="noopener noreferrer">뉴욕현대미술관: Dear Data ↗</a></li>
+        <li><a href="https://www.mimionuoha.com/" target="_blank" rel="noopener noreferrer">Mimi Ọnụọha: 공식 웹사이트 ↗</a></li>
+        <li><a href="https://art21.org/artist/mimi-onuoha/" target="_blank" rel="noopener noreferrer">Art21: Mimi Ọnụọha ↗</a></li>
       </ul>
     </article>
 
-    <aside class="toc" aria-label="이 페이지의 목차">
-      <p class="toc-title">On this page</p>
-      <a href="#week-eight-bridge">8주차 연결</a>
-      <a href="#data-process">데이터가 되는 과정</a>
-      <a href="#recording-grammar">기록의 문법</a>
-      <a href="#dear-data">Dear Data</a>
-      <a href="#missing-datasets">누락된 데이터</a>
-      <a href="#data-spec">데이터 명세</a>
-      <a href="#extension">50-60분 확장</a>
-      <a href="#review">개별 복습</a>
-      <a href="#references">공식 자료</a>
-    </aside>
+    <details class="toc lesson-toc" open>
+      <summary class="toc-title">이 페이지의 목차</summary>
+      <nav class="toc-links" aria-label="단원 바로가기">
+        <a href="#week-eight-bridge">8주차 연결</a>
+        <a href="#data-process">데이터가 되는 과정</a>
+        <a href="#recording-grammar">기록의 문법</a>
+        <a href="#dear-data">Dear Data</a>
+        <a href="#missing-datasets">누락된 데이터</a>
+        <a href="#data-spec">데이터 명세</a>
+        <a href="#extension">50-60분 확장</a>
+        <a href="#review">개별 복습</a>
+        <a href="#references">공식 자료</a>
+      </nav>
+    </details>
   </main>
 
   <footer class="course-footer">
     <a href="./">← Contents Programming Practice</a>
-    <span>Week 09 · Period 01</span>
+    <span>9주차 · 1교시</span>
   </footer>
+  <script src="assets/week-09-navigation.js" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

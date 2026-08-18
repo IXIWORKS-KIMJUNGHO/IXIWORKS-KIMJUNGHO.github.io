@@ -165,7 +165,7 @@ test("Contents Programming week 9 theory lessons explain situated data and table
       [...html.matchAll(/<details\b/gi)].length >= 5,
       "each week 9 theory lesson should include individual answer checks",
     );
-    assert.match(html, /\+ 10 MIN EXTENSION/);
+    assert.match(html, /확장 10분/);
     assert.match(html, /기본 50분 \/ 확장 60분/);
     assert.match(html, /수업 후 개별 복습/);
   }
@@ -178,7 +178,8 @@ test("Contents Programming week 9 theory lessons explain situated data and table
     /Dear Data/,
     /The Library of Missing Datasets/,
     /선택.*누락.*중립/s,
-    /week-09-observation-to-table\.png/,
+    /class="observation-flow-diagram"/,
+    /class="case-lens-visual"/,
     /https:\/\/www\.dear-data\.com\/theproject/,
     /https:\/\/www\.moma\.org\/collection\/works\/215813/,
     /https:\/\/www\.mimionuoha\.com\//,
@@ -195,8 +196,8 @@ test("Contents Programming week 9 theory lessons explain situated data and table
     /결측값.*0.*같지/s,
     /pd\.read_csv\(\).*head\(\).*shape.*columns.*dtypes.*isna\(\)\.sum\(\)/s,
     /시각화와 통계 계산보다.*구조.*확인/s,
-    /week-09-dataframe-anatomy\.png/,
-    /week-09-data-reading-card-example\.png/,
+    /class="dataframe-anatomy-diagram"/,
+    /class="reading-card-preview"/,
     /week-09-data-reading-card-example\.html/,
     /week-09-creative-activity\.csv/,
     /https:\/\/pandas\.pydata\.org\/docs\/reference\/api\/pandas\.read_csv\.html/,
@@ -267,7 +268,9 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     /자동 검사는 질문의 미적 취향을 채점하지 않는다/,
     /WEEK 09 DATA READING COMPLETE/,
     /작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다/,
-    /week-09-data-reading-card-example\.png/,
+    /class="quick-start"/,
+    /href="#step-zero"/,
+    /class="reading-card-preview"/,
     /class="check-output" role="group" aria-label="자동 검사 완료 예시"/,
   ]) {
     assert.match(period3, pattern);
@@ -328,19 +331,20 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
 
   for (const pattern of [
     /<!doctype html>/i,
-    /DATA READING CARD/,
-    /24 rows/,
-    /10 columns/,
-    /ANSWERABLE QUESTION/,
-    /NOT ANSWERABLE YET/,
-    /READ BEFORE VISUALIZE/,
-    /<html lang="en">/,
+    /데이터 읽기 카드/,
+    /24행/,
+    /10열/,
+    /답할 수 있는 질문/,
+    /아직 답할 수 없는 질문/,
+    /시각화 전에 먼저 읽기/,
+    /<html lang="ko">/,
   ]) {
     assert.match(sampleCard, pattern);
   }
   assert.match(sampleCard, /<div class="question">/);
   assert.doesNotMatch(sampleCard, /<(?:article|section) class="question/);
-  assert.doesNotMatch(sampleCard, /필요한 열|답할 수 있는 질문|아직 답할 수 없는 질문/);
+  assert.doesNotMatch(sampleCard, /DATA READING CARD|ANSWERABLE QUESTION|NOT ANSWERABLE YET|READ BEFORE VISUALIZE/);
+  assert.doesNotMatch(sampleCard, /[—–]/);
 
   const runtimeCheck = spawnSync(
     "python3",
@@ -360,6 +364,58 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     `week 9 notebook runtime scenarios failed:\n${runtimeCheck.stdout}\n${runtimeCheck.stderr}`,
   );
   assert.match(runtimeCheck.stdout, /week09 notebook scenarios PASS/);
+});
+
+test("Contents Programming week 9 presentation is localized, responsive, and action-oriented", async () => {
+  const lessonFilenames = [
+    "week-09-period1.html",
+    "week-09-period2.html",
+    "week-09-period3.html",
+  ];
+  const lessons = await Promise.all(
+    lessonFilenames.map((filename) =>
+      readFile(resolve(courseDirectory, filename), "utf8"),
+    ),
+  );
+  const week9Styles = await readFile(
+    resolve(courseDirectory, "assets", "week-09.css"),
+    "utf8",
+  );
+  const week9Navigation = await readFile(
+    resolve(courseDirectory, "assets", "week-09-navigation.js"),
+    "utf8",
+  );
+
+  for (const lesson of lessons) {
+    assert.match(lesson, /<html lang="ko" class="week-09-page">/);
+    assert.match(lesson, /<body class="[^"]*week-09[^"]*">/);
+    assert.match(lesson, /href="assets\/week-09\.css"/);
+    assert.match(lesson, /src="assets\/week-09-navigation\.js" defer/);
+    assert.match(lesson, /<details class="toc lesson-toc" open>/);
+    assert.match(lesson, /<summary class="toc-title">이 페이지의 목차<\/summary>/);
+    assert.match(lesson, /<nav class="toc-links" aria-label="단원 바로가기">/);
+    assert.match(lesson, /<span class="sequence-label">이전<\/span>/);
+    assert.match(lesson, /<span class="sequence-label">다음<\/span>/);
+    assert.doesNotMatch(lesson, /On this page|Lesson Spec|Mission Spec/);
+    assert.doesNotMatch(lesson, /<img[^>]+week-09-(?:observation-to-table|dataframe-anatomy|data-reading-card-example)\.png/);
+    assert.doesNotMatch(lesson, /[—–]/);
+  }
+
+  assert.match(week9Styles, /html\.week-09-page\s*\{[^}]*scroll-behavior:\s*auto/s);
+  assert.match(week9Styles, /\.week-09[^\n]*h2\[id\][^\n]*h3\[id\]/);
+  assert.match(week9Styles, /scroll-margin-top:\s*8[0-9]px/);
+  assert.match(week9Styles, /\.toc a\[aria-current="location"\]/);
+  assert.match(week9Styles, /@media \(max-width:\s*980px\)/);
+  assert.match(week9Styles, /\.observation-flow-diagram/);
+  assert.match(week9Styles, /\.dataframe-anatomy-diagram/);
+  assert.match(week9Styles, /@media \(prefers-color-scheme:\s*dark\)/);
+  assert.match(week9Styles, /@media print/);
+  assert.match(week9Styles, /details:not\(\[open\]\)\s*>\s*\.details-motion-content/);
+
+  assert.match(week9Navigation, /IntersectionObserver/);
+  assert.match(week9Navigation, /aria-current/);
+  assert.match(week9Navigation, /matchMedia\("\(max-width: 980px\)"\)/);
+  assert.doesNotMatch(week9Navigation, /addEventListener\(["']scroll["']/);
 });
 
 test("Contents Programming week 9 declares deterministic asset inputs", async () => {

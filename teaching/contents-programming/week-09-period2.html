@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-09-page">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,11 +19,12 @@
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-09.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-09">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
-    <nav class="lesson-header-inner" aria-label="Course">
+    <nav class="lesson-header-inner" aria-label="강의 이동">
       <div class="lesson-breadcrumb">
         <a class="lesson-home" href="/">Kim Jungho</a>
         <span aria-hidden="true">/</span>
@@ -32,27 +33,27 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-09-period1.html" rel="prev" aria-label="이전 자료: 9주차 1교시: 데이터는 발견되는가, 만들어지는가 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
-        <a href="week-09-period3.html" rel="next" aria-label="다음 자료: 9주차 3교시: 데이터 읽기 카드 미션 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+        <a href="week-09-period1.html" rel="prev" aria-label="이전 자료: 9주차 1교시: 데이터는 발견되는가, 만들어지는가 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
+        <a href="week-09-period3.html" rel="next" aria-label="다음 자료: 9주차 3교시: 데이터 읽기 카드 미션 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
       </div>
     </nav>
   </header>
 <div class="hero">
     <div class="hero-inner">
       <div>
-        <p class="eyebrow">CSV / DataFrame / Inspect / Describe</p>
+        <p class="eyebrow">CSV / DataFrame / 검사 / 설명</p>
         <h1>9주차 2교시: CSV와 DataFrame의 구조 읽기</h1>
         <p class="lead">파일을 불러온 뒤 곧바로 계산하거나 그림을 그리지 않고, 표의 크기와 열, 자료형, 빈 값, 출처를 먼저 확인하는 순서를 익힙니다.</p>
         <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 09</span>
-          <span class="hero-chip">PERIOD 02</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">+ 10 MIN EXTENSION</span>
-          <span class="hero-chip">THEORY</span>
+          <span class="hero-chip">9주차</span>
+          <span class="hero-chip">2교시</span>
+          <span class="hero-chip">기본 50분</span>
+          <span class="hero-chip">확장 10분</span>
+          <span class="hero-chip">이론</span>
         </div>
       </div>
       <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
+        <p class="doc-card-title">강의 개요</p>
         <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">처음 받은 표를 어떤 순서로 읽는가?</span></div>
         <div class="meta-row"><span class="meta-key">파일</span><span class="meta-value">CSV</span></div>
         <div class="meta-row"><span class="meta-key">Python 객체</span><span class="meta-value">pandas DataFrame</span></div>
@@ -140,12 +141,12 @@
 
       <div class="inline-resource-grid">
         <a class="inline-resource-card" href="assets/week-09-creative-activity.csv" download>
-          <span>Sample data</span>
+          <span>수업용 데이터</span>
           <strong>창작 활동 기록 CSV 내려받기</strong>
           <small>개인 식별 정보 없이 24회의 활동과 10개 열을 담은 3교시 수업용 자료</small>
         </a>
         <a class="inline-resource-card" href="https://data.seoul.go.kr/" target="_blank" rel="noopener noreferrer">
-          <span>Official data portal</span>
+          <span>공식 데이터 포털</span>
           <strong>서울 열린데이터광장 살펴보기 ↗</strong>
           <small>공공데이터의 제목, 제공 기관, 갱신 주기, 이용 조건을 함께 확인하는 사례</small>
         </a>
@@ -173,7 +174,36 @@ df = pd.read_csv(source_path)</code></pre>
       <p><code>pd.read_csv(source_path)</code>는 경로에 있는 CSV를 읽어 DataFrame을 만들고, 등호 왼쪽의 <code>df</code>가 그 객체를 가리키게 합니다. 이 코드는 원본 CSV의 내용을 바꾸지 않습니다. 파일을 읽어 메모리에 표 형태로 준비하는 단계입니다.</p>
 
       <figure class="lesson-visual" aria-labelledby="dataframe-anatomy-caption">
-        <img src="assets/week-09-dataframe-anatomy.png" width="1440" height="900" loading="eager" decoding="async" alt="DataFrame 표에서 헤더, 왼쪽 인덱스, 가로 한 행, 세로 한 열, NA 결측값을 색 테두리로 표시한 구조 도해">
+        <div class="dataframe-anatomy-diagram">
+          <div class="anatomy-legend" aria-label="표 구조 강조 표시 설명">
+            <span><strong>헤더</strong> 열의 이름</span>
+            <span><strong>인덱스</strong> 행의 표지</span>
+            <span><strong>가로 강조</strong> 한 행</span>
+            <span><strong>세로 강조</strong> 한 열</span>
+            <span><strong>NA</strong> 결측값</span>
+          </div>
+          <div class="anatomy-table-scroll" role="region" aria-label="DataFrame 구조 예시 표, 작은 화면에서는 가로로 이동할 수 있습니다" tabindex="0">
+            <table>
+              <caption>헤더, 인덱스, 한 행, 한 열과 결측값이 표시된 DataFrame</caption>
+              <thead>
+                <tr><th scope="col" class="index-cell">인덱스</th><th scope="col">date</th><th scope="col">activity</th><th scope="col" class="focus-column">duration_min</th><th scope="col">focus_level</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row" class="index-cell">0</th><td>2026-05-04</td><td>스케치</td><td class="focus-column">35</td><td>3</td></tr>
+                <tr><th scope="row" class="index-cell">1</th><td>2026-05-05</td><td>코딩</td><td class="focus-column">55</td><td>4</td></tr>
+                <tr class="focus-row"><th scope="row" class="index-cell">2</th><td>2026-05-06</td><td>읽기</td><td class="focus-column">25</td><td>2</td></tr>
+                <tr><th scope="row" class="index-cell">3</th><td>2026-05-07</td><td>편집</td><td class="focus-column">70</td><td>5</td></tr>
+                <tr><th scope="row" class="index-cell">4</th><td>2026-05-08</td><td>음악</td><td class="focus-column">40</td><td class="missing-cell">NA</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <ul class="dtype-map" aria-label="열별 예상 자료형">
+            <li><code>date</code><span>문자열 또는 날짜</span></li>
+            <li><code>activity</code><span>범주 또는 문자열</span></li>
+            <li><code>duration_min</code><span>수치</span></li>
+            <li><code>focus_level</code><span>수치와 결측값</span></li>
+          </ul>
+        </div>
         <figcaption id="dataframe-anatomy-caption">헤더는 열의 이름, 인덱스는 DataFrame 안에서 행을 가리키는 표지입니다. 행과 열이 만나는 한 칸이 셀이며, 셀 안에는 값 또는 결측값이 들어갑니다.</figcaption>
       </figure>
 
@@ -292,18 +322,19 @@ df.isna().sum()                 # 6. 열마다 결측값 개수 보기</code></p
       <p>3교시의 결과물은 그래프가 아닙니다. <strong>데이터를 바꾸거나 시각화하기 전에 무엇을 담고 있는지 설명하는 데이터 읽기 카드 HTML</strong>입니다. 노트북이 CSV를 읽고 카드 파일을 자동 생성하며, 학생은 데이터의 맥락과 질문, 실제 행·열·값의 의미를 자신의 문장으로 채웁니다.</p>
 
       <figure class="lesson-visual" aria-labelledby="reading-card-caption">
-        <img src="assets/week-09-data-reading-card-example.png" width="1200" height="900" loading="lazy" decoding="async" alt="24행 10열, 관찰 단위, 기간, 주요 열, 답할 수 있는 질문과 아직 답할 수 없는 질문이 정리된 데이터 읽기 카드 예시">
+        <iframe class="reading-card-preview" src="assets/week-09-data-reading-card-example.html" title="데이터 읽기 카드 완성 예시" loading="lazy" sandbox></iframe>
         <figcaption id="reading-card-caption">완성 예시입니다. 결과물은 데이터의 크기와 구조, 맥락, 가능한 질문과 한계를 한 화면에서 읽게 합니다. 같은 디자인을 복제하는 것이 아니라 자신의 데이터 설명을 정확히 작성하는 것이 목표입니다.</figcaption>
+        <p class="visual-actions"><a href="assets/week-09-data-reading-card-example.html" target="_blank" rel="noopener">예시를 새 창에서 크게 보기 ↗</a></p>
       </figure>
 
       <div class="inline-resource-grid">
-        <a class="inline-resource-card" href="assets/week-09-data-reading-card-example.html" target="_blank">
-          <span>Example output</span>
+        <a class="inline-resource-card" href="assets/week-09-data-reading-card-example.html" target="_blank" rel="noopener">
+          <span>완성 예시</span>
           <strong>데이터 읽기 카드 HTML 열기</strong>
           <small>브라우저에서 실제 제출 형태와 포함 정보를 확인합니다.</small>
         </a>
         <a class="inline-resource-card" href="assets/week-09-creative-activity.csv" download>
-          <span>Source data</span>
+          <span>원본 데이터</span>
           <strong>수업용 CSV 내려받기</strong>
           <small>24행과 10열, 수치·범주·문자열·날짜 및 일부 결측값을 포함합니다.</small>
         </a>
@@ -372,31 +403,34 @@ df.isna().sum()                 # 6. 열마다 결측값 개수 보기</code></p
       <h2 id="references">공식 자료</h2>
 
       <ul>
-        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>read_csv</code> ↗</a></li>
-        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>DataFrame.head</code> ↗</a></li>
-        <li><a href="https://pandas.pydata.org/docs/user_guide/10min.html" target="_blank" rel="noopener noreferrer">pandas User Guide — 10 minutes to pandas ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas API 참고문서: <code>read_csv</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html" target="_blank" rel="noopener noreferrer">pandas API 참고문서: <code>DataFrame.head</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/user_guide/10min.html" target="_blank" rel="noopener noreferrer">pandas 사용자 안내서: 10 minutes to pandas ↗</a></li>
         <li><a href="https://data.seoul.go.kr/" target="_blank" rel="noopener noreferrer">서울 열린데이터광장 ↗</a></li>
       </ul>
     </article>
 
-    <aside class="toc" aria-label="이 페이지의 목차">
-      <p class="toc-title">On this page</p>
-      <a href="#recall">1교시 회상</a>
-      <a href="#csv">CSV</a>
-      <a href="#dataframe">DataFrame 구조</a>
-      <a href="#types-and-missing">자료형과 결측값</a>
-      <a href="#inspection">여섯 단계 점검</a>
-      <a href="#mission-contract">3교시 미션 계약</a>
-      <a href="#extension">50-60분 확장</a>
-      <a href="#review">개별 복습</a>
-      <a href="#references">공식 자료</a>
-    </aside>
+    <details class="toc lesson-toc" open>
+      <summary class="toc-title">이 페이지의 목차</summary>
+      <nav class="toc-links" aria-label="단원 바로가기">
+        <a href="#recall">1교시 회상</a>
+        <a href="#csv">CSV</a>
+        <a href="#dataframe">DataFrame 구조</a>
+        <a href="#types-and-missing">자료형과 결측값</a>
+        <a href="#inspection">여섯 단계 점검</a>
+        <a href="#mission-contract">3교시 미션 계약</a>
+        <a href="#extension">50-60분 확장</a>
+        <a href="#review">개별 복습</a>
+        <a href="#references">공식 자료</a>
+      </nav>
+    </details>
   </main>
 
   <footer class="course-footer">
     <a href="./">← Contents Programming Practice</a>
-    <span>Week 09 · Period 02</span>
+    <span>9주차 · 2교시</span>
   </footer>
+  <script src="assets/week-09-navigation.js" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

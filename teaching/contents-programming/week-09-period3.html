@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-09-page">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,11 +19,12 @@
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-09.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-09">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
-    <nav class="lesson-header-inner" aria-label="Course">
+    <nav class="lesson-header-inner" aria-label="강의 이동">
       <div class="lesson-breadcrumb">
         <a class="lesson-home" href="/">Kim Jungho</a>
         <span aria-hidden="true">/</span>
@@ -32,31 +33,31 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-09-period2.html" rel="prev" aria-label="이전 자료: 9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
-        <a href="week-11-period1.html" rel="next" aria-label="다음 자료: 11주차 1교시: 질문을 시각적 인코딩으로 번역하기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+        <a href="week-09-period2.html" rel="prev" aria-label="이전 자료: 9주차 2교시: CSV와 DataFrame의 구조 읽기 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
+        <a href="week-11-period1.html" rel="next" aria-label="다음 자료: 11주차 1교시: 질문을 시각적 인코딩으로 번역하기 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
       </div>
     </nav>
   </header>
 <div class="hero">
     <div class="hero-inner">
       <div>
-        <p class="eyebrow">Goal-based Lab / Inspect / Explain / Export</p>
+        <p class="eyebrow">목표 달성형 실습 / 검사 / 설명 / 내보내기</p>
         <h1>9주차 3교시: 데이터 읽기 카드 미션</h1>
         <p class="lead">수업용 CSV의 구조와 맥락을 코드로 확인하고, 무엇을 답할 수 있으며 무엇이 더 필요한지 설명하는 독립 HTML 결과물을 완성합니다.</p>
         <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 09</span>
-          <span class="hero-chip">PERIOD 03</span>
-          <span class="hero-chip">UP TO 50 MIN</span>
-          <span class="hero-chip">INDIVIDUAL</span>
-          <span class="hero-chip">PASS &amp; LEAVE</span>
+          <span class="hero-chip">9주차</span>
+          <span class="hero-chip">3교시</span>
+          <span class="hero-chip">최대 50분</span>
+          <span class="hero-chip">개인 실습</span>
+          <span class="hero-chip">통과 후 귀가</span>
         </div>
       </div>
       <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Mission Spec</p>
+        <p class="doc-card-title">실습 개요</p>
         <div class="meta-row"><span class="meta-key">입력</span><span class="meta-value">수업용 또는 자신의 CSV</span></div>
         <div class="meta-row"><span class="meta-key">검사</span><span class="meta-value">구조 6단계 + 원본 보존</span></div>
         <div class="meta-row"><span class="meta-key">설명</span><span class="meta-value">맥락 + 실제 값 + 질문 2개</span></div>
-        <div class="meta-row"><span class="meta-key">결과물</span><span class="meta-value">Data Reading Card HTML</span></div>
+        <div class="meta-row"><span class="meta-key">결과물</span><span class="meta-value">데이터 읽기 카드 HTML</span></div>
         <div class="meta-row"><span class="meta-key">제출</span><span class="meta-value">.ipynb + .html</span></div>
         <div class="meta-row"><span class="meta-key">귀가 조건</span><span class="meta-value">PASS + 두 파일 제출 확인</span></div>
       </aside>
@@ -66,6 +67,37 @@
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">데이터를 그리기 전에 읽을 수 있다는 사실을 두 결과물로 증명하기</p>
+
+      <section class="quick-start" aria-labelledby="quick-start-title">
+        <span class="quick-start-kicker">바로 시작</span>
+        <h2 id="quick-start-title">노트북 사본을 만들고 파일명부터 바꿉니다</h2>
+        <p>처음 참여하는 학생은 아래의 0단계 안내를 먼저 읽습니다. 이미 준비 방법을 아는 학생은 Colab에서 노트북을 열고 바로 시작할 수 있습니다.</p>
+        <div class="quick-start-actions">
+          <a href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-09-data-literacy-mission.ipynb" target="_blank" rel="noopener noreferrer">Colab에서 시작</a>
+          <a href="assets/week-09-data-literacy-mission.ipynb" download>노트북 내려받기</a>
+          <a href="#step-zero">0단계 안내 보기</a>
+          <a href="#completion-criteria">귀가 조건 보기</a>
+        </div>
+      </section>
+
+      <h2 id="step-zero">0단계 · 노트북 사본과 파일명 준비</h2>
+
+      <ol>
+        <li>위의 <strong>Colab에서 시작</strong>을 누르거나 내려받은 파일을 Colab에 업로드합니다.</li>
+        <li><strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
+        <li>상단 파일명을 눌러 <code>week09_학번_이름.ipynb</code>로 바꿉니다.</li>
+        <li>처음에는 코드를 수정하지 않고 STEP 0부터 STEP 4까지 한 번 실행합니다.</li>
+      </ol>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">노트북이 Colab에서 직접 열리지 않을 때</summary>
+        <div class="details-motion-content"><p>미션 노트북을 내려받은 뒤 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab ↗</a>의 <strong>업로드</strong> 탭에서 <code>.ipynb</code>를 선택합니다. 브라우저가 파일 내용을 문자로 보여 주면 뒤로 돌아와 링크의 내려받기를 사용합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">사본을 저장해야 하는 이유</summary>
+        <div class="details-motion-content"><p>원본 템플릿은 모든 학생이 함께 사용하는 출발점입니다. Drive 사본을 만들면 자신의 입력과 실행 결과가 개인 파일에 저장되고, 제출할 노트북의 소유권과 파일명이 분명해집니다.</p></div>
+      </details>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 실습 목표</p>
@@ -102,7 +134,7 @@
       <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
         <div class="exit-pass" aria-hidden="true">PASS</div>
         <div>
-          <p class="exit-gate-label">EXIT GATE</p>
+          <p class="exit-gate-label">귀가 확인</p>
           <h2 id="exit-gate-title">완료 문구 + 실행 결과가 보이는 노트북 + 열리는 HTML</h2>
           <p>세 항목을 교수가 확인하면 실습을 마칩니다. 예시와 같은 문장을 복사하는 것이 아니라 선택한 데이터에 맞는 설명을 작성해야 합니다.</p>
         </div>
@@ -111,8 +143,9 @@
       <h2 id="outputs">이번 주에 만들 수 있는 결과물</h2>
 
       <figure class="lesson-visual" aria-labelledby="output-example-caption">
-        <img src="assets/week-09-data-reading-card-example.png" width="1200" height="900" loading="eager" decoding="async" alt="창작 활동 기록의 24행 10열 구조, 관찰 단위, 기간, 열, 답할 수 있는 질문과 아직 답할 수 없는 질문을 정리한 데이터 읽기 카드 예시">
+        <iframe class="reading-card-preview" src="assets/week-09-data-reading-card-example.html" title="데이터 읽기 카드 제출 예시" loading="eager" sandbox></iframe>
         <figcaption id="output-example-caption">두 번째 제출물인 데이터 읽기 카드의 예시입니다. CSV의 값을 다시 꾸민 포스터가 아니라, 데이터의 구조·맥락·가능성·한계를 한 화면에 정리한 읽기 도구입니다.</figcaption>
+        <p class="visual-actions"><a href="assets/week-09-data-reading-card-example.html" target="_blank" rel="noopener">예시를 새 창에서 크게 보기 ↗</a></p>
       </figure>
 
       <div class="table-wrap">
@@ -128,22 +161,22 @@
 
       <div class="inline-resource-grid">
         <a class="inline-resource-card" href="assets/week-09-data-literacy-mission.ipynb" download>
-          <span>Starter notebook</span>
-          <strong>Week 09 미션 노트북 내려받기</strong>
+          <span>시작용 노트북</span>
+          <strong>9주차 미션 노트북 내려받기</strong>
           <small>수업용 CSV, 구조 검사, HTML 생성, 자동 검사가 포함된 템플릿</small>
         </a>
         <a class="inline-resource-card" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-09-data-literacy-mission.ipynb" target="_blank" rel="noopener noreferrer">
-          <span>Open in Colab</span>
+          <span>Colab에서 열기</span>
           <strong>Colab에서 미션 노트북 열기 ↗</strong>
           <small>공개 저장소의 템플릿을 Colab으로 직접 엽니다.</small>
         </a>
         <a class="inline-resource-card" href="assets/week-09-creative-activity.csv" download>
-          <span>Sample CSV</span>
+          <span>수업용 CSV</span>
           <strong>창작 활동 기록 CSV 내려받기</strong>
           <small>별도 업로드 연습이 필요할 때 사용하는 24행 × 10열 자료</small>
         </a>
-        <a class="inline-resource-card" href="assets/week-09-data-reading-card-example.html" target="_blank">
-          <span>Example output</span>
+        <a class="inline-resource-card" href="assets/week-09-data-reading-card-example.html" target="_blank" rel="noopener">
+          <span>완성 예시</span>
           <strong>예시 데이터 읽기 카드 열기</strong>
           <small>제출할 HTML이 브라우저에서 어떻게 보이는지 확인합니다.</small>
         </a>
@@ -190,26 +223,7 @@
 
       <p>시간표는 기다려야 하는 시각이 아니라 길을 잃지 않기 위한 기준입니다. 32분에 모든 조건을 충족했다면 그때 검사를 실행하고 두 파일을 제출할 수 있습니다. 반대로 시간이 더 필요한 학생은 50분까지 같은 목표를 자신의 속도로 수행합니다.</p>
 
-      <h2 id="step-zero">STEP 0 · 노트북 사본과 파일명 준비</h2>
-
-      <ol>
-        <li>위의 <strong>Colab에서 미션 노트북 열기</strong>를 누르거나 내려받은 파일을 Colab에 업로드합니다.</li>
-        <li><strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
-        <li>상단 파일명을 눌러 <code>week09_학번_이름.ipynb</code>로 바꿉니다.</li>
-        <li>처음에는 코드를 수정하지 않고 STEP 0부터 STEP 4까지 한 번 실행합니다.</li>
-      </ol>
-
-      <details class="callout callout-question">
-        <summary class="callout-title">노트북이 Colab에서 직접 열리지 않을 때</summary>
-        <div class="details-motion-content"><p>Starter notebook을 내려받은 뒤 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab ↗</a>의 <strong>업로드</strong> 탭에서 <code>.ipynb</code>를 선택합니다. 브라우저가 파일 내용을 문자로 보여 주면 뒤로 돌아와 링크의 내려받기를 사용합니다.</p></div>
-      </details>
-
-      <details class="callout callout-question">
-        <summary class="callout-title">사본을 저장해야 하는 이유</summary>
-        <div class="details-motion-content"><p>원본 템플릿은 모든 학생이 함께 사용하는 출발점입니다. Drive 사본을 만들면 자신의 입력과 실행 결과가 개인 파일에 저장되고, 제출할 노트북의 소유권과 파일명이 분명해집니다.</p></div>
-      </details>
-
-      <h2 id="step-one">STEP 1 · 수정 전 기준 실행</h2>
+      <h2 id="step-one">1단계 · 수정 전 기준 실행</h2>
 
       <p>템플릿은 수업용 CSV가 보이지 않으면 같은 24개 기록을 자동으로 생성합니다. STEP 0부터 STEP 4까지 순서대로 실행했을 때 앞의 다섯 행, <code>(24, 10)</code>, 열 이름, 자료형, 결측값 개수와 예시 카드가 보이면 환경이 정상입니다.</p>
 
@@ -224,7 +238,7 @@
         <div class="details-motion-content"><p>현재 셀보다 위의 셀이 실행되지 않았을 가능성이 큽니다. STEP 번호가 낮은 셀부터 차례대로 실행합니다. 임의로 변수나 함수를 새로 만들기보다 <strong>런타임 → 다시 시작 및 모두 실행</strong>으로 순서를 복구합니다.</p></div>
       </details>
 
-      <h2 id="step-two">STEP 2 · 데이터 맥락과 질문 작성</h2>
+      <h2 id="step-two">2단계 · 데이터 맥락과 질문 작성</h2>
 
       <p>노트북의 STEP 1에서 <code>EDIT</code>로 표시된 값만 바꿉니다. 수업용 자료를 쓰면 <code>source_choice = "provided"</code>를 유지합니다. 자신의 CSV를 쓰는 경우에만 <code>"own"</code>으로 바꾸고 파일을 업로드한 뒤 제목·출처·이용 조건·관찰 단위·시간 범위를 실제 자료에 맞게 모두 수정합니다.</p>
 
@@ -252,7 +266,7 @@
         <div class="details-motion-content"><p>작은 연습 파일도 누가 제공했고 어디까지 사용할 수 있는지 남기는 습관을 만들기 위해서입니다. 공개 데이터나 외부 창작물을 사용할 때 같은 위치에 기관명, 원본 주소, 라이선스를 기록할 수 있습니다.</p></div>
       </details>
 
-      <h2 id="step-three">STEP 3 · 구조 검사와 실제 값 설명</h2>
+      <h2 id="step-three">3단계 · 구조 검사와 실제 값 설명</h2>
 
       <p>STEP 2 코드 셀은 원본 파일의 바이트를 기억한 뒤 <code>pd.read_csv(source_path)</code>로 DataFrame을 만듭니다. 이어서 앞부분, 크기, 열 이름, 자료형, 결측값을 출력합니다. 이 셀은 값을 삭제하거나 바꾸지 않습니다.</p>
 
@@ -274,7 +288,7 @@ missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
         <div class="details-motion-content"><p>가능하지만 “값이 없다”에서 멈추지 않습니다. 해당 관찰의 그 변수가 기록되지 않았으며, 그것이 0과 다르다는 점을 설명해야 합니다. 처음에는 의미가 분명한 실제 값을 고르는 편이 쉽습니다.</p></div>
       </details>
 
-      <h2 id="step-four">STEP 4 · 답할 수 있는 질문과 답할 수 없는 질문</h2>
+      <h2 id="step-four">4단계 · 답할 수 있는 질문과 답할 수 없는 질문</h2>
 
       <p><strong>답할 수 있는 질문</strong>은 현재 표의 열과 값으로 확인할 수 있어야 합니다. 필요한 열을 <code>needed_columns</code> 목록에 정확한 이름으로 적습니다. <strong>답할 수 없는 질문</strong>은 현재 데이터에 없는 정보를 요구해야 하며, 어떤 열이나 기록이 더 필요한지도 함께 설명합니다.</p>
 
@@ -301,7 +315,7 @@ missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
         <div class="details-motion-content"><p>현재 열 목록을 먼저 읽고, 자신의 관심과 연결되지만 아직 기록하지 않은 변수를 하나 찾습니다. 질문과 누락 정보가 정확히 대응해야 합니다. “날씨와 집중도의 관계”를 묻는다면 필요한 정보는 날짜가 아니라 날씨 상태 또는 기상 데이터입니다.</p></div>
       </details>
 
-      <h2 id="step-five">STEP 5 · HTML 카드 생성과 내용 확인</h2>
+      <h2 id="step-five">5단계 · HTML 카드 생성과 내용 확인</h2>
 
       <p>STEP 4 코드는 작성한 정보와 DataFrame 검사 결과를 HTML 문자열로 조립한 뒤 <code>Path(output_filename).write_text(...)</code>로 저장합니다. 카드가 노트북 안에 보이는 것과 왼쪽 파일 패널에 <code>.html</code> 파일이 생기는 것을 모두 확인합니다.</p>
 
@@ -318,7 +332,7 @@ missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
         <div class="details-motion-content"><p>Colab의 파일 미리보기는 HTML을 웹페이지로 실행하지 않고 문자로 보여 줄 수 있습니다. 파일 오른쪽의 점 세 개 메뉴에서 <strong>다운로드</strong>한 뒤 컴퓨터의 브라우저로 엽니다. 확장자가 <code>.html</code>인지도 확인합니다.</p></div>
       </details>
 
-      <h2 id="step-six">STEP 6 · 새 런타임 전체 실행과 PASS</h2>
+      <h2 id="step-six">6단계 · 새 런타임 전체 실행과 PASS</h2>
 
       <ol>
         <li><strong>런타임 → 런타임 다시 시작</strong>을 선택합니다.</li>
@@ -345,11 +359,11 @@ missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
         <div class="details-motion-content"><p>단어만 늘리지 말고 비교 대상과 관찰 대상을 분명히 합니다. “시간은?” 대신 “활동 종류에 따라 작업 지속 시간은 어떻게 달라지는가?”처럼 무엇을 어떤 기준으로 볼지 포함합니다.</p></div>
       </details>
 
-      <h2 id="step-seven">STEP 7 · 두 파일 제출 후 귀가</h2>
+      <h2 id="step-seven">7단계 · 두 파일 제출 후 귀가</h2>
 
       <div class="submission-strip" role="group" aria-label="제출 파일 두 개">
-        <span><small>SUBMIT 01</small><strong>week09_학번_이름.ipynb</strong></span>
-        <span><small>SUBMIT 02</small><strong>week09_학번_이름_data_reading_card.html</strong></span>
+        <span><small>제출 01</small><strong>week09_학번_이름.ipynb</strong></span>
+        <span><small>제출 02</small><strong>week09_학번_이름_data_reading_card.html</strong></span>
       </div>
 
       <ol>
@@ -376,39 +390,42 @@ missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
 
       <h2 id="next-week">10주차 연결</h2>
 
-      <p>이번 주에는 주어진 표를 읽고 가능한 질문과 누락된 정보를 찾았습니다. 10주차에는 이 판단을 바탕으로 원본과 작업 사본을 분리하고, 열 이름·자료형·중복·결측값을 일관된 기준으로 정리합니다. 이번 카드의 “NOT ANSWERABLE YET” 영역은 다음 데이터 수집과 정리에서 무엇이 더 필요한지 알려 주는 설계 메모가 됩니다.</p>
+      <p>이번 주에는 주어진 표를 읽고 가능한 질문과 누락된 정보를 찾았습니다. 10주차에는 이 판단을 바탕으로 원본과 작업 사본을 분리하고, 열 이름·자료형·중복·결측값을 일관된 기준으로 정리합니다. 이번 카드의 “아직 답할 수 없는 질문” 영역은 다음 데이터 수집과 정리에서 무엇이 더 필요한지 알려 주는 설계 메모가 됩니다.</p>
 
       <h2 id="references">도움말과 공식 자료</h2>
 
       <ul>
         <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer">Google Colab 시작 안내 ↗</a></li>
-        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>read_csv</code> ↗</a></li>
-        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html" target="_blank" rel="noopener noreferrer">pandas API Reference — <code>DataFrame.head</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.read_csv.html" target="_blank" rel="noopener noreferrer">pandas API 참고문서: <code>read_csv</code> ↗</a></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.head.html" target="_blank" rel="noopener noreferrer">pandas API 참고문서: <code>DataFrame.head</code> ↗</a></li>
         <li><a href="https://data.seoul.go.kr/" target="_blank" rel="noopener noreferrer">서울 열린데이터광장 ↗</a></li>
       </ul>
     </article>
 
-    <aside class="toc" aria-label="이 페이지의 목차">
-      <p class="toc-title">On this page</p>
-      <a href="#outputs">결과물</a>
-      <a href="#completion-criteria">귀가 조건</a>
-      <a href="#time-guide">50분 진행</a>
-      <a href="#step-zero">STEP 0</a>
-      <a href="#step-one">STEP 1</a>
-      <a href="#step-two">STEP 2</a>
-      <a href="#step-three">STEP 3</a>
-      <a href="#step-four">STEP 4</a>
-      <a href="#step-five">STEP 5</a>
-      <a href="#step-six">STEP 6</a>
-      <a href="#step-seven">STEP 7</a>
-      <a href="#next-week">10주차 연결</a>
-    </aside>
+    <details class="toc lesson-toc" open>
+      <summary class="toc-title">이 페이지의 목차</summary>
+      <nav class="toc-links" aria-label="단원 바로가기">
+        <a href="#step-zero">0단계 준비</a>
+        <a href="#outputs">결과물</a>
+        <a href="#completion-criteria">귀가 조건</a>
+        <a href="#time-guide">50분 진행</a>
+        <a href="#step-one">1단계</a>
+        <a href="#step-two">2단계</a>
+        <a href="#step-three">3단계</a>
+        <a href="#step-four">4단계</a>
+        <a href="#step-five">5단계</a>
+        <a href="#step-six">6단계</a>
+        <a href="#step-seven">7단계</a>
+        <a href="#next-week">10주차 연결</a>
+      </nav>
+    </details>
   </main>
 
   <footer class="course-footer">
     <a href="./">← Contents Programming Practice</a>
-    <span>Week 09 · Period 03</span>
+    <span>9주차 · 3교시</span>
   </footer>
+  <script src="assets/week-09-navigation.js" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

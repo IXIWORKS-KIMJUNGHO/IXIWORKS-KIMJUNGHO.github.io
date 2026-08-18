@@ -382,41 +382,42 @@ def reading_card_html() -> str:
     missing_focus = sum(record.focus_level == "" for record in RECORDS)
     missing_mood = sum(record.mood_after == "" for record in RECORDS)
     question_cards = render_question_cards(
-        "How does average duration differ by activity?",
+        "활동 종류에 따라 평균 작업 시간은 어떻게 다른가?",
         ["activity", "duration_min"],
-        "Which sessions included another person?",
-        "No collaborator column was recorded.",
+        "다른 사람과 함께한 활동은 무엇인가?",
+        "함께한 사람을 기록한 열이 없습니다.",
         {
-            "answerable": "ANSWERABLE QUESTION",
-            "needed": "Needed columns",
-            "unanswerable": "NOT ANSWERABLE YET",
+            "answerable": "답할 수 있는 질문",
+            "needed": "필요한 열",
+            "unanswerable": "아직 답할 수 없는 질문",
         },
     )
     return f"""<!doctype html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Week 09 Data Reading Card Example</title>
-  <meta name="description" content="A sample data reading card that records a dataset's structure, context, answerable question, and missing information before visualization.">
+  <title>9주차 데이터 읽기 카드 예시</title>
+  <meta name="description" content="시각화 전에 데이터의 구조와 맥락, 답할 수 있는 질문과 누락된 정보를 정리한 데이터 읽기 카드 예시입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-09-data-reading-card-example.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="Week 09 Data Reading Card Example">
-  <meta property="og:description" content="A sample card for reading a dataset's structure, context, questions, and limits before visualization.">
+  <meta property="og:title" content="9주차 데이터 읽기 카드 예시">
+  <meta property="og:description" content="데이터의 구조와 맥락, 질문과 한계를 시각화 전에 읽는 카드 예시입니다.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-09-data-reading-card-example.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Week 09 Data Reading Card Example">
-  <meta name="twitter:description" content="A sample card for reading a dataset before visualization.">
+  <meta name="twitter:title" content="9주차 데이터 읽기 카드 예시">
+  <meta name="twitter:description" content="시각화 전에 데이터의 구조와 맥락을 읽는 카드 예시입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <style>
-    :root {{ color-scheme: light; {CARD_CSS_CUSTOM_PROPERTIES} }}
+    :root {{ color-scheme: light dark; {CARD_CSS_CUSTOM_PROPERTIES} }}
     * {{ box-sizing:border-box; }}
-    body {{ margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }}
+    body {{ margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }}
     .skip-link {{ position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }}
     .skip-link:focus {{ top:12px; }}
+    :where(a,[tabindex]):focus-visible {{ outline:3px solid var(--teal); outline-offset:3px; }}
     main {{ max-width:980px; margin:auto; border:3px solid var(--ink); background:var(--panel); padding:38px; }}
     .kicker {{ color:var(--coral); font-weight:800; letter-spacing:.12em; }}
     h1 {{ margin:.25rem 0 1rem; font-size:clamp(2rem,6vw,4.6rem); line-height:.95; }}
@@ -424,30 +425,31 @@ def reading_card_html() -> str:
     .meta div {{ background:var(--panel); padding:18px; }}
     .meta span,.question span {{ display:block; color:var(--teal); font-size:.78rem; font-weight:800; letter-spacing:.08em; margin-bottom:6px; }}
     .columns {{ display:flex; flex-wrap:wrap; gap:8px; margin:22px 0; }}
-    .columns code {{ border:1px solid var(--ink); background:white; padding:8px 10px; }}
+    .columns code {{ border:1px solid var(--ink); background:var(--panel); color:var(--ink); padding:8px 10px; }}
     .questions {{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }}
     .question {{ border:2px solid var(--ink); padding:20px; min-height:140px; }}
     .question.missing {{ border-color:var(--coral); }}
     footer {{ margin-top:24px; padding-top:16px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; font-weight:800; }}
-    @media (max-width:720px) {{ body{{padding:16px}} .meta,.questions{{grid-template-columns:1fr}} main{{padding:24px}} }}
+    @media (max-width:720px) {{ body{{padding:8px}} .meta,.questions{{grid-template-columns:1fr}} main{{padding:16px}} footer{{display:grid;gap:6px}} }}
+    @media (prefers-color-scheme:dark) {{ :root{{--ink:#edf1ed;--paper:#151917;--panel:#1c211e;--teal:#9bc1cb;--coral:#f2aaa3;--line:#556058}} }}
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <main id="main-content">
-    <p class="kicker">DATA READING CARD / WEEK 09</p>
-    <h1>Creative Activity Log</h1>
+    <p class="kicker">데이터 읽기 카드 / 9주차</p>
+    <h1>창작 활동 기록</h1>
     <div class="meta">
-      <div><span>SIZE</span><strong>{len(RECORDS)} rows × {len(FIELDNAMES)} columns</strong></div>
-      <div><span>OBSERVATION UNIT</span><strong>one creative session</strong></div>
-      <div><span>TIME RANGE</span><strong>2026-05-04 — 2026-05-27</strong></div>
-      <div><span>SOURCE</span><strong>course-provided sample</strong></div>
-      <div><span>USE</span><strong>course use / provided asset</strong></div>
-      <div><span>MISSING</span><strong>focus {missing_focus} / mood_after {missing_mood}</strong></div>
+      <div><span>크기</span><strong>{len(RECORDS)}행 × {len(FIELDNAMES)}열</strong></div>
+      <div><span>관찰 단위</span><strong>한 번의 창작 활동</strong></div>
+      <div><span>기록 기간</span><strong>2026-05-04 - 2026-05-27</strong></div>
+      <div><span>출처</span><strong>교수자가 제공한 수업용 예시</strong></div>
+      <div><span>이용 조건</span><strong>수업 활동 / 제공 자료</strong></div>
+      <div><span>결측값</span><strong>focus_level {missing_focus} / mood_after {missing_mood}</strong></div>
     </div>
     <div class="columns">{''.join(f'<code>{escape(column)}</code>' for column in FIELDNAMES)}</div>
     <div class="questions">{question_cards}</div>
-    <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
+    <footer><span>시각화 전에 먼저 읽기</span><span>구조 → 맥락 → 질문</span></footer>
   </main>
 </body>
 </html>
@@ -465,7 +467,7 @@ def make_reading_card() -> Image.Image:
     stats = [
         ("SIZE", "24 rows", "10 columns"),
         ("UNIT", "one creative", "session"),
-        ("RANGE", "May 04", "— May 27"),
+        ("RANGE", "May 04", "- May 27"),
     ]
     x = 88
     for label, line1, line2 in stats:
@@ -528,7 +530,7 @@ def code_cell(source: str) -> dict[str, object]:
 def make_notebook() -> dict[str, object]:
     sample_csv = sample_csv_text()
     step_0 = f'''
-# STEP 0 · 수업용 데이터와 도구 준비 — 이 셀은 수정하지 않습니다.
+# STEP 0 · 수업용 데이터와 도구 준비 - 이 셀은 수정하지 않습니다.
 from pathlib import Path
 from html import escape
 
@@ -546,7 +548,7 @@ if not fallback_path.exists():
 print("준비 완료:", fallback_path, "|", len(SAMPLE_CSV.splitlines()) - 1, "records")
 '''
     step_1 = '''
-# STEP 1 · EDIT — 제출 정보, 데이터 맥락, 질문을 자신의 내용으로 바꿉니다.
+# STEP 1 · EDIT - 제출 정보, 데이터 맥락, 질문을 자신의 내용으로 바꿉니다.
 mission_step1_execution = get_ipython().execution_count
 
 student_id = "학번"                       # 예: "20261234"
@@ -556,7 +558,7 @@ source_choice = "provided"                # "provided" 또는 "own"
 source_path = FALLBACK_SOURCE_PATH         # own이면 업로드한 CSV 파일명
 
 dataset_title = "창작 활동 기록"
-dataset_source = "수업용 예시 데이터 — 교수자 제공"
+dataset_source = "수업용 예시 데이터 - 교수자 제공"
 dataset_license = "수업 목적 사용 허용"
 observation_unit = "한 번의 창작 활동"
 time_range = "2026-05-04부터 2026-05-27까지"
@@ -570,7 +572,7 @@ output_filename = f"week09_{student_id}_{student_name}_data_reading_card.html"
 print("출력 예정:", output_filename)
 '''
     step_2 = '''
-# STEP 2 · 데이터 불러오기와 여섯 가지 구조 검사 — 이 셀은 수정하지 않습니다.
+# STEP 2 · 데이터 불러오기와 여섯 가지 구조 검사 - 이 셀은 수정하지 않습니다.
 mission_step2_execution = get_ipython().execution_count
 
 source_path = Path(source_path)
@@ -595,7 +597,7 @@ print("dtypes:", column_types)
 print("missing values:", missing_counts)
 '''
     step_3 = '''
-# STEP 3 · EDIT — 실제 행·열·값 하나를 골라 자신의 문장으로 설명합니다.
+# STEP 3 · EDIT - 실제 행·열·값 하나를 골라 자신의 문장으로 설명합니다.
 mission_step3_execution = get_ipython().execution_count
 
 selected_row_index = 1
@@ -611,7 +613,7 @@ print("선택한 값:", selected_value)
 print("나의 설명:", selected_value_explanation)
 '''
     step_4 = '''
-# STEP 4 · 데이터 읽기 카드 HTML 생성 — 이 셀은 수정하지 않습니다.
+# STEP 4 · 데이터 읽기 카드 HTML 생성 - 이 셀은 수정하지 않습니다.
 mission_step4_execution = get_ipython().execution_count
 
 __QUESTION_CARDS_RENDERER_SOURCE__
@@ -751,7 +753,7 @@ provided_source_ok = (
     and source_path.name == FALLBACK_SOURCE_PATH
     and source_bytes_before == SAMPLE_CSV.encode("utf-8")
     and dataset_title == "창작 활동 기록"
-    and dataset_source == "수업용 예시 데이터 — 교수자 제공"
+    and dataset_source == "수업용 예시 데이터 - 교수자 제공"
     and dataset_license == "수업 목적 사용 허용"
     and observation_unit == "한 번의 창작 활동"
     and time_range == "2026-05-04부터 2026-05-27까지"
@@ -760,7 +762,7 @@ own_source_ok = (
     source_choice == "own"
     and source_path.name != FALLBACK_SOURCE_PATH
     and dataset_title != "창작 활동 기록"
-    and dataset_source != "수업용 예시 데이터 — 교수자 제공"
+    and dataset_source != "수업용 예시 데이터 - 교수자 제공"
     and dataset_license != "수업 목적 사용 허용"
     and observation_unit != "한 번의 창작 활동"
     and time_range != "2026-05-04부터 2026-05-27까지"
