@@ -427,6 +427,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     import matplotlib.pyplot as plt
     from matplotlib import font_manager
     from matplotlib import image as mpimg
+    from matplotlib.colors import to_rgba
+    from matplotlib.markers import MarkerStyle
     import seaborn as sns
 
     try:
@@ -704,6 +706,15 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         collection.get_offsets() for collection in plotted_collections
     ]
     scatter_point_count = sum(len(offsets) for offsets in plotted_offsets)
+
+
+    def marker_path_signature(path):
+        return (
+            path.codes.tobytes() if path.codes is not None else b"",
+            path.vertices.round(6).tobytes(),
+        )
+
+
     scatter_unique_sizes = len({
         round(float(size), 6)
         for collection in plotted_collections
@@ -715,14 +726,78 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         for color in collection.get_facecolors()
     })
     scatter_marker_signatures = {
-        (
-            path.codes.tobytes() if path.codes is not None else b"",
-            path.vertices.round(6).tobytes(),
-        )
+        marker_path_signature(path)
         for collection in plotted_collections
         for path in collection.get_paths()
     }
     scatter_unique_markers = len(scatter_marker_signatures)
+    primary_scatter_collection = (
+        plotted_collections[0] if len(plotted_collections) == 1 else None
+    )
+    if primary_scatter_collection is None:
+        actual_scatter_offsets = []
+        actual_scatter_colors = []
+        actual_scatter_markers = []
+        actual_scatter_sizes = []
+    else:
+        actual_scatter_offsets = [
+            tuple(round(float(coordinate), 6) for coordinate in point)
+            for point in primary_scatter_collection.get_offsets()
+        ]
+        actual_scatter_colors = [
+            tuple(round(float(channel), 6) for channel in color)
+            for color in primary_scatter_collection.get_facecolors()
+        ]
+        actual_scatter_markers = [
+            marker_path_signature(path)
+            for path in primary_scatter_collection.get_paths()
+        ]
+        actual_scatter_sizes = [
+            round(float(size), 6)
+            for size in primary_scatter_collection.get_sizes()
+        ]
+
+    expected_scatter_offsets = [
+        (round(float(longitude), 6), round(float(latitude), 6))
+        for longitude, latitude in zip(
+            facility_df["longitude"],
+            facility_df["latitude"],
+        )
+    ]
+    expected_scatter_colors = [
+        tuple(
+            round(float(channel), 6)
+            for channel in to_rgba(category_palette[category], alpha=0.82)
+        )
+        for category in facility_df["category"]
+    ]
+    expected_marker_signatures = {}
+    for category, marker_symbol in category_markers.items():
+        marker_style = MarkerStyle(marker_symbol)
+        marker_path = marker_style.get_path().transformed(
+            marker_style.get_transform()
+        )
+        expected_marker_signatures[category] = marker_path_signature(marker_path)
+    expected_scatter_markers = [
+        expected_marker_signatures[category]
+        for category in facility_df["category"]
+    ]
+    program_counts = facility_df["program_count"].tolist()
+    expected_size_order = sorted(
+        range(len(program_counts)),
+        key=program_counts.__getitem__,
+    )
+    actual_size_order = sorted(
+        range(len(actual_scatter_sizes)),
+        key=actual_scatter_sizes.__getitem__,
+    )
+    scatter_offsets_match_rows = actual_scatter_offsets == expected_scatter_offsets
+    scatter_colors_follow_category = actual_scatter_colors == expected_scatter_colors
+    scatter_markers_follow_category = actual_scatter_markers == expected_scatter_markers
+    scatter_sizes_follow_program_count = (
+        len(actual_scatter_sizes) == len(program_counts)
+        and actual_size_order == expected_size_order
+    )
     plotted_place_ids = facility_df["place_id"].tolist()
 
     print("막대 수:", bar_count)
@@ -873,6 +948,32 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     )
     hex_color_pattern = re.compile(r"^#[0-9A-Fa-f]{6}$")
     palette_values = list(category_palette.values())
+    title_data_terms = (
+        "프로그램",
+        "범주",
+        "합계",
+        "개수",
+        "시설 수",
+        "위도",
+        "경도",
+        "좌표",
+        "위치",
+        "어디",
+    )
+    unsupported_title_terms = (
+        "좋은",
+        "최고",
+        "인기",
+        "만족",
+        "추천",
+        "유익",
+        "우수",
+        "효율",
+    )
+    title_uses_available_data = (
+        any(term in poster_title for term in title_data_terms)
+        and not any(term in poster_title for term in unsupported_title_terms)
+    )
     current_metadata = (
         dataset_title,
         dataset_source,
@@ -898,8 +999,10 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
         (
             not poster_title.strip().startswith("EDIT:")
             and len(poster_title.strip()) >= 15
-            and poster_title.strip().endswith(("?", "？")),
-            "15자 이상의 자신의 질문형 제목",
+            and len(poster_title.strip()) <= 50
+            and poster_title.strip().endswith(("?", "？"))
+            and title_uses_available_data,
+            "15–50자이며 데이터 열로 답할 수 있는 질문형 제목",
         ),
         (
             len(palette_values) == 3
@@ -938,6 +1041,13 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
             and scatter_unique_markers == 3
             and scatter_unique_sizes > 1,
             "색상·표식·크기로 구분한 좌표 점",
+        ),
+        (
+            scatter_offsets_match_rows
+            and scatter_colors_follow_category
+            and scatter_markers_follow_category
+            and scatter_sizes_follow_program_count,
+            "원본 데이터와 색상·표식·크기의 대응",
         ),
         (
             not main_observation.strip().startswith("EDIT:")

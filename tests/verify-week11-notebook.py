@@ -140,6 +140,7 @@ def run_scenario(
     tamper_csv: bool = False,
     tamper_metadata: bool = False,
     tamper_visual_encoding: bool = False,
+    tamper_mapping_relationships: bool = False,
     should_pass: bool,
     expected_failure_label: str | None = None,
 ) -> None:
@@ -170,6 +171,35 @@ def run_scenario(
                 replacement_count += 1
         if replacement_count != 1:
             raise AssertionError("could not mutate the scatter visual encoding")
+    if tamper_mapping_relationships:
+        old_mapping = '''    data=facility_df,
+    x="longitude",
+    y="latitude",
+    hue="category",
+    style="category",
+    size="program_count",'''
+        new_mapping = '''    data=facility_df.assign(
+        wrong_category=facility_df["category"].iloc[::-1].to_numpy(),
+        wrong_program_count=(
+            facility_df["program_count"].max()
+            + facility_df["program_count"].min()
+            - facility_df["program_count"]
+        ),
+    ),
+    x="longitude",
+    y="latitude",
+    hue="wrong_category",
+    style="wrong_category",
+    size="wrong_program_count",'''
+        replacement_count = 0
+        for cell in cells:
+            source = "".join(cell["source"])
+            if old_mapping in source:
+                source = source.replace(old_mapping, new_mapping, 1)
+                cell["source"] = source.splitlines(keepends=True)
+                replacement_count += 1
+        if replacement_count != 1:
+            raise AssertionError("could not mutate the scatter data mappings")
     shell = SimpleNamespace(execution_count=0)
     namespace = {"get_ipython": lambda: shell}
 
@@ -285,6 +315,15 @@ def main() -> None:
         code_cells,
         use_valid_edits=True,
         assignment_overrides={
+            "poster_title": "가장 좋은 문화시설은 어디인가?",
+        },
+        should_pass=False,
+        expected_failure_label="데이터 열로 답할 수 있는 질문형 제목",
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        assignment_overrides={
             "poster_title": "프로그램 수 합계가 가장 큰 시설 범주는 무엇인가？",
         },
         should_pass=True,
@@ -295,6 +334,13 @@ def main() -> None:
         tamper_visual_encoding=True,
         should_pass=False,
         expected_failure_label="색상·표식·크기",
+    )
+    run_scenario(
+        code_cells,
+        use_valid_edits=True,
+        tamper_mapping_relationships=True,
+        should_pass=False,
+        expected_failure_label="데이터와 색상·표식·크기의 대응",
     )
     run_scenario(
         code_cells,
