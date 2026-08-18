@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import base64
 import contextlib
 import copy
 import io
@@ -48,25 +49,32 @@ def edited_cells(
     track: str,
     baseline_mode: str = "provided",
     baseline_source_filename: str = "",
+    project_mode: str = "provided",
+    own_source_filename: str = "",
+    valid_own_adapter: bool = False,
+    approval_status: str | None = None,
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
 ) -> list[dict[str, object]]:
     """Return one fully edited student copy without changing the source notebook."""
 
-    first_action = "전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
+    first_action = "정확성: 전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
     second_action = (
-        first_action
+        "가독성: 전체 입력의 수량과 처리 뒤 시각 요소의 수를 비교한다"
         if duplicate_actions
-        else "제목과 축 단위, 출처가 저장 이미지에서 읽히도록 정리한다"
+        else "가독성: 제목과 축 단위, 출처가 저장 이미지에서 읽히도록 정리한다"
     )
     values = {
         "student_id": "20261234",
         "student_name": "김수정",
         "project_track": track,
-        "project_mode": "provided",
+        "project_mode": project_mode,
+        "own_source_filename": own_source_filename,
         "baseline_mode": baseline_mode,
         "baseline_source_filename": baseline_source_filename,
-        "approval_status": "provided path approved",
+        "approval_status": approval_status
+        if approval_status is not None
+        else ("provided" if project_mode == "provided" else "approved"),
         "project_question": "선택한 자료의 핵심 패턴은 화면에서 어떻게 드러나는가?",
         "intended_audience": "처음 프로젝트 결과를 읽는 수강생",
         "source_title": "Contents Programming Practice Week 15 제공 자료",
@@ -94,13 +102,39 @@ def edited_cells(
     if replaced != set(values):
         missing = ", ".join(sorted(set(values) - replaced))
         raise AssertionError(f"could not replace every editable value: {missing}")
+
+    if valid_own_adapter:
+        replacements = {
+            "raw_values = [84, 63, 49]": (
+                'raw_values = [int(value) for value in '
+                'own_source_path.read_text(encoding="utf-8").split(",")]'
+            ),
+            '"input_origin": "provided",': '"input_origin": "own",',
+            '"input_digest": None,': '"input_digest": own_source_digest,',
+        }
+        for old, new in replacements.items():
+            replacement_count = 0
+            for cell in cells:
+                source = "".join(cell["source"])
+                if old in source:
+                    cell["source"] = source.replace(old, new, 1).splitlines(
+                        keepends=True
+                    )
+                    replacement_count += 1
+            if replacement_count != 1:
+                raise AssertionError(f"could not install own adapter for {old!r}")
     return cells
 
 
-def execute_cells(cells: list[dict[str, object]], directory: Path) -> tuple[dict[str, object], str, BaseException | None]:
+def execute_cells(
+    cells: list[dict[str, object]],
+    directory: Path,
+    namespace: dict[str, object] | None = None,
+) -> tuple[dict[str, object], str, BaseException | None]:
     """Execute code cells in order and capture their public output."""
 
-    namespace: dict[str, object] = {}
+    if namespace is None:
+        namespace = {}
     output = io.StringIO()
     failure: BaseException | None = None
     previous_directory = Path.cwd()
@@ -130,17 +164,38 @@ def run_valid_scenario(
     *,
     track: str,
     baseline_mode: str = "provided",
+    baseline_upload_format: str = "png",
+    project_mode: str = "provided",
 ) -> dict[str, object]:
     """Execute one valid guided path and inspect the three submission files."""
 
     with tempfile.TemporaryDirectory(prefix=f"week15-{track}-") as directory_name:
         directory = Path(directory_name)
-        baseline_filename = "uploaded_week14_baseline.png"
-        if baseline_mode == "upload":
-            Image.new("RGB", (1600, 1000), "#dce5ef").save(
-                directory / baseline_filename,
-                format="PNG",
+        own_source_filename = "approved_own_values.csv"
+        if project_mode == "own":
+            (directory / own_source_filename).write_text(
+                "84,63,49",
+                encoding="utf-8",
             )
+        baseline_filename = f"uploaded_week14_baseline.{baseline_upload_format}"
+        if baseline_mode == "upload":
+            baseline_image = Image.new("RGB", (1600, 1000), "#dce5ef")
+            if baseline_upload_format == "png":
+                baseline_image.save(directory / baseline_filename, format="PNG")
+            elif baseline_upload_format == "html":
+                image_buffer = io.BytesIO()
+                baseline_image.save(image_buffer, format="PNG")
+                encoded_image = base64.b64encode(image_buffer.getvalue()).decode(
+                    "ascii"
+                )
+                (directory / baseline_filename).write_text(
+                    '<!doctype html><html lang="ko"><body><img '
+                    f'src="data:image/png;base64,{encoded_image}" '
+                    'alt="14주차 기준 결과"></body></html>',
+                    encoding="utf-8",
+                )
+            else:
+                raise AssertionError("unsupported baseline upload format")
 
         cells = edited_cells(
             notebook_cells,
@@ -149,6 +204,11 @@ def run_valid_scenario(
             baseline_source_filename=(
                 baseline_filename if baseline_mode == "upload" else ""
             ),
+            project_mode=project_mode,
+            own_source_filename=(
+                own_source_filename if project_mode == "own" else ""
+            ),
+            valid_own_adapter=project_mode == "own",
         )
         namespace, output, failure = execute_cells(cells, directory)
         if failure is not None:
@@ -175,6 +235,7 @@ def run_valid_scenario(
             "data:image/png;base64,",
             "<dt>수정 행동 1</dt>",
             "<dt>수정 행동 2</dt>",
+            "<dt>수정 증거 ID</dt>",
             "<dt>관찰</dt>",
             "<dt>한계</dt>",
             "<dt>개인정보 점검</dt>",
@@ -191,12 +252,23 @@ def run_valid_scenario(
         evidence = namespace["project_evidence"]
         if evidence["track"] != track or evidence["value_match"] is not True:
             raise AssertionError("project evidence does not match the selected track")
+        if evidence["input_origin"] != project_mode:
+            raise AssertionError("project evidence does not prove its input origin")
+        expected_evidence_id = namespace["revision_evidence_id"]
+        if evidence["revision_evidence_id"] != expected_evidence_id:
+            raise AssertionError("revision text is not connected to the rendered evidence")
+        if project_mode == "own" and evidence["input_digest"] != namespace["own_source_digest"]:
+            raise AssertionError("own project evidence missed the actual input digest")
         if namespace["baseline_snapshot_digest"] == namespace["refined_output_digest"]:
             raise AssertionError("valid scenario did not create different visual evidence")
 
         return {
             "track": track,
+            "project_mode": project_mode,
             "baseline_mode": baseline_mode,
+            "baseline_source_suffix": (
+                f".{baseline_upload_format}" if baseline_mode == "upload" else ""
+            ),
             "notebook": notebook_name,
             "refined_bytes": refined_path.stat().st_size,
             "revision_log_bytes": revision_log_path.stat().st_size,
@@ -206,6 +278,8 @@ def run_valid_scenario(
 def run_expected_failure(
     notebook_cells: list[dict[str, object]],
     *,
+    project_mode: str = "provided",
+    approval_status: str | None = None,
     teacher_gate: str = "confirmed",
     duplicate_actions: bool = False,
     expected_message: str,
@@ -213,13 +287,25 @@ def run_expected_failure(
     """Confirm that a representative false completion is rejected."""
 
     with tempfile.TemporaryDirectory(prefix="week15-invalid-") as directory_name:
+        directory = Path(directory_name)
+        own_source_filename = "approved_own_values.csv"
+        if project_mode == "own":
+            (directory / own_source_filename).write_text(
+                "84,63,49",
+                encoding="utf-8",
+            )
         cells = edited_cells(
             notebook_cells,
             track="data",
+            project_mode=project_mode,
+            own_source_filename=(
+                own_source_filename if project_mode == "own" else ""
+            ),
+            approval_status=approval_status,
             teacher_gate=teacher_gate,
             duplicate_actions=duplicate_actions,
         )
-        _namespace, output, failure = execute_cells(cells, Path(directory_name))
+        _namespace, output, failure = execute_cells(cells, directory)
         if failure is None:
             raise AssertionError(f"invalid scenario unexpectedly passed\n{output}")
         if expected_message not in str(failure):
@@ -227,6 +313,32 @@ def run_expected_failure(
                 f"expected {expected_message!r}, got {failure!r}\n{output}"
             )
         return str(failure)
+
+
+def run_repeated_session_failure(
+    notebook_cells: list[dict[str, object]],
+) -> str:
+    """Confirm that Run all in an already-used runtime is not a fresh-run PASS."""
+
+    with tempfile.TemporaryDirectory(prefix="week15-repeated-") as directory_name:
+        directory = Path(directory_name)
+        cells = edited_cells(notebook_cells, track="data")
+        namespace, first_output, first_failure = execute_cells(cells, directory)
+        if first_failure is not None:
+            raise AssertionError(
+                f"first fresh execution failed: {first_failure}\n{first_output}"
+            ) from first_failure
+        _namespace, second_output, second_failure = execute_cells(
+            cells,
+            directory,
+            namespace,
+        )
+        expected_message = "마지막 검사는 새 런타임에서 모두 실행해야 합니다"
+        if second_failure is None or expected_message not in str(second_failure):
+            raise AssertionError(
+                f"repeated session was not rejected: {second_failure}\n{second_output}"
+            )
+        return str(second_failure)
 
 
 def main() -> None:
@@ -240,7 +352,27 @@ def main() -> None:
         for track in ("data", "text", "sound", "image")
     ]
     results.append(
-        run_valid_scenario(code_cells, track="data", baseline_mode="upload")
+        run_valid_scenario(
+            code_cells,
+            track="data",
+            baseline_mode="upload",
+            baseline_upload_format="png",
+        )
+    )
+    results.append(
+        run_valid_scenario(
+            code_cells,
+            track="data",
+            project_mode="own",
+        )
+    )
+    results.append(
+        run_valid_scenario(
+            code_cells,
+            track="data",
+            baseline_mode="upload",
+            baseline_upload_format="html",
+        )
     )
     failures = [
         run_expected_failure(
@@ -253,6 +385,17 @@ def main() -> None:
             duplicate_actions=True,
             expected_message="서로 다른 두 수정 행동을 기록하세요",
         ),
+        run_expected_failure(
+            code_cells,
+            project_mode="own",
+            expected_message="own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다",
+        ),
+        run_expected_failure(
+            code_cells,
+            approval_status="not approved",
+            expected_message="approval_status는 provided 또는 approved여야 합니다",
+        ),
+        run_repeated_session_failure(code_cells),
     ]
     print(json.dumps({"valid": results, "rejected": failures}, ensure_ascii=False))
 

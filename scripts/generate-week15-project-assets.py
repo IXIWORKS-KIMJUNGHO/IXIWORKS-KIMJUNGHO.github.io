@@ -589,6 +589,7 @@ def build_notebook() -> dict[str, object]:
             import matplotlib.pyplot as plt
             from PIL import Image
 
+            _week15_step0_runs = globals().get("_week15_step0_runs", 0) + 1
             _run_order = [0]
 
             def safe_fragment(value):
@@ -615,8 +616,9 @@ def build_notebook() -> dict[str, object]:
             student_name = "이름"
             project_track = "data"  # data / text / sound / image
             project_mode = "provided"  # provided / own
+            own_source_filename = ""  # own일 때 승인된 실제 입력 파일명
             baseline_mode = "provided"  # provided / upload
-            baseline_source_filename = ""
+            baseline_source_filename = ""  # upload일 때 14주차 PNG 또는 HTML
 
             approval_status = "EDIT: provided 또는 approved"
             project_question = "EDIT: 결과가 답할 수 있는 질문 한 문장"
@@ -629,6 +631,9 @@ def build_notebook() -> dict[str, object]:
             assert project_track in {"data", "text", "sound", "image"}
             assert project_mode in {"provided", "own"}
             assert baseline_mode in {"provided", "upload"}
+            assert approval_status in {"provided", "approved"}, "approval_status는 provided 또는 approved여야 합니다."
+            expected_approval = "provided" if project_mode == "provided" else "approved"
+            assert approval_status == expected_approval, "provided 경로는 provided, own 경로는 approved 판정이 필요합니다."
             _run_order.append(1)
             print("STEP 1 RECORDED")
             """,
@@ -652,11 +657,31 @@ def build_notebook() -> dict[str, object]:
                 f"week15_{safe_student_id}_{safe_student_name}_revision_log.html"
             )
 
+            own_source_path = None
+            own_source_digest = None
+            if project_mode == "own":
+                own_source_path = Path(own_source_filename)
+                assert own_source_path.is_file(), "own 경로의 승인된 실제 입력 파일을 찾을 수 없습니다."
+                own_source_digest = sha256_file(own_source_path)
+
             if baseline_mode == "upload":
                 baseline_source_path = Path(baseline_source_filename)
                 assert baseline_source_path.is_file(), "14주차 기준점 파일을 찾을 수 없습니다."
-                assert baseline_source_path.suffix.lower() == ".png", "기준점은 PNG로 준비하세요."
-                shutil.copyfile(baseline_source_path, baseline_output_path)
+                baseline_suffix = baseline_source_path.suffix.lower()
+                assert baseline_suffix in {".png", ".html"}, "기준점은 14주차 PNG 또는 HTML이어야 합니다."
+                if baseline_suffix == ".png":
+                    shutil.copyfile(baseline_source_path, baseline_output_path)
+                else:
+                    baseline_html = baseline_source_path.read_text(encoding="utf-8")
+                    encoded_match = re.search(
+                        r"data:image/png;base64,([A-Za-z0-9+/=]+)", baseline_html
+                    )
+                    assert encoded_match, "14주차 HTML에서 포함된 PNG 기준점을 찾을 수 없습니다."
+                    baseline_png_bytes = base64.b64decode(
+                        encoded_match.group(1), validate=True
+                    )
+                    assert baseline_png_bytes.startswith(b"\\x89PNG\\r\\n\\x1a\\n"), "HTML 기준점의 포함 이미지는 PNG여야 합니다."
+                    baseline_output_path.write_bytes(baseline_png_bytes)
 
             _run_order.append(2)
             print("STEP 2 PATHS READY")
@@ -666,11 +691,28 @@ def build_notebook() -> dict[str, object]:
             "code",
             """
             # STEP 3 · EDIT: 두 수정 행동과 승인된 프로젝트 코드
-            revision_action_1 = "EDIT: 안정성 또는 정확성을 높이는 수정"
-            revision_action_2 = "EDIT: 가독성 또는 설명을 높이는 수정"
+            revision_focus_1 = "accuracy"
+            revision_focus_2 = "readability"
+            revision_action_1 = "EDIT: 정확성: 값과 화면의 일치를 높이는 수정"
+            revision_action_2 = "EDIT: 가독성: 제목, 단위 또는 설명을 높이는 수정"
+
+            assert {revision_focus_1, revision_focus_2} == {"accuracy", "readability"}
+            ensure_written(revision_action_1, "수정 행동 1")
+            ensure_written(revision_action_2, "수정 행동 2")
+            assert revision_action_1.startswith("정확성:"), "수정 행동 1은 '정확성:'으로 시작하세요."
+            assert revision_action_2.startswith("가독성:"), "수정 행동 2는 '가독성:'으로 시작하세요."
+            revision_action_detail_1 = revision_action_1.split(":", 1)[1].strip()
+            revision_action_detail_2 = revision_action_2.split(":", 1)[1].strip()
+            ensure_written(revision_action_detail_1, "수정 행동 1의 구체적 내용")
+            ensure_written(revision_action_detail_2, "수정 행동 2의 구체적 내용")
+            assert revision_action_detail_1 != revision_action_detail_2, "서로 다른 두 수정 행동을 기록하세요."
+            revision_evidence_id = sha256(
+                f"{revision_action_1}\\n{revision_action_2}".encode("utf-8")
+            ).hexdigest()[:12]
 
             # APPROVED PROJECT CODE ZONE
             # 자신의 프로젝트를 이어갈 때에는 이 함수 안의 제공 예시만 승인된 코드로 교체합니다.
+            # own 경로는 input_origin="own", own_source_digest와 실제 적용한 두 revision focus를 증거로 반환해야 합니다.
             # 함수는 수정 전 Figure, 수정 후 Figure, 화면 증거 사전을 반환해야 합니다.
             def build_project_outputs():
                 baseline_figure, baseline_axis = plt.subplots(figsize=(8, 5), dpi=200)
@@ -765,12 +807,24 @@ def build_notebook() -> dict[str, object]:
                 baseline_axis.set_title(f"{project_track.upper()} · BASELINE")
                 refined_axis.set_title(f"{project_track.upper()} · REFINED")
                 refined_axis.spines[["top", "right"]].set_visible(False)
-                refined_figure.text(0.01, 0.01, f"Source: {source_title} | Date: {reference_date}", fontsize=7)
-                refined_figure.tight_layout(rect=(0, 0.04, 1, 1))
+                refined_figure.text(
+                    0.01,
+                    0.035,
+                    f"APPLIED: {revision_focus_1.upper()} + {revision_focus_2.upper()} · {revision_evidence_id}",
+                    fontsize=7,
+                )
+                refined_figure.text(0.01, 0.012, f"Source: {source_title} | Date: {reference_date}", fontsize=7)
+                refined_figure.tight_layout(rect=(0, 0.065, 1, 1))
 
                 evidence = {
                     "track": project_track,
-                    "mode": project_mode,
+                    "input_origin": "provided",
+                    "input_digest": None,
+                    "revision_evidence_id": revision_evidence_id,
+                    "applied_revision_focuses": [
+                        revision_focus_1,
+                        revision_focus_2,
+                    ],
                     "input_count": len(raw_values),
                     "visual_count": len(refined_values),
                     "value_match": sorted(raw_values) == sorted(refined_values),
@@ -804,6 +858,23 @@ def build_notebook() -> dict[str, object]:
 
             assert baseline_format == "PNG" and refined_format == "PNG"
             assert baseline_snapshot_digest != refined_output_digest, "수정 전후 파일이 같습니다. 두 수정 행동을 실제 화면에 반영하세요."
+            required_evidence_fields = {
+                "track",
+                "input_origin",
+                "input_digest",
+                "revision_evidence_id",
+                "applied_revision_focuses",
+                "input_count",
+                "visual_count",
+                "value_match",
+                "unit",
+            }
+            assert required_evidence_fields <= project_evidence.keys(), "승인 코드의 화면 증거 필드가 부족합니다."
+            assert project_evidence["track"] == project_track
+            assert project_evidence["input_origin"] == project_mode, "own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다."
+            assert project_evidence["input_digest"] == own_source_digest, "own 경로는 실제 입력 파일의 SHA-256 증거를 반환해야 합니다."
+            assert project_evidence["revision_evidence_id"] == revision_evidence_id, "수정 행동 문장과 결과의 증거 ID가 일치해야 합니다."
+            assert set(project_evidence["applied_revision_focuses"]) == {"accuracy", "readability"}, "정확성과 가독성 수정이 모두 실제 결과에 적용되어야 합니다."
             assert project_evidence["input_count"] == project_evidence["visual_count"]
             assert project_evidence["value_match"] is True
 
@@ -815,6 +886,14 @@ def build_notebook() -> dict[str, object]:
                 "input_count": project_evidence["input_count"],
                 "visual_count": project_evidence["visual_count"],
                 "value_match": project_evidence["value_match"],
+                "input_origin": project_evidence["input_origin"],
+                "input_digest": project_evidence["input_digest"],
+                "revision_evidence_id": project_evidence[
+                    "revision_evidence_id"
+                ],
+                "applied_revision_focuses": project_evidence[
+                    "applied_revision_focuses"
+                ],
             }
 
             _run_order.append(4)
@@ -847,7 +926,7 @@ def build_notebook() -> dict[str, object]:
             <div class="compare"><figure><img src="{baseline_data_uri}" alt="수정 전 결과"><figcaption>수정 전</figcaption></figure>
             <figure><img src="{refined_data_uri}" alt="수정 후 결과"><figcaption>수정 후</figcaption></figure></div>
             <dl><dt>수정 행동 1</dt><dd>{escape(revision_action_1)}</dd><dt>수정 행동 2</dt><dd>{escape(revision_action_2)}</dd>
-            <dt>관찰</dt><dd>{escape(main_observation)}</dd><dt>한계</dt><dd>{escape(limitation_statement)}</dd>
+            <dt>수정 증거 ID</dt><dd>{revision_evidence_id}</dd><dt>관찰</dt><dd>{escape(main_observation)}</dd><dt>한계</dt><dd>{escape(limitation_statement)}</dd>
             <dt>출처</dt><dd>{escape(source_title)} / {escape(usage_rights)} / {escape(reference_date)}</dd>
             <dt>개인정보 점검</dt><dd>{escape(privacy_check)}</dd><dt>교수 피드백</dt><dd>{escape(teacher_feedback)}</dd></dl></main></body></html>'''
             revision_log_path.write_text(revision_log_html, encoding="utf-8")
@@ -861,6 +940,7 @@ def build_notebook() -> dict[str, object]:
             """
             # STEP 6 · FINAL CHECK: 수정하지 않습니다
             _run_order.append(6)
+            assert _week15_step0_runs == 1, "마지막 검사는 새 런타임에서 모두 실행해야 합니다."
             assert _run_order == [0, 1, 2, 3, 4, 5, 6], "새 런타임에서 위에서 아래로 한 번씩 실행하세요."
 
             for value, label in [
@@ -879,9 +959,17 @@ def build_notebook() -> dict[str, object]:
             ]:
                 ensure_written(value, label)
 
-            assert revision_action_1 != revision_action_2, "서로 다른 두 수정 행동을 기록하세요."
+            assert revision_action_1.startswith("정확성:"), "수정 행동 1은 '정확성:'으로 시작하세요."
+            assert revision_action_2.startswith("가독성:"), "수정 행동 2는 '가독성:'으로 시작하세요."
+            assert revision_action_detail_1 != revision_action_detail_2, "서로 다른 두 수정 행동을 기록하세요."
             assert evidence_report["baseline_digest"] != evidence_report["refined_digest"]
             assert evidence_report["value_match"] is True
+            assert evidence_report["input_origin"] == project_mode
+            assert evidence_report["input_digest"] == own_source_digest
+            assert evidence_report["revision_evidence_id"] == revision_evidence_id
+            if project_mode == "own":
+                assert sha256_file(own_source_path) == own_source_digest, "실행 중 own 입력 파일이 변경되었습니다."
+            assert set(evidence_report["applied_revision_focuses"]) == {"accuracy", "readability"}
             assert baseline_output_path.is_file()
             assert refined_output_path.is_file()
             assert revision_log_path.is_file()

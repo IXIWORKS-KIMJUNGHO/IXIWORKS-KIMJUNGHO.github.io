@@ -207,10 +207,15 @@ test("period 3 is a persistent, finite, goal-based 70 percent mission", async ()
     "week15_학번_이름_refined.png",
     "week15_학번_이름_revision_log.html",
     "APPROVED PROJECT CODE ZONE",
+    "input_origin = &quot;own&quot;",
+    "own_source_filename",
+    "approval_status = \"approved\"",
     "AUTOMATIC EVIDENCE READY",
     "teacher_gate = &quot;confirmed&quot;",
     "새 런타임",
     "완성 순서대로 30-45초",
+    "교수 확인 대기열은 19분부터 열리고 47분까지 제작과 병행합니다",
+    "30명도 최대 22.5분",
     "WEEK 15 PROJECT REFINEMENT COMPLETE",
     "선택 확장",
     "추가 점수에 포함하지 않습니다",
@@ -252,6 +257,11 @@ test("week 15 lessons use one responsive, accessible visual system", async () =>
       assert.match(image[1], /\balt="[^"]+"/);
       assert.match(image[1], /\bdecoding="async"/);
     }
+    assert.doesNotMatch(
+      lesson,
+      /<div\b(?![^>]*\brole=)[^>]*\baria-label=/,
+      "generic divs with accessible names need an explicit role",
+    );
   }
 
   assert.match(css, /body\.week-15-document \.article h2::before\s*{[^}]*content:\s*none/);
@@ -298,8 +308,11 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /student_name = "이름"/,
     /project_track = "data"/,
     /project_mode = "provided"/,
+    /own_source_filename = ""/,
     /baseline_mode = "provided"/,
     /approval_status = "EDIT:/,
+    /approval_status in \{"provided", "approved"\}/,
+    /approval_status == expected_approval/,
     /project_question = "EDIT:/,
     /source_title = "EDIT:/,
     /usage_rights = "EDIT:/,
@@ -307,6 +320,8 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /privacy_check = "EDIT:/,
     /revision_action_1 = "EDIT:/,
     /revision_action_2 = "EDIT:/,
+    /revision_focus_1 = "accuracy"/,
+    /revision_focus_2 = "readability"/,
     /main_observation = "EDIT:/,
     /limitation_statement = "EDIT:/,
     /teacher_feedback = "EDIT:/,
@@ -317,13 +332,21 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /elif project_track == "text"/,
     /elif project_track == "sound"/,
     /"track": project_track/,
+    /"input_origin": "provided"/,
+    /"input_digest": None/,
+    /"revision_evidence_id": revision_evidence_id/,
+    /"applied_revision_focuses": \[/,
     /baseline_snapshot_digest = sha256_file/,
     /refined_output_digest = sha256_file/,
     /baseline_snapshot_digest != refined_output_digest/,
+    /f"\{revision_action_1\}\\n\{revision_action_2\}"\.encode\("utf-8"\)/,
+    /baseline_suffix in \{"\.png", "\.html"\}/,
+    /base64\.b64decode/,
     /data:image\/png;base64,/,
     /base64\.b64encode/,
     /<dt>관찰<\/dt>/,
     /<dt>한계<\/dt>/,
+    /<dt>수정 증거 ID<\/dt>/,
     /Image\.open\(refined_output_path\)/,
     /saved_image\.size == \(1600, 1000\)/,
     /week15_\{safe_student_id\}_\{safe_student_name\}_baseline\.png/,
@@ -331,6 +354,8 @@ test("week 15 notebook exposes a self-checking refinement contract", async () =>
     /week15_\{safe_student_id\}_\{safe_student_name\}_revision_log\.html/,
     /AUTOMATIC EVIDENCE READY · TEACHER CHECK REQUIRED/,
     /teacher_gate == "confirmed"/,
+    /sha256_file\(own_source_path\) == own_source_digest/,
+    /_week15_step0_runs == 1/,
     /_run_order == \[0, 1, 2, 3, 4, 5, 6\]/,
     /WEEK 15 PROJECT REFINEMENT COMPLETE/,
   ]) {
@@ -410,6 +435,11 @@ test("week 15 notebook executes four guided paths and rejects false completion",
     assert.match(result.stdout, new RegExp(`"track": "${track}"`));
   }
   assert.match(result.stdout, /"baseline_mode": "upload"/);
+  assert.match(result.stdout, /"baseline_source_suffix": "\.html"/);
+  assert.match(result.stdout, /"project_mode": "own"/);
   assert.match(result.stdout, /교수의 증거 확인 뒤 teacher_gate를 confirmed로 바꾸세요/);
   assert.match(result.stdout, /서로 다른 두 수정 행동을 기록하세요/);
+  assert.match(result.stdout, /own 경로는 승인 코드가 input_origin='own' 증거를 반환해야 합니다/);
+  assert.match(result.stdout, /approval_status는 provided 또는 approved여야 합니다/);
+  assert.match(result.stdout, /마지막 검사는 새 런타임에서 모두 실행해야 합니다/);
 });
