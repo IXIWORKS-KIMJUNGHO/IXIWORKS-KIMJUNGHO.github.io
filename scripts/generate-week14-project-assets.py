@@ -751,7 +751,7 @@ __PROVIDED_SOUND_FUNCTION__
             - 선택 경로: `data`, `text`, `sound`, `image`
             - 막히면 `input_mode = "provided"`를 유지하고 수업 제공 가상 자료로 먼저 완성합니다.
             - 자신의 파일을 쓰려면 프로젝트 면담에서 승인받고, 아래 규격에 맞춘 뒤 `input_mode = "own"`으로 바꿉니다.
-            - 9–13주차의 개인 코드를 재사용하려면 2교시 신청자 면담에서 처리·매핑 규칙을 승인받고 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. 이 구역은 Matplotlib Figure를 만드는 계약이며 Folium·별도 웹페이지 전체를 넣지 않습니다. `processed_values`, `mapping_source_values`, `mapping_visual_values`라는 검증 계약은 유지합니다.
+            - 9–13주차의 개인 코드를 재사용하려면 2교시 신청자 면담에서 처리·매핑 규칙을 승인받고 `reuse_status`를 `approved` 또는 `scoped`로 기록한 뒤 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. 제공 입력을 쓰면서 승인 코드를 재사용할 수도 있습니다. 이 구역은 Matplotlib Figure를 만드는 계약이며 Folium·별도 웹페이지 전체를 넣지 않습니다.
             - 마지막에는 새 런타임에서 **모두 실행**하고 `WEEK 14 PROJECT PROTOTYPE COMPLETE`를 확인합니다.
             """
         ),
@@ -852,7 +852,7 @@ __PROVIDED_SOUND_FUNCTION__
             """
             ## STEP 1 · 프로젝트 카드 입력
 
-            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`를 유지하는 것이 가장 안전합니다. 제공 경로는 `approval_status = "provided"`를 기록합니다. 자기 자료·이전 코드는 2교시 승인이 있을 때만 `approved` 또는 `scoped`를 기록합니다. 최종 30–45초 증거 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
+            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`, `reuse_status = "guided"`를 유지하는 것이 가장 안전합니다. 입력 판정과 코드 재사용 판정은 서로 다릅니다. 제공 입력은 `approval_status = "provided"`, 자기 입력은 승인 뒤 `approved` 또는 `scoped`를 기록합니다. 공통 코드를 유지하면 `reuse_status = "guided"`, STEP 3·4를 바꾸면 승인 뒤 `approved` 또는 `scoped`를 기록합니다. 최종 30–45초 증거 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
 
             자신의 입력을 사용할 때의 규격은 다음과 같습니다.
 
@@ -875,6 +875,8 @@ __PROVIDED_SOUND_FUNCTION__
 
             approval_status = "EDIT: approved / scoped / provided 가운데 1차 면담 판정"
             approval_note = "EDIT: 승인된 핵심 범위 또는 줄인 기능을 한 문장으로 기록"
+            reuse_status = "guided"  # guided, approved, scoped 가운데 하나
+            reuse_note = "EDIT: 공통 코드를 유지하거나 승인받아 교체한 STEP 3·4 범위를 기록"
             teacher_gate = "pending"  # 최종 교수 확인 뒤에만 confirmed로 변경
 
             project_question = "EDIT: 이 입력에서 어떤 차이나 변화가 보이는가?"
@@ -925,7 +927,7 @@ __PROVIDED_SOUND_FUNCTION__
             - 소리 경로는 짧은 구간마다 RMS 에너지를 계산합니다.
             - 규칙 기반 이미지 경로는 위치·크기·색 매개변수를 유효한 도형 값으로 준비합니다.
 
-            출력되는 숫자는 장식이 아니라 시각화가 어떤 값을 사용했는지 보여 주는 증거입니다. 2교시 신청자 면담에서 다른 처리 규칙을 승인받았다면 아래 `APPROVED REUSE ZONE`의 해당 분기만 이전 주차 코드로 교체하되, 마지막의 `processed_values` 검증 계약을 유지합니다. Folium·별도 HTML 저장은 이번 구역에 넣지 않고 15주차 행동으로 기록합니다.
+            출력되는 숫자는 장식이 아니라 시각화가 어떤 값을 사용했는지 보여 주는 증거입니다. 2교시 신청자 면담에서 다른 처리 규칙을 승인받았다면 `reuse_status`와 `reuse_note`를 기록하고 아래 `APPROVED REUSE ZONE`의 해당 분기만 이전 주차 코드로 교체하되, 마지막에 비어 있지 않은 1차원 수치 배열 `processed_values`를 남깁니다. Folium·별도 HTML 저장은 이번 구역에 넣지 않고 15주차 행동으로 기록합니다.
             """
         ),
         code_cell(
@@ -983,13 +985,27 @@ __PROVIDED_SOUND_FUNCTION__
             """
             ## STEP 4 · 처리 결과를 한 가지 시각 규칙에 연결
 
-            네 경로 모두 같은 크기의 Figure를 사용합니다. 막대 경로는 처리된 값을 **길이**에, 소리 경로는 시간과 에너지를 **가로·세로 위치**에, 규칙 이미지 경로는 값을 **위치·크기·색**에 연결합니다. 승인받은 개인 표현을 재사용해도 `mapping_source_values`와 `mapping_visual_values`가 같은 값을 증명하도록 남깁니다.
+            네 경로 모두 같은 크기의 Figure를 사용합니다. 막대 경로는 처리된 값을 **길이**에, 소리 경로는 시간과 에너지를 **가로·세로 위치**에, 규칙 이미지 경로는 값을 **위치·크기·색**에 연결합니다. 승인받은 개인 표현은 아래 공통 어댑터 계약을 모두 지킵니다.
+
+            - 모든 경로: `mapping_source_values`, `mapping_visual_values`
+            - 데이터·텍스트: `mapping_source_labels`, `mapping_visual_labels`
+            - 소리·이미지: `mapping_source_positions`, `mapping_visual_positions`
+            - 이미지: `mapping_source_colors`, `mapping_visual_colors`
+
+            사용하지 않는 쌍은 `None`으로 둡니다. FINAL CHECK는 이 공개 변수만 읽으며 `visual_element_count`는 화면 값의 길이에서 자동 계산합니다.
             """
         ),
         code_cell(
             """
             # STEP 4 · 핵심 시각화 한 화면
             # APPROVED REUSE ZONE · 승인받은 경우 해당 분기 내부와 증거 추출만 교체
+            mapping_source_labels = None
+            mapping_visual_labels = None
+            mapping_source_positions = None
+            mapping_visual_positions = None
+            mapping_source_colors = None
+            mapping_visual_colors = None
+
             figure, axis = plt.subplots(figsize=(8, 5), dpi=200)
             figure.subplots_adjust(left=0.18, right=0.95, top=0.69, bottom=0.30)
             figure.suptitle("30% PROJECT PROTOTYPE", x=0.08, y=0.96, ha="left", fontsize=20, fontweight="bold")
@@ -1003,8 +1019,8 @@ __PROVIDED_SOUND_FUNCTION__
                 for bar, value in zip(visual_artists, processed_values):
                     axis.text(value, bar.get_y() + bar.get_height() / 2, f" {value:g}", va="center", fontsize=9)
                 mapping_visual_values = np.array([bar.get_width() for bar in visual_artists], dtype=float)
-                mapping_position_values = np.arange(len(visual_artists), dtype=float)
-                visual_element_count = len(visual_artists)
+                mapping_source_labels = [str(label) for label in processed_labels]
+                mapping_visual_labels = [tick.get_text() for tick in axis.get_yticklabels()]
             elif project_track == "sound":
                 (visual_artist,) = axis.plot(processed_times, processed_values, color="#116e68", linewidth=2.2)
                 axis.fill_between(processed_times, processed_values, color="#dcebe6")
@@ -1013,8 +1029,8 @@ __PROVIDED_SOUND_FUNCTION__
                 axis.set_xlabel("Time (seconds)")
                 axis.set_ylabel(value_unit)
                 mapping_visual_values = np.asarray(visual_artist.get_ydata(), dtype=float)
-                mapping_position_values = np.asarray(visual_artist.get_xdata(), dtype=float)
-                visual_element_count = len(mapping_visual_values)
+                mapping_source_positions = np.asarray(processed_times, dtype=float)
+                mapping_visual_positions = np.asarray(visual_artist.get_xdata(), dtype=float)
             else:
                 visual_artist = axis.scatter(
                     processed_x,
@@ -1027,14 +1043,17 @@ __PROVIDED_SOUND_FUNCTION__
                 axis.set(xlim=(0, 1), ylim=(0, 1), xlabel="x position", ylabel="y position")
                 axis.set_aspect("equal", adjustable="box")
                 mapping_visual_values = np.sqrt(np.asarray(visual_artist.get_sizes(), dtype=float) * 3)
-                mapping_position_values = np.asarray(visual_artist.get_offsets(), dtype=float)
-                visual_element_count = len(mapping_visual_values)
+                mapping_source_positions = np.column_stack((processed_x, processed_y))
+                mapping_visual_positions = np.asarray(visual_artist.get_offsets(), dtype=float)
+                mapping_source_colors = np.asarray([to_rgba(color) for color in processed_colors], dtype=float)
+                mapping_visual_colors = np.asarray(visual_artist.get_facecolors(), dtype=float)
 
             axis.set_title("Processed evidence", loc="left", fontsize=13, fontweight="bold")
             axis.spines[["top", "right"]].set_visible(False)
             axis.grid(axis="x" if project_track in {"data", "text"} else "both", color="#c7c8be", linewidth=0.8, alpha=0.55)
             axis.set_axisbelow(True)
             mapping_source_values = np.asarray(processed_values, dtype=float)
+            mapping_visual_values = np.asarray(mapping_visual_values, dtype=float)
             _run_order.append(4)
             print("STEP 4 PASS · 처리값을 시각 요소에 연결")
             plt.show()
@@ -1133,6 +1152,8 @@ __PROVIDED_SOUND_FUNCTION__
             else:
                 assert approval_status in {"approved", "scoped"}, "자신의 입력은 1차 면담 승인 또는 범위 축소 승인이 필요합니다."
             assert is_finished_text(approval_note, 10, 180), "승인 또는 축소 범위를 10~180자로 기록하세요."
+            assert reuse_status in {"guided", "approved", "scoped"}, "코드 재사용 판정을 guided, approved, scoped 가운데 하나로 기록하세요."
+            assert is_finished_text(reuse_note, 10, 180), "공통 코드 유지 또는 승인 재사용 범위를 10~180자로 기록하세요."
             assert is_finished_text(project_question, 15, 70), "질문을 15~70자의 한 줄로 작성하세요."
             assert project_question.rstrip().endswith(("?", "？")), "프로젝트 질문은 물음표로 끝내세요."
             assert is_finished_text(intended_audience, 5, 80), "예상 독자를 5~80자로 작성하세요."
@@ -1171,20 +1192,43 @@ __PROVIDED_SOUND_FUNCTION__
                 assert source_path.name == expected_own_source_filename, "제출 원본 파일명이 STEP 1의 표준 파일명과 다릅니다."
                 assert source_path.read_bytes() == source_bytes_before, "외부 입력 파일이 실행 중 변경되었습니다."
 
+            visual_element_count = len(mapping_visual_values)
             assert visual_element_count == len(mapping_source_values), "처리 결과와 화면 요소 수가 다릅니다."
             assert np.allclose(mapping_visual_values, mapping_source_values), "화면에 매핑된 값이 처리 결과와 일치하지 않습니다."
-            if project_track in {"data", "text"}:
-                rendered_labels = [tick.get_text() for tick in axis.get_yticklabels()]
-                assert rendered_labels == [str(label) for label in processed_labels], "막대 레이블이 처리 결과와 일치하지 않습니다."
-            elif project_track == "sound":
-                assert np.allclose(mapping_position_values, processed_times), "가로 위치가 처리 시간과 일치하지 않습니다."
-            elif project_track == "image":
-                assert np.allclose(mapping_position_values[:, 0], processed_x), "도형의 x 위치가 처리 결과와 일치하지 않습니다."
-                assert np.allclose(mapping_position_values[:, 1], processed_y), "도형의 y 위치가 처리 결과와 일치하지 않습니다."
-                rendered_colors = np.asarray(visual_artist.get_facecolors(), dtype=float)
-                expected_colors = np.asarray([to_rgba(color) for color in processed_colors], dtype=float)
-                assert rendered_colors.shape == expected_colors.shape, "도형의 색 개수가 처리 결과와 일치하지 않습니다."
-                assert np.allclose(rendered_colors, expected_colors), "도형의 색이 처리 결과와 일치하지 않습니다."
+
+            def assert_adapter_pair(source_values, visual_values, label, *, required, textual=False):
+                if required:
+                    assert source_values is not None and visual_values is not None, f"{label} 증거 쌍이 없습니다."
+                assert (source_values is None) == (visual_values is None), f"{label} 증거는 처리 쪽과 화면 쪽을 함께 남기세요."
+                if source_values is None:
+                    return
+                if textual:
+                    assert [str(value) for value in visual_values] == [str(value) for value in source_values], f"{label}이 처리 결과와 일치하지 않습니다."
+                    return
+                source_array = np.asarray(source_values, dtype=float)
+                visual_array = np.asarray(visual_values, dtype=float)
+                assert source_array.shape == visual_array.shape, f"{label} 증거의 모양이 다릅니다."
+                assert np.allclose(visual_array, source_array), f"{label}이 처리 결과와 일치하지 않습니다."
+
+            assert_adapter_pair(
+                mapping_source_labels,
+                mapping_visual_labels,
+                "막대 레이블",
+                required=project_track in {"data", "text"},
+                textual=True,
+            )
+            assert_adapter_pair(
+                mapping_source_positions,
+                mapping_visual_positions,
+                "화면 위치",
+                required=project_track in {"sound", "image"},
+            )
+            assert_adapter_pair(
+                mapping_source_colors,
+                mapping_visual_colors,
+                "도형의 색",
+                required=project_track == "image",
+            )
 
             assert output_path.is_file() and output_path.stat().st_size > 20_000, "미리보기 파일을 찾을 수 없거나 비어 있습니다."
             if output_format == "png":
@@ -1210,6 +1254,7 @@ __PROVIDED_SOUND_FUNCTION__
             print("=" * 52)
             print("WEEK 14 PROJECT PROTOTYPE COMPLETE")
             print(f"TRACK · {project_track} / INPUT · {input_mode}")
+            print(f"REUSE · {reuse_status}")
             print(f"OUTPUT · {output_filename}")
             print("교수 확인 · 질문-입력 / 권한 / 관찰-한계 / 다음 행동 / 가독성")
             print("=" * 52)

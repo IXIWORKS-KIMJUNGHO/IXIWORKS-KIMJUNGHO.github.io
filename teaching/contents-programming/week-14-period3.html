@@ -147,7 +147,7 @@
       <h2 id="completion-criteria">귀가 조건: 제출 전에 열다섯 가지 확인</h2>
 
       <ol class="completion-criteria">
-        <li><span>01</span><p><strong>경로 판정</strong>제공 경로는 <code>provided</code>를 직접 기록하고, 자기 자료·코드 재사용 경로는 2교시 승인 또는 범위 축소 판정을 기록했습니다.</p></li>
+        <li><span>01</span><p><strong>두 판정</strong>입력은 <code>approval_status</code>, 코드 재사용은 <code>reuse_status</code>에 따로 기록했습니다.</p></li>
         <li><span>02</span><p><strong>제출 정보</strong>실제 학번과 이름을 입력하고 안전한 파일명을 사용합니다.</p></li>
         <li><span>03</span><p><strong>프로젝트 카드</strong>질문, 독자, 출처, 이용 근거, 기준일, 개인정보 점검, 제외 기능, 처리·시각화 규칙을 작성했습니다.</p></li>
         <li><span>04</span><p><strong>관찰 단위·값 단위</strong>입력 한 건의 의미와 화면 값의 단위를 따로 기록했습니다.</p></li>
@@ -184,7 +184,7 @@
 
       <div class="callout callout-info">
         <p class="callout-title">두 번의 긴 대기열을 만들지 않습니다</p>
-        <p>2교시 15분 안에 자기 자료·코드 재사용 승인을 받지 못했다면 이번 주에는 <code>input_mode = "provided"</code>와 <code>approval_status = "provided"</code>로 전환합니다. 3교시에는 전원이 결과를 완성하는 동안 12분 이후부터 자동 증거가 준비된 순서대로 30–45초 최종 확인을 병행합니다. 30명도 최대 22.5분에 확인할 수 있으므로, 44분까지 기다렸다가 한꺼번에 줄을 서지 않습니다.</p>
+        <p>2교시 15분 안에 자기 자료 승인을 받지 못했다면 <code>input_mode = "provided"</code>와 <code>approval_status = "provided"</code>로, 이전 코드 재사용 승인을 받지 못했다면 <code>reuse_status = "guided"</code>로 각각 전환합니다. 제공 입력과 승인 코드를 함께 쓰는 조합도 가능합니다. 3교시에는 전원이 결과를 완성하는 동안 12분 이후부터 자동 증거가 준비된 순서대로 30–45초 최종 확인을 병행합니다. 30명도 최대 22.5분에 확인할 수 있으므로, 44분까지 기다렸다가 한꺼번에 줄을 서지 않습니다.</p>
       </div>
 
       <p>시간은 순서를 놓치지 않기 위한 기준입니다. 앞 단계가 빨리 끝나면 즉시 다음 단계로 이동합니다. 오류가 생기면 아래 문제 해결 항목에서 현재 STEP을 찾고, 그래도 해결되지 않으면 오류 문장 전체와 해당 STEP 번호를 교수에게 보여 줍니다.</p>
@@ -195,7 +195,7 @@
         <li>실습 노트북을 내려받아 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab</a>에서 엽니다.</li>
         <li><strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
         <li>노트북 이름을 <code>week14_학번_이름_prototype.ipynb</code>로 바꿉니다.</li>
-        <li>2교시 승인이 있으면 <code>approved</code> 또는 <code>scoped</code>를 옮기고, 승인이 없거나 제공 자료를 쓰면 <code>approval_status = "provided"</code>를 기록합니다.</li>
+        <li>입력 판정은 <code>approval_status</code>와 <code>approval_note</code>에, 코드 판정은 <code>reuse_status</code>와 <code>reuse_note</code>에 따로 옮깁니다.</li>
         <li>처음에는 STEP 0부터 STEP 7까지 한 번 실행해 제공 경로의 구조를 봅니다. <code>EDIT:</code> 문장 때문에 최종 검사가 실패하는 것은 정상입니다.</li>
       </ol>
 
@@ -221,7 +221,7 @@
 
       <h2 id="step-one">STEP 1 · 프로젝트 카드와 경로 선택</h2>
 
-      <p>STEP 1은 오늘 수정하는 첫 번째 코드 셀입니다. 학번·이름, 면담 판정, 경로·입력·출력 형식, 질문과 자료 메타데이터를 편집합니다. 따옴표, 변수 이름, 등호는 지우지 않고 따옴표 안의 값만 바꿉니다. <code>teacher_gate</code>는 교수가 최종 의미 확인을 마치기 전까지 <code>"pending"</code>으로 둡니다.</p>
+      <p>STEP 1은 오늘 수정하는 첫 번째 코드 셀입니다. 학번·이름, 입력 판정, 코드 재사용 판정, 경로·입력·출력 형식, 질문과 자료 메타데이터를 편집합니다. 따옴표, 변수 이름, 등호는 지우지 않고 따옴표 안의 값만 바꿉니다. 입력 판정과 코드 판정을 하나로 합치지 않으며, <code>teacher_gate</code>는 교수가 최종 의미 확인을 마치기 전까지 <code>"pending"</code>으로 둡니다.</p>
 
       <pre><code>student_id = "20261234"
 student_name = "김프로토"
@@ -233,6 +233,8 @@ output_format = "png"
 
 approval_status = "provided"
 approval_note = "수업 제공 데이터의 범주별 합계와 막대 경로로 범위를 확정했다"
+reuse_status = "guided"
+reuse_note = "공통 STEP 3·4 코드를 수정하지 않고 그대로 사용한다"
 teacher_gate = "pending"
 
 project_question = "세 공간의 기록 합계는 어떻게 다른가?"
@@ -283,6 +285,11 @@ visual_rule = "공간 범주를 세로 위치에, 기록 합계를 막대 길이
       <details class="callout callout-question">
         <summary class="callout-title"><code>input_mode</code> 오류가 날 때</summary>
         <div class="details-motion-content"><p>외부 파일 없이 진행하면 <code>"provided"</code>, 승인된 자신의 파일을 업로드했다면 <code>"own"</code>을 입력합니다. 자신의 자료가 준비되지 않았는데 <code>own</code>을 선택하지 않습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title"><code>approval_status</code>와 <code>reuse_status</code>는 무엇이 다른가?</summary>
+        <div class="details-motion-content"><p><code>approval_status</code>는 입력 파일의 판정입니다. 제공 입력은 <code>provided</code>, 자기 입력은 승인 뒤 <code>approved</code> 또는 <code>scoped</code>를 씁니다. <code>reuse_status</code>는 STEP 3·4 코드의 판정입니다. 공통 코드는 <code>guided</code>, 승인 재사용 코드는 <code>approved</code> 또는 <code>scoped</code>입니다. 따라서 제공 입력과 승인 재사용 코드를 함께 선택할 수 있습니다.</p></div>
       </details>
 
       <details class="callout callout-question">
@@ -355,7 +362,7 @@ visual_rule = "공간 범주를 세로 위치에, 기록 합계를 막대 길이
 
       <h2 id="step-three">STEP 3 · 처리 규칙 하나와 전후 수량 확인하기</h2>
 
-      <p>STEP 3은 경로별로 하나의 안전한 시작 규칙을 실행합니다. 공통 경로에서는 수정하지 않습니다. 1차 면담에서 이전 주차의 개인 처리 규칙을 승인받은 학생만 <code>APPROVED REUSE ZONE</code>의 자기 경로를 교체하고, 마지막에 <code>processed_values</code>라는 1차원 수치 증거를 남깁니다. 콘솔에는 입력 수량과 처리 결과 수량이 함께 출력되어야 합니다.</p>
+      <p>STEP 3은 경로별로 하나의 안전한 시작 규칙을 실행합니다. <code>reuse_status = "guided"</code>이면 수정하지 않습니다. 2교시 면담에서 이전 주차의 개인 처리 규칙을 승인받아 <code>approved</code> 또는 <code>scoped</code>를 기록한 학생만 <code>APPROVED REUSE ZONE</code>의 자기 경로를 교체하고, 마지막에 <code>processed_values</code>라는 1차원 수치 증거를 남깁니다. 입력은 제공 자료여도 됩니다. 콘솔에는 입력 수량과 처리 결과 수량이 함께 출력되어야 합니다.</p>
 
       <div class="table-wrap">
         <table>
@@ -421,7 +428,22 @@ visual_artist = axis.scatter(
     c=processed_colors,
 )</code></pre>
 
-      <p>코드의 변수 이름을 읽어 봅니다. 막대의 레이블과 길이는 처리 셀에서 만든 값이고, 선의 x와 y는 처리 시간과 에너지 값이며, 원의 위치와 크기는 이미지 매개변수입니다. 최종 검사는 Matplotlib 안의 실제 값을 다시 꺼내 <code>mapping_source_values</code>와 <code>mapping_visual_values</code>가 일치하는지 비교합니다.</p>
+      <p>코드의 변수 이름을 읽어 봅니다. 막대의 레이블과 길이는 처리 셀에서 만든 값이고, 선의 x와 y는 처리 시간과 에너지 값이며, 원의 위치·크기·색은 이미지 매개변수입니다. 최종 검사는 Matplotlib 안의 실제 값을 다시 꺼내 아래 공개 어댑터 쌍만 비교합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>승인 재사용 코드가 남겨야 할 공통 어댑터 변수</caption>
+          <thead><tr><th scope="col">경로</th><th scope="col">필수 증거 쌍</th><th scope="col">사용하지 않는 쌍</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">모든 경로</th><td><code>mapping_source_values</code> / <code>mapping_visual_values</code></td><td>없음</td></tr>
+            <tr><th scope="row">데이터·텍스트</th><td><code>mapping_source_labels</code> / <code>mapping_visual_labels</code></td><td>위치·색 쌍은 <code>None</code></td></tr>
+            <tr><th scope="row">소리</th><td><code>mapping_source_positions</code> / <code>mapping_visual_positions</code></td><td>레이블·색 쌍은 <code>None</code></td></tr>
+            <tr><th scope="row">이미지</th><td>위치 쌍 + <code>mapping_source_colors</code> / <code>mapping_visual_colors</code></td><td>레이블 쌍은 <code>None</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>visual_element_count</code>는 <code>mapping_visual_values</code>의 길이에서 자동 계산됩니다. FINAL CHECK는 <code>processed_labels</code>, <code>processed_times</code>, <code>processed_x</code> 같은 경로 내부 변수나 Matplotlib artist를 직접 읽지 않습니다.</p>
 
       <div class="checkpoint">
         <span class="checkpoint-number">CHECK 04</span>
@@ -559,7 +581,7 @@ teacher_feedback = "관찰 근거는 유지하고 기간 한계를 출처 가까
 
       <details class="callout callout-question">
         <summary class="callout-title">화면에 매핑된 값이 처리 결과와 일치하지 않는다고 나올 때</summary>
-        <div class="details-motion-content"><p>그래프를 그릴 때 <code>processed_values</code> 대신 다른 변수를 사용했는지, 승인 재사용 경로에서 <code>mapping_source_values</code>와 <code>mapping_visual_values</code>를 남겼는지 확인합니다. 시각적 효과보다 처리 결과와 실제 화면 요소의 일치를 먼저 유지합니다.</p></div>
+        <div class="details-motion-content"><p>그래프를 그릴 때 <code>processed_values</code> 대신 다른 변수를 사용했는지 확인합니다. 승인 재사용 경로라면 값 쌍과 함께 자신의 경로에 필요한 레이블·위치·색 증거 쌍을 모두 남겼는지, 사용하지 않는 쌍을 <code>None</code>으로 두었는지 확인합니다. 시각적 효과보다 처리 결과와 실제 화면 요소의 일치를 먼저 유지합니다.</p></div>
       </details>
 
       <details class="callout callout-question">

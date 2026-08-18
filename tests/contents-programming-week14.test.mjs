@@ -157,7 +157,7 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
     "출처, 이용 권한, 개인정보",
     "승인",
     "범위 축소 후 승인",
-    "이번 주에는 제공 경로로 전환",
+    "제공 입력을 쓰면서 승인된 이전 코드를 재사용하는 조합도 가능합니다",
     "60–90초",
     "수강 인원에 따른 신청자 면담과 최종 증거 게이트 시간 계산",
     "최대 10–15명",
@@ -165,6 +165,11 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
     "Folium 독립 HTML을 공통 노트북 안에 직접 합치는 작업은 이번 주 승인 재사용 범위가 아니며",
     "APPROVED REUSE ZONE",
     "mapping_source_values",
+    "mapping_source_labels",
+    "mapping_source_positions",
+    "mapping_source_colors",
+    "reuse_status",
+    "입력 판정과 코드 재사용 판정을 따로 기록하기",
     "새 런타임",
     "기본 50분과 선택 확장",
     "수업 후 개별 복습",
@@ -215,6 +220,8 @@ test("Contents Programming week 14 period 3 is a finite four-path individual mis
     "own",
     "approval_status",
     "approval_note",
+    "reuse_status",
+    "reuse_note",
     "teacher_gate",
     "category",
     "value",
@@ -256,6 +263,7 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
   const notebook = JSON.parse(await readFile(notebookPath, "utf8"));
   const codeCells = notebook.cells.filter((cell) => cell.cell_type === "code");
   const notebookCode = codeCells.flatMap((cell) => cell.source).join("");
+  const finalCheckCode = codeCells.at(-1).source.join("");
 
   assert.equal(notebook.nbformat, 4);
   assert.equal(notebook.nbformat_minor, 5);
@@ -280,6 +288,8 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
     /output_format = "png"/,
     /approval_status = "EDIT:/,
     /approval_note = "EDIT:/,
+    /reuse_status = "guided"/,
+    /reuse_note = "EDIT:/,
     /teacher_gate = "pending"/,
     /project_question = "EDIT:/,
     /reference_date = "EDIT:/,
@@ -320,9 +330,11 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
     /np\.isfinite\(numeric_values\.to_numpy\(dtype=float\)\)\.all\(\)/,
     /numeric_values\.ge\(0\)\.all\(\)/,
     /np\.allclose\(mapping_visual_values, mapping_source_values\)/,
-    /mapping_position_values.*processed_times/s,
-    /expected_colors = np\.asarray\(\[to_rgba\(color\) for color in processed_colors\]/,
-    /np\.allclose\(rendered_colors, expected_colors\)/,
+    /mapping_source_labels = \[str\(label\) for label in processed_labels\]/,
+    /mapping_source_positions = np\.asarray\(processed_times, dtype=float\)/,
+    /mapping_source_colors = np\.asarray\(\[to_rgba\(color\) for color in processed_colors\]/,
+    /assert_adapter_pair\(/,
+    /visual_element_count = len\(mapping_visual_values\)/,
     /max-width:100%;height:auto/,
     /<figcaption>/,
     /observation_evidence = "EDIT:/,
@@ -335,6 +347,11 @@ test("Week 14 notebook publishes a complete self-checking four-path workflow", a
   ]) {
     assert.match(notebookCode, pattern);
   }
+  assert.doesNotMatch(
+    finalCheckCode,
+    /\b(?:processed_labels|processed_times|processed_x|processed_y|processed_colors|visual_artist|axis)\b/,
+    "FINAL CHECK should read only the published mapping adapter variables",
+  );
 });
 
 test("Week 14 generated visual assets have the published dimensions", async () => {
@@ -427,6 +444,7 @@ test("Week 14 notebook passes four valid paths and rejects corrupted evidence", 
   assert.match(result.stdout, /"track": "image"/);
   assert.match(result.stdout, /"input_mode": "own"/);
   assert.match(result.stdout, /"output_format": "html"/);
+  assert.match(result.stdout, /"reuse_status": "approved"/);
   assert.match(result.stdout, /수업 제공 원본이 변경되었습니다/);
   assert.match(result.stdout, /category 열에 결측값이 있습니다/);
   assert.match(result.stdout, /value 열에는 0 이상의 값만 사용할 수 있습니다/);

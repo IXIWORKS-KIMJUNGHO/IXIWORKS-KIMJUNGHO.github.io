@@ -102,6 +102,7 @@ def edited_cells(
     input_mode: str,
     source_filename: str,
     output_format: str,
+    reuse_status: str,
 ) -> list[dict[str, object]]:
     cells = copy.deepcopy(notebook_cells)
     sentences = project_sentences(track)
@@ -114,6 +115,12 @@ def edited_cells(
         "output_format": output_format,
         "approval_status": "provided" if input_mode == "provided" else "approved",
         "approval_note": "질문에 필요한 입력 하나와 처리·표현 규칙 하나로 핵심 범위를 확정했다",
+        "reuse_status": reuse_status,
+        "reuse_note": (
+            "공통 STEP 3·4 코드를 그대로 유지한다"
+            if reuse_status == "guided"
+            else "이전 주차의 처리와 매핑 규칙을 승인 범위 안에서 재사용한다"
+        ),
         "teacher_gate": "confirmed",
         "project_question": sentences["question"],
         "intended_audience": "처음 결과를 읽는 콘텐츠 프로그래밍 수강생",
@@ -209,6 +216,7 @@ def run_scenario(
     track: str,
     input_mode: str = "provided",
     output_format: str = "png",
+    reuse_status: str = "guided",
     use_valid_edits: bool,
     mutation: tuple[str, str, str] | None = None,
     invalid_own_payload: bytes | None = None,
@@ -230,6 +238,7 @@ def run_scenario(
                 input_mode=input_mode,
                 source_filename=source_filename,
                 output_format=output_format,
+                reuse_status=reuse_status,
             )
             if use_valid_edits
             else copy.deepcopy(notebook_cells)
@@ -285,6 +294,7 @@ def run_scenario(
                 "track": track,
                 "input_mode": input_mode,
                 "output_format": output_format,
+                "reuse_status": reuse_status,
                 "output_size": output_path.stat().st_size,
                 "processed_count": len(namespace["processed_values"]),
             }
@@ -326,6 +336,15 @@ def main() -> None:
             should_pass=True,
         )
         for track in ("data", "text", "sound", "image")
+    )
+    results.append(
+        run_scenario(
+            code_cells,
+            track="data",
+            reuse_status="approved",
+            use_valid_edits=True,
+            should_pass=True,
+        )
     )
     results.append(
         run_scenario(
