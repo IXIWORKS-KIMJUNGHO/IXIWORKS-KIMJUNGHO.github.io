@@ -62,6 +62,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-05-period3-hero.webp",
     alt: "무작위 위치와 크기를 조건에 따라 분류한 완성 포스터와 색상표를 보여 주는 5주차 개인 실습 이미지",
   }),
+  "teaching/contents-programming/week-06-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-06-period1-hero.webp",
+    alt: "반복되는 종이 도형 절차를 하나의 파란 함수 틀로 묶는 6주차 1교시 이미지",
+  }),
+  "teaching/contents-programming/week-06-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-06-period2-hero.webp",
+    alt: "색상과 크기 입력 조각을 파란 생성 틀에 바꾸어 넣고 세 결과를 만드는 6주차 2교시 이미지",
+  }),
+  "teaching/contents-programming/week-06-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-06-period3-hero.webp",
+    alt: "하나의 파란 생성 틀에서 나온 서로 다른 세 기하학 포스터를 나란히 보여 주는 6주차 3교시 이미지",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",

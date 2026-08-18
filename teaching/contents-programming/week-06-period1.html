@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="ko" class="week-six-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6주차 1교시: 함수의 정의와 호출 | Contents Programming Practice</title>
+  <meta name="description" content="5주차의 난수·반복·조건문 코드를 다시 사용할 수 있는 작업 단위로 묶으며 Python 함수의 정의, 호출, 실행 순서, 이름, 콜론과 들여쓰기를 기초부터 배우는 6주차 1교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-06-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="6주차 1교시: 함수의 정의와 호출 | Contents Programming Practice">
+  <meta property="og:description" content="한 번 실행되는 생성 코드를 이름이 있는 함수로 묶고, 정의와 호출의 차이를 실행 순서와 함께 이해합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-06-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-06-period1-hero.webp">
+  <meta property="og:image:alt" content="반복되는 종이 도형 절차를 하나의 파란 함수 틀로 묶는 6주차 1교시 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="6주차 1교시: 함수의 정의와 호출 | Contents Programming Practice">
+  <meta name="twitter:description" content="def 문법과 함수 호출을 생성 이미지 코드의 실행 흐름에 연결하는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-06-period1-hero.webp">
+  <link rel="preload" as="image" href="assets/week-06-period1-hero-720.webp" imagesrcset="assets/week-06-period1-hero-720.webp 720w, assets/week-06-period1-hero.webp 1080w" imagesizes="(max-width: 980px) calc(100vw - 34px), 524px" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-06.css?v=week6-1">
+</head>
+<body class="teaching-document course-contents-programming week-six-page">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-05-period3.html" rel="prev" aria-label="이전 자료: 5주차 3교시: 통제된 우연 포스터 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-06-period2.html" rel="next" aria-label="다음 자료: 6주차 2교시: 매개변수와 반환값으로 생성기 조절하기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <div class="hero week-six-hero">
+    <div class="hero-inner">
+      <div class="week-six-hero-copy">
+        <p class="eyebrow">Function / Definition / Call</p>
+        <h1>코드 묶음에 이름 붙이기</h1>
+        <p class="lead">반복되는 생성 코드를 함수로 묶고, 정의와 호출이 실행을 나누는 방식을 익힙니다.</p>
+      </div>
+      <figure class="week-six-hero-visual">
+        <img src="assets/week-06-period1-hero-720.webp" srcset="assets/week-06-period1-hero-720.webp 720w, assets/week-06-period1-hero.webp 1080w" sizes="(max-width: 980px) calc(100vw - 34px), 524px" width="720" height="540" alt="반복되는 종이 도형 절차를 하나의 파란 함수 틀로 묶는 6주차 1교시 이미지" loading="eager" decoding="async" fetchpriority="high">
+      </figure>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">코드 줄의 묶음에 이름을 붙이고 필요할 때 실행하기</p>
+
+      <dl class="week-six-lesson-facts">
+        <div><dt>형식</dt><dd>기본 50분 / 확장 60분 · + 10 MIN EXTENSION</dd></div>
+        <div><dt>핵심</dt><dd><code>def</code>, 함수 이름, 괄호, 콜론, 들여쓰기</dd></div>
+        <div><dt>연결</dt><dd>여러 줄의 절차 → 이름이 있는 작업 단위</dd></div>
+      </dl>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>5주차 생성 코드에서 하나의 작업으로 묶을 수 있는 시작과 끝을 찾을 수 있습니다.</li>
+          <li>이미 사용한 <code>print()</code>, <code>len()</code>, <code>randint()</code>를 함수의 이름·입력·동작 관점에서 읽을 수 있습니다.</li>
+          <li><code>def</code>, 함수 이름, 괄호, 콜론, 들여쓰기의 역할을 구분할 수 있습니다.</li>
+          <li>함수 정의는 실행 준비이고 함수 호출은 본문 실행이라는 차이를 설명할 수 있습니다.</li>
+          <li>프로그램을 위에서 아래로 추적하며 함수 본문이 실행되는 시점을 표시할 수 있습니다.</li>
+          <li>행동을 드러내는 함수 이름을 만들고 정의한 함수를 두 번 이상 호출할 수 있습니다.</li>
+          <li>콜론, 들여쓰기, 호출 괄호, 실행 순서에서 발생하는 대표 오류를 찾아 수정할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-six" aria-label="1교시 시간 구성">
+        <li><span class="session-label">0-6 min</span><strong>5주차 코드 회상</strong><p>생성 포스터 코드에서 한 번의 작업으로 묶을 범위를 찾습니다.</p></li>
+        <li><span class="session-label">6-15 min</span><strong>이미 사용한 함수</strong><p>함수 이름, 괄호 안 입력, 실행 결과를 익숙한 코드에서 다시 읽습니다.</p></li>
+        <li><span class="session-label">15-27 min</span><strong>함수 정의 문법</strong><p><code>def</code>, 이름, 괄호, 콜론, 들여쓴 본문을 한 줄씩 해석합니다.</p></li>
+        <li><span class="session-label">27-37 min</span><strong>정의와 호출</strong><p>위에서 아래로 실행 순서를 추적하고 본문이 실행되는 시점을 확인합니다.</p></li>
+        <li><span class="session-label">37-45 min</span><strong>Pillow 함수</strong><p>고정된 도형 묶음을 함수로 만들고 여러 번 호출해 한계를 찾습니다.</p></li>
+        <li><span class="session-label">45-50 min</span><strong>오류 진단</strong><p>대표 오류를 수정하고 2교시의 매개변수가 필요한 이유를 정리합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에서는 함수가 필요한 이유, 익숙한 함수 읽기, 정의 문법, 호출 시점, 고정 도형 함수, 오류 진단까지 진행합니다. 모든 확인 문제는 먼저 개인 답을 적은 뒤 접이식 기준 답안을 확인합니다. 진도가 빠를 때만 <strong>50-60분 확장</strong>에서 5주차 코드의 작업 묶음에 적절한 함수 이름을 붙이고 실행 순서를 재구성합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">함수를 처음 보는 학생을 위한 읽기 순서</p>
+        <ol>
+          <li><strong><code>def</code>가 있는 줄을 찾습니다.</strong> 이 줄은 새로운 함수를 정의하는 시작입니다.</li>
+          <li><strong>함수 이름을 행동으로 읽습니다.</strong> <code>draw_fixed_motif</code>는 “고정 모티프를 그린다”입니다.</li>
+          <li><strong>콜론 아래의 들여쓴 범위를 표시합니다.</strong> 그 범위가 함수 본문입니다.</li>
+          <li><strong>들여쓰기가 끝나는 줄을 찾습니다.</strong> 그 줄부터는 함수 밖의 코드입니다.</li>
+          <li><strong>함수 이름 뒤에 괄호가 붙은 호출을 찾습니다.</strong> 호출을 만날 때마다 본문으로 이동해 실행합니다.</li>
+        </ol>
+      </div>
+
+      <h2 id="week-five-bridge">0-6분 · 5주차 코드는 한 장을 만들지만 아직 다시 쓰기 어렵다</h2>
+
+      <p>5주차에는 반복문 안에서 크기, 위치, 색상을 선택하고 조건에 따라 세 가지 도형을 그렸습니다. 시드와 설정값을 바꾸면 새로운 결과를 만들 수 있었지만, 이미지를 만드는 전체 과정에는 아직 하나의 이름이 없었습니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+from IPython.display import display
+import random
+
+canvas_width = 600
+canvas_height = 600
+seed_number = 73
+shape_count = 56
+min_size = 20
+max_size = 80
+margin = 40
+medium_threshold = 42
+large_threshold = 64
+background_color = (235, 241, 250)
+primary_color = (48, 112, 166)
+secondary_color = (92, 150, 118)
+accent_color = (230, 83, 72)
+outline_color = (35, 42, 55)
+palette = [primary_color, secondary_color, accent_color]
+
+image = Image.new(
+    "RGB",
+    (canvas_width, canvas_height),
+    background_color,
+)
+draw = ImageDraw.Draw(image)
+random.seed(seed_number)
+
+for shape_number in range(shape_count):
+    size = random.randint(min_size, max_size)
+    x = random.randint(margin, canvas_width - margin - size)
+    y = random.randint(margin, canvas_height - margin - size)
+    base_color = random.choice(palette)
+
+    if size &gt;= large_threshold:
+        draw.rectangle(
+            (x, y, x + size, y + size),
+            fill=accent_color,
+            outline=outline_color,
+            width=3,
+        )
+    elif size &gt;= medium_threshold:
+        draw.ellipse(
+            (x, y, x + size, y + size),
+            fill=base_color,
+        )
+    else:
+        draw.ellipse(
+            (x, y, x + size, y + size),
+            fill=background_color,
+            outline=base_color,
+            width=4,
+        )
+
+display(image)</code></pre>
+
+      <p>이 코드는 잘못된 코드가 아닙니다. 다만 새로운 포스터를 세 장 만들려면 설정값을 바꾸고 같은 셀을 여러 번 실행해야 하며, 다른 노트북에서 사용하려면 관련 코드를 다시 찾아 옮겨야 합니다. 6주차의 함수는 이미 작동하는 코드를 버리는 문법이 아니라, <strong>작동하는 코드의 시작과 끝을 정하고 그 작업에 이름을 붙이는 구조</strong>입니다.</p>
+
+      <div class="pipeline" role="group" aria-label="5주차 코드가 6주차 함수로 바뀌는 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">Week 05</span><strong>여러 줄의 절차</strong><p>준비, 반복, 난수, 조건, 그리기 코드가 순서대로 이어집니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">Week 06</span><strong>작업 범위 결정</strong><p>한 장의 이미지를 만드는 코드가 어디서 시작하고 끝나는지 정합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">Named action</span><strong>이름으로 호출</strong><p><code>create_poster()</code>라는 짧은 이름으로 전체 작업을 실행합니다.</p></div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 회상 · 90초</span>
+        <h3>생성 과정의 시작과 끝 표시하기</h3>
+        <p>5주차 노트북의 작업을 ① 캔버스 만들기, ② 난수 선택, ③ 조건 분기, ④ 도형 그리기, ⑤ 이미지 보여주기, ⑥ 파일 저장으로 나눕니다. “포스터 한 장 만들기”라는 함수에 반드시 포함할 항목과 함수 밖에 둘 수 있는 항목을 각각 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">작업 범위의 기준 예시</summary>
+        <div class="details-motion-content"><p>캔버스 만들기부터 도형 그리기까지는 한 장의 이미지를 만드는 핵심 과정이므로 함수 안에 묶을 수 있습니다. 이미지 보여주기와 파일 저장은 생성된 이미지를 어떻게 사용할지에 관한 선택이므로 함수 밖에 둘 수 있습니다. 2교시에는 완성된 이미지를 <code>return</code>으로 함수 밖에 전달합니다.</p></div>
+      </details>
+
+      <h2 id="familiar-functions">6-15분 · 우리는 이미 여러 함수를 사용했다</h2>
+
+      <p>함수라는 이름이 새로울 뿐, 함수 호출은 2주차부터 계속 사용했습니다. <code>print("안녕하세요")</code>에서 <code>print</code>는 함수의 이름이고, 괄호 안의 문자열은 함수가 사용할 입력이며, 화면에 글자를 표시하는 것이 함수의 동작입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이미 사용한 함수와 메서드를 이름·입력·결과로 읽기</caption>
+          <thead><tr><th scope="col">코드</th><th scope="col">이름</th><th scope="col">괄호 안 입력</th><th scope="col">실행 결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>print("완료")</code></th><td><code>print</code></td><td>표시할 문자열</td><td>출력 영역에 글자를 표시</td></tr>
+            <tr><th scope="row"><code>len(palette)</code></th><td><code>len</code></td><td>길이를 셀 리스트</td><td>항목 수를 정수로 돌려줌</td></tr>
+            <tr><th scope="row"><code>range(5)</code></th><td><code>range</code></td><td>반복에 사용할 끝 기준</td><td>0부터 4까지의 값 흐름을 만듦</td></tr>
+            <tr><th scope="row"><code>random.randint(20, 80)</code></th><td><code>randint</code></td><td>최솟값과 최댓값</td><td>범위 안의 정수 하나를 돌려줌</td></tr>
+            <tr><th scope="row"><code>random.choice(palette)</code></th><td><code>choice</code></td><td>후보가 담긴 리스트</td><td>리스트 항목 하나를 돌려줌</td></tr>
+            <tr><th scope="row"><code>image.save("poster.png")</code></th><td><code>save</code></td><td>저장할 파일명</td><td>이미지 파일을 생성</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>random.randint()</code>와 <code>image.save()</code>처럼 이름 앞에 점이 붙는 구조도 있습니다. 전자는 <code>random</code> 모듈 안의 함수이고 후자는 이미지 객체가 가진 메서드입니다. 이번 시간에는 이 분류를 외우지 않습니다. <strong>이름 뒤의 괄호를 만나면 정해진 작업을 호출한다</strong>는 공통 구조만 정확히 읽습니다.</p>
+
+      <div class="assignment-visual" role="group" aria-label="함수 이름과 함수 호출의 차이">
+        <div class="assignment-side">
+          <span class="visual-label">Name only</span>
+          <div class="assignment-equation"><span class="assignment-token">print</span></div>
+          <p>함수의 이름만 가리킵니다. 아직 괄호 안의 입력을 전달하거나 출력 작업을 실행하지 않습니다.</p>
+        </div>
+        <div class="assignment-side">
+          <span class="visual-label">Function call</span>
+          <div class="assignment-equation"><span class="assignment-token">print("완료")</span></div>
+          <p>이름 뒤에 괄호를 붙여 함수를 호출합니다. 문자열을 전달하고 출력 작업을 실행합니다.</p>
+        </div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 판정 · 2분</span>
+        <h3>이름, 입력, 결과를 세 칸으로 나누기</h3>
+        <p><code>size = random.randint(20, 80)</code>에서 함수 이름, 함수에 전달한 두 입력, 실행 뒤 변수에 저장되는 결과를 각각 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">난수 함수 판정 답안</summary>
+        <div class="details-motion-content"><p>함수 이름은 <code>randint</code>, 두 입력은 20과 80, 실행 결과는 20 이상 80 이하의 정수 하나입니다. 그 정수가 대입 연산자 오른쪽에서 만들어진 뒤 <code>size</code>에 저장됩니다.</p></div>
+      </details>
+
+      <h2 id="function-definition">15-27분 · def는 새로운 작업의 정의를 시작한다</h2>
+
+      <p>Python에서 자신만의 함수를 만들 때에는 <code>def</code>로 정의를 시작합니다. 다음 함수는 생성 규칙 한 문장을 출력하는 작은 작업입니다.</p>
+
+      <pre><code>def announce_rule():
+    message = "크기는 무작위로 선택하고 큰 값은 사각형으로 표현한다."
+    print(message)
+
+announce_rule()</code></pre>
+
+      <div class="code-walkthrough" role="group" aria-label="함수 정의와 호출 코드 읽기">
+        <div class="code-line"><span class="line-number">1</span><span class="code-source">def</span><span class="line-meaning">새로운 함수를 정의한다는 Python 키워드입니다.</span></div>
+        <div class="code-line"><span class="line-number">2</span><span class="code-source">announce_rule</span><span class="line-meaning">작업의 목적을 나타내는 함수 이름입니다.</span></div>
+        <div class="code-line"><span class="line-number">3</span><span class="code-source">()</span><span class="line-meaning">함수가 받을 입력의 자리를 표시합니다. 이번 함수에는 입력이 없습니다.</span></div>
+        <div class="code-line"><span class="line-number">4</span><span class="code-source">:</span><span class="line-meaning">다음 줄부터 함수 본문이 시작됨을 알리는 콜론입니다.</span></div>
+        <div class="code-line"><span class="line-number">5</span><span class="code-source">    message = "크기 규칙"</span><span class="line-meaning">네 칸 들여쓴 첫 번째 본문 문장입니다. 문자열을 변수에 저장합니다.</span></div>
+        <div class="code-line"><span class="line-number">6</span><span class="code-source">    print(message)</span><span class="line-meaning">같은 깊이로 들여쓴 두 번째 본문 문장입니다. 저장한 문장을 표시합니다.</span></div>
+        <div class="code-line"><span class="line-number">7</span><span class="code-source">announce_rule()</span><span class="line-meaning">들여쓰기를 끝내고 함수 이름과 괄호로 작업을 호출합니다.</span></div>
+      </div>
+
+      <p>함수의 본문에는 한 줄만 들어갈 수도 있고 여러 줄이 들어갈 수도 있습니다. 중요한 것은 줄 수가 아니라 <strong>한 이름으로 부를 만한 하나의 책임</strong>을 갖는지입니다. 배경 만들기, 도형 하나 그리기, 포스터 한 장 만들기처럼 결과를 행동으로 설명할 수 있으면 함수 이름도 자연스럽게 정할 수 있습니다.</p>
+
+      <h3 id="function-names">함수 이름은 수행할 행동을 먼저 말한다</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>생성 이미지 코드에 적합한 함수 이름</caption>
+          <thead><tr><th scope="col">함수 이름</th><th scope="col">읽는 문장</th><th scope="col">판정</th><th scope="col">이유</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>draw_circle</code></th><td>원을 그린다</td><td>명확함</td><td>행동과 대상이 드러남</td></tr>
+            <tr><th scope="row"><code>create_poster</code></th><td>포스터를 만든다</td><td>명확함</td><td>작업의 최종 결과가 드러남</td></tr>
+            <tr><th scope="row"><code>save_preview</code></th><td>미리보기를 저장한다</td><td>명확함</td><td>행동과 저장 대상이 드러남</td></tr>
+            <tr><th scope="row"><code>poster</code></th><td>포스터</td><td>모호함</td><td>값인지 작업인지 구분하기 어려움</td></tr>
+            <tr><th scope="row"><code>function1</code></th><td>함수 하나</td><td>모호함</td><td>코드가 무엇을 하는지 설명하지 못함</td></tr>
+            <tr><th scope="row"><code>cp</code></th><td>뜻을 추측해야 함</td><td>모호함</td><td>다시 읽을 때 의미를 복원하기 어려움</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul>
+        <li>영문 소문자로 시작하고 여러 단어는 밑줄로 연결합니다.</li>
+        <li>함수가 하는 일을 나타내는 동사를 앞에 둡니다: <code>draw</code>, <code>create</code>, <code>save</code>, <code>show</code>.</li>
+        <li>Python 키워드인 <code>if</code>, <code>for</code>, <code>def</code>, <code>return</code>은 이름으로 사용하지 않습니다.</li>
+        <li><code>print</code>, <code>list</code>, <code>range</code>처럼 이미 사용하는 이름을 새 함수 이름으로 덮어쓰지 않습니다.</li>
+      </ul>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">“팔레트 미리보기를 보여주는 작업”에 알맞은 이름은?</summary>
+        <div class="details-motion-content"><p><code>show_palette_preview</code>처럼 행동 <code>show</code>와 대상 <code>palette_preview</code>를 함께 적을 수 있습니다. <code>palette</code>만 쓰면 팔레트 값인지 팔레트를 보여주는 작업인지 구분하기 어렵습니다.</p></div>
+      </details>
+
+      <h3 id="indentation-boundary">들여쓰기는 함수에 포함되는 코드의 경계다</h3>
+
+      <pre><code>def show_start_message():
+    print("이미지 생성을 시작합니다.")
+    print("설정값을 확인했습니다.")
+
+print("함수 정의가 끝났습니다.")
+show_start_message()</code></pre>
+
+      <p>앞의 두 <code>print()</code>는 네 칸 들여썼으므로 함수 본문입니다. 세 번째 <code>print()</code>는 왼쪽 끝으로 돌아왔으므로 함수 밖의 코드입니다. 빈 줄은 읽기 쉽게 나눈 것이며 함수의 경계를 결정하지 않습니다. 경계는 들여쓰기 깊이로 결정됩니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">호출문도 네 칸 들여쓰면 어떻게 되는가?</summary>
+        <div class="details-motion-content"><p>호출문이 함수 본문 안에 포함됩니다. 함수가 실행되는 동안 자기 자신을 다시 호출하는 재귀 구조가 되어 의도하지 않은 반복과 오류가 생길 수 있습니다. 이번 수업에서는 함수 정의가 끝난 뒤 왼쪽 끝으로 돌아와 호출합니다. 재귀는 이번 학습 범위가 아닙니다.</p></div>
+      </details>
+
+      <h2 id="definition-and-call">27-37분 · 정의는 준비이고 호출은 실행이다</h2>
+
+      <p><code>def</code> 문장을 실행하면 Python은 함수 이름과 본문을 기억합니다. 그러나 본문 안의 출력이나 도형 그리기를 바로 실행하지는 않습니다. 프로그램이 함수 호출을 만날 때에만 본문으로 이동합니다.</p>
+
+      <pre><code>print("1. 프로그램 시작")
+
+def show_generation_step():
+    print("3. 함수 본문 실행")
+
+print("2. 함수 정의 완료")
+show_generation_step()
+print("4. 프로그램 종료")</code></pre>
+
+      <div class="check-output" role="group" aria-label="함수 실행 순서 출력 예시">
+        <span class="visual-label">OUTPUT ORDER</span>
+        <p>1. 프로그램 시작<br>2. 함수 정의 완료<br>3. 함수 본문 실행<br>4. 프로그램 종료</p>
+      </div>
+
+      <p>코드에서 함수 본문이 “2. 함수 정의 완료”보다 위에 적혀 있어도 출력 순서는 3번입니다. Python은 정의 줄에서 본문을 기억한 뒤 건너뛰고, 아래의 호출을 만났을 때 본문으로 돌아갑니다. 본문이 끝나면 호출 다음 줄로 복귀합니다.</p>
+
+      <div class="pipeline" role="group" aria-label="함수 호출의 실행 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">1 / Define</span><strong>함수 기억</strong><p><code>def</code> 줄과 들여쓴 본문을 함수 이름에 연결합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">2 / Call</span><strong>본문으로 이동</strong><p><code>show_generation_step()</code>을 만나면 들여쓴 문장을 실행합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">3 / Resume</span><strong>다음 줄로 복귀</strong><p>본문이 끝나면 호출문 다음의 프로그램 종료 출력을 실행합니다.</p></div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 추적 · 2분</span>
+        <h3>함수 본문은 몇 번 실행되는가?</h3>
+        <p>아래 코드의 출력 순서를 실행 전에 적습니다. <code>show_color()</code> 본문이 총 몇 번 실행되는지도 표시합니다.</p>
+        <pre><code>def show_color():
+    print("coral")
+
+print("start")
+show_color()
+show_color()
+print("end")</code></pre>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">실행 순서 문제 답안</summary>
+        <div class="details-motion-content"><p>출력은 <code>start</code>, <code>coral</code>, <code>coral</code>, <code>end</code> 순서입니다. 함수 정의만으로는 본문이 실행되지 않으며 호출문이 두 개이므로 본문은 두 번 실행됩니다.</p></div>
+      </details>
+
+      <h3 id="colab-order">Colab에서는 정의 셀을 먼저 실행해야 한다</h3>
+
+      <p>Colab은 화면의 셀 위치가 아니라 실제 실행한 순서를 기억합니다. 함수 호출 셀을 먼저 실행하면 Python은 아직 그 함수 이름을 알지 못해 <code>NameError</code>를 표시합니다. 위쪽 정의 셀을 먼저 실행한 뒤 아래쪽 호출 셀을 실행해야 합니다.</p>
+
+      <div class="trace-board" role="group" aria-label="Colab 셀 실행 순서">
+        <div class="trace-state"><span class="visual-label">Cell 1</span><code>def create_poster():</code><div class="trace-binding">먼저 실행 · 이름과 본문 기억</div></div>
+        <div class="trace-state"><span class="visual-label">Cell 2</span><code>create_poster()</code><div class="trace-binding">나중 실행 · 본문 호출</div></div>
+        <div class="trace-state"><span class="visual-label">Restart</span><code>런타임 → 모두 실행</code><div class="trace-binding">위에서 아래로 순서 복원</div></div>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">함수를 수정했는데 이전 결과가 계속 나올 때</summary>
+        <div class="details-motion-content"><p>정의 셀의 글자만 수정하고 실행하지 않으면 런타임에는 이전 함수가 남아 있습니다. 수정한 정의 셀을 다시 실행한 뒤 호출 셀을 실행합니다. 최종 확인에서는 세션을 다시 시작하고 모두 실행하여 화면의 코드와 런타임 상태를 일치시킵니다.</p></div>
+      </details>
+
+      <h2 id="fixed-pillow-function">37-45분 · 고정된 도형 묶음을 함수로 만들기</h2>
+
+      <p>이제 Pillow 도형 세 개를 하나의 고정 모티프로 묶습니다. 다음 코드는 그대로 실행할 수 있는 완전한 예제입니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+from IPython.display import display
+
+image = Image.new("RGB", (600, 400), (245, 240, 228))
+draw = ImageDraw.Draw(image)
+
+def draw_fixed_motif():
+    draw.rectangle(
+        (80, 90, 260, 270),
+        fill=(230, 83, 72),
+        outline=(35, 42, 55),
+        width=4,
+    )
+    draw.ellipse(
+        (210, 120, 390, 300),
+        fill=(48, 112, 166),
+    )
+    draw.line(
+        (70, 330, 530, 330),
+        fill=(35, 42, 55),
+        width=8,
+    )
+
+draw_fixed_motif()
+display(image)</code></pre>
+
+      <p>함수의 이름만 보아도 “고정된 모티프를 그리는 작업”임을 알 수 있습니다. 호출문에서는 사각형, 타원, 선의 좌표와 색을 다시 적지 않습니다. 함수 내부의 구체적인 절차를 하나의 이름 뒤에 숨겼기 때문입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>함수로 묶기 전과 묶은 뒤의 읽기 차이</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">함수로 묶기 전</th><th scope="col">함수로 묶은 뒤</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">실행 의도</th><td>여러 도형 명령을 끝까지 읽어야 파악</td><td><code>draw_fixed_motif()</code> 이름으로 먼저 파악</td></tr>
+            <tr><th scope="row">재사용</th><td>도형 명령 전체를 다시 작성하거나 복사</td><td>호출문 한 줄을 추가</td></tr>
+            <tr><th scope="row">수정 위치</th><td>복사한 코드마다 값을 찾아 수정</td><td>함수 본문 한 곳에서 공통 절차 수정</td></tr>
+            <tr><th scope="row">현재 한계</th><td>모든 숫자가 고정됨</td><td>호출해도 같은 위치와 색을 사용함</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>draw_fixed_motif()</code>를 두 번 호출해도 두 번째 모티프는 첫 번째와 정확히 같은 위치에 그려집니다. 두 모티프가 포개지므로 화면에서는 하나처럼 보입니다. 함수는 재사용을 가능하게 했지만, 아직 호출할 때 위치·크기·색을 바꾸는 방법은 없습니다. 이 한계가 2교시에서 매개변수가 필요한 이유입니다.</p>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">호출 결과 확인</span>
+        <p><code>draw_fixed_motif()</code> 호출 한 줄을 찾아 표시하고, 호출을 두 번 해도 결과가 하나처럼 보이는 이유를 “함수 안의 좌표가 고정되어 있기 때문”이라고 설명할 수 있으면 완료입니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">함수를 쓰면 항상 코드가 짧아지는가?</summary>
+        <div class="details-motion-content"><p>항상 그렇지는 않습니다. 짧은 코드를 함수로 묶으면 전체 줄 수가 잠시 늘어날 수도 있습니다. 함수의 핵심 가치는 줄 수를 줄이는 데만 있지 않습니다. 작업에 이름을 붙이고, 수정 위치를 모으고, 같은 절차를 일관되게 다시 실행할 수 있게 하는 데 있습니다.</p></div>
+      </details>
+
+      <h2 id="error-clinic">45-50분 · 대표 오류를 마지막 줄부터 읽기</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>함수 정의와 호출에서 자주 발생하는 오류</caption>
+          <thead><tr><th scope="col">증상</th><th scope="col">확인할 부분</th><th scope="col">수정 기준</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>SyntaxError</code></th><td><code>def draw_motif()</code> 뒤의 콜론</td><td><code>def draw_motif():</code>로 작성</td></tr>
+            <tr><th scope="row"><code>IndentationError</code></th><td>함수 본문의 앞쪽 공백</td><td>본문의 모든 줄을 같은 깊이로 네 칸 들여쓰기</td></tr>
+            <tr><th scope="row"><code>NameError</code></th><td>정의 셀보다 호출 셀을 먼저 실행했는지</td><td>정의 셀을 실행한 뒤 호출 셀 실행</td></tr>
+            <tr><th scope="row">아무 출력도 없음</th><td>함수 이름만 적고 괄호를 빠뜨렸는지</td><td><code>draw_motif()</code>처럼 괄호를 붙여 호출</td></tr>
+            <tr><th scope="row">수정 전 결과가 나옴</th><td>수정한 정의 셀을 다시 실행했는지</td><td>정의 셀 재실행 후 호출</td></tr>
+            <tr><th scope="row"><code>RecursionError</code></th><td>호출문이 함수 본문 안에 들여쓰기 되었는지</td><td>호출문을 왼쪽 끝으로 이동</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">오류가 보이면 함수 전체를 지우지 않는다</p>
+        <p>오류 메시지의 마지막 줄에서 오류 종류를 먼저 확인합니다. <code>SyntaxError</code>이면 콜론과 괄호, <code>IndentationError</code>이면 본문의 공백, <code>NameError</code>이면 정의 셀의 실행 여부를 확인합니다. 한 번에 한 원인만 고친 뒤 정의 셀과 호출 셀을 다시 실행합니다.</p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 종료 확인 · 3분</span>
+        <h3>함수의 정의와 호출을 세 문장으로 설명하기</h3>
+        <ol>
+          <li><code>def</code>가 하는 일을 한 문장으로 적습니다.</li>
+          <li>정의만 실행했을 때 함수 본문이 실행되지 않는 이유를 적습니다.</li>
+          <li>같은 함수를 세 번 호출하면 본문이 몇 번 실행되는지 적습니다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">종료 확인 기준 답안</summary>
+        <div class="details-motion-content"><ol><li><code>def</code>는 함수 이름과 들여쓴 본문을 하나의 작업으로 정의합니다.</li><li>정의는 실행 준비이며 본문은 호출을 만났을 때 실행되기 때문입니다.</li><li>호출이 세 번이면 함수 본문도 세 번 실행됩니다.</li></ol></div>
+      </details>
+
+      <h3 id="after-class-review">수업 후 개별 복습</h3>
+
+      <ul>
+        <li><strong>당일 3분:</strong> 노트를 보지 않고 <code>def</code>, 함수 이름, 괄호, 콜론, 들여쓴 본문, 호출 순서를 적습니다.</li>
+        <li><strong>다음 날 5분:</strong> 출력 함수 하나를 정의하고 두 번 호출한 뒤 실행 전 예상 출력과 비교합니다.</li>
+        <li><strong>2교시 직전 2분:</strong> <code>draw_fixed_motif()</code>의 위치와 색을 호출할 때 바꾸려면 어떤 입력 자리가 필요한지 세 가지 적습니다.</li>
+      </ul>
+
+      <div class="callout callout-success">
+        <p class="callout-title">1교시 핵심 문장</p>
+        <p><strong>함수 정의는 코드 묶음에 이름을 붙이는 준비이고, 함수 호출은 그 이름으로 묶인 코드를 실제로 실행하는 명령입니다.</strong></p>
+      </div>
+
+      <h2 id="extension">50-60분 · 5주차 코드의 작업 이름 설계하기</h2>
+
+      <p>확장 시간에는 새로운 문법을 추가하지 않습니다. 5주차 포스터 제작 과정을 세 작업으로 나누고, 각 작업에 이름을 붙인 뒤 호출 순서만 작성합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>50-60분 확장 운영</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">활동</th><th scope="col">남겨야 할 결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">50-53분</th><td>캔버스 준비, 포스터 생성, 결과 저장의 시작과 끝 표시</td><td>세 작업 범위</td></tr>
+            <tr><th scope="row">53-56분</th><td>각 작업을 행동과 대상으로 이루어진 이름으로 바꾸기</td><td><code>prepare_canvas</code>, <code>create_poster</code>, <code>save_poster</code></td></tr>
+            <tr><th scope="row">56-59분</th><td>정의가 끝난 뒤 필요한 호출 순서 작성</td><td>호출문 세 줄</td></tr>
+            <tr><th scope="row">59-60분</th><td>함수 안에 둘 코드와 밖에 둘 코드를 한 문장으로 설명</td><td>작업 경계 설명</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <pre><code>def prepare_canvas():
+    print("1. 캔버스를 준비합니다.")
+
+def create_poster():
+    print("2. 도형을 생성합니다.")
+
+def save_poster():
+    print("3. 포스터를 저장합니다.")
+
+prepare_canvas()
+create_poster()
+save_poster()</code></pre>
+
+      <p>위 세 줄은 전체 구현이 아니라 작업 순서를 읽기 위한 호출 계획입니다. 다음 시간에는 호출 괄호 안에 시드, 도형 수, 위치, 크기, 색상처럼 바꾸고 싶은 값을 전달해 같은 함수에서 서로 다른 결과를 만듭니다.</p>
+
+      <h2 id="references">참고 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://docs.python.org/3/tutorial/controlflow.html#defining-functions" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: Defining Functions</strong></a><small><code>def</code>, 함수 이름, 매개변수 괄호, 들여쓴 본문, 호출과 <code>return</code>의 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/reference/compound_stmts.html#function-definitions" target="_blank" rel="noopener noreferrer"><strong>Python 언어 참조: Function definitions</strong></a><small>함수 정의문의 형식과 함수 본문 실행에 관한 공식 언어 참조</small></li>
+        <li><a href="https://peps.python.org/pep-0008/#function-and-variable-names" target="_blank" rel="noopener noreferrer"><strong>PEP 8: Function and Variable Names</strong></a><small>소문자와 밑줄을 사용하는 Python 함수 이름 표기 지침</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw</strong></a><small>함수 본문에서 묶어 사용하는 사각형, 타원, 선 그리기 메서드의 공식 설명</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#week-five-bridge">0-6분 · 5주차 연결</a></li>
+        <li class="toc-level-2"><a href="#familiar-functions">6-15분 · 이미 사용한 함수</a></li>
+        <li class="toc-level-2"><a href="#function-definition">15-27분 · 함수 정의 문법</a></li>
+        <li class="toc-level-3"><a href="#function-names">함수 이름 짓기</a></li>
+        <li class="toc-level-3"><a href="#indentation-boundary">들여쓰기와 경계</a></li>
+        <li class="toc-level-2"><a href="#definition-and-call">27-37분 · 정의와 호출</a></li>
+        <li class="toc-level-3"><a href="#colab-order">Colab 실행 순서</a></li>
+        <li class="toc-level-2"><a href="#fixed-pillow-function">37-45분 · Pillow 함수</a></li>
+        <li class="toc-level-2"><a href="#error-clinic">45-50분 · 오류 진단</a></li>
+        <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
+        <li class="toc-level-2"><a href="#extension">50-60분 · 작업 이름 설계</a></li>
+        <li class="toc-level-2"><a href="#references">참고 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice / Week 06 / Period 01</p>
+  <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-06.js?v=week6-1" defer></script>
+</body>
+</html>

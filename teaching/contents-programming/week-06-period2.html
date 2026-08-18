@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="ko" class="week-six-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6주차 2교시: 매개변수와 반환값으로 생성기 조절하기 | Contents Programming Practice</title>
+  <meta name="description" content="함수 정의의 입력 자리인 매개변수와 호출할 때 전달하는 인자를 구분하고, return으로 Pillow 이미지를 돌려받아 같은 함수에서 여러 생성 포스터를 만드는 6주차 2교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-06-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="6주차 2교시: 매개변수와 반환값으로 생성기 조절하기 | Contents Programming Practice">
+  <meta property="og:description" content="시드·개수·조건 기준·팔레트를 함수에 전달하고 생성된 이미지를 return으로 받아 같은 규칙의 변주를 만듭니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-06-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-06-period2-hero.webp">
+  <meta property="og:image:alt" content="색상과 크기 입력 조각을 파란 생성 틀에 바꾸어 넣고 세 결과를 만드는 6주차 2교시 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="6주차 2교시: 매개변수와 반환값으로 생성기 조절하기 | Contents Programming Practice">
+  <meta name="twitter:description" content="매개변수, 인자, 지역 변수, return을 이미지 생성 함수에 연결하는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-06-period2-hero.webp">
+  <link rel="preload" as="image" href="assets/week-06-period2-hero-720.webp" imagesrcset="assets/week-06-period2-hero-720.webp 720w, assets/week-06-period2-hero.webp 1080w" imagesizes="(max-width: 980px) calc(100vw - 34px), 524px" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-06.css?v=week6-1">
+</head>
+<body class="teaching-document course-contents-programming week-six-page">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-06-period1.html" rel="prev" aria-label="이전 자료: 6주차 1교시: 함수의 정의와 호출 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-06-period3.html" rel="next" aria-label="다음 자료: 6주차 3교시: 매개변수형 이미지 생성기 미션 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <div class="hero week-six-hero">
+    <div class="hero-inner">
+      <div class="week-six-hero-copy">
+        <p class="eyebrow">Parameter / Argument / Return</p>
+        <h1>값으로 생성기 조절하기</h1>
+        <p class="lead">매개변수에 값을 전달하고, return으로 결과를 받아 같은 규칙의 변주를 만듭니다.</p>
+      </div>
+      <figure class="week-six-hero-visual">
+        <img src="assets/week-06-period2-hero-720.webp" srcset="assets/week-06-period2-hero-720.webp 720w, assets/week-06-period2-hero.webp 1080w" sizes="(max-width: 980px) calc(100vw - 34px), 524px" width="720" height="540" alt="색상과 크기 입력 조각을 파란 생성 틀에 바꾸어 넣고 세 결과를 만드는 6주차 2교시 이미지" loading="eager" decoding="async" fetchpriority="high">
+      </figure>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">함수의 입력을 바꾸고 생성된 이미지를 호출한 곳으로 돌려받기</p>
+
+      <dl class="week-six-lesson-facts">
+        <div><dt>형식</dt><dd>기본 50분 / 확장 60분 · + 10 MIN EXTENSION</dd></div>
+        <div><dt>핵심</dt><dd>매개변수, 인자, 지역 변수, <code>return</code></dd></div>
+        <div><dt>연결</dt><dd>고정 함수 → 입력으로 조절하는 생성기</dd></div>
+      </dl>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>고정된 함수가 같은 결과만 만드는 이유를 설명하고 바꿀 요소를 입력 자리로 정할 수 있습니다.</li>
+          <li>함수 정의에 적는 매개변수와 함수 호출에 전달하는 인자를 구분할 수 있습니다.</li>
+          <li>위치 인자와 키워드 인자의 차이를 알고 여러 입력을 읽기 쉬운 방식으로 전달할 수 있습니다.</li>
+          <li>함수 안에서 만든 지역 변수의 사용 범위를 설명할 수 있습니다.</li>
+          <li><code>return</code>이 값을 출력하는 문장이 아니라 호출한 곳으로 결과를 전달하는 문장임을 설명할 수 있습니다.</li>
+          <li>5주차 코드를 <code>create_poster()</code> 함수로 묶고 시드·도형 수·조건 기준·팔레트를 입력으로 전달할 수 있습니다.</li>
+          <li>같은 입력은 같은 이미지를 재현하고 다른 입력은 같은 규칙의 변주를 만든다는 사실을 확인할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-six" aria-label="2교시 시간 구성">
+        <li><span class="session-label">0-5 min</span><strong>정의와 호출 회상</strong><p>고정 함수의 실행 순서를 추적하고 바꿀 수 없는 부분을 찾습니다.</p></li>
+        <li><span class="session-label">5-16 min</span><strong>매개변수와 인자</strong><p>정의의 입력 자리와 호출의 실제 값을 도형 속성에 연결합니다.</p></li>
+        <li><span class="session-label">16-27 min</span><strong>인자 전달 방식</strong><p>위치 인자와 키워드 인자를 비교하고 호출 오류를 진단합니다.</p></li>
+        <li><span class="session-label">27-38 min</span><strong>지역 변수와 return</strong><p>함수 안의 결과를 밖으로 전달하고 출력·저장과 구분합니다.</p></li>
+        <li><span class="session-label">38-47 min</span><strong>전체 이미지 생성기</strong><p>반복·난수·조건·Pillow 코드를 한 함수로 묶어 변주를 만듭니다.</p></li>
+        <li><span class="session-label">47-50 min</span><strong>3교시 미션 연결</strong><p>세 포스터와 비교 PNG의 고정 완료 조건을 확인합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에서는 매개변수와 인자의 구분, 위치·키워드 전달, 지역 변수, <code>return</code>, 완전한 이미지 생성 함수, 3교시 미션 계약까지 진행합니다. 각 개념은 숫자 함수에서 먼저 확인한 뒤 도형 함수와 포스터 함수로 확장합니다. 진도가 빠를 때만 <strong>50-60분 확장</strong>에서 하나의 함수에 세 입력 조합을 적용하고 어떤 값이 화면의 무엇을 바꾸었는지 기록합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">매개변수가 많은 함수를 읽는 순서</p>
+        <ol>
+          <li><strong>함수 이름으로 전체 작업을 확인합니다.</strong> <code>create_poster</code>는 포스터 한 장을 만드는 작업입니다.</li>
+          <li><strong>정의 괄호의 매개변수를 왼쪽부터 읽습니다.</strong> 시드, 도형 수, 중간 기준, 큰 기준, 팔레트 순서입니다.</li>
+          <li><strong>호출 괄호의 실제 값과 이름을 연결합니다.</strong> 키워드 인자를 사용하면 연결이 코드에 직접 보입니다.</li>
+          <li><strong>함수 본문에서 각 입력이 쓰이는 위치를 한 곳씩 찾습니다.</strong> 모든 줄을 한꺼번에 이해하려 하지 않습니다.</li>
+          <li><strong><code>return</code> 뒤의 값을 찾습니다.</strong> 그 값이 호출 결과로 함수 밖에 전달됩니다.</li>
+        </ol>
+      </div>
+
+      <h2 id="fixed-function-recall">0-5분 · 입력이 없는 함수는 호출할 때 결과를 조절할 수 없다</h2>
+
+      <p>1교시의 <code>draw_fixed_motif()</code>는 호출할 때마다 같은 좌표와 같은 색을 사용했습니다. 함수 본문 안에 모든 값이 고정되어 있고 괄호 안에는 외부에서 값을 받을 자리가 없기 때문입니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+from IPython.display import display
+
+image = Image.new("RGB", (600, 400), (245, 240, 228))
+draw = ImageDraw.Draw(image)
+
+def draw_fixed_circle():
+    draw.ellipse(
+        (80, 100, 200, 220),
+        fill=(48, 112, 166),
+    )
+
+draw_fixed_circle()
+draw_fixed_circle()
+display(image)</code></pre>
+
+      <p>호출은 두 번이지만 두 원은 같은 위치에 포개집니다. 두 번째 원을 오른쪽으로 옮기려면 본문을 복사해 좌표를 고치는 대신, 호출할 때 x와 y를 전달할 수 있어야 합니다. 이처럼 함수마다 달라질 값을 받을 수 있도록 정의한 이름을 <strong>매개변수</strong>라고 합니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 회상 · 90초</span>
+        <h3>호출할 때 바꾸고 싶은 값 찾기</h3>
+        <p>위 함수의 숫자와 색상 가운데 두 번째 호출에서 바꾸고 싶은 항목 세 개를 선택합니다. 선택한 항목이 위치, 크기, 색상 가운데 무엇에 해당하는지도 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">바꿀 값의 기준 예시</summary>
+        <div class="details-motion-content"><p>x와 y는 위치, 120은 크기, RGB 튜플은 색상에 해당합니다. 다음 단계에서는 <code>x</code>, <code>y</code>, <code>size</code>, <code>color</code>라는 입력 자리를 정의해 호출마다 실제 값을 전달합니다.</p></div>
+      </details>
+
+      <h2 id="parameter-and-argument">5-16분 · 매개변수는 입력 자리이고 인자는 실제 값이다</h2>
+
+      <p>다음 함수는 위치, 크기, 색상을 함수 밖에서 받습니다. 정의 괄호의 <code>x</code>, <code>y</code>, <code>size</code>, <code>color</code>가 매개변수입니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+from IPython.display import display
+
+image = Image.new("RGB", (600, 400), (245, 240, 228))
+draw = ImageDraw.Draw(image)
+
+def draw_circle(x, y, size, color):
+    circle_box = (x, y, x + size, y + size)
+    draw.ellipse(circle_box, fill=color)
+
+draw_circle(70, 90, 100, (48, 112, 166))
+draw_circle(250, 150, 140, (230, 83, 72))
+display(image)</code></pre>
+
+      <div class="code-walkthrough" role="group" aria-label="매개변수와 인자 코드 읽기">
+        <div class="code-line"><span class="line-number">1</span><span class="code-source">def draw_circle</span><span class="line-meaning">원을 그리는 함수를 정의합니다.</span></div>
+        <div class="code-line"><span class="line-number">2</span><span class="code-source">x, y, size, color</span><span class="line-meaning">호출할 때 값을 받을 네 개의 매개변수입니다.</span></div>
+        <div class="code-line"><span class="line-number">3</span><span class="code-source">circle_box = (x, y, x + size, y + size)</span><span class="line-meaning">전달받은 값으로 원의 경계 상자를 계산합니다.</span></div>
+        <div class="code-line"><span class="line-number">4</span><span class="code-source">draw_circle(70, 90, 100, blue)</span><span class="line-meaning">첫 번째 호출은 실제 위치·크기·색상 인자를 전달합니다.</span></div>
+        <div class="code-line"><span class="line-number">5</span><span class="code-source">draw_circle(250, 150, 140, coral)</span><span class="line-meaning">두 번째 호출은 같은 작업에 다른 인자를 전달합니다.</span></div>
+      </div>
+
+      <div class="value-contrast" role="group" aria-label="매개변수와 인자의 차이">
+        <div class="value-case">
+          <span class="visual-label">Parameter · 매개변수</span>
+          <code>def draw_circle(x, y, size, color):</code>
+          <p>함수를 정의할 때 만드는 입력 자리의 이름입니다. 아직 구체적인 위치와 색을 정하지 않습니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Argument · 인자</span>
+          <code>draw_circle(70, 90, 100, blue)</code>
+          <p>함수를 호출할 때 각 입력 자리에 전달하는 실제 값 또는 값이 담긴 변수입니다.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>첫 번째 함수 호출에서 매개변수와 인자의 연결</caption>
+          <thead><tr><th scope="col">정의의 매개변수</th><th scope="col">호출의 인자</th><th scope="col">함수 안에서 의미</th><th scope="col">화면 결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>x</code></th><td><code>70</code></td><td>원의 왼쪽 좌표</td><td>왼쪽에서 70픽셀</td></tr>
+            <tr><th scope="row"><code>y</code></th><td><code>90</code></td><td>원의 위쪽 좌표</td><td>위에서 90픽셀</td></tr>
+            <tr><th scope="row"><code>size</code></th><td><code>100</code></td><td>가로와 세로의 크기</td><td>100 × 100 원</td></tr>
+            <tr><th scope="row"><code>color</code></th><td><code>(48, 112, 166)</code></td><td>원의 내부 RGB</td><td>파란색 원</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>매개변수는 함수 안에서 변수처럼 사용됩니다. 호출이 시작되면 첫 번째 인자 70이 <code>x</code>, 두 번째 인자 90이 <code>y</code>에 연결됩니다. 호출이 끝난 뒤 두 번째 호출이 시작되면 같은 매개변수 이름에 새로운 값이 연결됩니다.</p>
+
+      <div class="trace-board" role="group" aria-label="두 호출에서 매개변수 값이 바뀌는 과정">
+        <div class="trace-state"><span class="visual-label">Call A</span><code>x=70 · y=90 · size=100</code><div class="trace-binding">파란색 작은 원</div></div>
+        <div class="trace-state"><span class="visual-label">Call B</span><code>x=250 · y=150 · size=140</code><div class="trace-binding">산호색 큰 원</div></div>
+        <div class="trace-state"><span class="visual-label">Shared body</span><code>draw.ellipse(circle_box)</code><div class="trace-binding">실행 절차는 동일</div></div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 연결 · 2분</span>
+        <h3>세 번째 호출의 화면 결과 예측하기</h3>
+        <p><code>draw_circle(400, 50, 80, (92, 150, 118))</code>을 추가하면 원의 왼쪽, 위쪽, 크기, 색이 어떻게 되는지 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">세 번째 호출 예측 답안</summary>
+        <div class="details-motion-content"><p>왼쪽 좌표는 400, 위쪽 좌표는 50, 크기는 80 × 80이며 RGB <code>(92, 150, 118)</code>의 초록색 원이 만들어집니다. 오른쪽과 아래쪽 좌표는 함수 안에서 각각 480과 130으로 계산됩니다.</p></div>
+      </details>
+
+      <h2 id="passing-arguments">16-27분 · 위치로 전달할 수도 있고 이름으로 전달할 수도 있다</h2>
+
+      <p>기본 함수에서는 인자를 매개변수의 순서대로 전달할 수 있습니다. 이를 위치 인자라고 합니다. 값이 적을 때에는 간결하지만 숫자가 많아지면 각 숫자의 의미를 다시 정의에서 찾아야 합니다.</p>
+
+      <pre><code>draw_circle(70, 90, 100, (48, 112, 166))</code></pre>
+
+      <p>각 값 앞에 매개변수 이름을 적는 키워드 인자를 사용할 수도 있습니다. 코드가 길어지지만 어떤 값이 어떤 역할을 하는지 호출문 자체에서 확인할 수 있습니다.</p>
+
+      <pre><code>draw_circle(
+    x=70,
+    y=90,
+    size=100,
+    color=(48, 112, 166),
+)</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>위치 인자와 키워드 인자의 비교</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">연결 기준</th><th scope="col">장점</th><th scope="col">주의점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">위치 인자</th><td>왼쪽부터 매개변수 순서</td><td>짧고 간단함</td><td>x·y·size처럼 숫자가 많으면 순서를 바꾸기 쉬움</td></tr>
+            <tr><th scope="row">키워드 인자</th><td><code>이름=값</code>의 이름</td><td>각 값의 역할이 호출문에 보임</td><td>매개변수 이름을 정확히 작성해야 함</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>이번 주의 <code>create_poster()</code>에는 다섯 입력이 있으므로 호출문에서는 키워드 인자를 사용합니다. 키워드 인자의 순서는 바꿀 수 있지만, 수업 예제에서는 함수 정의와 같은 순서를 유지해 비교하기 쉽게 만듭니다.</p>
+
+      <h3 id="argument-errors">호출 오류는 정의와 호출의 입력 목록을 나란히 비교한다</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>TypeError가 발생하는 대표 원인</caption>
+          <thead><tr><th scope="col">잘못된 호출</th><th scope="col">원인</th><th scope="col">확인할 기준</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>draw_circle(70, 90, 100)</code></th><td><code>color</code> 인자 누락</td><td>정의에는 네 매개변수, 호출에는 세 인자</td></tr>
+            <tr><th scope="row"><code>draw_circle(70, 90, 100, blue, 4)</code></th><td>인자 한 개 초과</td><td>정의보다 호출 값이 많음</td></tr>
+            <tr><th scope="row"><code>draw_circle(width=100, x=70, y=90, color=blue)</code></th><td><code>width</code>라는 매개변수가 없음</td><td>정의의 이름은 <code>size</code></td></tr>
+            <tr><th scope="row"><code>draw_circle(70, y=90, 100, color=blue)</code></th><td>키워드 인자 뒤에 위치 인자를 사용</td><td>위치 인자를 먼저 쓰거나 모두 키워드로 작성</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">TypeError: missing 1 required positional argument: 'color'가 나오면?</summary>
+        <div class="details-motion-content"><p>함수 정의에는 <code>color</code> 매개변수가 있지만 호출할 때 실제 색상 인자를 전달하지 않았다는 뜻입니다. 정의 괄호와 호출 괄호를 나란히 놓고 누락된 역할을 찾은 뒤 RGB 튜플 또는 색상 변수를 전달합니다.</p></div>
+      </details>
+
+      <div class="callout callout-info">
+        <p class="callout-title">기본값 매개변수는 이번 기본 수업에서 사용하지 않는다</p>
+        <p>Python은 인자를 생략했을 때 사용할 기본값을 정의할 수 있지만, 이번 시간에는 모든 입력을 호출문에 명시합니다. 먼저 매개변수와 인자의 일대일 연결을 정확히 이해한 뒤 기본값은 이후 확장에서 다룹니다.</p>
+      </div>
+
+      <h2 id="return-and-scope">27-38분 · return은 함수 안의 결과를 호출한 곳으로 전달한다</h2>
+
+      <p>다음 함수는 x, y, size를 받아 Pillow 도형에 사용할 경계 상자를 계산합니다. <code>return circle_box</code>가 실행되면 계산된 튜플이 호출한 곳으로 전달되고 <code>first_box</code>에 저장됩니다.</p>
+
+      <pre><code>def make_circle_box(x, y, size):
+    circle_box = (x, y, x + size, y + size)
+    return circle_box
+
+first_box = make_circle_box(70, 90, 100)
+print(first_box)</code></pre>
+
+      <div class="check-output" role="group" aria-label="경계 상자 함수 출력 예시">
+        <span class="visual-label">OUTPUT</span>
+        <p>(70, 90, 170, 190)</p>
+      </div>
+
+      <div class="pipeline" role="group" aria-label="입력에서 반환값까지의 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">1 / Arguments</span><strong>값 전달</strong><p>70, 90, 100이 x, y, size에 연결됩니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">2 / Local work</span><strong>안에서 계산</strong><p>함수 본문이 <code>circle_box</code> 튜플을 만듭니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">3 / Return</span><strong>결과 전달</strong><p>튜플이 호출 자리로 돌아와 <code>first_box</code>에 저장됩니다.</p></div>
+      </div>
+
+      <h3 id="return-not-output">return, print, display, save는 목적이 다르다</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>함수 결과를 다루는 네 가지 동작</caption>
+          <thead><tr><th scope="col">동작</th><th scope="col">주요 목적</th><th scope="col">호출한 곳에서 값 사용</th><th scope="col">이번 생성기에서 위치</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>return image</code></th><td>함수의 결과값 전달</td><td>가능</td><td>함수 본문의 마지막</td></tr>
+            <tr><th scope="row"><code>print(value)</code></th><td>문자나 숫자를 출력 영역에 표시</td><td>표시만으로는 전달되지 않음</td><td>검사와 설명에 사용</td></tr>
+            <tr><th scope="row"><code>display(image)</code></th><td>노트북에 이미지를 시각적으로 표시</td><td>표시만으로는 전달되지 않음</td><td>함수 호출 뒤 사용</td></tr>
+            <tr><th scope="row"><code>image.save(filename)</code></th><td>이미지를 파일로 저장</td><td>파일이 생성됨</td><td>결과 선택 뒤 사용</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>return</code>은 화면에 자동으로 설명을 출력하는 명령이 아닙니다. 함수가 만든 값을 다른 변수에 저장하거나, 다른 함수에 전달하거나, 나중에 저장할 수 있도록 호출 위치로 돌려주는 명령입니다. 함수가 <code>return</code> 없이 끝나면 Python은 <code>None</code>을 돌려줍니다.</p>
+
+      <pre><code>def make_title():
+    title = "CONTROLLED CHANCE"
+    print(title)
+
+returned_value = make_title()
+print("돌려받은 값:", returned_value)</code></pre>
+
+      <div class="check-output" role="group" aria-label="return이 없는 함수 출력 예시">
+        <span class="visual-label">OUTPUT</span>
+        <p>CONTROLLED CHANCE<br>돌려받은 값: None</p>
+      </div>
+
+      <p>첫 줄은 함수 안의 <code>print()</code>가 표시한 문자열이고, 둘째 줄의 <code>None</code>은 함수가 별도의 값을 반환하지 않았다는 뜻입니다. 이미지 생성 함수에서 <code>return image</code>를 빠뜨리면 호출 결과 변수에도 <code>None</code>이 저장되어 이후 <code>display()</code>나 <code>save()</code> 작업을 이어가기 어렵습니다.</p>
+
+      <h3 id="local-variables">함수 안에서 만든 변수는 기본적으로 함수 안에서 사용한다</h3>
+
+      <p><code>make_circle_box()</code> 안에서 만든 <code>circle_box</code>는 함수가 실행되는 동안 사용하는 지역 변수입니다. 함수 밖에서는 그 이름을 직접 사용하지 않고, <code>return</code>으로 받은 값을 새로운 변수에 저장합니다.</p>
+
+      <pre><code>def make_circle_box(x, y, size):
+    circle_box = (x, y, x + size, y + size)
+    return circle_box
+
+returned_box = make_circle_box(70, 90, 100)
+print(returned_box)</code></pre>
+
+      <div class="value-contrast" role="group" aria-label="지역 변수와 반환 결과의 사용 범위">
+        <div class="value-case">
+          <span class="visual-label">Inside function</span>
+          <code>circle_box</code>
+          <p>함수 본문에서 계산에 사용하는 지역 변수입니다. 함수의 작업 과정을 설명합니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Outside function</span>
+          <code>returned_box</code>
+          <p>호출이 돌려준 값을 함수 밖에서 새로 저장한 변수입니다. 이후 도형 명령에 사용할 수 있습니다.</p>
+        </div>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">함수 밖에서 circle_box를 출력하면 왜 NameError가 나는가?</summary>
+        <div class="details-motion-content"><p><code>circle_box</code>는 함수 호출 중 함수 안에서 만들어진 지역 변수이기 때문입니다. 함수 밖에서는 <code>return</code>으로 받은 <code>returned_box</code>를 사용합니다. 이번 수업에서는 <code>global</code>로 내부 변수를 억지로 밖에 노출하지 않습니다.</p></div>
+      </details>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 판정 · 2분</span>
+        <h3>화면 표시와 결과 반환 구분하기</h3>
+        <p>“함수 안에서 이미지를 보여주었다”와 “함수 호출 결과로 이미지를 돌려받았다”가 같은 말인지 판단하고, 반환된 이미지로 할 수 있는 작업 두 가지를 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">표시와 반환 판정 답안</summary>
+        <div class="details-motion-content"><p>두 문장은 다릅니다. <code>display(image)</code>는 노트북 화면에 이미지를 보여주고, <code>return image</code>는 호출한 곳에 이미지 객체를 전달합니다. 반환된 이미지는 변수에 저장하고, 다시 표시하고, PNG로 저장하거나 다음 주의 자르기·합성 작업에 전달할 수 있습니다.</p></div>
+      </details>
+
+      <h2 id="complete-generator">38-47분 · 5주차 코드를 create_poster 함수로 묶기</h2>
+
+      <p>다음 코드는 5주차의 반복, 난수, 조건, Pillow 도형을 하나의 함수로 묶은 완전한 예제입니다. 한 번에 모든 줄을 외우지 않습니다. 함수 이름, 다섯 입력, 고정 규칙, 반복 생성, 반환 결과의 다섯 묶음으로 읽습니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+from IPython.display import display
+import random
+
+def create_poster(
+    seed_number,
+    shape_count,
+    medium_threshold,
+    large_threshold,
+    palette,
+):
+    canvas_width = 600
+    canvas_height = 600
+    min_size = 20
+    max_size = 80
+    margin = 40
+
+    background_color = palette[0]
+    primary_color = palette[1]
+    secondary_color = palette[2]
+    accent_color = palette[3]
+    outline_color = palette[4]
+    base_palette = [primary_color, secondary_color, accent_color]
+
+    random.seed(seed_number)
+    image = Image.new(
+        "RGB",
+        (canvas_width, canvas_height),
+        background_color,
+    )
+    draw = ImageDraw.Draw(image)
+
+    for shape_number in range(shape_count):
+        size = random.randint(min_size, max_size)
+        x = random.randint(
+            margin,
+            canvas_width - margin - size,
+        )
+        y = random.randint(
+            margin,
+            canvas_height - margin - size,
+        )
+        base_color = random.choice(base_palette)
+
+        if size &gt;= large_threshold:
+            draw.rectangle(
+                (x, y, x + size, y + size),
+                fill=accent_color,
+                outline=outline_color,
+                width=3,
+            )
+        elif size &gt;= medium_threshold:
+            draw.ellipse(
+                (x, y, x + size, y + size),
+                fill=base_color,
+            )
+        else:
+            draw.ellipse(
+                (x, y, x + size, y + size),
+                fill=background_color,
+                outline=base_color,
+                width=4,
+            )
+
+    return image
+
+calm_palette = [
+    (235, 241, 250),
+    (48, 112, 166),
+    (92, 150, 118),
+    (230, 83, 72),
+    (35, 42, 55),
+]
+
+poster_a = create_poster(
+    seed_number=73,
+    shape_count=56,
+    medium_threshold=42,
+    large_threshold=64,
+    palette=calm_palette,
+)
+
+display(poster_a)
+poster_a.save("week06_poster_a.png")</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>create_poster 함수에서 바꿀 수 있는 입력과 고정된 규칙</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">값</th><th scope="col">설계 이유</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">매개변수</th><td>시드, 도형 수, 중간 기준, 큰 기준, 팔레트</td><td>호출마다 의미 있는 시각적 변화를 만들 수 있음</td></tr>
+            <tr><th scope="row">함수 안 고정값</th><td>600 × 600 캔버스, 크기 20~80, 여백 40</td><td>모든 변주가 같은 형식과 안전 범위를 공유함</td></tr>
+            <tr><th scope="row">공통 절차</th><td>난수 선택, 반복, 세 조건 분기, 도형 그리기</td><td>결과가 달라도 같은 생성 시스템으로 보이게 함</td></tr>
+            <tr><th scope="row">반환값</th><td>완성된 <code>image</code></td><td>호출 뒤 표시·비교·저장할 수 있음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>모든 숫자를 매개변수로 만들 필요는 없습니다. 캔버스 크기와 안전 여백까지 호출마다 바꾸게 하면 비교 기준이 흐려지고 좌표 오류가 늘어날 수 있습니다. 제작자가 자주 조절할 요소만 입력으로 열고, 시스템의 정체성과 안전을 지키는 값은 함수 안에 고정합니다.</p>
+
+      <h3 id="three-variations">같은 함수를 다른 인자로 호출해 세 변주 만들기</h3>
+
+      <p>다음 두 호출은 위의 함수 정의와 <code>calm_palette</code>를 실행한 뒤 이어서 실행합니다. 함수 본문은 수정하지 않고 호출값만 바꿉니다.</p>
+
+      <pre><code>bold_palette = [
+    (247, 239, 216),
+    (56, 90, 124),
+    (183, 94, 120),
+    (229, 168, 57),
+    (32, 43, 56),
+]
+
+soft_palette = [
+    (241, 234, 246),
+    (98, 81, 139),
+    (49, 142, 136),
+    (233, 130, 69),
+    (48, 42, 60),
+]
+
+poster_b = create_poster(
+    seed_number=91,
+    shape_count=72,
+    medium_threshold=38,
+    large_threshold=60,
+    palette=bold_palette,
+)
+
+poster_c = create_poster(
+    seed_number=127,
+    shape_count=48,
+    medium_threshold=48,
+    large_threshold=68,
+    palette=soft_palette,
+)
+
+display(poster_b)
+display(poster_c)
+poster_b.save("week06_poster_b.png")
+poster_c.save("week06_poster_c.png")</code></pre>
+
+      <figure class="lesson-visual" aria-labelledby="function-variations-caption">
+        <img src="assets/week-06-function-variations.png" width="1200" height="680" loading="eager" decoding="async" alt="같은 생성 함수에 서로 다른 시드, 도형 수, 조건 기준, 팔레트를 전달해 만든 파란색 계열, 노란색 계열, 보라색 계열의 포스터 세 장과 각 입력 조절 상태를 나타내는 표시">
+        <figcaption id="function-variations-caption">수업용 개념도. 세 패널은 같은 생성 함수를 공유하지만 시드, 밀도, 두 조건 기준, 팔레트가 다릅니다. 아래의 점·막대·경계 표시는 각 호출에 전달된 입력 조합이 다름을 나타냅니다.</figcaption>
+      </figure>
+
+      <div class="callout callout-success">
+        <p class="callout-title">한 함수의 정체성은 유지되고 호출의 인자가 변주를 만든다</p>
+        <p>세 결과는 모두 600 × 600 캔버스, 40픽셀 여백, 20~80 크기 범위, 같은 세 조건 분기, 같은 Pillow 도형 명령을 사용합니다. 달라진 것은 함수의 입력입니다. 따라서 세 이미지는 서로 다르지만 하나의 규칙을 공유하는 시리즈로 읽힙니다.</p>
+      </div>
+
+      <h3 id="same-input-same-result">같은 입력은 같은 결과를 다시 만든다</h3>
+
+      <p><code>random.seed(seed_number)</code>가 함수 안에서 각 호출의 시작에 실행되므로, 같은 인자 조합을 다시 전달하면 같은 난수 선택 순서를 얻습니다.</p>
+
+      <pre><code>poster_a_again = create_poster(
+    seed_number=73,
+    shape_count=56,
+    medium_threshold=42,
+    large_threshold=64,
+    palette=calm_palette,
+)
+
+same_result = poster_a.tobytes() == poster_a_again.tobytes()
+print("같은 입력의 결과가 같은가?", same_result)</code></pre>
+
+      <div class="check-output" role="group" aria-label="같은 입력 재현 검사 출력 예시">
+        <span class="visual-label">OUTPUT</span>
+        <p>같은 입력의 결과가 같은가? True</p>
+      </div>
+
+      <p><code>tobytes()</code>는 자동 검사에서 두 이미지의 픽셀 데이터를 비교하기 위해 사용합니다. 학생이 이 메서드를 외울 필요는 없습니다. 기억할 핵심은 <strong>같은 함수에 같은 입력을 전달하면 같은 결과를 다시 확인할 수 있다</strong>는 점입니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">시드를 함수 밖에서 한 번만 설정하면 왜 호출 결과가 달라질 수 있는가?</summary>
+        <div class="details-motion-content"><p>첫 호출이 난수 값을 사용한 뒤 난수 선택 위치가 앞으로 이동하기 때문입니다. 두 번째 호출은 이어진 위치에서 선택을 시작합니다. 각 포스터를 같은 입력으로 독립적으로 재현하려면 함수 안에서 이미지 생성 전에 <code>random.seed(seed_number)</code>를 실행합니다.</p></div>
+      </details>
+
+      <h3 id="generator-errors">이미지 생성 함수의 대표 오류</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>전체 생성기에서 확인할 오류와 원인</caption>
+          <thead><tr><th scope="col">증상</th><th scope="col">가능한 원인</th><th scope="col">수정 위치</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">필수 인자가 없다는 <code>TypeError</code></th><td>호출에서 다섯 입력 중 하나를 생략</td><td>호출문의 키워드 이름과 값 확인</td></tr>
+            <tr><th scope="row"><code>NoneType</code> 관련 오류</th><td>함수 마지막의 <code>return image</code> 누락</td><td>함수 본문의 들여쓰기 안 마지막 줄 확인</td></tr>
+            <tr><th scope="row">두 호출이 예상과 다르게 같음</th><td>새 인자를 작성했지만 호출 셀을 다시 실행하지 않음</td><td>수정한 호출 셀 재실행</td></tr>
+            <tr><th scope="row">같은 입력인데 결과가 달라짐</th><td><code>random.seed(seed_number)</code>가 함수 밖에 있음</td><td>함수 안에서 이미지 생성 전에 시드 설정</td></tr>
+            <tr><th scope="row"><code>IndexError</code></th><td>팔레트에 다섯 역할이 모두 없음</td><td>배경·주조·보조·강조·윤곽 순서로 다섯 RGB 확인</td></tr>
+            <tr><th scope="row">도형이 화면 밖으로 잘림</th><td>x·y의 최대 범위에서 <code>size</code>를 빼지 않음</td><td>난수 좌표 두 줄의 <code>- margin - size</code> 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">함수 오류는 정의와 호출을 구분해 고친다</p>
+        <p>모든 호출에서 같은 오류가 나면 함수 정의의 공통 절차를 먼저 확인합니다. 특정 호출에서만 오류가 나면 그 호출의 인자 수, 이름, 범위, 팔레트 구조를 확인합니다. 정의와 호출을 동시에 여러 곳 수정하면 원인을 구분하기 어려워집니다.</p>
+      </div>
+
+      <h2 id="mission-bridge">47-50분 · 3교시 연결: 세 변주 이미지 생성기</h2>
+
+      <p>3교시는 빈 화면에서 긴 함수를 외워 작성하는 시간이 아닙니다. 제공된 <code>create_poster()</code> 템플릿에서 정해진 빈칸을 완성하고, 서로 다른 입력 조합 세 개를 설계해 하나의 생성 시스템을 증명합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>3교시 고정 미션 계약</caption>
+          <thead><tr><th scope="col">항목</th><th scope="col">필수 완료 조건</th><th scope="col">검사 목적</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">함수 정의</th><td><code>create_poster(seed_number, shape_count, medium_threshold, large_threshold, palette)</code></td><td>다섯 입력 자리가 유지되는지 확인</td></tr>
+            <tr><th scope="row">함수 결과</th><td>600 × 600 RGB 이미지를 <code>return image</code>로 전달</td><td>화면 출력이 아니라 값 반환을 확인</td></tr>
+            <tr><th scope="row">세 번 호출</th><td>A·B·C에서 서로 다른 매개변수 조합 사용</td><td>한 함수가 여러 변주를 만드는지 확인</td></tr>
+            <tr><th scope="row">재현 검사</th><td>A와 같은 입력을 다시 호출해 같은 픽셀 결과 확인</td><td>시드가 함수 안에서 작동하는지 확인</td></tr>
+            <tr><th scope="row">비교 이미지</th><td>세 결과를 한 장에 배치한 3안 비교 PNG 생성</td><td>입력 변화와 화면 변화를 함께 비교</td></tr>
+            <tr><th scope="row">귀가 조건</th><td>자동 검사 PASS와 `.ipynb + .png` 제출</td><td>남은 시간과 관계없이 완료를 증명</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">자동 검사는 디자인 취향을 평가하지 않는다</p>
+        <p>검사 대상은 함수 정의, 입력 연결, 안전한 범위, 반환 이미지, 세 호출의 차이, 같은 입력의 재현, PNG 저장입니다. 특정 팔레트가 더 아름다운지 또는 어느 배치가 더 좋은지는 자동 검사와 귀가 조건에 포함하지 않습니다.</p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">3교시 사전 설계 · 2분</span>
+        <h3>A·B·C에서 바꿀 입력 정하기</h3>
+        <p>A는 기준안, B는 밀도가 높은 안, C는 큰 도형이 드문 안으로 설정합니다. 각 안에서 시드, 도형 수, 중간 기준, 큰 기준, 팔레트 가운데 무엇을 바꿀지 표에 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">세 변주 설계의 기준 예시</summary>
+        <div class="details-motion-content"><p>A는 시드 73과 도형 수 56, B는 시드 91과 도형 수 72로 밀도를 높일 수 있습니다. C는 큰 기준을 68처럼 높여 큰 사각형이 나타나는 범위를 줄이고 새로운 팔레트를 사용할 수 있습니다. 각 안의 숫자는 달라도 작은·중간·큰 구간과 안전한 좌표 범위는 유지해야 합니다.</p></div>
+      </details>
+
+      <div class="callout callout-success">
+        <p class="callout-title">2교시 핵심 문장</p>
+        <p><strong>매개변수는 함수가 받을 입력의 자리이고, 인자는 호출할 때 전달하는 실제 값이며, return은 함수가 만든 결과를 호출한 곳으로 돌려줍니다.</strong></p>
+      </div>
+
+      <h3 id="after-class-review">수업 후 개별 복습</h3>
+
+      <ul>
+        <li><strong>당일 4분:</strong> <code>def draw_circle(x, y, size, color)</code>에서 함수 이름과 네 매개변수를 구분해 적습니다.</li>
+        <li><strong>다음 날 5분:</strong> 위치 인자 호출 하나를 키워드 인자 호출로 바꾸고 두 호출이 같은 결과를 만드는 이유를 설명합니다.</li>
+        <li><strong>3교시 직전 3분:</strong> <code>print</code>, <code>display</code>, <code>save</code>, <code>return</code>의 목적을 한 줄씩 적습니다.</li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">이번 시간에 다루지 않는 함수 문법</p>
+        <p>기본값 매개변수, <code>*args</code>, <code>**kwargs</code>, 람다 함수, 재귀, 데코레이터, 클래스, <code>global</code>, <code>nonlocal</code>은 이번 기본 수업에서 사용하지 않습니다. 3교시 미션에는 다섯 개의 일반 매개변수, 키워드 인자, 지역 변수, 하나의 <code>return image</code>만 필요합니다.</p>
+      </div>
+
+      <h2 id="extension">50-60분 · 한 함수로 세 가지 통제 실험하기</h2>
+
+      <p>확장 시간에는 함수 본문을 수정하지 않습니다. 기준 호출 A를 복사한 뒤 한 번에 입력 하나만 바꾸어 화면 변화의 원인을 분리합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>50-60분 확장 운영</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">변경할 입력</th><th scope="col">관찰할 화면 변화</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">50-53분</th><td>시드만 73에서 91로 변경</td><td>같은 밀도와 규칙에서 배치가 달라지는지 확인</td></tr>
+            <tr><th scope="row">53-56분</th><td>도형 수만 56에서 72로 변경</td><td>밀도와 겹침이 증가하는지 확인</td></tr>
+            <tr><th scope="row">56-59분</th><td>큰 기준만 64에서 70으로 변경</td><td>강조 사각형 수가 줄어드는지 확인</td></tr>
+            <tr><th scope="row">59-60분</th><td>세 결과의 차이를 입력과 연결</td><td>“어떤 입력이 무엇을 바꾸었다” 문장 세 개</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>짧은 무작위 실행에서는 경향과 실제 개수가 정확히 일치하지 않을 수 있습니다. 예를 들어 큰 기준을 높이면 큰 도형이 나올 수 있는 크기 구간은 줄어들지만, 특정 시드의 실제 사각형 수가 매번 같은 비율로 줄어든다고 보장되지는 않습니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">시드와 도형 수를 동시에 바꾸면 원인을 설명하기 어려운 이유</summary>
+        <div class="details-motion-content"><p>배치와 밀도가 함께 달라져 어느 입력이 특정 차이를 만들었는지 분리하기 어렵기 때문입니다. 입력과 결과의 관계를 학습할 때에는 하나만 바꾸고 나머지를 유지합니다. 최종 작품에서는 관계를 이해한 뒤 여러 입력을 함께 설계할 수 있습니다.</p></div>
+      </details>
+
+      <h2 id="references">참고 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://docs.python.org/3/tutorial/controlflow.html#defining-functions" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: Defining Functions</strong></a><small>함수 정의, 인자가 지역 이름에 연결되는 방식, 반환값과 <code>None</code>의 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/tutorial/controlflow.html#keyword-arguments" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: Keyword Arguments</strong></a><small>위치 인자와 키워드 인자의 호출 방식 및 이름 연결 규칙</small></li>
+        <li><a href="https://docs.python.org/3/reference/simple_stmts.html#the-return-statement" target="_blank" rel="noopener noreferrer"><strong>Python 언어 참조: The return statement</strong></a><small>함수 호출에서 빠져나오며 값을 호출한 곳에 전달하는 <code>return</code>의 공식 정의</small></li>
+        <li><a href="https://docs.python.org/3/library/random.html#random.seed" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서: random.seed</strong></a><small>같은 생성 함수에서 난수 선택을 다시 재현하기 위한 시드 설정</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: Image 객체</strong></a><small>함수가 반환하고 이후 표시·저장하는 Pillow 이미지 객체의 공식 참조</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw</strong></a><small>생성 함수 안에서 호출하는 사각형과 타원 그리기 메서드의 공식 설명</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#fixed-function-recall">0-5분 · 고정 함수 회상</a></li>
+        <li class="toc-level-2"><a href="#parameter-and-argument">5-16분 · 매개변수와 인자</a></li>
+        <li class="toc-level-2"><a href="#passing-arguments">16-27분 · 인자 전달 방식</a></li>
+        <li class="toc-level-3"><a href="#argument-errors">호출 오류</a></li>
+        <li class="toc-level-2"><a href="#return-and-scope">27-38분 · 지역 변수와 return</a></li>
+        <li class="toc-level-3"><a href="#return-not-output">반환과 출력의 차이</a></li>
+        <li class="toc-level-3"><a href="#local-variables">지역 변수</a></li>
+        <li class="toc-level-2"><a href="#complete-generator">38-47분 · 전체 생성기</a></li>
+        <li class="toc-level-3"><a href="#three-variations">세 변주</a></li>
+        <li class="toc-level-3"><a href="#same-input-same-result">같은 입력의 재현</a></li>
+        <li class="toc-level-3"><a href="#generator-errors">생성기 오류</a></li>
+        <li class="toc-level-2"><a href="#mission-bridge">47-50분 · 3교시 연결</a></li>
+        <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
+        <li class="toc-level-2"><a href="#extension">50-60분 · 통제 실험</a></li>
+        <li class="toc-level-2"><a href="#references">참고 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice / Week 06 / Period 02</p>
+  <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-06.js?v=week6-1" defer></script>
+</body>
+</html>
