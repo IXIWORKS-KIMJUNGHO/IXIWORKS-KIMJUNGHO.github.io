@@ -86,6 +86,22 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-07-period3-hero.webp",
     alt: "서로 다르게 변형한 세 종이 레이어를 한 화면에 합성한 7주차 3교시 이미지",
   }),
+  "teaching/contents-programming/week-10-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
+    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+  }),
+  "teaching/contents-programming/week-10-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
+    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+  }),
+  "teaching/contents-programming/week-10-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
+    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+  }),
+  "teaching/contents-programming/assets/week-10-interactive-map-example.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-10-location-encoding.png",
+    alt: "위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",

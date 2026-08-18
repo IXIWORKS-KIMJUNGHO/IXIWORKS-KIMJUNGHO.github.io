@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="ko" class="week-10-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 1교시: 위치 데이터와 책임 있는 지도 시각화 | Contents Programming Practice</title>
+  <meta name="description" content="위도·경도와 위치 데이터의 구조, 위치·크기·색상·문자에 값을 연결하는 지도 시각화 원리, 결측·중복·좌표 오류와 개인정보·출처 표기를 초보자의 언어로 배우는 10주차 1교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-10-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="10주차 1교시: 위치 데이터와 책임 있는 지도 시각화 | Contents Programming Practice">
+  <meta property="og:description" content="표의 위도·경도·범주·수치를 지도 위의 위치·색상·크기·문자로 바꾸는 원리와 책임 있는 위치 데이터 사용법을 배웁니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-10-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
+  <meta property="og:image:alt" content="위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="10주차 1교시: 위치 데이터와 책임 있는 지도 시각화">
+  <meta name="twitter:description" content="위치 데이터를 지도 위의 시각적 변수로 바꾸고 좌표 오류·개인정보·출처 문제를 점검하는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming week-10-document">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-09-period3.html" rel="prev" aria-label="이전 자료: 9주차 3교시: 데이터 읽기 카드 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-10-period2.html" rel="next" aria-label="다음 자료: 10주차 2교시: pandas와 Folium으로 인터랙티브 지도 만들기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Location / Coordinates / Visual encoding / Ethics</p>
+        <h1>10주차 1교시: 위치 데이터와 책임 있는 지도 시각화</h1>
+        <p class="lead">표의 한 행을 지도 위의 한 마커로 바꾸기 전에, 좌표가 위치를 결정하고 수치·범주·문자가 크기·색상·설명으로 변환되는 원리를 이해합니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 10</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">50 MIN</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Lesson Spec</p>
+        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">표의 값은 지도에서 무엇이 되는가?</span></div>
+        <div class="meta-row"><span class="meta-key">관찰 단위</span><span class="meta-value">공공시설 한 곳</span></div>
+        <div class="meta-row"><span class="meta-key">핵심 열</span><span class="meta-value">이름, 범주, 수치, 위도, 경도</span></div>
+        <div class="meta-row"><span class="meta-key">시각 변수</span><span class="meta-value">위치, 크기, 색상, 문자</span></div>
+        <div class="meta-row"><span class="meta-key">책임</span><span class="meta-value">개인정보, 누락, 출처, 이용 조건</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">정리된 표를 책임 있는 지도 시각화의 설계도로 읽기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>장소 한 곳이 표의 한 행과 지도 마커 하나로 연결되는 과정을 설명할 수 있습니다.</li>
+          <li>바탕지도와 데이터 레이어의 역할을 구분할 수 있습니다.</li>
+          <li>위도와 경도의 뜻, 값의 범위, Folium에서 사용하는 좌표 순서를 설명할 수 있습니다.</li>
+          <li>위치·크기·색상·문자에 각각 어떤 데이터 열을 연결해야 하는지 판단할 수 있습니다.</li>
+          <li>결측 좌표, 범위를 벗어난 좌표, 숫자가 아닌 수치, 중복 행이 지도에 미치는 영향을 설명할 수 있습니다.</li>
+          <li>개인을 식별할 수 있는 위치를 제외하고 데이터와 바탕지도의 출처를 기록할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-seven" aria-label="1교시 시간 구성">
+        <li><span class="session-label">0-5분</span><strong>9주차 연결</strong><p>읽은 표를 지도용 표로 좁혀 봅니다.</p></li>
+        <li><span class="session-label">5-13분</span><strong>지도의 두 층</strong><p>바탕지도와 데이터 레이어를 구분합니다.</p></li>
+        <li><span class="session-label">13-23분</span><strong>위도와 경도</strong><p>좌표의 뜻·범위·순서를 익힙니다.</p></li>
+        <li><span class="session-label">23-33분</span><strong>시각적 인코딩</strong><p>열을 위치·크기·색상·문자에 연결합니다.</p></li>
+        <li><span class="session-label">33-41분</span><strong>오류의 결과</strong><p>잘못된 행이 지도에 만드는 문제를 읽습니다.</p></li>
+        <li><span class="session-label">41-50분</span><strong>책임 있는 지도</strong><p>개인정보·누락·출처·이용 조건을 점검합니다.</p></li>
+        <li><span class="session-label">50-60분</span><strong>확장 설계</strong><p>공공 위치 데이터의 지도 명세를 작성합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에는 위치 데이터의 구조, 좌표, 시각적 인코딩, 오류, 개인정보와 출처까지 다룹니다. 모든 개별 확인이 빠르게 끝난 경우에만 <strong>50-60분 확장</strong>에서 새로운 공공 위치 데이터의 지도 명세를 작성합니다. 실제 Folium 코드는 2교시에서 한 줄씩 실행합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">프로그래밍을 몰라도 먼저 붙잡을 문장</p>
+        <p><strong>지도 마커 하나는 표의 유효한 한 행이며, 마커의 위치·크기·색상·설명은 서로 다른 열의 값을 보여 줍니다.</strong> 먼저 무엇을 어디에 연결할지 결정한 뒤 코드를 작성합니다.</p>
+      </div>
+
+      <h2 id="week-nine-bridge">0-5분 · 9주차의 DataFrame을 지도용 표로 좁히기</h2>
+
+      <p>9주차에는 CSV를 <code>DataFrame</code>으로 불러오고 한 행, 한 열, 자료형, 결측값을 읽었습니다. 또한 데이터의 제목, 출처, 관찰 단위와 답할 수 있는 질문을 기록했습니다. 10주차에는 같은 읽기 순서를 유지하면서 <strong>위치가 있는 데이터</strong>로 범위를 좁힙니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>10주차 수업용 위치 데이터의 여섯 열</caption>
+          <thead><tr><th scope="col">열</th><th scope="col">의미</th><th scope="col">예시 값</th><th scope="col">지도에서의 역할</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>place_id</code></th><td>장소를 중복 없이 구분하는 식별자</td><td>C001</td><td>중복 장소 확인</td></tr>
+            <tr><th scope="row"><code>place_name</code></th><td>사람이 읽는 장소 이름</td><td>햇살도서관</td><td>툴팁과 팝업의 제목</td></tr>
+            <tr><th scope="row"><code>category</code></th><td>장소의 종류</td><td>도서관</td><td>마커 색상</td></tr>
+            <tr><th scope="row"><code>program_count</code></th><td>한 기간에 운영한 프로그램 수</td><td>48</td><td>마커 크기</td></tr>
+            <tr><th scope="row"><code>latitude</code></th><td>남북 방향의 위치</td><td>37.5665</td><td>마커 위치의 첫 번째 값</td></tr>
+            <tr><th scope="row"><code>longitude</code></th><td>동서 방향의 위치</td><td>126.9780</td><td>마커 위치의 두 번째 값</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>이번 표의 <strong>관찰 단위는 공공시설 한 곳</strong>입니다. 따라서 한 시설은 한 행에 기록하고, 유효한 한 행은 지도 마커 하나가 됩니다. 한 셀에 시설 세 곳의 이름을 함께 쓰거나 한 시설을 이유 없이 여러 행에 반복하면 이 대응 관계가 깨집니다.</p>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-10-public-facilities-practice.csv" download>
+          <span>Practice data</span>
+          <strong>수업용 가상 공공문화시설 CSV 내려받기</strong>
+          <small>유효한 시설 24개와 정제 연습용 오류 5개를 포함한 UTF-8 CSV</small>
+        </a>
+        <a class="inline-resource-card" href="https://www.data.go.kr/data/15112107/fileData.do" target="_blank" rel="noopener noreferrer">
+          <span>Official public data</span>
+          <strong>서울특별시 시설물 정보 살펴보기 ↗</strong>
+          <small>시설 명칭·용도·위도·경도·기준일과 출처표시 조건을 확인하는 실제 공공데이터 사례</small>
+        </a>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">수업용 CSV는 실제 기관 목록이 아니다</p>
+        <p>다운로드 파일의 장소명, 프로그램 수와 좌표 조합은 정제와 시각화 연습을 위해 만든 가상 자료입니다. 실제 기관의 현황을 설명하거나 의사결정에 사용하지 않습니다. 실제 공공데이터를 사용할 때는 제공 기관의 원본과 메타데이터를 다시 확인해야 합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 시설 한 곳에 프로그램이 여러 개라면 반드시 여러 행으로 나누는가?</summary>
+        <div class="details-motion-content"><p>이번 표의 관찰 단위가 “시설 한 곳”이고 <code>program_count</code>가 프로그램의 총개수라면 시설당 한 행을 유지합니다. 관찰 단위를 “프로그램 한 개”로 바꾸면 프로그램마다 한 행을 만들 수 있습니다. 먼저 관찰 단위를 정한 뒤 행의 구조를 결정합니다.</p></div>
+      </details>
+
+      <h2 id="map-layers">5-13분 · 지도는 바탕지도와 데이터 레이어가 겹쳐진 결과다</h2>
+
+      <p>Folium 지도를 보면 도로, 강, 행정 구역과 장소 마커가 한 화면에 보입니다. 그러나 모두 같은 데이터에서 나온 것은 아닙니다. <strong>바탕지도</strong>는 위치를 읽을 수 있는 지리적 맥락을 제공하고, <strong>데이터 레이어</strong>는 우리가 CSV에서 선택해 올린 장소와 값을 보여 줍니다.</p>
+
+      <div class="pipeline" aria-label="표에서 지도까지의 레이어 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">BASEMAP</span><strong>지리적 맥락</strong><p>도로·강·지명·경계처럼 장소의 주변을 읽게 하는 배경입니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">+</span>
+        <div class="pipeline-step"><span class="pipeline-label">DATA LAYER</span><strong>선택한 기록</strong><p>정제된 행을 마커로 바꾸고 수치와 범주를 시각적으로 표현합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">=</span>
+        <div class="pipeline-step"><span class="pipeline-label">MAP</span><strong>해석할 결과</strong><p>두 층을 함께 읽되, 보이지 않는 데이터가 무엇인지도 확인합니다.</p></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>바탕지도와 데이터 레이어 구분</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">제공하는 정보</th><th scope="col">이번 수업에서 정하는 것</th><th scope="col">남겨야 할 기록</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">바탕지도</th><td>도로, 지형, 지명, 행정 경계</td><td>타일 종류, 중심점, 확대 수준</td><td>지도 제공자와 저작권 표기</td></tr>
+            <tr><th scope="row">데이터 레이어</th><td>시설 위치, 범주, 프로그램 수</td><td>어떤 행을 올리고 어떻게 표현할지</td><td>데이터 출처, 기준일, 정제 기준</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>지도가 비어 보이는 지역이 곧 시설이 없는 지역이라는 뜻은 아닙니다. 조사 범위에서 빠졌거나 좌표가 없거나 정제 과정에서 제외되었을 수 있습니다. 지도는 세계 전체를 자동으로 보여 주는 창이 아니라, <strong>바탕지도 위에 선택된 기록을 배치한 결과</strong>입니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 바탕지도에 병원이 보이면 우리 CSV에도 병원 행이 있는가?</summary>
+        <div class="details-motion-content"><p>반드시 그렇지 않습니다. 병원 이름은 바탕지도 제공자의 데이터일 수 있습니다. 우리 데이터 레이어에 병원이 들어 있는지는 <code>clean_df</code>의 행과 직접 만든 마커를 확인해야 합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 마커가 없는 지역을 “문화시설이 없는 지역”이라고 써도 되는가?</summary>
+        <div class="details-motion-content"><p>데이터의 조사 범위와 누락 여부를 확인하기 전에는 그렇게 단정할 수 없습니다. “현재 사용한 데이터에 표시된 시설이 없다”라고 제한해서 설명하고, 데이터의 지역 범위와 기준일을 함께 적습니다.</p></div>
+      </details>
+
+      <h2 id="coordinates">13-23분 · 위도와 경도는 위치를 표현하는 두 수치다</h2>
+
+      <p><strong>위도</strong>는 적도를 기준으로 남북 방향의 위치를 나타내고, <strong>경도</strong>는 기준 자오선을 기준으로 동서 방향의 위치를 나타냅니다. 이번 수업에서는 좌표 체계의 수학을 깊게 다루지 않고, CSV의 두 열을 올바른 순서와 범위로 읽는 데 집중합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>위도와 경도의 기본 범위</caption>
+          <thead><tr><th scope="col">좌표</th><th scope="col">방향</th><th scope="col">가능한 범위</th><th scope="col">Folium 위치 목록</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">위도 latitude</th><td>남쪽 ↔ 북쪽</td><td>-90 이상 90 이하</td><td>첫 번째 값</td></tr>
+            <tr><th scope="row">경도 longitude</th><td>서쪽 ↔ 동쪽</td><td>-180 이상 180 이하</td><td>두 번째 값</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Pillow 이미지에서 좌표를 <code>(x, y)</code> 순서로 사용했던 경험 때문에 경도를 먼저 쓸 것 같지만, Folium의 <code>location</code>에는 일반적으로 <strong>[위도, 경도]</strong> 순서로 전달합니다. 열 이름을 줄여 쓰지 않고 <code>latitude</code>와 <code>longitude</code>로 유지하면 순서를 확인하기 쉽습니다.</p>
+
+      <pre><code>place_name = "햇살도서관"
+latitude = 37.5665
+longitude = 126.9780
+
+assert -90 &lt;= latitude &lt;= 90
+assert -180 &lt;= longitude &lt;= 180
+
+folium_location = [latitude, longitude]
+print(place_name, folium_location)</code></pre>
+
+      <p>이 코드는 두 좌표 값을 변수에 저장하고 범위를 검사한 뒤 Folium이 사용할 순서로 목록을 만듭니다. 출력은 <code>[37.5665, 126.978]</code>입니다. 범위 검사는 명백한 오류를 찾는 첫 단계일 뿐입니다. 범위 안의 좌표라도 바다나 다른 나라를 가리킬 수 있으므로 데이터가 설명하는 지역과 실제 위치가 맞는지도 지도로 확인해야 합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>좌표 상태를 판단하는 예</caption>
+          <thead><tr><th scope="col">latitude</th><th scope="col">longitude</th><th scope="col">1차 범위 검사</th><th scope="col">다음 행동</th></tr></thead>
+          <tbody>
+            <tr><td>37.5665</td><td>126.9780</td><td>통과</td><td>지도에서 조사 지역과 맞는지 확인</td></tr>
+            <tr><td>95</td><td>127.0200</td><td>위도 실패</td><td>원본 확인 전까지 제외</td></tr>
+            <tr><td>37.5550</td><td>226.9900</td><td>경도 실패</td><td>원본 확인 전까지 제외</td></tr>
+            <tr><td>빈 값</td><td>127.0100</td><td>검사 불가</td><td>좌표를 추측하지 않고 결측으로 기록</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">잘못된 좌표를 눈대중으로 고치지 않는다</p>
+        <p>경도 226.99가 보인다고 해서 앞의 2를 임의로 지워 126.99로 바꾸지 않습니다. 실제 입력 오류인지, 다른 좌표 체계인지, 원본 자체가 잘못되었는지 확인할 근거가 없기 때문입니다. 이번 수업에서는 원본에서 확인할 수 없는 행을 제외하고 제외 이유를 기록합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 위도와 경도를 바꾸어 넣으면 어떤 일이 생기는가?</summary>
+        <div class="details-motion-content"><p>서울 주변 예시에서는 경도 약 127을 위도로 넣게 되어 위도 범위 -90~90을 벗어납니다. 범위 검사에서 오류를 발견할 수 있습니다. 두 값이 모두 범위 안인 지역에서는 잘못된 다른 위치에 표시될 수 있으므로 열 이름과 지도 결과를 함께 확인해야 합니다.</p></div>
+      </details>
+
+      <h2 id="visual-encoding">23-33분 · 데이터 열을 위치·크기·색상·문자로 번역하기</h2>
+
+      <p><strong>시각적 인코딩</strong>은 데이터 값을 사람이 볼 수 있는 시각 요소에 대응시키는 일입니다. 지도에서는 위도와 경도가 위치로 바뀌는 것만으로 끝나지 않습니다. 수치를 원의 크기로, 범주를 색상으로, 이름과 구체적인 값을 문자 정보로 바꿀 수 있습니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="location-encoding-caption">
+        <a class="lesson-visual-link" href="assets/week-10-location-encoding.png" target="_blank" rel="noopener noreferrer">
+          <img src="assets/week-10-location-encoding.png" width="1440" height="900" loading="eager" decoding="async" alt="장소 이름, 범주, 수치, 위도, 경도가 있는 표가 지도 위의 마커로 변환되고 위도와 경도는 위치, 수치는 반지름, 범주는 색상, 이름은 툴팁에 연결되는 도해">
+          <span class="lesson-visual-action">원본 크기로 보기 ↗</span>
+        </a>
+        <figcaption id="location-encoding-caption">유효한 한 행은 마커 하나가 됩니다. 위도·경도는 위치, 프로그램 수는 원의 반지름, 시설 범주는 색상, 장소명과 실제 값은 툴팁·팝업에 연결됩니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이번 지도에서 사용하는 네 가지 시각적 인코딩</caption>
+          <thead><tr><th scope="col">데이터 열</th><th scope="col">시각 요소</th><th scope="col">읽을 질문</th><th scope="col">일관성 규칙</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>latitude</code>, <code>longitude</code></th><td>위치</td><td>시설은 어디에 있는가?</td><td>모든 마커에 같은 좌표 순서 사용</td></tr>
+            <tr><th scope="row"><code>program_count</code></th><td>원의 반지름</td><td>어느 시설의 프로그램 수가 더 많은가?</td><td>큰 값일수록 크거나 같은 반지름</td></tr>
+            <tr><th scope="row"><code>category</code></th><td>색상</td><td>시설은 어떤 종류인가?</td><td>같은 범주는 항상 같은 색</td></tr>
+            <tr><th scope="row"><code>place_name</code>과 실제 값</th><td>툴팁·팝업 문자</td><td>이 마커는 정확히 무엇인가?</td><td>요약 이름과 원래 수치를 함께 제공</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>마커 크기는 값 자체를 그대로 넣기보다 화면에서 읽을 수 있는 최소·최대 반지름으로 변환합니다. 프로그램 수가 70이라고 반지름을 70픽셀로 사용하면 화면을 지나치게 가릴 수 있습니다. 반대로 모든 마커를 같은 크기로 만들면 프로그램 수의 차이가 보이지 않습니다. 2교시에는 가장 작은 값을 6픽셀, 가장 큰 값을 20픽셀 사이로 변환합니다.</p>
+
+      <div class="callout callout-info">
+        <p class="callout-title">원의 크기만으로 정확한 값을 읽게 하지 않는다</p>
+        <p>사람은 원의 크기 차이로 대략적인 많고 적음을 비교할 수 있지만 정확한 수치를 알아내기는 어렵습니다. 따라서 크기는 전체 패턴을 보여 주고, 정확한 프로그램 수는 팝업에 문자로 함께 제공합니다.</p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 인코딩 확인 · 2분</span>
+        <h3>질문에 맞지 않는 연결 찾기</h3>
+        <p>질문이 “프로그램이 많은 시설은 어디에 있는가?”일 때 <code>program_count</code>를 마커 색상으로, <code>category</code>를 마커 크기로 연결한 설계를 봅니다. 무엇을 바꾸면 더 직접적으로 읽을 수 있는지 한 문장으로 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 같은 도서관인데 지도마다 색이 달라도 되는가?</summary>
+        <div class="details-motion-content"><p>한 지도 안에서는 같은 범주에 같은 색을 사용해야 합니다. 그래야 색을 보고 범주를 반복해서 해석할 수 있습니다. 서로 다른 지도끼리 비교할 때도 가능한 한 같은 색 규칙을 유지하면 혼란을 줄일 수 있습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 가장 큰 원이 정확히 몇 개인지는 어떻게 아는가?</summary>
+        <div class="details-motion-content"><p>원의 크기만으로 정확한 값을 추측하지 않습니다. 마커를 가리키거나 눌러 툴팁·팝업에 표시된 원래 수치를 확인합니다. 크기는 패턴 비교, 문자는 정확한 값 확인이라는 역할을 나눕니다.</p></div>
+      </details>
+
+      <h2 id="data-quality">33-41분 · 잘못된 행은 사라지거나 엉뚱한 위치에 나타난다</h2>
+
+      <p>수업용 CSV에는 유효한 시설 24개와 정제 연습을 위한 문제 행 5개가 들어 있습니다. 문제를 숨긴 채 바로 지도를 만들면 코드 오류가 발생하거나 마커가 엉뚱한 곳에 놓이거나 같은 장소가 두 번 강조될 수 있습니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="cleaning-map-caption">
+        <a class="lesson-visual-link" href="assets/week-10-cleaning-to-map.png" target="_blank" rel="noopener noreferrer">
+          <img src="assets/week-10-cleaning-to-map.png" width="1440" height="900" loading="lazy" decoding="async" alt="29행 원본 CSV에서 숫자 변환, 결측·중복·좌표 범위 필터링을 거쳐 24개의 유효한 행과 24개의 지도 마커가 되는 과정 도해">
+          <span class="lesson-visual-action">원본 크기로 보기 ↗</span>
+        </a>
+        <figcaption id="cleaning-map-caption">원본 29행에서 문제 5개를 근거와 함께 제외하면 유효한 24행이 남습니다. 최종 지도에는 정제된 행 수와 같은 24개 마커가 있어야 합니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <caption>문제 행이 지도에 미치는 영향과 책임 있는 처리</caption>
+          <thead><tr><th scope="col">문제</th><th scope="col">가능한 결과</th><th scope="col">이번 수업의 처리</th><th scope="col">기록할 내용</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">위도 결측</th><td>마커 위치를 만들 수 없음</td><td>원본 확인 전까지 제외</td><td>좌표 결측 1행 제외</td></tr>
+            <tr><th scope="row">경도 226.99</th><td>허용 범위를 벗어나거나 잘못된 위치</td><td>범위 검사 후 제외</td><td>경도 범위 오류 1행 제외</td></tr>
+            <tr><th scope="row">프로그램 수 <code>unknown</code></th><td>크기 계산 불가</td><td>숫자 변환 후 결측으로 처리</td><td>수치 변환 실패 1행 제외</td></tr>
+            <tr><th scope="row">같은 <code>place_id</code> 반복</th><td>한 장소가 두 번 강조됨</td><td>식별자 기준 중복 제거</td><td>중복 1행 제외</td></tr>
+            <tr><th scope="row">위도 95</th><td>허용 범위 밖의 좌표</td><td>범위 검사 후 제외</td><td>위도 범위 오류 1행 제외</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>중요한 것은 “지우는 코드”가 아니라 <strong>왜 그 행을 현재 분석에서 사용할 수 없는지 설명하는 근거</strong>입니다. 실제 프로젝트에서는 원본 제공자에게 확인하거나 다른 공식 자료와 대조해 수정할 수도 있습니다. 이번 연습에서는 확인할 근거가 없으므로 값을 추측하지 않고 제외합니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 좌표가 없으면 위도와 경도를 0으로 채워도 되는가?</summary>
+        <div class="details-motion-content"><p>안 됩니다. 0은 결측을 뜻하는 표시가 아니라 실제 좌표입니다. 위도 0, 경도 0에 마커가 생겨 데이터가 없는 장소를 실제 장소처럼 보이게 합니다. 결측 상태로 유지하고 지도 대상에서 제외합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 중복 행을 제거하면 정보가 줄어드는데 왜 필요한가?</summary>
+        <div class="details-motion-content"><p>같은 시설이 실수로 복제된 중복이라면 제거하지 않을 때 그 장소가 두 번 존재하는 것처럼 보입니다. 다만 같은 장소를 서로 다른 날짜에 관찰한 행이라면 단순 중복이 아닐 수 있으므로 관찰 단위와 식별자를 먼저 확인해야 합니다.</p></div>
+      </details>
+
+      <h2 id="responsible-map">41-50분 · 책임 있는 지도는 보이는 것과 보이지 않는 것을 함께 설명한다</h2>
+
+      <p>위치 데이터는 다른 정보와 결합될 때 사람의 생활 반경이나 반복되는 이동을 추정하게 할 수 있습니다. 수업에서는 개인의 집, 현재 위치, 통학 경로, 자주 머무는 사적 장소를 수집하지 않습니다. 공개된 공공시설처럼 개인을 직접 가리키지 않는 위치만 사용합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>지도 공개 전 다섯 가지 책임 점검</caption>
+          <thead><tr><th scope="col">점검</th><th scope="col">확인 질문</th><th scope="col">이번 수업의 기준</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">개인정보</th><td>한 사람의 거주·이동·생활 습관을 알아낼 수 있는가?</td><td>개인 위치와 이동 경로를 사용하지 않음</td></tr>
+            <tr><th scope="row">데이터 출처</th><td>누가 언제 어떤 기준으로 기록했는가?</td><td>제목, 제공자, 주소, 기준일 기록</td></tr>
+            <tr><th scope="row">이용 조건</th><td>재사용과 변형이 허용되는가?</td><td>라이선스와 출처표시 조건 확인</td></tr>
+            <tr><th scope="row">바탕지도</th><td>도로와 지명을 제공한 곳은 어디인가?</td><td>화면의 attribution을 삭제하지 않음</td></tr>
+            <tr><th scope="row">누락과 범위</th><td>마커가 없는 곳을 어떻게 설명할 것인가?</td><td>현재 데이터의 범위와 제외 기준으로 한정해 해석</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">지도는 정확해 보이기 때문에 더 조심해야 한다</p>
+        <p>마커가 정교한 바탕지도 위에 놓이면 데이터도 완전하고 정확해 보일 수 있습니다. 그러나 지도 디자인은 원본의 누락, 오래된 기준일, 잘못된 좌표를 자동으로 고치지 않습니다. 제목과 설명에 데이터의 범위, 기준일과 제외 조건을 함께 적습니다.</p>
+      </div>
+
+      <h3 id="mission-contract">3교시까지 유지할 고정 계약</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>위치 데이터 지도 미션의 필수 조건</caption>
+          <thead><tr><th scope="col">영역</th><th scope="col">필수 조건</th><th scope="col">판정 근거</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">데이터</th><td>유효한 장소 20개 이상, 범주 3개 이상</td><td><code>clean_df</code>의 행 수와 고유 범주 수</td></tr>
+            <tr><th scope="row">위치</th><td>모든 유효 행의 위도·경도를 마커 위치로 사용</td><td>정제 행 수와 마커 수가 같음</td></tr>
+            <tr><th scope="row">크기</th><td>수치가 클수록 작아지지 않는 반지름 규칙</td><td>최솟값·최댓값의 반지름 비교</td></tr>
+            <tr><th scope="row">색상</th><td>세 범주에 서로 다른 색, 같은 범주에는 같은 색</td><td>범주-색상 사전 확인</td></tr>
+            <tr><th scope="row">문자</th><td>장소명·범주·실제 값을 툴팁 또는 팝업에 표시</td><td>각 마커의 문자 정보 확인</td></tr>
+            <tr><th scope="row">책임</th><td>출처·기준일·이용 조건·제외 기준·개인정보 점검 기록</td><td>노트북의 데이터 기록 카드</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>아름다운 지도인지, 마커 색이 교수자의 취향과 같은지는 자동 검사의 대상이 아닙니다. 데이터 열과 시각 요소가 일관되게 연결되었는지, 제외한 행의 이유를 기록했는지, 개인 위치를 사용하지 않았는지가 완료 기준입니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 자신의 집 주변 카페 방문 기록을 사용해도 되는가?</summary>
+        <div class="details-motion-content"><p>이번 미션에는 사용하지 않습니다. 반복 방문 장소와 시간은 생활 패턴을 드러낼 수 있습니다. 수업용 가상 자료나 공개된 공공시설 자료를 사용해 같은 시각화 목표를 안전하게 달성합니다.</p></div>
+      </details>
+
+      <h2 id="extension">50-60분 · 선택 확장: 공공 위치 데이터 지도 명세 작성</h2>
+
+      <p>기본 확인을 모두 마친 학생은 관심 있는 공공 위치 주제 하나를 고르고 아래 여섯 문장을 완성합니다. 실제 데이터를 내려받거나 코드를 작성할 필요는 없습니다.</p>
+
+      <ol>
+        <li><strong>질문</strong>: 이 지도로 무엇을 비교하려는가?</li>
+        <li><strong>관찰 단위</strong>: 한 행은 어떤 장소 하나를 뜻하는가?</li>
+        <li><strong>위치 열</strong>: 위도와 경도는 어떤 열에 들어 있는가?</li>
+        <li><strong>수치 열</strong>: 마커 크기로 바꿀 값은 무엇이며 단위는 무엇인가?</li>
+        <li><strong>범주 열</strong>: 색으로 구분할 종류는 무엇인가?</li>
+        <li><strong>책임 기준</strong>: 개인정보, 누락, 출처와 이용 조건을 어떻게 확인할 것인가?</li>
+      </ol>
+
+      <div class="worksheet">
+        <span class="worksheet-label">완성 예시</span>
+        <h3>공공도서관 프로그램 지도 명세</h3>
+        <p>한 행은 공공도서관 한 곳이다. 위도와 경도로 위치를 표시하고, 최근 한 달의 프로그램 수를 원의 크기로, 운영 주체를 색으로 구분한다. 장소명과 실제 프로그램 수는 팝업에 적는다. 개인 이용자의 주소와 방문 기록은 수집하지 않으며, 시설 데이터의 제공 기관·기준일·이용 조건과 제외한 결측 좌표 수를 함께 밝힌다.</p>
+      </div>
+
+      <h2 id="summary">핵심 정리</h2>
+
+      <ol>
+        <li>위치 데이터에서 공공시설 한 곳은 표의 한 행이자 지도 마커 하나가 됩니다.</li>
+        <li>지도는 바탕지도와 우리가 만든 데이터 레이어가 겹쳐진 결과입니다.</li>
+        <li>Folium의 위치 목록에는 위도, 경도 순서로 좌표를 전달합니다.</li>
+        <li>위도·경도는 위치, 수치는 크기, 범주는 색상, 이름과 실제 값은 문자로 표현합니다.</li>
+        <li>결측·중복·범위 오류를 근거 없이 고치지 않고 제외 이유를 기록합니다.</li>
+        <li>개인 위치는 사용하지 않으며 데이터와 바탕지도의 출처, 기준일, 이용 조건과 누락을 설명합니다.</li>
+      </ol>
+
+      <h2 id="references">공식 자료와 추가 읽기</h2>
+      <ul class="reference-list">
+        <li><a href="https://python-visualization.github.io/folium/latest/getting_started.html" target="_blank" rel="noopener noreferrer"><strong>Folium 공식 문서: Getting started</strong></a><small>지도 생성, 타일, 마커, 툴팁·팝업과 HTML 저장의 공식 예시</small></li>
+        <li><a href="https://python-visualization.github.io/folium/latest/user_guide/vector_layers/circle_and_circle_marker.html" target="_blank" rel="noopener noreferrer"><strong>Folium 공식 문서: Circle과 CircleMarker</strong></a><small>미터 단위 Circle과 픽셀 단위 CircleMarker의 차이</small></li>
+        <li><a href="https://www.data.go.kr/data/15112107/fileData.do" target="_blank" rel="noopener noreferrer"><strong>공공데이터포털: 서울특별시 시설물 정보</strong></a><small>시설 명칭·용도·위도·경도·기준일과 공공저작물 출처표시 조건을 읽는 사례</small></li>
+        <li><a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer"><strong>OpenStreetMap 저작권과 출처표시</strong></a><small>바탕지도 데이터의 저작권과 attribution 확인</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#week-nine-bridge">9주차 연결</a></li>
+        <li class="toc-level-2"><a href="#map-layers">지도의 두 층</a></li>
+        <li class="toc-level-2"><a href="#coordinates">위도와 경도</a></li>
+        <li class="toc-level-2"><a href="#visual-encoding">시각적 인코딩</a></li>
+        <li class="toc-level-2"><a href="#data-quality">오류와 지도</a></li>
+        <li class="toc-level-2"><a href="#responsible-map">책임 있는 지도</a></li>
+        <li class="toc-level-3"><a href="#mission-contract">3교시 계약</a></li>
+        <li class="toc-level-2"><a href="#extension">선택 확장</a></li>
+        <li class="toc-level-2"><a href="#summary">핵심 정리</a></li>
+        <li class="toc-level-2"><a href="#references">공식 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 10 · Period 01</p>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>10주차 인터랙티브 위치 데이터 지도 예시</title>
+<meta name="description" content="정제된 공공문화시설 24행을 위치, 크기, 범주 색상, 툴팁과 팝업으로 표현한 10주차 Folium 지도 예시입니다.">
+<link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-interactive-map-example.html">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="10주차 인터랙티브 위치 데이터 지도 예시">
+<meta property="og:description" content="정제된 공공문화시설 24행을 크기와 범주 색상이 있는 마커로 표현한 완성 예시입니다.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-interactive-map-example.html">
+<meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
+<meta property="og:image:alt" content="위치 데이터의 열이 지도 마커의 위치, 크기, 색상, 문자 정보로 바뀌는 10주차 도해">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="10주차 인터랙티브 위치 데이터 지도 예시">
+<meta name="twitter:description" content="정제된 위치 데이터 24행을 Folium 마커 24개로 표현한 완성 예시입니다.">
+<meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-10-location-encoding.png">
+<style>
+  #main-content { width:100%; height:100%; }
+  .skip-link { position:fixed; left:12px; top:-80px; z-index:10001; padding:10px 14px; color:#fff; background:#1c1f1e; font:700 14px Arial,sans-serif; }
+  .skip-link:focus { top:12px; }
+  .map-visually-hidden { position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0; }
+</style>
+
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <style>.week10-map-panel {
+  box-sizing: border-box;
+  position: fixed;
+  z-index: 800;
+  border: 2px solid #1c1f1e;
+  border-radius: 4px;
+  background: rgba(252, 250, 245, 0.96);
+  color: #1c1f1e;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  font: 14px/1.45 Arial, sans-serif;
+}
+
+.week10-map-info {
+  top: 12px;
+  left: 64px;
+  width: min(410px, calc(100vw - 84px));
+}
+
+.week10-map-info summary {
+  min-height: 44px;
+  padding: 10px 42px 10px 14px;
+  display: grid;
+  gap: 2px;
+  align-content: center;
+  position: relative;
+  cursor: pointer;
+  list-style: none;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.week10-map-info summary::-webkit-details-marker { display: none; }
+
+.week10-map-info summary::after {
+  content: "+";
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  transform: translateY(-50%);
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.week10-map-info[open] summary::after { content: "−"; }
+
+.week10-map-info summary small {
+  color: #555b57;
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.week10-map-info summary:focus-visible {
+  outline: 3px solid #25696f;
+  outline-offset: 3px;
+}
+
+.week10-map-panel-body {
+  max-height: min(42vh, 330px);
+  padding: 0 16px 14px;
+  overflow: auto;
+}
+
+.week10-map-panel-body p { margin: 8px 0; }
+.week10-map-panel-body > small { color: #555b57; }
+
+.week10-map-legend {
+  right: 16px;
+  bottom: 32px;
+  min-width: 164px;
+  padding: 13px 15px;
+}
+
+.week10-map-legend ul {
+  margin: 8px 0;
+  padding: 0;
+  display: grid;
+  gap: 7px;
+  list-style: none;
+}
+
+.week10-map-legend li {
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.week10-map-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid #1c1f1e;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--marker-color);
+}
+
+@media (max-width: 760px) {
+  .week10-map-info {
+    top: 64px;
+    left: 12px;
+    width: calc(100vw - 24px);
+  }
+
+  .week10-map-panel-body { max-height: 28vh; }
+
+  .week10-map-legend {
+    right: auto;
+    bottom: 42px;
+    left: 12px;
+    max-width: calc(100vw - 24px);
+  }
+}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0" />
+            <style>
+                #map_week10_root_000 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+
+</head>
+<body><a class="skip-link" href="#main-content">본문 바로가기</a><main id="main-content"><h1 class="map-visually-hidden">10주차 인터랙티브 위치 데이터 지도 예시</h1>
+
+    <aside class="week10-map-panel week10-map-legend" aria-label="시설 범주 범례"><strong>시설 범주</strong><ul><li><span class="week10-map-swatch" style="--marker-color:#25696f"></span><span>도서관</span></li><li><span class="week10-map-swatch" style="--marker-color:#b94736"></span><span>박물관</span></li><li><span class="week10-map-swatch" style="--marker-color:#455b92"></span><span>문화센터</span></li></ul><small>원 크기 = 프로그램 수</small></aside>
+    <details class="week10-map-panel week10-map-info"><summary>서울 가상 공공문화시설 프로그램 지도<small>지도 설명 열기</small></summary><div class="week10-map-panel-body"><p><b>질문</b> · 프로그램 수가 많은 시설은 어느 위치와 범주에 나타나는가?</p><p><b>관찰</b> · 큰 원은 여러 지역에 흩어져 있으며 세 범주 모두에서 프로그램 수의 차이가 보인다.</p><p><b>한계</b> · 가상 자료이며 시설의 접근성·이용자 수·지역 인구를 포함하지 않아 서비스 수준을 판단할 수 없다.</p><small>교수자 제공 가상 자료 · 기준일 2026-08-18 · 정제 24행</small></div></details>
+
+            <div class="folium-map" id="map_week10_root_000" ></div>
+
+</main></body>
+<script>
+
+
+            var map_week10_root_000 = L.map(
+                "map_week10_root_000",
+                {
+                    center: [37.5649375, 126.99475],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 12,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+            L.control.scale().addTo(map_week10_root_000);
+
+
+
+
+
+            var tile_layer_week10_root_000_000 = L.tileLayer(
+                "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 20,
+  "maxNativeZoom": 20,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca href=\"https://carto.com/attributions\"\u003eCARTO\u003c/a\u003e",
+  "subdomains": "abcd",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+
+
+            tile_layer_week10_root_000_000.addTo(map_week10_root_000);
+
+
+            var circle_marker_week10_root_000_001 = L.circleMarker(
+                [37.5665, 126.978],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.142857142857142, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_001_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_000 = $(`<div id="html_week10_000" style="width: 100.0%; height: 100.0%;">햇살도서관 | 범주: 도서관 | 프로그램 수: 48</div>`)[0];
+                popup_week10_root_000_001_000.setContent(html_week10_000);
+
+
+
+        circle_marker_week10_root_000_001.bindPopup(popup_week10_root_000_001_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_001.bindTooltip(
+                `<div>
+                     햇살도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_002 = L.circleMarker(
+                [37.572, 126.99],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.428571428571429, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_002_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_001 = $(`<div id="html_week10_001" style="width: 100.0%; height: 100.0%;">나무도서관 | 범주: 도서관 | 프로그램 수: 35</div>`)[0];
+                popup_week10_root_000_002_000.setContent(html_week10_001);
+
+
+
+        circle_marker_week10_root_000_002.bindPopup(popup_week10_root_000_002_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_002.bindTooltip(
+                `<div>
+                     나무도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_003 = L.circleMarker(
+                [37.584, 127.012],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.142857142857142, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_003_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_002 = $(`<div id="html_week10_002" style="width: 100.0%; height: 100.0%;">구름도서관 | 범주: 도서관 | 프로그램 수: 62</div>`)[0];
+                popup_week10_root_000_003_000.setContent(html_week10_002);
+
+
+
+        circle_marker_week10_root_000_003.bindPopup(popup_week10_root_000_003_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_003.bindTooltip(
+                `<div>
+                     구름도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_004 = L.circleMarker(
+                [37.551, 126.965],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.714285714285714, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_004_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_003 = $(`<div id="html_week10_003" style="width: 100.0%; height: 100.0%;">샘물도서관 | 범주: 도서관 | 프로그램 수: 29</div>`)[0];
+                popup_week10_root_000_004_000.setContent(html_week10_003);
+
+
+
+        circle_marker_week10_root_000_004.bindPopup(popup_week10_root_000_004_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_004.bindTooltip(
+                `<div>
+                     샘물도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_005 = L.circleMarker(
+                [37.538, 126.992],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.857142857142858, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_005_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_004 = $(`<div id="html_week10_004" style="width: 100.0%; height: 100.0%;">새봄도서관 | 범주: 도서관 | 프로그램 수: 54</div>`)[0];
+                popup_week10_root_000_005_000.setContent(html_week10_004);
+
+
+
+        circle_marker_week10_root_000_005.bindPopup(popup_week10_root_000_005_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_005.bindTooltip(
+                `<div>
+                     새봄도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_006 = L.circleMarker(
+                [37.52, 126.94],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.142857142857142, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_006_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_005 = $(`<div id="html_week10_005" style="width: 100.0%; height: 100.0%;">한강도서관 | 범주: 도서관 | 프로그램 수: 41</div>`)[0];
+                popup_week10_root_000_006_000.setContent(html_week10_005);
+
+
+
+        circle_marker_week10_root_000_006.bindPopup(popup_week10_root_000_006_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_006.bindTooltip(
+                `<div>
+                     한강도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_007 = L.circleMarker(
+                [37.603, 127.025],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 18.57142857142857, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_007_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_006 = $(`<div id="html_week10_006" style="width: 100.0%; height: 100.0%;">별빛도서관 | 범주: 도서관 | 프로그램 수: 67</div>`)[0];
+                popup_week10_root_000_007_000.setContent(html_week10_006);
+
+
+
+        circle_marker_week10_root_000_007.bindPopup(popup_week10_root_000_007_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_007.bindTooltip(
+                `<div>
+                     별빛도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_008 = L.circleMarker(
+                [37.612, 126.958],
+                {"bubblingMouseEvents": true, "color": "#25696f", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#25696f", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.857142857142858, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_008_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_007 = $(`<div id="html_week10_007" style="width: 100.0%; height: 100.0%;">마루도서관 | 범주: 도서관 | 프로그램 수: 33</div>`)[0];
+                popup_week10_root_000_008_000.setContent(html_week10_007);
+
+
+
+        circle_marker_week10_root_000_008.bindPopup(popup_week10_root_000_008_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_008.bindTooltip(
+                `<div>
+                     마루도서관 · 도서관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_009 = L.circleMarker(
+                [37.579, 126.948],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.0, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_009_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_008 = $(`<div id="html_week10_008" style="width: 100.0%; height: 100.0%;">모양박물관 | 범주: 박물관 | 프로그램 수: 23</div>`)[0];
+                popup_week10_root_000_009_000.setContent(html_week10_008);
+
+
+
+        circle_marker_week10_root_000_009.bindPopup(popup_week10_root_000_009_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_009.bindTooltip(
+                `<div>
+                     모양박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_010 = L.circleMarker(
+                [37.59, 126.982],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.285714285714285, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_010_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_009 = $(`<div id="html_week10_009" style="width: 100.0%; height: 100.0%;">시간박물관 | 범주: 박물관 | 프로그램 수: 38</div>`)[0];
+                popup_week10_root_000_010_000.setContent(html_week10_009);
+
+
+
+        circle_marker_week10_root_000_010.bindPopup(popup_week10_root_000_010_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_010.bindTooltip(
+                `<div>
+                     시간박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_011 = L.circleMarker(
+                [37.561, 127.028],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 15.714285714285714, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_011_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_010 = $(`<div id="html_week10_010" style="width: 100.0%; height: 100.0%;">기록박물관 | 범주: 박물관 | 프로그램 수: 57</div>`)[0];
+                popup_week10_root_000_011_000.setContent(html_week10_010);
+
+
+
+        circle_marker_week10_root_000_011.bindPopup(popup_week10_root_000_011_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_011.bindTooltip(
+                `<div>
+                     기록박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_012 = L.circleMarker(
+                [37.543, 127.055],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 8.285714285714285, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_012_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_011 = $(`<div id="html_week10_011" style="width: 100.0%; height: 100.0%;">생활박물관 | 범주: 박물관 | 프로그램 수: 31</div>`)[0];
+                popup_week10_root_000_012_000.setContent(html_week10_011);
+
+
+
+        circle_marker_week10_root_000_012.bindPopup(popup_week10_root_000_012_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_012.bindTooltip(
+                `<div>
+                     생활박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_013 = L.circleMarker(
+                [37.528, 127.018],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 20.0, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_013_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_012 = $(`<div id="html_week10_012" style="width: 100.0%; height: 100.0%;">도시박물관 | 범주: 박물관 | 프로그램 수: 72</div>`)[0];
+                popup_week10_root_000_013_000.setContent(html_week10_012);
+
+
+
+        circle_marker_week10_root_000_013.bindPopup(popup_week10_root_000_013_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_013.bindTooltip(
+                `<div>
+                     도시박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_014 = L.circleMarker(
+                [37.511, 126.974],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 6.857142857142857, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_014_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_013 = $(`<div id="html_week10_013" style="width: 100.0%; height: 100.0%;">소리박물관 | 범주: 박물관 | 프로그램 수: 26</div>`)[0];
+                popup_week10_root_000_014_000.setContent(html_week10_013);
+
+
+
+        circle_marker_week10_root_000_014.bindPopup(popup_week10_root_000_014_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_014.bindTooltip(
+                `<div>
+                     소리박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_015 = L.circleMarker(
+                [37.596, 127.067],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 12.285714285714285, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_015_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_014 = $(`<div id="html_week10_014" style="width: 100.0%; height: 100.0%;">빛박물관 | 범주: 박물관 | 프로그램 수: 45</div>`)[0];
+                popup_week10_root_000_015_000.setContent(html_week10_014);
+
+
+
+        circle_marker_week10_root_000_015.bindPopup(popup_week10_root_000_015_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_015.bindTooltip(
+                `<div>
+                     빛박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_016 = L.circleMarker(
+                [37.617, 127.002],
+                {"bubblingMouseEvents": true, "color": "#b94736", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#b94736", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 9.142857142857142, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_016_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_015 = $(`<div id="html_week10_015" style="width: 100.0%; height: 100.0%;">종이박물관 | 범주: 박물관 | 프로그램 수: 34</div>`)[0];
+                popup_week10_root_000_016_000.setContent(html_week10_015);
+
+
+
+        circle_marker_week10_root_000_016.bindPopup(popup_week10_root_000_016_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_016.bindTooltip(
+                `<div>
+                     종이박물관 · 박물관
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_017 = L.circleMarker(
+                [37.57, 127.044],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 14.285714285714285, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_017_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_016 = $(`<div id="html_week10_016" style="width: 100.0%; height: 100.0%;">푸른문화센터 | 범주: 문화센터 | 프로그램 수: 52</div>`)[0];
+                popup_week10_root_000_017_000.setContent(html_week10_016);
+
+
+
+        circle_marker_week10_root_000_017.bindPopup(popup_week10_root_000_017_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_017.bindTooltip(
+                `<div>
+                     푸른문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_018 = L.circleMarker(
+                [37.548, 126.925],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 17.714285714285715, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_018_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_017 = $(`<div id="html_week10_017" style="width: 100.0%; height: 100.0%;">열린문화센터 | 범주: 문화센터 | 프로그램 수: 64</div>`)[0];
+                popup_week10_root_000_018_000.setContent(html_week10_017);
+
+
+
+        circle_marker_week10_root_000_018.bindPopup(popup_week10_root_000_018_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_018.bindTooltip(
+                `<div>
+                     열린문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_019 = L.circleMarker(
+                [37.532, 126.955],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 7.428571428571429, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_019_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_018 = $(`<div id="html_week10_018" style="width: 100.0%; height: 100.0%;">다온문화센터 | 범주: 문화센터 | 프로그램 수: 28</div>`)[0];
+                popup_week10_root_000_019_000.setContent(html_week10_018);
+
+
+
+        circle_marker_week10_root_000_019.bindPopup(popup_week10_root_000_019_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_019.bindTooltip(
+                `<div>
+                     다온문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_020 = L.circleMarker(
+                [37.515, 127.041],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 13.428571428571429, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_020_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_019 = $(`<div id="html_week10_019" style="width: 100.0%; height: 100.0%;">누리문화센터 | 범주: 문화센터 | 프로그램 수: 49</div>`)[0];
+                popup_week10_root_000_020_000.setContent(html_week10_019);
+
+
+
+        circle_marker_week10_root_000_020.bindPopup(popup_week10_root_000_020_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_020.bindTooltip(
+                `<div>
+                     누리문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_021 = L.circleMarker(
+                [37.588, 126.93],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 19.428571428571427, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_021_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_020 = $(`<div id="html_week10_020" style="width: 100.0%; height: 100.0%;">이음문화센터 | 범주: 문화센터 | 프로그램 수: 70</div>`)[0];
+                popup_week10_root_000_021_000.setContent(html_week10_020);
+
+
+
+        circle_marker_week10_root_000_021.bindPopup(popup_week10_root_000_021_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_021.bindTooltip(
+                `<div>
+                     이음문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_022 = L.circleMarker(
+                [37.607, 127.048],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 10.0, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_022_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_021 = $(`<div id="html_week10_021" style="width: 100.0%; height: 100.0%;">마을문화센터 | 범주: 문화센터 | 프로그램 수: 37</div>`)[0];
+                popup_week10_root_000_022_000.setContent(html_week10_021);
+
+
+
+        circle_marker_week10_root_000_022.bindPopup(popup_week10_root_000_022_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_022.bindTooltip(
+                `<div>
+                     마을문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_023 = L.circleMarker(
+                [37.625, 126.985],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 16.0, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_023_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_022 = $(`<div id="html_week10_022" style="width: 100.0%; height: 100.0%;">함께문화센터 | 범주: 문화센터 | 프로그램 수: 58</div>`)[0];
+                popup_week10_root_000_023_000.setContent(html_week10_022);
+
+
+
+        circle_marker_week10_root_000_023.bindPopup(popup_week10_root_000_023_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_023.bindTooltip(
+                `<div>
+                     함께문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+
+            var circle_marker_week10_root_000_024 = L.circleMarker(
+                [37.502, 127.012],
+                {"bubblingMouseEvents": true, "color": "#455b92", "dashArray": null, "dashOffset": null, "fill": true, "fillColor": "#455b92", "fillOpacity": 0.78, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "opacity": 1.0, "radius": 11.428571428571429, "stroke": true, "weight": 2}
+            ).addTo(map_week10_root_000);
+
+
+        var popup_week10_root_000_024_000 = L.popup({
+  "maxWidth": "100%",
+});
+
+
+
+                var html_week10_023 = $(`<div id="html_week10_023" style="width: 100.0%; height: 100.0%;">오늘문화센터 | 범주: 문화센터 | 프로그램 수: 42</div>`)[0];
+                popup_week10_root_000_024_000.setContent(html_week10_023);
+
+
+
+        circle_marker_week10_root_000_024.bindPopup(popup_week10_root_000_024_000)
+        ;
+
+
+
+
+            circle_marker_week10_root_000_024.bindTooltip(
+                `<div>
+                     오늘문화센터 · 문화센터
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+
+</script>
+</html>

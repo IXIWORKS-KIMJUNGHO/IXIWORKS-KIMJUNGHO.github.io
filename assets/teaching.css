@@ -3204,3 +3204,222 @@ body.course-contents-programming.teaching-document .submission-strip strong {
     box-shadow: none;
   }
 }
+
+/* Week 10: readable long-form hierarchy and goal-based map mission. */
+
+html.week-10-root {
+  scroll-behavior: auto;
+}
+
+body.week-10-document .article h2 {
+  display: block;
+  counter-increment: none;
+}
+
+body.week-10-document .article h2::before {
+  content: none;
+  display: none;
+}
+
+body.week-10-document summary:active {
+  transform: none;
+}
+
+body.week-10-document .lesson-visual-link {
+  border-radius: 4px;
+  display: block;
+  color: var(--ink);
+  outline-offset: 5px;
+}
+
+body.week-10-document .lesson-visual-link:hover {
+  text-decoration: none;
+}
+
+body.week-10-document .lesson-visual-link img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+body.week-10-document .lesson-visual-action {
+  min-height: 44px;
+  padding: 10px 0 0;
+  display: inline-flex;
+  align-items: center;
+  color: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+body.week-10-document .inline-resource-card {
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+
+body.week-10-document .inline-resource-card:active {
+  transform: scale(0.985);
+}
+
+body.week-10-document .mission-progress {
+  position: sticky;
+  top: 72px;
+  z-index: 6;
+  margin: 18px 0 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+  background: var(--paper);
+  background: color-mix(in srgb, var(--paper) 94%, transparent);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+body.week-10-document .mission-progress p {
+  margin: 0;
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+body.week-10-document .mission-progress span {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 650;
+  text-transform: uppercase;
+}
+
+body.week-10-document .mission-progress strong {
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.week-10-document .mission-progress[data-complete="true"] {
+  border-color: var(--success-ink);
+}
+
+body.week-10-document .mission-progress[data-complete="true"] strong {
+  color: var(--success-ink);
+}
+
+body.week-10-document .mission-progress button {
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--ink);
+  font: 650 11px/1 var(--sans);
+  cursor: pointer;
+  transition:
+    transform 140ms var(--ease-out),
+    border-color 160ms ease;
+}
+
+body.week-10-document .mission-progress button:active {
+  transform: scale(0.97);
+}
+
+body.week-10-document .completion-criteria li {
+  min-height: 72px;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+  counter-increment: none;
+}
+
+body.week-10-document .completion-criteria li::before {
+  content: none;
+  display: none;
+}
+
+body.week-10-document .completion-check {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  justify-self: center;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+body.week-10-document .completion-criteria label {
+  min-height: 56px;
+  display: grid;
+  gap: 4px;
+  align-content: center;
+  cursor: pointer;
+}
+
+body.week-10-document .completion-criteria label span {
+  grid-column: auto;
+}
+
+body.week-10-document .completion-criteria li[data-checked="true"] strong {
+  color: var(--success-ink);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.week-10-document .inline-resource-card:not(:active):hover {
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
+
+  body.week-10-document .mission-progress button:not(:active):hover {
+    border-color: var(--accent);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  body.week-10-document .inline-resource-card:not(:active):hover {
+    border-color: var(--line);
+    transform: none;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body.week-10-document .lesson-visual-link img {
+    filter: brightness(0.88) contrast(1.08);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  body.week-10-document .mission-progress {
+    background: var(--paper);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (max-width: 760px) {
+  body.week-10-document .mission-progress {
+    top: 66px;
+  }
+}
+
+@media (max-width: 420px) {
+  body.week-10-document .mission-progress {
+    align-items: stretch;
+  }
+
+  body.week-10-document .mission-progress p {
+    display: grid;
+    gap: 2px;
+  }
+}
+
+@media print {
+  body.week-10-document .mission-progress {
+    position: static;
+    background: transparent;
+  }
+
+  body.week-10-document .mission-progress button {
+    display: none;
+  }
+}
