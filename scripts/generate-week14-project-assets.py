@@ -73,10 +73,38 @@ PROVIDED_IMAGE_CSV = """x,y,size,color
 0.84,0.28,66,#116e68
 """
 
-FONT_PATH = Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans.ttf"
-FONT_BOLD_PATH = (
-    Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans-Bold.ttf"
-)
+def supports_korean_glyphs(font_path: Path) -> bool:
+    """Return whether a font contains the Hangul used by the teaching visuals."""
+
+    try:
+        font = font_manager.get_font(font_path)
+    except (OSError, RuntimeError):
+        return False
+    return all(font.get_char_index(ord(character)) for character in "한글입력처리표현저장")
+
+
+def find_visual_font() -> Path:
+    """Choose a Korean-capable font while keeping one deterministic local choice."""
+
+    explicit_candidates = [
+        Path("/System/Library/Fonts/Supplemental/AppleGothic.ttf"),
+        Path("/System/Library/Fonts/AppleSDGothicNeo.ttc"),
+        Path("/usr/share/fonts/truetype/nanum/NanumGothic.ttf"),
+        Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
+    ]
+    system_candidates = [
+        Path(font_path) for font_path in sorted(font_manager.findSystemFonts())
+    ]
+    for font_path in [*explicit_candidates, *system_candidates]:
+        if font_path.is_file() and supports_korean_glyphs(font_path):
+            return font_path
+    raise RuntimeError(
+        "Week 14 visual generation requires a Korean-capable system font."
+    )
+
+
+FONT_PATH = find_visual_font()
+FONT_BOLD_PATH = FONT_PATH
 FONT = font_manager.FontProperties(fname=FONT_PATH)
 FONT_BOLD = font_manager.FontProperties(fname=FONT_BOLD_PATH)
 
@@ -249,7 +277,7 @@ def make_scope_to_slice(path: Path) -> None:
     axis.text(
         0.04,
         0.93,
-        "FROM BROAD IDEA TO BUILDABLE SLICE",
+        "넓은 아이디어에서 제작 가능한 핵심으로",
         transform=axis.transAxes,
         fontproperties=FONT_BOLD,
         fontsize=29,
@@ -258,7 +286,7 @@ def make_scope_to_slice(path: Path) -> None:
     axis.text(
         0.04,
         0.875,
-        "A 30% prototype proves one complete path. It does not imitate 30% of every feature.",
+        "30% 프로토타입은 모든 기능의 일부가 아니라, 처음부터 끝까지 이어진 한 경로를 증명합니다.",
         transform=axis.transAxes,
         fontproperties=FONT,
         fontsize=14,
@@ -271,9 +299,9 @@ def make_scope_to_slice(path: Path) -> None:
         0.57,
         0.245,
         0.23,
-        label="TOO BROAD",
-        title="Show every facility",
-        body="All categories\nAll years\nMap + dashboard + filters",
+        label="너무 넓은 계획",
+        title="모든 시설을 보여 준다",
+        body="모든 범주와 연도\n지도 + 대시보드 + 필터\n동시에 해결할 문제가 많음",
         facecolor=PALE_CORAL,
         accent=CORAL,
     )
@@ -283,9 +311,9 @@ def make_scope_to_slice(path: Path) -> None:
         0.57,
         0.245,
         0.23,
-        label="BUILDABLE DATA SLICE",
-        title="Compare one measure",
-        body="One approved table\nOne group total\nOne readable bar chart",
+        label="제작 가능한 데이터 핵심",
+        title="한 가지 값을 비교한다",
+        body="승인된 표 하나\n범주별 합계 하나\n읽을 수 있는 막대 하나",
         facecolor=PALE_TEAL,
         accent=TEAL,
     )
@@ -295,9 +323,9 @@ def make_scope_to_slice(path: Path) -> None:
         0.57,
         0.245,
         0.23,
-        label="EVIDENCE",
-        title="A file that opens",
-        body="Raw input preserved\nCounts printed\nPNG exported",
+        label="완료 증거",
+        title="다시 열리는 파일",
+        body="원본 입력 보존\n수량 출력\nPNG 저장",
         facecolor=PANEL,
         accent=INK,
     )
@@ -317,23 +345,23 @@ def make_scope_to_slice(path: Path) -> None:
 
     examples = [
         (
-            "TEXT",
-            "Interpret a whole novel",
-            "Count repeated words in one permitted excerpt",
+            "텍스트 TEXT",
+            "소설 전체의 의미를 해석한다",
+            "허용된 짧은 글 하나의 반복 단어를 센다",
             PALE_BLUE,
             BLUE,
         ),
         (
-            "SOUND",
-            "Build a live performance system",
-            "Show energy change in one short permitted clip",
+            "사운드 SOUND",
+            "실시간 공연 시스템을 만든다",
+            "허용된 짧은 소리 하나의 에너지 변화를 그린다",
             PALE_GOLD,
             GOLD,
         ),
         (
-            "RULE-BASED IMAGE",
-            "Make an infinite generative world",
-            "Export one composition from one parameter rule",
+            "규칙 이미지 IMAGE",
+            "끝없이 변하는 생성 세계를 만든다",
+            "매개변수 규칙 하나로 구성 한 장을 저장한다",
             PALE_TEAL,
             TEAL,
         ),
@@ -359,7 +387,7 @@ def make_scope_to_slice(path: Path) -> None:
     axis.text(
         0.04,
         0.035,
-        "KEEP: one question · one input · one rule · one mapping · one output",
+        "남길 것: 질문 하나 · 입력 하나 · 규칙 하나 · 매핑 하나 · 출력 하나",
         transform=axis.transAxes,
         fontproperties=FONT_BOLD,
         fontsize=13,
@@ -375,15 +403,15 @@ def make_prototype_contract(path: Path) -> None:
     figure, axis = plt.subplots(figsize=(14.4, 9), dpi=100)
     axis.set_axis_off()
     figure.subplots_adjust(left=0.04, right=0.96, top=0.96, bottom=0.05)
-    axis.text(0.04, 0.93, "30% = ONE COMPLETE PATH", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=31, color=INK)
-    axis.text(0.04, 0.872, "Every stage leaves evidence that the next stage can use and a reviewer can check.", transform=axis.transAxes, fontproperties=FONT, fontsize=14, color=MUTED)
+    axis.text(0.04, 0.93, "30% = 처음부터 끝까지 이어진 한 경로", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=29, color=INK)
+    axis.text(0.04, 0.872, "각 단계는 다음 단계가 사용할 값과 검토자가 확인할 증거를 남깁니다.", transform=axis.transAxes, fontproperties=FONT, fontsize=14, color=MUTED)
 
     cards = [
-        ("01", "INPUT", "One approved\nsource", PALE_BLUE, BLUE),
-        ("02", "PRESERVE", "Raw copy +\ndigest", PALE_GOLD, GOLD),
-        ("03", "PROCESS", "One count, rule,\nor measure", PALE_TEAL, TEAL),
-        ("04", "MAP", "Value → position,\nlength, color", PALE_CORAL, CORAL),
-        ("05", "EXPORT", "Openable PNG\nor HTML", PANEL, INK),
+        ("01", "입력 INPUT", "승인된\n자료 하나", PALE_BLUE, BLUE),
+        ("02", "보존 PRESERVE", "원본 사본 +\n입력 지문", PALE_GOLD, GOLD),
+        ("03", "처리 PROCESS", "집계·규칙·\n측정 하나", PALE_TEAL, TEAL),
+        ("04", "표현 MAP", "값 → 위치·\n길이·색", PALE_CORAL, CORAL),
+        ("05", "저장 EXPORT", "다시 열리는\nPNG 또는 HTML", PANEL, INK),
     ]
     width = 0.158
     gap = 0.026
@@ -398,23 +426,23 @@ def make_prototype_contract(path: Path) -> None:
             axis.add_patch(FancyArrowPatch((x + width + 0.005, 0.62), (x + width + gap - 0.005, 0.62), transform=axis.transAxes, arrowstyle="-|>", mutation_scale=15, linewidth=1.5, color=INK))
 
     evidence = [
-        ("QUESTION", "The source can answer it"),
-        ("CONSOLE", "Counts before and after"),
-        ("VISUAL", "Marks match processed values"),
-        ("FILE", "1600 × 1000 and opens"),
-        ("NOTE", "Observation + limitation + next steps"),
+        ("질문", "현재 입력으로 답할 수 있음"),
+        ("콘솔", "처리 전후 수량이 보임"),
+        ("화면", "표시가 처리 값과 일치함"),
+        ("파일", "1600 × 1000이며 다시 열림"),
+        ("기록", "관찰 + 한계 + 다음 행동"),
     ]
-    axis.text(0.04, 0.405, "REVIEW EVIDENCE", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=12, color=MUTED)
+    axis.text(0.04, 0.405, "확인할 증거", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=12, color=MUTED)
     for index, (label, body) in enumerate(evidence):
         y = 0.335 - index * 0.061
         axis.add_patch(Rectangle((0.04, y), 0.17, 0.043, transform=axis.transAxes, facecolor=INK, edgecolor=INK))
         axis.text(0.055, y + 0.0215, label, transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=9, color=PANEL, va="center")
         axis.text(0.235, y + 0.0215, body, transform=axis.transAxes, fontproperties=FONT, fontsize=11, color=INK, va="center")
 
-    axis.text(0.62, 0.235, "NOT A 30% PROTOTYPE", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=12, color=CORAL)
-    axis.text(0.62, 0.185, "A polished title with no data path", transform=axis.transAxes, fontproperties=FONT, fontsize=11.5, color=MUTED)
-    axis.text(0.62, 0.140, "Many unfinished features", transform=axis.transAxes, fontproperties=FONT, fontsize=11.5, color=MUTED)
-    axis.text(0.62, 0.095, "A screenshot that cannot be reproduced", transform=axis.transAxes, fontproperties=FONT, fontsize=11.5, color=MUTED)
+    axis.text(0.62, 0.235, "30% 프로토타입이 아닌 것", transform=axis.transAxes, fontproperties=FONT_BOLD, fontsize=12, color=CORAL)
+    axis.text(0.62, 0.185, "입력 경로 없이 제목만 다듬은 화면", transform=axis.transAxes, fontproperties=FONT, fontsize=11.5, color=MUTED)
+    axis.text(0.62, 0.140, "끝나지 않은 기능을 여러 개 모은 상태", transform=axis.transAxes, fontproperties=FONT, fontsize=11.5, color=MUTED)
+    axis.text(0.62, 0.095, "같은 결과를 다시 만들 수 없는 캡처", transform=axis.transAxes, fontproperties=FONT, fontsize=11.5, color=MUTED)
     save_figure(figure, path)
 
 
@@ -463,7 +491,7 @@ def make_project_path_preview(path: Path) -> None:
     figure.text(
         0.06,
         0.93,
-        "FOUR PATHS · ONE PROTOTYPE CONTRACT",
+        "네 경로, 하나의 프로토타입 계약",
         fontproperties=FONT_BOLD,
         fontsize=29,
         color=INK,
@@ -471,7 +499,7 @@ def make_project_path_preview(path: Path) -> None:
     figure.text(
         0.06,
         0.87,
-        "Data, text, sound, or rule-based image: preserve one input, apply one rule, map it, and export it.",
+        "데이터·텍스트·사운드·규칙 이미지: 입력 하나를 보존하고, 규칙 하나로 처리해 파일로 저장합니다.",
         fontproperties=FONT,
         fontsize=14,
         color=MUTED,
@@ -481,9 +509,9 @@ def make_project_path_preview(path: Path) -> None:
     data_totals = data_frame.groupby("category")["value"].sum().sort_values()
     axes[0, 0].barh(data_totals.index, data_totals.values, color=[TEAL, GOLD, CORAL])
     axes[0, 0].set_xlim(0, 95)
-    axes[0, 0].set_xlabel("Total visits")
+    axes[0, 0].set_xlabel("합계")
     axes[0, 0].set_title(
-        "DATA · group and compare",
+        "데이터 DATA · 묶어서 비교",
         loc="left",
         fontproperties=FONT_BOLD,
         fontsize=13,
@@ -495,9 +523,9 @@ def make_project_path_preview(path: Path) -> None:
     counts = [item[1] for item in top_words][::-1]
     axes[0, 1].barh(words, counts, color=BLUE)
     axes[0, 1].set_xlim(0, max(counts) + 1)
-    axes[0, 1].set_xlabel("Token count")
+    axes[0, 1].set_xlabel("등장 횟수")
     axes[0, 1].set_title(
-        "TEXT · count and rank",
+        "텍스트 TEXT · 세어서 순위화",
         loc="left",
         fontproperties=FONT_BOLD,
         fontsize=13,
@@ -514,10 +542,10 @@ def make_project_path_preview(path: Path) -> None:
     axes[1, 0].plot(frame_times, rms, color=TEAL, linewidth=2.3)
     axes[1, 0].fill_between(frame_times, rms, color=PALE_TEAL)
     axes[1, 0].set_ylim(0, max(rms) * 1.25)
-    axes[1, 0].set_xlabel("Time (seconds)")
-    axes[1, 0].set_ylabel("RMS energy")
+    axes[1, 0].set_xlabel("시간(초)")
+    axes[1, 0].set_ylabel("RMS 에너지")
     axes[1, 0].set_title(
-        "SOUND · measure over time",
+        "사운드 SOUND · 시간에 따른 측정",
         loc="left",
         fontproperties=FONT_BOLD,
         fontsize=13,
@@ -532,10 +560,10 @@ def make_project_path_preview(path: Path) -> None:
         edgecolors=INK,
         linewidths=0.8,
     )
-    axes[1, 1].set(xlim=(0, 1), ylim=(0, 1), xlabel="x position", ylabel="y position")
+    axes[1, 1].set(xlim=(0, 1), ylim=(0, 1), xlabel="x 위치", ylabel="y 위치")
     axes[1, 1].set_aspect("equal", adjustable="box")
     axes[1, 1].set_title(
-        "RULE IMAGE · parameters to form",
+        "규칙 이미지 IMAGE · 매개변수에서 형태로",
         loc="left",
         fontproperties=FONT_BOLD,
         fontsize=13,
@@ -550,7 +578,7 @@ def make_project_path_preview(path: Path) -> None:
     figure.text(
         0.06,
         0.032,
-        "SAME EXIT EVIDENCE · approved source · raw copy · processed values · readable mapping · openable file",
+        "같은 완료 증거 · 승인된 입력 · 원본 사본 · 처리 값 · 읽히는 매핑 · 다시 열리는 파일",
         fontproperties=FONT_BOLD,
         fontsize=12.5,
         color=CORAL,

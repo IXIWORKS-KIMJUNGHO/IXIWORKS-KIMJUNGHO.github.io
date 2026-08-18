@@ -4,26 +4,27 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>14주차 2교시: 코드 구조와 검증 기준 세우기 | Contents Programming Practice</title>
-  <meta name="description" content="프로젝트 노트북을 준비·입력·처리·시각화·저장·최종 점검의 여섯 구역으로 나누고, 데이터·위치·텍스트·사운드·규칙 이미지·복합 프로젝트의 검증 문장과 출처·이용 권한을 정한 뒤 60~90초 1차 면담을 진행하는 14주차 2교시 강의 자료입니다.">
+  <meta name="description" content="프로젝트 노트북을 STEP 0부터 STEP 7까지 여덟 단계로 나누고, 데이터·위치·텍스트·사운드·규칙 이미지·복합 프로젝트의 검증 문장과 출처·이용 권한을 정한 뒤 60~90초 1차 면담을 진행하는 14주차 2교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-14-period2.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="14주차 2교시: 코드 구조와 검증 기준 세우기">
-  <meta property="og:description" content="서로 다른 프로젝트를 여섯 코드 구역과 확인 가능한 증거로 설계하고 1차 면담에서 범위를 확정합니다.">
+  <meta property="og:description" content="서로 다른 프로젝트를 여덟 STEP과 확인 가능한 증거로 설계하고 1차 면담에서 범위를 확정합니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-14-period2.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-14-prototype-contract.png">
   <meta property="og:image:alt" content="입력, 원본 보존, 처리, 시각적 매핑, 파일 저장과 검토 증거를 연결한 30퍼센트 프로토타입 도해">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="14주차 2교시: 코드 구조와 검증 기준">
-  <meta name="twitter:description" content="프로젝트 코드를 여섯 구역으로 나누고 자동 검사와 교수 확인의 역할을 구분하는 수업입니다.">
+  <meta name="twitter:description" content="프로젝트 코드를 STEP 0부터 STEP 7까지 나누고 자동 검사와 교수 확인의 역할을 구분하는 수업입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-14-prototype-contract.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-14.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-14-document week-14-period-2">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
-    <nav class="lesson-header-inner" aria-label="Course">
+    <nav class="lesson-header-inner" aria-label="강의 이동">
       <div class="lesson-breadcrumb">
         <a class="lesson-home" href="/">Kim Jungho</a>
         <span aria-hidden="true">/</span>
@@ -32,33 +33,33 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-14-period1.html" rel="prev" aria-label="이전 자료: 14주차 1교시: 아이디어를 제작 가능한 프로젝트 문장으로 바꾸기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
-        <a href="week-14-period3.html" rel="next" aria-label="다음 자료: 14주차 3교시: 30% 프로젝트 프로토타입 미션 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+        <a href="week-14-period1.html" rel="prev" aria-label="이전 자료: 14주차 1교시: 아이디어를 제작 가능한 프로젝트 문장으로 바꾸기 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
+        <a href="week-14-period3.html" rel="next" aria-label="다음 자료: 14주차 3교시: 30% 프로젝트 프로토타입 미션 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
       </div>
     </nav>
   </header>
 <div class="hero">
     <div class="hero-inner">
       <div>
-        <p class="eyebrow">Structure / Reuse / Assert / Evidence / Review</p>
+        <p class="eyebrow">구조 / 재사용 / 검사 / 증거 / 확인</p>
         <h1>14주차 2교시: 코드 구조와 검증 기준 세우기</h1>
         <p class="lead">프로젝트마다 재료는 달라도 코드는 같은 질문을 차례대로 해결합니다. 어디서 입력을 확인하고, 무엇을 처리하며, 어떤 증거로 정상 작동을 판단할지 먼저 설계합니다.</p>
         <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 14</span>
-          <span class="hero-chip">PERIOD 02</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">+ 10 MIN EXTENSION</span>
-          <span class="hero-chip">CODE DESIGN</span>
+          <span class="hero-chip">14주차</span>
+          <span class="hero-chip">2교시</span>
+          <span class="hero-chip">50분</span>
+          <span class="hero-chip">선택 확장 10분</span>
+          <span class="hero-chip">코드 설계</span>
         </div>
       </div>
       <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
+        <p class="doc-card-title">수업 안내</p>
         <div class="meta-row"><span class="meta-key">기본 경로</span><span class="meta-value">data / text / sound / image</span></div>
-        <div class="meta-row"><span class="meta-key">코드 구조</span><span class="meta-value">여섯 구역</span></div>
+        <div class="meta-row"><span class="meta-key">코드 구조</span><span class="meta-value">STEP 0부터 STEP 7까지</span></div>
         <div class="meta-row"><span class="meta-key">검증</span><span class="meta-value">수치·관계·파일·육안</span></div>
         <div class="meta-row"><span class="meta-key">면담 판정</span><span class="meta-value">승인 / 축소 / 대체</span></div>
         <div class="meta-row"><span class="meta-key">면담 대상</span><span class="meta-value">자기 자료·코드 재사용 신청자</span></div>
-        <div class="meta-row"><span class="meta-key">면담 시간</span><span class="meta-value">신청자별 60–90초</span></div>
+        <div class="meta-row"><span class="meta-key">면담 시간</span><span class="meta-value">신청자별 60-90초</span></div>
         <div class="meta-row"><span class="meta-key">다음 학습</span><span class="meta-value">30% 프로토타입 제작</span></div>
       </aside>
     </div>
@@ -72,18 +73,18 @@
         <p class="callout-title">오늘의 학습 목표</p>
         <ul>
           <li>13주차의 이미지·지도·텍스트·소리·복합 매체를 14주차의 주 입력 경로와 대응시킬 수 있습니다.</li>
-          <li>프로젝트 코드를 준비, 입력 확인, 처리, 시각화, 저장, 최종 점검의 여섯 구역으로 나눌 수 있습니다.</li>
-          <li>9–13주차 코드에서 필요한 부분만 재사용하고 입력과 변수 이름을 자신의 프로젝트에 맞게 연결할 수 있습니다.</li>
+          <li>프로젝트 코드를 STEP 0부터 STEP 7까지 여덟 STEP으로 나누고 각 단계의 질문을 설명할 수 있습니다.</li>
+          <li>9-13주차 코드에서 필요한 부분만 재사용하고 입력과 변수 이름을 자신의 프로젝트에 맞게 연결할 수 있습니다.</li>
           <li>입력 수, 처리 전후 개수, 그래프 요소, 출력 크기와 파일 존재 여부를 검사 문장으로 만들 수 있습니다.</li>
           <li>자동 검사가 확인할 수 있는 일과 교수의 의미·권한·가독성 확인이 필요한 일을 구분할 수 있습니다.</li>
           <li>출처, 작성자 또는 제공자, 이용 조건, 개인정보 점검을 입력 옆에 기록할 수 있습니다.</li>
-          <li>자신의 자료나 이전 코드를 재사용하려면 프로젝트 카드를 60–90초 안에 설명하고 승인·축소·제공 경로 전환 판정을 기록할 수 있습니다.</li>
+          <li>자신의 자료나 이전 코드를 재사용하려면 프로젝트 카드를 60-90초 안에 설명하고 승인·축소·제공 경로 전환 판정을 기록할 수 있습니다.</li>
         </ul>
       </div>
 
       <ul class="session-grid session-grid-seven" aria-label="2교시 시간 구성">
         <li><span class="session-label">0-7분</span><strong>공통 경로</strong><p>서로 다른 프로젝트의 다섯 단계를 비교합니다.</p></li>
-        <li><span class="session-label">7-17분</span><strong>여섯 코드 구역</strong><p>한 셀이 한 질문에 답하도록 구조를 나눕니다.</p></li>
+        <li><span class="session-label">7-17분</span><strong>여덟 STEP</strong><p>한 셀이 한 질문에 답하도록 구조를 나눕니다.</p></li>
         <li><span class="session-label">17-27분</span><strong>검증 문장</strong><p>수치·관계·파일 검사를 초보자의 언어로 읽습니다.</p></li>
         <li><span class="session-label">27-35분</span><strong>출처와 권한</strong><p>입력의 이용 조건과 개인정보 위험을 확인합니다.</p></li>
         <li><span class="session-label">35-41분</span><strong>진단·신청자 면담</strong><p>실패 사례를 읽고 자기 자료·재사용 신청자부터 면담합니다.</p></li>
@@ -93,7 +94,7 @@
 
       <div class="callout callout-info">
         <p class="callout-title">수업 운영: 기본 50분과 선택 확장</p>
-        <p><strong>0-35분</strong>에는 모든 학생이 공통 구조와 검증 기준을 학습합니다. <strong>35-50분</strong>에는 실패 사례 진단을 개별로 진행하는 동시에 자기 자료나 이전 코드 재사용을 신청한 학생만 60–90초 면담합니다. 15분에는 약 10–15명을 확인할 수 있습니다. 입력과 코드 판정은 분리합니다. 자기 자료 승인을 받지 못하면 <code>input_mode = "provided"</code>와 <code>approval_status = "provided"</code>를 기록하고, 코드 재사용 승인을 받지 못하면 <code>reuse_status = "guided"</code>로 공통 STEP 3·4를 유지합니다. 제공 입력을 쓰면서 승인된 이전 코드를 재사용하는 조합도 가능합니다.</p>
+        <p><strong>0-35분</strong>에는 모든 학생이 공통 구조와 검증 기준을 학습합니다. <strong>35-50분</strong>에는 실패 사례 진단을 개별로 진행하는 동시에 자기 자료나 이전 코드 재사용을 신청한 학생만 60-90초 면담합니다. 15분에는 약 10-15명을 확인할 수 있습니다. 입력과 코드 판정은 분리합니다. 자기 자료 승인을 받지 못하면 <code>input_mode = "provided"</code>와 <code>approval_status = "provided"</code>를 기록하고, 코드 재사용 승인을 받지 못하면 <code>reuse_status = "guided"</code>로 공통 STEP 3·4를 유지합니다. 제공 입력을 쓰면서 승인된 이전 코드를 재사용하는 조합도 가능합니다.</p>
       </div>
 
       <div class="callout callout-success">
@@ -103,10 +104,13 @@
 
       <h2 id="common-path">0-7분 · 서로 다른 프로젝트에서 같은 제작 경로 찾기</h2>
 
-      <p>데이터 프로젝트는 CSV를 읽고, 텍스트 프로젝트는 TXT를 읽고, 사운드 프로젝트는 WAV를 읽으며, 규칙 기반 이미지는 위치·크기·색 매개변수나 이전 생성 코드를 읽습니다. 지도 프로젝트는 10주차 위치 표에서 좌표와 행 수를 검증한 뒤, 이번 주에는 같은 자료의 수량·범주를 정적인 증거 화면으로 먼저 저장합니다. 복합 프로젝트는 질문을 결정하는 주 입력 하나에서 시작합니다. 사용하는 함수는 다르지만 프로젝트의 중심 질문은 같습니다. <strong>무엇을 입력했고, 원본을 어떻게 보존했으며, 어떤 규칙으로 값을 만들고, 그 값을 어떻게 보여 주고, 무엇으로 저장했는가?</strong></p>
+      <p>데이터 프로젝트는 CSV를 읽고, 텍스트 프로젝트는 TXT를 읽고, 사운드 프로젝트는 WAV를 읽으며, 규칙 기반 이미지는 위치·크기·색 매개변수나 이전 생성 코드를 읽습니다. 지도 프로젝트는 이번 주에 <code>category</code>와 <code>value</code> 표를 데이터 경로로 집계해 정적인 수량 증거를 먼저 저장합니다. 위도·경도와 Folium 지도 연결은 이 경로가 안정된 뒤 15주차에 다시 연결합니다. 복합 프로젝트는 질문을 결정하는 주 입력 하나에서 시작합니다. 사용하는 함수는 다르지만 프로젝트의 중심 질문은 같습니다. <strong>무엇을 입력했고, 원본을 어떻게 보존했으며, 어떤 규칙으로 값을 만들고, 그 값을 어떻게 보여 주고, 무엇으로 저장했는가?</strong></p>
 
       <figure class="lesson-visual" aria-labelledby="prototype-contract-caption">
-        <img src="assets/week-14-prototype-contract.png" width="1440" height="900" loading="eager" decoding="async" alt="승인된 입력, 원본 보존, 처리, 시각적 매핑, 파일 저장의 다섯 단계와 질문·콘솔·시각 요소·파일·기록이라는 검토 증거를 보여 주는 도해">
+        <a class="lesson-visual-link" href="assets/week-14-prototype-contract.png" target="_blank" rel="noopener noreferrer">
+          <img src="assets/week-14-prototype-contract.png" width="1440" height="900" loading="eager" decoding="async" alt="승인된 입력, 원본 보존, 처리, 시각적 매핑, 파일 저장의 다섯 단계와 질문·콘솔·시각 요소·파일·기록이라는 검토 증거를 보여 주는 도해">
+          <span class="lesson-visual-action">원본 크기로 보기 ↗</span>
+        </a>
         <figcaption id="prototype-contract-caption">30% 프로토타입은 다섯 단계가 모두 이어진 한 경로입니다. 각 단계는 다음 단계가 사용할 값과 검토자가 확인할 증거를 남깁니다.</figcaption>
       </figure>
 
@@ -126,7 +130,7 @@
 
       <div class="callout callout-info">
         <p class="callout-title">최종 매체와 기본 경로를 구분합니다</p>
-        <p>3교시 공통 노트북의 기본 경로는 <code>data</code>, <code>text</code>, <code>sound</code>, <code>image</code>입니다. 최종 매체가 지도여도 14주차에는 <code>data</code> 경로에서 좌표 유효성·행 수·범주 집계를 확인하고 정적 증거 화면을 저장합니다. 10주차 Folium 독립 HTML을 공통 노트북 안에 직접 합치는 작업은 이번 주 승인 재사용 범위가 아니며, 안정적인 정적 경로를 만든 뒤 15주차 첫 행동으로 기록합니다. <code>hybrid</code>도 별도의 다섯 번째 경로가 아니라 주 입력의 기본 경로를 먼저 통과한 뒤 두 번째 매체 연결을 다음 행동으로 옮깁니다.</p>
+        <p>3교시 공통 노트북의 기본 경로는 <code>data</code>, <code>text</code>, <code>sound</code>, <code>image</code>입니다. 최종 매체가 지도여도 14주차에는 <code>data</code> 경로에서 <code>category</code>와 <code>value</code>를 확인하고 범주별 수량 또는 합계를 정적 증거 화면으로 저장합니다. 10주차 Folium 독립 HTML을 공통 노트북 안에 직접 합치는 작업은 이번 주 승인 재사용 범위가 아니며, 안정적인 정적 경로를 만든 뒤 15주차 첫 행동으로 기록합니다. <code>hybrid</code>도 별도의 다섯 번째 경로가 아니라 주 입력의 기본 경로를 먼저 통과한 뒤 두 번째 매체 연결을 다음 행동으로 옮깁니다.</p>
       </div>
 
       <details class="callout callout-question">
@@ -144,21 +148,23 @@
         <div class="details-motion-content"><p>아닙니다. 미리보기 파일은 한 번 만들어진 결과만 보여 줍니다. 노트북에는 같은 입력에서 같은 결과를 다시 만들 수 있는 경로와 실행 증거가 남아야 합니다.</p></div>
       </details>
 
-      <h2 id="six-zones">7-17분 · 노트북을 여섯 코드 구역으로 나누기</h2>
+      <h2 id="eight-steps">7-17분 · 노트북을 STEP 0부터 STEP 7까지 나누기</h2>
 
-      <p>초보자가 긴 노트북에서 가장 자주 겪는 문제는 어느 셀을 수정해야 하는지 알 수 없다는 점입니다. 3교시 노트북은 아래 여섯 구역으로 나뉩니다. 각 구역은 하나의 질문에만 답하고, 정상이라면 다음 구역이 사용할 변수를 남깁니다.</p>
+      <p>초보자가 긴 노트북에서 가장 자주 겪는 문제는 어느 셀을 수정해야 하는지 알 수 없다는 점입니다. 3교시 노트북은 아래 여덟 STEP으로 나뉩니다. 각 STEP은 하나의 질문에만 답하고, 정상이라면 다음 STEP이 사용할 변수나 판단 문장을 남깁니다.</p>
 
       <div class="table-wrap">
         <table>
-          <caption>여섯 코드 구역의 질문, 입력, 출력</caption>
-          <thead><tr><th scope="col">구역</th><th scope="col">이 구역의 질문</th><th scope="col">대표 입력</th><th scope="col">남겨야 할 출력</th></tr></thead>
+          <caption>여덟 STEP의 질문, 입력, 출력</caption>
+          <thead><tr><th scope="col">STEP</th><th scope="col">이 단계의 질문</th><th scope="col">대표 입력</th><th scope="col">남겨야 할 출력</th></tr></thead>
           <tbody>
-            <tr><th scope="row">0. 준비</th><td>필요한 도구와 실행 순서가 준비되었는가?</td><td>라이브러리</td><td>불러온 함수, 실행 순서 목록</td></tr>
-            <tr><th scope="row">1. 프로젝트 카드</th><td>누구에게 무엇을 보여 주는가?</td><td>학생의 질문·독자·출처·범위</td><td>편집이 끝난 메타데이터</td></tr>
-            <tr><th scope="row">2. 입력 확인</th><td>승인된 원본이 실제로 열리고 보존되는가?</td><td>CSV, TXT, WAV, 매개변수 또는 제공 자료</td><td><code>raw_snapshot</code>, SHA-256 입력 지문</td></tr>
-            <tr><th scope="row">3. 처리</th><td>질문에 필요한 값이 만들어졌는가?</td><td>원본 또는 작업 사본</td><td><code>processed_values</code></td></tr>
-            <tr><th scope="row">4·6. 표현과 저장</th><td>처리 값이 화면 요소로 연결되고 파일이 열리는가?</td><td>처리 값, 시각 규칙</td><td>Figure와 미리보기 PNG 또는 HTML</td></tr>
-            <tr><th scope="row">7. 최종 점검</th><td>처음부터 다시 실행해도 모든 증거가 일치하는가?</td><td>앞 구역의 변수와 파일</td><td>완료 문구 또는 구체적인 오류</td></tr>
+            <tr><th scope="row">STEP 0 · 준비</th><td>필요한 도구와 실행 순서가 준비되었는가?</td><td>라이브러리</td><td>불러온 함수, 실행 순서 목록</td></tr>
+            <tr><th scope="row">STEP 1 · 프로젝트 카드</th><td>누구에게 무엇을 보여 주는가?</td><td>질문·독자·출처·범위</td><td>편집이 끝난 메타데이터</td></tr>
+            <tr><th scope="row">STEP 2 · 입력</th><td>승인된 원본이 실제로 열리고 보존되는가?</td><td>CSV, TXT, WAV, 매개변수 또는 제공 자료</td><td><code>raw_snapshot</code>, SHA-256 입력 지문</td></tr>
+            <tr><th scope="row">STEP 3 · 처리</th><td>질문에 필요한 값이 만들어졌는가?</td><td>원본 또는 작업 사본</td><td><code>processed_values</code></td></tr>
+            <tr><th scope="row">STEP 4 · 표현</th><td>처리 값이 화면 요소와 정확히 연결되는가?</td><td>처리 값, 시각 규칙</td><td>Figure와 공개 매핑 증거</td></tr>
+            <tr><th scope="row">STEP 5 · 해석</th><td>화면의 관찰과 한계를 구분했는가?</td><td>질문, 화면 근거</td><td>관찰·한계·15주차 행동</td></tr>
+            <tr><th scope="row">STEP 6 · 저장</th><td>결과가 노트북 밖에서 다시 열리는가?</td><td>Figure, 출력 형식</td><td>미리보기 PNG 또는 HTML</td></tr>
+            <tr><th scope="row">STEP 7 · 최종 점검</th><td>처음부터 다시 실행해도 모든 증거가 일치하는가?</td><td>앞 STEP의 변수와 파일</td><td>완료 문구 또는 구체적인 오류</td></tr>
           </tbody>
         </table>
       </div>
@@ -195,8 +201,10 @@ assert len(processed) &gt; 0                 # 처리 결과가 존재하는가?
         </table>
       </div>
 
-      <div class="callout callout-info">
-        <p class="callout-title">공통 시작 경로와 승인 재사용 경로를 구분합니다</p>
+      <details class="callout callout-info reuse-disclosure">
+        <summary class="callout-title">승인 재사용 학생만: 공개 어댑터 계약</summary>
+        <div class="details-motion-content">
+        <p>프로그래밍이 처음이거나 공통 경로를 선택했다면 이 항목을 열 필요가 없습니다. <code>reuse_status = "guided"</code>를 유지하고 STEP 3·4를 그대로 실행합니다.</p>
         <p>프로그래밍이 처음이면 <code>reuse_status = "guided"</code>로 네 공통 경로 가운데 하나를 그대로 완성합니다. 이전 주차 결과를 이어 가는 학생은 처리·매핑 규칙을 승인받아 <code>reuse_status</code>를 <code>approved</code> 또는 <code>scoped</code>로 기록한 뒤 STEP 3·4의 <code>APPROVED REUSE ZONE</code>만 교체합니다. 이 구역은 Matplotlib <code>figure</code>와 PNG 또는 그 PNG를 포함한 HTML을 만드는 계약입니다. Folium 지도나 별도 웹페이지 전체를 붙여 넣는 구역이 아닙니다.</p>
         <ul>
           <li><strong>모든 경로:</strong> <code>processed_values</code>, <code>mapping_source_values</code>, <code>mapping_visual_values</code></li>
@@ -205,7 +213,8 @@ assert len(processed) &gt; 0                 # 처리 결과가 존재하는가?
           <li><strong>이미지:</strong> <code>mapping_source_colors</code>, <code>mapping_visual_colors</code></li>
         </ul>
         <p>사용하지 않는 증거 쌍은 <code>None</code>으로 둡니다. FINAL CHECK는 이 공개 어댑터 변수만 읽고, 화면 요소 수는 <code>mapping_visual_values</code>의 길이에서 자동 계산합니다.</p>
-      </div>
+        </div>
+      </details>
 
       <details class="callout callout-question">
         <summary class="callout-title">확인: 최종 결과가 지도라면 14주차 미리보기도 완성된 지도여야 하는가?</summary>
@@ -253,7 +262,7 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
           <thead><tr><th scope="col">경로</th><th scope="col">입력 증거</th><th scope="col">처리 증거</th><th scope="col">화면 증거</th><th scope="col">육안 확인</th></tr></thead>
           <tbody>
             <tr><th scope="row">데이터</th><td>행 수, 열 이름, 원본 지문</td><td>범주 수와 합계 값</td><td>막대 수와 실제 길이</td><td>축 단위, 이름 잘림, 0 기준</td></tr>
-            <tr><th scope="row">위치 지도</th><td>행 수, 좌표 열, 원본 지문</td><td>결측·중복·범위 밖 좌표 제거 수</td><td>유효 행 수와 같은 마커 또는 좌표 점</td><td>바탕지도 출처, 위치 노출 위험, 팝업 읽기</td></tr>
+            <tr><th scope="row">위치 지도</th><td><code>category</code>, <code>value</code>, 원본 지문</td><td>결측값 제거 수와 범주별 수량 또는 합계</td><td>처리한 범주 수와 같은 정적 막대</td><td>위도·경도와 Folium 연결은 15주차에 재개</td></tr>
             <tr><th scope="row">텍스트</th><td>문자 수, 토큰 수, 원문 지문</td><td>상위 단어와 빈도</td><td>단어 수만큼의 막대와 길이</td><td>긴 단어 잘림, 불용어 맥락, 출처</td></tr>
             <tr><th scope="row">사운드</th><td>샘플 수, 샘플링 레이트, 파일 지문</td><td>프레임 수와 RMS 범위</td><td>시간 배열과 선의 x·y 값</td><td>재생 가능, 초 단위, 빈 구간</td></tr>
             <tr><th scope="row">규칙 이미지</th><td>매개변수 수, 필수 열, 원본 지문</td><td>유효한 위치·크기·색 값</td><td>도형 수, 좌표와 크기 일치</td><td>잘림, 겹침의 의도, 색 대비</td></tr>
@@ -350,7 +359,7 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
         <div class="details-motion-content"><p>필요합니다. 자동 검사는 크기와 데이터 관계를 확인하지만 글자가 잘렸는지, 색 대비가 충분한지, 범례가 화면을 가리는지 완전히 판단하지 못합니다.</p></div>
       </details>
 
-      <h2 id="review">35-50분 · 자기 자료·코드 재사용 신청자만 60–90초 면담하기</h2>
+      <h2 id="review">35-50분 · 자기 자료·코드 재사용 신청자만 60-90초 면담하기</h2>
 
       <p>모든 학생이 두 번 줄을 서지 않도록 1차 면담은 <strong>자기 자료를 쓰거나 이전 코드를 바꿔 넣으려는 신청자</strong>에게만 진행합니다. 프로젝트 카드와 실제 입력을 보여 주며 아래 다섯 문장만 순서대로 설명합니다. 교수는 입력에 대해 <code>approval_status</code>와 <code>approval_note</code>, 코드에 대해 <code>reuse_status</code>와 <code>reuse_note</code>를 따로 정합니다. 제공 입력을 그대로 쓰면 <code>provided</code>, 공통 코드를 유지하면 <code>guided</code>를 기록하며, 둘 중 하나만 승인받는 조합도 가능합니다.</p>
 
@@ -367,14 +376,14 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
           <caption>수강 인원에 따른 신청자 면담과 최종 증거 게이트 시간 계산</caption>
           <thead><tr><th scope="col">수강 인원</th><th scope="col">2교시 신청자 면담</th><th scope="col">3교시 전원 최종 확인</th><th scope="col">최대 교사 확인 시간</th></tr></thead>
           <tbody>
-            <tr><th scope="row">10명</th><td>최대 10명 × 60–90초 = 10–15분</td><td>10명 × 30–45초 = 5–7.5분</td><td>최대 22.5분</td></tr>
-            <tr><th scope="row">20명</th><td>최대 10–15명 = 10–15분</td><td>20명 × 30–45초 = 10–15분</td><td>최대 30분</td></tr>
-            <tr><th scope="row">30명</th><td>최대 10–15명 = 10–15분</td><td>30명 × 30–45초 = 15–22.5분</td><td>최대 37.5분</td></tr>
+            <tr><th scope="row">10명</th><td>최대 10명 × 60-90초 = 10-15분</td><td>10명 × 30-45초 = 5-7.5분</td><td>최대 22.5분</td></tr>
+            <tr><th scope="row">20명</th><td>최대 10-15명 = 10-15분</td><td>20명 × 30-45초 = 10-15분</td><td>최대 30분</td></tr>
+            <tr><th scope="row">30명</th><td>최대 10-15명 = 10-15분</td><td>30명 × 30-45초 = 15-22.5분</td><td>최대 37.5분</td></tr>
           </tbody>
         </table>
       </div>
 
-      <p>2교시 15분 안에 확인할 수 있는 신청자는 최대 10–15명입니다. 신청자가 더 많으면 남은 학생은 기다리지 않습니다. 승인받지 못한 자기 입력은 <code>provided</code>로, 승인받지 못한 재사용 코드는 <code>guided</code>로 각각 전환하고, 보류된 연결은 15주차 첫 행동으로 기록합니다. 3교시에는 전원이 자동 증거를 준비한 뒤 30–45초 최종 확인 한 번만 받습니다. 30명이어도 최종 확인은 최대 22.5분이므로, 완성한 학생이 두 번째 긴 면담 대기열 때문에 귀가하지 못하는 상황을 피할 수 있습니다.</p>
+      <p>2교시 15분 안에 확인할 수 있는 신청자는 최대 10-15명입니다. 신청자가 더 많으면 남은 학생은 기다리지 않습니다. 승인받지 못한 자기 입력은 <code>provided</code>로, 승인받지 못한 재사용 코드는 <code>guided</code>로 각각 전환하고, 보류된 연결은 15주차 첫 행동으로 기록합니다. 3교시에는 전원이 자동 증거를 준비한 뒤 30-45초 최종 확인 한 번만 받습니다. 30명이어도 최종 확인은 최대 22.5분이므로, 완성한 학생이 두 번째 긴 면담 대기열 때문에 귀가하지 못하는 상황을 피할 수 있습니다.</p>
 
       <div class="table-wrap">
         <table>
@@ -428,7 +437,7 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
       <h2 id="review-list">수업 후 개별 복습</h2>
 
       <ol>
-        <li>프로젝트 노트북의 여섯 구역과 각 구역이 답하는 질문을 적습니다.</li>
+        <li>프로젝트 노트북의 여덟 STEP과 각 STEP이 답하는 질문을 적습니다.</li>
         <li>입력 검증, 처리 검증, 표현 검증, 출력 검증의 예를 하나씩 씁니다.</li>
         <li>자동 검사와 교수 확인이 각각 담당하는 일을 두 가지씩 적습니다.</li>
         <li>이전 주차 코드를 복사한 뒤 반드시 바꿔야 하는 네 항목을 적습니다.</li>
@@ -439,33 +448,28 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
       <h2 id="references">공식 문서</h2>
 
       <ul class="reference-list">
-        <li><a href="https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서 — <code>assert</code> 문</strong></a><small>조건이 참인지 확인하고 거짓일 때 <code>AssertionError</code>를 발생시키는 문법의 공식 설명</small></li>
-        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.copy.html" target="_blank" rel="noopener noreferrer"><strong>pandas 공식 문서 — <code>DataFrame.copy</code></strong></a><small>원본과 작업용 DataFrame을 구분할 때 사용하는 복사 메서드</small></li>
-        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서 — <code>savefig</code></strong></a><small>Figure를 파일로 저장할 때 파일명, 형식, DPI를 지정하는 방법</small></li>
-        <li><a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.is_file" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서 — <code>Path.is_file</code></strong></a><small>출력 경로가 실제 일반 파일인지 확인하는 표준 라이브러리 메서드</small></li>
+        <li><a href="https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서 : <code>assert</code> 문</strong></a><small>조건이 참인지 확인하고 거짓일 때 <code>AssertionError</code>를 발생시키는 문법의 공식 설명</small></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.copy.html" target="_blank" rel="noopener noreferrer"><strong>pandas 공식 문서 : <code>DataFrame.copy</code></strong></a><small>원본과 작업용 DataFrame을 구분할 때 사용하는 복사 메서드</small></li>
+        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서 : <code>savefig</code></strong></a><small>Figure를 파일로 저장할 때 파일명, 형식, DPI를 지정하는 방법</small></li>
+        <li><a href="https://docs.python.org/3/library/pathlib.html#pathlib.Path.is_file" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서 : <code>Path.is_file</code></strong></a><small>출력 경로가 실제 일반 파일인지 확인하는 표준 라이브러리 메서드</small></li>
       </ul>
     </article>
 
-    <aside class="toc" aria-label="이 페이지의 목차">
-      <p class="toc-title">On this page</p>
-      <a href="#common-path">공통 제작 경로</a>
-      <a href="#six-zones">여섯 코드 구역</a>
-      <a href="#reuse">이전 코드 재사용</a>
-      <a href="#assertions">검증 문장</a>
-      <a href="#track-evidence">경로별 증거</a>
-      <a href="#rights">출처와 권한</a>
-      <a href="#failure-clinic">실패 사례 진단</a>
-      <a href="#review">1차 면담</a>
-      <a href="#extension">50-60분 확장</a>
-      <a href="#review-list">개별 복습</a>
-      <a href="#references">공식 문서</a>
-    </aside>
+    <details class="toc week-14-toc" aria-label="이 페이지의 목차" data-week14-toc open>
+      <summary class="toc-title"><span>이 페이지에서</span><span class="toc-current">공통 제작 경로</span></summary>
+      <nav class="details-motion-content toc-links" aria-label="2교시 세부 목차">
+        <div class="toc-group"><p class="toc-group-title">공통 구조</p><a href="#common-path">공통 제작 경로</a><a href="#eight-steps">여덟 STEP</a><a href="#reuse">이전 코드 재사용</a></div>
+        <div class="toc-group"><p class="toc-group-title">검증과 면담</p><a href="#assertions">검증 문장</a><a href="#track-evidence">경로별 증거</a><a href="#rights">출처와 권한</a><a href="#failure-clinic">실패 사례 진단</a><a href="#review">1차 면담</a></div>
+        <div class="toc-group"><p class="toc-group-title">정리</p><a href="#extension">50-60분 확장</a><a href="#review-list">개별 복습</a><a href="#references">공식 문서</a></div>
+      </nav>
+    </details>
   </main>
 
   <footer class="course-footer">
     <a href="./">← Contents Programming Practice</a>
-    <span>Week 14 · Period 02</span>
+    <span>14주차 · 2교시</span>
   </footer>
+  <script src="assets/week-14-ui.js" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

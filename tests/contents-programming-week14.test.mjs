@@ -143,9 +143,9 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
     "최종 매체와 기본 경로",
     "위치 지도",
     "다섯 매체와 복합 프로젝트",
-    "준비, 입력 확인, 처리, 시각화, 저장, 최종 점검",
+    "STEP 0부터 STEP 7까지",
     "한 셀은 한 질문에 답합니다",
-    "9–13주차 코드",
+    "9-13주차 코드",
     "assert",
     "입력 검증",
     "처리 검증",
@@ -158,10 +158,10 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
     "승인",
     "범위 축소 후 승인",
     "제공 입력을 쓰면서 승인된 이전 코드를 재사용하는 조합도 가능합니다",
-    "60–90초",
+    "60-90초",
     "수강 인원에 따른 신청자 면담과 최종 증거 게이트 시간 계산",
-    "최대 10–15명",
-    "30명 × 30–45초 = 15–22.5분",
+    "최대 10-15명",
+    "30명 × 30-45초 = 15-22.5분",
     "Folium 독립 HTML을 공통 노트북 안에 직접 합치는 작업은 이번 주 승인 재사용 범위가 아니며",
     "APPROVED REUSE ZONE",
     "mapping_source_values",
@@ -209,7 +209,7 @@ test("Contents Programming week 14 period 3 is a finite four-path individual mis
     "week14_학번_이름_prototype.ipynb",
     "week14_학번_이름_preview.png",
     "week14_학번_이름_source.확장자",
-    "완성 순서대로 30–45초",
+    "완성 순서대로 30-45초",
     "30명도 최대 22.5분",
     "이번 HTML은 정적 증거 문서입니다",
     "data",
@@ -253,6 +253,128 @@ test("Contents Programming week 14 period 3 is a finite four-path individual mis
     "추가 점수에 포함하지 않습니다",
     "15주차 연결",
   ]);
+});
+
+test("Contents Programming week 14 period 3 exposes truthful resources and a usable exit gate", async () => {
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-14-period3.html"),
+    "utf8",
+  );
+
+  assert.match(
+    period3,
+    /<section class="exit-gate"[^>]*>[\s\S]*?<span class="exit-pass"[^>]*>PASS<\/span>[\s\S]*?<div class="exit-gate-copy">/,
+  );
+  assert.match(period3, /<p class="exit-gate-label">종료 조건<\/p>/);
+  assert.doesNotMatch(
+    period3,
+    /href="assets\/week-14-(?:four-path-preview|prototype-contract)\.png" download/,
+  );
+  for (const filename of [
+    "week-14-four-path-preview.png",
+    "week-14-prototype-contract.png",
+  ]) {
+    assert.match(
+      period3,
+      new RegExp(
+        `href="assets/${filename.replaceAll(".", "\\.")}" target="_blank" rel="noopener noreferrer"`,
+      ),
+    );
+  }
+  assert.match(period3, /원본 PNG 열기 ↗/);
+});
+
+test("Contents Programming week 14 uses one eight-step learning hierarchy", async () => {
+  const [period1, period2, period3] = await Promise.all(
+    [1, 2, 3].map((period) =>
+      readFile(
+        resolve(courseDirectory, `week-14-period${period}.html`),
+        "utf8",
+      ),
+    ),
+  );
+
+  for (const lesson of [period1, period2, period3]) {
+    assert.match(lesson, /href="assets\/week-14\.css"/);
+    assert.match(lesson, /<body class="[^"]*week-14-document/);
+    assert.match(lesson, /aria-label="강의 이동"/);
+    assert.doesNotMatch(
+      lesson,
+      />\s*(?:Previous|Next|Lesson Spec|Mission Spec|On this page)\s*</,
+    );
+    assert.doesNotMatch(lesson, /[—–]/);
+  }
+
+  assert.doesNotMatch(period1, /마커 또는 좌표 점/);
+  assertIncludesAll(period1, ["category", "value", "15주차"]);
+  assertIncludesAll(period2, ["여덟 STEP", "STEP 0부터 STEP 7까지"]);
+  assert.doesNotMatch(period2, /여섯 (?:코드 )?구역|4·6\. 표현과 저장/);
+  for (let step = 0; step <= 7; step += 1) {
+    assert.match(period2, new RegExp(`<th scope="row">STEP ${step}`));
+  }
+
+  const route = period3.match(
+    /<ol class="mission-route"[\s\S]*?<\/ol>/,
+  );
+  assert.ok(route, "period 3 should publish one mission route");
+  assert.equal([...route[0].matchAll(/<li>/g)].length, 8);
+  for (let step = 0; step <= 7; step += 1) {
+    assert.match(route[0], new RegExp(`<span>STEP ${step}</span>`));
+  }
+});
+
+test("Contents Programming week 14 period 3 has a persistent fifteen-item completion gate", async () => {
+  const [period3, week14Css, week14Ui] = await Promise.all([
+    readFile(resolve(courseDirectory, "week-14-period3.html"), "utf8"),
+    readFile(resolve(assetDirectory, "week-14.css"), "utf8"),
+    readFile(resolve(assetDirectory, "week-14-ui.js"), "utf8"),
+  ]);
+
+  assert.match(period3, /class="mission-progress"[^>]*data-mission-progress/);
+  assert.match(period3, /aria-live="polite">완료 0\/15</);
+  assert.match(period3, /data-mission-reset/);
+  assert.match(period3, /data-mission-checklist/);
+  assert.equal(
+    [...period3.matchAll(/<input class="completion-check"/g)].length,
+    15,
+  );
+  for (let step = 0; step <= 7; step += 1) {
+    assert.match(
+      period3,
+      new RegExp(`<h3[^>]*><span>STEP ${step}</span>`),
+    );
+  }
+  assert.match(week14Ui, /contents-programming-week14-checklist-v1/);
+  assert.match(week14Ui, /localStorage\.setItem/);
+  assert.match(week14Ui, /dataset\.complete/);
+  assert.match(week14Ui, /IntersectionObserver/);
+  assert.doesNotMatch(week14Ui, /addEventListener\(["']scroll/);
+  assert.match(week14Css, /@media \(hover: hover\) and \(pointer: fine\)/);
+  assert.match(week14Css, /@media \(hover: none\), \(pointer: coarse\)/);
+  assert.match(week14Css, /@media \(prefers-reduced-motion: reduce\)/);
+  assert.match(week14Css, /\.inline-resource-card:active/);
+  assert.match(week14Css, /\.week-14-period-3 \.article > h2::before/);
+});
+
+test("Contents Programming week 14 keeps advanced reuse and long navigation optional", async () => {
+  const [period2, period3] = await Promise.all([
+    readFile(resolve(courseDirectory, "week-14-period2.html"), "utf8"),
+    readFile(resolve(courseDirectory, "week-14-period3.html"), "utf8"),
+  ]);
+
+  for (const lesson of [period2, period3]) {
+    assert.match(
+      lesson,
+      /<details class="[^"]*reuse-disclosure[^"]*">[\s\S]*?<summary[^>]*>승인 재사용 학생만[\s\S]*?mapping_source_values[\s\S]*?<\/details>/,
+    );
+    assert.match(
+      lesson,
+      /<details class="toc week-14-toc"[^>]*data-week14-toc/,
+    );
+    assert.equal([...lesson.matchAll(/class="toc-group"/g)].length, 3);
+  }
+  assert.match(period3, /class="inline-resource-card resource-primary"/);
+  assert.match(period3, /class="submit-files"/);
 });
 
 test("Week 14 notebook publishes a complete self-checking four-path workflow", async () => {
@@ -385,6 +507,13 @@ test("Week 14 preview generation guards contrast, bounds, and shared fixtures", 
   assert.match(generator, /signal = provided_sound\(\)/);
   assert.match(generator, /PROVIDED_SOUND_PARAMETERS = \{/);
   assert.match(generator, /inspect\.getsource\(synthesize_provided_sound\)/);
+  assertIncludesAll(generator, [
+    "넓은 아이디어에서 제작 가능한 핵심으로",
+    "30% = 처음부터 끝까지 이어진 한 경로",
+    "네 경로, 하나의 프로토타입 계약",
+  ]);
+  assert.doesNotMatch(generator, /FROM BROAD IDEA TO BUILDABLE SLICE/);
+  assert.doesNotMatch(generator, /FOUR PATHS · ONE PROTOTYPE CONTRACT/);
   assert.equal(
     [...generator.matchAll(/parameters\["carrier_hz"\] \* time_values/g)].length,
     1,

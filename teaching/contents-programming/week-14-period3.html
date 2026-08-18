@@ -19,11 +19,12 @@
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-14-four-path-preview.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-14.css">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-14-document week-14-period-3">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
-    <nav class="lesson-header-inner" aria-label="Course">
+    <nav class="lesson-header-inner" aria-label="강의 이동">
       <div class="lesson-breadcrumb">
         <a class="lesson-home" href="/">Kim Jungho</a>
         <span aria-hidden="true">/</span>
@@ -32,7 +33,7 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-14-period2.html" rel="prev" aria-label="이전 자료: 14주차 2교시: 코드 구조와 검증 기준 세우기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-14-period2.html" rel="prev" aria-label="이전 자료: 14주차 2교시: 코드 구조와 검증 기준 세우기 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
 
       </div>
     </nav>
@@ -40,25 +41,25 @@
 <div class="hero">
     <div class="hero-inner">
       <div>
-        <p class="eyebrow">Goal-based Lab / One Path / Verify / Export / Leave</p>
+        <p class="eyebrow">목표형 실습 / 한 경로 / 검증 / 저장 / 귀가</p>
         <h1>14주차 3교시: 30% 프로젝트 프로토타입 미션</h1>
         <p class="lead">데이터·텍스트·사운드·규칙 기반 이미지 가운데 한 경로를 골라 입력부터 출력까지 이어지는 핵심 경로를 완성합니다. 기능의 수가 아니라 재실행 가능한 증거로 완료를 판단합니다.</p>
         <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 14</span>
-          <span class="hero-chip">PERIOD 03</span>
-          <span class="hero-chip">UP TO 50 MIN</span>
-          <span class="hero-chip">INDIVIDUAL</span>
-          <span class="hero-chip">PASS &amp; LEAVE</span>
+          <span class="hero-chip">14주차</span>
+          <span class="hero-chip">3교시</span>
+          <span class="hero-chip">최대 50분</span>
+          <span class="hero-chip">개인 실습</span>
+          <span class="hero-chip">통과 후 귀가</span>
         </div>
       </div>
       <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Mission Spec</p>
+        <p class="doc-card-title">미션 안내</p>
         <div class="meta-row"><span class="meta-key">선택 경로</span><span class="meta-value">data / text / sound / image</span></div>
         <div class="meta-row"><span class="meta-key">입력 모드</span><span class="meta-value">provided / own</span></div>
         <div class="meta-row"><span class="meta-key">공통 편집</span><span class="meta-value">STEP 1 + STEP 5</span></div>
         <div class="meta-row"><span class="meta-key">출력</span><span class="meta-value">1600 × 1000 PNG / 독립 HTML</span></div>
         <div class="meta-row"><span class="meta-key">필수 제출</span><span class="meta-value">.ipynb + .png/.html</span></div>
-        <div class="meta-row"><span class="meta-key">최종 확인</span><span class="meta-value">완성 순서대로 30–45초</span></div>
+        <div class="meta-row"><span class="meta-key">최종 확인</span><span class="meta-value">완성 순서대로 30-45초</span></div>
         <div class="meta-row"><span class="meta-key">귀가 조건</span><span class="meta-value">PASS + 파일 + 출처 + 증거 확인</span></div>
       </aside>
     </div>
@@ -85,57 +86,60 @@
         <div>
           <span class="visual-label">목표 달성형 개인 실습</span>
           <h2 id="goal-contract-title">자동 검사 PASS + 결과 파일 열림 + 출처 확인 + 교수 증거 확인 + 필수 파일 제출 = 즉시 귀가</h2>
-          <p>0-5분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 자동 증거가 준비되는 즉시 30–45초 확인 대기열에 들어가고, 교수에게 질문·권한·관찰·한계·수정 행동·가독성을 한 화면에서 확인받아 <code>teacher_gate = "confirmed"</code>로 기록합니다. 새 런타임 최종 PASS, 열리는 PNG 또는 HTML, 제출 파일까지 확인한 학생은 수업 종료 시각을 기다리지 않고 귀가할 수 있습니다.</p>
+          <p>0-5분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 자동 증거가 준비되는 즉시 30-45초 확인 대기열에 들어가고, 교수에게 질문·권한·관찰·한계·수정 행동·가독성을 한 화면에서 확인받아 <code>teacher_gate = "confirmed"</code>로 기록합니다. 새 런타임 최종 PASS, 열리는 PNG 또는 HTML, 제출 파일까지 확인한 학생은 수업 종료 시각을 기다리지 않고 귀가할 수 있습니다.</p>
         </div>
         <p class="goal-contract-note"><strong>속도는 평가 기준이 아닙니다.</strong> 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다. 빠른 장식보다 원본 보존, 처리 값과 화면의 일치, 재실행 가능성, 책임 있는 자료 이용을 먼저 증명합니다.</p>
       </div>
 
       <ol class="mission-route" aria-label="실습 완료 경로">
-        <li><span>01</span><strong>사본</strong><small>파일명과 면담 판정</small></li>
-        <li><span>02</span><strong>카드</strong><small>질문·독자·출처</small></li>
-        <li><span>03</span><strong>입력</strong><small>경로·모드·원본 보존</small></li>
-        <li><span>04</span><strong>처리</strong><small>집계·빈도·RMS·매개변수</small></li>
-        <li><span>05</span><strong>표현</strong><small>막대·선·도형</small></li>
-        <li><span>06</span><strong>해석</strong><small>관찰·한계·다음 행동</small></li>
-        <li><span>07</span><strong>저장</strong><small>PNG 또는 HTML</small></li>
-        <li><span>08</span><strong>검증</strong><small>새 런타임 PASS</small></li>
-        <li><span>09</span><strong>제출</strong><small>파일·출처·교수 확인</small></li>
+        <li><span>STEP 0</span><strong>준비</strong><small>사본·파일명·판정</small></li>
+        <li><span>STEP 1</span><strong>카드</strong><small>질문·독자·출처</small></li>
+        <li><span>STEP 2</span><strong>입력</strong><small>경로·모드·원본 보존</small></li>
+        <li><span>STEP 3</span><strong>처리</strong><small>집계·빈도·RMS·매개변수</small></li>
+        <li><span>STEP 4</span><strong>표현</strong><small>막대·선·도형</small></li>
+        <li><span>STEP 5</span><strong>해석</strong><small>관찰·한계·다음 행동</small></li>
+        <li><span>STEP 6</span><strong>저장</strong><small>PNG 또는 HTML</small></li>
+        <li><span>STEP 7</span><strong>검증·제출</strong><small>새 런타임 PASS</small></li>
       </ol>
 
-      <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
-        <div>
-          <p class="exit-gate-label">EXIT GATE</p>
+      <section class="exit-gate" aria-labelledby="exit-gate-title">
+        <span class="exit-pass" aria-hidden="true">PASS</span>
+        <div class="exit-gate-copy">
+          <p class="exit-gate-label">종료 조건</p>
           <h2 id="exit-gate-title">재현되는 핵심 경로와 열리는 결과 파일</h2>
           <p>자동 검사는 입력 보존, 처리 값, 화면 요소, 파일 규격을 확인합니다. 교수는 질문과 입력의 대응, 자료 이용 권한, 승인된 범위, 실제 가독성을 확인합니다. 두 검토를 모두 통과해야 완료입니다.</p>
+          <strong class="exit-gate-status">WEEK 14 PROJECT PROTOTYPE COMPLETE</strong>
         </div>
-        <strong>WEEK 14 PROJECT PROTOTYPE COMPLETE</strong>
-      </div>
+      </section>
 
       <h2 id="resources">먼저 내려받을 노트북과 결과 경로</h2>
 
       <div class="inline-resource-grid">
-        <a class="inline-resource-card" href="assets/week-14-project-prototype-mission.ipynb" download>
-          <span class="resource-kicker">START HERE · COLAB</span>
+        <a class="inline-resource-card resource-primary" href="assets/week-14-project-prototype-mission.ipynb" download>
+          <span class="resource-kicker">여기서 시작 · COLAB</span>
           <strong>프로토타입 노트북 내려받기</strong>
           <small>week-14-project-prototype-mission.ipynb</small>
-          <span class="resource-action">DOWNLOAD .IPYNB ↓</span>
+          <span class="resource-action">IPYNB 내려받기 ↓</span>
         </a>
-        <a class="inline-resource-card" href="assets/week-14-four-path-preview.png" download>
-          <span class="resource-kicker">FOUR PATHS</span>
+        <a class="inline-resource-card" href="assets/week-14-four-path-preview.png" target="_blank" rel="noopener noreferrer">
+          <span class="resource-kicker">네 가지 경로</span>
           <strong>네 경로 결과 예시 크게 보기</strong>
           <small>week-14-four-path-preview.png</small>
-          <span class="resource-action">OPEN .PNG ↗</span>
+          <span class="resource-action">원본 PNG 열기 ↗</span>
         </a>
-        <a class="inline-resource-card" href="assets/week-14-prototype-contract.png" download>
-          <span class="resource-kicker">EXIT EVIDENCE</span>
+        <a class="inline-resource-card" href="assets/week-14-prototype-contract.png" target="_blank" rel="noopener noreferrer">
+          <span class="resource-kicker">완료 증거</span>
           <strong>30% 완료 경로 다시 보기</strong>
           <small>week-14-prototype-contract.png</small>
-          <span class="resource-action">OPEN .PNG ↗</span>
+          <span class="resource-action">원본 PNG 열기 ↗</span>
         </a>
       </div>
 
       <figure class="lesson-visual" aria-labelledby="four-path-caption">
-        <img src="assets/week-14-four-path-preview.png" width="1600" height="900" loading="eager" decoding="async" alt="데이터 합계 막대, 텍스트 빈도 막대, 사운드 RMS 선, 규칙 기반 원 구성을 나란히 보여 주는 네 패널 예시">
+        <a class="lesson-visual-link" href="assets/week-14-four-path-preview.png" target="_blank" rel="noopener noreferrer">
+          <img src="assets/week-14-four-path-preview.png" width="1600" height="900" loading="eager" decoding="async" alt="데이터 합계 막대, 텍스트 빈도 막대, 사운드 RMS 선, 규칙 기반 원 구성을 나란히 보여 주는 네 패널 예시">
+          <span class="lesson-visual-action">원본 크기로 보기 ↗</span>
+        </a>
         <figcaption id="four-path-caption">네 경로의 모양은 다르지만 완료 기준은 같습니다. 승인된 입력을 보존하고, 처리 값이 화면의 막대·선·도형과 일치하며, 결과가 다시 열리는 PNG 또는 HTML로 저장되어야 합니다.</figcaption>
       </figure>
 
@@ -146,23 +150,69 @@
 
       <h2 id="completion-criteria">귀가 조건: 제출 전에 열다섯 가지 확인</h2>
 
-      <ol class="completion-criteria">
-        <li><span>01</span><p><strong>두 판정</strong>입력은 <code>approval_status</code>, 코드 재사용은 <code>reuse_status</code>에 따로 기록했습니다.</p></li>
-        <li><span>02</span><p><strong>제출 정보</strong>실제 학번과 이름을 입력하고 안전한 파일명을 사용합니다.</p></li>
-        <li><span>03</span><p><strong>프로젝트 카드</strong>질문, 독자, 출처, 이용 근거, 기준일, 개인정보 점검, 제외 기능, 처리·시각화 규칙을 작성했습니다.</p></li>
-        <li><span>04</span><p><strong>관찰 단위·값 단위</strong>입력 한 건의 의미와 화면 값의 단위를 따로 기록했습니다.</p></li>
-        <li><span>05</span><p><strong>입력 선택</strong><code>data</code>, <code>text</code>, <code>sound</code>, <code>image</code> 가운데 하나와 <code>provided</code> 또는 <code>own</code> 모드를 선택했습니다.</p></li>
-        <li><span>06</span><p><strong>원본 보존</strong>원본 사본과 SHA-256 지문이 남고 실행 중 입력이 바뀌지 않습니다.</p></li>
-        <li><span>07</span><p><strong>처리 결과</strong>집계·빈도·RMS·생성 매개변수 가운데 한 규칙을 실행하고 전후 수량을 출력합니다.</p></li>
-        <li><span>08</span><p><strong>시각적 매핑</strong>막대·선·도형에 매핑된 값이 실제 처리 결과와 일치합니다.</p></li>
-        <li><span>09</span><p><strong>기본 가독성</strong>축 이름, 단위, 레이블과 핵심 표시가 잘리지 않고 읽힙니다.</p></li>
-        <li><span>10</span><p><strong>관찰</strong>화면에서 가리킬 근거를 그대로 포함한 직접 관찰 한 문장을 작성했습니다.</p></li>
-        <li><span>11</span><p><strong>한계</strong>현재 입력만으로 단정할 수 없는 내용을 한 문장으로 작성했습니다.</p></li>
-        <li><span>12</span><p><strong>15주차 행동</strong>서로 다른 대상과 수정 동사가 드러나는 행동 두 가지를 기록했습니다.</p></li>
-        <li><span>13</span><p><strong>교수 의미 확인</strong>질문·권한·관찰·한계·수정 행동·가독성을 확인받고 피드백을 기록했습니다.</p></li>
-        <li><span>14</span><p><strong>출력·재현</strong>PNG 또는 HTML이 열리고 <code>teacher_gate = "confirmed"</code> 뒤 새 런타임 완료 문구가 보입니다.</p></li>
-        <li><span>15</span><p><strong>제출</strong>노트북, 미리보기, 필요한 외부 입력 파일을 제출했습니다.</p></li>
-      </ol>
+      <div class="mission-progress" data-mission-progress data-complete="false">
+        <p><span>귀가 조건 진행률</span><strong aria-live="polite">완료 0/15</strong></p>
+        <button type="button" data-mission-reset aria-controls="week14-completion-criteria">체크 초기화</button>
+      </div>
+      <p class="mission-progress-note">체크 상태는 이 브라우저에 저장됩니다. 체크 표시는 확인을 돕는 기록이며, 자동 검사와 교수 확인을 대신하지 않습니다.</p>
+
+      <div class="completion-groups" id="week14-completion-criteria" data-mission-checklist>
+        <section class="completion-group" aria-labelledby="completion-step-0">
+          <h3 id="completion-step-0"><span>STEP 0</span>준비와 판정</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-01" type="checkbox"><label for="week14-check-01"><strong>두 판정</strong><span>입력은 <code>approval_status</code>, 코드 재사용은 <code>reuse_status</code>에 따로 기록했습니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-02" type="checkbox"><label for="week14-check-02"><strong>제출 정보</strong><span>실제 학번과 이름을 입력하고 안전한 파일명을 사용합니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-1">
+          <h3 id="completion-step-1"><span>STEP 1</span>프로젝트 카드</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-03" type="checkbox"><label for="week14-check-03"><strong>프로젝트 카드</strong><span>질문, 독자, 출처, 이용 근거, 기준일, 개인정보 점검, 제외 기능, 처리·시각화 규칙을 작성했습니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-04" type="checkbox"><label for="week14-check-04"><strong>관찰 단위·값 단위</strong><span>입력 한 건의 의미와 화면 값의 단위를 따로 기록했습니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-05" type="checkbox"><label for="week14-check-05"><strong>입력 선택</strong><span><code>data</code>, <code>text</code>, <code>sound</code>, <code>image</code> 가운데 하나와 <code>provided</code> 또는 <code>own</code> 모드를 선택했습니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-2">
+          <h3 id="completion-step-2"><span>STEP 2</span>입력과 원본</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-06" type="checkbox"><label for="week14-check-06"><strong>원본 보존</strong><span>원본 사본과 SHA-256 지문이 남고 실행 중 입력이 바뀌지 않습니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-3">
+          <h3 id="completion-step-3"><span>STEP 3</span>처리</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-07" type="checkbox"><label for="week14-check-07"><strong>처리 결과</strong><span>집계·빈도·RMS·생성 매개변수 가운데 한 규칙을 실행하고 전후 수량을 출력합니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-4">
+          <h3 id="completion-step-4"><span>STEP 4</span>표현</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-08" type="checkbox"><label for="week14-check-08"><strong>시각적 매핑</strong><span>막대·선·도형에 매핑된 값이 실제 처리 결과와 일치합니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-09" type="checkbox"><label for="week14-check-09"><strong>기본 가독성</strong><span>축 이름, 단위, 레이블과 핵심 표시가 잘리지 않고 읽힙니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-5">
+          <h3 id="completion-step-5"><span>STEP 5</span>해석</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-10" type="checkbox"><label for="week14-check-10"><strong>관찰</strong><span>화면에서 가리킬 근거를 그대로 포함한 직접 관찰 한 문장을 작성했습니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-11" type="checkbox"><label for="week14-check-11"><strong>한계</strong><span>현재 입력만으로 단정할 수 없는 내용을 한 문장으로 작성했습니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-12" type="checkbox"><label for="week14-check-12"><strong>15주차 행동</strong><span>서로 다른 대상과 수정 동사가 드러나는 행동 두 가지를 기록했습니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-6">
+          <h3 id="completion-step-6"><span>STEP 6</span>저장</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-13" type="checkbox"><label for="week14-check-13"><strong>결과 파일</strong><span>PNG 또는 HTML을 노트북 밖에서 직접 열고 잘림과 파일명을 확인했습니다.</span></label></li>
+          </ul>
+        </section>
+        <section class="completion-group" aria-labelledby="completion-step-7">
+          <h3 id="completion-step-7"><span>STEP 7</span>검증과 제출</h3>
+          <ul class="completion-criteria">
+            <li><input class="completion-check" id="week14-check-14" type="checkbox"><label for="week14-check-14"><strong>의미 확인과 재현</strong><span>교수에게 질문·권한·관찰·한계·행동·가독성을 확인받고 <code>teacher_gate = "confirmed"</code> 뒤 새 런타임 완료 문구를 확인했습니다.</span></label></li>
+            <li><input class="completion-check" id="week14-check-15" type="checkbox"><label for="week14-check-15"><strong>제출</strong><span>노트북, 미리보기, 필요한 외부 입력 파일을 제출했습니다.</span></label></li>
+          </ul>
+        </section>
+      </div>
 
       <div class="callout callout-warning">
         <p class="callout-title">자동 검사의 범위</p>
@@ -178,18 +228,18 @@
         <li><span class="session-label">22-32분</span><strong>핵심 시각화</strong><p>처리 값을 막대·선·도형의 시각 요소에 연결합니다.</p></li>
         <li><span class="session-label">32-38분</span><strong>저장·육안 점검</strong><p>PNG 또는 HTML을 직접 열어 잘림을 확인합니다.</p></li>
         <li><span class="session-label">38-44분</span><strong>증거 점검</strong><p>기술 검사와 관찰·한계·행동 문장을 준비합니다.</p></li>
-        <li><span class="session-label">44-48분</span><strong>최종 증거 확인</strong><p>30–45초 확인 뒤 confirmed로 기록하고 모두 실행합니다.</p></li>
+        <li><span class="session-label">44-48분</span><strong>최종 증거 확인</strong><p>30-45초 확인 뒤 confirmed로 기록하고 모두 실행합니다.</p></li>
         <li><span class="session-label">48-50분</span><strong>제출·귀가</strong><p>필수 파일을 제출하고 완료 확인 뒤 귀가합니다.</p></li>
       </ul>
 
       <div class="callout callout-info">
         <p class="callout-title">두 번의 긴 대기열을 만들지 않습니다</p>
-        <p>2교시 15분 안에 자기 자료 승인을 받지 못했다면 <code>input_mode = "provided"</code>와 <code>approval_status = "provided"</code>로, 이전 코드 재사용 승인을 받지 못했다면 <code>reuse_status = "guided"</code>로 각각 전환합니다. 제공 입력과 승인 코드를 함께 쓰는 조합도 가능합니다. 3교시에는 전원이 결과를 완성하는 동안 12분 이후부터 자동 증거가 준비된 순서대로 30–45초 최종 확인을 병행합니다. 30명도 최대 22.5분에 확인할 수 있으므로, 44분까지 기다렸다가 한꺼번에 줄을 서지 않습니다.</p>
+        <p>2교시 15분 안에 자기 자료 승인을 받지 못했다면 <code>input_mode = "provided"</code>와 <code>approval_status = "provided"</code>로, 이전 코드 재사용 승인을 받지 못했다면 <code>reuse_status = "guided"</code>로 각각 전환합니다. 제공 입력과 승인 코드를 함께 쓰는 조합도 가능합니다. 3교시에는 전원이 결과를 완성하는 동안 12분 이후부터 자동 증거가 준비된 순서대로 30-45초 최종 확인을 병행합니다. 30명도 최대 22.5분에 확인할 수 있으므로, 44분까지 기다렸다가 한꺼번에 줄을 서지 않습니다.</p>
       </div>
 
       <p>시간은 순서를 놓치지 않기 위한 기준입니다. 앞 단계가 빨리 끝나면 즉시 다음 단계로 이동합니다. 오류가 생기면 아래 문제 해결 항목에서 현재 STEP을 찾고, 그래도 해결되지 않으면 오류 문장 전체와 해당 STEP 번호를 교수에게 보여 줍니다.</p>
 
-      <h2 id="step-zero">준비 · 노트북 사본과 제출 파일명 만들기</h2>
+      <h2 id="step-zero">STEP 0 · 노트북 사본과 제출 파일명 만들기</h2>
 
       <ol>
         <li>실습 노트북을 내려받아 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab</a>에서 엽니다.</li>
@@ -272,7 +322,7 @@ visual_rule = "공간 범주를 세로 위치에, 기록 합계를 막대 길이
             <tr><th scope="row">데이터</th><td>UTF-8 CSV</td><td><code>category</code>, <code>value</code> 열; <code>value</code>는 0 이상의 수</td><td>개인정보 제거, 열 이름, 이용 조건</td></tr>
             <tr><th scope="row">텍스트</th><td>UTF-8 TXT</td><td>분석할 짧은 본문 한 개</td><td>저작권 또는 직접 작성, 인코딩</td></tr>
             <tr><th scope="row">사운드</th><td>모노 16-bit PCM WAV</td><td>한 채널의 짧은 소리</td><td>직접 생성·녹음 또는 허가, 대화 제거</td></tr>
-            <tr><th scope="row">규칙 이미지</th><td>UTF-8 CSV</td><td><code>x</code>, <code>y</code>, <code>size</code>, <code>color</code>; 위치는 0–1, 색은 <code>#RRGGBB</code></td><td>생성 규칙·출처, 크기 범위, 캔버스 밖 좌표</td></tr>
+            <tr><th scope="row">규칙 이미지</th><td>UTF-8 CSV</td><td><code>x</code>, <code>y</code>, <code>size</code>, <code>color</code>; 위치는 0-1, 색은 <code>#RRGGBB</code></td><td>생성 규칙·출처, 크기 범위, 캔버스 밖 좌표</td></tr>
           </tbody>
         </table>
       </div>
@@ -309,7 +359,7 @@ visual_rule = "공간 범주를 세로 위치에, 기록 합계를 막대 길이
 
       <details class="callout callout-question">
         <summary class="callout-title"><code>teacher_gate</code>를 언제 바꾸는가?</summary>
-        <div class="details-motion-content"><p>STEP 0–6의 결과와 STEP 5 문장을 교수에게 보여 주고 질문·권한·관찰·한계·수정 행동·가독성을 확인받은 뒤에만 <code>"confirmed"</code>로 바꿉니다. 먼저 바꾸는 것은 교수 확인을 대신하지 못합니다.</p></div>
+        <div class="details-motion-content"><p>STEP 0-6의 결과와 STEP 5 문장을 교수에게 보여 주고 질문·권한·관찰·한계·수정 행동·가독성을 확인받은 뒤에만 <code>"confirmed"</code>로 바꿉니다. 먼저 바꾸는 것은 교수 확인을 대신하지 못합니다.</p></div>
       </details>
 
       <h2 id="step-two">STEP 2 · 승인된 입력을 불러오고 원본 보존하기</h2>
@@ -428,22 +478,25 @@ visual_artist = axis.scatter(
     c=processed_colors,
 )</code></pre>
 
-      <p>코드의 변수 이름을 읽어 봅니다. 막대의 레이블과 길이는 처리 셀에서 만든 값이고, 선의 x와 y는 처리 시간과 에너지 값이며, 원의 위치·크기·색은 이미지 매개변수입니다. 최종 검사는 Matplotlib 안의 실제 값을 다시 꺼내 아래 공개 어댑터 쌍만 비교합니다.</p>
-
-      <div class="table-wrap">
-        <table>
-          <caption>승인 재사용 코드가 남겨야 할 공통 어댑터 변수</caption>
-          <thead><tr><th scope="col">경로</th><th scope="col">필수 증거 쌍</th><th scope="col">사용하지 않는 쌍</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">모든 경로</th><td><code>mapping_source_values</code> / <code>mapping_visual_values</code></td><td>없음</td></tr>
-            <tr><th scope="row">데이터·텍스트</th><td><code>mapping_source_labels</code> / <code>mapping_visual_labels</code></td><td>위치·색 쌍은 <code>None</code></td></tr>
-            <tr><th scope="row">소리</th><td><code>mapping_source_positions</code> / <code>mapping_visual_positions</code></td><td>레이블·색 쌍은 <code>None</code></td></tr>
-            <tr><th scope="row">이미지</th><td>위치 쌍 + <code>mapping_source_colors</code> / <code>mapping_visual_colors</code></td><td>레이블 쌍은 <code>None</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p><code>visual_element_count</code>는 <code>mapping_visual_values</code>의 길이에서 자동 계산됩니다. FINAL CHECK는 <code>processed_labels</code>, <code>processed_times</code>, <code>processed_x</code> 같은 경로 내부 변수나 Matplotlib artist를 직접 읽지 않습니다.</p>
+      <details class="callout callout-info reuse-disclosure">
+        <summary class="callout-title">승인 재사용 학생만: 공개 어댑터 확인</summary>
+        <div class="details-motion-content">
+          <p>공통 경로를 그대로 실행한다면 아래 변수 이름을 편집하지 않습니다. 승인받은 이전 코드를 STEP 4에 연결하는 학생만 확인합니다. 막대의 레이블과 길이는 처리 셀에서 만든 값이고, 선의 x와 y는 처리 시간과 에너지 값이며, 원의 위치·크기·색은 이미지 매개변수입니다. 최종 검사는 Matplotlib 안의 실제 값을 다시 꺼내 아래 공개 어댑터 쌍만 비교합니다.</p>
+          <div class="table-wrap">
+            <table>
+              <caption>승인 재사용 코드가 남겨야 할 공통 어댑터 변수</caption>
+              <thead><tr><th scope="col">경로</th><th scope="col">필수 증거 쌍</th><th scope="col">사용하지 않는 쌍</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">모든 경로</th><td><code>mapping_source_values</code> / <code>mapping_visual_values</code></td><td>없음</td></tr>
+                <tr><th scope="row">데이터·텍스트</th><td><code>mapping_source_labels</code> / <code>mapping_visual_labels</code></td><td>위치·색 쌍은 <code>None</code></td></tr>
+                <tr><th scope="row">소리</th><td><code>mapping_source_positions</code> / <code>mapping_visual_positions</code></td><td>레이블·색 쌍은 <code>None</code></td></tr>
+                <tr><th scope="row">이미지</th><td>위치 쌍 + <code>mapping_source_colors</code> / <code>mapping_visual_colors</code></td><td>레이블 쌍은 <code>None</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><code>visual_element_count</code>는 <code>mapping_visual_values</code>의 길이에서 자동 계산됩니다. FINAL CHECK는 <code>processed_labels</code>, <code>processed_times</code>, <code>processed_x</code> 같은 경로 내부 변수나 Matplotlib artist를 직접 읽지 않습니다.</p>
+        </div>
+      </details>
 
       <div class="checkpoint">
         <span class="checkpoint-number">CHECK 04</span>
@@ -467,7 +520,7 @@ visual_artist = axis.scatter(
 
       <details class="callout callout-question">
         <summary class="callout-title">규칙 이미지의 원이 겹치거나 캔버스 밖으로 나갈 때</summary>
-        <div class="details-motion-content"><p>겹침이 의도인지 먼저 판단합니다. 의도가 아니라면 <code>x</code>, <code>y</code>, <code>size</code> 가운데 하나만 조정하고 원본 매개변수 CSV는 보존합니다. 좌표는 자동으로 0–1 범위를 검사하지만 큰 원의 가장자리는 육안으로 확인해야 합니다.</p></div>
+        <div class="details-motion-content"><p>겹침이 의도인지 먼저 판단합니다. 의도가 아니라면 <code>x</code>, <code>y</code>, <code>size</code> 가운데 하나만 조정하고 원본 매개변수 CSV는 보존합니다. 좌표는 자동으로 0-1 범위를 검사하지만 큰 원의 가장자리는 육안으로 확인해야 합니다.</p></div>
       </details>
 
       <h2 id="step-five">STEP 5 · 관찰, 한계, 15주차 행동 두 가지 작성하기</h2>
@@ -552,7 +605,7 @@ teacher_feedback = "관찰 근거는 유지하고 기간 한계를 출처 가까
       <h2 id="step-seven">STEP 7 · 기술 증거 점검, 교수 확인, 최종 모두 실행</h2>
 
       <ol>
-        <li><code>teacher_gate = "pending"</code>인 상태에서 STEP 0–6의 출력, 결과 파일, STEP 5 문장을 먼저 준비합니다.</li>
+        <li><code>teacher_gate = "pending"</code>인 상태에서 STEP 0-6의 출력, 결과 파일, STEP 5 문장을 먼저 준비합니다.</li>
         <li>교수에게 아래 여섯 항목을 확인받고 <code>teacher_feedback</code>을 기록합니다.</li>
         <li>확인 지시에 따라 <code>teacher_gate = "confirmed"</code>로 바꿉니다.</li>
         <li>작업을 저장한 뒤 <strong>런타임 → 세션 다시 시작 → 모두 실행</strong>을 선택합니다.</li>
@@ -594,9 +647,9 @@ teacher_feedback = "관찰 근거는 유지하고 기간 한계를 출처 가까
         <div class="details-motion-content"><p>정상적인 중간 상태입니다. 결과 파일과 STEP 1·5를 교수에게 보여 주고 의미 확인을 받은 뒤에만 <code>confirmed</code>로 바꿉니다. 자동 검사만 통과하려고 임의로 바꾸면 귀가 조건이 충족되지 않습니다.</p></div>
       </details>
 
-      <h2 id="teacher-gate">교수 증거 확인 · 완성 순서대로 30–45초</h2>
+      <h2 id="teacher-gate">교수 증거 확인 · 완성 순서대로 30-45초</h2>
 
-      <p>긴 발표를 다시 하지 않습니다. 열린 PNG 또는 HTML과 STEP 1·5를 같은 화면에 준비하고, 아래 여섯 항목의 위치만 순서대로 가리킵니다. 교수는 <strong>확인</strong> 또는 <strong>한 항목 수정</strong>만 기록합니다. 30명 기준 15–22.5분이므로 결과가 준비된 12분 이후부터 제작과 병행합니다.</p>
+      <p>긴 발표를 다시 하지 않습니다. 열린 PNG 또는 HTML과 STEP 1·5를 같은 화면에 준비하고, 아래 여섯 항목의 위치만 순서대로 가리킵니다. 교수는 <strong>확인</strong> 또는 <strong>한 항목 수정</strong>만 기록합니다. 30명 기준 15-22.5분이므로 결과가 준비된 12분 이후부터 제작과 병행합니다.</p>
 
       <ol>
         <li><strong>질문-입력:</strong> 현재 입력으로 질문에 답할 수 있는가?</li>
@@ -609,7 +662,7 @@ teacher_feedback = "관찰 근거는 유지하고 기간 한계를 출처 가까
 
       <div class="callout callout-info">
         <p class="callout-title">교수 확인에서 수정이 필요한 경우</p>
-        <p>프로젝트 전체를 다시 만들지 않습니다. “질문을 현재 입력으로 답할 수 있게 좁히기”, “외부 입력을 제공 자료로 바꾸기”, “근거 없는 관찰을 화면 수치로 교체하기”, “다음 행동의 수정 대상을 구체화하기”, “축 단위 추가”처럼 표시된 한 항목만 수정합니다. 피드백을 STEP 5에 기록하고 다시 30–45초 확인을 받은 뒤 <code>teacher_gate</code>를 변경해 새 런타임 모두 실행을 진행합니다.</p>
+        <p>프로젝트 전체를 다시 만들지 않습니다. “질문을 현재 입력으로 답할 수 있게 좁히기”, “외부 입력을 제공 자료로 바꾸기”, “근거 없는 관찰을 화면 수치로 교체하기”, “다음 행동의 수정 대상을 구체화하기”, “축 단위 추가”처럼 표시된 한 항목만 수정합니다. 피드백을 STEP 5에 기록하고 다시 30-45초 확인을 받은 뒤 <code>teacher_gate</code>를 변경해 새 런타임 모두 실행을 진행합니다.</p>
       </div>
 
       <h2 id="submission">제출 · 필수 파일 확인 후 즉시 귀가</h2>
@@ -651,36 +704,27 @@ teacher_feedback = "관찰 근거는 유지하고 기간 한계를 출처 가까
 
       <ul class="reference-list">
         <li><a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer"><strong>Google Colab</strong></a><small>노트북 업로드, Drive 사본 저장, 런타임 다시 시작과 모두 실행에 사용하는 실습 환경</small></li>
-        <li><a href="https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서 — <code>assert</code></strong></a><small>최종 검사에서 조건과 오류 메시지가 작동하는 원리</small></li>
-        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" target="_blank" rel="noopener noreferrer"><strong>pandas 공식 문서 — <code>DataFrame.groupby</code></strong></a><small>데이터 경로에서 같은 범주의 값을 묶어 합산하는 기준</small></li>
-        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서 — <code>savefig</code></strong></a><small>8 × 5인치 Figure를 200DPI의 1600 × 1000 PNG로 저장하는 방법</small></li>
+        <li><a href="https://docs.python.org/3/reference/simple_stmts.html#the-assert-statement" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서 : <code>assert</code></strong></a><small>최종 검사에서 조건과 오류 메시지가 작동하는 원리</small></li>
+        <li><a href="https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.groupby.html" target="_blank" rel="noopener noreferrer"><strong>pandas 공식 문서 : <code>DataFrame.groupby</code></strong></a><small>데이터 경로에서 같은 범주의 값을 묶어 합산하는 기준</small></li>
+        <li><a href="https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.savefig.html" target="_blank" rel="noopener noreferrer"><strong>Matplotlib 공식 문서 : <code>savefig</code></strong></a><small>8 × 5인치 Figure를 200DPI의 1600 × 1000 PNG로 저장하는 방법</small></li>
       </ul>
     </article>
 
-    <aside class="toc" aria-label="이 페이지의 목차">
-      <p class="toc-title">On this page</p>
-      <a href="#resources">실습 자료</a>
-      <a href="#completion-criteria">귀가 조건</a>
-      <a href="#time-guide">50분 진행</a>
-      <a href="#step-zero">준비와 사본</a>
-      <a href="#step-one">STEP 1 프로젝트 카드</a>
-      <a href="#step-two">STEP 2 입력 보존</a>
-      <a href="#step-three">STEP 3 처리</a>
-      <a href="#step-four">STEP 4 시각화</a>
-      <a href="#step-five">STEP 5 해석</a>
-      <a href="#step-six">STEP 6 저장</a>
-      <a href="#step-seven">STEP 7 최종 검사</a>
-      <a href="#teacher-gate">교수 범위 확인</a>
-      <a href="#submission">제출과 귀가</a>
-      <a href="#extension">선택 확장</a>
-      <a href="#week-fifteen">15주차 연결</a>
-    </aside>
+    <details class="toc week-14-toc" aria-label="이 페이지의 목차" data-week14-toc open>
+      <summary class="toc-title"><span>이 페이지에서</span><span class="toc-current">실습 자료</span></summary>
+      <nav class="details-motion-content toc-links" aria-label="3교시 세부 목차">
+        <div class="toc-group"><p class="toc-group-title">시작</p><a href="#resources">실습 자료</a><a href="#completion-criteria">귀가 조건</a><a href="#time-guide">50분 진행</a></div>
+        <div class="toc-group"><p class="toc-group-title">제작</p><a href="#step-zero">STEP 0 준비</a><a href="#step-one">STEP 1 카드</a><a href="#step-two">STEP 2 입력</a><a href="#step-three">STEP 3 처리</a><a href="#step-four">STEP 4 표현</a><a href="#step-five">STEP 5 해석</a><a href="#step-six">STEP 6 저장</a></div>
+        <div class="toc-group"><p class="toc-group-title">검증과 제출</p><a href="#step-seven">STEP 7 최종 검사</a><a href="#teacher-gate">교수 확인</a><a href="#submission">제출과 귀가</a><a href="#extension">선택 확장</a><a href="#week-fifteen">15주차 연결</a></div>
+      </nav>
+    </details>
   </main>
 
   <footer class="course-footer">
     <a href="./">← Contents Programming Practice</a>
-    <span>Week 14 · Period 03</span>
+    <span>14주차 · 3교시</span>
   </footer>
+  <script src="assets/week-14-ui.js" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>
