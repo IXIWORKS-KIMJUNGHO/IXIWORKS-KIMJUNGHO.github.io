@@ -12,14 +12,14 @@ from textwrap import dedent
 import folium
 import pandas as pd
 
+from week10_asset_runtime import PINNED_VERSIONS
+
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
 SOURCE_CSV = ASSET_DIR / "week-10-public-facilities-practice.csv"
 NOTEBOOK_PATH = ASSET_DIR / "week-10-interactive-map-mission.ipynb"
 EXAMPLE_MAP_PATH = ASSET_DIR / "week-10-interactive-map-example.html"
-EXPECTED_FOLIUM_VERSION = "0.20.0"
-EXPECTED_PANDAS_VERSION = "3.0.5"
 
 SITE_ORIGIN = "https://creativeengineer-kimjungho.com"
 SHARE_IMAGE_URL = (
@@ -103,7 +103,7 @@ MAP_OVERLAY_CSS = dedent(
 
     .week10-map-info summary small {
       color: #555b57;
-      font-size: 11px;
+      font-size: 14px;
       font-weight: 400;
     }
 
@@ -119,7 +119,10 @@ MAP_OVERLAY_CSS = dedent(
     }
 
     .week10-map-panel-body p { margin: 8px 0; }
-    .week10-map-panel-body > small { color: #555b57; }
+    .week10-map-panel-body > small {
+      color: #555b57;
+      font-size: 14px;
+    }
 
     .week10-map-data { margin-top: 12px; }
 
@@ -147,7 +150,7 @@ MAP_OVERLAY_CSS = dedent(
       width: 100%;
       border-collapse: collapse;
       background: #fff;
-      font-size: 12px;
+      font-size: 14px;
     }
 
     .week10-map-data caption {
@@ -176,6 +179,8 @@ MAP_OVERLAY_CSS = dedent(
       min-width: 164px;
       padding: 13px 15px;
     }
+
+    .week10-map-legend small { font-size: 14px; }
 
     .week10-map-legend ul {
       margin: 8px 0;
@@ -257,8 +262,8 @@ def build_notebook(sample_csv: str) -> dict[str, object]:
     import sys
 
     required_packages = {{
-        "folium": "0.20.0",
-        "pandas": "3.0.5",
+        "folium": {PINNED_VERSIONS["folium"]!r},
+        "pandas": {PINNED_VERSIONS["pandas"]!r},
     }}
     packages_to_install = []
     for package_name, required_version in required_packages.items():
@@ -1103,8 +1108,8 @@ def validate_runtime() -> None:
         "pandas": pd.__version__,
     }
     expected = {
-        "folium": EXPECTED_FOLIUM_VERSION,
-        "pandas": EXPECTED_PANDAS_VERSION,
+        "folium": PINNED_VERSIONS["folium"],
+        "pandas": PINNED_VERSIONS["pandas"],
     }
     if versions != expected:
         raise RuntimeError(

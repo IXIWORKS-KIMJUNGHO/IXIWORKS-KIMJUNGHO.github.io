@@ -294,8 +294,8 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
 
   for (const pattern of [
     /SAMPLE_CSV_PATH = "week10_public_facilities_raw\.csv"/,
-    /"folium": "0\.20\.0"/,
-    /"pandas": "3\.0\.5"/,
+    /["']folium["']:\s*["']0\.20\.0["']/,
+    /["']pandas["']:\s*["']3\.0\.5["']/,
     /packages_to_install/,
     /Path\(SAMPLE_CSV_PATH\)\.write_text\(SAMPLE_CSV, encoding="utf-8"\)/,
     /dataset_source.*dataset_license.*reference_date.*observation_unit/s,
@@ -356,6 +356,10 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
     /week-10-map-mission-preview\.png/,
     /class="week10-map-data"/,
     /지도 마커의 텍스트 대체 정보/,
+    /\.week10-map-info summary small\s*\{[\s\S]*?font-size:\s*14px/,
+    /\.week10-map-panel-body > small\s*\{[\s\S]*?font-size:\s*14px/,
+    /\.week10-map-data table\s*\{[\s\S]*?font-size:\s*14px/,
+    /\.week10-map-legend small\s*\{\s*font-size:\s*14px/,
   ]) {
     assert.match(exampleMap, pattern);
   }
@@ -379,6 +383,7 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
 
   for (const pattern of [
     /def build_notebook/,
+    /from week10_asset_runtime import PINNED_VERSIONS/,
     /def clean_source_data/,
     /def build_facility_table_html/,
     /def build_example_map/,
@@ -393,15 +398,17 @@ test("Contents Programming week 10 mission notebook contains a complete self-che
   ]) {
     assert.match(generator, pattern);
   }
+  assert.doesNotMatch(generator, /EXPECTED_FOLIUM_VERSION|EXPECTED_PANDAS_VERSION/);
 });
 
 test("Contents Programming week 10 practice data and diagrams stay complete and reproducible", async () => {
-  const [sampleCsv, generator, requirements, packageJson] = await Promise.all([
+  const [sampleCsv, generator, runtimeContract, requirements, packageJson] = await Promise.all([
     readFile(
       resolve(assetDirectory, "week-10-public-facilities-practice.csv"),
       "utf8",
     ),
     readFile(resolve(root, "scripts", "generate-week10-map-assets.py"), "utf8"),
+    readFile(resolve(root, "scripts", "week10_asset_runtime.py"), "utf8"),
     readFile(resolve(root, "requirements-week10-assets.txt"), "utf8"),
     readFile(resolve(root, "package.json"), "utf8"),
   ]);
@@ -435,9 +442,14 @@ test("Contents Programming week 10 practice data and diagrams stay complete and 
   assert.match(generator, /def make_cleaning_to_map/);
   assert.match(generator, /def make_map_mission_preview/);
   assert.match(generator, /inter-latin-variable\.woff2/);
+  assert.match(generator, /from week10_asset_runtime import PINNED_VERSIONS/);
   assert.match(generator, /set_variation_by_name/);
   assert.match(generator, /def validate_runtime/);
   assert.doesNotMatch(generator, /System\/Library\/Fonts|usr\/share\/fonts/);
+  assert.doesNotMatch(generator, /11\.1\.0|2\.13\.2/);
+  assert.match(runtimeContract, /requirements-week10-assets\.txt/);
+  assert.match(runtimeContract, /def load_pinned_versions/);
+  assert.match(runtimeContract, /PINNED_VERSIONS = load_pinned_versions\(\)/);
   assert.match(generator, /CORAL_TEXT = \(166, 54, 43, 255\)/);
   assert.match(generator, /OCHRE_TEXT = \(117, 82, 0, 255\)/);
   assert.doesNotMatch(generator, /fill=YELLOW, font=/);

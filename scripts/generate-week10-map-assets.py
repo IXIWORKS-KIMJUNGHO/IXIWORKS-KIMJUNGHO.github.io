@@ -11,12 +11,12 @@ import PIL
 from PIL import Image, ImageDraw, ImageFont
 from PIL import features
 
+from week10_asset_runtime import PINNED_VERSIONS
+
 
 ROOT = Path(__file__).resolve().parents[1]
 ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
 FONT_PATH = ROOT / "assets" / "fonts" / "inter-latin-variable.woff2"
-EXPECTED_PILLOW_VERSION = "11.1.0"
-EXPECTED_FREETYPE_VERSION = "2.13.2"
 
 INK = (28, 31, 30, 255)
 PAPER = (244, 241, 232, 255)
@@ -103,8 +103,8 @@ def validate_runtime() -> None:
         "freetype": freetype_version,
     }
     expected = {
-        "Pillow": EXPECTED_PILLOW_VERSION,
-        "freetype": EXPECTED_FREETYPE_VERSION,
+        "Pillow": PINNED_VERSIONS["Pillow"],
+        "freetype": PINNED_VERSIONS["freetype"],
     }
     if versions != expected:
         raise RuntimeError(
