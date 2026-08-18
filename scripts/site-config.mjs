@@ -80,7 +80,7 @@ const PAGE_SHARE_IMAGES = Object.freeze({
   }),
   "teaching/contents-programming/week-14-period3.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-14-three-track-preview.png",
-    alt: "데이터 막대, 텍스트 빈도 막대, 사운드 에너지 선으로 구성된 세 가지 프로젝트 경로 예시",
+    alt: "데이터 막대, 텍스트 빈도 막대, 사운드 에너지 선, 규칙 기반 원 구성으로 이루어진 네 가지 프로젝트 경로 예시",
   }),
 });
 

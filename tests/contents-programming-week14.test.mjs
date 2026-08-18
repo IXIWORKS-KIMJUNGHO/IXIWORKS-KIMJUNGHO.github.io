@@ -36,8 +36,27 @@ test("Contents Programming week 14 period 1 turns broad ideas into buildable pro
   ]);
 
   assert.match(courseIndex, /href="week-14-period1\.html"/);
+  assert.match(courseIndex, /14–24분에는 네 가지 축소 사례/);
+  const lessonOrder = [
+    ...new Set(
+      [...courseIndex.matchAll(/href="(week-\d+-period\d+\.html)"/g)].map(
+        ([, href]) => href,
+      ),
+    ),
+  ];
+  const currentIndex = lessonOrder.indexOf("week-14-period1.html");
+  assert.ok(currentIndex > 0, "week 14 period 1 should follow a published lesson");
+  const previousLessonName = lessonOrder[currentIndex - 1];
+  const previousLesson = await readFile(
+    resolve(courseDirectory, previousLessonName),
+    "utf8",
+  );
+  assert.match(
+    period1,
+    new RegExp(`href="${previousLessonName.replaceAll(".", "\\.")}" rel="prev"`),
+  );
+  assert.match(previousLesson, /href="week-14-period1\.html" rel="next"/);
   assert.match(period1, /href="week-14-period2\.html" rel="next"/);
-  assert.doesNotMatch(period1, /rel="prev"/);
   assertTimeline(period1, [
     [0, 6],
     [6, 14],
@@ -54,10 +73,15 @@ test("Contents Programming week 14 period 1 turns broad ideas into buildable pro
   assert.doesNotMatch(period1, /짝 활동|짝과|조별|팀 활동/);
   assertIncludesAll(period1, [
     "13주차의 씨앗 카드",
+    "13주차 씨앗 카드의 다섯 매체",
+    "최종 매체와 14주차 제작 경로",
+    "map",
+    "hybrid",
     "프로젝트 문장 틀",
     "한 질문, 한 입력, 한 규칙, 한 매핑, 한 출력",
     "week-14-scope-to-slice.png",
-    "데이터·텍스트·사운드 계획",
+    "데이터·텍스트·사운드·규칙 이미지 계획",
+    "네 가지 프로젝트의 범위 축소 사례",
     "관찰 단위",
     "직접 관찰 가능",
     "현재 자료만으로 단정 불가",
@@ -95,13 +119,17 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
   assert.match(period1, /href="week-14-period2\.html" rel="next"/);
   assert.match(period2, /href="week-14-period1\.html" rel="prev"/);
   assert.match(period2, /href="week-14-period3\.html" rel="next"/);
+  assert.match(
+    await readFile(resolve(courseDirectory, "index.html"), "utf8"),
+    /35–41분에는[\s\S]*41–50분에는/,
+  );
   assertTimeline(period2, [
     [0, 7],
     [7, 17],
     [17, 27],
     [27, 35],
-    [35, 43],
-    [43, 50],
+    [35, 41],
+    [41, 50],
     [50, 60],
   ]);
   assert.ok(
@@ -111,6 +139,10 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
   assert.doesNotMatch(period2, /짝 활동|짝과|조별|팀 활동/);
   assertIncludesAll(period2, [
     "week-14-prototype-contract.png",
+    "data / text / sound / image",
+    "최종 매체와 기본 경로",
+    "위치 지도",
+    "다섯 매체와 복합 프로젝트",
     "준비, 입력 확인, 처리, 시각화, 저장, 최종 점검",
     "한 셀은 한 질문에 답합니다",
     "9–13주차 코드",
@@ -127,13 +159,17 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
     "범위 축소 후 승인",
     "대체 자료로 전환",
     "60–90초",
+    "수강 인원에 따른 1차 면담 시간 계산",
+    "15분에는 약 10–15명",
+    "APPROVED REUSE ZONE",
+    "mapping_source_values",
     "새 런타임",
     "기본 50분과 선택 확장",
     "수업 후 개별 복습",
   ]);
 });
 
-test("Contents Programming week 14 period 3 is a finite three-track individual mission", async () => {
+test("Contents Programming week 14 period 3 is a finite four-path individual mission", async () => {
   const [period2, period3] = await Promise.all([
     readFile(resolve(courseDirectory, "week-14-period2.html"), "utf8"),
     readFile(resolve(courseDirectory, "week-14-period3.html"), "utf8"),
@@ -169,8 +205,12 @@ test("Contents Programming week 14 period 3 is a finite three-track individual m
     "data",
     "text",
     "sound",
+    "image",
     "provided",
     "own",
+    "approval_status",
+    "approval_note",
+    "teacher_gate",
     "category",
     "value",
     "UTF-8 TXT",
@@ -183,7 +223,13 @@ test("Contents Programming week 14 period 3 is a finite three-track individual m
     "28토큰",
     "상위 단어 7개",
     "159개 에너지 값",
+    "위치·크기·색 매개변수 5건",
+    "PNG 또는 HTML",
     "1600 × 1000",
+    "관찰 단위",
+    "개인정보 점검",
+    "APPROVED REUSE ZONE",
+    "AUTOMATIC EVIDENCE READY",
     "관찰",
     "한계",
     "15주차 행동",
@@ -197,7 +243,7 @@ test("Contents Programming week 14 period 3 is a finite three-track individual m
   ]);
 });
 
-test("Week 14 notebook publishes a complete self-checking three-track workflow", async () => {
+test("Week 14 notebook publishes a complete self-checking four-path workflow", async () => {
   const notebookPath = resolve(
     assetDirectory,
     "week-14-project-prototype-mission.ipynb",
@@ -212,7 +258,7 @@ test("Week 14 notebook publishes a complete self-checking three-track workflow",
   assert.equal(
     [...notebookCode.matchAll(/# STEP \d · EDIT/g)].length,
     2,
-    "students should edit only STEP 1 and STEP 5",
+    "the guided path should mark only STEP 1 and STEP 5 as required edits",
   );
   for (const pattern of [
     /required_packages = \{/,
@@ -225,30 +271,53 @@ test("Week 14 notebook publishes a complete self-checking three-track workflow",
     /project_track = "data"/,
     /input_mode = "provided"/,
     /own_source_filename = ""/,
+    /output_format = "png"/,
+    /approval_status = "EDIT:/,
+    /approval_note = "EDIT:/,
+    /teacher_gate = "pending"/,
     /project_question = "EDIT:/,
+    /reference_date = "EDIT:/,
+    /privacy_check = "EDIT:/,
+    /observation_unit = "EDIT:/,
+    /value_unit = "EDIT:/,
+    /processing_rule = "EDIT:/,
+    /APPROVED REUSE ZONE/,
     /EXPECTED_PROVIDED_DIGESTS = \{[^}]+\}/,
     /source_digest_before = sha256_bytes/,
     /raw_snapshot = raw_data\.copy\(deep=True\)/,
     /raw_snapshot = raw_signal\.copy\(\)/,
+    /PROVIDED_IMAGE_CSV =/,
+    /raw_snapshot = raw_image_params\.copy\(deep=True\)/,
     /groupby\("category", as_index=False\)/,
     /Counter\(tokens\)/,
     /np\.sqrt\(np\.mean\(raw_signal/,
     /processed_values/,
     /axis\.barh\(/,
     /axis\.plot\(/,
+    /axis\.scatter\(/,
+    /processed_x = raw_image_params\["x"\]/,
+    /processed_colors = raw_image_params\["color"\]/,
     /main_observation\s*=\s*\([\s\S]*?EDIT:/,
     /limitation_statement\s*=\s*\([\s\S]*?EDIT:/,
     /next_step_1 = "EDIT:/,
     /next_step_2 = "EDIT:/,
-    /week14_\{safe_student_id\}_\{safe_student_name\}_preview\.png/,
+    /output_filename = f"week14_\{safe_student_id\}_\{safe_student_name\}_preview\.\{output_format\}"/,
     /figure\.savefig\(/,
+    /output_path\.write_text\(html_output, encoding="utf-8"\)/,
     /dpi=200/,
     /saved_image\.size == \(1600, 1000\)/,
     /pd\.testing\.assert_frame_equal\(raw_data, raw_snapshot\)/,
+    /pd\.testing\.assert_frame_equal\(raw_image_params, raw_snapshot\)/,
     /source_path\.read_bytes\(\) == source_bytes_before/,
-    /rendered_values.*processed_values/s,
-    /visual_artist\.get_xdata\(\).*processed_times/s,
-    /visual_artist\.get_ydata\(\).*processed_values/s,
+    /candidate_data\["category"\]\.notna\(\)\.all\(\)/,
+    /np\.isfinite\(numeric_values\.to_numpy\(dtype=float\)\)\.all\(\)/,
+    /np\.allclose\(mapping_visual_values, mapping_source_values\)/,
+    /mapping_position_values.*processed_times/s,
+    /observation_evidence = "EDIT:/,
+    /observation_evidence in main_observation/,
+    /teacher_feedback = "EDIT:/,
+    /AUTOMATIC EVIDENCE READY · TEACHER CHECK REQUIRED/,
+    /teacher_gate == "confirmed"/,
     /_run_order == \[0, 1, 2, 3, 4, 5, 6\]/,
     /WEEK 14 PROJECT PROTOTYPE COMPLETE/,
   ]) {
@@ -269,6 +338,22 @@ test("Week 14 generated visual assets have the published dimensions", async () =
     assert.equal(buffer.readUInt32BE(20), height);
     assert.ok((await stat(resolve(assetDirectory, filename))).size > 20_000);
   }
+});
+
+test("Week 14 preview generation guards contrast, bounds, and shared fixtures", async () => {
+  const generator = await readFile(
+    resolve(root, "scripts", "generate-week14-project-assets.py"),
+    "utf8",
+  );
+  assert.match(generator, /GOLD = "#6f4f00"/);
+  assert.match(generator, /def assert_figure_content_inside_canvas/);
+  assert.match(generator, /assert_figure_content_inside_canvas\(figure, axes\)/);
+  assert.match(
+    generator,
+    /data_frame = pd\.read_csv\(pd\.io\.common\.StringIO\(PROVIDED_DATA_CSV\)\)/,
+  );
+  assert.match(generator, /token_counts = Counter\(PROVIDED_TEXT\.split\(\)\)/);
+  assert.match(generator, /signal = provided_sound\(\)/);
 });
 
 test("Week 14 generated assets stay reproducible in the pinned environment", async (t) => {
@@ -306,7 +391,7 @@ test("Week 14 generated assets stay reproducible in the pinned environment", asy
   }
 });
 
-test("Week 14 notebook passes three valid paths and rejects corrupted evidence", (t) => {
+test("Week 14 notebook passes four valid paths and rejects corrupted evidence", (t) => {
   if (process.env.WEEK14_STRICT_NOTEBOOK_TEST !== "1") {
     t.skip("set WEEK14_STRICT_NOTEBOOK_TEST=1 to execute notebook scenarios");
     return;
@@ -321,6 +406,12 @@ test("Week 14 notebook passes three valid paths and rejects corrupted evidence",
   assert.match(result.stdout, /"track": "data"/);
   assert.match(result.stdout, /"track": "text"/);
   assert.match(result.stdout, /"track": "sound"/);
+  assert.match(result.stdout, /"track": "image"/);
+  assert.match(result.stdout, /"input_mode": "own"/);
+  assert.match(result.stdout, /"output_format": "html"/);
   assert.match(result.stdout, /수업 제공 원본이 변경되었습니다/);
-  assert.match(result.stdout, /막대 길이가 처리 결과와 일치하지 않습니다/);
+  assert.match(result.stdout, /category 열에 결측값이 있습니다/);
+  assert.match(result.stdout, /화면에 매핑된 값이 처리 결과와 일치하지 않습니다/);
+  assert.match(result.stdout, /교수의 최종 확인 뒤 teacher_gate를 confirmed로 바꾸세요/);
+  assert.match(result.stdout, /관찰 문장에 화면에서 가리킬 관찰 근거를 그대로 포함하세요/);
 });

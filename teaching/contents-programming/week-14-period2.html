@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>14주차 2교시: 코드 구조와 검증 기준 세우기 | Contents Programming Practice</title>
-  <meta name="description" content="프로젝트 노트북을 준비·입력·처리·시각화·저장·최종 점검의 여섯 구역으로 나누고, 데이터·텍스트·사운드 경로별 검증 문장과 출처·이용 권한을 정한 뒤 60~90초 1차 면담을 진행하는 14주차 2교시 강의 자료입니다.">
+  <meta name="description" content="프로젝트 노트북을 준비·입력·처리·시각화·저장·최종 점검의 여섯 구역으로 나누고, 데이터·위치·텍스트·사운드·규칙 이미지·복합 프로젝트의 검증 문장과 출처·이용 권한을 정한 뒤 60~90초 1차 면담을 진행하는 14주차 2교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-14-period2.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="14주차 2교시: 코드 구조와 검증 기준 세우기">
@@ -37,8 +37,7 @@
       </div>
     </nav>
   </header>
-
-  <div class="hero">
+<div class="hero">
     <div class="hero-inner">
       <div>
         <p class="eyebrow">Structure / Reuse / Assert / Evidence / Review</p>
@@ -54,7 +53,7 @@
       </div>
       <aside class="doc-card" aria-label="문서 정보">
         <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">입력 경로</span><span class="meta-value">데이터 / 텍스트 / 사운드</span></div>
+        <div class="meta-row"><span class="meta-key">기본 경로</span><span class="meta-value">data / text / sound / image</span></div>
         <div class="meta-row"><span class="meta-key">코드 구조</span><span class="meta-value">여섯 구역</span></div>
         <div class="meta-row"><span class="meta-key">검증</span><span class="meta-value">수치·관계·파일·육안</span></div>
         <div class="meta-row"><span class="meta-key">면담 판정</span><span class="meta-value">승인 / 축소 / 대체</span></div>
@@ -71,6 +70,7 @@
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
         <ul>
+          <li>13주차의 이미지·지도·텍스트·소리·복합 매체를 14주차의 주 입력 경로와 대응시킬 수 있습니다.</li>
           <li>프로젝트 코드를 준비, 입력 확인, 처리, 시각화, 저장, 최종 점검의 여섯 구역으로 나눌 수 있습니다.</li>
           <li>9–13주차 코드에서 필요한 부분만 재사용하고 입력과 변수 이름을 자신의 프로젝트에 맞게 연결할 수 있습니다.</li>
           <li>입력 수, 처리 전후 개수, 그래프 요소, 출력 크기와 파일 존재 여부를 검사 문장으로 만들 수 있습니다.</li>
@@ -85,14 +85,14 @@
         <li><span class="session-label">7-17분</span><strong>여섯 코드 구역</strong><p>한 셀이 한 질문에 답하도록 구조를 나눕니다.</p></li>
         <li><span class="session-label">17-27분</span><strong>검증 문장</strong><p>수치·관계·파일 검사를 초보자의 언어로 읽습니다.</p></li>
         <li><span class="session-label">27-35분</span><strong>출처와 권한</strong><p>입력의 이용 조건과 개인정보 위험을 확인합니다.</p></li>
-        <li><span class="session-label">35-43분</span><strong>실패 사례 진단</strong><p>열리지만 틀린 세 프로토타입을 구분합니다.</p></li>
-        <li><span class="session-label">43-50분</span><strong>1차 면담</strong><p>승인·범위 축소·대체 자료 중 하나를 확정합니다.</p></li>
+        <li><span class="session-label">35-41분</span><strong>진단·면담 시작</strong><p>실패 사례를 읽고 준비된 학생부터 면담 큐에 들어갑니다.</p></li>
+        <li><span class="session-label">41-50분</span><strong>1차 면담 계속</strong><p>승인·범위 축소·대체 자료 판정을 노트북에 기록합니다.</p></li>
         <li><span class="session-label">50-60분</span><strong>선택 확장</strong><p>프로젝트 전용 검사 한 개를 추가 설계합니다.</p></li>
       </ul>
 
       <div class="callout callout-info">
         <p class="callout-title">수업 운영: 기본 50분과 선택 확장</p>
-        <p><strong>0-43분</strong>에는 모든 학생이 공통 구조와 검증 기준을 학습합니다. <strong>43-50분</strong>에는 준비된 순서대로 학생별 60–90초 1차 면담을 시작합니다. 이 시간 안에 면담하지 못한 학생은 3교시 제작을 시작한 뒤 같은 기준으로 확인받습니다. 모든 면담과 기록이 일찍 끝난 경우에만 50-60분 선택 확장을 진행합니다.</p>
+        <p><strong>0-35분</strong>에는 모든 학생이 공통 구조와 검증 기준을 학습합니다. <strong>35-50분</strong>에는 실패 사례 진단을 개별로 진행하는 동시에 준비된 순서대로 학생별 60–90초 1차 면담을 시작합니다. 15분에는 약 10–15명을 확인할 수 있으므로, 그보다 인원이 많으면 남은 학생의 번호를 유지한 채 3교시 제작 중 면담을 계속합니다. 면담 전 학생은 제공 경로 사본과 STEP 1 작성까지만 진행하고 승인되지 않은 외부 입력은 올리지 않습니다.</p>
       </div>
 
       <div class="callout callout-success">
@@ -102,7 +102,7 @@
 
       <h2 id="common-path">0-7분 · 서로 다른 프로젝트에서 같은 제작 경로 찾기</h2>
 
-      <p>데이터 프로젝트는 CSV를 읽고, 텍스트 프로젝트는 TXT를 읽고, 사운드 프로젝트는 WAV를 읽습니다. 사용하는 함수는 다르지만 프로젝트의 중심 질문은 같습니다. <strong>무엇을 입력했고, 원본을 어떻게 보존했으며, 어떤 규칙으로 값을 만들고, 그 값을 어떻게 보여 주고, 무엇으로 저장했는가?</strong></p>
+      <p>데이터 프로젝트는 CSV를 읽고, 텍스트 프로젝트는 TXT를 읽고, 사운드 프로젝트는 WAV를 읽으며, 규칙 기반 이미지는 위치·크기·색 매개변수나 이전 생성 코드를 읽습니다. 지도 프로젝트는 먼저 위치 표를 데이터로 검증한 뒤 10주차 지도 코드를 연결하고, 복합 프로젝트는 질문을 결정하는 주 입력 하나에서 시작합니다. 사용하는 함수는 다르지만 프로젝트의 중심 질문은 같습니다. <strong>무엇을 입력했고, 원본을 어떻게 보존했으며, 어떤 규칙으로 값을 만들고, 그 값을 어떻게 보여 주고, 무엇으로 저장했는가?</strong></p>
 
       <figure class="lesson-visual" aria-labelledby="prototype-contract-caption">
         <img src="assets/week-14-prototype-contract.png" width="1440" height="900" loading="eager" decoding="async" alt="승인된 입력, 원본 보존, 처리, 시각적 매핑, 파일 저장의 다섯 단계와 질문·콘솔·시각 요소·파일·기록이라는 검토 증거를 보여 주는 도해">
@@ -111,17 +111,27 @@
 
       <div class="table-wrap">
         <table>
-          <caption>세 프로젝트 경로의 공통 구조</caption>
-          <thead><tr><th scope="col">단계</th><th scope="col">데이터</th><th scope="col">텍스트</th><th scope="col">사운드</th></tr></thead>
+          <caption>네 프로젝트 경로의 공통 구조</caption>
+          <thead><tr><th scope="col">단계</th><th scope="col">데이터</th><th scope="col">텍스트</th><th scope="col">사운드</th><th scope="col">규칙 이미지</th></tr></thead>
           <tbody>
-            <tr><th scope="row">입력</th><td><code>pd.read_csv()</code></td><td><code>Path.read_text()</code></td><td><code>wave.open()</code> 또는 이전 주차 로더</td></tr>
-            <tr><th scope="row">원본 보존</th><td><code>raw_data.copy()</code></td><td><code>raw_text</code> 별도 보관</td><td><code>raw_signal.copy()</code></td></tr>
-            <tr><th scope="row">처리</th><td>범주별 합계</td><td>토큰 빈도</td><td>프레임별 RMS</td></tr>
-            <tr><th scope="row">매핑</th><td>합계 → 막대 길이</td><td>빈도 → 막대 길이</td><td>시간·에너지 → 가로·세로 위치</td></tr>
-            <tr><th scope="row">출력</th><td colspan="3">1600 × 1000 PNG와 실행 결과가 남은 노트북</td></tr>
+            <tr><th scope="row">입력</th><td><code>pd.read_csv()</code></td><td><code>Path.read_text()</code></td><td><code>wave.open()</code> 또는 이전 주차 로더</td><td>매개변수 CSV 또는 승인된 생성 코드</td></tr>
+            <tr><th scope="row">원본 보존</th><td><code>raw_data.copy()</code></td><td><code>raw_text</code> 별도 보관</td><td><code>raw_signal.copy()</code></td><td><code>raw_image_params.copy()</code></td></tr>
+            <tr><th scope="row">처리</th><td>범주별 합계</td><td>토큰 빈도</td><td>프레임별 RMS</td><td>생성 매개변수 적용</td></tr>
+            <tr><th scope="row">매핑</th><td>합계 → 막대 길이</td><td>빈도 → 막대 길이</td><td>시간·에너지 → 가로·세로 위치</td><td>값 → 위치·크기·색</td></tr>
+            <tr><th scope="row">출력</th><td colspan="4">1600 × 1000 PNG 또는 독립 HTML과 실행 결과가 남은 노트북</td></tr>
           </tbody>
         </table>
       </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">최종 매체와 기본 경로를 구분합니다</p>
+        <p>3교시 공통 노트북의 기본 경로는 <code>data</code>, <code>text</code>, <code>sound</code>, <code>image</code>입니다. 지도는 <code>data</code>에서 좌표와 행 수를 먼저 검증한 뒤 10주차 Folium 경로를 재사용합니다. <code>hybrid</code>는 별도의 다섯 번째 경로가 아니라 주 입력의 기본 경로를 먼저 통과한 뒤, 두 번째 매체 연결을 15주차 행동으로 기록합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 복합 프로젝트는 두 경로를 모두 14주차에 검사해야 하는가?</summary>
+        <div class="details-motion-content"><p>아닙니다. 질문의 핵심을 결정하는 주 입력 한 가지가 원본 보존·처리·표현·저장까지 이어지는지 먼저 검사합니다. 두 번째 매체는 연결 지점과 필요한 변수만 기록하고 15주차 수정 행동으로 옮깁니다. 두 경로를 동시에 시작해 어느 쪽도 저장되지 않는 상태를 피합니다.</p></div>
+      </details>
 
       <details class="callout callout-question">
         <summary class="callout-title">확인: 프로젝트마다 코드가 다르면 공통 검사를 만들 수 없는가?</summary>
@@ -129,8 +139,8 @@
       </details>
 
       <details class="callout callout-question">
-        <summary class="callout-title">확인: 결과 PNG만 보이면 입력과 처리 셀은 제출하지 않아도 되는가?</summary>
-        <div class="details-motion-content"><p>아닙니다. PNG는 한 번 만들어진 결과만 보여 줍니다. 노트북에는 같은 입력에서 같은 결과를 다시 만들 수 있는 경로와 실행 증거가 남아야 합니다.</p></div>
+        <summary class="callout-title">확인: 결과 PNG나 HTML만 보이면 입력과 처리 셀은 제출하지 않아도 되는가?</summary>
+        <div class="details-motion-content"><p>아닙니다. 미리보기 파일은 한 번 만들어진 결과만 보여 줍니다. 노트북에는 같은 입력에서 같은 결과를 다시 만들 수 있는 경로와 실행 증거가 남아야 합니다.</p></div>
       </details>
 
       <h2 id="six-zones">7-17분 · 노트북을 여섯 코드 구역으로 나누기</h2>
@@ -144,9 +154,9 @@
           <tbody>
             <tr><th scope="row">0. 준비</th><td>필요한 도구와 실행 순서가 준비되었는가?</td><td>라이브러리</td><td>불러온 함수, 실행 순서 목록</td></tr>
             <tr><th scope="row">1. 프로젝트 카드</th><td>누구에게 무엇을 보여 주는가?</td><td>학생의 질문·독자·출처·범위</td><td>편집이 끝난 메타데이터</td></tr>
-            <tr><th scope="row">2. 입력 확인</th><td>승인된 원본이 실제로 열리고 보존되는가?</td><td>CSV, TXT, WAV 또는 제공 자료</td><td><code>raw_snapshot</code>, SHA-256 입력 지문</td></tr>
+            <tr><th scope="row">2. 입력 확인</th><td>승인된 원본이 실제로 열리고 보존되는가?</td><td>CSV, TXT, WAV, 매개변수 또는 제공 자료</td><td><code>raw_snapshot</code>, SHA-256 입력 지문</td></tr>
             <tr><th scope="row">3. 처리</th><td>질문에 필요한 값이 만들어졌는가?</td><td>원본 또는 작업 사본</td><td><code>processed_values</code></td></tr>
-            <tr><th scope="row">4·6. 표현과 저장</th><td>처리 값이 화면 요소로 연결되고 파일이 열리는가?</td><td>처리 값, 시각 규칙</td><td>Figure와 미리보기 PNG</td></tr>
+            <tr><th scope="row">4·6. 표현과 저장</th><td>처리 값이 화면 요소로 연결되고 파일이 열리는가?</td><td>처리 값, 시각 규칙</td><td>Figure와 미리보기 PNG 또는 HTML</td></tr>
             <tr><th scope="row">7. 최종 점검</th><td>처음부터 다시 실행해도 모든 증거가 일치하는가?</td><td>앞 구역의 변수와 파일</td><td>완료 문구 또는 구체적인 오류</td></tr>
           </tbody>
         </table>
@@ -174,12 +184,19 @@ assert len(processed) &gt; 0                 # 처리 결과가 존재하는가?
           <caption>이전 주차에서 재사용할 수 있는 검증된 코드</caption>
           <thead><tr><th scope="col">현재 경로</th><th scope="col">재사용 후보</th><th scope="col">가져올 핵심</th><th scope="col">그대로 복사하면 안 되는 것</th></tr></thead>
           <tbody>
-            <tr><th scope="row">데이터</th><td>9·10·11주차</td><td><code>read_csv</code>, 원본 사본, <code>groupby</code>, 막대그래프, <code>savefig</code></td><td>예전 열 이름, 고정 합계, 출처 문장</td></tr>
+            <tr><th scope="row">데이터</th><td>9·11주차</td><td><code>read_csv</code>, 원본 사본, <code>groupby</code>, 막대그래프, <code>savefig</code></td><td>예전 열 이름, 고정 합계, 출처 문장</td></tr>
+            <tr><th scope="row">위치 지도</th><td>10주차</td><td>좌표 숫자 변환, 유효 범위, 마커 반복, Folium HTML 저장</td><td>예전 중심점, 장소명, 범주 색상, 위치 출처</td></tr>
             <tr><th scope="row">텍스트</th><td>12주차</td><td>정규식 토큰화, <code>Counter</code>, 상위 빈도, 텍스트 시각화</td><td>제공 발췌문의 제목·권한·단어 수</td></tr>
             <tr><th scope="row">사운드</th><td>13주차</td><td>샘플링 레이트, 프레임, RMS, 시간축, PNG 저장</td><td>6초·22,050Hz 같은 예전 입력 전용 수치</td></tr>
             <tr><th scope="row">규칙 기반 이미지</th><td>5·6·7주차</td><td>시드, 반복, 함수, 원본 보존, 합성, PNG 저장</td><td>중간고사 전용 캔버스와 도형 개수</td></tr>
+            <tr><th scope="row">복합</th><td>주 입력과 가장 가까운 주차</td><td>주 경로의 입력·처리·표현·저장 전체</td><td>두 번째 매체의 동시 구현과 완성되지 않은 연결 코드</td></tr>
           </tbody>
         </table>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">공통 시작 경로와 승인 재사용 경로를 구분합니다</p>
+        <p>프로그래밍이 처음이면 노트북의 네 공통 경로 가운데 하나를 그대로 완성합니다. 이전 주차 결과를 기말 프로젝트로 이어 가는 학생은 1차 면담에서 처리·매핑 규칙을 승인받은 뒤 STEP 3·4의 <code>APPROVED REUSE ZONE</code>만 교체합니다. 어떤 코드든 처리 수치는 <code>processed_values</code>, 처리 쪽 증거는 <code>mapping_source_values</code>, 화면에서 다시 꺼낸 값은 <code>mapping_visual_values</code>로 남겨 두 배열의 일치를 검사합니다.</p>
       </div>
 
       <details class="callout callout-question">
@@ -219,12 +236,15 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
 
       <div class="table-wrap">
         <table>
-          <caption>데이터·텍스트·사운드의 30% 증거</caption>
+          <caption>다섯 매체와 복합 프로젝트에서 남겨야 할 30% 증거</caption>
           <thead><tr><th scope="col">경로</th><th scope="col">입력 증거</th><th scope="col">처리 증거</th><th scope="col">화면 증거</th><th scope="col">육안 확인</th></tr></thead>
           <tbody>
             <tr><th scope="row">데이터</th><td>행 수, 열 이름, 원본 지문</td><td>범주 수와 합계 값</td><td>막대 수와 실제 길이</td><td>축 단위, 이름 잘림, 0 기준</td></tr>
+            <tr><th scope="row">위치 지도</th><td>행 수, 좌표 열, 원본 지문</td><td>결측·중복·범위 밖 좌표 제거 수</td><td>유효 행 수와 같은 마커 또는 좌표 점</td><td>바탕지도 출처, 위치 노출 위험, 팝업 읽기</td></tr>
             <tr><th scope="row">텍스트</th><td>문자 수, 토큰 수, 원문 지문</td><td>상위 단어와 빈도</td><td>단어 수만큼의 막대와 길이</td><td>긴 단어 잘림, 불용어 맥락, 출처</td></tr>
             <tr><th scope="row">사운드</th><td>샘플 수, 샘플링 레이트, 파일 지문</td><td>프레임 수와 RMS 범위</td><td>시간 배열과 선의 x·y 값</td><td>재생 가능, 초 단위, 빈 구간</td></tr>
+            <tr><th scope="row">규칙 이미지</th><td>매개변수 수, 필수 열, 원본 지문</td><td>유효한 위치·크기·색 값</td><td>도형 수, 좌표와 크기 일치</td><td>잘림, 겹침의 의도, 색 대비</td></tr>
+            <tr><th scope="row">복합</th><td>주 입력의 수량과 지문</td><td>주 경로 처리 값과 두 번째 매체로 넘길 변수 하나</td><td>주 경로의 한 화면 또는 한 파일</td><td>두 번째 매체를 미룬 범위와 15주차 연결 행동</td></tr>
           </tbody>
         </table>
       </div>
@@ -276,7 +296,7 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
         <div class="details-motion-content"><p>정확한 시간과 장소의 조합만으로도 개인을 추정할 수 있습니다. 이름 삭제만으로 충분하다고 가정하지 말고, 위치를 넓은 구역으로 바꾸거나 가상 자료를 사용합니다.</p></div>
       </details>
 
-      <h2 id="failure-clinic">35-43분 · 열리지만 틀린 프로토타입 세 가지 진단하기</h2>
+      <h2 id="failure-clinic">35-41분 · 열리지만 틀린 프로토타입 세 가지 진단하며 면담 시작하기</h2>
 
       <p>프로토타입의 오류는 빨간 오류 메시지로만 나타나지 않습니다. 화면이 보이고 파일이 열려도 이전 데이터, 잘못된 실행 순서, 빠진 설명 때문에 증거가 성립하지 않을 수 있습니다.</p>
 
@@ -317,9 +337,9 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
         <div class="details-motion-content"><p>필요합니다. 자동 검사는 크기와 데이터 관계를 확인하지만 글자가 잘렸는지, 색 대비가 충분한지, 범례가 화면을 가리는지 완전히 판단하지 못합니다.</p></div>
       </details>
 
-      <h2 id="review">43-50분 · 60–90초 1차 면담으로 범위 확정하기</h2>
+      <h2 id="review">35-50분 · 60–90초 1차 면담을 병행해 범위 확정하기</h2>
 
-      <p>면담은 아이디어를 길게 발표하는 시간이 아닙니다. 프로젝트 카드와 실제 입력 또는 제공 경로를 보여 주며 아래 다섯 문장만 순서대로 설명합니다. 교수는 <strong>승인, 범위 축소 후 승인, 대체 자료로 전환</strong> 중 하나를 기록합니다.</p>
+      <p>면담은 아이디어를 길게 발표하는 시간이 아닙니다. 프로젝트 카드와 실제 입력 또는 제공 경로를 보여 주며 아래 다섯 문장만 순서대로 설명합니다. 교수는 <strong>승인, 범위 축소 후 승인, 대체 자료로 전환</strong> 중 하나를 정하고, 학생은 이를 STEP 1의 <code>approval_status</code>와 <code>approval_note</code>에 기록합니다.</p>
 
       <ol>
         <li><strong>질문:</strong> “나는 ___이 어떻게 다른지/변하는지 묻습니다.”</li>
@@ -328,6 +348,20 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
         <li><strong>표현과 출력:</strong> “그 값을 ___에 연결해 ___ 파일로 저장합니다.”</li>
         <li><strong>제외와 위험:</strong> “이번 주에는 ___을 하지 않으며, 막히면 ___로 전환합니다.”</li>
       </ol>
+
+      <div class="table-wrap">
+        <table>
+          <caption>수강 인원에 따른 1차 면담 시간 계산</caption>
+          <thead><tr><th scope="col">학생 수</th><th scope="col">학생별 60초</th><th scope="col">학생별 90초</th><th scope="col">운영 방식</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">10명</th><td>10분</td><td>15분</td><td>2교시 35-50분 안에 완료 가능</td></tr>
+            <tr><th scope="row">20명</th><td>20분</td><td>30분</td><td>2교시 15분 + 3교시 처음 5-15분</td></tr>
+            <tr><th scope="row">30명</th><td>30분</td><td>45분</td><td>2교시 15분 + 3교시 제작과 병행 15-30분</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>면담 번호가 오기 전에는 노트북 사본, STEP 1 메타데이터, 제공 입력의 첫 실행을 준비합니다. 자신의 외부 자료와 승인 재사용 코드는 판정을 받은 뒤 연결합니다. 이렇게 하면 면담 대기 시간이 빈 시간이 되지 않고, 교수는 한 사람씩 같은 다섯 기준을 유지할 수 있습니다.</p>
 
       <div class="table-wrap">
         <table>
@@ -343,12 +377,12 @@ assert output_path.is_file(), "결과 파일을 찾을 수 없습니다."</code>
 
       <div class="callout callout-info">
         <p class="callout-title">면담 대기 중 할 일</p>
-        <p>노트북 사본을 만들고 파일명을 <code>week14_학번_이름_prototype.ipynb</code>로 바꿉니다. STEP 1에서 프로젝트 경로와 입력 모드를 고르고, 질문·독자·출처·이용 근거·제외 기능·시각 규칙을 프로젝트 카드와 일치하게 옮깁니다. 승인 전에는 외부 입력을 업로드하지 않습니다.</p>
+        <p>노트북 사본을 만들고 파일명을 <code>week14_학번_이름_prototype.ipynb</code>로 바꿉니다. STEP 1에서 프로젝트 경로와 입력 모드를 고르고, 질문·독자·출처·이용 근거·기준일·개인정보 점검·관찰 단위·처리·시각 규칙을 프로젝트 카드와 일치하게 옮깁니다. 승인 전에는 외부 입력을 업로드하지 않습니다.</p>
       </div>
 
       <details class="callout callout-question">
         <summary class="callout-title">확인: 면담에서 “무엇을 만들지 아직 모르겠다”고만 말하면 되는가?</summary>
-        <div class="details-motion-content"><p>결정을 미루기보다 수업 제공 데이터·텍스트·사운드 가운데 하나를 골라 예비 문장을 만듭니다. “제공 텍스트의 반복 단어를 세어 막대 PNG로 보여 준다”처럼 기본 경로를 제시하면 구체적인 축소나 승인을 받을 수 있습니다.</p></div>
+        <div class="details-motion-content"><p>결정을 미루기보다 수업 제공 데이터·텍스트·사운드·규칙 이미지 가운데 하나를 골라 예비 문장을 만듭니다. “제공 텍스트의 반복 단어를 세어 막대 PNG로 보여 준다”처럼 기본 경로를 제시하면 구체적인 축소나 승인을 받을 수 있습니다.</p></div>
       </details>
 
       <details class="callout callout-question">

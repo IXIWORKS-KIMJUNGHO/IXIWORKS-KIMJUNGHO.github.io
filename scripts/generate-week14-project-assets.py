@@ -34,11 +34,37 @@ LINE = "#c7c8be"
 TEAL = "#116e68"
 CORAL = "#a23d34"
 BLUE = "#365f91"
-GOLD = "#9a7010"
+GOLD = "#6f4f00"
 PALE_TEAL = "#dcebe6"
 PALE_CORAL = "#f0ddd8"
 PALE_BLUE = "#dce5ef"
 PALE_GOLD = "#eee3c5"
+
+PROVIDED_DATA_CSV = """category,value
+Archive,34
+Studio,21
+Screening,18
+Archive,27
+Studio,19
+Screening,14
+Archive,23
+Studio,23
+Screening,17
+"""
+PROVIDED_TEXT = (
+    "record place sound memory walk record image place record sound "
+    "archive memory record place sound record image walk record place "
+    "archive memory record place sound walk record place"
+)
+PROVIDED_SAMPLE_RATE = 8000
+PROVIDED_SOUND_SECONDS = 4
+PROVIDED_IMAGE_CSV = """x,y,size,color
+0.18,0.24,58,#116e68
+0.38,0.68,92,#365f91
+0.58,0.40,74,#a23d34
+0.76,0.70,48,#6f4f00
+0.84,0.28,66,#116e68
+"""
 
 FONT_PATH = Path(matplotlib.get_data_path()) / "fonts" / "ttf" / "DejaVuSans.ttf"
 FONT_BOLD_PATH = (
@@ -46,6 +72,19 @@ FONT_BOLD_PATH = (
 )
 FONT = font_manager.FontProperties(fname=FONT_PATH)
 FONT_BOLD = font_manager.FontProperties(fname=FONT_BOLD_PATH)
+
+
+def provided_sound() -> np.ndarray:
+    """Return the deterministic four-second teaching signal."""
+
+    time = (
+        np.arange(PROVIDED_SAMPLE_RATE * PROVIDED_SOUND_SECONDS, dtype=np.float64)
+        / PROVIDED_SAMPLE_RATE
+    )
+    return (
+        (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * time))
+        * np.sin(2 * np.pi * 220 * time)
+    ).astype(np.float64)
 
 
 def pinned_runtime_versions() -> dict[str, str]:
@@ -359,52 +398,144 @@ def make_prototype_contract(path: Path) -> None:
     save_figure(figure, path)
 
 
-def make_three_track_preview(path: Path) -> None:
-    """Preview the equivalent visual outputs for data, text, and sound tracks."""
+def assert_figure_content_inside_canvas(
+    figure: plt.Figure,
+    axes: list[plt.Axes] | np.ndarray,
+) -> None:
+    """Fail generation when labels or chart bounds cross the image frame."""
+
+    figure.canvas.draw()
+    renderer = figure.canvas.get_renderer()
+    figure_bounds = figure.bbox
+    for axis in np.asarray(axes, dtype=object).flat:
+        bounds = axis.get_tightbbox(renderer)
+        if not (
+            bounds.x0 >= figure_bounds.x0
+            and bounds.y0 >= figure_bounds.y0
+            and bounds.x1 <= figure_bounds.x1
+            and bounds.y1 <= figure_bounds.y1
+        ):
+            raise AssertionError("Week 14 preview label crossed the image frame")
+    for artist in figure.texts:
+        bounds = artist.get_window_extent(renderer)
+        if not (
+            bounds.x0 >= figure_bounds.x0
+            and bounds.y0 >= figure_bounds.y0
+            and bounds.x1 <= figure_bounds.x1
+            and bounds.y1 <= figure_bounds.y1
+        ):
+            raise AssertionError("Week 14 preview text crossed the image frame")
+
+
+def make_project_path_preview(path: Path) -> None:
+    """Preview equivalent outputs for the four supported project paths."""
 
     apply_style()
-    figure, axes = plt.subplots(1, 3, figsize=(16, 9), dpi=100)
-    figure.subplots_adjust(left=0.06, right=0.97, top=0.79, bottom=0.14, wspace=0.35)
-    figure.text(0.06, 0.93, "THREE INPUTS · ONE PROTOTYPE CONTRACT", fontproperties=FONT_BOLD, fontsize=29, color=INK)
-    figure.text(0.06, 0.87, "Choose the track that serves your question. Each track still preserves, processes, maps, and exports.", fontproperties=FONT, fontsize=14, color=MUTED)
+    figure, axes = plt.subplots(2, 2, figsize=(16, 9), dpi=100)
+    figure.subplots_adjust(
+        left=0.105,
+        right=0.965,
+        top=0.78,
+        bottom=0.105,
+        hspace=0.50,
+        wspace=0.30,
+    )
+    figure.text(
+        0.06,
+        0.93,
+        "FOUR PATHS · ONE PROTOTYPE CONTRACT",
+        fontproperties=FONT_BOLD,
+        fontsize=29,
+        color=INK,
+    )
+    figure.text(
+        0.06,
+        0.87,
+        "Data, text, sound, or rule-based image: preserve one input, apply one rule, map it, and export it.",
+        fontproperties=FONT,
+        fontsize=14,
+        color=MUTED,
+    )
 
-    categories = ["Archive", "Studio", "Screening"]
-    values = [84, 63, 49]
-    axes[0].barh(categories[::-1], values[::-1], color=[CORAL, GOLD, TEAL])
-    axes[0].set_xlim(0, 95)
-    axes[0].set_xlabel("Total visits")
-    axes[0].set_title("DATA · group and compare", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    data_frame = pd.read_csv(pd.io.common.StringIO(PROVIDED_DATA_CSV))
+    data_totals = data_frame.groupby("category")["value"].sum().sort_values()
+    axes[0, 0].barh(data_totals.index, data_totals.values, color=[TEAL, GOLD, CORAL])
+    axes[0, 0].set_xlim(0, 95)
+    axes[0, 0].set_xlabel("Total visits")
+    axes[0, 0].set_title(
+        "DATA · group and compare",
+        loc="left",
+        fontproperties=FONT_BOLD,
+        fontsize=13,
+    )
 
-    words = ["record", "place", "sound", "memory", "walk"]
-    counts = [8, 6, 5, 4, 3]
-    axes[1].barh(words[::-1], counts[::-1], color=BLUE)
-    axes[1].set_xlim(0, 9)
-    axes[1].set_xlabel("Token count")
-    axes[1].set_title("TEXT · count and rank", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    token_counts = Counter(PROVIDED_TEXT.split())
+    top_words = sorted(token_counts.items(), key=lambda item: (-item[1], item[0]))[:5]
+    words = [item[0] for item in top_words][::-1]
+    counts = [item[1] for item in top_words][::-1]
+    axes[0, 1].barh(words, counts, color=BLUE)
+    axes[0, 1].set_xlim(0, max(counts) + 1)
+    axes[0, 1].set_xlabel("Token count")
+    axes[0, 1].set_title(
+        "TEXT · count and rank",
+        loc="left",
+        fontproperties=FONT_BOLD,
+        fontsize=13,
+    )
 
-    sample_rate = 8000
-    seconds = 4
-    time = np.arange(sample_rate * seconds) / sample_rate
-    signal = (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * time)) * np.sin(2 * np.pi * 220 * time)
-    frame_size = 400
-    hop = 200
+    signal = provided_sound()
+    frame_size = int(PROVIDED_SAMPLE_RATE * 0.05)
+    hop = int(PROVIDED_SAMPLE_RATE * 0.025)
     starts = np.arange(0, len(signal) - frame_size + 1, hop)
-    rms = np.array([np.sqrt(np.mean(signal[start : start + frame_size] ** 2)) for start in starts])
-    frame_times = (starts + frame_size / 2) / sample_rate
-    axes[2].plot(frame_times, rms, color=TEAL, linewidth=2.3)
-    axes[2].fill_between(frame_times, rms, color=PALE_TEAL)
-    axes[2].set_ylim(0, max(rms) * 1.25)
-    axes[2].set_xlabel("Time (seconds)")
-    axes[2].set_ylabel("RMS energy")
-    axes[2].set_title("SOUND · measure over time", loc="left", fontproperties=FONT_BOLD, fontsize=14)
+    rms = np.array(
+        [np.sqrt(np.mean(signal[start : start + frame_size] ** 2)) for start in starts]
+    )
+    frame_times = (starts + frame_size / 2) / PROVIDED_SAMPLE_RATE
+    axes[1, 0].plot(frame_times, rms, color=TEAL, linewidth=2.3)
+    axes[1, 0].fill_between(frame_times, rms, color=PALE_TEAL)
+    axes[1, 0].set_ylim(0, max(rms) * 1.25)
+    axes[1, 0].set_xlabel("Time (seconds)")
+    axes[1, 0].set_ylabel("RMS energy")
+    axes[1, 0].set_title(
+        "SOUND · measure over time",
+        loc="left",
+        fontproperties=FONT_BOLD,
+        fontsize=13,
+    )
 
-    for axis in axes:
+    image_frame = pd.read_csv(pd.io.common.StringIO(PROVIDED_IMAGE_CSV))
+    axes[1, 1].scatter(
+        image_frame["x"],
+        image_frame["y"],
+        s=image_frame["size"] ** 2 / 3,
+        c=image_frame["color"],
+        edgecolors=INK,
+        linewidths=0.8,
+    )
+    axes[1, 1].set(xlim=(0, 1), ylim=(0, 1), xlabel="x position", ylabel="y position")
+    axes[1, 1].set_aspect("equal", adjustable="box")
+    axes[1, 1].set_title(
+        "RULE IMAGE · parameters to form",
+        loc="left",
+        fontproperties=FONT_BOLD,
+        fontsize=13,
+    )
+
+    for axis in axes.flat:
         axis.spines[["top", "right"]].set_visible(False)
         axis.spines[["left", "bottom"]].set_color(LINE)
-        axis.grid(axis="x", color=LINE, linewidth=0.8, alpha=0.55)
+        axis.grid(color=LINE, linewidth=0.8, alpha=0.45)
         axis.set_axisbelow(True)
 
-    figure.text(0.06, 0.055, "SAME EXIT EVIDENCE · approved source · raw copy · processed values · readable mapping · openable file", fontproperties=FONT_BOLD, fontsize=12.5, color=CORAL)
+    figure.text(
+        0.06,
+        0.032,
+        "SAME EXIT EVIDENCE · approved source · raw copy · processed values · readable mapping · openable file",
+        fontproperties=FONT_BOLD,
+        fontsize=12.5,
+        color=CORAL,
+    )
+    assert_figure_content_inside_canvas(figure, axes)
     save_figure(figure, path)
 
 
@@ -429,42 +560,163 @@ def code_cell(source: str) -> dict[str, object]:
 
 
 def provided_input_digests() -> dict[str, str]:
-    """Calculate immutable digests for the notebook's three provided inputs."""
+    """Calculate immutable digests from the shared four-path fixtures."""
 
-    data_csv = "category,value\nArchive,34\nStudio,21\nScreening,18\nArchive,27\nStudio,19\nScreening,14\nArchive,23\nStudio,23\nScreening,17\n"
-    text = (
-        "record place sound memory walk record image place record sound "
-        "archive memory record place sound record image walk record place "
-        "archive memory record place sound walk record place"
-    )
-    sample_rate = 8000
-    time = np.arange(sample_rate * 4, dtype=np.float64) / sample_rate
-    signal = (
-        (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * time))
-        * np.sin(2 * np.pi * 220 * time)
-    ).astype(np.float64)
     return {
-        "data": hashlib.sha256(data_csv.encode("utf-8")).hexdigest(),
-        "text": hashlib.sha256(text.encode("utf-8")).hexdigest(),
-        "sound": hashlib.sha256(signal.tobytes()).hexdigest(),
+        "data": hashlib.sha256(PROVIDED_DATA_CSV.encode("utf-8")).hexdigest(),
+        "text": hashlib.sha256(PROVIDED_TEXT.encode("utf-8")).hexdigest(),
+        "sound": hashlib.sha256(provided_sound().tobytes()).hexdigest(),
+        "image": hashlib.sha256(PROVIDED_IMAGE_CSV.encode("utf-8")).hexdigest(),
     }
 
 
 def build_notebook() -> dict[str, object]:
-    """Build the self-checking three-track project starter notebook."""
+    """Build the self-checking four-path project starter notebook."""
 
     digests = provided_input_digests()
+    step_two_source = """
+    # STEP 2 · 입력 불러오기와 원본 보존
+    PROVIDED_DATA_CSV = __PROVIDED_DATA_CSV__
+    PROVIDED_TEXT = __PROVIDED_TEXT__
+    PROVIDED_SAMPLE_RATE = __PROVIDED_SAMPLE_RATE__
+    PROVIDED_SOUND_SECONDS = __PROVIDED_SOUND_SECONDS__
+    PROVIDED_TIME = (
+        np.arange(PROVIDED_SAMPLE_RATE * PROVIDED_SOUND_SECONDS, dtype=np.float64)
+        / PROVIDED_SAMPLE_RATE
+    )
+    PROVIDED_SOUND = (
+        (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * PROVIDED_TIME))
+        * np.sin(2 * np.pi * 220 * PROVIDED_TIME)
+    ).astype(np.float64)
+    PROVIDED_IMAGE_CSV = __PROVIDED_IMAGE_CSV__
+    EXPECTED_PROVIDED_DIGESTS = __EXPECTED_PROVIDED_DIGESTS__
+
+    def sha256_bytes(payload):
+        return hashlib.sha256(payload).hexdigest()
+
+    def read_checked_table(payload, required_columns, *, label):
+        table = pd.read_csv(pd.io.common.BytesIO(payload))
+        missing_columns = set(required_columns) - set(table.columns)
+        assert not missing_columns, f"{label}에 필요한 열이 없습니다: {sorted(missing_columns)}"
+        return table[list(required_columns)].copy(deep=True)
+
+    assert project_track in {"data", "text", "sound", "image"}, (
+        "project_track은 data, text, sound, image 가운데 하나여야 합니다."
+    )
+    assert input_mode in {"provided", "own"}, "input_mode는 provided 또는 own이어야 합니다."
+    assert output_format in {"png", "html"}, "output_format은 png 또는 html이어야 합니다."
+
+    source_path = None
+    source_bytes_before = None
+    if project_track == "data":
+        if input_mode == "provided":
+            raw_payload = PROVIDED_DATA_CSV.encode("utf-8")
+        else:
+            source_path = Path(own_source_filename)
+            assert source_path.is_file(), "지정한 CSV 파일을 찾을 수 없습니다."
+            source_bytes_before = source_path.read_bytes()
+            raw_payload = source_bytes_before
+        candidate_data = read_checked_table(
+            raw_payload,
+            ("category", "value"),
+            label="데이터 CSV",
+        )
+        assert candidate_data["category"].notna().all(), "category 열에 결측값이 있습니다."
+        category_values = candidate_data["category"].astype(str).str.strip()
+        assert category_values.ne("").all(), "category 열에 빈 문자열이 있습니다."
+        numeric_values = pd.to_numeric(candidate_data["value"], errors="coerce")
+        assert numeric_values.notna().all(), "value 열에 결측값 또는 숫자가 아닌 값이 있습니다."
+        assert np.isfinite(numeric_values.to_numpy(dtype=float)).all(), "value 열에는 유한한 숫자만 사용할 수 있습니다."
+        raw_data = pd.DataFrame({"category": category_values, "value": numeric_values})
+        raw_snapshot = raw_data.copy(deep=True)
+    elif project_track == "text":
+        if input_mode == "provided":
+            raw_text = PROVIDED_TEXT
+            raw_payload = raw_text.encode("utf-8")
+        else:
+            source_path = Path(own_source_filename)
+            assert source_path.is_file(), "지정한 TXT 파일을 찾을 수 없습니다."
+            source_bytes_before = source_path.read_bytes()
+            raw_payload = source_bytes_before
+            raw_text = source_bytes_before.decode("utf-8")
+        assert raw_text.strip(), "텍스트 입력이 비어 있습니다."
+        raw_snapshot = raw_text
+    elif project_track == "sound":
+        if input_mode == "provided":
+            sample_rate = PROVIDED_SAMPLE_RATE
+            raw_signal = PROVIDED_SOUND.copy()
+            raw_payload = raw_signal.tobytes()
+        else:
+            source_path = Path(own_source_filename)
+            assert source_path.is_file(), "지정한 WAV 파일을 찾을 수 없습니다."
+            source_bytes_before = source_path.read_bytes()
+            with wave.open(str(source_path), "rb") as sound_file:
+                assert sound_file.getnchannels() == 1, "WAV는 모노 파일이어야 합니다."
+                assert sound_file.getsampwidth() == 2, "WAV는 16-bit PCM이어야 합니다."
+                sample_rate = sound_file.getframerate()
+                assert sample_rate > 0, "WAV 샘플링 레이트가 올바르지 않습니다."
+                frames = sound_file.readframes(sound_file.getnframes())
+            raw_signal = np.frombuffer(frames, dtype="<i2").astype(np.float64) / 32768.0
+            raw_payload = source_bytes_before
+        assert len(raw_signal) > 0, "소리 입력이 비어 있습니다."
+        assert np.isfinite(raw_signal).all(), "소리 입력에 유한하지 않은 값이 있습니다."
+        raw_snapshot = raw_signal.copy()
+    else:
+        if input_mode == "provided":
+            raw_payload = PROVIDED_IMAGE_CSV.encode("utf-8")
+        else:
+            source_path = Path(own_source_filename)
+            assert source_path.is_file(), "지정한 이미지 매개변수 CSV를 찾을 수 없습니다."
+            source_bytes_before = source_path.read_bytes()
+            raw_payload = source_bytes_before
+        candidate_image = read_checked_table(
+            raw_payload,
+            ("x", "y", "size", "color"),
+            label="이미지 매개변수 CSV",
+        )
+        assert candidate_image.notna().all().all(), "이미지 매개변수에 결측값이 있습니다."
+        for numeric_column in ("x", "y", "size"):
+            candidate_image[numeric_column] = pd.to_numeric(
+                candidate_image[numeric_column],
+                errors="coerce",
+            )
+            assert candidate_image[numeric_column].notna().all(), f"{numeric_column} 열에는 숫자만 입력하세요."
+            assert np.isfinite(candidate_image[numeric_column]).all(), f"{numeric_column} 열에는 유한한 숫자만 사용하세요."
+        assert candidate_image["x"].between(0, 1).all(), "x 값은 0과 1 사이여야 합니다."
+        assert candidate_image["y"].between(0, 1).all(), "y 값은 0과 1 사이여야 합니다."
+        assert candidate_image["size"].between(10, 180).all(), "size 값은 10과 180 사이여야 합니다."
+        color_values = candidate_image["color"].astype(str).str.strip()
+        assert color_values.str.fullmatch(r"#[0-9A-Fa-f]{6}").all(), "color는 #RRGGBB 형식이어야 합니다."
+        candidate_image["color"] = color_values
+        raw_image_params = candidate_image
+        raw_snapshot = raw_image_params.copy(deep=True)
+
+    source_digest_before = sha256_bytes(raw_payload)
+    if input_mode == "provided":
+        assert source_digest_before == EXPECTED_PROVIDED_DIGESTS[project_track], "수업 제공 원본이 변경되었습니다."
+    _run_order.append(2)
+    print(f"STEP 2 PASS · {project_track} 원본 보존 · digest {source_digest_before[:12]}")
+    """
+    step_two_source = (
+        step_two_source.replace("__PROVIDED_DATA_CSV__", repr(PROVIDED_DATA_CSV))
+        .replace("__PROVIDED_TEXT__", repr(PROVIDED_TEXT))
+        .replace("__PROVIDED_SAMPLE_RATE__", repr(PROVIDED_SAMPLE_RATE))
+        .replace("__PROVIDED_SOUND_SECONDS__", repr(PROVIDED_SOUND_SECONDS))
+        .replace("__PROVIDED_IMAGE_CSV__", repr(PROVIDED_IMAGE_CSV))
+        .replace("__EXPECTED_PROVIDED_DIGESTS__", repr(digests))
+    )
     cells = [
         markdown_cell(
             """
             # Week 14 · 30% Project Prototype Mission
 
-            이 노트북은 **입력 하나 → 원본 보존 → 처리 규칙 하나 → 시각화 규칙 하나 → 열리는 PNG 하나**를 완성하는 개인 실습입니다.
+            이 노트북은 **입력 하나 → 원본 보존 → 처리 규칙 하나 → 시각화 규칙 하나 → 열리는 PNG 또는 HTML 하나**를 완성하는 개인 실습입니다.
 
-            - 수정하는 코드 셀: **STEP 1**, **STEP 5**
-            - 선택 경로: `data`, `text`, `sound`
+            - 공통 시작 경로에서 수정하는 셀: **STEP 1**, **STEP 5**
+            - 선택 경로: `data`, `text`, `sound`, `image`
             - 막히면 `input_mode = "provided"`를 유지하고 수업 제공 가상 자료로 먼저 완성합니다.
             - 자신의 파일을 쓰려면 프로젝트 면담에서 승인받고, 아래 규격에 맞춘 뒤 `input_mode = "own"`으로 바꿉니다.
+            - 9–13주차의 개인 코드를 재사용하려면 교수에게 처리·매핑 규칙을 승인받고 STEP 3·4의 **APPROVED REUSE ZONE**만 교체합니다. `processed_values`, `mapping_source_values`, `mapping_visual_values`라는 검증 계약은 유지합니다.
             - 마지막에는 새 런타임에서 **모두 실행**하고 `WEEK 14 PROJECT PROTOTYPE COMPLETE`를 확인합니다.
             """
         ),
@@ -473,9 +725,12 @@ def build_notebook() -> dict[str, object]:
             # STEP 0 · 준비: 라이브러리와 실행 순서
             from pathlib import Path
             from collections import Counter
+            import base64
             import hashlib
+            import html as html_module
             import importlib.util
             from importlib.metadata import PackageNotFoundError, version as package_version
+            import io
             import re
             import subprocess
             import sys
@@ -561,13 +816,14 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 1 · 프로젝트 카드 입력
 
-            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`를 유지하는 것이 가장 안전합니다.
+            따옴표 안의 `EDIT:` 문장을 자신의 프로젝트 정보로 바꿉니다. 처음에는 `project_track`만 선택하고 `input_mode = "provided"`를 유지하는 것이 가장 안전합니다. 1차 면담 뒤 판정과 축소 범위를 기록하고, 최종 교수 확인을 받은 뒤에만 `teacher_gate`를 `"confirmed"`로 바꿉니다.
 
             자신의 입력을 사용할 때의 규격은 다음과 같습니다.
 
             - 데이터: `category`, `value` 열이 있는 UTF-8 CSV
             - 텍스트: UTF-8 TXT
             - 소리: 모노 PCM WAV
+            - 규칙 기반 이미지: `x`, `y`, `size`, `color` 열이 있는 UTF-8 CSV (`x`, `y`는 0–1, `color`는 `#RRGGBB`)
             """
         ),
         code_cell(
@@ -576,15 +832,25 @@ def build_notebook() -> dict[str, object]:
             student_id = "학번"
             student_name = "이름"
 
-            project_track = "data"  # data, text, sound 가운데 하나
+            project_track = "data"  # data, text, sound, image 가운데 하나
             input_mode = "provided"  # provided 또는 own
             own_source_filename = ""  # own일 때만 같은 폴더의 파일명 입력
+            output_format = "png"  # png 또는 html
+
+            approval_status = "EDIT: approved / scoped / provided 가운데 1차 면담 판정"
+            approval_note = "EDIT: 승인된 핵심 범위 또는 줄인 기능을 한 문장으로 기록"
+            teacher_gate = "pending"  # 최종 교수 확인 뒤에만 confirmed로 변경
 
             project_question = "EDIT: 이 입력에서 어떤 차이나 변화가 보이는가?"
             intended_audience = "EDIT: 이 결과를 가장 먼저 볼 사람"
             project_source = "EDIT: 자료의 제목, 작성자 또는 제공자, 주소"
             usage_rights = "EDIT: 직접 제작, 공개 라이선스, 허가 등 이용 근거"
+            reference_date = "EDIT: 자료를 수집하거나 제작한 날짜 또는 기간"
+            privacy_check = "EDIT: 개인정보를 제외하거나 동의를 확인한 방법"
+            observation_unit = "EDIT: 입력 한 행, 토큰, 프레임 또는 매개변수 한 건의 의미"
+            value_unit = "EDIT: 합계, 횟수, RMS, px 등 화면 값의 단위"
             scope_decision = "EDIT: 이번 주에는 구현하지 않기로 한 기능 한 가지"
+            processing_rule = "EDIT: 입력에서 무엇을 계산하거나 변환하는가"
             visual_rule = "EDIT: 어떤 값을 위치, 길이, 색상 또는 시간에 연결하는가"
 
             _run_order.append(1)
@@ -595,95 +861,10 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 2 · 입력 불러오기와 원본 보존
 
-            세 경로는 입력 모양이 다르지만, **처리하기 전 원본을 별도 변수에 보존하고 지문(digest)을 기록한다**는 원칙은 같습니다. 제공 자료는 수업을 위해 만든 가상 자료입니다.
+            네 경로는 입력 모양이 다르지만, **처리하기 전 원본을 별도 변수에 보존하고 지문(digest)을 기록한다**는 원칙은 같습니다. 제공 자료는 수업을 위해 만든 가상 자료입니다. 데이터와 이미지 CSV는 결측값·빈 범주·무한대까지 먼저 검사합니다.
             """
         ),
-        code_cell(
-            f'''
-            # STEP 2 · 입력 불러오기와 원본 보존
-            PROVIDED_DATA_CSV = """category,value
-            Archive,34
-            Studio,21
-            Screening,18
-            Archive,27
-            Studio,19
-            Screening,14
-            Archive,23
-            Studio,23
-            Screening,17
-            """
-            PROVIDED_TEXT = (
-                "record place sound memory walk record image place record sound "
-                "archive memory record place sound record image walk record place "
-                "archive memory record place sound walk record place"
-            )
-            PROVIDED_SAMPLE_RATE = 8000
-            PROVIDED_TIME = np.arange(PROVIDED_SAMPLE_RATE * 4, dtype=np.float64) / PROVIDED_SAMPLE_RATE
-            PROVIDED_SOUND = (
-                (0.20 + 0.13 * np.sin(2 * np.pi * 0.42 * PROVIDED_TIME))
-                * np.sin(2 * np.pi * 220 * PROVIDED_TIME)
-            ).astype(np.float64)
-            EXPECTED_PROVIDED_DIGESTS = {digests!r}
-
-            def sha256_bytes(payload):
-                return hashlib.sha256(payload).hexdigest()
-
-            assert project_track in {{"data", "text", "sound"}}, "project_track은 data, text, sound 가운데 하나여야 합니다."
-            assert input_mode in {{"provided", "own"}}, "input_mode는 provided 또는 own이어야 합니다."
-
-            source_path = None
-            source_bytes_before = None
-            if project_track == "data":
-                if input_mode == "provided":
-                    raw_payload = PROVIDED_DATA_CSV.encode("utf-8")
-                    raw_data = pd.read_csv(pd.io.common.StringIO(PROVIDED_DATA_CSV))
-                else:
-                    source_path = Path(own_source_filename)
-                    assert source_path.is_file(), "지정한 CSV 파일을 찾을 수 없습니다."
-                    source_bytes_before = source_path.read_bytes()
-                    raw_payload = source_bytes_before
-                    raw_data = pd.read_csv(source_path)
-                assert {{"category", "value"}}.issubset(raw_data.columns), "CSV에는 category와 value 열이 필요합니다."
-                raw_data = raw_data[["category", "value"]].copy(deep=True)
-                raw_data["category"] = raw_data["category"].astype(str)
-                raw_data["value"] = pd.to_numeric(raw_data["value"], errors="raise")
-                raw_snapshot = raw_data.copy(deep=True)
-            elif project_track == "text":
-                if input_mode == "provided":
-                    raw_text = PROVIDED_TEXT
-                    raw_payload = raw_text.encode("utf-8")
-                else:
-                    source_path = Path(own_source_filename)
-                    assert source_path.is_file(), "지정한 TXT 파일을 찾을 수 없습니다."
-                    source_bytes_before = source_path.read_bytes()
-                    raw_payload = source_bytes_before
-                    raw_text = source_bytes_before.decode("utf-8")
-                raw_snapshot = raw_text
-            else:
-                if input_mode == "provided":
-                    sample_rate = PROVIDED_SAMPLE_RATE
-                    raw_signal = PROVIDED_SOUND.copy()
-                    raw_payload = raw_signal.tobytes()
-                else:
-                    source_path = Path(own_source_filename)
-                    assert source_path.is_file(), "지정한 WAV 파일을 찾을 수 없습니다."
-                    source_bytes_before = source_path.read_bytes()
-                    with wave.open(str(source_path), "rb") as sound_file:
-                        assert sound_file.getnchannels() == 1, "WAV는 모노 파일이어야 합니다."
-                        assert sound_file.getsampwidth() == 2, "WAV는 16-bit PCM이어야 합니다."
-                        sample_rate = sound_file.getframerate()
-                        frames = sound_file.readframes(sound_file.getnframes())
-                    raw_signal = np.frombuffer(frames, dtype="<i2").astype(np.float64) / 32768.0
-                    raw_payload = source_bytes_before
-                raw_snapshot = raw_signal.copy()
-
-            source_digest_before = sha256_bytes(raw_payload)
-            if input_mode == "provided":
-                assert source_digest_before == EXPECTED_PROVIDED_DIGESTS[project_track], "수업 제공 원본이 변경되었습니다."
-            _run_order.append(2)
-            print(f"STEP 2 PASS · {{project_track}} 원본 보존 · digest {{source_digest_before[:12]}}")
-            '''
-        ),
+        code_cell(step_two_source),
         markdown_cell(
             """
             ## STEP 3 · 처리 규칙 하나 실행
@@ -691,13 +872,15 @@ def build_notebook() -> dict[str, object]:
             - 데이터 경로는 같은 범주의 값을 더합니다.
             - 텍스트 경로는 단어를 소문자로 정리한 뒤 빈도를 셉니다.
             - 소리 경로는 짧은 구간마다 RMS 에너지를 계산합니다.
+            - 규칙 기반 이미지 경로는 위치·크기·색 매개변수를 유효한 도형 값으로 준비합니다.
 
-            출력되는 숫자는 장식이 아니라 시각화가 어떤 값을 사용했는지 보여 주는 증거입니다.
+            출력되는 숫자는 장식이 아니라 시각화가 어떤 값을 사용했는지 보여 주는 증거입니다. 면담에서 다른 처리 규칙을 승인받았다면 아래 `APPROVED REUSE ZONE`의 해당 분기만 이전 주차 코드로 교체하되, 마지막의 `processed_values` 검증 계약을 유지합니다.
             """
         ),
         code_cell(
             """
             # STEP 3 · 처리 규칙 하나
+            # APPROVED REUSE ZONE · 승인받은 경우 해당 분기 내부만 이전 주차 코드로 교체
             if project_track == "data":
                 processed = (
                     raw_data.groupby("category", as_index=False)["value"]
@@ -707,15 +890,17 @@ def build_notebook() -> dict[str, object]:
                 )
                 processed_labels = processed["category"].tolist()
                 processed_values = processed["value"].to_numpy(dtype=float)
-                print(f"입력 {len(raw_data)}행 → 범주 {len(processed)}개")
+                input_count = len(raw_data)
+                print(f"입력 {input_count}행 → 범주 {len(processed)}개")
             elif project_track == "text":
                 tokens = re.findall(r"[0-9A-Za-z가-힣]+", raw_text.lower())
                 token_counts = Counter(tokens)
                 ranked_tokens = sorted(token_counts.items(), key=lambda item: (-item[1], item[0]))[:8]
                 processed_labels = [item[0] for item in ranked_tokens][::-1]
                 processed_values = np.array([item[1] for item in ranked_tokens][::-1], dtype=float)
-                print(f"입력 {len(tokens)}토큰 → 상위 단어 {len(ranked_tokens)}개")
-            else:
+                input_count = len(tokens)
+                print(f"입력 {input_count}토큰 → 상위 단어 {len(ranked_tokens)}개")
+            elif project_track == "sound":
                 frame_size = max(64, int(sample_rate * 0.05))
                 hop_size = max(32, int(sample_rate * 0.025))
                 frame_starts = np.arange(0, len(raw_signal) - frame_size + 1, hop_size)
@@ -725,10 +910,20 @@ def build_notebook() -> dict[str, object]:
                 ])
                 processed_times = (frame_starts + frame_size / 2) / sample_rate
                 assert len(processed_values) > 0, "소리가 너무 짧아 구간 에너지를 계산할 수 없습니다."
-                print(f"입력 {len(raw_signal)}샘플 → 에너지 구간 {len(processed_values)}개")
+                input_count = len(raw_signal)
+                print(f"입력 {input_count}샘플 → 에너지 구간 {len(processed_values)}개")
+            else:
+                processed_x = raw_image_params["x"].to_numpy(dtype=float)
+                processed_y = raw_image_params["y"].to_numpy(dtype=float)
+                processed_values = raw_image_params["size"].to_numpy(dtype=float)
+                processed_colors = raw_image_params["color"].tolist()
+                input_count = len(raw_image_params)
+                print(f"입력 {input_count}개 매개변수 → 도형 {len(processed_values)}개")
 
-            assert len(processed_values) > 0, "처리 결과가 비어 있습니다."
-            assert np.isfinite(processed_values).all(), "처리 결과에 숫자가 아닌 값이 있습니다."
+            processed_values = np.asarray(processed_values, dtype=float)
+            assert processed_values.ndim == 1 and len(processed_values) > 0, "처리 결과는 비어 있지 않은 1차원 값이어야 합니다."
+            assert np.isfinite(processed_values).all(), "처리 결과에 유한하지 않은 값이 있습니다."
+            processing_evidence_values = processed_values.copy()
             _run_order.append(3)
             print("STEP 3 PASS · 처리 결과 확인")
             """
@@ -737,12 +932,13 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 4 · 처리 결과를 한 가지 시각 규칙에 연결
 
-            세 경로 모두 같은 크기의 Figure를 사용합니다. 막대 경로는 처리된 값을 **길이**에, 소리 경로는 시간과 에너지를 **가로·세로 위치**에 연결합니다.
+            네 경로 모두 같은 크기의 Figure를 사용합니다. 막대 경로는 처리된 값을 **길이**에, 소리 경로는 시간과 에너지를 **가로·세로 위치**에, 규칙 이미지 경로는 값을 **위치·크기·색**에 연결합니다. 승인받은 개인 표현을 재사용해도 `mapping_source_values`와 `mapping_visual_values`가 같은 값을 증명하도록 남깁니다.
             """
         ),
         code_cell(
             """
             # STEP 4 · 핵심 시각화 한 화면
+            # APPROVED REUSE ZONE · 승인받은 경우 해당 분기 내부와 증거 추출만 교체
             figure, axis = plt.subplots(figsize=(8, 5), dpi=200)
             figure.subplots_adjust(left=0.18, right=0.95, top=0.69, bottom=0.30)
             figure.suptitle("30% PROJECT PROTOTYPE", x=0.08, y=0.96, ha="left", fontsize=20, fontweight="bold")
@@ -752,21 +948,42 @@ def build_notebook() -> dict[str, object]:
             if project_track in {"data", "text"}:
                 visual_artists = axis.barh(processed_labels, processed_values, color="#116e68", height=0.62)
                 axis.set_xlim(left=0)
-                axis.set_xlabel("Aggregated value" if project_track == "data" else "Token count")
+                axis.set_xlabel(value_unit)
                 for bar, value in zip(visual_artists, processed_values):
                     axis.text(value, bar.get_y() + bar.get_height() / 2, f" {value:g}", va="center", fontsize=9)
-            else:
+                mapping_visual_values = np.array([bar.get_width() for bar in visual_artists], dtype=float)
+                mapping_position_values = np.arange(len(visual_artists), dtype=float)
+                visual_element_count = len(visual_artists)
+            elif project_track == "sound":
                 (visual_artist,) = axis.plot(processed_times, processed_values, color="#116e68", linewidth=2.2)
                 axis.fill_between(processed_times, processed_values, color="#dcebe6")
                 axis.set_xlim(processed_times.min(), processed_times.max())
                 axis.set_ylim(bottom=0)
                 axis.set_xlabel("Time (seconds)")
-                axis.set_ylabel("RMS energy")
+                axis.set_ylabel(value_unit)
+                mapping_visual_values = np.asarray(visual_artist.get_ydata(), dtype=float)
+                mapping_position_values = np.asarray(visual_artist.get_xdata(), dtype=float)
+                visual_element_count = len(mapping_visual_values)
+            else:
+                visual_artist = axis.scatter(
+                    processed_x,
+                    processed_y,
+                    s=processed_values ** 2 / 3,
+                    c=processed_colors,
+                    edgecolors="#202523",
+                    linewidths=0.8,
+                )
+                axis.set(xlim=(0, 1), ylim=(0, 1), xlabel="x position", ylabel="y position")
+                axis.set_aspect("equal", adjustable="box")
+                mapping_visual_values = np.sqrt(np.asarray(visual_artist.get_sizes(), dtype=float) * 3)
+                mapping_position_values = np.asarray(visual_artist.get_offsets(), dtype=float)
+                visual_element_count = len(mapping_visual_values)
 
             axis.set_title("Processed evidence", loc="left", fontsize=13, fontweight="bold")
             axis.spines[["top", "right"]].set_visible(False)
-            axis.grid(axis="x" if project_track in {"data", "text"} else "y", color="#c7c8be", linewidth=0.8, alpha=0.55)
+            axis.grid(axis="x" if project_track in {"data", "text"} else "both", color="#c7c8be", linewidth=0.8, alpha=0.55)
             axis.set_axisbelow(True)
+            mapping_source_values = np.asarray(processed_values, dtype=float)
             _run_order.append(4)
             print("STEP 4 PASS · 처리값을 시각 요소에 연결")
             plt.show()
@@ -776,20 +993,22 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 5 · 관찰, 한계, 다음 행동 작성
 
-            관찰은 화면에서 확인할 수 있는 수치나 위치를 포함합니다. 한계는 현재 입력만으로 단정할 수 없는 내용을 씁니다. 다음 행동은 “더 예쁘게 만들기” 대신 어떤 요소를 어떻게 수정할지 동사로 시작합니다.
+            관찰 근거에는 화면에서 가리킬 수 있는 수치·단어·시간·도형 위치를 짧게 적고, 같은 근거를 관찰 문장에 포함합니다. 한계는 현재 입력만으로 단정할 수 없는 내용을 씁니다. 다음 행동은 “더 예쁘게 만들기” 대신 어떤 요소를 어떻게 수정할지 동사로 시작합니다. 교수는 네 문장이 실제 결과와 맞는지 확인한 뒤 피드백을 남깁니다.
             """
         ),
         code_cell(
             """
             # STEP 5 · EDIT: 관찰, 한계, 15주차 수정 두 가지
+            observation_evidence = "EDIT: 화면에서 직접 가리킬 수 있는 수치, 단어, 시간 또는 위치"
             main_observation = (
-                "EDIT: 처리 결과에서 직접 확인한 수치 또는 변화 한 문장"
+                "EDIT: 위 관찰 근거를 그대로 포함한 직접 관찰 한 문장"
             )
             limitation_statement = (
                 "EDIT: 현재 자료만으로 단정할 수 없는 내용 한 문장"
             )
             next_step_1 = "EDIT: 15주차에 먼저 실행할 구체적인 수정"
             next_step_2 = "EDIT: 15주차에 이어서 실행할 구체적인 수정"
+            teacher_feedback = "EDIT: 교수가 확인한 관찰·한계·수정 행동에 대한 짧은 기록"
 
             _run_order.append(5)
             print("STEP 5 READY · 해석과 다음 행동 입력 완료")
@@ -797,27 +1016,44 @@ def build_notebook() -> dict[str, object]:
         ),
         markdown_cell(
             """
-            ## STEP 6 · PNG 저장
+            ## STEP 6 · PNG 또는 HTML 저장
 
-            저장한 뒤 노트북 밖에서 파일을 직접 열어 빈 화면, 글자 잘림, 지나치게 작은 글자가 없는지 확인합니다.
+            `output_format`에 따라 1600 × 1000 PNG 또는 같은 PNG를 내부에 포함한 독립 HTML을 저장합니다. 저장한 뒤 노트북 밖에서 직접 열어 빈 화면, 글자 잘림, 지나치게 작은 글자가 없는지 확인합니다.
             """
         ),
         code_cell(
             """
-            # STEP 6 · 1600 × 1000 PNG 저장
+            # STEP 6 · 1600 × 1000 PNG 또는 독립 HTML 저장
             def safe_filename_part(value):
                 return re.sub(r"[^0-9A-Za-z가-힣_-]+", "-", str(value).strip()).strip("-")
 
             safe_student_id = safe_filename_part(student_id)
             safe_student_name = safe_filename_part(student_name)
-            output_filename = f"week14_{safe_student_id}_{safe_student_name}_preview.png"
+            output_filename = f"week14_{safe_student_id}_{safe_student_name}_preview.{output_format}"
             output_path = Path(output_filename)
 
             figure.text(0.08, 0.20, textwrap.fill(main_observation, width=58), fontsize=8.7, color="#202523", va="top")
             figure.text(0.08, 0.12, textwrap.fill(f"LIMIT · {limitation_statement}", width=64), fontsize=7.7, color="#59615e", va="top")
             source_display = textwrap.shorten(project_source, width=78, placeholder="…")
-            figure.text(0.08, 0.025, f"SOURCE · {source_display}", fontsize=7.2, color="#59615e")
-            figure.savefig(output_path, dpi=200, facecolor="#f3efe5")
+            figure.text(0.08, 0.025, f"SOURCE · {source_display} · {reference_date}", fontsize=7.2, color="#59615e")
+
+            preview_buffer = io.BytesIO()
+            figure.savefig(preview_buffer, format="png", dpi=200, facecolor="#f3efe5")
+            preview_png_bytes = preview_buffer.getvalue()
+            if output_format == "png":
+                output_path.write_bytes(preview_png_bytes)
+            else:
+                encoded_preview = base64.b64encode(preview_png_bytes).decode("ascii")
+                html_title = html_module.escape(project_question)
+                html_source = html_module.escape(project_source)
+                html_rights = html_module.escape(usage_rights)
+                html_limit = html_module.escape(limitation_statement)
+                html_output = f'''<!doctype html>
+            <html lang="ko">
+            <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html_title}</title></head>
+            <body><main><h1>{html_title}</h1><img src="data:image/png;base64,{encoded_preview}" width="1600" height="1000" alt="프로젝트 핵심 시각화"><p>출처: {html_source}</p><p>이용 근거: {html_rights}</p><p>한계: {html_limit}</p></main></body>
+            </html>'''
+                output_path.write_text(html_output, encoding="utf-8")
             _run_order.append(6)
             print(f"STEP 6 PASS · {output_filename} 저장")
             """
@@ -826,7 +1062,7 @@ def build_notebook() -> dict[str, object]:
             """
             ## STEP 7 · FINAL CHECK
 
-            이 셀의 코드는 수정하지 않습니다. 새 런타임에서 **모두 실행**했을 때 모든 조건을 통과해야 합니다. 자동 검사는 파일과 수치의 일관성을 확인하며, 질문의 의미·자료 이용 권한·시각적 가독성은 교수 확인을 거칩니다.
+            이 셀의 코드는 수정하지 않습니다. 새 런타임에서 **모두 실행**했을 때 모든 조건을 통과해야 합니다. 자동 검사는 파일과 수치의 일관성, 관찰 근거의 포함 여부를 확인합니다. 질문의 의미·자료 이용 권한·관찰과 한계의 타당성·수정 행동·시각적 가독성은 교수 확인을 거치며, 확인 전에는 `teacher_gate = "pending"`이라 PASS가 나오지 않습니다.
             """
         ),
         code_cell(
@@ -840,51 +1076,79 @@ def build_notebook() -> dict[str, object]:
 
             assert safe_student_id and student_id not in {"학번", "student_id"}, "실제 학번을 입력하세요."
             assert safe_student_name and student_name not in {"이름", "student_name"}, "실제 이름을 입력하세요."
+            assert approval_status in {"approved", "scoped", "provided"}, "1차 면담 판정을 approved, scoped, provided 가운데 하나로 기록하세요."
+            assert is_finished_text(approval_note, 10, 180), "승인 또는 축소 범위를 10~180자로 기록하세요."
             assert is_finished_text(project_question, 15, 70), "질문을 15~70자의 한 줄로 작성하세요."
             assert project_question.rstrip().endswith(("?", "？")), "프로젝트 질문은 물음표로 끝내세요."
             assert is_finished_text(intended_audience, 5, 80), "예상 독자를 5~80자로 작성하세요."
             assert is_finished_text(project_source, 10, 180), "자료 출처를 10~180자로 작성하세요."
             assert is_finished_text(usage_rights, 10, 180), "자료 이용 근거를 10~180자로 작성하세요."
+            assert is_finished_text(reference_date, 4, 80), "자료의 수집·제작 날짜 또는 기간을 기록하세요."
+            assert is_finished_text(privacy_check, 10, 180), "개인정보 제외 또는 동의 확인 방법을 기록하세요."
+            assert is_finished_text(observation_unit, 8, 120), "입력 한 건의 관찰 단위를 기록하세요."
+            assert is_finished_text(value_unit, 1, 60), "화면 값의 단위를 기록하세요."
             assert is_finished_text(scope_decision, 10, 180), "이번 주에 제외한 기능을 구체적으로 작성하세요."
+            assert is_finished_text(processing_rule, 12, 180), "입력 처리 규칙을 작성하세요."
             assert is_finished_text(visual_rule, 12, 180), "값과 시각 요소의 연결 규칙을 작성하세요."
+            assert is_finished_text(observation_evidence, 1, 50), "화면에서 가리킬 관찰 근거를 1~50자로 작성하세요."
             assert is_finished_text(main_observation, 20, 70), "관찰을 20~70자의 한 줄로 작성하세요."
+            assert observation_evidence in main_observation, "관찰 문장에 화면에서 가리킬 관찰 근거를 그대로 포함하세요."
             assert is_finished_text(limitation_statement, 20, 70), "한계를 20~70자의 한 줄로 작성하세요."
+            assert any(token in limitation_statement for token in ("없", "못", "한계", "제한", "단정", "아니")), "한계 문장에는 현재 단정할 수 없는 내용을 분명히 쓰세요."
             assert is_finished_text(next_step_1, 12, 120), "첫 번째 다음 행동을 12~120자로 작성하세요."
             assert is_finished_text(next_step_2, 12, 120), "두 번째 다음 행동을 12~120자로 작성하세요."
             assert next_step_1 != next_step_2, "서로 다른 두 수정 행동을 작성하세요."
+            action_tokens = ("추가", "수정", "교체", "조정", "확인", "검사", "줄", "늘", "배치", "표시", "기록", "분리", "비교")
+            assert any(token in next_step_1 for token in action_tokens), "첫 번째 다음 행동에는 구체적인 수정 동사를 쓰세요."
+            assert any(token in next_step_2 for token in action_tokens), "두 번째 다음 행동에는 구체적인 수정 동사를 쓰세요."
 
             if project_track == "data":
                 pd.testing.assert_frame_equal(raw_data, raw_snapshot)
             elif project_track == "text":
                 assert raw_text == raw_snapshot, "텍스트 원본이 변경되었습니다."
-            else:
+            elif project_track == "sound":
                 assert np.array_equal(raw_signal, raw_snapshot), "소리 원본이 변경되었습니다."
+            else:
+                pd.testing.assert_frame_equal(raw_image_params, raw_snapshot)
             if input_mode == "provided":
                 assert source_digest_before == EXPECTED_PROVIDED_DIGESTS[project_track], "제공 입력의 내용이 달라졌습니다."
             else:
                 assert source_path.read_bytes() == source_bytes_before, "외부 입력 파일이 실행 중 변경되었습니다."
 
+            assert visual_element_count == len(mapping_source_values), "처리 결과와 화면 요소 수가 다릅니다."
+            assert np.allclose(mapping_visual_values, mapping_source_values), "화면에 매핑된 값이 처리 결과와 일치하지 않습니다."
             if project_track in {"data", "text"}:
-                rendered_values = np.array([bar.get_width() for bar in visual_artists], dtype=float)
                 rendered_labels = [tick.get_text() for tick in axis.get_yticklabels()]
-                assert len(visual_artists) == len(processed_values), "처리 결과와 막대 수가 다릅니다."
-                assert np.allclose(rendered_values, processed_values), "막대 길이가 처리 결과와 일치하지 않습니다."
                 assert rendered_labels == [str(label) for label in processed_labels], "막대 레이블이 처리 결과와 일치하지 않습니다."
-            else:
-                assert np.allclose(visual_artist.get_xdata(), processed_times), "가로 위치가 처리 시간과 일치하지 않습니다."
-                assert np.allclose(visual_artist.get_ydata(), processed_values), "세로 위치가 에너지 값과 일치하지 않습니다."
+            elif project_track == "sound":
+                assert np.allclose(mapping_position_values, processed_times), "가로 위치가 처리 시간과 일치하지 않습니다."
+            elif project_track == "image":
+                assert np.allclose(mapping_position_values[:, 0], processed_x), "도형의 x 위치가 처리 결과와 일치하지 않습니다."
+                assert np.allclose(mapping_position_values[:, 1], processed_y), "도형의 y 위치가 처리 결과와 일치하지 않습니다."
 
-            assert output_path.is_file() and output_path.stat().st_size > 20_000, "미리보기 PNG를 찾을 수 없거나 비어 있습니다."
-            with Image.open(output_path) as saved_image:
-                assert saved_image.format == "PNG", "결과 파일은 PNG여야 합니다."
+            assert output_path.is_file() and output_path.stat().st_size > 20_000, "미리보기 파일을 찾을 수 없거나 비어 있습니다."
+            if output_format == "png":
+                checked_preview_bytes = output_path.read_bytes()
+            else:
+                checked_html = output_path.read_text(encoding="utf-8")
+                assert checked_html.lower().startswith("<!doctype html>"), "HTML 결과에 문서 선언이 없습니다."
+                encoded_match = re.search(r"data:image/png;base64,([A-Za-z0-9+/=]+)", checked_html)
+                assert encoded_match, "HTML 결과에 미리보기 이미지가 포함되지 않았습니다."
+                checked_preview_bytes = base64.b64decode(encoded_match.group(1), validate=True)
+            with Image.open(io.BytesIO(checked_preview_bytes)) as saved_image:
+                assert saved_image.format == "PNG", "결과 안의 미리보기는 PNG여야 합니다."
                 assert saved_image.size == (1600, 1000), "결과 크기는 1600 × 1000이어야 합니다."
+
+            print("AUTOMATIC EVIDENCE READY · TEACHER CHECK REQUIRED")
+            assert teacher_gate == "confirmed", "교수의 최종 확인 뒤 teacher_gate를 confirmed로 바꾸세요."
+            assert is_finished_text(teacher_feedback, 8, 180), "교수 확인에서 받은 피드백을 8~180자로 기록하세요."
 
             _run_order.append(7)
             print("=" * 52)
             print("WEEK 14 PROJECT PROTOTYPE COMPLETE")
             print(f"TRACK · {project_track} / INPUT · {input_mode}")
             print(f"OUTPUT · {output_filename}")
-            print("교수 확인 · 질문-입력 대응 / 이용 권한 / 범위 / 가독성")
+            print("교수 확인 · 질문-입력 / 권한 / 관찰-한계 / 다음 행동 / 가독성")
             print("=" * 52)
             """
         ),
@@ -893,10 +1157,10 @@ def build_notebook() -> dict[str, object]:
             ## 제출 파일
 
             1. `week14_학번_이름_prototype.ipynb`
-            2. `week14_학번_이름_preview.png`
+            2. `week14_학번_이름_preview.png` 또는 `week14_학번_이름_preview.html`
             3. `input_mode = "own"`이면 실행에 사용한 원본 파일
 
-            자동 검사 PASS 뒤 결과 파일을 직접 열고 교수의 범위 확인을 받은 다음 제출합니다.
+            결과 파일을 직접 열고 교수에게 질문·권한·관찰·한계·두 수정 행동·가독성을 확인받습니다. 확인 뒤 `teacher_gate`를 변경하고 새 런타임에서 모두 실행해 PASS를 받은 다음 제출합니다.
             """
         ),
     ]
@@ -934,7 +1198,7 @@ def main() -> None:
     args.asset_dir.mkdir(parents=True, exist_ok=True)
     make_scope_to_slice(args.asset_dir / "week-14-scope-to-slice.png")
     make_prototype_contract(args.asset_dir / "week-14-prototype-contract.png")
-    make_three_track_preview(args.asset_dir / "week-14-three-track-preview.png")
+    make_project_path_preview(args.asset_dir / "week-14-three-track-preview.png")
     write_notebook(args.asset_dir / "week-14-project-prototype-mission.ipynb")
     print("Generated Week 14 scope, prototype, track, and notebook assets.")
 
