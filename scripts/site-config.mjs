@@ -102,6 +102,22 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-10-map-mission-preview.png",
     alt: "지도 마커 24개와 원본 보존·정제·인코딩·해석·세 파일 제출을 확인하는 10주차 지도 미션 도해",
   }),
+  "teaching/contents-programming/week-13-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-13-sound-four-views.png",
+    alt: "한 소리를 재생 화면, 파형, 프레임 RMS, 상대 스펙트로그램으로 비교한 13주차 수업 시각 자료",
+  }),
+  "teaching/contents-programming/week-13-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png",
+    alt: "파형, 프레임 RMS, 상대 스펙트로그램과 근거 문장을 한 장에 구성한 사운드 패턴 포스터 예시",
+  }),
+  "teaching/contents-programming/week-13-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png",
+    alt: "파형, 프레임 RMS, 상대 스펙트로그램과 근거 문장을 한 장에 구성한 사운드 패턴 포스터 예시",
+  }),
+  "teaching/contents-programming/assets/week-13-project-seed-example.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png",
+    alt: "파형, 프레임 RMS, 상대 스펙트로그램과 근거 문장을 한 장에 구성한 사운드 패턴 포스터 예시",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",

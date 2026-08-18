@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13주차 기말 프로젝트 씨앗 카드 예시 | Contents Programming Practice</title>
+  <meta name="description" content="질문, 입력 자료, 이용 권한, 변환 규칙, 출력 형식과 14주차 첫 행동을 한 장에 정리한 기말 프로젝트 씨앗 카드 예시입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-project-seed-example.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="13주차 기말 프로젝트 씨앗 카드 예시">
+  <meta property="og:description" content="기말 프로젝트의 질문부터 14주차 첫 제작 행동까지 연결하는 한 장의 예시 카드입니다.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-project-seed-example.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png">
+  <meta property="og:image:alt" content="파형, 프레임 RMS, 상대 스펙트로그램과 근거 문장을 한 장에 구성한 사운드 패턴 포스터 예시">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="13주차 기말 프로젝트 씨앗 카드 예시">
+  <meta name="twitter:description" content="질문, 입력, 권한, 규칙, 출력과 첫 행동을 정리한 프로젝트 계획 예시입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png">
+  <style>
+    :root { color-scheme:light; --ink:#172321; --paper:#f3efe3; --panel:#fbfaf5; --teal:#1f5f67; --orange:#a44230; --line:#a9afab; --soft:#e4ebe6; }
+    * { box-sizing:border-box; }
+    body { margin:0; padding:clamp(14px,4vw,42px); color:var(--ink); background:var(--paper); font-family:"Apple SD Gothic Neo","Noto Sans KR",Arial,sans-serif; }
+    .skip-link { position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }
+    .skip-link:focus { top:12px; }
+    .project-brief { max-width:1040px; margin:auto; border:2px solid var(--ink); background:var(--panel); padding:clamp(24px,5vw,54px); }
+    .kicker,.section-label { margin:0; color:var(--orange); font-size:.76rem; font-weight:800; letter-spacing:.08em; }
+    h1 { max-width:900px; margin:.6rem 0 1.6rem; font-size:clamp(2.25rem,7vw,5.3rem); letter-spacing:-.055em; line-height:1.02; word-break:keep-all; }
+    .identity { display:flex; gap:10px 24px; flex-wrap:wrap; padding:14px 0; border-block:1px solid var(--line); }
+    .identity strong { color:var(--teal); }
+    .brief-layout { margin-top:34px; display:grid; grid-template-columns:minmax(0,1.55fr) minmax(220px,.65fr); gap:clamp(24px,5vw,58px); align-items:start; }
+    .brief-intent h2,.output-note h2,.next-action h2 { margin:8px 0 12px; color:var(--teal); font-size:1rem; }
+    p,dd { margin:0; font-size:clamp(1rem,2vw,1.16rem); line-height:1.68; word-break:keep-all; }
+    .output-note { padding-left:22px; border-left:4px solid var(--teal); }
+    .brief-fields { margin:36px 0 0; border-bottom:1px solid var(--line); }
+    .brief-fields>div { padding:18px 0; border-top:1px solid var(--line); display:grid; grid-template-columns:minmax(180px,.38fr) minmax(0,1fr); gap:24px; }
+    dt { color:var(--teal); font-size:.82rem; font-weight:800; }
+    dd { margin:0; }
+    .next-action { margin-top:38px; padding:25px 28px 28px; background:var(--soft); border-top:5px solid var(--orange); }
+    .next-action h2 { color:var(--ink); font-size:clamp(1.25rem,3vw,1.7rem); }
+    footer { display:flex; justify-content:space-between; gap:12px; margin-top:30px; padding-top:16px; border-top:2px solid var(--ink); font-size:.92rem; font-weight:800; }
+    @media (max-width:700px) { .project-brief{padding:24px} .brief-layout{grid-template-columns:1fr} .output-note{padding:18px 0 0;border-top:1px solid var(--line);border-left:0} .brief-fields>div{grid-template-columns:1fr;gap:7px} .next-action{padding:22px} footer{flex-direction:column} }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <main id="main-content" class="project-brief">
+    <p class="kicker">기말 프로젝트 씨앗 · 13주차</p>
+    <h1>도시의 짧은 소리에서 반복과 변화는 시간에 따라 어떻게 나타나는가?</h1>
+    <div class="identity"><span><strong>작성자</strong> 예시 학생</span><span><strong>매체</strong> sound</span><span><strong>상태</strong> 14주차 면담 준비</span></div>
+    <div class="brief-layout">
+      <section class="brief-intent" aria-labelledby="input-title"><p class="section-label">프로젝트의 출발점</p><h2 id="input-title">입력 자료</h2><p>수업 제공 6초 WAV 세 편과 각 파일의 제목·생성 방식 메타데이터</p></section>
+      <aside class="output-note" aria-labelledby="output-title"><p class="section-label">보여 줄 결과</p><h2 id="output-title">최종 출력 형식</h2><p>세 소리의 파형·RMS·스펙트로그램 차이를 보여 주는 1600×2200 비교 포스터</p></aside>
+    </div>
+    <dl class="brief-fields">
+      <div><dt>출처와 이용 권한</dt><dd>교수자 창작 수업 자료이며 교육 목적의 분석·시각화·제출이 허용됨</dd></div>
+      <div><dt>변환 또는 시각화 규칙</dt><dd>모든 파일을 22,050Hz·모노로 유지하고 2,048/512 프레임 규칙과 -80~0dB 척도로 비교함</dd></div>
+    </dl>
+    <section class="next-action" aria-labelledby="action-title"><p class="section-label">다음 수업에서 바로 실행</p><h2 id="action-title">14주차 첫 제작 행동</h2><p>첫 WAV를 Colab에 불러와 0~6초 파형 한 개가 화면에 나타나는 코드 경로를 완성함</p></section>
+    <footer><span>질문 → 입력 → 규칙 → 출력</span><span>14주차에는 첫 코드 경로부터</span></footer>
+  </main>
+</body>
+</html>

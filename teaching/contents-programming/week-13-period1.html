@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="ko" class="week-13-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13주차 1교시: 소리는 어떻게 시간 데이터가 되는가 | Contents Programming Practice</title>
+  <meta name="description" content="샘플·샘플링 레이트·채널·파형·프레임·RMS·주파수·STFT·스펙트로그램을 하나의 6초 소리로 연결하고, 각 시각화가 보여 주는 것과 단정할 수 없는 것을 초보자의 언어로 배우는 13주차 1교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-13-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="13주차 1교시: 소리는 어떻게 시간 데이터가 되는가 | Contents Programming Practice">
+  <meta property="og:description" content="연속적으로 들리는 소리가 샘플 배열이 되고 파형·RMS·스펙트로그램으로 읽히는 과정을 이해하는 입문 강의입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-13-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-sound-four-views.png">
+  <meta property="og:image:alt" content="한 소리를 재생 화면, 파형, 프레임 RMS, 상대 스펙트로그램으로 비교한 13주차 수업 시각 자료">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="13주차 1교시: 소리는 어떻게 시간 데이터가 되는가">
+  <meta name="twitter:description" content="소리를 시간에 따른 수치 배열로 바꾸고 세 가지 시각화의 역할과 한계를 구분하는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-sound-four-views.png">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming week-13-document">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-11-period3.html" rel="prev" aria-label="이전 자료: 11주차 3교시: 데이터 포스터 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-13-period2.html" rel="next" aria-label="다음 자료: 13주차 2교시: librosa로 파형·RMS·스펙트로그램 그리기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Sample / Time / Frame / RMS / Frequency / Spectrogram</p>
+        <h1>13주차 1교시: 소리는 어떻게 시간 데이터가 되는가</h1>
+        <p class="lead">귀에는 하나의 흐름으로 들리는 소리를 일정한 간격의 숫자로 바라봅니다. 같은 소리를 파형, RMS 곡선, 스펙트로그램으로 바꾸고 각 화면이 답하는 질문을 구분합니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 13</span>
+          <span class="hero-chip">PERIOD 01</span>
+          <span class="hero-chip">50 MIN</span>
+          <span class="hero-chip">+ 10 MIN EXTENSION</span>
+          <span class="hero-chip">THEORY</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">수업 정보</p>
+        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">같은 소리를 여러 데이터 화면으로 보는 이유는 무엇인가?</span></div>
+        <div class="meta-row"><span class="meta-key">공통 음원</span><span class="meta-value">규칙적인 펄스, 6초, 교수자 창작</span></div>
+        <div class="meta-row"><span class="meta-key">입력 규격</span><span class="meta-value">22,050Hz, 모노, 132,300샘플</span></div>
+        <div class="meta-row"><span class="meta-key">프레임 규칙</span><span class="meta-value">길이 2,048, 이동 512샘플</span></div>
+        <div class="meta-row"><span class="meta-key">세 화면</span><span class="meta-value">파형, 프레임 RMS, 스펙트로그램</span></div>
+        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">한 개의 WAV 파일을 시간, 크기, 주파수라는 세 질문으로 읽는 소리 데이터 입문</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>샘플, 샘플링 레이트, 재생 시간, 채널의 관계를 자신의 말로 설명할 수 있습니다.</li>
+          <li>22,050Hz로 6초를 기록하면 모노 한 채널에 132,300개의 샘플이 생긴다는 계산을 할 수 있습니다.</li>
+          <li>파형의 가로축과 세로축을 읽고, 양수와 음수의 의미를 오해하지 않을 수 있습니다.</li>
+          <li>샘플과 프레임을 구분하고 프레임 길이와 이동 간격이 필요한 이유를 설명할 수 있습니다.</li>
+          <li>RMS 곡선이 강한 구간을 비교하는 값이며 절대 음압이나 사람이 느끼는 음량과 같지 않음을 설명할 수 있습니다.</li>
+          <li>스펙트로그램의 시간축, 주파수축, 상대 dB 색상축을 읽고 시각화만으로 소리의 정체나 감정을 단정하지 않을 수 있습니다.</li>
+          <li>소리 자료의 출처와 이용 조건을 기록하고 타인의 음악과 목소리를 책임 있게 다룰 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-seven" aria-label="1교시 시간 구성">
+        <li><span class="session-label">0-6분</span><strong>12주차 연결</strong><p>같은 소리를 네 화면으로 보고 질문을 나눕니다.</p></li>
+        <li><span class="session-label">6-15분</span><strong>샘플과 시간</strong><p>샘플·레이트·길이·채널의 관계를 계산합니다.</p></li>
+        <li><span class="session-label">15-25분</span><strong>파형 읽기</strong><p>시간축과 진폭축, 봉우리의 뜻과 한계를 읽습니다.</p></li>
+        <li><span class="session-label">25-34분</span><strong>프레임과 RMS</strong><p>겹치는 짧은 구간으로 강한 시점을 찾습니다.</p></li>
+        <li><span class="session-label">34-43분</span><strong>주파수와 STFT</strong><p>시간마다 달라지는 주파수 분포를 색으로 읽습니다.</p></li>
+        <li><span class="session-label">43-48분</span><strong>책임 있는 이용</strong><p>저작권·음성 개인정보·출처 기록을 점검합니다.</p></li>
+        <li><span class="session-label">48-50분</span><strong>개별 회수</strong><p>샘플과 프레임, 파형과 스펙트로그램을 구분합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에는 공통 음원 한 편으로 소리를 수치로 기록하는 원리, 파형·RMS·스펙트로그램의 역할, 자료 이용의 책임까지 다룹니다. 모든 개별 확인이 끝난 경우에만 <strong>50-60분 확장</strong>에서 세 가지 창작 음원을 같은 조건으로 듣고 화면에 나타날 패턴을 먼저 예측합니다. Python 코드는 2교시에서 셀 단위로 실행합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">프로그래밍을 몰라도 먼저 붙잡을 문장</p>
+        <p><strong>소리 파일은 시간 순서대로 놓인 매우 많은 수치이며, 파형·RMS·스펙트로그램은 같은 수치를 서로 다른 질문에 맞게 요약한 화면입니다.</strong></p>
+      </div>
+
+      <h2 id="text-to-sound">0-6분 · 문장 순서에서 실제 시간으로 이동하기</h2>
+
+      <p>12주차 문장 길이 흐름 그래프에서 한 점은 한 문장의 공백 기준 토큰 수였습니다. 가로축의 1, 2, 3은 초가 아니라 문장이 원문에 등장한 순서였습니다. 13주차 파형에서도 점이 왼쪽에서 오른쪽으로 놓이지만, 이번 가로축은 <strong>실제로 흘러간 시간</strong>입니다. 한 점은 정해진 순간에 측정한 소리 신호의 진폭을 뜻합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>12주차 문장 흐름과 13주차 소리 파형의 연결</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">한 점의 뜻</th><th scope="col">가로축</th><th scope="col">세로축</th><th scope="col">분석 규칙</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">문장 길이 흐름</th><td>한 문장의 토큰 수</td><td>원문 등장 순서 1-12</td><td>공백 기준 토큰 수</td><td>문장 경계, 문장부호 정리, 공백 토큰화</td></tr>
+            <tr><th scope="row">소리 파형</th><td>한 시점의 진폭 샘플</td><td>실제 시간 0-6초</td><td>정규화된 진폭 -1~1</td><td>샘플링 레이트, 채널, 불러오기 방식</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">오늘의 공통 음원: 규칙적인 펄스</p>
+        <p>수업을 위해 직접 생성한 6초짜리 소리입니다. 약 0.9초 간격으로 440Hz의 짧은 펄스가 여섯 번 나타나며 뒤로 갈수록 진폭이 커집니다. 실제 사람의 목소리나 상업 음악을 포함하지 않으므로 모든 학생이 같은 조건에서 안전하게 분석할 수 있습니다.</p>
+        <audio controls preload="metadata" style="width: 100%" aria-label="규칙적인 펄스 수업 음원 재생">
+          <source src="assets/week-13-regular-pulses.wav" type="audio/wav">
+          브라우저가 WAV 재생을 지원하지 않습니다. 아래의 음원 받기 링크를 이용하세요.
+        </audio>
+      </div>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-13-regular-pulses.wav" download>
+          <span>수업 음원</span>
+          <strong>규칙적인 펄스 WAV 받기</strong>
+          <small>6초 · 22,050Hz · 모노 · 132,300샘플 · PCM 16비트</small>
+        </a>
+        <a class="inline-resource-card" href="assets/week-13-sound-four-views.png" target="_blank" rel="noopener noreferrer">
+          <span>읽기 지도</span>
+          <strong>같은 소리의 네 화면 크게 보기 ↗</strong>
+          <small>샘플 확대, 전체 파형, 프레임 RMS, 상대 스펙트로그램</small>
+        </a>
+      </div>
+
+      <figure class="lesson-visual" aria-labelledby="four-views-caption">
+        <img src="assets/week-13-sound-four-views.png" width="1440" height="1200" loading="eager" decoding="async" alt="규칙적인 펄스 소리를 0.03초 구간의 샘플 점, 6초 전체 파형, 프레임별 RMS 곡선, 시간과 주파수에 따른 상대 dB 스펙트로그램으로 표현한 네 패널 도해">
+        <figcaption id="four-views-caption">한 파일을 네 방식으로 보아도 질문은 서로 다릅니다. 샘플 확대는 개별 측정값, 파형은 전체 시간 구조, RMS는 강한 프레임, 스펙트로그램은 시간마다 강한 주파수 대역을 보여 줍니다.</figcaption>
+      </figure>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 관찰 · 90초</span>
+        <h3>눈으로 먼저 답할 수 있는 질문에 표시하기</h3>
+        <p>“언제 신호가 크게 움직이는가?”, “어느 주파수 대역이 강한가?”, “무슨 악기가 연주되었는가?” 가운데 파형과 스펙트로그램만으로 근거 있게 답할 수 있는 질문에 표시합니다. 답할 수 없는 질문에는 추가로 필요한 정보를 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 네 화면 가운데 하나만 남겨도 같은 정보를 모두 알 수 있는가?</summary>
+        <div class="details-motion-content"><p>알 수 없습니다. 파형은 시간에 따른 진폭 변화에는 강하지만 구체적인 주파수 분포를 직접 보여 주지 않습니다. 스펙트로그램은 시간과 주파수를 함께 보여 주지만 개별 샘플 값을 읽기 어렵습니다. RMS는 강한 구간을 간단히 비교하지만 진동 방향과 주파수 구조를 요약 과정에서 잃습니다.</p></div>
+      </details>
+
+      <h2 id="samples">6-15분 · 샘플, 샘플링 레이트, 시간과 채널 구분하기</h2>
+
+      <p>공기 중의 압력 변화는 끊어지지 않고 이어집니다. 컴퓨터는 이 연속적인 변화를 그대로 저장하지 않고, 일정한 시간 간격마다 값을 측정해 수치의 배열로 기록합니다. 이때 한 번 측정한 값을 <strong>샘플 sample</strong>, 1초 동안 몇 번 측정하는지를 <strong>샘플링 레이트 sampling rate</strong>라고 합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>오늘 사용하는 소리 파일의 네 가지 기본 정보</caption>
+          <thead><tr><th scope="col">용어</th><th scope="col">뜻</th><th scope="col">오늘의 값</th><th scope="col">확인 질문</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">샘플</th><td>특정 순간에 측정한 진폭 값 하나</td><td>모노 한 채널에 132,300개</td><td>배열에는 값이 몇 개 있는가?</td></tr>
+            <tr><th scope="row">샘플링 레이트</th><td>1초에 기록하는 샘플의 수</td><td>22,050Hz</td><td>1초를 몇 조각으로 측정했는가?</td></tr>
+            <tr><th scope="row">재생 시간</th><td>전체 샘플을 해당 속도로 재생하는 길이</td><td>6초</td><td>샘플 수를 레이트로 나누면 얼마인가?</td></tr>
+            <tr><th scope="row">채널</th><td>동시에 기록된 독립적인 신호의 수</td><td>모노 1채널</td><td>한 시점에 배열이 몇 줄 필요한가?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="calculation-map" aria-label="샘플 수와 재생 시간 계산">
+        <div><strong>22,050샘플/초 × 6초</strong><p>1초의 측정 수에 전체 시간을 곱합니다.</p></div>
+        <span aria-hidden="true">=</span>
+        <div><strong>132,300샘플</strong><p>모노 한 채널에 저장된 전체 측정값입니다.</p></div>
+      </div>
+
+      <p>반대로 전체 샘플 수를 샘플링 레이트로 나누면 재생 시간이 됩니다.</p>
+
+      <pre><code>132300 samples ÷ 22050 samples/second = 6 seconds</code></pre>
+
+      <p><code>Hz</code>는 “1초에 몇 번”이라는 단위입니다. 샘플링 레이트의 22,050Hz는 <strong>1초에 22,050번 측정</strong>한다는 뜻입니다. 뒤에서 다룰 주파수의 440Hz는 <strong>진동이 1초에 440번 반복</strong>된다는 뜻입니다. 단위는 같지만 설명하는 대상이 다릅니다.</p>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">샘플링 레이트가 높으면 언제나 더 좋은 작품인가?</p>
+        <p>아닙니다. 높은 레이트는 더 촘촘한 시간 측정과 더 높은 주파수 범위를 가능하게 하지만, 녹음 장비·마이크 위치·잡음·압축·편집·재생 환경이 나쁘면 내용의 품질이 자동으로 좋아지지 않습니다. 파일 크기와 처리량도 늘어납니다. 수치는 기록 조건이며 작품의 완성도를 보증하는 점수가 아닙니다.</p>
+      </div>
+
+      <h3 id="channels">모노와 스테레오는 배열의 모양도 다르다</h3>
+
+      <p><strong>모노 mono</strong>는 한 개의 신호를 저장하므로 소리를 한 줄의 배열로 다룰 수 있습니다. <strong>스테레오 stereo</strong>는 보통 왼쪽과 오른쪽 두 채널을 따로 저장합니다. 같은 6초·22,050Hz라도 스테레오에는 채널마다 132,300개의 샘플이 있으므로 전체 수치는 두 줄에 걸쳐 놓입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>같은 길이의 모노와 스테레오 비교</caption>
+          <thead><tr><th scope="col">파일</th><th scope="col">채널 수</th><th scope="col">채널당 샘플</th><th scope="col">분석할 때의 선택</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">모노</th><td>1</td><td>132,300</td><td>한 줄의 배열을 그대로 분석</td></tr>
+            <tr><th scope="row">스테레오</th><td>2</td><td>왼쪽 132,300 + 오른쪽 132,300</td><td>두 채널을 따로 보거나 하나로 합치는 규칙을 공개</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">계산: 44,100Hz 모노 소리 3초에는 샘플이 몇 개인가?</summary>
+        <div class="details-motion-content"><p><strong>132,300개</strong>입니다. <code>44,100 × 3 = 132,300</code>입니다. 오늘의 22,050Hz 소리 6초와 전체 샘플 수는 같지만, 1초에 측정하는 횟수와 재생 시간은 다릅니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 샘플 132,300개라는 정보만으로 재생 시간이 6초라고 말할 수 있는가?</summary>
+        <div class="details-motion-content"><p>말할 수 없습니다. 같은 샘플 수도 샘플링 레이트에 따라 다른 시간이 됩니다. 재생 시간은 <code>전체 샘플 수 ÷ 샘플링 레이트</code>로 계산하므로 두 값이 모두 필요합니다.</p></div>
+      </details>
+
+      <h2 id="waveform">15-25분 · 파형의 시간축과 진폭축을 정확히 읽기</h2>
+
+      <p><strong>파형 waveform</strong>은 시간 순서대로 놓인 샘플을 한 화면에 펼친 그림입니다. 가로축은 초 단위 시간이고, 세로축은 오늘 불러온 신호의 정규화된 진폭입니다. 파형은 “언제 신호가 크게 움직였는가?”, “침묵에 가까운 구간은 어디인가?”, “소리가 짧게 반복되는가?”와 같은 질문에 답하기 좋습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>파형을 왼쪽부터 읽는 순서</caption>
+          <thead><tr><th scope="col">읽는 곳</th><th scope="col">확인하는 것</th><th scope="col">오늘의 화면</th><th scope="col">주의할 해석</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">가로축</th><td>신호가 나타난 시간</td><td>0초부터 6초</td><td>문장 번호처럼 단순한 순서가 아니라 실제 시간</td></tr>
+            <tr><th scope="row">세로축</th><td>기준 0에서 떨어진 진폭</td><td>-1부터 1 사이</td><td>양수는 좋은 소리, 음수는 나쁜 소리라는 뜻이 아님</td></tr>
+            <tr><th scope="row">윤곽</th><td>신호가 큰 구간과 작은 구간</td><td>펄스 여섯 개가 뒤로 갈수록 큼</td><td>한 샘플의 높이만으로 체감 음량을 단정하지 않음</td></tr>
+            <tr><th scope="row">시간 간격</th><td>사건 사이의 반복 구조</td><td>약 0.9초 간격</td><td>파형만으로 사건의 원인을 식별하지 않음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="positive-negative">진폭의 양수와 음수는 진동 방향이다</h3>
+
+      <p>마이크가 기준 상태보다 한 방향의 압력 변화를 기록하면 값이 양수가 되고, 반대 방향의 변화를 기록하면 음수가 됩니다. 파형이 0을 빠르게 오가는 것은 소리 진동의 자연스러운 모습입니다. 양수와 음수는 점수의 높고 낮음, 감정의 긍정과 부정, 소리의 좋고 나쁨을 나타내지 않습니다.</p>
+
+      <p>신호의 크기를 비교할 때는 부호를 제거한 <strong>절댓값</strong>을 사용합니다. 예를 들어 <code>-0.95</code>와 <code>0.95</code>는 방향은 다르지만 기준 0에서 떨어진 거리는 같습니다. 2교시에는 <code>np.abs(y)</code>로 이 거리를 구하고 <code>np.argmax()</code>로 가장 큰 값의 위치를 찾습니다.</p>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">최대 절대 진폭은 유용하지만 음량 전체를 대표하지 않는다</p>
+        <p>아주 짧은 한 샘플만 크게 튀어도 최댓값은 커집니다. 반대로 중간 크기의 신호가 오래 이어지는 소리는 체감상 강할 수 있어도 최대 샘플이 가장 크지 않을 수 있습니다. 사람의 음량 지각은 시간 길이, 주파수, 청취 환경에도 영향을 받습니다. 따라서 최대 절대 진폭은 <strong>가장 크게 벗어난 한 시점</strong>을 찾는 값으로만 해석합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 파형의 가장 낮은 점 -0.95는 가장 조용한 순간인가?</summary>
+        <div class="details-motion-content"><p>아닙니다. -0.95는 0에서 멀리 떨어진 큰 진폭입니다. 조용함에 가까운 값은 부호와 관계없이 0에 가까운 값입니다. 크기를 볼 때는 절댓값을 비교해야 합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 파형만 보고 440Hz의 음이 사용되었다고 정확히 읽을 수 있는가?</summary>
+        <div class="details-motion-content"><p>전체 파형의 윤곽만으로는 어렵습니다. 매우 짧은 구간을 확대해 반복 주기를 재면 추정할 수 있지만, 여러 주파수가 섞인 실제 소리에서는 불편합니다. 시간마다 어떤 주파수 성분이 강한지는 스펙트로그램이 더 직접적으로 보여 줍니다.</p></div>
+      </details>
+
+      <h2 id="frames-rms">25-34분 · 긴 샘플 배열을 겹치는 프레임으로 요약하기</h2>
+
+      <p>오늘의 소리에는 샘플이 132,300개 있습니다. 개별 값을 모두 읽는 대신 짧은 구간을 하나의 묶음으로 나누어 살펴봅니다. 이 짧은 분석 구간을 <strong>프레임 frame</strong>이라고 합니다. 프레임은 소리 파일에 새로 생긴 물리적 조각이 아니라, 분석을 위해 배열 위에 놓는 이동 창입니다.</p>
+
+      <div class="pipeline" aria-label="샘플 배열을 겹치는 프레임으로 나누는 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">SIGNAL</span><strong>132,300샘플</strong><p>6초 전체를 한 줄의 시간 배열로 보존합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">FRAME</span><strong>2,048샘플씩 보기</strong><p>약 0.093초 길이의 짧은 구간을 읽습니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">HOP</span><strong>512샘플씩 이동</strong><p>약 0.023초 뒤에서 다음 프레임을 시작합니다.</p></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>프레임 규칙을 시간으로 바꾸어 읽기</caption>
+          <thead><tr><th scope="col">설정</th><th scope="col">샘플 수</th><th scope="col">22,050Hz에서의 시간</th><th scope="col">역할</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>frame_length</code></th><td>2,048</td><td>약 0.0929초</td><td>한 번에 요약할 구간의 폭</td></tr>
+            <tr><th scope="row"><code>hop_length</code></th><td>512</td><td>약 0.0232초</td><td>다음 구간으로 이동할 거리</td></tr>
+            <tr><th scope="row">겹치는 길이</th><td>1,536</td><td>프레임의 75%</td><td>프레임 경계 사이의 급격한 누락을 줄임</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>프레임 길이 2,048보다 이동 간격 512가 작기 때문에 이웃한 프레임은 많이 겹칩니다. 첫 프레임이 샘플 0부터 2,047까지 본다면 다음 프레임은 512부터 2,559까지 봅니다. 같은 샘플 일부가 여러 프레임에 포함되는 것은 오류가 아니라 시간 변화가 부드럽게 이어지도록 하는 분석 규칙입니다.</p>
+
+      <h3 id="rms">RMS는 한 프레임의 진폭 크기를 하나로 요약한다</h3>
+
+      <p><strong>RMS</strong>는 프레임 안의 각 샘플을 제곱하고 평균을 낸 뒤 제곱근을 구한 값입니다. 제곱하는 과정에서 양수와 음수가 서로 상쇄되지 않고 모두 크기로 반영됩니다. 학생이 공식을 암기하는 것이 오늘의 목표는 아닙니다. <strong>2,048개의 진폭을 그 프레임의 대표 크기 하나로 바꾼다</strong>는 흐름을 이해하면 됩니다.</p>
+
+      <div class="change-sequence" aria-label="RMS 계산의 네 단계">
+        <div><span>01</span><strong>프레임 선택</strong><small>샘플 2,048개를 묶습니다.</small></div>
+        <div><span>02</span><strong>각 값 제곱</strong><small>부호가 아닌 크기를 반영합니다.</small></div>
+        <div><span>03</span><strong>평균 계산</strong><small>프레임 전체를 하나로 요약합니다.</small></div>
+        <div><span>04</span><strong>제곱근 계산</strong><small>원래 진폭과 비교 가능한 척도로 돌아옵니다.</small></div>
+      </div>
+
+      <p>오늘 공통 음원에서는 펄스가 뒤로 갈수록 커지므로 RMS 곡선에도 여섯 개의 봉우리가 나타나고 마지막 봉우리가 가장 큽니다. 다만 RMS는 디지털 배열 내부의 상대적인 크기입니다. 보정된 장비로 실제 공간에서 측정한 <strong>절대 음압 레벨 dB SPL</strong>과 같지 않으며, 청자가 느끼는 음량을 완전히 대신하지도 않습니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 샘플 하나와 RMS 값 하나는 같은 범위를 요약하는가?</summary>
+        <div class="details-motion-content"><p>아닙니다. 샘플 하나는 특정 순간의 측정값 하나입니다. RMS 값 하나는 오늘 기준으로 약 0.093초에 걸친 2,048개 샘플을 요약합니다. 따라서 RMS 시간축의 점 수는 원본 샘플 수보다 훨씬 적습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: <code>hop_length</code>를 512에서 2,048로 늘리면 무엇이 달라지는가?</summary>
+        <div class="details-motion-content"><p>다음 프레임으로 더 멀리 이동하므로 프레임 수가 줄고 시간 변화가 더 성기게 기록됩니다. 프레임이 거의 겹치지 않아 계산량은 줄지만 짧은 변화가 프레임 경계 사이에서 덜 부드럽게 보일 수 있습니다.</p></div>
+      </details>
+
+      <h2 id="frequency-stft">34-43분 · 주파수와 STFT를 시간-주파수 화면으로 읽기</h2>
+
+      <p><strong>주파수 frequency</strong>는 진동이 1초에 몇 번 반복되는지를 나타내며 단위는 Hz입니다. 440Hz는 한 주기가 1초에 440번 반복된다는 뜻입니다. 일반적으로 반복이 빠를수록 높은 음으로 지각되는 경향이 있지만, 사람이 느끼는 <strong>음높이 pitch</strong>는 배음, 음색, 강도와 청취 조건의 영향을 받으므로 주파수 숫자 하나와 완전히 같은 개념은 아닙니다.</p>
+
+      <p>전체 6초에 어떤 주파수가 있었는지만 계산하면 언제 그 성분이 나타났는지 사라집니다. 그래서 신호를 짧은 프레임으로 나눈 뒤 프레임마다 주파수 성분을 계산합니다. 이 과정을 <strong>STFT, 짧은 시간 푸리에 변환</strong>이라고 합니다. 오늘은 복잡한 수식을 풀지 않고 입력과 출력의 모양으로 이해합니다.</p>
+
+      <div class="pipeline" aria-label="STFT가 시간 주파수 행렬을 만드는 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">INPUT</span><strong>시간 샘플 배열</strong><p>0초부터 6초까지 진폭이 순서대로 놓입니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">STFT</span><strong>겹치는 프레임 분석</strong><p>각 프레임에 포함된 주파수 성분을 계산합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">MATRIX</span><strong>시간 × 주파수 표</strong><p>열은 시간 프레임, 행은 주파수 구간이 됩니다.</p></div>
+      </div>
+
+      <h3 id="spectrogram">스펙트로그램의 세 축</h3>
+
+      <p><strong>스펙트로그램 spectrogram</strong>은 STFT 결과의 크기를 색으로 표현한 그림입니다. 가로축은 시간, 세로축은 주파수, 색상은 해당 시간과 주파수에서의 상대적인 진폭 크기입니다. 화면은 평면이지만 색상 막대까지 포함하면 세 개의 수치를 동시에 읽습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>스펙트로그램을 해석하는 세 질문</caption>
+          <thead><tr><th scope="col">화면 요소</th><th scope="col">단위</th><th scope="col">읽는 질문</th><th scope="col">오늘의 고정 범위</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">가로 위치</th><td>초 second</td><td>언제 나타났는가?</td><td>0-6초</td></tr>
+            <tr><th scope="row">세로 위치</th><td>Hz</td><td>어느 주파수 대역인가?</td><td>화면에는 0-4,000Hz 표시</td></tr>
+            <tr><th scope="row">색상</th><td>상대 dB</td><td>같은 기준에서 얼마나 강한가?</td><td>-80dB부터 0dB</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>오늘은 가장 큰 스펙트럼 진폭을 기준인 <strong>0dB</strong>로 둡니다. 그보다 작은 값은 음수 dB로 표시하고 -80dB보다 작은 값은 같은 하한 색으로 모읍니다. 따라서 이 색상은 실제 공간의 절대 소음 수준이 아니라 <strong>파일 내부 최댓값에 대한 상대 척도</strong>입니다. 0dB라고 해서 침묵이라는 뜻도, 위험한 소리라는 뜻도 아닙니다.</p>
+
+      <div class="callout callout-info">
+        <p class="callout-title">왜 세로축을 0-4,000Hz까지만 보여 주는가?</p>
+        <p>22,050Hz로 기록한 신호는 이론상 약 11,025Hz까지의 범위를 다룰 수 있습니다. 그러나 공통 음원의 주된 성분은 약 440Hz에 있으므로 포스터에서는 낮은 주파수 구조가 잘 보이도록 0-4,000Hz만 확대합니다. 표시 범위를 줄였다고 원본 WAV의 높은 주파수 샘플을 삭제한 것은 아닙니다. 다른 소리를 비교할 때는 같은 표시 범위를 사용해야 합니다.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">밝은 색은 정체나 감정을 알려 주는 이름표가 아니다</p>
+        <p>밝은 영역은 해당 시간과 주파수에서 상대 진폭이 크다는 뜻입니다. 밝은 선 하나만 보고 “사람 목소리다”, “슬픈 소리다”, “위험한 기계다”라고 단정할 수 없습니다. 출처 정보, 실제 재생, 녹음 조건과 다른 특징을 함께 확인해야 합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 스펙트로그램의 0dB와 보정된 소음계의 0dB SPL은 같은 기준인가?</summary>
+        <div class="details-motion-content"><p>같지 않습니다. 오늘의 0dB는 파일 안에서 가장 큰 스펙트럼 진폭을 기준으로 정한 상대값입니다. dB SPL은 물리적인 기준 음압과 보정된 측정 절차를 사용하는 절대 척도입니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">확인: 상승하는 음은 스펙트로그램에서 어떤 방향으로 보일 가능성이 큰가?</summary>
+        <div class="details-motion-content"><p>시간이 흐르며 주파수가 높아지므로 밝은 띠가 왼쪽 아래에서 오른쪽 위로 올라가는 모양이 예상됩니다. 실제 모양은 음의 배음과 분석 설정에 따라 여러 띠로 보일 수 있습니다.</p></div>
+      </details>
+
+      <h2 id="responsibility">43-48분 · 소리를 분석하기 전에 권리와 사생활 확인하기</h2>
+
+      <p>소리는 데이터이기 전에 누군가의 저작물이나 사적인 기록일 수 있습니다. 인터넷에서 재생할 수 있다는 사실은 분석 결과를 복제·배포할 권한이 있다는 뜻이 아닙니다. 특히 목소리는 이름이 없어도 화자를 알아볼 수 있고 대화 내용, 위치, 건강 상태와 주변 사람의 정보까지 포함할 수 있습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>수업에 올리기 전 소리 자료 점검</caption>
+          <thead><tr><th scope="col">점검 항목</th><th scope="col">확인할 질문</th><th scope="col">문제가 있을 때의 행동</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">저작권</th><td>음악·영화·방송·게임 소리의 분석과 제출이 허용되는가?</td><td>허가를 확인할 수 없으면 수업 창작 음원으로 전환</td></tr>
+            <tr><th scope="row">음성 동의</th><td>녹음에 등장하는 모든 사람이 분석과 업로드에 동의했는가?</td><td>동의가 없으면 업로드하지 않고 대체 음원 사용</td></tr>
+            <tr><th scope="row">민감한 내용</th><td>이름·학교·주소·위치·대화·건강 정보가 들리는가?</td><td>부분 삭제만 믿지 말고 안전한 자료로 교체</td></tr>
+            <tr><th scope="row">외부 서비스</th><td>Colab이나 공유 링크에 업로드해도 되는 자료인가?</td><td>이용 조건과 공개 범위를 먼저 확인</td></tr>
+            <tr><th scope="row">결과 공개</th><td>포스터와 노트북에 원본을 재생하거나 복원할 정보가 남는가?</td><td>필요 최소한의 결과만 제출하고 원본 배포 금지</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">사운드 데이터 카드에 남길 일곱 항목</p>
+        <ol>
+          <li>음원의 제목 또는 식별 이름</li>
+          <li>제작자, 녹음자 또는 제공자</li>
+          <li>직접 생성, 직접 녹음, 공개 자료 등 자료의 성격</li>
+          <li>분석·수정·수업 제출이 허용되는 이용 조건</li>
+          <li>녹음일 또는 생성 방식과 필요한 경우 수집 시점</li>
+          <li>샘플링 레이트, 채널, 길이와 원본 보존 여부</li>
+          <li>프레임 길이, 이동 간격, 표시 범위와 상대 dB 기준</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">판단: 친구가 메신저로 보낸 음성 메시지에서 이름만 잘라내면 과제에 사용해도 되는가?</summary>
+        <div class="details-motion-content"><p>그렇지 않습니다. 목소리 자체와 대화 내용으로 사람을 알아볼 수 있으며, 개인적인 맥락과 주변 소리가 남을 수 있습니다. 분석·업로드·제출에 대한 당사자의 명확한 동의가 없다면 사용하지 않고 수업 제공 음원으로 전환합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">판단: 스트리밍 사이트에서 무료로 들을 수 있는 음악이면 WAV로 저장해 분석해도 되는가?</summary>
+        <div class="details-motion-content"><p>무료 재생과 다운로드·변환·분석 결과 공개 권한은 서로 다릅니다. 해당 서비스와 저작물의 이용 조건을 확인해야 하며, 확실하지 않으면 수업 창작 음원을 사용합니다.</p></div>
+      </details>
+
+      <h2 id="retrieval">48-50분 · 보지 않고 두 가지 차이를 꺼내기</h2>
+
+      <p>노트나 위 표를 덮고 다음 두 문장을 완성합니다. 정의를 그대로 외우기보다 <strong>한 값이 대표하는 시간 범위</strong>와 <strong>각 화면이 답하는 질문</strong>을 넣습니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 회수 · 2분</span>
+        <h3>두 문장으로 오늘의 경계 세우기</h3>
+        <ol>
+          <li>샘플 하나는 ________이고, 프레임 하나는 ________이다.</li>
+          <li>파형은 주로 ________을 보여 주고, 스펙트로그램은 주로 ________을 보여 준다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">예시 답안과 스스로 확인할 기준</summary>
+        <div class="details-motion-content"><p>“샘플 하나는 한 시점의 진폭 측정값이고, 프레임 하나는 연속된 2,048샘플을 분석하기 위해 묶은 약 0.093초 구간이다. 파형은 시간에 따른 진폭의 전체 윤곽을 보여 주고, 스펙트로그램은 시간마다 어떤 주파수 대역이 상대적으로 강한지 보여 준다.” 표현은 달라도 <strong>한 시점과 짧은 구간</strong>, <strong>진폭 변화와 시간-주파수 분포</strong>가 구분되어 있으면 됩니다.</p></div>
+      </details>
+
+      <h2 id="extension">50-60분 · 선택 확장: 듣기 전에 화면을 예측하고 확인하기</h2>
+
+      <p>세 음원은 길이, 샘플링 레이트, 채널, 샘플 수가 모두 같습니다. 달라지는 것은 시간에 따른 진폭과 주파수의 구조입니다. 먼저 제목만 보고 파형과 스펙트로그램의 모양을 예측한 뒤 재생합니다. 정답을 빨리 맞히는 활동이 아니라 <strong>소리의 특징을 시각적 근거로 번역</strong>하는 활동입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>세 음원의 예측 기준</caption>
+          <thead><tr><th scope="col">음원</th><th scope="col">파형에서 예상할 구조</th><th scope="col">스펙트로그램에서 예상할 구조</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">규칙적인 펄스</th><td>간격이 비슷한 여섯 덩어리, 뒤로 갈수록 큰 진폭</td><td>각 펄스 시간에 약 440Hz의 짧은 수평 띠</td></tr>
+            <tr><th scope="row">상승하는 음</th><td>6초 동안 거의 이어지는 진동 윤곽</td><td>왼쪽 아래에서 오른쪽 위로 올라가는 연속 띠</td></tr>
+            <tr><th scope="row">저음·고음 교차 리듬</th><td>0.5초 단위로 이어지는 비슷한 크기의 구간</td><td>약 220Hz와 880Hz 높이를 번갈아 오가는 띠</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>음원 A · 규칙적인 펄스</h3>
+      <audio controls preload="metadata" style="width: 100%" aria-label="규칙적인 펄스 확장 음원 재생"><source src="assets/week-13-regular-pulses.wav" type="audio/wav">WAV 재생을 지원하지 않는 브라우저입니다.</audio>
+
+      <h3>음원 B · 상승하는 음</h3>
+      <audio controls preload="metadata" style="width: 100%" aria-label="상승하는 음 확장 음원 재생"><source src="assets/week-13-rising-tone.wav" type="audio/wav">WAV 재생을 지원하지 않는 브라우저입니다.</audio>
+
+      <h3>음원 C · 저음·고음 교차 리듬</h3>
+      <audio controls preload="metadata" style="width: 100%" aria-label="저음과 고음이 교차하는 리듬 확장 음원 재생"><source src="assets/week-13-alternating-bands.wav" type="audio/wav">WAV 재생을 지원하지 않는 브라우저입니다.</audio>
+
+      <div class="worksheet">
+        <span class="worksheet-label">선택 확장 · 5분</span>
+        <h3>예측 한 문장과 확인 한 문장 쓰기</h3>
+        <p>한 음원을 고릅니다. 재생 전에 예상한 시각적 패턴을 한 문장으로 쓰고, 재생한 뒤 예상에서 유지하거나 수정할 점을 한 문장으로 씁니다. “신기하다” 대신 시간 간격, 진폭, Hz 방향 가운데 하나를 근거로 사용합니다.</p>
+      </div>
+
+      <h2 id="summary">핵심 정리</h2>
+
+      <ol>
+        <li>샘플은 정해진 순간의 진폭 측정값이고, 샘플링 레이트는 1초에 기록하는 샘플 수입니다.</li>
+        <li>재생 시간은 전체 샘플 수를 샘플링 레이트로 나누어 계산합니다.</li>
+        <li>모노는 한 채널, 스테레오는 보통 왼쪽과 오른쪽 두 채널을 별도로 기록합니다.</li>
+        <li>파형의 가로축은 시간, 세로축은 진폭이며 양수와 음수는 진동 방향입니다.</li>
+        <li>최대 절대 진폭은 한 시점의 봉우리를 찾지만 체감 음량 전체를 대표하지 않습니다.</li>
+        <li>프레임은 여러 샘플을 묶은 짧은 분석 창이며, 이동 간격이 프레임 길이보다 작으면 이웃한 프레임이 겹칩니다.</li>
+        <li>RMS는 프레임의 진폭 크기를 하나로 요약하지만 절대 음압 레벨과 같지 않습니다.</li>
+        <li>스펙트로그램은 시간, 주파수, 상대 dB를 함께 보여 주며 소리의 정체나 감정을 자동으로 증명하지 않습니다.</li>
+        <li>소리 자료를 사용하기 전에 저작권, 음성 동의, 개인정보, 업로드 범위와 출처 기록을 확인합니다.</li>
+      </ol>
+
+      <h2 id="references">공식 자료와 추가 읽기</h2>
+      <ul class="reference-list">
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.load.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: librosa.load</strong></a><small>오디오 파일을 부동소수점 시계열과 샘플링 레이트로 불러오는 함수와 채널·리샘플링 설정</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.display.waveshow.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: waveshow</strong></a><small>시간축을 가진 파형을 효율적으로 표시하는 함수의 동작</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.feature.rms.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: RMS</strong></a><small>오디오 시계열 또는 스펙트로그램에서 프레임별 RMS를 계산하는 함수</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.stft.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: STFT</strong></a><small>시간 신호를 복소수 시간-주파수 행렬로 바꾸는 함수와 프레임 설정</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.amplitude_to_db.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: amplitude_to_db</strong></a><small>진폭 스펙트로그램을 선택한 기준에 대한 상대 dB 척도로 변환하는 함수</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.display.specshow.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: specshow</strong></a><small>시간축·Hz축을 가진 스펙트로그램을 표시하는 함수와 축 설정</small></li>
+        <li><a href="https://gongu.copyright.or.kr/gongu/main/contents.do?menuNo=200093" target="_blank" rel="noopener noreferrer"><strong>한국저작권위원회 공유마당: 자유이용허락표시 저작물</strong></a><small>저작물명·저작자·출처·이용 조건과 변경 내용을 확인하고 표시하는 방법</small></li>
+        <li><a href="https://www.pipc.go.kr/np/default/page.do?mCode=D040010000" target="_blank" rel="noopener noreferrer"><strong>개인정보보호위원회: 가명정보 안내</strong></a><small>이름을 제거하는 것만으로 식별 위험이 모두 사라지지 않는 이유를 확장해 읽을 자료</small></li>
+      </ul>
+    </article>
+
+    <details class="toc week-13-toc" open>
+      <summary class="toc-title">문서 구조</summary>
+      <nav aria-label="문서 구조">
+      <ol>
+        <li class="toc-level-2"><a href="#text-to-sound">12주차 연결</a></li>
+        <li class="toc-level-2"><a href="#samples">샘플과 시간</a></li>
+        <li class="toc-level-3"><a href="#channels">모노와 스테레오</a></li>
+        <li class="toc-level-2"><a href="#waveform">파형 읽기</a></li>
+        <li class="toc-level-3"><a href="#positive-negative">양수와 음수</a></li>
+        <li class="toc-level-2"><a href="#frames-rms">프레임과 RMS</a></li>
+        <li class="toc-level-3"><a href="#rms">RMS 요약</a></li>
+        <li class="toc-level-2"><a href="#frequency-stft">주파수와 STFT</a></li>
+        <li class="toc-level-3"><a href="#spectrogram">스펙트로그램</a></li>
+        <li class="toc-level-2"><a href="#responsibility">책임 있는 이용</a></li>
+        <li class="toc-level-2"><a href="#retrieval">개별 회수</a></li>
+        <li class="toc-level-2"><a href="#extension">예측 확장</a></li>
+        <li class="toc-level-2"><a href="#summary">핵심 정리</a></li>
+        <li class="toc-level-2"><a href="#references">공식 자료</a></li>
+      </ol>
+      </nav>
+    </details>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 13 · Period 01</p>
+  <script src="/assets/week-13-ui.js" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

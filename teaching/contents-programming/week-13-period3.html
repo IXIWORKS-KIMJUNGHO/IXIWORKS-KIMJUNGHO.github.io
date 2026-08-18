@@ -1,0 +1,776 @@
+<!doctype html>
+<html lang="ko" class="week-13-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>13주차 3교시: 사운드 패턴 포스터와 기말 프로젝트 씨앗 미션 | Contents Programming Practice</title>
+  <meta name="description" content="수업 창작 WAV 한 편을 파형·RMS·상대 스펙트로그램으로 분석해 1600×2200 포스터와 기말 프로젝트 씨앗 카드 HTML을 완성하고, 19개 자동 검사 PASS와 세 파일 제출로 종료하는 목표 달성형 실습 교안입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-13-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="13주차 3교시: 사운드 패턴 포스터와 기말 프로젝트 씨앗 미션 | Contents Programming Practice">
+  <meta property="og:description" content="소리 분석 포스터와 14주차 프로젝트 씨앗 카드를 완성하는 PASS형 개인 실습입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-13-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png">
+  <meta property="og:image:alt" content="파형, 프레임 RMS, 상대 스펙트로그램과 근거 문장을 한 장에 구성한 사운드 패턴 포스터 예시">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="13주차 3교시: 사운드 패턴 포스터 미션">
+  <meta name="twitter:description" content="19개 자동 검사와 세 파일 제출을 종료 조건으로 삼는 목표 달성형 Colab 실습입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-13-sound-pattern-poster-example.png">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming week-13-document">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-13-period2.html" rel="prev" aria-label="이전 자료: 13주차 2교시: librosa로 파형·RMS·스펙트로그램 그리기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-14-period1.html" rel="next" aria-label="다음 자료: 14주차 1교시: 아이디어를 제작 가능한 프로젝트 문장으로 바꾸기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Goal-based Lab / Colab / librosa / Final Project Bridge</p>
+        <h1>13주차 3교시: 사운드 패턴 포스터와 기말 프로젝트 씨앗 미션</h1>
+        <p class="lead">수업 창작 WAV 한 편을 정확한 수치로 읽어 포스터로 완성하고, 그 경험을 14주차 기말 프로젝트의 첫 제작 행동으로 연결합니다. 진도보다 완성 조건이 수업의 종료를 결정합니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 13</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">50 MIN</span>
+          <span class="hero-chip">INDIVIDUAL</span>
+          <span class="hero-chip">PASS &amp; LEAVE</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="미션 정보">
+        <p class="doc-card-title">실습 정보</p>
+        <div class="meta-row"><span class="meta-key">입력</span><span class="meta-value">6초 수업 WAV 3편 중 1편</span></div>
+        <div class="meta-row"><span class="meta-key">편집</span><span class="meta-value">STEP 1과 STEP 6만</span></div>
+        <div class="meta-row"><span class="meta-key">분석</span><span class="meta-value">파형 · RMS · STFT</span></div>
+        <div class="meta-row"><span class="meta-key">출력</span><span class="meta-value">PNG + HTML + IPYNB</span></div>
+        <div class="meta-row"><span class="meta-key">자동 검사</span><span class="meta-value">19개 조건</span></div>
+        <div class="meta-row"><span class="meta-key">종료</span><span class="meta-value">PASS + 세 파일 제출</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">완성 기준이 분명한 50분 개인 제작 실습</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>수업 창작 WAV 한 편을 선택하고 원본·출처·이용 조건을 바꾸지 않은 채 입력 규격을 확인할 수 있습니다.</li>
+          <li>파형에서 최대 절대 진폭 시점, RMS 곡선에서 가장 큰 프레임의 시간, 스펙트로그램에서 대표 주파수 빈을 찾을 수 있습니다.</li>
+          <li>수치 근거 세 문장과 해석의 한계를 포함한 1600 × 2200 사운드 패턴 포스터를 저장할 수 있습니다.</li>
+          <li>기말 프로젝트의 질문·입력·권한·규칙·출력·14주차 첫 제작 행동을 한 장의 HTML 카드로 구체화할 수 있습니다.</li>
+          <li>새 런타임 전체 실행과 19개 자동 검사로 결과의 재현성을 확인하고 세 파일을 스스로 제출할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">선행 지식은 어디까지 필요한가?</p>
+        <p>코드를 처음부터 작성할 필요는 없습니다. 1교시에서 샘플·프레임·파형·RMS·스펙트로그램의 뜻을 배웠고, 2교시에서 완결 코드를 읽었습니다. 이번 시간에는 준비된 노트북의 두 셀만 수정합니다. 오류가 나면 새로운 코드를 추측하지 말고 자동 검사가 알려 주는 조건 이름과 해당 STEP을 연결합니다.</p>
+      </div>
+
+      <section class="goal-contract" aria-labelledby="goal-contract-title">
+        <div class="goal-contract-copy">
+          <h2 id="goal-contract-title">오늘의 계약: PASS와 세 파일 제출이 끝을 결정한다</h2>
+          <p><strong>FINAL CHECK의 19개 조건이 모두 PASS</strong>이고, 노트북·포스터·프로젝트 씨앗 카드의 업로드가 확인되면 수업 종료 시각을 기다리지 않고 즉시 귀가할 수 있습니다.</p>
+        </div>
+        <p class="goal-contract-note">빨리 끝낸 시간은 점수가 아닙니다. 정확한 입력, 재현 가능한 실행, 근거가 있는 문장, 열리는 제출 파일이 종료 조건입니다. 선택 확장은 필수 조건과 추가 점수에 포함하지 않습니다.</p>
+      </section>
+
+      <ol class="mission-route" aria-label="미션 진행 경로">
+        <li><span>01</span><strong>사본 만들기</strong><small>파일명·학번·이름</small></li>
+        <li><span>02</span><strong>음원 선택</strong><small>세 WAV 중 한 편</small></li>
+        <li><span>03</span><strong>입력 검증</strong><small>22,050Hz·6초</small></li>
+        <li><span>04</span><strong>파형 읽기</strong><small>최대 진폭 시점</small></li>
+        <li><span>05</span><strong>RMS 읽기</strong><small>최대 프레임 시간</small></li>
+        <li><span>06</span><strong>주파수 읽기</strong><small>상대 -80~0dB</small></li>
+        <li><span>07</span><strong>두 결과 저장</strong><small>포스터 + 씨앗 카드</small></li>
+        <li><span>08</span><strong>새 런타임 검사</strong><small>19 PASS</small></li>
+        <li><span>09</span><strong>세 파일 제출</strong><small>확인 후 귀가</small></li>
+      </ol>
+
+      <section class="exit-gate" aria-labelledby="exit-gate-title">
+        <span class="exit-pass" aria-hidden="true">PASS</span>
+        <div class="exit-gate-copy">
+          <p class="exit-gate-label">종료 조건</p>
+          <h2 id="exit-gate-title">완료 문구만 보여 주는 것으로는 부족합니다</h2>
+          <p><code>🎉 WEEK 13 SOUND POSTER MISSION COMPLETE</code>가 보이고, 실제로 열리는 1600 × 2200 PNG와 여섯 필드가 채워진 HTML, 실행 결과가 남은 IPYNB가 제출함에 모두 있어야 합니다. 세 조건을 교수자가 확인하면 귀가합니다.</p>
+        </div>
+      </section>
+
+      <h2 id="outputs">제출 결과물 세 가지</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>파일별 역할과 정확한 이름</caption>
+          <thead><tr><th scope="col">파일</th><th scope="col">반드시 담을 내용</th><th scope="col">파일명</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">실행 노트북</th><td>선택한 음원, 입력 검증, 세 분석, 자신의 문장, 저장 결과와 19개 PASS 출력</td><td><code>week13_학번_이름.ipynb</code></td></tr>
+            <tr><th scope="row">사운드 포스터</th><td>1600 × 2200픽셀, 파형·RMS·스펙트로그램, 질문, 수치 관찰 세 문장, 한계, 출처와 분석 규칙</td><td><code>week13_학번_이름_sound_poster.png</code></td></tr>
+            <tr><th scope="row">프로젝트 씨앗 카드</th><td>매체, 프로젝트 질문, 입력 자료, 출처와 이용 권한, 변환 규칙, 출력 형식, 14주차 첫 제작 행동</td><td><code>week13_학번_이름_project_seed.html</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-13-sound-poster-mission.ipynb" download>
+          <span>시작 노트북</span>
+          <strong>Week 13 미션 노트북 내려받기</strong>
+          <small>세 WAV, 전체 분석 코드, PNG·HTML 저장과 19개 자동 검사를 포함합니다.</small>
+        </a>
+        <a class="inline-resource-card" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-13-sound-poster-mission.ipynb" target="_blank" rel="noopener noreferrer">
+          <span>Colab에서 열기</span>
+          <strong>Colab에서 미션 노트북 열기 ↗</strong>
+          <small>공개 저장소의 노트북을 브라우저에서 바로 엽니다.</small>
+        </a>
+        <a class="inline-resource-card" href="assets/week-13-sound-pattern-poster-example.png" target="_blank" rel="noopener noreferrer">
+          <span>포스터 예시</span>
+          <strong>사운드 패턴 포스터 크게 보기 ↗</strong>
+          <small>세 그래프, 수치 문장, 한계와 출처의 정보 위계를 확인합니다.</small>
+        </a>
+        <a class="inline-resource-card" href="assets/week-13-project-seed-example.html" target="_blank" rel="noopener noreferrer">
+          <span>씨앗 카드 예시</span>
+          <strong>기말 프로젝트 씨앗 카드 예시 ↗</strong>
+          <small>14주차에 바로 행동할 수 있을 정도로 구체적인 여섯 필드를 확인합니다.</small>
+        </a>
+        <a class="inline-resource-card" href="week-13-period2.html">
+          <span>코드 복습</span>
+          <strong>2교시 전체 코드 설명 다시 보기</strong>
+          <small><code>load()</code>, 파형, <code>feature.rms()</code>, STFT, 포스터 저장 복습</small>
+        </a>
+      </div>
+
+      <figure class="lesson-figure">
+        <a href="assets/week-13-sound-pattern-poster-example.png" target="_blank" rel="noopener noreferrer">
+          <img src="assets/week-13-sound-pattern-poster-example.png" width="1600" height="2200" loading="lazy" decoding="async" alt="질문형 제목 아래 파형, RMS 곡선, 상대 스펙트로그램과 세 수치 관찰, 분석 한계, 출처를 배치한 1600 곱하기 2200 사운드 패턴 포스터 예시">
+        </a>
+        <figcaption>예시는 구조를 보여 줍니다. 학생은 선택한 음원의 실제 수치와 자신의 문장을 사용해야 하며, 예시 문장을 그대로 제출하면 자동 검사를 통과하지 못합니다.</figcaption>
+      </figure>
+
+      <h2 id="audio-choice">시작 전에 고를 수업 음원</h2>
+
+      <p>노트북에는 아래 세 파일이 정확한 바이트로 포함되어 있습니다. 별도 업로드 없이 음원 ID만 선택하면 됩니다. 세 음원의 난이도와 평가 조건은 같습니다. 먼저 재생해 보고 자신이 시간 구조를 설명하고 싶은 한 편을 고릅니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>세 음원의 ID와 자동 검사 기준값</caption>
+          <thead><tr><th scope="col">음원</th><th scope="col">ID</th><th scope="col">들리는 구조</th><th scope="col">최대 진폭 시점</th><th scope="col">최대 RMS 시점</th><th scope="col">대표 빈</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><a href="assets/week-13-regular-pulses.wav">규칙적인 펄스 WAV</a></th><td><code>regular_pulses</code></td><td>짧은 펄스 여섯 개</td><td>5.049초</td><td>5.039초</td><td>약 441Hz</td></tr>
+            <tr><th scope="row"><a href="assets/week-13-rising-tone.wav">상승하는 음 WAV</a></th><td><code>rising_tone</code></td><td>저음에서 고음 방향으로 상승</td><td>0.135초</td><td>0.418초</td><td>약 1,174Hz</td></tr>
+            <tr><th scope="row"><a href="assets/week-13-alternating-bands.wav">교차 리듬 WAV</a></th><td><code>alternating_bands</code></td><td>저음·고음 구간이 교차</td><td>0.040초</td><td>5.410초</td><td>약 883Hz</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">기준값은 정답 문장이 아니라 오류 확인표입니다</p>
+        <p>표의 수치는 선택한 음원을 올바르게 읽었는지 확인하는 기준입니다. “441Hz이므로 규칙적이다”처럼 하나의 값만으로 전체 소리를 단정하지 않습니다. 파형의 위치, RMS의 시간 변화, 스펙트로그램의 밝은 띠를 함께 보고 자신의 관찰 문장을 씁니다.</p>
+      </div>
+
+      <h2 id="completion-criteria">귀가 조건: 열아홉 가지 확인</h2>
+
+      <div class="mission-progress" data-mission-progress data-complete="false">
+        <p><span>자가 점검</span><strong aria-live="polite">완료 0/19</strong></p>
+        <button type="button" data-mission-reset aria-controls="week13-completion-criteria">체크 초기화</button>
+      </div>
+      <p class="mission-progress-note">아래 체크는 현재 위치를 기억하는 학생용 도구입니다. 최종 귀가 판정은 새 런타임에서 실행한 노트북의 19개 PASS와 세 파일 제출로 결정됩니다.</p>
+
+      <ol class="completion-criteria" id="week13-completion-criteria" data-mission-checklist>
+        <li><input class="completion-check" id="week13-check-01" type="checkbox"><label for="week13-check-01"><strong>실행 순서</strong><span>새 런타임에서 STEP 0부터 FINAL CHECK까지 한 번씩 순서대로 실행했습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-02" type="checkbox"><label for="week13-check-02"><strong>제출 정보</strong><span>예시 학번과 이름을 자신의 정보로 바꾸었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-03" type="checkbox"><label for="week13-check-03"><strong>음원 선택</strong><span>세 ID 중 하나를 정확히 입력하고 선택한 제목을 확인했습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-04" type="checkbox"><label for="week13-check-04"><strong>원본 보존</strong><span>WAV 바이트와 제목·출처·이용 조건·생성 방식이 바뀌지 않았습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-05" type="checkbox"><label for="week13-check-05"><strong>입력 규격</strong><span>22,050Hz, 모노, PCM16, 132,300샘플, 6초를 확인했습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-06" type="checkbox"><label for="week13-check-06"><strong>파형 데이터</strong><span>0~6초 파형과 선택한 음원의 정확한 최대 절대 진폭 시점이 있습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-07" type="checkbox"><label for="week13-check-07"><strong>RMS 데이터</strong><span>2,048샘플 프레임과 512샘플 이동 규칙으로 259개 RMS 값을 만들었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-08" type="checkbox"><label for="week13-check-08"><strong>STFT 데이터</strong><span>1,025 × 259 행렬과 -80~0dB 상대 스펙트로그램을 만들었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-09" type="checkbox"><label for="week13-check-09"><strong>질문형 제목</strong><span>예시와 다른 20~80자의 질문을 쓰고 물음표를 넣었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-10" type="checkbox"><label for="week13-check-10"><strong>파형 관찰</strong><span>최대 진폭 시점을 소수점 셋째 자리까지 포함한 30~120자 문장을 썼습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-11" type="checkbox"><label for="week13-check-11"><strong>RMS 관찰</strong><span>최대 RMS 시점을 소수점 셋째 자리까지 포함한 30~120자 문장을 썼습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-12" type="checkbox"><label for="week13-check-12"><strong>주파수 관찰</strong><span>대표 주파수 정수와 Hz 단위를 포함한 30~120자 문장을 썼습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-13" type="checkbox"><label for="week13-check-13"><strong>분석 한계</strong><span>정체·감정·음압·상대 척도 중 하나를 포함해 단정할 수 없는 것을 설명했습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-14" type="checkbox"><label for="week13-check-14"><strong>프로젝트 매체</strong><span><code>image</code>, <code>map</code>, <code>text</code>, <code>sound</code>, <code>hybrid</code> 중 하나를 골랐습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-15" type="checkbox"><label for="week13-check-15"><strong>질문과 입력</strong><span>기말 프로젝트 질문과 실제로 준비할 입력 자료를 구체적으로 적었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-16" type="checkbox"><label for="week13-check-16"><strong>권한과 규칙</strong><span>출처·이용 권한과 한 가지 핵심 변환 또는 시각화 규칙을 적었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-17" type="checkbox"><label for="week13-check-17"><strong>출력과 첫 행동</strong><span>최종 파일 형식과 14주차에 코드로 수행할 첫 행동을 적었습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-18" type="checkbox"><label for="week13-check-18"><strong>포스터 파일</strong><span>PNG가 정확히 1600 × 2200픽셀이며 글자와 그래프가 잘리지 않습니다.</span></label></li>
+        <li><input class="completion-check" id="week13-check-19" type="checkbox"><label for="week13-check-19"><strong>씨앗 카드 파일</strong><span>HTML이 브라우저에서 열리고 프로젝트의 여섯 필드가 모두 보입니다.</span></label></li>
+      </ol>
+
+      <div class="callout callout-info">
+        <p class="callout-title">자동 검사가 판정하는 것과 사람이 확인하는 것</p>
+        <p>자동 검사는 실행 순서, 원본 해시, 오디오 규격, 배열·프레임·행렬의 수량, 음원별 기준값, 문장의 길이와 필수 수치, 파일명과 이미지 크기, HTML 필드를 확인합니다. 소리 해석이 충분히 신중한지, 포스터의 글자가 실제로 읽히는지, 파일이 제출함에 업로드되었는지는 학생과 교수자가 마지막에 직접 확인합니다.</p>
+      </div>
+
+      <h2 id="time-guide">50분 진행 기준</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>각 구간이 끝날 때 화면에 보여야 하는 완료 표시</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">수행 단계</th><th scope="col">완료 표시</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0-5분</th><td>Colab 사본 저장, 노트북 파일명 변경, 학번·이름 입력, 음원 한 편 선택</td><td>자신의 파일명과 선택 음원 제목</td></tr>
+            <tr><th scope="row">5-11분</th><td>선택 음원 재생, 원본·출처 확인, 샘플링 레이트·채널·샘플 수·길이 검증</td><td>22,050Hz · 1채널 · 132,300 · 6.000초</td></tr>
+            <tr><th scope="row">11-18분</th><td>전체 파형과 최대 절대 진폭 시점 확인</td><td>0~6초 축과 붉은 위치 표시</td></tr>
+            <tr><th scope="row">18-26분</th><td>259개 프레임 RMS와 가장 큰 프레임의 시간 확인</td><td><code>time_sec</code>·<code>rms</code> 표와 RMS 곡선</td></tr>
+            <tr><th scope="row">26-34분</th><td>STFT, 상대 dB 변환, 고정 척도 스펙트로그램 확인</td><td>시간축·Hz축·-80~0dB 색상 막대</td></tr>
+            <tr><th scope="row">34-40분</th><td>질문·수치 관찰 세 문장·해석 한계를 작성하고 포스터 생성</td><td>자신의 문장이 들어간 1600 × 2200 PNG</td></tr>
+            <tr><th scope="row">40-43분</th><td>기말 프로젝트 매체와 여섯 필드를 작성하고 씨앗 카드 생성</td><td>브라우저에서 열리는 HTML 카드</td></tr>
+            <tr><th scope="row">43-45분</th><td>포스터 PNG와 씨앗 카드 HTML을 저장하고 두 파일을 직접 열어 확인</td><td>잘림 없는 PNG와 여섯 필드가 보이는 HTML</td></tr>
+            <tr><th scope="row">45-48분</th><td>새 런타임에서 전체 실행 후 FINAL CHECK 수행</td><td>19개 PASS와 완료 문구</td></tr>
+            <tr><th scope="row">48-50분</th><td>IPYNB·PNG·HTML 다운로드, 열기, 업로드 확인</td><td>세 파일 제출 확인 후 즉시 귀가</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>시간표는 기다리는 기준이 아니라 현재 위치를 확인하는 기준입니다. 38분에 모든 조건을 충족했다면 바로 새 런타임 검사를 시작할 수 있습니다. 한 단계에서 멈추면 아래의 체크포인트와 실패 조건 표를 사용합니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">교수자 운영 메모 · 시작 설명은 5분을 넘기지 않습니다</summary>
+        <div class="details-motion-content"><p>세 제출 파일, 학생이 수정할 두 셀, 19개 PASS, 제출 확인 후 귀가라는 계약만 화면으로 보여 줍니다. 분석 코드는 2교시에서 다루었으므로 다시 입력하지 않습니다. 학생이 막히면 먼저 오류의 조건 이름을 읽게 하고 STEP 번호를 찾게 합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">교수자 운영 메모 · 빠른 학생과 느린 학생을 어떻게 함께 운영하는가?</summary>
+        <div class="details-motion-content"><p>빠른 학생은 필수 결과를 먼저 제출하고 귀가합니다. 선택 확장은 제출 이후에만 안내합니다. 진행이 느린 학생에게는 음원을 바꾸거나 디자인을 추가하도록 요구하지 않고, 현재 실패 조건 하나만 해결하도록 돕습니다. 같은 목표를 서로 다른 시간에 완성하는 구조입니다.</p></div>
+      </details>
+
+      <h2 id="step-zero">STEP 0 · 노트북 사본과 파일명 준비 <small>0-2분</small></h2>
+
+      <ol>
+        <li>위의 <strong>Colab에서 미션 노트북 열기</strong>를 누릅니다. 열리지 않으면 <code>.ipynb</code>를 내려받아 Colab에 업로드합니다.</li>
+        <li><strong>파일 → Drive에 사본 저장</strong>을 선택합니다. 원본 탭이 아니라 사본 탭에서 작업합니다.</li>
+        <li>상단 파일명을 눌러 <code>week13_학번_이름.ipynb</code>로 바꿉니다.</li>
+        <li>코드 셀은 열 개입니다. 학생이 수정하는 곳은 <code>EDIT</code>가 표시된 STEP 1과 STEP 6뿐입니다.</li>
+        <li>STEP 0을 실행합니다. 필요한 버전의 <code>librosa 0.11.0</code>과 <code>soundfile 0.13.1</code>을 확인하고, 수업 WAV 세 편을 노트북에서 복원합니다.</li>
+      </ol>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 0</span>
+        <p><strong>화면에 보여야 할 것:</strong> <code>regular_pulses</code>, <code>rising_tone</code>, <code>alternating_bands</code>와 “준비 완료: 6초 WAV 3편”이 출력됩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">설치 셀이 오래 걸리면 실패한 것인가요?</summary>
+        <div class="details-motion-content"><p>처음 실행할 때 패키지 버전을 맞추고 한글 글꼴을 준비하므로 다른 셀보다 오래 걸릴 수 있습니다. 셀 왼쪽의 실행 표시가 끝날 때까지 기다립니다. 붉은 오류가 없고 음원 ID 세 개가 출력되면 정상입니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">음원 파일을 따로 업로드해야 하나요?</summary>
+        <div class="details-motion-content"><p>아닙니다. 노트북에 수업 WAV의 압축 데이터와 SHA-256 검증값이 들어 있습니다. STEP 0이 세 파일을 현재 실행 폴더에 복원하고 원본과 같은지 검사합니다. 필수 과제에서는 자신의 음원을 업로드하지 않습니다.</p></div>
+      </details>
+
+      <h2 id="step-one">STEP 1 · 학번·이름과 음원 선택 <small>2-5분</small></h2>
+
+      <p>아래 세 줄만 자신의 정보로 바꿉니다. 따옴표는 값의 시작과 끝을 나타내므로 지우지 않습니다. 학번이 숫자로만 되어 있어도 따옴표 안에 입력합니다.</p>
+
+      <pre><code># STEP 1 · EDIT
+student_id = "20261234"
+student_name = "김민지"
+audio_choice = "regular_pulses"
+
+if audio_choice not in AUDIO_LIBRARY:
+    raise KeyError(
+        "audio_choice는 regular_pulses, rising_tone, alternating_bands 중 하나여야 합니다."
+    )
+
+print("제출자:", student_id, student_name)
+print("선택한 음원:", audio_choice, "·", AUDIO_CHOICES[audio_choice])</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption><code>audio_choice</code>에 입력할 수 있는 값</caption>
+          <thead><tr><th scope="col">듣고 싶은 구조</th><th scope="col">정확한 입력</th><th scope="col">눈으로 예상할 패턴</th></tr></thead>
+          <tbody>
+            <tr><td>끊어지는 여섯 번의 사건</td><td><code>"regular_pulses"</code></td><td>파형·RMS가 여섯 구간에서 커지고 440Hz 부근 띠가 반복됨</td></tr>
+            <tr><td>낮은 음에서 높은 음으로 이동</td><td><code>"rising_tone"</code></td><td>스펙트로그램의 밝은 띠가 오른쪽 위 방향으로 이동함</td></tr>
+            <tr><td>낮은 구간과 높은 구간의 교차</td><td><code>"alternating_bands"</code></td><td>약 220Hz와 880Hz 부근의 밝은 구간이 번갈아 나타남</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 1</span>
+        <p><strong>화면에 보여야 할 것:</strong> 자신의 학번·이름과 선택한 음원의 한국어 제목이 정확히 출력됩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title"><code>KeyError</code>가 나오면 무엇을 확인하나요?</summary>
+        <div class="details-motion-content"><p>ID의 철자, 밑줄, 복수형을 확인합니다. 한국어 제목을 입력하는 칸이 아닙니다. 표에 있는 세 문자열 중 하나를 따옴표 안에 그대로 입력합니다. 앞뒤 공백도 넣지 않습니다.</p></div>
+      </details>
+
+      <h2 id="step-two">STEP 2 · 원본을 보존하며 재생하고 입력 확인 <small>5-11분</small></h2>
+
+      <p>STEP 2는 선택한 파일의 바이트를 <code>original_snapshot</code>에 보존하고, 제목·출처·이용 조건·생성 방식을 <code>source_snapshot</code>에 기록합니다. 이어서 <code>soundfile</code>로 파일 헤더를 읽고 <code>librosa.load(sr=None, mono=True)</code>로 진폭 배열 <code>y</code>와 샘플링 레이트 <code>sr</code>을 만듭니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>입력 출력값을 초보자가 읽는 방법</caption>
+          <thead><tr><th scope="col">출력</th><th scope="col">기대값</th><th scope="col">뜻</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>sr</code></th><td>22,050</td><td>1초에 진폭을 22,050번 기록함</td></tr>
+            <tr><th scope="row"><code>channels</code></th><td>1</td><td>모노 한 채널임</td></tr>
+            <tr><th scope="row"><code>len(y)</code></th><td>132,300</td><td>진폭 샘플이 132,300개임</td></tr>
+            <tr><th scope="row"><code>len(y) / sr</code></th><td>6.000</td><td>132,300 ÷ 22,050 = 6초임</td></tr>
+            <tr><th scope="row"><code>y.shape</code></th><td><code>(132300,)</code></td><td>한 줄로 이어진 1차원 배열임</td></tr>
+            <tr><th scope="row"><code>y.dtype</code></th><td><code>float32</code></td><td>분석용 소수 진폭으로 읽었음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>재생 버튼을 눌러 소리를 한 번 듣습니다. 듣기 경험은 “무엇처럼 들리는가”를 알려 주고, 아래 분석은 “어느 시간에 어떤 수치가 나타나는가”를 알려 줍니다. 둘은 서로 보완하지만 같은 정보는 아닙니다.</p>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 2</span>
+        <p><strong>화면에 보여야 할 것:</strong> 제목, 출처, 이용 조건, 생성 방식과 함께 <code>22,050 Hz / 채널 1 / 132,300 / 6.000초</code>가 출력됩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">재생 버튼이 보여도 소리가 들리지 않으면 분석할 수 없나요?</summary>
+        <div class="details-motion-content"><p>브라우저 탭의 음소거와 컴퓨터 음량을 먼저 확인합니다. 재생이 되지 않아도 배열과 메타데이터가 정상이라면 분석 코드는 실행됩니다. 다만 제출 전에는 가능하면 이어폰으로 한 번 듣고 시각 패턴과 청각 경험을 비교합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title"><code>sr=None</code>과 <code>mono=True</code>를 바꾸어도 되나요?</summary>
+        <div class="details-motion-content"><p>필수 과제에서는 바꾸지 않습니다. <code>sr=None</code>은 파일의 22,050Hz를 유지하고, <code>mono=True</code>는 한 채널 배열을 만듭니다. 자동 검사는 세 음원을 같은 기준으로 비교하기 위해 두 설정과 결과 수량을 함께 확인합니다.</p></div>
+      </details>
+
+      <h2 id="step-three">STEP 3 · 파형과 최대 절대 진폭 시점 <small>11-18분</small></h2>
+
+      <p><code>sample_times = np.arange(len(y)) / sr</code>는 0부터 132,299까지의 샘플 번호를 초 단위 위치로 바꿉니다. 파형의 한 점은 한 시점의 진폭입니다. <code>np.argmax(np.abs(y))</code>는 양수와 음수를 방향과 무관한 크기로 바꾼 뒤 가장 큰 한 샘플의 번호를 찾습니다.</p>
+
+      <ol>
+        <li>그래프 가로축이 0초부터 6초까지인지 확인합니다.</li>
+        <li>세로축이 -1부터 1까지의 정규화 진폭인지 확인합니다.</li>
+        <li>붉은 세로선과 점이 최대 절대 진폭 시점을 표시하는지 확인합니다.</li>
+        <li>출력된 시간을 STEP 6 파형 관찰 문장에 사용할 수 있도록 소수점 셋째 자리까지 적습니다.</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">봉우리 하나를 사람의 음량으로 번역하지 않습니다</p>
+        <p>최대 절대 진폭은 132,300개 중 가장 큰 한 샘플입니다. 사람이 일정 구간을 얼마나 크게 느꼈는지, 녹음 장소가 실제로 얼마나 시끄러웠는지, 소리의 원인이 무엇인지를 이 값 하나로 판단할 수 없습니다. 그래서 다음 단계에서 프레임 RMS를 함께 봅니다.</p>
+      </div>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 3</span>
+        <p><strong>선택별 시간:</strong> 펄스는 <code>5.049초</code>, 상승음은 <code>0.135초</code>, 교차 리듬은 <code>0.040초</code>입니다. 다른 값이면 STEP 1의 선택과 STEP 2의 원본 보존을 확인합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">파형이 너무 촘촘해서 개별 점이 보이지 않습니다</summary>
+        <div class="details-motion-content"><p>6초 안에 132,300개 점이 있으므로 전체 화면에서 개별 샘플이 선처럼 연결되는 것이 정상입니다. 이번 과제는 모든 점을 눈으로 세는 작업이 아닙니다. 배열 계산으로 정확한 봉우리 위치를 찾고, 그래프에서는 전체 시간 구조를 봅니다.</p></div>
+      </details>
+
+      <h2 id="step-four">STEP 4 · 프레임 RMS와 가장 큰 구간 <small>18-26분</small></h2>
+
+      <p>한 샘플의 봉우리보다 짧은 구간 전체의 크기를 보기 위해 2,048샘플을 한 프레임으로 묶습니다. 다음 프레임은 512샘플 뒤에서 시작하므로 서로 겹칩니다. 22,050Hz에서 2,048샘플은 약 0.093초이고, 512샘플 이동은 약 0.023초입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>RMS 셀에서 유지할 고정 규칙</caption>
+          <thead><tr><th scope="col">변수</th><th scope="col">값</th><th scope="col">역할</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>frame_length</code></th><td>2,048</td><td>한 RMS 값을 계산할 때 함께 보는 샘플 수</td></tr>
+            <tr><th scope="row"><code>hop_length</code></th><td>512</td><td>다음 프레임으로 이동하는 샘플 수</td></tr>
+            <tr><th scope="row"><code>center</code></th><td><code>True</code></td><td>프레임의 시간 기준을 입력 중심에 맞춤</td></tr>
+            <tr><th scope="row"><code>len(rms_df)</code></th><td>259</td><td>수업 규칙으로 만들어지는 프레임별 RMS 행 수</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>rms_df</code>의 한 행은 한 프레임입니다. <code>time_sec</code>는 프레임의 초 단위 위치이고, <code>rms</code>는 그 프레임의 대표 크기입니다. 가장 큰 행의 시간을 STEP 6 문장에 사용합니다.</p>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 4</span>
+        <p><strong>선택별 시간:</strong> 펄스는 <code>5.039초</code>, 상승음은 <code>0.418초</code>, 교차 리듬은 <code>5.410초</code>입니다. 표에는 <code>time_sec</code>와 <code>rms</code> 두 열, 총 259행이 있어야 합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">최대 진폭 시점과 최대 RMS 시점이 왜 같지 않나요?</summary>
+        <div class="details-motion-content"><p>최대 진폭은 한 샘플을 고르고, RMS는 약 0.093초 프레임 전체를 요약합니다. 한 점이 아주 커도 주변이 작으면 프레임 RMS는 다른 구간보다 작을 수 있습니다. 서로 다른 단위로 같은 소리를 읽기 때문에 시점이 가까울 수도, 다를 수도 있습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">RMS가 크면 실제 데시벨도 크다고 써도 되나요?</summary>
+        <div class="details-motion-content"><p>쓰지 않습니다. 이번 RMS는 파일 안에서 상대적인 진폭 에너지를 비교합니다. 보정된 마이크와 기준 음압으로 측정한 절대 소음도 dB가 아닙니다. 문장에는 “파일 안에서”, “상대적으로”, “프레임 RMS”와 같은 범위를 밝히는 표현을 사용합니다.</p></div>
+      </details>
+
+      <h2 id="step-five">STEP 5 · STFT 상대 스펙트로그램 <small>26-34분</small></h2>
+
+      <p>STFT는 같은 2,048/512 규칙으로 짧은 구간마다 주파수 성분을 계산합니다. 결과 <code>stft_matrix</code>는 1,025개의 주파수 빈과 259개의 시간 프레임을 가진 복소수 행렬입니다. 절댓값으로 진폭을 얻고, 파일 내부 최댓값을 0dB로 두어 -80~0dB 상대 척도로 바꿉니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>스펙트로그램의 세 방향 읽기</caption>
+          <thead><tr><th scope="col">화면 요소</th><th scope="col">무엇을 뜻하는가</th><th scope="col">이번 과제의 고정 범위</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">가로축</th><td>소리가 진행되는 시간</td><td>0~6초</td></tr>
+            <tr><th scope="row">세로축</th><td>1초당 진동 횟수를 나타내는 주파수</td><td>0~4,000Hz</td></tr>
+            <tr><th scope="row">색</th><td>파일 내부 최댓값에 대한 상대 진폭</td><td>-80~0dB</td></tr>
+            <tr><th scope="row">색상 막대</th><td>색을 수치로 번역하는 범례</td><td>상대 dB 단위 표시</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>노트북은 각 주파수 빈의 진폭을 259개 시간 프레임에 걸쳐 평균 내고 가장 큰 빈을 찾습니다. 이 값은 STEP 6 문장의 수치 근거로 사용하지만, 상승음 전체를 하나의 고정 음높이로 축소하는 정답은 아닙니다. 시간에 따른 띠의 이동도 함께 설명합니다.</p>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 5</span>
+        <p><strong>선택별 대표 빈:</strong> 펄스는 약 <code>441Hz</code>, 상승음은 약 <code>1174Hz</code>, 교차 리듬은 약 <code>883Hz</code>입니다. 화면에는 시간축, Hz축, -80~0dB 색상 막대가 모두 보여야 합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">밝은 색이면 좋은 소리라는 뜻인가요?</summary>
+        <div class="details-motion-content"><p>아닙니다. 밝은 색은 그 시간·주파수 위치의 상대 진폭이 파일 안에서 크다는 뜻입니다. 좋고 나쁨, 감정, 장르, 소리의 원인은 색으로 자동 판정할 수 없습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">왜 세로축을 4,000Hz까지만 보나요?</summary>
+        <div class="details-motion-content"><p>세 수업 음원의 핵심 띠를 충분히 보이게 하면서 서로 같은 축으로 비교하기 위한 시각화 범위입니다. 파일에는 더 높은 주파수 빈도 계산되어 있습니다. 화면 범위를 제한했다는 사실을 분석 규칙에 기록하며, 보이지 않는 성분이 존재하지 않는다고 단정하지 않습니다.</p></div>
+      </details>
+
+      <h2 id="step-six">STEP 6A · 수치가 있는 자신의 문장 쓰기 <small>34-40분</small></h2>
+
+      <p>STEP 6의 첫 다섯 변수를 모두 바꿉니다. 문장의 길이는 단순한 형식이 아니라 포스터 안에서 읽을 수 있는 분량을 유지하기 위한 제한입니다. 수치는 셀 출력에서 복사하고, 그 수치가 무엇을 뜻하는지 한 절을 덧붙입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>포스터 문장별 작성 계약</caption>
+          <thead><tr><th scope="col">변수</th><th scope="col">길이</th><th scope="col">반드시 포함할 것</th><th scope="col">피할 표현</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>poster_question</code></th><td>20~80자</td><td>질문 대상과 물음표</td><td>“소리는 어떤가?”처럼 범위가 없는 질문</td></tr>
+            <tr><th scope="row"><code>waveform_observation</code></th><td>30~120자</td><td>실제 최대 진폭 시점, “진폭”</td><td>한 점을 전체 음량으로 단정</td></tr>
+            <tr><th scope="row"><code>rms_observation</code></th><td>30~120자</td><td>실제 최대 RMS 시점, “RMS”</td><td>절대 소음도라고 표현</td></tr>
+            <tr><th scope="row"><code>frequency_observation</code></th><td>30~120자</td><td>정수 대표 빈, “Hz”</td><td>하나의 빈으로 소리 전체를 확정</td></tr>
+            <tr><th scope="row"><code>limitation_statement</code></th><td>30~120자</td><td>정체·감정·음압·상대 중 한계</td><td>“한계가 있다”로 끝내기</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>규칙적인 펄스를 골랐을 때의 문장 구조는 다음과 같습니다. 문장 자체를 복사하지 말고 출력 수치와 관찰한 모양을 사용해 자신의 표현으로 바꿉니다.</p>
+
+      <pre><code>poster_question = "여섯 번의 펄스는 6초 동안 진폭·에너지·주파수에서 어떤 반복을 만드는가?"
+waveform_observation = "파형의 최대 절대 진폭은 5.049초에 나타났으며, 여섯 번째 펄스 안의 가장 큰 한 샘플 위치를 보여 준다."
+rms_observation = "프레임 RMS는 5.039초에서 가장 컸으며, 여섯 번째 펄스 구간의 상대 에너지가 가장 강하게 계산되었다."
+frequency_observation = "전체 평균 진폭이 가장 큰 주파수 빈은 약 441Hz이며, 스펙트로그램에서 비슷한 높이의 띠가 여섯 번 나뉘어 보인다."
+limitation_statement = "이 그림은 파일 내부의 상대 진폭을 보여 주므로 실제 음압이나 소리의 정체와 감정까지 증명하지 않는다."</code></pre>
+
+      <div class="callout callout-info">
+        <p class="callout-title">좋은 관찰 문장의 두 부분</p>
+        <p><strong>측정:</strong> “최대 RMS는 5.039초이다.” <strong>범위가 있는 해석:</strong> “이 파일 안에서는 마지막 펄스 구간의 프레임 에너지가 가장 크게 계산되었다.” 수치만 적으면 표를 반복하고, 해석만 적으면 근거가 사라집니다. 두 부분을 한 문장 안에서 연결합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">자동 검사가 수치가 없다고 하면 어떻게 쓰나요?</summary>
+        <div class="details-motion-content"><p>파형과 RMS 시간은 출력과 똑같이 소수점 셋째 자리까지 적습니다. 예를 들어 <code>5.049</code>를 <code>약 5초</code>로 바꾸면 검사기가 정확한 근거를 찾지 못합니다. 주파수는 화면에 나온 반올림 정수와 <code>Hz</code>를 붙입니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">예시 문장을 조금만 바꾸어도 되나요?</summary>
+        <div class="details-motion-content"><p>자동 검사는 초기 예시와 완전히 같은 문장을 거부하지만, 단어 몇 개만 바꾸는 것이 학습 목표는 아닙니다. 먼저 자신의 그래프에서 눈에 띄는 시간 구조를 한 가지 고르고, 그 구조를 실제 수치와 연결해 새 문장으로 씁니다.</p></div>
+      </details>
+
+      <h2 id="step-six-project">STEP 6B · 기말 프로젝트 씨앗 카드 쓰기 <small>40-43분</small></h2>
+
+      <p>씨앗 카드는 완성 작품의 거대한 계획서가 아닙니다. 14주차 첫 면담에서 “무엇을 만들까요?”부터 다시 시작하지 않도록 질문과 첫 코드 행동을 고정하는 작은 제작 계약입니다. 아직 준비하지 못한 입력을 이미 가진 것처럼 쓰지 않습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>매체 ID와 14주차에 만들 첫 화면</caption>
+          <thead><tr><th scope="col">ID</th><th scope="col">주요 입력</th><th scope="col">14주차 첫 프로토타입의 최소 상태</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>image</code></th><td>직접 제작하거나 이용이 허용된 이미지</td><td>이미지 한 장을 불러와 한 번 변형한 결과가 보임</td></tr>
+            <tr><th scope="row"><code>map</code></th><td>출처와 좌표 기준이 명확한 위치 표</td><td>정제된 한 행이 지도 또는 좌표 화면에 표시됨</td></tr>
+            <tr><th scope="row"><code>text</code></th><td>직접 작성했거나 분석 권한이 있는 텍스트</td><td>한 문서가 정해진 규칙으로 나뉘고 수치 하나가 출력됨</td></tr>
+            <tr><th scope="row"><code>sound</code></th><td>직접 생성·녹음했거나 이용이 허용된 오디오</td><td>한 파일이 불러와져 파형 또는 특징 하나가 보임</td></tr>
+            <tr><th scope="row"><code>hybrid</code></th><td>둘 이상의 매체</td><td>가장 중요한 입력 하나가 먼저 화면에 나타남</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>모호한 계획을 실행 가능한 씨앗으로 바꾸기</caption>
+          <thead><tr><th scope="col">필드</th><th scope="col">모호한 표현</th><th scope="col">실행 가능한 표현</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">질문</th><td>“소리로 멋진 작품을 만든다.”</td><td>“통학 시간의 소리에서 반복 간격은 장소에 따라 어떻게 달라지는가?”</td></tr>
+            <tr><th scope="row">입력</th><td>“인터넷 소리 자료”</td><td>“직접 녹음하고 사람의 음성을 제외한 6초 WAV 세 편”</td></tr>
+            <tr><th scope="row">권한</th><td>“무료 자료를 쓴다.”</td><td>“직접 녹음한 파일만 사용하고 타인의 음성이 있으면 제외하며 기록 날짜를 남긴다.”</td></tr>
+            <tr><th scope="row">규칙</th><td>“예쁘게 시각화한다.”</td><td>“모든 WAV를 6초로 맞추고 같은 2,048/512 규칙의 RMS를 공통 축에 배치한다.”</td></tr>
+            <tr><th scope="row">출력</th><td>“웹이나 포스터”</td><td>“1600 × 2200 비교 포스터 PNG 한 장”</td></tr>
+            <tr><th scope="row">첫 행동</th><td>“자료를 조사한다.”</td><td>“WAV 한 편을 Colab에 불러와 0~6초 파형 한 개를 그린다.”</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>아래 코드는 하나의 완성 예시입니다. 자신의 관심사와 실제로 준비할 자료에 맞게 모든 값을 바꿉니다. 특히 <code>project_rights</code>에는 누가 만들었는지, 어떤 조건에서 분석·변형·제출할 수 있는지를 적습니다.</p>
+
+      <pre><code>project_medium = "sound"
+project_question = "통학 시간에 직접 기록한 소리의 반복 패턴은 장소에 따라 어떻게 달라지는가?"
+project_input = "직접 녹음하고 타인의 목소리를 제외한 6초 길이의 통학 환경 WAV 세 편"
+project_rights = "본인이 직접 녹음한 자료만 사용하며 사람이 포함되면 해당 구간을 제외하고 기록 날짜를 남긴다."
+project_rule = "세 파일을 같은 길이와 프레임 규칙으로 분석하고 파형·RMS·주파수 띠의 차이를 공통 척도에 배치한다."
+project_output = "소리 세 편의 시간 구조를 비교하는 1600×2200 세로형 포스터 PNG"
+week14_first_action = "첫 WAV를 Colab에 불러와 0초부터 6초까지의 파형 한 개를 화면에 그리는 코드 경로를 만든다."
+
+print("매체:", project_medium)
+print("질문:", project_question)
+print("입력:", project_input)
+print("권한:", project_rights)
+print("규칙:", project_rule)
+print("출력:", project_output)
+print("14주차 첫 행동:", week14_first_action)</code></pre>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 6</span>
+        <p><strong>스스로 읽어 볼 질문:</strong> “내일 14주차가 시작되어도 첫 10분에 어떤 파일을 열고 어떤 코드 결과를 화면에 띄울지 알 수 있는가?” 답이 아니면 입력 또는 첫 행동을 더 구체적으로 고칩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">기말 프로젝트 주제를 아직 확정하지 못했으면 어떻게 하나요?</summary>
+        <div class="details-motion-content"><p>오늘은 영구적으로 주제를 잠그지 않습니다. 지금 실제로 준비할 수 있는 입력 한 종류와 질문 한 개를 선택합니다. 14주차 면담에서 범위를 조정할 수 있지만, 빈 카드로 시작하지 않도록 첫 실행 가능 상태를 적는 것이 목표입니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title"><code>hybrid</code>를 고르면 두 매체를 모두 14주차에 완성해야 하나요?</summary>
+        <div class="details-motion-content"><p>아닙니다. 결합 프로젝트라도 첫 프로토타입은 가장 중요한 입력 하나가 코드 한 경로를 지나 화면에 나타나는 상태면 됩니다. 씨앗 카드의 첫 행동에는 두 매체를 동시에 나열하지 말고 첫 번째 입력과 첫 번째 출력만 적습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">공공데이터는 모두 자유롭게 사용할 수 있나요?</summary>
+        <div class="details-motion-content"><p>그렇지 않습니다. 제공 기관, 라이선스 또는 이용 조건, 기준일, 개인정보 포함 여부를 확인해야 합니다. 씨앗 카드에는 “공공데이터”라고만 쓰지 말고 실제 제공 기관과 확인할 권한 조건을 적습니다. 파일이 아직 없다면 14주차 첫 행동을 “공식 제공처에서 이용 조건을 확인하고 샘플 10행을 저장한다”처럼 구체화합니다.</p></div>
+      </details>
+
+      <h2 id="step-seven">STEP 7 · PNG와 HTML 저장·육안 검사 <small>43-45분</small></h2>
+
+      <p>STEP 7은 포스터와 씨앗 카드를 자동으로 만듭니다. 포스터의 캔버스는 8 × 11인치, 저장 해상도는 200dpi이므로 정확히 1600 × 2200픽셀이 됩니다. HTML에는 학생이 쓴 값을 안전하게 표시하기 위해 <code>html.escape()</code>가 적용됩니다.</p>
+
+      <ol>
+        <li>포스터 미리보기에서 제목, 세 그래프, 관찰 세 문장, 한계와 출처가 잘리지 않았는지 봅니다.</li>
+        <li>출력된 파일명을 확인합니다. 학번과 이름 사이, 이름과 접미사 사이에는 밑줄이 있습니다.</li>
+        <li>왼쪽 파일 패널에서 HTML을 두 번 눌러 내려받고 브라우저에서 엽니다.</li>
+        <li>씨앗 카드의 질문, 입력, 권한, 규칙, 출력, 14주차 첫 행동이 모두 보이는지 확인합니다.</li>
+      </ol>
+
+      <div class="submission-strip" aria-label="생성 파일 확인">
+        <span><strong>PNG</strong><code>week13_학번_이름_sound_poster.png</code></span>
+        <span><strong>HTML</strong><code>week13_학번_이름_project_seed.html</code></span>
+        <span><strong>크기</strong>1600 × 2200</span>
+      </div>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 7</span>
+        <p><strong>화면에 보여야 할 것:</strong> <code>포스터 저장</code> 뒤에 <code>(1600, 2200)</code>이 보이고, <code>씨앗 카드 저장</code> 뒤에 HTML 글자 수가 출력됩니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">포스터 글자가 잘리면 코드를 직접 고쳐야 하나요?</summary>
+        <div class="details-motion-content"><p>먼저 STEP 6의 문장 길이가 120자를 넘는지 확인합니다. 미션은 정해진 길이 안에서 맞도록 설계되어 있습니다. 긴 문장을 두 문장으로 늘리지 말고 핵심 수치와 해석만 남깁니다. 그래도 문제가 있으면 교수자에게 화면을 보여 주고 저장 셀은 임의로 수정하지 않습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">한글이 네모로 보이면 어떻게 하나요?</summary>
+        <div class="details-motion-content"><p>런타임을 다시 시작한 뒤 STEP 0부터 실행합니다. STEP 0이 Colab의 나눔 글꼴을 설치하고 Matplotlib에 등록합니다. 설치 셀 이후의 그래프 셀을 먼저 실행하면 기존 글꼴 설정이 남지 않을 수 있으므로 순서를 지킵니다.</p></div>
+      </details>
+
+      <h2 id="step-eight">STEP 8 · 새 런타임에서 19개 PASS <small>45-48분</small></h2>
+
+      <ol>
+        <li><strong>런타임 → 세션 다시 시작</strong>을 선택합니다. 경고가 나오면 재시작합니다.</li>
+        <li>STEP 0부터 STEP 7까지 위에서 아래로 한 번씩 실행합니다.</li>
+        <li>FINAL CHECK를 실행합니다. 셀을 건너뛰거나 다시 실행했다면 실행 순서 조건이 실패합니다.</li>
+        <li><code>PASS 01</code>부터 <code>PASS 19</code>와 완료 문구가 이어지는지 확인합니다.</li>
+        <li>실패하면 마지막 셀만 반복하지 않습니다. 아래 표에서 조건에 연결된 STEP을 수정한 뒤 새 런타임 검사를 다시 시작합니다.</li>
+      </ol>
+
+      <div class="check-output"><code>PASS 01 · 새 런타임에서 STEP 0부터 FINAL CHECK까지 한 번씩 순서대로 실행
+PASS 02 · 자신의 학번과 이름 입력
+PASS 03 · 수업 WAV 세 편 중 한 편 선택
+PASS 04 · 원본 WAV와 출처 메타데이터 보존
+PASS 05 · 22,050Hz·모노·PCM16·132,300샘플·6초 입력
+PASS 06 · 0~6초 파형과 최대 절대 진폭 시점
+PASS 07 · 2,048/512 규칙의 259개 RMS 프레임과 최댓값
+PASS 08 · 1,025×259 STFT와 -80~0dB 상대 스펙트로그램
+PASS 09 · 직접 쓴 20~80자 질문형 포스터 제목
+PASS 10 · 최대 진폭 시점을 포함한 파형 관찰
+PASS 11 · 최대 RMS 시점을 포함한 프레임 관찰
+PASS 12 · 대표 주파수 수치를 포함한 관찰
+PASS 13 · 상대 시각화로 단정할 수 없는 해석 한계
+PASS 14 · 기말 프로젝트 매체 선택
+PASS 15 · 프로젝트 질문과 실제 입력 자료 작성
+PASS 16 · 출처·이용 권한과 한 가지 변환 규칙 작성
+PASS 17 · 최종 출력 형식과 14주차 첫 제작 행동 작성
+PASS 18 · 1600×2200 사운드 패턴 포스터 파일
+PASS 19 · 여섯 필드를 담은 기말 프로젝트 씨앗 카드 HTML
+
+🎉 WEEK 13 SOUND POSTER MISSION COMPLETE</code></div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>FAIL 조건을 고칠 위치</caption>
+          <thead><tr><th scope="col">실패 범위</th><th scope="col">돌아갈 곳</th><th scope="col">먼저 확인할 것</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">PASS 01</th><td>런타임 재시작</td><td>STEP 0부터 셀을 건너뛰거나 두 번 실행하지 않았는가</td></tr>
+            <tr><th scope="row">PASS 02~03</th><td>STEP 1</td><td>자신의 정보와 정확한 음원 ID인가</td></tr>
+            <tr><th scope="row">PASS 04~08</th><td>STEP 0~5</td><td>수정 금지 셀을 바꾸지 않았는가, 선택 후 위에서 다시 실행했는가</td></tr>
+            <tr><th scope="row">PASS 09~13</th><td>STEP 6A</td><td>초기 예시와 다른 문장, 길이, 실제 시간·Hz, 한계 단어가 있는가</td></tr>
+            <tr><th scope="row">PASS 14~17</th><td>STEP 6B</td><td>허용된 매체 ID, 실제 입력, 권한, 규칙, 파일 형식, 행동 동사가 있는가</td></tr>
+            <tr><th scope="row">PASS 18~19</th><td>STEP 7</td><td>문장 수정 뒤 저장 셀을 다시 실행했는가, 두 파일이 존재하는가</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">왜 셀 하나를 다시 실행하면 실행 순서가 실패하나요?</summary>
+        <div class="details-motion-content"><p>최종 제출 노트북이 처음부터 같은 결과를 재현하는지 확인하기 위해서입니다. 작업 중에는 필요한 셀을 다시 실행해도 됩니다. 최종 검사 때만 새 런타임에서 위에서 아래로 한 번씩 실행해, 숨겨진 이전 값에 의존하지 않는다는 것을 증명합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">분명 수치를 썼는데 관찰 문장이 실패합니다</summary>
+        <div class="details-motion-content"><p>파형·RMS 시간은 소수점 셋째 자리 문자열까지 같은지, 주파수에는 반올림한 정수와 <code>Hz</code>가 함께 있는지 확인합니다. 문장이 30자보다 짧거나 120자보다 길어도 실패합니다. STEP 6을 고치고 STEP 7에서 파일을 다시 저장한 뒤 새 런타임 검사를 수행합니다.</p></div>
+      </details>
+
+      <h2 id="step-nine">STEP 9 · 세 파일 제출 후 귀가 <small>48-50분</small></h2>
+
+      <ol>
+        <li>DOWNLOAD 셀을 실행해 PNG와 HTML을 내려받습니다.</li>
+        <li>Colab 메뉴에서 <strong>파일 → 다운로드 → .ipynb 다운로드</strong>를 선택합니다.</li>
+        <li>다운로드 폴더에서 PNG를 열어 크기와 글자 잘림을 마지막으로 봅니다.</li>
+        <li>HTML을 브라우저로 열어 여섯 필드가 모두 보이는지 확인합니다.</li>
+        <li>IPYNB 파일명이 <code>week13_학번_이름.ipynb</code>인지 확인합니다.</li>
+        <li>수업 제출함에 세 파일을 올리고 업로드 완료 표시를 확인합니다.</li>
+        <li>교수자에게 완료 문구와 제출 목록을 보여 줍니다. 확인을 받으면 즉시 귀가합니다.</li>
+      </ol>
+
+      <div class="submission-strip" aria-label="최종 제출 목록">
+        <span><strong>1</strong><code>week13_학번_이름.ipynb</code></span>
+        <span><strong>2</strong><code>week13_학번_이름_sound_poster.png</code></span>
+        <span><strong>3</strong><code>week13_학번_이름_project_seed.html</code></span>
+      </div>
+
+      <section class="exit-gate" aria-labelledby="final-exit-title">
+        <span class="exit-pass" aria-hidden="true">PASS</span>
+        <div class="exit-gate-copy">
+          <p class="exit-gate-label">미션 완료</p>
+          <h2 id="final-exit-title">19 PASS + IPYNB + PNG + HTML = 즉시 귀가</h2>
+          <p>제출 뒤 파일을 다시 고치면 제출함의 버전과 화면의 버전이 달라질 수 있습니다. 수정이 필요하면 세 파일을 같은 실행에서 다시 만들고 모두 교체한 뒤 교수자에게 재확인을 요청합니다.</p>
+        </div>
+      </section>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">교수자 1분 확인 순서</summary>
+        <div class="details-motion-content"><p>완료 문구와 PASS 19를 확인하고, 제출함의 세 파일명을 봅니다. PNG 크기와 하단 출처·한계를 확인하고, HTML을 열어 질문·입력·권한·규칙·출력·첫 행동을 확인합니다. 마지막으로 IPYNB에 실행 결과가 남아 있는지 봅니다. 모두 일치하면 귀가를 승인합니다.</p></div>
+      </details>
+
+      <h2 id="optional">선택 확장 · 제출 이후 자신의 소리를 같은 척도로 비교하기</h2>
+
+      <p>필수 세 파일을 제출하고 확인받은 학생만 수행합니다. 직접 생성·녹음했거나 분석과 제출 권한을 확인한 WAV 한 편을 별도 노트북 사본에서 다룹니다. 타인의 음악, 동의받지 않은 음성, 개인 대화·이름·위치가 드러나는 녹음은 사용하지 않습니다.</p>
+
+      <ol>
+        <li>원본을 복사하고 제목·제작자·날짜·이용 조건을 기록합니다.</li>
+        <li>6초 구간을 선택하되 필수 결과 파일을 덮어쓰지 않습니다.</li>
+        <li>0~6초 시간축, 0~4,000Hz 주파수축, -80~0dB 색상 범위를 그대로 유지합니다.</li>
+        <li>수업 음원과 자신의 음원에서 파형·RMS·스펙트로그램 차이를 세 문장으로 비교합니다.</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">선택 확장은 필수 귀가 조건도 추가 점수도 아닙니다</p>
+        <p>필수 결과를 완성하기 전에 자신의 음원 업로드, 색상 변경, 추가 그래프 제작을 시작하지 않습니다. 확장 여부가 성취 수준이나 점수를 나누지 않으며, 일찍 끝난 학생이 남아서 더 해야 하는 과제도 아닙니다.</p>
+      </div>
+
+      <h2 id="week-fourteen">14주차로 가져갈 것</h2>
+
+      <p>14주차 1차 면담에서는 오늘 만든 씨앗 카드를 화면에 띄우고 시작합니다. 교수자와 학생은 질문이 입력 자료로 답할 수 있는지, 출처와 이용 권한이 안전한지, 핵심 변환 규칙이 하나로 설명되는지, 첫 행동이 10분 안에 실행 가능한지를 점검합니다. 이후 가장 작은 입력 하나가 코드 한 경로를 지나 화면에 나타나는 30% 프로토타입을 만듭니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>씨앗 카드에서 14주차 제작 계약으로 바뀌는 항목</caption>
+          <thead><tr><th scope="col">13주차 씨앗</th><th scope="col">14주차 확인 질문</th><th scope="col">30% 프로토타입의 증거</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">프로젝트 질문</th><td>입력 자료의 실제 열·픽셀·문장·샘플로 답할 수 있는가</td><td>화면의 첫 출력이 질문과 연결됨</td></tr>
+            <tr><th scope="row">입력과 권한</th><td>파일이 실제로 있고 분석·변형·제출이 허용되는가</td><td>안전한 원본 또는 대체 자료 한 개가 열림</td></tr>
+            <tr><th scope="row">핵심 규칙</th><td>입력 하나가 어떤 변환 하나를 거치는가</td><td>한 코드 경로가 처음부터 끝까지 실행됨</td></tr>
+            <tr><th scope="row">첫 제작 행동</th><td>동사·입력·출력이 분명한가</td><td>첫 10분에 확인 가능한 화면 또는 파일이 생김</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="summary">핵심 정리</h2>
+
+      <ol>
+        <li>이번 실습은 자유 탐색이 아니라 세 파일을 완성하는 하나의 제작 미션입니다.</li>
+        <li>학생이 수정하는 코드는 STEP 1의 신원·음원 선택과 STEP 6의 해석·프로젝트 씨앗뿐입니다.</li>
+        <li>파형의 최대 절대 진폭은 한 샘플, RMS 최댓값은 한 프레임, 대표 주파수는 전체 시간에 걸친 한 빈의 요약입니다.</li>
+        <li>세 수치는 서로 다른 단위를 읽으므로 같은 사실로 취급하지 않습니다.</li>
+        <li>스펙트로그램의 색은 파일 내부 최댓값을 0dB로 둔 -80~0dB 상대 척도입니다.</li>
+        <li>포스터 문장은 측정 수치와 범위가 있는 해석을 함께 담습니다.</li>
+        <li>씨앗 카드는 아이디어의 크기보다 실제 입력·이용 권한·첫 제작 행동의 구체성을 우선합니다.</li>
+        <li>새 런타임 전체 실행은 이전 셀의 숨겨진 상태 없이 결과가 다시 만들어지는지 확인합니다.</li>
+        <li>19개 PASS와 세 파일의 실제 제출이 확인되면 즉시 귀가합니다.</li>
+      </ol>
+
+      <h2 id="references">공식 자료와 복습 링크</h2>
+      <ul class="reference-list">
+        <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer"><strong>Google Colab 시작 노트북</strong></a><small>셀 실행, 런타임, Drive 사본과 파일 다운로드의 기본 사용법</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.load.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: load</strong></a><small><code>sr=None</code>과 <code>mono=True</code>로 오디오 시계열을 읽는 방법</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.feature.rms.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: feature.rms</strong></a><small>프레임 길이와 이동 간격을 사용해 RMS 에너지를 계산하는 방법</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.stft.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: STFT</strong></a><small>짧은 프레임의 시간-주파수 행렬을 만드는 함수</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.amplitude_to_db.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: amplitude_to_db</strong></a><small>진폭을 선택한 기준에 대한 상대 dB로 변환하는 방법</small></li>
+        <li><a href="https://librosa.org/doc/latest/generated/librosa.display.specshow.html" target="_blank" rel="noopener noreferrer"><strong>librosa 공식 문서: specshow</strong></a><small>시간축·Hz축·색상 범위를 가진 스펙트로그램 표시 방법</small></li>
+        <li><a href="https://docs.python.org/3/library/html.html#html.escape" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서: html.escape</strong></a><small>학생이 작성한 문자열을 HTML 문서 안에 안전하게 표시하는 함수</small></li>
+      </ul>
+    </article>
+
+    <details class="toc week-13-toc" open>
+      <summary class="toc-title">문서 구조</summary>
+      <nav aria-label="문서 구조">
+      <p class="toc-group-title">필수 진행 경로</p>
+      <ol>
+        <li class="toc-level-2"><a href="#goal-contract-title">미션 계약</a></li>
+        <li class="toc-level-2"><a href="#outputs">제출 결과물</a></li>
+        <li class="toc-level-2"><a href="#audio-choice">음원 선택</a></li>
+        <li class="toc-level-2"><a href="#completion-criteria">귀가 조건 19</a></li>
+        <li class="toc-level-2"><a href="#time-guide">50분 진행</a></li>
+        <li class="toc-level-2"><a href="#step-zero">STEP 0 · 준비</a></li>
+        <li class="toc-level-2"><a href="#step-one">STEP 1 · 선택</a></li>
+        <li class="toc-level-2"><a href="#step-two">STEP 2 · 입력</a></li>
+        <li class="toc-level-2"><a href="#step-three">STEP 3 · 파형</a></li>
+        <li class="toc-level-2"><a href="#step-four">STEP 4 · RMS</a></li>
+        <li class="toc-level-2"><a href="#step-five">STEP 5 · STFT</a></li>
+        <li class="toc-level-2"><a href="#step-six">STEP 6A · 문장</a></li>
+        <li class="toc-level-2"><a href="#step-six-project">STEP 6B · 씨앗</a></li>
+        <li class="toc-level-2"><a href="#step-seven">STEP 7 · 저장</a></li>
+        <li class="toc-level-2"><a href="#step-eight">STEP 8 · PASS</a></li>
+        <li class="toc-level-2"><a href="#step-nine">STEP 9 · 제출</a></li>
+      </ol>
+      <p class="toc-group-title">제출 뒤 참고</p>
+      <ol>
+        <li class="toc-level-2"><a href="#optional">선택 확장</a></li>
+        <li class="toc-level-2"><a href="#week-fourteen">14주차 연결</a></li>
+        <li class="toc-level-2"><a href="#summary">핵심 정리</a></li>
+        <li class="toc-level-2"><a href="#references">공식 자료</a></li>
+      </ol>
+      </nav>
+    </details>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 13 · Period 03</p>
+  <script src="/assets/week-13-ui.js" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
