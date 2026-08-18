@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
-import { resolve } from "node:path";
+import { spawnSync } from "node:child_process";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, resolve } from "node:path";
 import test from "node:test";
 
 const root = resolve(import.meta.dirname, "..");
@@ -255,6 +257,7 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     /WEEK 09 DATA READING COMPLETE/,
     /작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다/,
     /week-09-data-reading-card-example\.png/,
+    /class="check-output" role="group" aria-label="자동 검사 완료 예시"/,
   ]) {
     assert.match(period3, pattern);
   }
@@ -276,6 +279,14 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     /dataset_title.*dataset_source.*dataset_license.*observation_unit.*time_range/s,
     /answerable_question.*needed_columns.*unanswerable_question.*missing_information/s,
     /selected_row_index.*selected_column.*selected_value_explanation/s,
+    /EDIT: 현재 열로 답할 수 있는 질문/,
+    /EDIT: 선택한 행·열·값/,
+    /not answerable_question\.strip\(\)\.startswith\("EDIT:"\)/,
+    /not selected_value_explanation\.strip\(\)\.startswith\("EDIT:"\)/,
+    /selected_value_token.*selected_value_explanation/s,
+    /len\(needed_columns\) >= 1/,
+    /<article class="question">/,
+    /--coral:#a83e32/,
     /build_data_reading_card/,
     /Path\(output_filename\)\.write_text/,
     /mission_step0_execution = get_ipython\(\)\.execution_count/,
@@ -285,6 +296,8 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
   ]) {
     assert.match(notebookCode, pattern);
   }
+  assert.doesNotMatch(notebookCode, /len\(needed_columns\) >= 2/);
+  assert.match(period3, /질문에 필요한 열 한 개 이상/);
 
   const csvLines = sampleCsv.trimEnd().split(/\r?\n/);
   assert.equal(csvLines.length, 25, "the sample should contain 24 records");
@@ -303,27 +316,76 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     /ANSWERABLE QUESTION/,
     /NOT ANSWERABLE YET/,
     /READ BEFORE VISUALIZE/,
+    /<html lang="en">/,
   ]) {
     assert.match(sampleCard, pattern);
   }
+  assert.doesNotMatch(sampleCard, /<section class="question/);
+
+  const runtimeCheck = spawnSync(
+    "python3",
+    [
+      resolve(root, "tests", "verify-week09-notebook.py"),
+      resolve(
+        courseDirectory,
+        "assets",
+        "week-09-data-literacy-mission.ipynb",
+      ),
+    ],
+    { cwd: root, encoding: "utf8" },
+  );
+  assert.equal(
+    runtimeCheck.status,
+    0,
+    `week 9 notebook runtime scenarios failed:\n${runtimeCheck.stdout}\n${runtimeCheck.stderr}`,
+  );
+  assert.match(runtimeCheck.stdout, /week09 notebook scenarios PASS/);
 });
 
 test("Contents Programming week 9 generated assets stay reproducible", async () => {
+  const generatorPath = resolve(root, "scripts", "generate-week09-data-assets.py");
   const generator = await readFile(
-    resolve(root, "scripts", "generate-week09-data-assets.py"),
+    generatorPath,
     "utf8",
   );
 
-  for (const filename of [
+  const generatedFilenames = [
     "week-09-creative-activity.csv",
+    "week-09-data-literacy-mission.ipynb",
     "week-09-observation-to-table.png",
     "week-09-dataframe-anatomy.png",
     "week-09-data-reading-card-example.html",
     "week-09-data-reading-card-example.png",
-  ]) {
+  ];
+  for (const filename of generatedFilenames) {
     assert.match(generator, new RegExp(filename.replaceAll(".", "\\.")));
   }
   assert.match(generator, /def make_observation_to_table/);
   assert.match(generator, /def make_dataframe_anatomy/);
   assert.match(generator, /def make_reading_card/);
+  assert.match(generator, /inter-latin-variable\.woff2/);
+  assert.doesNotMatch(generator, /System\/Library\/Fonts|DejaVuSans/);
+
+  const outputDirectory = await mkdtemp(join(tmpdir(), "week09-assets-"));
+  try {
+    const generated = spawnSync(
+      "python3",
+      [generatorPath, "--asset-dir", outputDirectory],
+      { cwd: root, encoding: "utf8" },
+    );
+    assert.equal(
+      generated.status,
+      0,
+      `week 9 asset generation failed:\n${generated.stdout}\n${generated.stderr}`,
+    );
+    for (const filename of generatedFilenames) {
+      const [expected, actual] = await Promise.all([
+        readFile(resolve(courseDirectory, "assets", filename)),
+        readFile(resolve(outputDirectory, filename)),
+      ]);
+      assert.deepEqual(actual, expected, `${filename} should regenerate byte-for-byte`);
+    }
+  } finally {
+    await rm(outputDirectory, { recursive: true, force: true });
+  }
 });

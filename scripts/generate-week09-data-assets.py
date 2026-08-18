@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 from dataclasses import asdict, dataclass
@@ -13,7 +14,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
+DEFAULT_ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
 
 INK = (28, 31, 30, 255)
 PAPER = (244, 241, 232, 255)
@@ -72,21 +73,12 @@ FIELDNAMES = list(asdict(RECORDS[0]).keys())
 
 
 def font(size: int, bold: bool = False) -> ImageFont.ImageFont:
-    """Return an available Latin font so generated diagrams remain portable."""
+    """Return the repository-pinned Inter font for deterministic diagrams."""
 
-    candidates = (
-        "/System/Library/Fonts/Supplemental/Arial Bold.ttf"
-        if bold
-        else "/System/Library/Fonts/Supplemental/Arial.ttf",
-        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-        if bold
-        else "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
-    )
-    for candidate in candidates:
-        path = Path(candidate)
-        if path.exists():
-            return ImageFont.truetype(str(path), size=size)
-    return ImageFont.load_default()
+    font_path = ROOT / "assets" / "fonts" / "inter-latin-variable.woff2"
+    selected_font = ImageFont.truetype(str(font_path), size=size)
+    selected_font.set_variation_by_name("Bold" if bold else "Regular")
+    return selected_font
 
 
 def rounded_panel(
@@ -204,7 +196,7 @@ def make_observation_to_table() -> Image.Image:
     for x in (342, 684, 1026):
         draw_arrow(draw, (x, 430), (x + 34, 430))
 
-    draw.text((58, 742), "QUESTION → UNIT → VARIABLES → VALUES → ROW", fill=TEAL, font=font(23, bold=True))
+    draw.text((58, 742), "QUESTION > UNIT > VARIABLES > VALUES > ROW", fill=TEAL, font=font(23, bold=True))
     return image
 
 
@@ -299,7 +291,7 @@ def reading_card_html() -> str:
     missing_focus = sum(record.focus_level == "" for record in RECORDS)
     missing_mood = sum(record.mood_after == "" for record in RECORDS)
     return f"""<!doctype html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -318,7 +310,7 @@ def reading_card_html() -> str:
   <meta name="twitter:description" content="A sample card for reading a dataset before visualization.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <style>
-    :root {{ color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#db5b4a; --line:#aaa69b; }}
+    :root {{ color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#aaa69b; }}
     * {{ box-sizing:border-box; }}
     body {{ margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }}
     .skip-link {{ position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }}
@@ -339,7 +331,7 @@ def reading_card_html() -> str:
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
   <main id="main-content">
     <p class="kicker">DATA READING CARD / WEEK 09</p>
     <h1>Creative Activity Log</h1>
@@ -353,16 +345,16 @@ def reading_card_html() -> str:
     </div>
     <div class="columns">{''.join(f'<code>{escape(column)}</code>' for column in FIELDNAMES)}</div>
     <div class="questions">
-      <section class="question">
+      <article class="question">
         <span>ANSWERABLE QUESTION</span>
         <strong>How does average duration differ by activity?</strong>
         <p>Needed columns: activity + duration_min</p>
-      </section>
-      <section class="question missing">
+      </article>
+      <article class="question missing">
         <span>NOT ANSWERABLE YET</span>
         <strong>Which sessions included another person?</strong>
         <p>No collaborator column was recorded.</p>
-      </section>
+      </article>
     </div>
     <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
   </main>
@@ -420,7 +412,7 @@ def make_reading_card() -> Image.Image:
 
     draw.line((88, 793, 1112, 793), fill=INK, width=3)
     draw.text((88, 812), "READ BEFORE VISUALIZE", fill=CORAL, font=font(20, bold=True))
-    draw.text((778, 812), "structure → context → question", fill=TEAL, font=font(18, bold=True))
+    draw.text((778, 812), "structure > context > question", fill=TEAL, font=font(18, bold=True))
     return image
 
 
@@ -478,10 +470,10 @@ dataset_license = "수업 목적 사용 허용"
 observation_unit = "한 번의 창작 활동"
 time_range = "2026-05-04부터 2026-05-27까지"
 
-answerable_question = "활동 종류에 따라 작업 지속 시간은 어떻게 달라지는가?"
+answerable_question = "EDIT: 현재 열로 답할 수 있는 질문을 15자 이상 작성하세요."
 needed_columns = ["activity", "duration_min"]
-unanswerable_question = "누구와 함께한 활동에서 집중도가 더 높았는가?"
-missing_information = "함께 작업한 사람을 기록한 열이 없으므로 현재 데이터만으로는 답할 수 없다."
+unanswerable_question = "EDIT: 현재 열로 답할 수 없는 질문을 15자 이상 작성하세요."
+missing_information = "EDIT: 어떤 열이나 정보가 더 필요한지 15자 이상 설명하세요."
 
 output_filename = f"week09_{student_id}_{student_name}_data_reading_card.html"
 print("출력 예정:", output_filename)
@@ -518,7 +510,7 @@ mission_step3_execution = get_ipython().execution_count
 selected_row_index = 1
 selected_column = "duration_min"
 selected_value_explanation = (
-    "인덱스 1의 duration_min 값 55는 두 번째 창작 활동이 55분 동안 이어졌음을 뜻한다."
+    "EDIT: 선택한 행·열·값이 현실에서 무엇을 뜻하는지 20자 이상 설명하세요."
 )
 
 selected_value = df.loc[selected_row_index, selected_column]
@@ -531,22 +523,7 @@ print("나의 설명:", selected_value_explanation)
 # STEP 4 · 데이터 읽기 카드 HTML 생성 — 이 셀은 수정하지 않습니다.
 mission_step4_execution = get_ipython().execution_count
 
-def build_data_reading_card(
-    title,
-    source,
-    license_text,
-    unit,
-    period,
-    dataframe,
-    answerable,
-    answer_columns,
-    unanswerable,
-    missing_reason,
-    row_index,
-    column,
-    value,
-    value_explanation,
-):
+def build_data_reading_card(metadata, dataframe, questions, evidence):
     safe_columns = "".join(
         f"<code>{escape(str(name))}</code>" for name in dataframe.columns
     )
@@ -555,18 +532,22 @@ def build_data_reading_card(
         for name, count in dataframe.isna().sum().items()
         if int(count) > 0
     ) or "<li><span>결측값 없음</span><strong>0</strong></li>"
-    safe_needed = " + ".join(escape(str(name)) for name in answer_columns)
+    safe_needed = " + ".join(
+        escape(str(name)) for name in questions["needed_columns"]
+    )
 
     return f"""<!doctype html>
 <html lang="ko">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{escape(str(title))} · Data Reading Card</title>
+  <title>{escape(str(metadata['title']))} · Data Reading Card</title>
   <style>
-    :root {{ color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#db5b4a; --line:#aaa69b; }}
+    :root {{ color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#aaa69b; }}
     * {{ box-sizing:border-box; }}
     body {{ margin:0; padding:36px; color:var(--ink); background:var(--paper); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }}
+    .skip-link {{ position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }}
+    .skip-link:focus {{ top:12px; }}
     main {{ max-width:1000px; margin:auto; padding:40px; border:3px solid var(--ink); background:var(--panel); }}
     .kicker {{ color:var(--coral); font-weight:800; letter-spacing:.12em; }}
     h1 {{ margin:.2rem 0 1.4rem; font-size:clamp(2rem,6vw,4.5rem); line-height:1; }}
@@ -588,56 +569,63 @@ def build_data_reading_card(
   </style>
 </head>
 <body>
-  <main>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <main id="main-content">
     <p class="kicker">DATA READING CARD / WEEK 09</p>
-    <h1>{escape(str(title))}</h1>
+    <h1>{escape(str(metadata['title']))}</h1>
     <div class="meta">
       <div><span>SIZE</span><strong>{dataframe.shape[0]} rows × {dataframe.shape[1]} columns</strong></div>
-      <div><span>OBSERVATION UNIT</span><strong>{escape(str(unit))}</strong></div>
-      <div><span>TIME RANGE</span><strong>{escape(str(period))}</strong></div>
-      <div><span>SOURCE</span><strong>{escape(str(source))}</strong></div>
-      <div><span>USE CONDITION</span><strong>{escape(str(license_text))}</strong></div>
-      <div><span>AUTHOR</span><strong>{escape(str(student_id))} · {escape(str(student_name))}</strong></div>
+      <div><span>OBSERVATION UNIT</span><strong>{escape(str(metadata['unit']))}</strong></div>
+      <div><span>TIME RANGE</span><strong>{escape(str(metadata['period']))}</strong></div>
+      <div><span>SOURCE</span><strong>{escape(str(metadata['source']))}</strong></div>
+      <div><span>USE CONDITION</span><strong>{escape(str(metadata['license']))}</strong></div>
+      <div><span>AUTHOR</span><strong>{escape(str(metadata['student_id']))} · {escape(str(metadata['student_name']))}</strong></div>
     </div>
     <h2>COLUMNS / 열</h2>
     <div class="columns">{safe_columns}</div>
     <h2>MISSING VALUES / 결측값</h2>
     <ul class="missing-list">{safe_missing}</ul>
     <div class="questions">
-      <section class="question">
+      <article class="question">
         <span>ANSWERABLE QUESTION</span>
-        <strong>{escape(str(answerable))}</strong>
+        <strong>{escape(str(questions['answerable']))}</strong>
         <p>필요한 열: {safe_needed}</p>
-      </section>
-      <section class="question missing">
+      </article>
+      <article class="question missing">
         <span>NOT ANSWERABLE YET</span>
-        <strong>{escape(str(unanswerable))}</strong>
-        <p>{escape(str(missing_reason))}</p>
-      </section>
+        <strong>{escape(str(questions['unanswerable']))}</strong>
+        <p>{escape(str(questions['missing_reason']))}</p>
+      </article>
     </div>
     <h2>ONE VALUE IN CONTEXT / 실제 값 읽기</h2>
-    <p class="evidence"><strong>index {row_index} · {escape(str(column))} = {escape(str(value))}</strong><br>{escape(str(value_explanation))}</p>
+    <p class="evidence"><strong>index {evidence['row_index']} · {escape(str(evidence['column']))} = {escape(str(evidence['value']))}</strong><br>{escape(str(evidence['explanation']))}</p>
     <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
   </main>
 </body>
 </html>"""
 
-card_html = build_data_reading_card(
-    dataset_title,
-    dataset_source,
-    dataset_license,
-    observation_unit,
-    time_range,
-    df,
-    answerable_question,
-    needed_columns,
-    unanswerable_question,
-    missing_information,
-    selected_row_index,
-    selected_column,
-    selected_value,
-    selected_value_explanation,
-)
+card_metadata = {
+    "title": dataset_title,
+    "source": dataset_source,
+    "license": dataset_license,
+    "unit": observation_unit,
+    "period": time_range,
+    "student_id": student_id,
+    "student_name": student_name,
+}
+card_questions = {
+    "answerable": answerable_question,
+    "needed_columns": needed_columns,
+    "unanswerable": unanswerable_question,
+    "missing_reason": missing_information,
+}
+card_evidence = {
+    "row_index": selected_row_index,
+    "column": selected_column,
+    "value": selected_value,
+    "explanation": selected_value_explanation,
+}
+card_html = build_data_reading_card(card_metadata, df, card_questions, card_evidence)
 
 Path(output_filename).write_text(card_html, encoding="utf-8")
 display(HTML(card_html))
@@ -664,15 +652,23 @@ expected_output_filename = (
 provided_source_ok = (
     source_choice == "provided"
     and source_path.name == FALLBACK_SOURCE_PATH
+    and source_bytes_before == SAMPLE_CSV.encode("utf-8")
     and dataset_title == "창작 활동 기록"
-    and "교수자 제공" in dataset_source
+    and dataset_source == "수업용 예시 데이터 — 교수자 제공"
+    and dataset_license == "수업 목적 사용 허용"
+    and observation_unit == "한 번의 창작 활동"
+    and time_range == "2026-05-04부터 2026-05-27까지"
 )
 own_source_ok = (
     source_choice == "own"
     and source_path.name != FALLBACK_SOURCE_PATH
     and dataset_title != "창작 활동 기록"
-    and "교수자 제공" not in dataset_source
+    and dataset_source != "수업용 예시 데이터 — 교수자 제공"
+    and dataset_license != "수업 목적 사용 허용"
+    and observation_unit != "한 번의 창작 활동"
+    and time_range != "2026-05-04부터 2026-05-27까지"
 )
+selected_value_token = str(selected_value)
 
 checks = {
     "새 런타임에서 STEP 0부터 순서대로 실행": execution_order_ok,
@@ -694,14 +690,21 @@ checks = {
     "최소 5행 4열": df.shape[0] >= 5 and df.shape[1] >= 4,
     "수치형 열 포함": len(df.select_dtypes(include="number").columns) >= 1,
     "문자 또는 범주형 열 포함": len(df.select_dtypes(exclude="number").columns) >= 1,
-    "답할 수 있는 질문 15자 이상": len(answerable_question.strip()) >= 15,
-    "질문에 필요한 열 2개 이상": len(needed_columns) >= 2
+    "답할 수 있는 질문 직접 작성": not answerable_question.strip().startswith("EDIT:")
+    and len(answerable_question.strip()) >= 15,
+    "질문에 필요한 열 한 개 이상": len(needed_columns) >= 1
     and set(needed_columns).issubset(df.columns),
-    "답할 수 없는 질문 15자 이상": len(unanswerable_question.strip()) >= 15,
-    "누락 정보 설명 15자 이상": len(missing_information.strip()) >= 15,
+    "답할 수 없는 질문 직접 작성": not unanswerable_question.strip().startswith("EDIT:")
+    and len(unanswerable_question.strip()) >= 15,
+    "누락 정보 직접 설명": not missing_information.strip().startswith("EDIT:")
+    and len(missing_information.strip()) >= 15,
     "선택한 행이 실제 인덱스에 존재": selected_row_index in df.index,
     "선택한 열이 실제 열에 존재": selected_column in df.columns,
-    "선택한 값 설명 20자 이상": len(selected_value_explanation.strip()) >= 20,
+    "선택한 값 설명 직접 작성": not selected_value_explanation.strip().startswith("EDIT:")
+    and len(selected_value_explanation.strip()) >= 20,
+    "설명과 선택한 행·열·값 일치": str(selected_row_index) in selected_value_explanation
+    and selected_column in selected_value_explanation
+    and selected_value_token in selected_value_explanation,
     "정확한 HTML 파일명": output_filename == expected_output_filename,
     "HTML 파일 생성": Path(output_filename).exists(),
     "카드에 데이터 제목 포함": escape(dataset_title) in card_html,
@@ -812,14 +815,14 @@ CSV를 시각화하기 전에 구조와 맥락을 읽고, 독립적으로 열 �
     }
 
 
-def main() -> None:
-    ASSET_DIR.mkdir(parents=True, exist_ok=True)
-    write_sample_csv(ASSET_DIR / "week-09-creative-activity.csv")
-    (ASSET_DIR / "week-09-data-reading-card-example.html").write_text(
+def generate_assets(asset_dir: Path) -> None:
+    asset_dir.mkdir(parents=True, exist_ok=True)
+    write_sample_csv(asset_dir / "week-09-creative-activity.csv")
+    (asset_dir / "week-09-data-reading-card-example.html").write_text(
         reading_card_html(),
         encoding="utf-8",
     )
-    (ASSET_DIR / "week-09-data-literacy-mission.ipynb").write_text(
+    (asset_dir / "week-09-data-literacy-mission.ipynb").write_text(
         json.dumps(make_notebook(), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
@@ -829,12 +832,23 @@ def main() -> None:
         "week-09-data-reading-card-example.png": make_reading_card(),
     }
     for filename, image in images.items():
-        image.save(ASSET_DIR / filename, optimize=True)
+        image.save(asset_dir / filename, optimize=True)
         print(f"generated {filename}: {image.width}x{image.height}")
     print(f"generated week-09-creative-activity.csv: {len(RECORDS)} records")
     print("generated week-09-data-reading-card-example.html")
     print("generated week-09-data-literacy-mission.ipynb")
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        "--asset-dir",
+        type=Path,
+        default=DEFAULT_ASSET_DIR,
+        help="output directory (defaults to the course asset directory)",
+    )
+    return parser.parse_args()
+
+
 if __name__ == "__main__":
-    main()
+    generate_assets(parse_args().asset_dir.resolve())
