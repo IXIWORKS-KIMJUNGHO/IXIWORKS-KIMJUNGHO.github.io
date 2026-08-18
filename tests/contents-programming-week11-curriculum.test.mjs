@@ -48,6 +48,25 @@ function assertIncludesAll(fragment, values) {
   }
 }
 
+function assertContinuousFiftyMinutePlan(fragment) {
+  const ranges = [...visibleText(fragment).matchAll(/(\d+)–(\d+)분/g)].map(
+    ([, start, end]) => [Number(start), Number(end)],
+  );
+
+  assert.ok(ranges.length > 1, "a period should contain a detailed time plan");
+  assert.equal(ranges[0][0], 0, "a period should begin at minute 0");
+
+  for (let index = 1; index < ranges.length; index += 1) {
+    assert.equal(
+      ranges[index][0],
+      ranges[index - 1][1],
+      "adjacent time blocks should not leave gaps or overlap",
+    );
+  }
+
+  assert.equal(ranges.at(-1)[1], 50, "a period should end at minute 50");
+}
+
 function assertExternalLink(fragment, href) {
   assert.match(
     fragment,
@@ -80,8 +99,6 @@ test("period 1 separates comparison, relationship, and spatial questions", async
   );
 
   assertIncludesAll(period1, [
-    "0–6분",
-    "44–50분",
     "비교",
     "분포",
     "관계",
@@ -97,6 +114,7 @@ test("period 1 separates comparison, relationship, and spatial questions", async
     "W.E.B. Du Bois",
     "Library of Congress",
   ]);
+  assertContinuousFiftyMinutePlan(period1);
   assert.match(period1, /막대그래프[\s\S]*0에서 시작/);
   assertExternalLink(period1, "https://www.loc.gov/pictures/item/2005679642/");
 });
@@ -109,8 +127,6 @@ test("period 2 teaches the chart code and an honest poster composition", async (
   );
 
   assertIncludesAll(period2, [
-    "0–7분",
-    "45–50분",
     "Figure",
     "Axes",
     "plt.subplots()",
@@ -125,6 +141,7 @@ test("period 2 teaches the chart code and an honest poster composition", async (
     "경도와 위도의 상관관계로 해석하지 않는다",
     "savefig()",
   ]);
+  assertContinuousFiftyMinutePlan(period2);
   assertExternalLink(
     period2,
     "https://matplotlib.org/stable/users/explain/axes/index.html",
@@ -147,8 +164,6 @@ test("period 3 is an individual 50-minute PASS mission with two deliverables", a
   );
 
   assertIncludesAll(period3, [
-    "0–5분",
-    "46–50분",
     "가로 막대그래프",
     "위치 좌표 산점도",
     "24개",
@@ -163,6 +178,7 @@ test("period 3 is an individual 50-minute PASS mission with two deliverables", a
     "week11_학번_이름.ipynb",
     "week11_학번_이름_data_poster.png",
   ]);
+  assertContinuousFiftyMinutePlan(period3);
 });
 
 test("week 11 remains individual work and prepares the text-data transition", async () => {
