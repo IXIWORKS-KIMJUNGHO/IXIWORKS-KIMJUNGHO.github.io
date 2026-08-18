@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4주차 2교시: 리스트와 중첩 반복으로 격자 만들기 | Contents Programming Practice</title>
+  <meta name="description" content="색상 리스트와 중첩 for 반복문을 기초부터 읽고, 3주차의 Pillow 도형을 행과 열의 격자 패턴으로 확장하는 4주차 2교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-04-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="4주차 2교시: 리스트와 중첩 반복으로 격자 만들기 | Contents Programming Practice">
+  <meta property="og:description" content="여러 색을 리스트로 관리하고 행과 열을 중첩 반복해 리듬 그리드를 만드는 원리를 살펴봅니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-04-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="4주차 2교시: 리스트와 중첩 반복으로 격자 만들기 | Contents Programming Practice">
+  <meta name="twitter:description" content="리스트, 인덱스, 중첩 반복을 시각적 격자와 연결하는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-04-period1.html" rel="prev" aria-label="이전 자료: 4주차 1교시: 반복이 리듬이 되는 원리 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+
+      </div>
+    </nav>
+  </header>
+<div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Lists / Nested loops / Grid</p>
+        <h1>4주차 2교시: 리스트와 중첩 반복으로 격자 만들기</h1>
+        <p class="lead">여러 색을 하나의 순서로 묶고, 행과 열을 차례로 반복해 한 줄의 패턴을 화면 전체의 격자로 확장합니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 04</span>
+          <span class="hero-chip">PERIOD 02</span>
+          <span class="hero-chip">50 MIN</span>
+          <span class="hero-chip">+ 10 MIN EXTENSION</span>
+          <span class="hero-chip">THEORY</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Lesson Spec</p>
+        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">한 줄의 반복을 어떻게 격자로 확장하는가?</span></div>
+        <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">리스트, 인덱스, 행, 열</span></div>
+        <div class="meta-row"><span class="meta-key">Python 문법</span><span class="meta-value">[ ], list[index], 중첩 for</span></div>
+        <div class="meta-row"><span class="meta-key">이전 학습</span><span class="meta-value">for, range, 좌표 계산</span></div>
+        <div class="meta-row"><span class="meta-key">실습 연결</span><span class="meta-value">나만의 리듬 그리드</span></div>
+        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">여러 값을 묶고 두 방향의 반복을 설계하기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>리스트를 여러 값을 순서대로 저장하는 자료 구조로 설명하고 대괄호, 쉼표, 인덱스를 구분할 수 있습니다.</li>
+          <li>RGB 튜플 하나와 여러 RGB 튜플을 담은 색상 리스트의 구조를 구분할 수 있습니다.</li>
+          <li>리스트의 첫 번째 인덱스가 0임을 알고, 유효한 마지막 인덱스를 계산할 수 있습니다.</li>
+          <li>리스트를 직접 순회하는 반복문과 인덱스로 값을 선택하는 반복문을 읽을 수 있습니다.</li>
+          <li>바깥 반복은 행, 안쪽 반복은 열을 담당하는 중첩 반복문의 실행 순서를 추적할 수 있습니다.</li>
+          <li><code>rows * columns</code>로 전체 도형 수를 계산하고 격자가 캔버스 안에 들어오는지 점검할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-six" aria-label="2교시 시간 구성">
+        <li><span class="session-label">0-5 min</span><strong>한 줄 반복 회상</strong><p>1교시의 <code>i</code>와 x좌표 계산을 다시 추적합니다.</p></li>
+        <li><span class="session-label">5-16 min</span><strong>리스트와 인덱스</strong><p>여러 RGB 값을 대괄호로 묶고 0부터 주소를 붙입니다.</p></li>
+        <li><span class="session-label">16-26 min</span><strong>리스트를 반복하기</strong><p>색을 하나씩 꺼내고 위치와 색이 함께 바뀌는 과정을 읽습니다.</p></li>
+        <li><span class="session-label">26-39 min</span><strong>중첩 반복과 격자</strong><p>행과 열의 실행 순서, 좌표, 전체 도형 수를 표로 추적합니다.</p></li>
+        <li><span class="session-label">39-46 min</span><strong>전체 코드와 오류</strong><p>Pillow 프로그램을 묶음별로 읽고 대표 오류를 진단합니다.</p></li>
+        <li><span class="session-label">46-50 min</span><strong>3교시 설계 연결</strong><p>목표 달성형 리듬 그리드의 필수 조건을 확인합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에서는 리스트, 인덱스, 리스트 반복, 중첩 반복, 전체 코드와 3교시 설계 기준까지 진행합니다. 각 추적 문제는 먼저 개인 답을 적고 곧바로 기준 답안을 확인합니다. 진도가 빠르면 <strong>50-60분 확장</strong>에서 동일한 코드 구조로 만든 세 격자를 비교해 어떤 매개변수가 인상을 바꾸는지 분석합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">새 문법을 읽는 네 단계</p>
+        <ol>
+          <li><strong>자료의 모양을 봅니다.</strong> 대괄호 바깥과 RGB 튜플의 소괄호 안쪽을 나누어 봅니다.</li>
+          <li><strong>주소를 적습니다.</strong> 리스트 항목 위에 0, 1, 2처럼 인덱스를 붙입니다.</li>
+          <li><strong>반복의 방향을 분리합니다.</strong> 바깥 <code>for</code>는 한 행을 선택하고, 안쪽 <code>for</code>는 그 행의 열을 채웁니다.</li>
+          <li><strong>첫 두 번만 완전히 추적합니다.</strong> <code>row</code>, <code>column</code>, x, y, color의 값을 표에 적은 뒤 전체 규칙을 이해합니다.</li>
+        </ol>
+      </div>
+
+      <h2 id="one-row-recall">0-5분 · 한 줄의 반복을 다시 읽기</h2>
+
+      <p>1교시에는 <code>range(6)</code>이 0부터 5까지의 값을 만들고, 반복 변수 <code>i</code>가 매번 새로운 값을 받았습니다. 그 값을 x좌표 계산에 연결해 같은 크기의 원 여섯 개를 한 줄로 배치했습니다.</p>
+
+      <pre><code>for i in range(6):
+    x = 100 + i * 110
+    draw.ellipse((x, 220, x + 70, 290), fill=(42, 104, 124))</code></pre>
+
+      <div class="trace-board" role="group" aria-label="한 줄 반복의 세 단계">
+        <div class="trace-state"><span class="visual-label">1 / Select</span><code>i = 0, 1, ... 5</code><div class="trace-binding">현재 차례 선택</div></div>
+        <div class="trace-state"><span class="visual-label">2 / Calculate</span><code>x = 100 + i * 110</code><div class="trace-binding">새 x좌표 계산</div></div>
+        <div class="trace-state"><span class="visual-label">3 / Draw</span><code>draw.ellipse(...)</code><div class="trace-binding">그 위치에 원 기록</div></div>
+      </div>
+
+      <p>이 코드는 위치는 바꾸지만 색은 하나로 고정합니다. 3주차처럼 색상마다 <code>color_1</code>, <code>color_2</code>, <code>color_3</code>라는 변수를 따로 만들 수도 있습니다. 그러나 색이 열 개라면 변수 이름도 열 개가 필요하고, “세 번째 색부터 차례대로 사용한다” 같은 순서 규칙을 코드로 표현하기 어렵습니다. 여러 값을 하나의 순서로 관리하기 위해 리스트를 사용합니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 회상 · 1분</span>
+        <h3>i가 4일 때 원의 위치 찾기</h3>
+        <p><code>x = 100 + i * 110</code>에 <code>i = 4</code>를 대입하고, 원 경계의 왼쪽과 오른쪽 x좌표를 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">좌표 확인</summary>
+        <div class="details-motion-content"><p>x는 <code>100 + 4 * 110 = 540</code>입니다. 원의 오른쪽 x좌표는 <code>x + 70</code>이므로 610입니다. y좌표는 모든 반복에서 220과 290으로 같습니다.</p></div>
+      </details>
+
+      <h2 id="list-index">5-16분 · 여러 색을 리스트와 인덱스로 다루기</h2>
+
+      <p><strong>리스트</strong>는 여러 값을 정해진 순서로 저장하는 Python 자료 구조입니다. 리스트 전체는 <strong>대괄호</strong> <code>[ ]</code>로 감싸고, 각 항목은 쉼표로 구분합니다. 아래 리스트에는 3주차에 배운 RGB 튜플 네 개가 들어 있습니다.</p>
+
+      <pre><code>palette = [
+    (37, 62, 78),
+    (218, 100, 74),
+    (222, 169, 73),
+    (72, 126, 116),
+]</code></pre>
+
+      <p>바깥쪽 <code>[ ]</code>는 네 색을 하나의 리스트로 묶습니다. 안쪽 <code>( )</code>는 한 색을 만드는 R, G, B 값 세 개를 묶습니다. 따라서 <code>palette</code>는 “숫자 열두 개”가 아니라 “RGB 색상 네 개가 순서대로 들어 있는 리스트”라고 읽는 편이 정확합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>색상 리스트의 기호와 구조</caption>
+          <thead><tr><th scope="col">코드 조각</th><th scope="col">이름</th><th scope="col">역할</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>palette</code></th><td>변수 이름</td><td>색상 리스트 전체를 다시 찾기 위한 이름</td></tr>
+            <tr><th scope="row"><code>[ ... ]</code></th><td>대괄호</td><td>여러 항목을 순서가 있는 리스트로 묶음</td></tr>
+            <tr><th scope="row"><code>(37, 62, 78)</code></th><td>RGB 튜플</td><td>한 색의 세 채널 값을 정해진 순서로 묶음</td></tr>
+            <tr><th scope="row"><code>,</code></th><td>쉼표</td><td>리스트 항목과 튜플 안의 채널 값을 구분</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="zero-index">첫 번째 항목의 인덱스는 0이다</h3>
+      <p>리스트 안의 각 위치에는 <strong>인덱스</strong>라는 주소가 붙습니다. Python의 인덱스는 0부터 시작합니다. 항목이 네 개라면 주소는 0, 1, 2, 3이고 마지막 인덱스는 3입니다. 3주차에 가로 4픽셀의 x좌표가 0부터 3까지였던 것과 같은 개수와 주소의 관계입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>palette 리스트의 위치와 값</caption>
+          <thead><tr><th scope="col">사람이 세는 순서</th><th scope="col">Python 인덱스</th><th scope="col">코드</th><th scope="col">가져오는 RGB 값</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">첫 번째</th><td>0</td><td><code>palette[0]</code></td><td><code>(37, 62, 78)</code></td></tr>
+            <tr><th scope="row">두 번째</th><td>1</td><td><code>palette[1]</code></td><td><code>(218, 100, 74)</code></td></tr>
+            <tr><th scope="row">세 번째</th><td>2</td><td><code>palette[2]</code></td><td><code>(222, 169, 73)</code></td></tr>
+            <tr><th scope="row">네 번째</th><td>3</td><td><code>palette[3]</code></td><td><code>(72, 126, 116)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="value-contrast" role="group" aria-label="리스트 전체와 리스트 항목 비교">
+        <div class="value-case">
+          <span class="visual-label">Whole list</span>
+          <pre><code>palette</code></pre>
+          <p>색상 네 개가 들어 있는 리스트 전체를 가리킵니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">One item</span>
+          <pre><code>palette[2]</code></pre>
+          <p>인덱스 2에 있는 세 번째 RGB 튜플 하나를 가리킵니다.</p>
+        </div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 주소 찾기 · 2분</span>
+        <h3>리스트의 주소를 코드로 적기</h3>
+        <ol>
+          <li>두 번째 색을 가져오는 코드를 적습니다.</li>
+          <li>마지막 색의 인덱스를 적습니다.</li>
+          <li><code>palette[4]</code>가 왜 유효하지 않은지 한 문장으로 설명합니다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">리스트 주소 확인</summary>
+        <div class="details-motion-content"><p>두 번째 색은 <code>palette[1]</code>, 마지막 색은 <code>palette[3]</code>입니다. 네 개의 항목에는 0부터 3까지 주소가 붙으므로 <code>palette[4]</code>는 존재하지 않는 다섯 번째 위치를 요청합니다.</p></div>
+      </details>
+
+      <h2 id="loop-over-list">16-26분 · 리스트의 색을 하나씩 꺼내 반복하기</h2>
+
+      <p><code>for</code>는 <code>range()</code>의 숫자뿐 아니라 리스트의 항목도 앞에서부터 하나씩 꺼낼 수 있습니다. 아래 코드에서 반복 변수 <code>color</code>는 첫 반복에 첫 번째 RGB 튜플, 다음 반복에 두 번째 RGB 튜플을 받습니다.</p>
+
+      <pre><code>x = 120
+
+for color in palette:
+    draw.ellipse((x, 220, x + 80, 300), fill=color)
+    x = x + 130</code></pre>
+
+      <p>반복 전에 <code>x = 120</code>으로 시작 위치를 정합니다. 원을 하나 그린 뒤 <code>x = x + 130</code>을 실행해 다음 위치를 준비합니다. 2주차에 배운 재대입이 반복문 안에서 사용된 것입니다. 첫 번째 원을 그린 뒤 x는 250, 두 번째 원을 그린 뒤 380이 됩니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>색상 리스트 반복의 상태 변화</caption>
+          <thead><tr><th scope="col">차례</th><th scope="col"><code>color</code></th><th scope="col">그릴 때의 x</th><th scope="col">그린 뒤의 x</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1</th><td><code>palette[0]</code></td><td>120</td><td>250</td></tr>
+            <tr><th scope="row">2</th><td><code>palette[1]</code></td><td>250</td><td>380</td></tr>
+            <tr><th scope="row">3</th><td><code>palette[2]</code></td><td>380</td><td>510</td></tr>
+            <tr><th scope="row">4</th><td><code>palette[3]</code></td><td>510</td><td>640</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="two-loop-styles">숫자를 반복할 때와 값을 반복할 때</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>두 가지 반복 방식의 선택 기준</caption>
+          <thead><tr><th scope="col">반복 방식</th><th scope="col">사용하는 값</th><th scope="col">적합한 상황</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>for i in range(4)</code></th><td>0, 1, 2, 3</td><td>현재 순서 번호로 위치나 크기를 계산해야 할 때</td></tr>
+            <tr><th scope="row"><code>for color in palette</code></th><td>리스트 안의 RGB 튜플</td><td>색을 앞에서부터 하나씩 직접 사용할 때</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>두 방식 가운데 하나가 항상 더 좋은 것은 아닙니다. 현재 위치 번호와 색을 함께 사용하려면 인덱스가 편리하고, 값 자체만 필요하면 리스트 항목을 직접 꺼내는 방식이 읽기 쉽습니다. 오늘의 격자에서는 행 번호로 y좌표와 색을 함께 정해야 하므로 <code>row</code>를 인덱스로 사용합니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">x = x + 130을 원을 그리기 전에 실행하면?</summary>
+        <div class="details-motion-content"><p>첫 x좌표가 120이 아니라 250이 됩니다. Python은 위에서 아래로 실행하므로 업데이트의 위치가 결과를 바꿉니다. 현재 위치에 먼저 그린 뒤 다음 위치를 준비하려면 <code>draw.ellipse()</code> 다음에 재대입을 둡니다.</p></div>
+      </details>
+
+      <h2 id="nested-loops">26-39분 · 두 겹의 반복으로 행과 열 만들기</h2>
+
+      <p>한 줄을 여러 줄로 확장하려면 가로 방향과 세로 방향의 반복이 모두 필요합니다. <strong>중첩 반복</strong>은 한 반복문 안에 다른 반복문이 들어 있는 구조입니다. 바깥 반복은 현재 행을 선택하고, 안쪽 반복은 그 행의 열을 왼쪽에서 오른쪽으로 채웁니다.</p>
+
+      <pre><code>rows = 4
+columns = 6
+
+for row in range(rows):
+    color = palette[row]
+
+    for column in range(columns):
+        x = 120 + column * 140
+        y = 110 + row * 170
+        size = 40 + column * 9
+        draw.ellipse((x, y, x + size, y + size), fill=color)</code></pre>
+
+      <p>바깥 반복의 <code>row</code>가 0일 때 안쪽의 <code>column</code>은 0부터 5까지 모두 실행됩니다. 첫 번째 행의 여섯 원을 다 그린 뒤에야 <code>row</code>가 1이 됩니다. 그러면 <code>color = palette[1]</code>로 색이 바뀌고, y좌표도 한 행 아래로 이동합니다.</p>
+
+      <div class="trace-board" role="group" aria-label="중첩 반복문의 실행 순서">
+        <div class="trace-state"><span class="visual-label">Outer loop</span><code>row = 0</code><div class="trace-binding">첫 행과 첫 색 선택</div></div>
+        <div class="trace-state"><span class="visual-label">Inner loop</span><code>column = 0 ... 5</code><div class="trace-binding">첫 행의 여섯 칸 완성</div></div>
+        <div class="trace-state"><span class="visual-label">Outer loop</span><code>row = 1</code><div class="trace-binding">다음 행과 다음 색 선택</div></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>격자 앞부분과 마지막 칸의 실행 추적</caption>
+          <thead><tr><th scope="col">차례</th><th scope="col"><code>row</code></th><th scope="col"><code>column</code></th><th scope="col">x</th><th scope="col">y</th><th scope="col">색</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1</th><td>0</td><td>0</td><td>120</td><td>110</td><td><code>palette[0]</code></td></tr>
+            <tr><th scope="row">2</th><td>0</td><td>1</td><td>260</td><td>110</td><td><code>palette[0]</code></td></tr>
+            <tr><th scope="row">3</th><td>0</td><td>2</td><td>400</td><td>110</td><td><code>palette[0]</code></td></tr>
+            <tr><th scope="row">6</th><td>0</td><td>5</td><td>820</td><td>110</td><td><code>palette[0]</code></td></tr>
+            <tr><th scope="row">7</th><td>1</td><td>0</td><td>120</td><td>280</td><td><code>palette[1]</code></td></tr>
+            <tr><th scope="row">24</th><td>3</td><td>5</td><td>820</td><td>620</td><td><code>palette[3]</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="count-and-coordinates">행 × 열로 전체 실행 횟수 계산하기</h3>
+      <p>바깥 반복이 네 번 실행되고, 각 행마다 안쪽 반복이 여섯 번 실행됩니다. 따라서 도형 명령의 전체 실행 횟수는 <code>rows * columns</code>, 즉 <code>4 * 6 = 24</code>입니다. 안쪽 반복이 전체에서 한 번만 실행되는 것이 아니라 <strong>각 행마다 처음부터 다시</strong> 실행된다는 점이 핵심입니다.</p>
+
+      <div class="value-contrast" role="group" aria-label="행과 열이 좌표에 미치는 영향">
+        <div class="value-case">
+          <span class="visual-label">Column controls x</span>
+          <pre><code>x = 120 + column * 140</code></pre>
+          <p>열 번호가 커질수록 도형이 오른쪽으로 이동합니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Row controls y</span>
+          <pre><code>y = 110 + row * 170</code></pre>
+          <p>행 번호가 커질수록 도형이 아래쪽으로 이동합니다.</p>
+        </div>
+      </div>
+
+      <figure class="lesson-visual" aria-labelledby="palette-grid-caption">
+        <img src="assets/week-04-palette-grid.png" width="1200" height="900" loading="lazy" decoding="async" alt="네 행은 서로 다른 색을 사용하고 여섯 열은 오른쪽으로 갈수록 원의 크기가 커지는 격자 결과">
+        <figcaption id="palette-grid-caption"><code>row</code>는 y좌표와 색을, <code>column</code>은 x좌표와 크기를 결정합니다. 두 반복 변수가 서로 다른 시각 속성을 담당합니다.</figcaption>
+      </figure>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 추적 · 3분</span>
+        <h3>row = 2, column = 4인 원 계산하기</h3>
+        <ol>
+          <li><code>x = 120 + column * 140</code>의 결과를 구합니다.</li>
+          <li><code>y = 110 + row * 170</code>의 결과를 구합니다.</li>
+          <li><code>size = 40 + column * 9</code>의 결과를 구합니다.</li>
+          <li>사용되는 색을 <code>palette[주소]</code> 형태로 적습니다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">격자 한 칸 계산 확인</summary>
+        <div class="details-motion-content"><p>x는 <code>120 + 4 * 140 = 680</code>, y는 <code>110 + 2 * 170 = 450</code>, 크기는 <code>40 + 4 * 9 = 76</code>입니다. 세 번째 행이므로 색은 <code>palette[2]</code>입니다.</p></div>
+      </details>
+
+      <h3 id="indentation-map">들여쓰기 깊이가 실행 관계를 보여 준다</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>중첩 반복 코드의 들여쓰기 지도</caption>
+          <thead><tr><th scope="col">깊이</th><th scope="col">대표 코드</th><th scope="col">실행 시점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0칸</th><td><code>for row in range(rows):</code></td><td>새 행을 선택할 때</td></tr>
+            <tr><th scope="row">4칸</th><td><code>color = palette[row]</code></td><td>각 행에서 한 번</td></tr>
+            <tr><th scope="row">4칸</th><td><code>for column in range(columns):</code></td><td>현재 행의 열 반복을 시작할 때</td></tr>
+            <tr><th scope="row">8칸</th><td><code>x = ...</code>, <code>y = ...</code>, <code>draw.ellipse(...)</code></td><td>행 안의 각 열마다 한 번</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>color = palette[row]</code>는 열이 바뀌어도 같은 행에서는 색이 같으므로 바깥 반복 안, 안쪽 반복 밖에 둡니다. 이 줄을 안쪽 반복 안에 넣어도 같은 결과는 만들 수 있지만 같은 색을 열마다 다시 찾게 됩니다. 값이 변하는 가장 가까운 반복 수준에 코드를 두면 구조와 의도가 더 잘 드러납니다.</p>
+
+      <h2 id="full-program">39-46분 · 전체 Pillow 프로그램과 오류 읽기</h2>
+
+      <p>아래 코드는 3주차의 이미지 생성, 도형 그리기, 미리보기, 저장 흐름에 오늘 배운 리스트와 중첩 반복을 넣은 완전한 예입니다. 처음부터 한 글자씩 외우지 않고 여섯 묶음으로 나누어 읽습니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+
+# 1. 캔버스와 팔레트
+canvas_width = 1000
+canvas_height = 820
+background_color = (238, 233, 222)
+
+palette = [
+    (37, 62, 78),
+    (218, 100, 74),
+    (222, 169, 73),
+    (72, 126, 116),
+]
+
+# 2. 이미지와 그리기 도구
+image = Image.new(
+    "RGB",
+    (canvas_width, canvas_height),
+    background_color,
+)
+draw = ImageDraw.Draw(image)
+
+# 3. 격자 설정
+rows = 4
+columns = 6
+start_x = 120
+start_y = 110
+gap_x = 140
+gap_y = 170
+
+# 4. 행과 열 반복
+for row in range(rows):
+    color = palette[row]
+
+    for column in range(columns):
+        x = start_x + column * gap_x
+        y = start_y + row * gap_y
+        size = 40 + column * 9
+
+        draw.ellipse(
+            (x, y, x + size, y + size),
+            fill=color,
+        )
+
+# 5. 결과 저장
+output_filename = "week04_rhythm_grid.png"
+image.save(output_filename)
+
+# 6. 미리보기
+image</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>전체 프로그램을 읽는 여섯 묶음</caption>
+          <thead><tr><th scope="col">묶음</th><th scope="col">하는 일</th><th scope="col">3주차와의 관계</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">도구 준비</th><td><code>Image</code>와 <code>ImageDraw</code>를 가져옴</td><td>동일</td></tr>
+            <tr><th scope="row">캔버스와 색</th><td>크기, 배경, 네 색의 리스트를 정의</td><td>개별 색상 변수가 리스트로 확장됨</td></tr>
+            <tr><th scope="row">이미지 생성</th><td>빈 이미지와 그리기 도구를 준비</td><td>동일</td></tr>
+            <tr><th scope="row">격자 설정</th><td>행, 열, 시작점, 간격을 변수로 저장</td><td>도형 하나의 좌표가 배치 규칙으로 확장됨</td></tr>
+            <tr><th scope="row">중첩 반복</th><td>각 행과 열의 좌표·크기·색을 계산해 원을 그림</td><td>도형 명령 하나가 24번 실행됨</td></tr>
+            <tr><th scope="row">저장과 미리보기</th><td>PNG 파일을 저장하고 완성 상태를 출력 영역에 표시</td><td>3주차의 저장 흐름을 그대로 사용</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">39-46분에는 새로 추가된 두 묶음만 자세히 읽는다</p>
+        <p>도구 준비, 이미지 생성, 저장은 3주차에 이미 다룬 흐름이므로 역할만 확인합니다. 강의의 초점은 <strong>격자 설정</strong>과 <strong>행·열 반복</strong>입니다. <code>rows</code>, <code>columns</code>, <code>palette[row]</code>, x·y 계산을 앞의 추적표와 연결한 뒤 저장된 PNG 파일명을 확인합니다.</p>
+      </div>
+
+      <div class="value-contrast" role="group" aria-label="기본 구간에서 확인할 두 오류">
+        <div class="value-case">
+          <span class="visual-label">IndentationError</span>
+          <p>두 <code>for</code>와 도형 명령의 들여쓰기 깊이를 비교합니다. 바깥 반복 안은 네 칸, 안쪽 반복 안은 여덟 칸입니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">IndexError</span>
+          <p><code>rows</code>가 팔레트의 색상 수보다 크지 않은지 확인합니다. 네 색을 사용할 때 행 번호는 0부터 3까지입니다.</p>
+        </div>
+      </div>
+
+      <h2 id="practice-bridge">46-50분 · 3교시 연결: 나만의 리듬 그리드</h2>
+
+      <p>3교시는 정해진 시간을 모두 채우는 방식이 아니라, 필수 목표를 완성하고 파일 검사를 통과하면 종료하는 <strong>목표 달성형 개인 실습</strong>으로 이어집니다. 2교시가 끝날 때에는 코드를 완성하지 않고, 아래 조건을 어떤 값으로 구현할지만 결정합니다. 강사는 표의 모든 문장을 다시 설명하지 않고 <strong>색 3개 이상, 도형 20개 이상, 두 속성 변화</strong>라는 세 통과 기준을 확인합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>3교시 리듬 그리드의 필수 목표</caption>
+          <thead><tr><th scope="col">목표</th><th scope="col">최소 기준</th><th scope="col">2교시에서 결정할 것</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">색상 리스트</th><td>직접 정한 RGB 색상 3개 이상</td><td>배경과 구분되는 팔레트</td></tr>
+            <tr><th scope="row">중첩 반복</th><td><code>for row</code>와 <code>for column</code> 사용</td><td>행 수와 열 수</td></tr>
+            <tr><th scope="row">충분한 반복</th><td><code>rows * columns</code>가 20 이상</td><td>전체 도형 수 계산</td></tr>
+            <tr><th scope="row">좌표 규칙</th><td>x는 column, y는 row와 연결</td><td>시작점과 가로·세로 간격</td></tr>
+            <tr><th scope="row">의도적 변화</th><td>색, 크기, 간격 가운데 두 속성 이상 변화</td><td>어떤 변수와 계산식을 바꿀지</td></tr>
+            <tr><th scope="row">결과 파일</th><td>PNG와 실행 가능한 Colab 노트북 저장</td><td>파일명의 학번과 이름</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 사전 설계 · 2분</span>
+        <h3>실습 시작 전에 세 결정을 남기기</h3>
+        <ol>
+          <li><code>rows = ____</code>, <code>columns = ____</code>, 따라서 <code>rows * columns = ____</code></li>
+          <li>변화시킬 속성 두 개: ________, ________</li>
+          <li>완성 이미지의 리듬을 설명하는 문장: “________이/가 ________ 방향으로 반복되며 ________한다.”</li>
+        </ol>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">이번 시간에 아직 다루지 않는 것</p>
+        <p><code>while</code> 반복문, 조건문, 난수는 이번 격자에 넣지 않습니다. 리스트 컴프리헨션, <code>enumerate()</code>, 나머지 연산을 이용한 색 순환도 아직 사용하지 않습니다. 4주차에는 <strong>정해진 순서와 예측 가능한 결과</strong>를 정확히 이해하고, 조건과 우연성은 5주차에 추가합니다.</p>
+      </div>
+
+      <h2 id="extension">50-60분 · 같은 구조에서 다른 리듬 찾기</h2>
+
+      <p>아래 세 이미지는 모두 행과 열의 중첩 반복으로 만들 수 있습니다. 코드의 뼈대는 같고 팔레트, 크기, 간격의 관계만 다릅니다. 화면을 보고 먼저 변화 규칙을 추론한 뒤, 어떤 매개변수를 바꾸어야 하는지 연결합니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="grid-variations-caption">
+        <img src="assets/week-04-grid-variations.png" width="1200" height="680" loading="lazy" decoding="async" alt="균일한 원 격자, 행마다 색이 바뀌는 격자, 크기와 간격이 달라지는 격자의 세 패널 비교">
+        <figcaption id="grid-variations-caption">같은 행·열 구조도 색의 선택 기준, 크기 계산, 간격에 따라 안정적 반복·색의 층·점진적 변화로 읽힐 수 있습니다.</figcaption>
+      </figure>
+
+      <div class="table-wrap">
+        <table>
+          <caption>50-60분 확장 운영</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">활동</th><th scope="col">남겨야 할 결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">50-53분</th><td>세 패널에서 고정된 속성과 변한 속성을 각각 표시</td><td>패널별 관찰 두 항목</td></tr>
+            <tr><th scope="row">53-56분</th><td>색, 크기, 간격 가운데 원인이 되는 매개변수 연결</td><td>코드 수정 지점 세 개</td></tr>
+            <tr><th scope="row">56-59분</th><td>3교시에서 만들 구성을 하나 선택해 값 결정</td><td>행·열·간격·크기·팔레트 초안</td></tr>
+            <tr><th scope="row">59-60분</th><td>전체 도형 수와 캔버스 경계 점검</td><td>계산식과 최종 선택 이유</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">세 패널을 코드 매개변수로 설명하는 예시</summary>
+        <div class="details-motion-content"><p>균일한 패널은 크기와 간격을 상수로 유지합니다. 행별 색 패널은 <code>palette[row]</code>로 y방향의 층을 만듭니다. 변주 패널은 <code>size</code>를 row 또는 column과 연결하고, <code>gap_x</code>와 <code>gap_y</code>를 다르게 정해 밀도와 방향성을 만듭니다.</p></div>
+      </details>
+
+      <div class="callout callout-success">
+        <p class="callout-title">2교시 핵심 문장</p>
+        <p><strong>리스트는 여러 선택을 순서로 묶고, 중첩 반복은 그 선택을 행과 열의 좌표 규칙으로 확장합니다.</strong></p>
+      </div>
+
+      <h2 id="after-class-review">수업 후 개별 복습</h2>
+
+      <p>아래 내용은 기본 50분과 확장 10분의 현장 설명에 포함하지 않습니다. 3교시를 시작하기 전에 자신의 설계 값을 바꿀 때 참고하거나, 오류가 발생했을 때 필요한 항목만 찾아봅니다. 한 번에 한 종류의 값만 바꾸고 결과를 확인하면 무엇이 화면을 바꾸었는지 분명하게 설명할 수 있습니다.</p>
+
+      <h3 id="safe-edits">매개변수와 예상 결과 연결하기</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>한 번에 하나씩 바꿀 값과 점검할 위험</caption>
+          <thead><tr><th scope="col">바꿀 값</th><th scope="col">직접 변하는 것</th><th scope="col">점검할 위험</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>palette</code></th><td>행별 색상</td><td>색상 수가 행 수보다 적지 않은지 확인</td></tr>
+            <tr><th scope="row"><code>rows</code></th><td>세로 방향 도형 수</td><td>팔레트 길이와 캔버스 높이 확인</td></tr>
+            <tr><th scope="row"><code>columns</code></th><td>가로 방향 도형 수</td><td>마지막 도형이 오른쪽 경계를 넘는지 확인</td></tr>
+            <tr><th scope="row"><code>gap_x</code>, <code>gap_y</code></th><td>가로·세로 간격</td><td>너무 작으면 겹치고 너무 크면 화면 밖으로 나감</td></tr>
+            <tr><th scope="row"><code>size</code> 계산</th><td>열에 따른 도형 크기</td><td>크기가 간격보다 커져 겹치는 시점 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="errors">오류 메시지를 구조와 연결하기</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>리스트와 중첩 반복의 대표 문제</caption>
+          <thead><tr><th scope="col">오류 또는 현상</th><th scope="col">뜻</th><th scope="col">점검 순서</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>IndentationError</code></th><td>Python이 바깥 반복과 안쪽 반복의 코드 블록을 구분하지 못함</td><td>두 <code>for</code>와 도형 명령의 들여쓰기 깊이를 위에서부터 비교</td></tr>
+            <tr><th scope="row"><code>IndexError</code></th><td>리스트에 없는 주소의 항목을 요청함</td><td><code>rows</code>와 팔레트의 색상 수, <code>palette[row]</code>의 마지막 row 확인</td></tr>
+            <tr><th scope="row"><code>NameError</code></th><td>사용한 이름이 아직 실행되지 않았거나 철자가 다름</td><td><code>palette</code>, <code>row</code>, <code>column</code> 정의 셀을 위에서부터 실행</td></tr>
+            <tr><th scope="row">격자가 한 줄로 겹침</th><td>y 계산이 <code>row</code>와 연결되지 않았을 가능성</td><td><code>y = start_y + row * gap_y</code> 확인</td></tr>
+            <tr><th scope="row">오류 없이 일부가 안 보임</th><td>도형 좌표가 캔버스 밖에 있어 잘리거나 보이지 않음</td><td>마지막 x·y에 크기를 더해 캔버스 너비·높이와 비교</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">행 수가 색상 수보다 많으면 IndexError가 생길 수 있다</p>
+        <p>팔레트에 색이 네 개일 때 <code>rows = 5</code>로 바꾸면 마지막 행에서 <code>palette[4]</code>를 요청합니다. 유효한 인덱스는 0부터 3까지이므로 다섯 번째 행의 색을 찾을 수 없습니다. 이번 수업에서는 <strong>행 수와 팔레트 길이를 같게</strong> 유지합니다.</p>
+      </div>
+
+      <div class="concept-check-list">
+        <details>
+          <summary>1. rows = 3, columns = 8이면 원은 몇 개인가?</summary>
+          <div class="details-motion-content"><p><code>rows * columns = 3 * 8 = 24</code>이므로 원은 24개입니다. 기존 4 × 6 격자와 전체 수는 같지만 행과 열의 비율이 달라 화면 구성이 더 가로로 길어집니다.</p></div>
+        </details>
+        <details>
+          <summary>2. palette에 색이 다섯 개 있으면 마지막 인덱스는?</summary>
+          <div class="details-motion-content"><p>4입니다. 항목 수가 5이면 인덱스는 0, 1, 2, 3, 4입니다.</p></div>
+        </details>
+        <details>
+          <summary>3. 바깥 반복 row = 0에서 column은 어디까지 실행되는가?</summary>
+          <div class="details-motion-content"><p><code>columns = 6</code>이면 column은 0, 1, 2, 3, 4, 5를 모두 거칩니다. 그 뒤에 row가 1로 바뀌고 column은 다시 0부터 시작합니다.</p></div>
+        </details>
+        <details>
+          <summary>4. 각 열의 색을 다르게 하려면 어떤 값을 사용해야 하는가?</summary>
+          <div class="details-motion-content"><p>색을 열 기준으로 선택하려면 <code>palette[column]</code>처럼 column을 인덱스로 사용할 수 있습니다. 단, 열이 여섯 개라면 팔레트에도 최소 여섯 색이 있어야 합니다.</p></div>
+        </details>
+        <details>
+          <summary>5. 도형 30개를 만드는 서로 다른 행 × 열 조합 두 개는?</summary>
+          <div class="details-motion-content"><p>예를 들어 5행 × 6열, 3행 × 10열이 있습니다. 전체 수가 같아도 가로세로 비율과 시각적 인상은 달라집니다.</p></div>
+        </details>
+      </div>
+
+      <h2 id="references">참고 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://docs.python.org/3/tutorial/introduction.html#lists" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: Lists</strong></a><small>대괄호로 만드는 리스트, 0부터 시작하는 인덱스, 항목 접근에 관한 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/tutorial/controlflow.html#for-statements" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: for Statements와 range()</strong></a><small>리스트와 정수 범위를 순서대로 반복하는 문장의 공식 설명</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw</strong></a><small>좌표 경계 상자, fill 색상, 타원을 포함한 도형 명령의 공식 사용법</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#one-row-recall">0-5분 · 한 줄 반복 회상</a></li>
+        <li class="toc-level-2"><a href="#list-index">5-16분 · 리스트와 인덱스</a></li>
+        <li class="toc-level-3"><a href="#zero-index">0부터 시작하는 주소</a></li>
+        <li class="toc-level-2"><a href="#loop-over-list">16-26분 · 리스트 반복</a></li>
+        <li class="toc-level-3"><a href="#two-loop-styles">두 반복 방식</a></li>
+        <li class="toc-level-2"><a href="#nested-loops">26-39분 · 중첩 반복</a></li>
+        <li class="toc-level-3"><a href="#count-and-coordinates">개수와 좌표</a></li>
+        <li class="toc-level-3"><a href="#indentation-map">들여쓰기 지도</a></li>
+        <li class="toc-level-2"><a href="#full-program">39-46분 · 전체 코드</a></li>
+        <li class="toc-level-2"><a href="#practice-bridge">46-50분 · 3교시 연결</a></li>
+        <li class="toc-level-2"><a href="#extension">50-60분 · 비교 확장</a></li>
+        <li class="toc-level-2"><a href="#after-class-review">수업 후 개별 복습</a></li>
+        <li class="toc-level-3"><a href="#safe-edits">매개변수 점검</a></li>
+        <li class="toc-level-3"><a href="#errors">대표 오류</a></li>
+        <li class="toc-level-2"><a href="#references">참고 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 04 · Period 02</p>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
