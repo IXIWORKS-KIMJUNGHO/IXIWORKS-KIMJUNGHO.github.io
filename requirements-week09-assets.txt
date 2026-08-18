@@ -1,0 +1,2 @@
+# The generator also verifies Pillow's bundled FreeType is 2.13.2.
+Pillow==11.1.0

@@ -4,28 +4,67 @@ from __future__ import annotations
 
 import argparse
 import csv
+import inspect
 import json
 from dataclasses import asdict, dataclass
 from html import escape
 from io import StringIO
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, __version__ as PILLOW_RUNTIME_VERSION
+from PIL import features
 
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_ASSET_DIR = ROOT / "teaching" / "contents-programming" / "assets"
 
-INK = (28, 31, 30, 255)
-PAPER = (244, 241, 232, 255)
-PANEL = (252, 250, 245, 255)
+PILLOW_VERSION = "11.1.0"
+FREETYPE_VERSION = "2.13.2"
+
+CARD_COLORS = {
+    "ink": (28, 31, 30, 255),
+    "paper": (244, 241, 232, 255),
+    "panel": (252, 250, 245, 255),
+    "teal": (37, 105, 111, 255),
+    "coral": (168, 62, 50, 255),
+    "line": (166, 164, 154, 255),
+}
+INK = CARD_COLORS["ink"]
+PAPER = CARD_COLORS["paper"]
+PANEL = CARD_COLORS["panel"]
 MUTED = (91, 94, 89, 255)
-LINE = (166, 164, 154, 255)
-TEAL = (37, 105, 111, 255)
-CORAL = (219, 91, 74, 255)
+LINE = CARD_COLORS["line"]
+TEAL = CARD_COLORS["teal"]
+CORAL = CARD_COLORS["coral"]
 YELLOW = (235, 184, 61, 255)
+GOLD_TEXT = (139, 94, 0, 255)
 BLUE = (69, 91, 146, 255)
 MINT = (132, 177, 151, 255)
+
+
+def rgba_to_hex(color: tuple[int, int, int, int]) -> str:
+    return "#" + "".join(f"{channel:02x}" for channel in color[:3])
+
+
+CARD_CSS_CUSTOM_PROPERTIES = "; ".join(
+    f"--{name}:{rgba_to_hex(color)}" for name, color in CARD_COLORS.items()
+) + ";"
+
+
+def verify_visual_runtime() -> None:
+    """Refuse to emit byte-unstable PNGs from an unpinned raster toolchain."""
+
+    freetype_runtime_version = features.version("freetype2")
+    if (
+        PILLOW_RUNTIME_VERSION != PILLOW_VERSION
+        or freetype_runtime_version != FREETYPE_VERSION
+    ):
+        raise RuntimeError(
+            "Week 9 visuals require "
+            f"Pillow {PILLOW_VERSION} / FreeType {FREETYPE_VERSION}; got "
+            f"Pillow {PILLOW_RUNTIME_VERSION} / FreeType {freetype_runtime_version}. "
+            "Run `npm run setup:week09-assets`."
+        )
 
 
 @dataclass(frozen=True)
@@ -118,6 +157,27 @@ def sample_csv_text() -> str:
     return csv_buffer.getvalue()
 
 
+def render_question_cards(
+    answerable: object,
+    needed_columns: list[object],
+    unanswerable: object,
+    missing_reason: object,
+) -> str:
+    """Render the shared, non-sectioning question-card fragment."""
+
+    safe_needed = " + ".join(escape(str(name)) for name in needed_columns)
+    return f"""<div class="question">
+        <span>ANSWERABLE QUESTION</span>
+        <strong>{escape(str(answerable))}</strong>
+        <p>필요한 열 / Needed columns: {safe_needed}</p>
+      </div>
+      <div class="question missing">
+        <span>NOT ANSWERABLE YET</span>
+        <strong>{escape(str(unanswerable))}</strong>
+        <p>{escape(str(missing_reason))}</p>
+      </div>"""
+
+
 def make_observation_to_table() -> Image.Image:
     image = Image.new("RGBA", (1440, 820), PAPER)
     draw = ImageDraw.Draw(image)
@@ -141,11 +201,23 @@ def make_observation_to_table() -> Image.Image:
         ("03 RECORD", "Named values"),
         ("04 TABLE", "One new row"),
     ]
-    colors = [CORAL, TEAL, YELLOW, BLUE]
+    outline_colors = [CORAL, TEAL, YELLOW, BLUE]
+    label_colors = [CORAL, TEAL, GOLD_TEXT, BLUE]
 
-    for panel, (kicker, title), color in zip(panels, labels, colors, strict=True):
-        rounded_panel(draw, panel, outline=color, width=5)
-        draw.text((panel[0] + 24, panel[1] + 24), kicker, fill=color, font=font(19, bold=True))
+    for panel, (kicker, title), outline_color, label_color in zip(
+        panels,
+        labels,
+        outline_colors,
+        label_colors,
+        strict=True,
+    ):
+        rounded_panel(draw, panel, outline=outline_color, width=5)
+        draw.text(
+            (panel[0] + 24, panel[1] + 24),
+            kicker,
+            fill=label_color,
+            font=font(19, bold=True),
+        )
         draw.text((panel[0] + 24, panel[1] + 58), title, fill=INK, font=font(27, bold=True))
 
     draw.text((78, 290), "Which activity", fill=INK, font=font(23, bold=True))
@@ -255,7 +327,7 @@ def make_dataframe_anatomy() -> Image.Image:
 
     selected_row_top = table_top + row_height * 3
     draw.rectangle((table_left, selected_row_top, table_right, selected_row_top + row_height), outline=YELLOW, width=6)
-    draw.text((1090, 428), "ONE ROW", fill=(169, 119, 17, 255), font=font(19, bold=True))
+    draw.text((1090, 428), "ONE ROW", fill=GOLD_TEXT, font=font(19, bold=True))
     draw.line((1072, 445, table_right + 4, selected_row_top + 36), fill=YELLOW, width=4)
 
     selected_column_left = x_positions[3]
@@ -290,6 +362,12 @@ def make_dataframe_anatomy() -> Image.Image:
 def reading_card_html() -> str:
     missing_focus = sum(record.focus_level == "" for record in RECORDS)
     missing_mood = sum(record.mood_after == "" for record in RECORDS)
+    question_cards = render_question_cards(
+        "How does average duration differ by activity?",
+        ["activity", "duration_min"],
+        "Which sessions included another person?",
+        "No collaborator column was recorded.",
+    )
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -310,7 +388,7 @@ def reading_card_html() -> str:
   <meta name="twitter:description" content="A sample card for reading a dataset before visualization.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <style>
-    :root {{ color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#aaa69b; }}
+    :root {{ color-scheme: light; {CARD_CSS_CUSTOM_PROPERTIES} }}
     * {{ box-sizing:border-box; }}
     body {{ margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }}
     .skip-link {{ position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }}
@@ -344,18 +422,7 @@ def reading_card_html() -> str:
       <div><span>MISSING</span><strong>focus {missing_focus} / mood_after {missing_mood}</strong></div>
     </div>
     <div class="columns">{''.join(f'<code>{escape(column)}</code>' for column in FIELDNAMES)}</div>
-    <div class="questions">
-      <article class="question">
-        <span>ANSWERABLE QUESTION</span>
-        <strong>How does average duration differ by activity?</strong>
-        <p>Needed columns: activity + duration_min</p>
-      </article>
-      <article class="question missing">
-        <span>NOT ANSWERABLE YET</span>
-        <strong>Which sessions included another person?</strong>
-        <p>No collaborator column was recorded.</p>
-      </article>
-    </div>
+    <div class="questions">{question_cards}</div>
     <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
   </main>
 </body>
@@ -523,6 +590,10 @@ print("나의 설명:", selected_value_explanation)
 # STEP 4 · 데이터 읽기 카드 HTML 생성 — 이 셀은 수정하지 않습니다.
 mission_step4_execution = get_ipython().execution_count
 
+CARD_CSS_CUSTOM_PROPERTIES = "__CARD_CSS_CUSTOM_PROPERTIES__"
+
+__QUESTION_CARDS_RENDERER_SOURCE__
+
 def build_data_reading_card(metadata, dataframe, questions, evidence):
     safe_columns = "".join(
         f"<code>{escape(str(name))}</code>" for name in dataframe.columns
@@ -532,8 +603,11 @@ def build_data_reading_card(metadata, dataframe, questions, evidence):
         for name, count in dataframe.isna().sum().items()
         if int(count) > 0
     ) or "<li><span>결측값 없음</span><strong>0</strong></li>"
-    safe_needed = " + ".join(
-        escape(str(name)) for name in questions["needed_columns"]
+    question_cards = render_question_cards(
+        questions["answerable"],
+        questions["needed_columns"],
+        questions["unanswerable"],
+        questions["missing_reason"],
     )
 
     return f"""<!doctype html>
@@ -543,7 +617,7 @@ def build_data_reading_card(metadata, dataframe, questions, evidence):
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{escape(str(metadata['title']))} · Data Reading Card</title>
   <style>
-    :root {{ color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#aaa69b; }}
+    :root {{ color-scheme: light; __CARD_CSS_CUSTOM_PROPERTIES__ }}
     * {{ box-sizing:border-box; }}
     body {{ margin:0; padding:36px; color:var(--ink); background:var(--paper); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }}
     .skip-link {{ position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }}
@@ -585,18 +659,7 @@ def build_data_reading_card(metadata, dataframe, questions, evidence):
     <div class="columns">{safe_columns}</div>
     <h2>MISSING VALUES / 결측값</h2>
     <ul class="missing-list">{safe_missing}</ul>
-    <div class="questions">
-      <article class="question">
-        <span>ANSWERABLE QUESTION</span>
-        <strong>{escape(str(questions['answerable']))}</strong>
-        <p>필요한 열: {safe_needed}</p>
-      </article>
-      <article class="question missing">
-        <span>NOT ANSWERABLE YET</span>
-        <strong>{escape(str(questions['unanswerable']))}</strong>
-        <p>{escape(str(questions['missing_reason']))}</p>
-      </article>
-    </div>
+    <div class="questions">{question_cards}</div>
     <h2>ONE VALUE IN CONTEXT / 실제 값 읽기</h2>
     <p class="evidence"><strong>index {evidence['row_index']} · {escape(str(evidence['column']))} = {escape(str(evidence['value']))}</strong><br>{escape(str(evidence['explanation']))}</p>
     <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
@@ -631,6 +694,13 @@ Path(output_filename).write_text(card_html, encoding="utf-8")
 display(HTML(card_html))
 print("카드 저장 완료:", output_filename)
 '''
+    step_4 = step_4.replace(
+        "__CARD_CSS_CUSTOM_PROPERTIES__",
+        CARD_CSS_CUSTOM_PROPERTIES,
+    ).replace(
+        "__QUESTION_CARDS_RENDERER_SOURCE__",
+        inspect.getsource(render_question_cards).strip(),
+    )
     final_check = '''
 # FINAL CHECK · 런타임 재시작 후 STEP 0부터 여기까지 모두 실행합니다.
 mission_final_execution = get_ipython().execution_count
@@ -668,8 +738,6 @@ own_source_ok = (
     and observation_unit != "한 번의 창작 활동"
     and time_range != "2026-05-04부터 2026-05-27까지"
 )
-selected_value_token = str(selected_value)
-
 checks = {
     "새 런타임에서 STEP 0부터 순서대로 실행": execution_order_ok,
     "학번 수정": safe_student_id not in {"", "학번", "20260000"},
@@ -702,9 +770,6 @@ checks = {
     "선택한 열이 실제 열에 존재": selected_column in df.columns,
     "선택한 값 설명 직접 작성": not selected_value_explanation.strip().startswith("EDIT:")
     and len(selected_value_explanation.strip()) >= 20,
-    "설명과 선택한 행·열·값 일치": str(selected_row_index) in selected_value_explanation
-    and selected_column in selected_value_explanation
-    and selected_value_token in selected_value_explanation,
     "정확한 HTML 파일명": output_filename == expected_output_filename,
     "HTML 파일 생성": Path(output_filename).exists(),
     "카드에 데이터 제목 포함": escape(dataset_title) in card_html,
@@ -770,7 +835,7 @@ CSV를 시각화하기 전에 구조와 맥락을 읽고, 독립적으로 열 �
                 """
 ## STEP 3 · 실제 값 하나를 문장으로 읽기
 
-표에 실제로 존재하는 인덱스와 열을 하나 고릅니다. 설명에는 **어느 행, 어느 열, 어떤 값이며 현실에서 무엇을 뜻하는지**를 20자 이상으로 적습니다.
+표에 실제로 존재하는 인덱스와 열을 하나 고릅니다. 카드가 인덱스·열 이름·원래 값을 자동으로 표시하므로, 설명에는 그 값이 **현실에서 무엇을 뜻하는지**를 자연스러운 문장으로 20자 이상 적습니다.
 """
             ),
             code_cell(step_3),
@@ -816,6 +881,7 @@ CSV를 시각화하기 전에 구조와 맥락을 읽고, 독립적으로 열 �
 
 
 def generate_assets(asset_dir: Path) -> None:
+    verify_visual_runtime()
     asset_dir.mkdir(parents=True, exist_ok=True)
     write_sample_csv(asset_dir / "week-09-creative-activity.csv")
     (asset_dir / "week-09-data-reading-card-example.html").write_text(

@@ -262,7 +262,7 @@ column_names = df.columns.tolist()
 column_types = df.dtypes.astype(str).to_dict()
 missing_counts = df.isna().sum().astype(int).to_dict()</code></pre>
 
-      <p>STEP 3에서는 실제로 존재하는 행과 열을 하나 고릅니다. 예를 들어 <code>selected_row_index = 1</code>, <code>selected_column = "duration_min"</code>을 선택했다면 값 55를 보고 “두 번째 창작 활동이 55분 동안 이어졌다”라고 설명합니다. 단순히 “값은 55다”라고 반복하지 말고 현실에서 무엇을 뜻하는지 적습니다.</p>
+      <p>STEP 3에서는 실제로 존재하는 행과 열을 하나 고릅니다. 예를 들어 <code>selected_row_index = 1</code>, <code>selected_column = "duration_min"</code>을 선택했다면 값 55를 보고 “두 번째 창작 활동이 55분 동안 이어졌다”라고 설명합니다. 카드가 인덱스·열 이름·원래 값을 자동으로 표시하므로, 설명 문장에는 숫자나 코드 표기를 그대로 반복하지 않아도 됩니다. 현실에서 무엇을 뜻하는지 자연스럽게 적습니다.</p>
 
       <details class="callout callout-question">
         <summary class="callout-title"><code>KeyError</code>가 나오면 무엇을 확인하는가?</summary>

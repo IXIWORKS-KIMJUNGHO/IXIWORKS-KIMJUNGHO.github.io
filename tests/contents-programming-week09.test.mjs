@@ -283,9 +283,8 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     /EDIT: 선택한 행·열·값/,
     /not answerable_question\.strip\(\)\.startswith\("EDIT:"\)/,
     /not selected_value_explanation\.strip\(\)\.startswith\("EDIT:"\)/,
-    /selected_value_token.*selected_value_explanation/s,
     /len\(needed_columns\) >= 1/,
-    /<article class="question">/,
+    /<div class="question">/,
     /--coral:#a83e32/,
     /build_data_reading_card/,
     /Path\(output_filename\)\.write_text/,
@@ -297,6 +296,8 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     assert.match(notebookCode, pattern);
   }
   assert.doesNotMatch(notebookCode, /len\(needed_columns\) >= 2/);
+  assert.doesNotMatch(notebookCode, /selected_value_token/);
+  assert.doesNotMatch(notebookCode, /<article class="question/);
   assert.match(period3, /질문에 필요한 열 한 개 이상/);
 
   const csvLines = sampleCsv.trimEnd().split(/\r?\n/);
@@ -320,7 +321,8 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
   ]) {
     assert.match(sampleCard, pattern);
   }
-  assert.doesNotMatch(sampleCard, /<section class="question/);
+  assert.match(sampleCard, /<div class="question">/);
+  assert.doesNotMatch(sampleCard, /<(?:article|section) class="question/);
 
   const runtimeCheck = spawnSync(
     "python3",
@@ -342,10 +344,14 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
   assert.match(runtimeCheck.stdout, /week09 notebook scenarios PASS/);
 });
 
-test("Contents Programming week 9 generated assets stay reproducible", async () => {
+test("Contents Programming week 9 declares deterministic asset inputs", async () => {
   const generatorPath = resolve(root, "scripts", "generate-week09-data-assets.py");
   const generator = await readFile(
     generatorPath,
+    "utf8",
+  );
+  const requirements = await readFile(
+    resolve(root, "requirements-week09-assets.txt"),
     "utf8",
   );
 
@@ -364,7 +370,43 @@ test("Contents Programming week 9 generated assets stay reproducible", async () 
   assert.match(generator, /def make_dataframe_anatomy/);
   assert.match(generator, /def make_reading_card/);
   assert.match(generator, /inter-latin-variable\.woff2/);
+  assert.match(generator, /PILLOW_VERSION = "11\.1\.0"/);
+  assert.match(generator, /FREETYPE_VERSION = "2\.13\.2"/);
+  assert.match(generator, /CORAL = CARD_COLORS\["coral"\]/);
+  assert.match(generator, /GOLD_TEXT = \(139, 94, 0, 255\)/);
+  assert.match(generator, /CARD_CSS_CUSTOM_PROPERTIES/);
   assert.doesNotMatch(generator, /System\/Library\/Fonts|DejaVuSans/);
+  assert.match(requirements, /^Pillow==11\.1\.0$/m);
+});
+
+test("Contents Programming week 9 generated assets stay reproducible", async (t) => {
+  const generatorPath = resolve(root, "scripts", "generate-week09-data-assets.py");
+  const generatedFilenames = [
+    "week-09-creative-activity.csv",
+    "week-09-data-literacy-mission.ipynb",
+    "week-09-observation-to-table.png",
+    "week-09-dataframe-anatomy.png",
+    "week-09-data-reading-card-example.html",
+    "week-09-data-reading-card-example.png",
+  ];
+  const runtimeProbe = spawnSync(
+    "python3",
+    [
+      "-c",
+      [
+        "from PIL import __version__, features",
+        "assert __version__ == '11.1.0'",
+        "assert features.version('freetype2') == '2.13.2'",
+      ].join("; "),
+    ],
+    { cwd: root, encoding: "utf8" },
+  );
+  if (runtimeProbe.status !== 0) {
+    t.skip(
+      "install the pinned visual toolchain with `npm run setup:week09-assets`",
+    );
+    return;
+  }
 
   const outputDirectory = await mkdtemp(join(tmpdir(), "week09-assets-"));
   try {

@@ -221,6 +221,7 @@ def run_scenario(
     tamper_provided: bool = False,
     should_pass: bool,
     escaped_text: str | None = None,
+    expected_failure_label: str | None = None,
 ) -> None:
     cells = edited_cells(notebook_cells, assignments, explanation)
     shell = SimpleNamespace(execution_count=0)
@@ -245,12 +246,16 @@ def run_scenario(
                         namespace,
                     )
                     if execution_count == 1 and tamper_provided:
-                        Path("week09_creative_activity.csv").write_text(
-                            "activity,duration_min,note,kind\nchanged,9,x,y\n"
-                            "changed,8,x,y\nchanged,7,x,y\nchanged,6,x,y\n"
-                            "changed,5,x,y\n",
-                            encoding="utf-8",
+                        provided_path = Path("week09_creative_activity.csv")
+                        provided_csv = provided_path.read_text(encoding="utf-8")
+                        tampered_csv = provided_csv.replace(
+                            "인물 손 연습",
+                            "인물 손 연습 수정",
+                            1,
                         )
+                        if tampered_csv == provided_csv:
+                            raise AssertionError("could not create a harmless CSV mutation")
+                        provided_path.write_text(tampered_csv, encoding="utf-8")
                 except AssertionError as error:
                     failure = error
                     break
@@ -264,8 +269,10 @@ def run_scenario(
                 if Path(namespace["source_path"]).read_bytes() != namespace["source_bytes_before"]:
                     raise AssertionError("source CSV changed during execution")
                 output_html = output.read_text(encoding="utf-8")
-                if '<section class="question' in output_html:
-                    raise AssertionError("question cards use untitled section elements")
+                if '<div class="question' not in output_html:
+                    raise AssertionError("question cards are not layout containers")
+                if re.search(r'<(?:article|section) class="question', output_html):
+                    raise AssertionError("question cards misuse sectioning elements")
                 if '--coral:#a83e32' not in output_html:
                     raise AssertionError("card does not use the accessible accent color")
                 if (
@@ -280,6 +287,13 @@ def run_scenario(
                         raise AssertionError("escaped HTML input is missing")
             elif failure is None:
                 raise AssertionError("scenario should fail but produced PASS")
+            elif (
+                expected_failure_label is not None
+                and expected_failure_label not in str(failure)
+            ):
+                raise AssertionError(
+                    "scenario failed for the wrong reason: " + str(failure)
+                )
         finally:
             os.chdir(previous_directory)
 
@@ -306,9 +320,7 @@ def main() -> None:
             "함께 작업한 사람을 기록한 열이 없으므로 현재 데이터만으로는 답할 수 없다."
         ),
     }
-    explanation = (
-        "인덱스 1의 duration_min 값 55는 두 번째 활동이 55분 이어졌음을 뜻한다."
-    )
+    explanation = "두 번째 창작 활동은 모두 쉰다섯 분 동안 이어진 것으로 기록되었다."
     run_scenario(
         code_cells,
         provided_answers,
@@ -322,6 +334,7 @@ def main() -> None:
         explanation=explanation,
         tamper_provided=True,
         should_pass=False,
+        expected_failure_label="provided 또는 own 출처 선택",
     )
 
     own_csv = (
@@ -336,9 +349,7 @@ def main() -> None:
         "dataset_title": "개인 색채 연구 기록",
         "dataset_source": "작성자 본인의 익명화된 관찰 기록",
     }
-    own_explanation = (
-        "인덱스 1의 duration_min 값 40은 두 번째 색채 활동이 40분 이어졌음을 뜻한다."
-    )
+    own_explanation = "두 번째 색채 연구 활동은 사십 분 동안 이어진 것으로 기록되었다."
     run_scenario(
         code_cells,
         own_base,

@@ -18,7 +18,7 @@
   <meta name="twitter:description" content="A sample card for reading a dataset before visualization.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <style>
-    :root { color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#aaa69b; }
+    :root { color-scheme: light; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#a6a49a; }
     * { box-sizing:border-box; }
     body { margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo",sans-serif; }
     .skip-link { position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }
@@ -52,18 +52,16 @@
       <div><span>MISSING</span><strong>focus 2 / mood_after 1</strong></div>
     </div>
     <div class="columns"><code>record_id</code><code>date</code><code>activity</code><code>duration_min</code><code>focus_level</code><code>mood_before</code><code>mood_after</code><code>location_type</code><code>used_reference</code><code>note</code></div>
-    <div class="questions">
-      <article class="question">
+    <div class="questions"><div class="question">
         <span>ANSWERABLE QUESTION</span>
         <strong>How does average duration differ by activity?</strong>
-        <p>Needed columns: activity + duration_min</p>
-      </article>
-      <article class="question missing">
+        <p>필요한 열 / Needed columns: activity + duration_min</p>
+      </div>
+      <div class="question missing">
         <span>NOT ANSWERABLE YET</span>
         <strong>Which sessions included another person?</strong>
         <p>No collaborator column was recorded.</p>
-      </article>
-    </div>
+      </div></div>
     <footer><span>READ BEFORE VISUALIZE</span><span>structure → context → question</span></footer>
   </main>
 </body>
