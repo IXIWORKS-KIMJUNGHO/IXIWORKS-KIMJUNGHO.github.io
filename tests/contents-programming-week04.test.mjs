@@ -108,3 +108,91 @@ test("Contents Programming week 4 develops visual rhythm through loops and lists
     assert.match(period2, pattern);
   }
 });
+
+test("Contents Programming week 4 period 3 is a goal-based rhythm grid mission", async () => {
+  const courseIndex = await readFile(resolve(courseDirectory, "index.html"), "utf8");
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-04-period2.html"),
+    "utf8",
+  );
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-04-period3.html"),
+    "utf8",
+  );
+  const notebook = JSON.parse(
+    await readFile(
+      resolve(
+        courseDirectory,
+        "assets",
+        "week-04-rhythm-grid-mission.ipynb",
+      ),
+      "utf8",
+    ),
+  );
+  const notebookCode = notebook.cells
+    .filter((cell) => cell.cell_type === "code")
+    .flatMap((cell) => cell.source)
+    .join("");
+
+  assert.match(courseIndex, /href="week-04-period3\.html"/);
+  assert.match(period2, /href="week-04-period3\.html" rel="next"/);
+  assert.match(period3, /href="week-04-period2\.html" rel="prev"/);
+  assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
+  assert.ok(
+    [...period3.matchAll(/<details\b/gi)].length >= 6,
+    "the week 4 mission should include on-demand beginner help",
+  );
+
+  for (const timeRange of [
+    "0-6분",
+    "6-12분",
+    "12-18분",
+    "18-32분",
+    "32-40분",
+    "40-46분",
+    "46-50분",
+  ]) {
+    assert.match(period3, new RegExp(timeRange));
+  }
+
+  for (const pattern of [
+    /목표 달성형 개인 실습/,
+    /자동 검사 통과 \+ 두 파일 제출 확인 = 즉시 귀가/,
+    /week-04-rhythm-grid-mission\.ipynb/,
+    /week04_학번_이름\.ipynb/,
+    /week04_학번_이름\.png/,
+    /색상 리스트.*최소 두/s,
+    /rows \* columns.*20/s,
+    /중첩 반복/,
+    /색과 크기.*두 속성/s,
+    /자동 검사는 작품의 미적 취향을 채점하지 않는다/,
+    /WEEK 04 RHYTHM GRID COMPLETE/,
+    /작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다/,
+    /week-04-palette-grid\.png/,
+  ]) {
+    assert.match(period3, pattern);
+  }
+
+  assert.equal(
+    notebook.cells.filter((cell) => cell.cell_type === "code").length,
+    6,
+  );
+  for (const pattern of [
+    /STARTER_PALETTE/,
+    /palette = \[/,
+    /rows = len\(palette\)/,
+    /for row.*for column/s,
+    /color = palette\[row\]/,
+    /drawn_shape_count \+= 1/,
+    /rows \* columns >= 20/,
+    /changed_palette_count >= 2/,
+    /columns == 6/,
+    /4 <= size_step <= 10/,
+    /image\.save\(output_filename\)/,
+    /checked_file\.tobytes\(\) == image\.tobytes\(\)/,
+    /== \(1, 2, 3, 4, 5, 6\)/,
+    /WEEK 04 RHYTHM GRID COMPLETE/,
+  ]) {
+    assert.match(notebookCode, pattern);
+  }
+});

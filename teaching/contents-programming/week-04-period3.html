@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4주차 3교시: 나만의 리듬 그리드 미션 | Contents Programming Practice</title>
+  <meta name="description" content="색상 리스트와 중첩 반복으로 리듬 그리드를 완성하고, 자동 검사 PASS와 두 파일 제출을 마치면 즉시 귀가할 수 있는 목표 달성형 개인 실습입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-04-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="4주차 3교시: 나만의 리듬 그리드 미션 | Contents Programming Practice">
+  <meta property="og:description" content="팔레트, 행과 열, 크기 변화를 직접 설계하고 자동 검사와 제출을 완료하는 개인 미션입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-04-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="4주차 3교시: 나만의 리듬 그리드 미션 | Contents Programming Practice">
+  <meta name="twitter:description" content="완료 조건을 달성하면 제출 확인 후 즉시 귀가할 수 있는 Pillow 리듬 그리드 개인 실습입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+</head>
+<body class="teaching-document course-contents-programming">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-04-period2.html" rel="prev" aria-label="이전 자료: 4주차 2교시: 리스트와 중첩 반복으로 격자 만들기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <p class="eyebrow">Lists / Nested loops / Goal-based mission</p>
+        <h1>4주차 3교시: 나만의 리듬 그리드 미션</h1>
+        <p class="lead">2교시에서 읽은 색상 리스트와 중첩 반복을 직접 수정해, 색과 크기가 일정한 규칙으로 변하는 리듬 그리드를 완성합니다. 필수 조건을 증명하고 두 파일을 제출하면 남은 시간과 관계없이 바로 귀가할 수 있습니다.</p>
+        <div class="hero-meta" role="group" aria-label="핵심 정보">
+          <span class="hero-chip">WEEK 04</span>
+          <span class="hero-chip">PERIOD 03</span>
+          <span class="hero-chip">GOAL-BASED</span>
+          <span class="hero-chip">EARLY EXIT</span>
+          <span class="hero-chip">INDIVIDUAL</span>
+        </div>
+      </div>
+      <aside class="doc-card" aria-label="문서 정보">
+        <p class="doc-card-title">Mission Spec</p>
+        <div class="meta-row"><span class="meta-key">형식</span><span class="meta-value">목표 달성형 개인 실습</span></div>
+        <div class="meta-row"><span class="meta-key">최대 시간</span><span class="meta-value">50분</span></div>
+        <div class="meta-row"><span class="meta-key">완료 판정</span><span class="meta-value">자동 검사 PASS</span></div>
+        <div class="meta-row"><span class="meta-key">제출물</span><span class="meta-value">.ipynb + .png</span></div>
+        <div class="meta-row"><span class="meta-key">귀가 조건</span><span class="meta-value">제출 확인 즉시</span></div>
+      </aside>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">색의 순서와 크기의 변화로 반복에 방향 만들기</p>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 실습 목표</p>
+        <ul>
+          <li>색상 리스트의 RGB 튜플을 수정하고 팔레트의 순서를 이미지의 행과 연결할 수 있습니다.</li>
+          <li>바깥 <code>for row</code>와 안쪽 <code>for column</code>이 만드는 행·열 구조를 실행 결과에서 확인할 수 있습니다.</li>
+          <li><code>rows * columns</code>로 전체 도형 수를 계산하고 20개 이상의 도형을 만들 수 있습니다.</li>
+          <li>열 번호를 크기 계산에 연결해 색과 크기라는 두 속성이 변하는 시각적 리듬을 만들 수 있습니다.</li>
+          <li>완성 이미지를 PNG로 저장하고 새 세션에서 노트북 전체를 오류 없이 실행할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="goal-contract" role="group" aria-labelledby="goal-contract-title">
+        <div>
+          <span class="visual-label">오늘의 운영 원칙</span>
+          <h2 id="goal-contract-title">수업 시간을 채우는 대신 완료 조건을 증명한다</h2>
+          <p>처음 0-6분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 자동 검사에서 완료 문구를 확인하고 <code>.ipynb</code>와 <code>.png</code> 두 파일을 제출한 학생은 수업 종료 시각을 기다리지 않고 바로 귀가할 수 있습니다.</p>
+        </div>
+        <p class="goal-contract-note"><strong>속도는 평가하지 않습니다.</strong> 일찍 통과하거나 여러 번 수정한 뒤 통과하더라도 같은 완료 조건으로 판정합니다.</p>
+      </div>
+
+      <ol class="mission-route" aria-label="실습 완료 경로">
+        <li><span>01</span><strong>준비</strong><small>노트북 사본과 파일명</small></li>
+        <li><span>02</span><strong>기준</strong><small>수정 전 4행 × 5열 확인</small></li>
+        <li><span>03</span><strong>팔레트</strong><small>RGB 색상 두 개 이상 변경</small></li>
+        <li><span>04</span><strong>리듬</strong><small>6열과 크기 변화 설정</small></li>
+        <li><span>05</span><strong>검증</strong><small>PNG 저장과 자동 검사 PASS</small></li>
+        <li><span>06</span><strong>귀가</strong><small>두 파일 제출 확인 후 종료</small></li>
+      </ol>
+
+      <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
+        <div class="exit-pass" aria-hidden="true">PASS</div>
+        <div>
+          <p class="exit-gate-label">EXIT GATE</p>
+          <h2 id="exit-gate-title">자동 검사 통과 + 두 파일 제출 확인 = 즉시 귀가</h2>
+          <p>선택 확장은 의무가 아닙니다. 필수 결과물을 완성했다면 장식을 더하거나 다른 학생을 기다릴 필요가 없습니다.</p>
+        </div>
+      </div>
+
+      <h2 id="completion-criteria">귀가 조건: 제출 전에 여덟 가지 확인</h2>
+
+      <ol class="completion-criteria">
+        <li><strong>노트북 파일명</strong><span><code>week04_학번_이름.ipynb</code> 형식으로 변경했습니다.</span></li>
+        <li><strong>제출 정보</strong><span>학번, 이름 또는 별명, 리듬의 의도, PNG 파일명을 작성했습니다.</span></li>
+        <li><strong>색상 리스트</strong><span>4~6개의 RGB 색을 유지하고 서로 다른 색을 최소 세 개 사용했습니다.</span></li>
+        <li><strong>팔레트 수정</strong><span>시작 팔레트의 색상 리스트에서 RGB 색상을 최소 두 개 변경했습니다.</span></li>
+        <li><strong>격자 수</strong><span><code>columns = 6</code>이며 <code>rows * columns</code>가 20 이상입니다.</span></li>
+        <li><strong>두 속성 변화</strong><span>행에 따라 색이 바뀌고, 열에 따라 크기가 4~10픽셀씩 커집니다.</span></li>
+        <li><strong>전체 재실행</strong><span>새 세션에서 모두 실행했을 때 완료 문구와 최신 PNG가 확인됩니다.</span></li>
+        <li><strong>두 파일 제출</strong><span>실행 결과가 포함된 <code>.ipynb</code>와 최종 <code>.png</code>를 제출했습니다.</span></li>
+      </ol>
+
+      <div class="callout callout-info">
+        <p class="callout-title">자동 검사는 작품의 미적 취향을 채점하지 않는다</p>
+        <p>검사 셀은 RGB 범위, 팔레트 변경 수, 행과 열의 개수, 크기 변화, PNG의 최신 상태만 확인합니다. 어떤 색이 더 아름다운지 또는 어느 크기 변화가 더 좋은지는 하나의 정답으로 판정하지 않습니다.</p>
+      </div>
+
+      <h2 id="time-guide">50분 진행 기준</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>처음 참여하는 학생을 위한 권장 진행 시간</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">단계</th><th scope="col">완료 표시</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0-6분</th><td>공통 안내, 노트북 열기, 파일명 변경</td><td>자신의 사본이 열림</td></tr>
+            <tr><th scope="row">6-12분</th><td>수정 전 기준 코드를 위에서 아래로 실행</td><td>4행 × 5열, 원 20개 출력</td></tr>
+            <tr><th scope="row">12-18분</th><td>학번, 이름, 리듬 의도, PNG 파일명 작성</td><td>제출 정보 네 항목 출력</td></tr>
+            <tr><th scope="row">18-32분</th><td>색상 리스트 두 색 이상 수정, 6열 설정</td><td>변경 색 2개 이상, 원 24개 이상</td></tr>
+            <tr><th scope="row">32-40분</th><td>크기 변화 값을 조정해 색과 크기 두 속성 완성</td><td>열마다 크기 4~10픽셀 변화</td></tr>
+            <tr><th scope="row">40-46분</th><td>PNG 저장, 새 세션에서 전체 재실행</td><td>완료 문구 표시</td></tr>
+            <tr><th scope="row">46-50분</th><td>두 파일 다운로드와 제출 상태 확인</td><td>제출 확인 후 귀가</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>위 시간은 마감 구간이 아니라 길을 잃지 않기 위한 기준입니다. 28분에 모든 조건을 달성했다면 28분에 검사를 통과하고 제출한 뒤 귀가할 수 있습니다. 시간이 더 필요한 학생은 최대 50분까지 자신의 속도로 진행합니다.</p>
+
+      <h2 id="setup">STEP 0: 실습 노트북 준비</h2>
+
+      <p>아래 템플릿에는 팔레트 미리보기, 중첩 반복, PNG 저장, 자동 검사 셀이 이미 준비되어 있습니다. 빈 노트북에서 코드를 다시 작성하지 않고 <code>EDIT</code>로 표시된 값만 수정합니다.</p>
+
+      <div class="inline-resource-grid">
+        <a class="inline-resource-card" href="assets/week-04-rhythm-grid-mission.ipynb" download>
+          <span>Starter notebook</span>
+          <strong>Week 04 미션 노트북 내려받기</strong>
+          <small>팔레트와 격자 수정 영역, 자동 검사가 포함된 Colab 템플릿</small>
+        </a>
+        <a class="inline-resource-card" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-04-rhythm-grid-mission.ipynb" target="_blank" rel="noopener noreferrer">
+          <span>Open in Colab</span>
+          <strong>Colab에서 미션 노트북 열기</strong>
+          <small>공개 저장소의 템플릿을 Google Colab으로 직접 엽니다.</small>
+        </a>
+      </div>
+
+      <ol>
+        <li>템플릿을 직접 열었거나 업로드했다면 <strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
+        <li>상단 파일명을 눌러 <code>week04_학번_이름.ipynb</code>로 바꿉니다.</li>
+        <li><code>EDIT</code> 표시가 있는 셀의 값만 수정하고 <code>DO NOT EDIT</code> 영역과 FINAL CHECK는 그대로 둡니다.</li>
+      </ol>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">노트북이 Colab에서 바로 열리지 않을 때</summary>
+        <div class="details-motion-content"><p>먼저 Starter notebook 카드를 눌러 파일을 기기에 내려받습니다. Colab 첫 화면의 <strong>업로드</strong> 탭 또는 열린 노트북의 <strong>파일 → 노트 업로드</strong>에서 내려받은 <code>.ipynb</code> 파일을 선택합니다.</p></div>
+      </details>
+
+      <h2 id="baseline">STEP 1: 수정하기 전에 기준 격자 실행</h2>
+
+      <p>처음에는 값을 바꾸지 않고 STEP 0부터 STEP 3까지 순서대로 실행합니다. STEP 3에서 4행 × 5열, 원 20개, 크기 변화 0픽셀이 출력되면 출발점이 정상입니다. 모든 원의 크기가 같아도 아직은 오류가 아닙니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="palette-grid-caption">
+        <img src="assets/week-04-palette-grid.png" width="1200" height="900" loading="lazy" decoding="async" alt="짙은 청록, 연두, 노랑, 주황 계열의 원이 네 행과 여섯 열로 반복되고 오른쪽으로 갈수록 커지는 격자 이미지">
+        <figcaption id="palette-grid-caption">완료 방향을 보여 주는 예시입니다. 네 색이 각 행을 만들고, 여섯 열의 원이 오른쪽으로 갈수록 커집니다. 이 색을 그대로 복사하는 것이 아니라 자신의 팔레트로 같은 구조를 해석합니다.</figcaption>
+      </figure>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 01</span>
+        <p>기준 실행에서 팔레트 네 칸과 4행 × 5열의 원 20개가 모두 보이면 수정 준비를 완료했습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">NameError가 나오거나 격자가 보이지 않을 때</summary>
+        <div class="details-motion-content"><p>오류가 난 셀만 반복하지 않습니다. STEP 0의 준비 셀부터 위에서 아래로 다시 실행합니다. <code>palette</code> 또는 <code>image</code>가 정의되지 않았다는 메시지는 앞 셀이 실행되지 않았다는 뜻입니다.</p></div>
+      </details>
+
+      <h2 id="identity">STEP 2: 제출 정보와 리듬 의도 작성</h2>
+
+      <p>STEP 1 코드 셀에서 <code>=</code> 오른쪽의 따옴표 안 내용만 자신의 정보로 바꿉니다. 변수 이름, 등호, 따옴표는 삭제하지 않습니다.</p>
+
+      <pre><code>student_id = "20260000"
+student_name = "김민지"
+rhythm_intent = "파란색에서 주황색으로 행이 바뀌고, 오른쪽으로 갈수록 원이 커진다."
+output_filename = "week04_20260000_김민지.png"</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>제출 정보 셀에 작성할 네 문자열</caption>
+          <thead><tr><th scope="col">변수</th><th scope="col">작성 내용</th><th scope="col">주의할 점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>student_id</code></th><td>자신의 학번</td><td>숫자만 있더라도 따옴표 안에 작성</td></tr>
+            <tr><th scope="row"><code>student_name</code></th><td>이름 또는 제출 확인이 가능한 별명</td><td>노트북과 PNG에 같은 표기 사용</td></tr>
+            <tr><th scope="row"><code>rhythm_intent</code></th><td>색과 크기가 변하는 방향</td><td>15자 이상의 완전한 한 문장</td></tr>
+            <tr><th scope="row"><code>output_filename</code></th><td><code>week04_학번_이름.png</code></td><td>학번·이름의 실제 값과 정확히 일치</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">파일명 검사에서 멈출 때</summary>
+        <div class="details-motion-content"><p><code>student_id</code>가 20260000이고 <code>student_name</code>이 김민지라면 PNG 파일명은 정확히 <code>week04_20260000_김민지.png</code>여야 합니다. 공백, 하이픈, 괄호를 추가하지 않습니다.</p></div>
+      </details>
+
+      <h2 id="palette">STEP 3: 색상 리스트에서 최소 두 색 수정</h2>
+
+      <p>STEP 2에는 네 개의 RGB 튜플이 대괄호 안에 들어 있습니다. 먼저 두 줄만 선택해 숫자를 바꾸고 팔레트 미리보기를 확인합니다. 한 색을 이루는 숫자 세 개는 모두 0~255 범위의 정수여야 합니다.</p>
+
+      <pre><code># EDIT: RGB 튜플 두 개 이상을 수정합니다.
+palette = [
+    (42, 71, 92),
+    (126, 155, 133),
+    (211, 155, 42),
+    (201, 111, 93),
+]</code></pre>
+
+      <ul>
+        <li>리스트에는 RGB 색상을 4개 이상 6개 이하로 둡니다.</li>
+        <li>서로 다른 색을 최소 세 개 사용하고, 도형 색은 배경색과 구분합니다.</li>
+        <li>시작 팔레트와 비교해 최소 두 색이 달라야 합니다.</li>
+        <li>색상 하나를 바꾼 뒤 셀을 다시 실행해 미리보기에서 차이를 확인합니다.</li>
+      </ul>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 02</span>
+        <p>셀 아래에 <strong>현재 변경한 팔레트 색상: 2개 이상</strong>이 출력되고, 미리보기에서 서로 다른 색 세 개 이상을 구분할 수 있습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">리스트 또는 RGB 검사에서 멈출 때</summary>
+        <div class="details-motion-content"><p>전체 목록은 대괄호 <code>[ ]</code>, 색 하나는 둥근괄호 <code>( )</code>로 묶였는지 확인합니다. 각 색에는 쉼표로 구분한 정수 세 개가 필요합니다. 숫자에 따옴표를 붙이거나 255보다 큰 값을 쓰지 않습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">변경한 팔레트 색상이 0개 또는 1개라고 나올 때</summary>
+        <div class="details-motion-content"><p>현재 리스트를 수정 전 네 색과 같은 위치끼리 비교한 결과입니다. 기존 값과 다른 RGB 튜플이 최소 두 줄이 되도록 바꿉니다. 색의 순서를 교환해도 두 위치의 값이 달라지지만, 처음에는 두 색의 숫자를 직접 조정하는 편이 변화 원인을 이해하기 쉽습니다.</p></div>
+      </details>
+
+      <h2 id="grid">STEP 4: 6열과 크기 변화로 리듬 완성</h2>
+
+      <p>STEP 3 셀에서는 두 숫자만 수정합니다. <code>columns</code>를 6으로 바꾸면 각 행에 원이 하나씩 늘어납니다. <code>size_step</code>을 4~10으로 바꾸면 열이 오른쪽으로 이동할 때마다 원의 지름이 그만큼 커집니다.</p>
+
+      <pre><code># EDIT: 오른쪽 숫자만 수정합니다.
+columns = 6
+size_step = 6
+
+# 행 수는 팔레트의 색상 수에서 자동으로 정합니다.
+rows = len(palette)</code></pre>
+
+      <p>팔레트가 네 색이면 <code>rows</code>는 4이고, 열은 6이므로 <code>rows * columns = 4 * 6 = 24</code>입니다. 따라서 도형 20개 이상이라는 조건을 충족합니다. 학생은 아래 중첩 반복 코드를 고치지 않고, 위의 두 매개변수가 결과를 어떻게 바꾸는지 확인합니다.</p>
+
+      <pre><code>for row in range(rows):
+    color = palette[row]
+
+    for column in range(columns):
+        x = start_x + column * gap_x
+        y = start_y + row * gap_y
+        size = base_size + column * size_step
+        draw.ellipse((x, y, x + size, y + size), fill=color)</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>중첩 반복에서 값과 화면을 연결하는 방법</caption>
+          <thead><tr><th scope="col">코드</th><th scope="col">직접 정하는 것</th><th scope="col">화면에서 보이는 결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>palette[row]</code></th><td>행마다 사용할 색의 순서</td><td>위에서 아래로 색이 바뀜</td></tr>
+            <tr><th scope="row"><code>columns = 6</code></th><td>한 행에 놓을 원의 개수</td><td>왼쪽에서 오른쪽까지 여섯 원</td></tr>
+            <tr><th scope="row"><code>column * gap_x</code></th><td>열에 따른 가로 위치</td><td>원들이 일정한 간격으로 이동</td></tr>
+            <tr><th scope="row"><code>row * gap_y</code></th><td>행에 따른 세로 위치</td><td>색마다 서로 다른 행 형성</td></tr>
+            <tr><th scope="row"><code>column * size_step</code></th><td>열마다 더할 크기</td><td>오른쪽으로 갈수록 원이 커짐</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 03</span>
+        <p><strong>격자: 4행 이상 × 6열</strong>, <strong>그린 원: 24개 이상</strong>, <strong>열이 바뀔 때 늘어나는 크기: 4~10픽셀</strong>이 출력되면 구조 조건을 완료했습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">원은 보이지만 크기가 모두 같을 때</summary>
+        <div class="details-motion-content"><p><code>size_step</code>이 아직 0이면 모든 열의 크기가 같습니다. 값을 4부터 10 사이의 정수로 바꾼 뒤 STEP 3 셀을 다시 실행합니다. <code>size_step = "6"</code>처럼 숫자에 따옴표를 붙이지 않습니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">중첩 반복 또는 원의 개수 검사에서 멈출 때</summary>
+        <div class="details-motion-content"><p><code>columns</code>가 정확히 6인지 먼저 확인합니다. 팔레트를 실수로 세 색 이하로 줄였다면 다시 네 색 이상으로 복구합니다. <code>for row</code>, <code>for column</code>, 들여쓰기, <code>drawn_shape_count</code>가 있는 DO NOT EDIT 영역은 수정하지 않습니다.</p></div>
+      </details>
+
+      <h2 id="save">STEP 5: 최종 이미지를 PNG로 저장</h2>
+
+      <p>팔레트와 크기 변화를 마지막으로 확인한 뒤 STEP 4 저장 셀을 실행합니다. 저장 코드는 수정하지 않습니다.</p>
+
+      <pre><code>image.save(output_filename)</code></pre>
+
+      <p><code>output_filename</code>에는 STEP 1에서 작성한 <code>week04_학번_이름.png</code>가 저장되어 있습니다. 저장 셀은 파일을 다시 열어 보여 주므로, 바로 위의 최종 이미지와 저장된 PNG가 같은지 확인할 수 있습니다.</p>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">값을 바꾼 뒤에는 이미지를 다시 만들고 저장한다</p>
+        <p>색이나 크기를 수정한 뒤 STEP 3만 실행하면 화면은 바뀌지만 PNG에는 이전 결과가 남을 수 있습니다. 최종 수정 후에는 STEP 3 이미지 생성과 STEP 4 저장을 차례로 실행합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">PNG가 파일 목록에 보이지 않을 때</summary>
+        <div class="details-motion-content"><p>STEP 4 저장 셀에 빨간 오류가 없는지 확인합니다. Colab 왼쪽의 폴더 아이콘을 누른 뒤 새로고침하면 현재 세션에 저장된 파일이 보입니다. 그래도 없다면 <code>output_filename</code>의 따옴표와 <code>.png</code> 확장자를 확인하고 저장 셀을 다시 실행합니다.</p></div>
+      </details>
+
+      <h2 id="auto-check">STEP 6: 새 세션에서 자동 검사 PASS</h2>
+
+      <ol>
+        <li><strong>런타임 → 세션 다시 시작</strong>을 선택합니다.</li>
+        <li><strong>런타임 → 모두 실행</strong>을 한 번 선택합니다.</li>
+        <li>마지막 FINAL CHECK 셀까지 오류 없이 실행되는지 기다립니다.</li>
+        <li>아래 완료 문구가 모두 보이는지 확인합니다.</li>
+      </ol>
+
+      <div class="check-output" role="status" aria-labelledby="check-output-title">
+        <span class="visual-label">PASS OUTPUT</span>
+        <p id="check-output-title">✅ 제출 정보와 리듬 의도 검사 통과<br>✅ 색상 리스트와 팔레트 변경 검사 통과<br>✅ 중첩 반복과 20개 이상 도형 검사 통과<br>✅ 색과 크기의 두 속성 변화 검사 통과<br>✅ PNG 저장과 새 런타임 전체 실행 검사 통과<br><strong>🎉 WEEK 04 RHYTHM GRID COMPLETE</strong></p>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">FINAL CHECK 코드는 이번 주 학습 범위가 아니다</p>
+        <p>검사 셀에는 아직 배우지 않은 조건 검사와 파일 비교 코드가 포함되어 있습니다. 직접 작성하거나 해석할 필요가 없습니다. 오류의 마지막 한글 문장을 읽고 안내된 EDIT 값만 수정합니다. 검사 셀을 지우거나 내용을 바꾸면 완료로 인정하지 않습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">PNG가 최신 상태가 아니라는 오류가 나올 때</summary>
+        <div class="details-motion-content"><p>화면에 있는 <code>image</code>와 저장된 PNG의 픽셀이 다르다는 뜻입니다. STEP 3 격자 생성 셀을 실행하고 바로 이어서 STEP 4 저장 셀을 실행한 뒤 FINAL CHECK를 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">새 런타임 전체 실행 오류가 나올 때</summary>
+        <div class="details-motion-content"><p>셀을 개별적으로 여러 번 실행한 상태입니다. 작품을 저장한 뒤 세션을 다시 시작하고 <strong>모두 실행</strong>을 한 번만 선택합니다. 실행 중에는 중간 셀의 재생 버튼을 따로 누르지 않습니다.</p></div>
+      </details>
+
+      <h2 id="submission">STEP 7: 두 파일 제출 후 즉시 귀가</h2>
+
+      <ol>
+        <li>마지막 셀에 <strong>WEEK 04 RHYTHM GRID COMPLETE</strong>가 보이는지 확인합니다.</li>
+        <li><strong>파일 → 다운로드 → .ipynb 다운로드</strong>로 실행 결과가 포함된 노트북을 받습니다.</li>
+        <li>Colab 왼쪽 파일 목록에서 <code>week04_학번_이름.png</code>를 찾아 다운로드합니다.</li>
+        <li>제출함에 <code>.ipynb</code>와 <code>.png</code> 두 파일을 모두 업로드합니다.</li>
+        <li>제출 완료 상태를 확인하면 남은 시간과 관계없이 바로 귀가합니다.</li>
+      </ol>
+
+      <div class="submission-strip" role="group" aria-label="최종 귀가 순서">
+        <span><strong>01</strong> 모두 실행</span>
+        <span><strong>02</strong> PASS 확인</span>
+        <span><strong>03</strong> 두 파일 제출</span>
+        <span><strong>04</strong> 확인 후 귀가</span>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">완료 판정</p>
+        <p>자동 검사 PASS가 보이고 제출함에 올바른 <code>.ipynb</code>와 <code>.png</code>가 등록되었다면 오늘의 필수 학습 목표를 달성했습니다. 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다.</p>
+      </div>
+
+      <h2 id="optional">선택 확장: 완료 후 더 실험하고 싶은 경우만</h2>
+
+      <p>아래 활동은 귀가 조건이 아니며 추가 점수도 없습니다. 필수 미션을 완료한 학생은 선택 확장을 하지 않고 제출 후 귀가해도 됩니다. 확장을 시도할 때에는 먼저 통과한 파일을 보존합니다.</p>
+
+      <ul>
+        <li>팔레트에 한두 색을 추가해 5행 또는 6행의 리듬을 비교합니다.</li>
+        <li><code>size_step</code>을 4, 7, 10으로 각각 바꾸고 크기 변화의 강도를 비교합니다.</li>
+        <li>팔레트의 순서만 바꾸어 위에서 아래로 느껴지는 무게 중심을 비교합니다.</li>
+        <li>다른 팔레트로 두 번째 이미지를 만들되 제출용 파일은 최종 선택한 한 장으로 유지합니다.</li>
+      </ul>
+
+      <h2 id="references">공식 도움말</h2>
+      <ul class="reference-list">
+        <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer"><strong>Google Colab 공식 입문 노트북</strong></a><small>코드 셀 실행, 노트북 저장, 런타임 사용법을 확인할 수 있는 공식 자료</small></li>
+        <li><a href="https://docs.python.org/3/tutorial/introduction.html#lists" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: Lists</strong></a><small>대괄호, 순서, 0부터 시작하는 인덱스에 관한 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/tutorial/controlflow.html#for-statements" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: for Statements</strong></a><small>리스트와 정수 범위를 순서대로 반복하는 문장의 공식 설명</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw</strong></a><small>타원의 좌표, 채우기 색상, 윤곽선을 지정하는 공식 사용법</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.Image.save" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: Image.save()</strong></a><small>완성 이미지를 파일로 저장하는 메서드의 공식 설명</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#goal-contract-title">목표 달성형 운영</a></li>
+        <li class="toc-level-2"><a href="#completion-criteria">귀가 조건</a></li>
+        <li class="toc-level-2"><a href="#time-guide">50분 진행 기준</a></li>
+        <li class="toc-level-2"><a href="#setup">STEP 0 · 노트북 준비</a></li>
+        <li class="toc-level-2"><a href="#baseline">STEP 1 · 기준 격자</a></li>
+        <li class="toc-level-2"><a href="#identity">STEP 2 · 제출 정보</a></li>
+        <li class="toc-level-2"><a href="#palette">STEP 3 · 팔레트 수정</a></li>
+        <li class="toc-level-2"><a href="#grid">STEP 4 · 리듬 완성</a></li>
+        <li class="toc-level-2"><a href="#save">STEP 5 · PNG 저장</a></li>
+        <li class="toc-level-2"><a href="#auto-check">STEP 6 · 자동 검사</a></li>
+        <li class="toc-level-2"><a href="#submission">STEP 7 · 제출과 귀가</a></li>
+        <li class="toc-level-2"><a href="#optional">선택 확장</a></li>
+        <li class="toc-level-2"><a href="#references">공식 도움말</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice · Week 04 · Period 03</p>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
