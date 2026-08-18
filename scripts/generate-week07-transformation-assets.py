@@ -1,5 +1,6 @@
 """Generate deterministic Week 7 teaching visuals for image transformation lessons."""
 
+from dataclasses import dataclass
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFont
@@ -16,6 +17,17 @@ CORAL = (218, 92, 74, 255)
 YELLOW = (234, 184, 62, 255)
 BLUE = (70, 91, 145, 255)
 MINT = (133, 177, 151, 255)
+
+
+@dataclass(frozen=True)
+class LayerSpec:
+    """Describe one transformed layer without relying on tuple positions."""
+
+    crop_box: tuple[int, int, int, int]
+    target_size: tuple[int, int]
+    angle: float
+    alpha: int
+    position: tuple[int, int]
 
 
 def font(size: int, bold: bool = False) -> ImageFont.ImageFont:
@@ -184,20 +196,17 @@ def make_transform_operations(source: Image.Image) -> Image.Image:
 
 def transformed_layer(
     source: Image.Image,
-    crop_box: tuple[int, int, int, int],
-    size: tuple[int, int],
-    angle: float,
-    alpha: int,
+    spec: LayerSpec,
 ) -> Image.Image:
-    layer = source.copy().crop(crop_box)
-    layer = layer.resize(size, Image.Resampling.LANCZOS)
+    layer = source.copy().crop(spec.crop_box)
+    layer = layer.resize(spec.target_size, Image.Resampling.LANCZOS)
+    layer.putalpha(spec.alpha)
     layer = layer.rotate(
-        angle,
+        spec.angle,
         expand=True,
         resample=Image.Resampling.BICUBIC,
         fillcolor=(0, 0, 0, 0),
     )
-    layer.putalpha(alpha)
     return layer
 
 
@@ -214,16 +223,16 @@ def make_alpha_composite(source: Image.Image) -> Image.Image:
     )
 
     layer_specs = [
-        ((80, 80, 650, 650), (255, 255), -14, 145),
-        ((250, 90, 830, 620), (255, 255), 17, 185),
-        ((190, 300, 710, 820), (255, 255), -4, 220),
+        LayerSpec((80, 80, 650, 650), (255, 255), -14, 145, (20, 30)),
+        LayerSpec((250, 90, 830, 620), (255, 255), 17, 185, (175, 75)),
+        LayerSpec((190, 300, 710, 820), (255, 255), -4, 220, (105, 215)),
     ]
     cards = [(48, 180), (300, 255), (552, 330)]
     colors = [TEAL, CORAL, YELLOW]
     layers: list[Image.Image] = []
 
     for index, (spec, card, color) in enumerate(zip(layer_specs, cards, colors, strict=True), start=1):
-        layer = transformed_layer(source, *spec)
+        layer = transformed_layer(source, spec)
         layers.append(layer)
         x, y = card
         rounded_panel(draw, (x, y, x + 310, y + 330), (250, 248, 241, 255), outline=color, width=5)
@@ -235,12 +244,11 @@ def make_alpha_composite(source: Image.Image) -> Image.Image:
             dest=(x + 45 + (220 - preview.width) // 2, y + 77 + (200 - preview.height) // 2),
         )
         draw.text((x + 30, y + 20), f"LAYER {index}", fill=color, font=font(22, bold=True))
-        draw.text((x + 30, y + 300), f"alpha {spec[3]}", fill=INK, font=font(18))
+        draw.text((x + 30, y + 300), f"alpha {spec.alpha}", fill=INK, font=font(18))
 
     canvas = Image.new("RGBA", (500, 500), (29, 33, 31, 255))
-    positions = [(20, 30), (205, 75), (120, 245)]
-    for layer, position in zip(layers, positions, strict=True):
-        canvas.alpha_composite(layer, dest=position)
+    for layer, spec in zip(layers, layer_specs, strict=True):
+        canvas.alpha_composite(layer, dest=spec.position)
 
     draw.line((880, 430, 945, 430), fill=INK, width=6)
     draw.polygon([(945, 415), (970, 430), (945, 445)], fill=INK)
@@ -254,14 +262,15 @@ def make_alpha_composite(source: Image.Image) -> Image.Image:
 
 def make_prototype(source: Image.Image) -> Image.Image:
     canvas = Image.new("RGBA", (1000, 1000), INK)
+    shared_crop_box = (140, 120, 760, 780)
     specs = [
-        ((80, 80, 650, 650), (430, 430), -16, 150, (40, 70)),
-        ((250, 90, 830, 620), (360, 360), 19, 190, (565, 110)),
-        ((190, 300, 710, 820), (290, 290), -6, 225, (345, 555)),
+        LayerSpec(shared_crop_box, (420, 420), -16, 150, (40, 70)),
+        LayerSpec(shared_crop_box, (340, 340), 19, 190, (540, 110)),
+        LayerSpec(shared_crop_box, (260, 260), -6, 225, (345, 555)),
     ]
-    for crop_box, target_size, angle, alpha, position in specs:
-        layer = transformed_layer(source, crop_box, target_size, angle, alpha)
-        canvas.alpha_composite(layer, dest=position)
+    for spec in specs:
+        layer = transformed_layer(source, spec)
+        canvas.alpha_composite(layer, dest=spec.position)
 
     draw = ImageDraw.Draw(canvas)
     draw.rectangle((56, 56, 944, 944), outline=PAPER, width=4)
@@ -274,7 +283,7 @@ def make_prototype(source: Image.Image) -> Image.Image:
     presentation_draw.text((58, 44), "TRANSFORMATION PROTOTYPE", fill=INK, font=font(38, bold=True))
     presentation_draw.text(
         (58, 92),
-        "Three crops, three rotations, three opacity values — one source image.",
+        "One crop, three scales, three rotations — one source image.",
         fill=(75, 78, 72, 255),
         font=font(22),
     )

@@ -202,6 +202,18 @@ test("Contents Programming week 7 period 3 is an executable goal-based transform
     /angles.*any\(angle < 0.*any\(angle > 0/s,
     /len\(set\(alphas\)\) >= 2/,
     /source_title.*source_creator.*source_url.*source_license.*change_description/s,
+    /mission_step0_execution = get_ipython\(\)\.execution_count/,
+    /mission_step1_execution = get_ipython\(\)\.execution_count/,
+    /mission_step2_execution = get_ipython\(\)\.execution_count/,
+    /mission_step3_execution = get_ipython\(\)\.execution_count/,
+    /mission_step4_execution = get_ipython\(\)\.execution_count/,
+    /mission_final_execution = get_ipython\(\)\.execution_count/,
+    /if source_choice == "provided"/,
+    /else:.*Path\(source_path\)\.resolve\(\) != Path\(FALLBACK_SOURCE_PATH\)\.resolve\(\)/s,
+    /source_title != provided_source_record\[0\]/,
+    /source_creator != provided_source_record\[1\]/,
+    /source_url != provided_source_record\[2\]/,
+    /source_license != provided_source_record\[3\]/,
     /canvas\.save\(output_filename\)/,
     /checked_file\.tobytes\(\) == canvas\.tobytes\(\)/,
     /== \(1, 2, 3, 4, 5, 6\)/,
@@ -209,4 +221,35 @@ test("Contents Programming week 7 period 3 is an executable goal-based transform
   ]) {
     assert.match(notebookCode, pattern);
   }
+
+  assert.doesNotMatch(notebookCode, /EXECUTION_ORDER/);
+  assert.doesNotMatch(notebookCode, /len\(field_value\.strip\(\)\) >= 5/);
+});
+
+test("Contents Programming week 7 visuals preserve transparent rotation corners and use named layer values", async () => {
+  const generator = await readFile(
+    resolve(root, "scripts", "generate-week07-transformation-assets.py"),
+    "utf8",
+  );
+
+  assert.match(generator, /@dataclass\(frozen=True\)/);
+  assert.match(generator, /class LayerSpec:/);
+  for (const field of [
+    "crop_box",
+    "target_size",
+    "angle",
+    "alpha",
+    "position",
+  ]) {
+    assert.match(generator, new RegExp(`\\n    ${field}:`));
+  }
+  assert.doesNotMatch(generator, /spec\[\d+\]/);
+
+  const putAlphaIndex = generator.indexOf("layer.putalpha(spec.alpha)");
+  const rotateIndex = generator.indexOf("layer = layer.rotate(", putAlphaIndex);
+  assert.ok(putAlphaIndex >= 0, "the generated layer should apply its alpha value");
+  assert.ok(
+    rotateIndex > putAlphaIndex,
+    "rotation should happen after alpha so transparent corners stay transparent",
+  );
 });
