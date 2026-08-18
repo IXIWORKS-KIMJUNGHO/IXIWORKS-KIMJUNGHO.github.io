@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="ko" class="week-three-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3주차 3교시: 기하학적 이미지 미션 | Contents Programming Practice</title>
+  <meta name="description" content="Pillow 기준 코드를 실행하고 RGB 팔레트와 도형 좌표를 수정해 기하학적 이미지를 완성한 뒤, 자동 검사와 두 파일 제출을 마치면 즉시 귀가할 수 있는 목표 달성형 개인 실습입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-03-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="3주차 3교시: 기하학적 이미지 미션 | Contents Programming Practice">
+  <meta property="og:description" content="RGB와 좌표를 바꾸어 자신의 기하학적 이미지를 완성하고, 자동 검사 통과와 제출 확인 후 바로 귀가하는 개인 미션입니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-03-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-03-period3-hero.webp">
+  <meta property="og:image:alt" content="종이 위 기하학적 도형 작품과 색상표를 보여 주는 3주차 이미지 미션">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="3주차 3교시: 기하학적 이미지 미션 | Contents Programming Practice">
+  <meta name="twitter:description" content="완료 조건을 달성하면 제출 후 즉시 귀가할 수 있는 Pillow 기하학 이미지 개인 실습입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-03-period3-hero.webp">
+  <link rel="preload" as="image" href="assets/week-03-period3-hero.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-03.css?v=week3-1">
+</head>
+<body class="teaching-document course-contents-programming week-three-page">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-03-period2.html" rel="prev" aria-label="이전 자료: 3주차 2교시: RGB 색상과 도형 그리기 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-04-period1.html" rel="next" aria-label="다음 자료: 4주차 1교시: 반복이 리듬이 되는 원리 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <header class="hero week-three-hero">
+    <div class="hero-inner">
+      <div class="week-three-hero-copy">
+        <p class="eyebrow">Geometric image mission</p>
+        <h1>기하학적 이미지 미션</h1>
+        <p class="lead">RGB와 좌표를 수정해 기하학 이미지를 완성하고, 자동 검사와 제출까지 마칩니다.</p>
+        <div class="week-three-hero-actions">
+          <a class="week-three-primary-action" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-03-geometric-image-mission.ipynb" target="_blank" rel="noopener noreferrer">Colab에서 시작</a>
+          <a class="week-three-secondary-action" href="assets/week-03-geometric-image-mission.ipynb" download>노트북 받기</a>
+        </div>
+      </div>
+      <figure class="week-three-hero-visual">
+        <img src="assets/week-03-period3-hero.webp" width="1402" height="1122" loading="eager" decoding="async" fetchpriority="high" alt="종이 위 기하학적 도형 작품과 색상표를 보여 주는 3주차 이미지 미션">
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">좌표와 색상으로 나만의 기하학적 이미지 완성하기</p>
+
+      <dl class="week-three-lesson-facts" aria-label="수업 정보">
+        <div><dt>형식</dt><dd>목표 달성형 개인 실습</dd></div>
+        <div><dt>최대 시간</dt><dd>50분</dd></div>
+        <div><dt>완료 판정</dt><dd>자동 검사 PASS</dd></div>
+        <div><dt>제출물</dt><dd>.ipynb + .png</dd></div>
+        <div><dt>귀가 조건</dt><dd>제출 확인 즉시</dd></div>
+      </dl>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 실습 목표</p>
+        <ul>
+          <li>제공된 Colab 노트북을 열고 기준 코드를 위에서 아래로 실행할 수 있습니다.</li>
+          <li>RGB 색상 역할 가운데 최소 두 가지를 수정하고 결과의 차이를 설명할 수 있습니다.</li>
+          <li>사각형, 타원, 삼각형 가운데 최소 두 도형의 좌표를 수정할 수 있습니다.</li>
+          <li>한 번에 값 하나를 바꾸고 다시 실행해 변화의 원인을 확인할 수 있습니다.</li>
+          <li>완성 이미지를 PNG로 저장하고 노트북 전체를 오류 없이 다시 실행할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <div class="goal-contract" role="group" aria-labelledby="goal-contract-title">
+        <div>
+          <span class="visual-label">오늘의 운영 원칙</span>
+          <h2 id="goal-contract-title">50분을 채우는 수업이 아니라 완성을 증명하는 수업</h2>
+          <p>처음 0-7분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 자동 검사에서 완료 문구를 확인하고 `.ipynb`와 `.png` 두 파일을 제출한 학생은 수업 종료 시각을 기다리지 않고 바로 귀가할 수 있습니다.</p>
+        </div>
+        <p class="goal-contract-note"><strong>속도는 평가하지 않습니다.</strong> 빠르게 끝내거나 여러 번 수정한 뒤 끝내더라도 같은 완료 조건으로 판정합니다.</p>
+      </div>
+
+      <ol class="mission-route" aria-label="실습 완료 경로">
+        <li><strong>준비</strong><small>노트북 열기와 파일명 변경</small></li>
+        <li><strong>기준</strong><small>제공 코드와 기준 이미지 실행</small></li>
+        <li><strong>색상</strong><small>RGB 역할 두 개 이상 수정</small></li>
+        <li><strong>구성</strong><small>도형 좌표 두 묶음 이상 수정</small></li>
+        <li><strong>검증</strong><small>PNG 저장과 자동 검사 PASS</small></li>
+        <li><strong>귀가</strong><small>두 파일 제출 확인 후 종료</small></li>
+      </ol>
+
+      <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
+        <div class="exit-pass" aria-hidden="true">PASS</div>
+        <div>
+          <p class="exit-gate-label">완료 조건</p>
+          <h2 id="exit-gate-title">자동 검사 통과 + 두 파일 제출 확인 = 즉시 귀가</h2>
+          <p>선택 확장은 의무가 아닙니다. 필수 결과물을 완성했다면 추가 도형을 만들거나 다른 학생을 기다릴 필요가 없습니다.</p>
+        </div>
+      </div>
+
+      <h2 id="completion-criteria">귀가 조건: 제출 전에 여덟 가지 확인</h2>
+
+      <ol class="completion-criteria">
+        <li><strong>노트북 파일명</strong><span><code>week03_학번_이름.ipynb</code> 형식으로 변경했습니다.</span></li>
+        <li><strong>제출 정보</strong><span>학번, 이름 또는 별명, 표현 의도, PNG 파일명을 작성했습니다.</span></li>
+        <li><strong>팔레트 수정</strong><span>기준 팔레트에서 색상 역할을 최소 두 개 변경했습니다.</span></li>
+        <li><strong>필수 도형</strong><span>사각형, 타원, 삼각형이 모두 이미지 안에서 보입니다.</span></li>
+        <li><strong>좌표 수정</strong><span>세 도형 가운데 최소 두 도형의 좌표 묶음을 변경했습니다.</span></li>
+        <li><strong>PNG 저장</strong><span><code>week03_학번_이름.png</code> 파일이 생성되었고 최종 이미지와 같습니다.</span></li>
+        <li><strong>전체 재실행</strong><span>새 세션에서 모두 실행했을 때 오류 없이 완료 문구가 나타납니다.</span></li>
+        <li><strong>두 파일 제출</strong><span>실행 결과가 포함된 `.ipynb`와 최종 `.png`를 제출했습니다.</span></li>
+      </ol>
+
+      <div class="callout callout-info">
+        <p class="callout-title">자동 검사는 작품의 미적 취향을 채점하지 않는다</p>
+        <p>검사 셀은 RGB가 0~255인지, 도형이 캔버스 안에 있는지, 기준값을 실제로 수정했는지, PNG가 최신 상태로 저장되었는지만 확인합니다. 어떤 색이 더 아름다운지, 어느 구성이 더 좋은지는 하나의 정답으로 판정하지 않습니다.</p>
+      </div>
+
+      <h2 id="time-guide">50분 진행 기준</h2>
+
+      <div class="table-wrap">
+        <table>
+          <caption>처음 참여하는 학생을 위한 권장 진행 시간</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">단계</th><th scope="col">완료 표시</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">0-7분</th><td>공통 안내, 노트북 열기, 파일명 변경</td><td>자신의 사본이 열림</td></tr>
+            <tr><th scope="row">7-12분</th><td>기준 코드 전체 실행과 기준 이미지 확인</td><td>세 도형이 보임</td></tr>
+            <tr><th scope="row">12-20분</th><td>RGB 팔레트 역할 두 개 이상 수정</td><td>변경 수 2개 이상 출력</td></tr>
+            <tr><th scope="row">20-33분</th><td>도형 좌표 두 묶음 이상 수정</td><td>변경 수 2개 이상 출력</td></tr>
+            <tr><th scope="row">33-40분</th><td>여백, 겹침, 강조점 확인과 최종 조정</td><td>표현 의도와 결과가 연결됨</td></tr>
+            <tr><th scope="row">40-45분</th><td>PNG 저장, 새 세션에서 전체 재실행</td><td>완료 문구 표시</td></tr>
+            <tr><th scope="row">45-50분</th><td>두 파일 다운로드와 제출 확인</td><td>제출 확인 후 귀가</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>위 시간은 마감 시각이 아니라 길을 잃지 않기 위한 기준입니다. 30분에 모든 조건을 달성한 학생은 30분에 제출하고 귀가할 수 있습니다. 반대로 수정에 시간이 더 필요한 학생은 최대 50분까지 자신의 속도로 진행합니다.</p>
+
+      <h2 id="setup">노트북 준비</h2>
+
+      <p>위의 시작 버튼으로 템플릿을 엽니다. 팔레트 미리보기, 세 도형 그리기, PNG 저장, 자동 검사 셀이 이미 준비되어 있으므로 빈 노트북에서 코드를 다시 작성하지 않습니다.</p>
+
+      <ol>
+        <li>템플릿을 직접 열었거나 업로드했다면 <strong>파일 → Drive에 사본 저장</strong>을 선택합니다.</li>
+        <li>상단 파일명을 눌러 <code>week03_학번_이름.ipynb</code>로 바꿉니다.</li>
+        <li>코드에서 <code>EDIT</code> 표시가 있는 값만 수정하고 <code>DO NOT EDIT</code> 영역은 그대로 둡니다.</li>
+      </ol>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">노트북이 열리지 않을 때</summary>
+        <div class="details-motion-content"><p>먼저 템플릿 파일을 기기에 내려받습니다. Colab 첫 화면의 <strong>업로드</strong> 탭 또는 열린 노트북의 <strong>파일 → 노트 업로드</strong>에서 내려받은 파일을 선택합니다.</p></div>
+      </details>
+
+      <h2 id="baseline">기준 이미지 실행</h2>
+
+      <p>처음에는 값을 바꾸지 않고 STEP 0부터 STEP 3까지 순서대로 실행합니다. import와 변수 셀에 출력이 없어도 빨간 오류가 없다면 정상입니다. STEP 3에서 다음과 같은 기준 이미지가 보이면 수정 준비가 끝난 것입니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="baseline-caption">
+        <svg viewBox="0 0 600 400" width="600" height="400" style="width: 100%; height: auto; display: block;" role="img" aria-labelledby="baseline-title baseline-description">
+          <title id="baseline-title">Week 03 실습 노트북의 기준 기하학 이미지</title>
+          <desc id="baseline-description">따뜻한 흰색 배경 위에 코랄 사각형, 파란 타원, 노란 삼각형과 어두운 기준선이 겹쳐진 이미지</desc>
+          <rect x="0" y="0" width="600" height="400" fill="#f4efe5"/>
+          <rect x="50" y="60" width="280" height="180" fill="#eb564b" stroke="#1c1f26" stroke-width="4"/>
+          <ellipse cx="370" cy="230" rx="140" ry="130" fill="#305fb4" stroke="#1c1f26" stroke-width="4"/>
+          <polygon points="390,55 560,220 340,220" fill="#f4be37" stroke="#1c1f26" stroke-width="4" stroke-linejoin="round"/>
+          <line x1="40" y1="340" x2="560" y2="340" stroke="#1c1f26" stroke-width="6"/>
+        </svg>
+        <figcaption id="baseline-caption">이 이미지는 정답이 아니라 수정 전 출발점입니다. 최종 제출물은 최소 두 색상 역할과 두 도형 좌표 묶음이 달라야 합니다.</figcaption>
+      </figure>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">기준 확인</span>
+        <p>배경, 사각형, 타원, 삼각형, 가로선이 모두 보이면 기준 실행을 완료했습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">NameError가 나오거나 기준 이미지가 보이지 않을 때</summary>
+        <div class="details-motion-content"><p>오류가 난 셀만 반복하지 않습니다. STEP 0의 import 셀부터 위에서 아래로 다시 실행합니다. 이미지가 만들어졌지만 화면에 보이지 않으면 STEP 3 셀의 마지막 <code>display(image)</code>까지 실행되었는지 확인합니다.</p></div>
+      </details>
+
+      <h2 id="identity">제출 정보와 표현 의도 작성</h2>
+
+      <p>STEP 1 코드 셀에서 <code>=</code> 오른쪽의 따옴표 안 내용만 자신의 정보로 바꿉니다. 변수 이름과 따옴표는 삭제하지 않습니다.</p>
+
+      <pre><code>student_id = "20260000"
+student_name = "김민지"
+design_intent = "노란 삼각형을 가장 먼저 보이게 해 상승하는 방향을 강조한다."
+output_filename = "week03_20260000_김민지.png"</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>제출 정보 셀에 작성할 네 문자열</caption>
+          <thead><tr><th scope="col">변수</th><th scope="col">작성 내용</th><th scope="col">주의할 점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>student_id</code></th><td>자신의 학번</td><td>숫자만 있더라도 따옴표 안에 작성</td></tr>
+            <tr><th scope="row"><code>student_name</code></th><td>이름 또는 제출 확인이 가능한 별명</td><td>파일명과 같은 표기 사용</td></tr>
+            <tr><th scope="row"><code>design_intent</code></th><td>먼저 보이게 할 도형과 이유</td><td>10자 이상의 완전한 한 문장</td></tr>
+            <tr><th scope="row"><code>output_filename</code></th><td><code>week03_학번_이름.png</code></td><td>따옴표와 <code>.png</code> 유지</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="palette">색상 역할을 최소 두 개 수정</h2>
+
+      <p>STEP 2 팔레트 셀에는 다섯 색상 역할이 있습니다. 처음부터 다섯 줄을 모두 바꾸지 않습니다. 먼저 하나의 RGB 채널을 바꾸고 팔레트 미리보기를 확인한 뒤 다음 색으로 이동합니다.</p>
+
+      <pre><code># EDIT: 아래 RGB 숫자만 수정합니다.
+background_color = (244, 239, 229)
+primary_color = (235, 86, 75)
+secondary_color = (48, 95, 180)
+accent_color = (244, 190, 55)
+outline_color = (28, 31, 38)</code></pre>
+
+      <ul>
+        <li>각 RGB 값은 따옴표 없는 0~255 정수 세 개로 작성합니다.</li>
+        <li>기준값과 다른 색상 역할이 최소 두 개 있어야 합니다.</li>
+        <li>배경·주조·보조·강조·윤곽에는 서로 다른 색을 사용합니다.</li>
+        <li>배경과 윤곽이 구분되고, 세 도형의 내부색이 최종 이미지에서 보여야 합니다.</li>
+      </ul>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">색상 확인</span>
+        <p>셀 아래에 <strong>현재 변경한 색상 역할: 2개 이상</strong>이 출력되고, 팔레트 미리보기에서 다섯 역할의 관계를 확인했습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">RGB 검사에서 멈출 때</summary>
+        <div class="details-motion-content"><p><code>(R, G, B)</code> 둥근괄호 안에 쉼표로 구분한 숫자가 정확히 세 개인지 확인합니다. 숫자에 따옴표를 붙이지 않았는지, 각 값이 0보다 작거나 255보다 크지 않은지도 확인합니다.</p></div>
+      </details>
+
+      <h2 id="geometry">도형 좌표 묶음을 최소 두 개 수정</h2>
+
+      <p>STEP 3 셀의 맨 위에 있는 세 좌표 묶음만 수정합니다. 아래쪽의 <code>draw.rectangle()</code>, <code>draw.ellipse()</code>, <code>draw.polygon()</code> 명령은 이미 준비되어 있으므로 다시 작성하지 않습니다.</p>
+
+      <pre><code># EDIT: 아래 세 좌표 묶음의 숫자만 수정합니다.
+rectangle_box = (50, 60, 330, 240)
+ellipse_box = (230, 100, 510, 360)
+triangle_points = (
+    (390, 55),
+    (560, 220),
+    (340, 220)
+)</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>도형별 좌표 수정 방법</caption>
+          <thead><tr><th scope="col">도형</th><th scope="col">좌표 구조</th><th scope="col">안전한 첫 수정</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">사각형</th><td><code>(left, top, right, bottom)</code></td><td><code>right</code>를 20~40 변경해 가로 길이 비교</td></tr>
+            <tr><th scope="row">타원</th><td><code>(left, top, right, bottom)</code></td><td><code>top</code>과 <code>bottom</code> 가운데 하나를 변경해 비율 비교</td></tr>
+            <tr><th scope="row">삼각형</th><td>세 개의 <code>(x, y)</code></td><td>첫 점의 x 또는 y 하나를 20~40 이동</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">한 번에 숫자 하나만 바꾼다</p>
+        <p>도형 하나의 숫자 여러 개와 색상을 동시에 바꾸면 어떤 값이 결과를 만들었는지 알기 어렵습니다. 숫자 하나 수정 → STEP 3 다시 실행 → 결과 확인의 순서를 반복합니다.</p>
+      </div>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">좌표 확인</span>
+        <p>셀 아래에 <strong>현재 변경한 도형 좌표 묶음: 2개 이상</strong>이 출력되고, 사각형·타원·삼각형이 모두 화면 안에서 보입니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">사각형이나 타원 좌표 오류가 나올 때</summary>
+        <div class="details-motion-content"><p>네 값을 <code>(left, top, right, bottom)</code> 순서로 읽습니다. <code>left</code>는 <code>right</code>보다 작고, <code>top</code>은 <code>bottom</code>보다 작아야 합니다. x는 0~599, y는 0~399 안에 둡니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">삼각형이 너무 작거나 보이지 않을 때</summary>
+        <div class="details-motion-content"><p>세 점이 모두 캔버스 안에 있는지 확인하고, 세 점을 같은 가로선이나 세로선 위에 놓지 않습니다. 첫 점은 위쪽, 나머지 두 점은 서로 떨어진 아래쪽에 두면 기본적인 삼각형을 만들기 쉽습니다.</p></div>
+      </details>
+
+      <h2 id="save">최종 이미지를 PNG로 저장</h2>
+
+      <p>표현 의도와 이미지가 연결되는지 마지막으로 확인한 뒤 STEP 4 저장 셀을 실행합니다. 저장 코드는 수정하지 않습니다.</p>
+
+      <pre><code>image.save(output_filename)</code></pre>
+
+      <p><code>output_filename</code>에는 STEP 1에서 작성한 <code>week03_학번_이름.png</code>가 저장되어 있습니다. 저장 셀은 PNG를 다시 열어 화면에 보여주므로, 마지막 미리보기와 저장된 파일이 같은지 눈으로 확인할 수 있습니다.</p>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">수정한 뒤에는 반드시 다시 저장한다</p>
+        <p>색상이나 좌표를 바꾼 뒤 STEP 3 이미지만 다시 만들고 저장 셀을 실행하지 않으면 PNG에는 이전 결과가 남을 수 있습니다. 최종 수정 후에는 STEP 3과 STEP 4를 차례로 실행합니다.</p>
+      </div>
+
+      <h2 id="auto-check">자동 검사 PASS</h2>
+
+      <ol>
+        <li><strong>런타임 → 세션 다시 시작</strong>을 선택합니다.</li>
+        <li><strong>런타임 → 모두 실행</strong>을 선택합니다.</li>
+        <li>마지막 FINAL CHECK 셀까지 오류 없이 실행되는지 기다립니다.</li>
+        <li>다음 완료 문구가 모두 보이는지 확인합니다.</li>
+      </ol>
+
+      <div class="check-output" role="group" aria-label="자동 검사 완료 예시">
+        <span class="visual-label">PASS OUTPUT</span>
+        <p id="check-output-title">✅ 제출 정보와 표현 의도 검사 통과<br>✅ RGB 범위와 팔레트 변경 검사 통과<br>✅ 세 도형과 좌표 변경 검사 통과<br>✅ 600 × 400 RGB 이미지와 PNG 저장 검사 통과<br>✅ 새 런타임 전체 실행 검사 통과<br><strong>🎉 WEEK 03 IMAGE MISSION COMPLETE</strong></p>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">FINAL CHECK 코드는 학습 범위가 아니다</p>
+        <p>검사 셀에는 아직 배우지 않은 조건 검사와 파일 확인 코드가 포함되어 있습니다. 학생이 직접 작성하거나 해석할 필요가 없으며, 오류의 마지막 한글 문장을 읽고 안내된 EDIT 값만 수정합니다. 검사 셀 자체를 지워서 통과시키면 완료로 인정하지 않습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">기준 팔레트 또는 기준 좌표라는 오류가 나올 때</summary>
+        <div class="details-motion-content"><p>기준 이미지와 같은 값을 그대로 제출할 수 없다는 뜻입니다. STEP 2에서 색상 역할 두 줄 이상, STEP 3에서 도형 좌표 묶음 두 개 이상을 기준값과 다르게 수정한 뒤 이미지 생성과 저장을 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">PNG가 최신 상태가 아니라는 오류가 나올 때</summary>
+        <div class="details-motion-content"><p>현재 화면의 <code>image</code>와 저장된 PNG가 다릅니다. STEP 3 이미지 생성 셀을 실행하고 바로 이어서 STEP 4 저장 셀을 실행한 뒤 FINAL CHECK를 다시 실행합니다.</p></div>
+      </details>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">실행 순서 오류가 나올 때</summary>
+        <div class="details-motion-content"><p>셀을 개별적으로 여러 번 실행한 상태입니다. 작품을 저장한 뒤 세션을 다시 시작하고 <strong>모두 실행</strong>을 한 번 선택합니다. 모두 실행 중에는 중간 셀을 따로 누르지 않습니다.</p></div>
+      </details>
+
+      <h2 id="submission">두 파일 제출 후 즉시 귀가</h2>
+
+      <ol>
+        <li>마지막 셀에 <strong>WEEK 03 IMAGE MISSION COMPLETE</strong>가 보이는지 확인합니다.</li>
+        <li><strong>파일 → 다운로드 → .ipynb 다운로드</strong>로 실행 결과가 포함된 노트북을 받습니다.</li>
+        <li>Colab 왼쪽의 파일 목록에서 <code>week03_학번_이름.png</code>를 찾아 다운로드합니다.</li>
+        <li>제출함에 `.ipynb`와 `.png` 두 파일을 모두 업로드합니다.</li>
+        <li>제출 완료 상태를 확인하면 남은 시간과 관계없이 바로 귀가합니다.</li>
+      </ol>
+
+      <div class="submission-strip" role="group" aria-label="최종 귀가 순서">
+        <span>모두 실행</span>
+        <span>PASS 확인</span>
+        <span>두 파일 제출</span>
+        <span>확인 후 귀가</span>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">완료 판정</p>
+        <p>자동 검사 PASS가 보이고 제출함에 올바른 `.ipynb`와 `.png`가 등록되었다면 오늘의 필수 학습 목표를 달성했습니다. 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다.</p>
+      </div>
+
+      <h2 id="optional">선택 확장: 완료 후 더 실험하고 싶은 경우만</h2>
+
+      <p>아래 활동은 귀가 조건이 아니며 추가 점수도 없습니다. 필수 미션을 완료한 학생은 선택 확장을 하지 않고 제출 후 귀가해도 됩니다.</p>
+
+      <ul>
+        <li>같은 좌표에 두 번째 팔레트를 적용하고 다른 파일명으로 저장합니다.</li>
+        <li>도형 코드의 실행 순서를 바꾸어 겹친 영역의 앞뒤 관계를 비교합니다.</li>
+        <li>가로선의 위치나 두께를 수정하거나 선을 하나 더 추가합니다.</li>
+        <li>사각형, 타원, 다각형 가운데 하나를 추가해 두 번째 강조점을 만듭니다.</li>
+      </ul>
+
+      <h2 id="references">공식 도움말</h2>
+      <ul class="reference-list">
+        <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer"><strong>Google Colab 공식 입문 노트북</strong></a><small>코드 셀 실행과 노트북 사용법을 확인할 수 있는 공식 자료</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.new" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: Image.new()</strong></a><small>모드, 크기, 배경색으로 새 이미지를 만드는 공식 사용법</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw</strong></a><small>사각형, 타원, 다각형과 선의 좌표·색상 인자에 관한 공식 설명</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/handbook/image-file-formats.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: Image file formats</strong></a><small>PNG를 포함한 지원 이미지 형식과 저장 방식</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#goal-contract-title">목표 달성형 운영</a></li>
+        <li class="toc-level-2"><a href="#completion-criteria">귀가 조건</a></li>
+        <li class="toc-level-2"><a href="#time-guide">50분 진행 기준</a></li>
+        <li class="toc-level-2"><a href="#setup">노트북 준비</a></li>
+        <li class="toc-level-2"><a href="#baseline">기준 이미지</a></li>
+        <li class="toc-level-2"><a href="#identity">제출 정보</a></li>
+        <li class="toc-level-2"><a href="#palette">팔레트 수정</a></li>
+        <li class="toc-level-2"><a href="#geometry">좌표 수정</a></li>
+        <li class="toc-level-2"><a href="#save">PNG 저장</a></li>
+        <li class="toc-level-2"><a href="#auto-check">자동 검사</a></li>
+        <li class="toc-level-2"><a href="#submission">제출과 귀가</a></li>
+        <li class="toc-level-2"><a href="#optional">선택 확장</a></li>
+        <li class="toc-level-2"><a href="#references">공식 도움말</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice / Week 03 / Period 03</p>
+  <script src="assets/week-03.js?v=week3-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

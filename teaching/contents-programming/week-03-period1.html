@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="ko" class="week-three-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3주차 1교시: 디지털 이미지의 픽셀과 좌표 | Contents Programming Practice</title>
+  <meta name="description" content="디지털 이미지를 픽셀의 격자로 이해하고, 이미지 좌표의 원점과 축 방향, 크기와 좌표 범위를 구분하는 3주차 1교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-03-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="3주차 1교시: 디지털 이미지의 픽셀과 좌표 | Contents Programming Practice">
+  <meta property="og:description" content="이미지를 작은 색상 칸의 격자로 읽고, 코드가 위치를 지정하는 좌표 규칙을 살펴봅니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-03-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-03-period1-hero.webp">
+  <meta property="og:image:alt" content="정사각 픽셀 격자에서 원점과 좌표 관계를 보여 주는 3주차 1교시 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="3주차 1교시: 디지털 이미지의 픽셀과 좌표 | Contents Programming Practice">
+  <meta name="twitter:description" content="픽셀, 해상도, 이미지 좌표와 유효 범위를 이해하는 디지털 이미지 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-03-period1-hero.webp">
+  <link rel="preload" as="image" href="assets/week-03-period1-hero.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-03.css?v=week3-1">
+</head>
+<body class="teaching-document course-contents-programming week-three-page">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-02-period3.html" rel="prev" aria-label="이전 자료: 2주차 3교시: 자기소개 데이터 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-03-period2.html" rel="next" aria-label="다음 자료: 3주차 2교시: RGB 색상과 도형 그리기 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <header class="hero week-three-hero">
+    <div class="hero-inner">
+      <div class="week-three-hero-copy">
+        <p class="eyebrow">Pixels and coordinates</p>
+        <h1>픽셀과 좌표로 이미지 읽기</h1>
+        <p class="lead">사진을 픽셀의 격자로 읽고, 코드가 이미지 안의 위치를 지정하는 좌표 규칙을 배웁니다.</p>
+      </div>
+      <figure class="week-three-hero-visual">
+        <img src="assets/week-03-period1-hero.webp" width="1448" height="1086" loading="eager" decoding="async" fetchpriority="high" alt="정사각 픽셀 격자에서 원점과 좌표 관계를 보여 주는 3주차 1교시 이미지">
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">화면을 숫자의 격자로 읽기</p>
+
+      <dl class="week-three-lesson-facts" aria-label="수업 정보">
+        <div><dt>핵심 질문</dt><dd>이미지는 어떻게 숫자가 되는가?</dd></div>
+        <div><dt>핵심 개념</dt><dd>픽셀, 해상도, 좌표</dd></div>
+        <div><dt>이전 학습</dt><dd>변수, int, 실행 순서</dd></div>
+        <div><dt>다음 학습</dt><dd>RGB와 Pillow 도형</dd></div>
+        <div><dt>입문 기준</dt><dd>코드 기호부터 한 줄씩 해설</dd></div>
+        <div><dt>운영 시간</dt><dd>기본 50분 / 확장 60분 (+ 10 MIN EXTENSION)</dd></div>
+      </dl>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>래스터 이미지를 <strong>색상 값을 가진 픽셀의 격자</strong>로 설명할 수 있습니다.</li>
+          <li>이미지의 가로와 세로 크기, 전체 픽셀 수를 구분하고 계산할 수 있습니다.</li>
+          <li>왼쪽 위 원점과 <strong>x는 오른쪽, y는 아래쪽</strong>으로 증가하는 좌표 규칙을 사용할 수 있습니다.</li>
+          <li>이미지의 크기와 실제로 사용할 수 있는 마지막 픽셀 좌표를 구분할 수 있습니다.</li>
+          <li>2주차의 변수와 정수 자료형이 이미지의 크기와 위치를 표현하는 방식과 연결됨을 설명할 수 있습니다.</li>
+          <li><code>=</code>, <code>()</code>, <code>,</code>, <code>.</code>처럼 이미지 코드에 반복해서 나오는 기호를 말로 풀어 읽을 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-six" aria-label="1교시 시간 구성">
+        <li><span class="session-label">0-5 min</span><strong>이전 학습과 기호</strong><p><code>=</code>, 괄호, 쉼표를 다시 읽고 이미지 데이터로 범위를 넓힙니다.</p></li>
+        <li><span class="session-label">5-18 min</span><strong>이미지의 구조</strong><p>래스터 이미지, 픽셀, 해상도의 관계를 정리합니다.</p></li>
+        <li><span class="session-label">18-29 min</span><strong>이미지 좌표</strong><p>원점과 축 방향을 확인하고 좌표를 읽습니다.</p></li>
+        <li><span class="session-label">29-39 min</span><strong>크기와 계산 기호</strong><p>width, height, 마지막 주소와 <code>*</code>, <code>-</code>, <code>//</code>를 구분합니다.</p></li>
+        <li><span class="session-label">39-47 min</span><strong>첫 이미지 코드</strong><p>변수, <code>print()</code>, 점, <code>Image.new()</code>를 한 조각씩 읽습니다.</p></li>
+        <li><span class="session-label">47-50 min</span><strong>개념 확인</strong><p>좌표 예측 문제와 한 문장 정리로 2교시를 준비합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">두 가지 운영 시간</p>
+        <p><strong>50분 교시</strong>에서는 픽셀 격자, 왼쪽 위 원점, 유효 좌표 범위, 첫 이미지 코드까지 진행합니다. <strong>60분 교시</strong>에서는 본문 마지막의 50-60분 확장 활동까지 이어서 좌표로 실제 화면 구성을 설계합니다. 본문은 강사가 별도의 설명을 덧붙이지 않아도 핵심 논리가 이어지도록 작성되어 있습니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">코드를 처음 보는 학생을 위한 진행 원칙</p>
+        <ol>
+          <li><strong>처음부터 외우지 않습니다.</strong> 먼저 제공된 코드를 보고, 한 줄이 하는 일을 우리말로 설명합니다.</li>
+          <li><strong>한 줄 전체를 한꺼번에 보지 않습니다.</strong> 변수 이름, 기호, 값처럼 작은 조각으로 나누어 읽습니다.</li>
+          <li><strong><code>=</code>이 있으면 오른쪽부터 봅니다.</strong> 오른쪽 값을 준비한 뒤 왼쪽 이름에 기억한다고 읽습니다.</li>
+          <li><strong>괄호 안은 필요한 재료입니다.</strong> 쉼표는 여러 재료의 경계를 구분합니다.</li>
+          <li><strong>오류는 실패 판정이 아닙니다.</strong> Python이 이해하지 못한 위치나 아직 준비되지 않은 이름을 알려주는 안내문입니다.</li>
+        </ol>
+      </div>
+
+      <h2 id="recall">0-5분 · 한 개의 값에서 이미지 데이터로</h2>
+
+      <p>2주차에는 이름, 시간, 평점처럼 <strong>하나의 값</strong>을 변수에 저장했습니다. 이번 주에는 같은 생각을 이미지로 확장합니다. 디지털 이미지는 컴퓨터가 한 번에 이해하는 그림 덩어리가 아니라, 위치와 색상 값을 가진 수많은 작은 데이터의 모음입니다.</p>
+
+      <p>사람은 이미지를 보는 순간 인물, 풍경, 분위기와 같은 전체적인 의미를 먼저 파악합니다. 컴퓨터가 이미지를 처리할 때에는 출발점이 다릅니다. 컴퓨터는 “따뜻한 저녁 풍경”이라는 인상을 직접 저장하는 대신, <strong>이미지의 크기</strong>, <strong>각 픽셀의 위치</strong>, <strong>그 위치의 색상 값</strong>을 다룹니다. 우리가 감상하는 하나의 장면을 계산 가능한 작은 단위로 나누는 것이 이번 시간의 핵심입니다.</p>
+
+      <p>이 관점은 창작의 자유를 줄이는 것이 아니라 오히려 새로운 조절 가능성을 만듭니다. 위치가 숫자라면 형태를 정확히 이동할 수 있고, 크기가 숫자라면 같은 비율로 확대할 수 있으며, 색상이 숫자라면 여러 색의 차이를 체계적으로 설계할 수 있습니다. 코드는 그림을 대신 그리는 자동화 장치가 아니라, <strong>시각적 결정을 명시적인 규칙으로 기록하는 매체</strong>가 됩니다.</p>
+
+      <div class="value-contrast" role="group" aria-label="2주차 데이터와 3주차 이미지 데이터 비교">
+        <div class="value-case">
+          <span class="visual-label">Week 02 / one value</span>
+          <pre><code>favorite_color = "blue"</code></pre>
+          <p>좋아하는 색을 하나의 문자열 값으로 저장합니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Week 03 / many values</span>
+          <pre><code>position = (2, 1)
+color = (40, 110, 230)</code></pre>
+          <p>한 픽셀은 위치와 색상이라는 여러 숫자로 설명할 수 있습니다.</p>
+        </div>
+      </div>
+
+      <h3 id="code-reading-recall">가장 짧은 코드부터 조각내어 읽기</h3>
+      <p><code>favorite_color = "blue"</code>를 처음 보았을 때 영어 문장처럼 처음부터 끝까지 읽으려고 하면 어렵게 느껴질 수 있습니다. Python의 대입문은 <strong>오른쪽 값을 먼저 확인하고, 그 값을 왼쪽 이름으로 기억하는 순서</strong>로 읽습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption><code>favorite_color = "blue"</code>의 네 조각</caption>
+          <thead><tr><th scope="col">코드 조각</th><th scope="col">이름</th><th scope="col">초심자의 읽는 방법</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>favorite_color</code></th><td>변수 이름</td><td>나중에 값을 다시 찾기 위해 우리가 붙인 이름</td></tr>
+            <tr><th scope="row"><code>_</code></th><td>밑줄</td><td>변수 이름에 공백을 쓸 수 없어서 두 단어를 연결하는 기호</td></tr>
+            <tr><th scope="row"><code>=</code></th><td>대입 기호</td><td>오른쪽 값을 왼쪽 이름으로 기억하라는 표시</td></tr>
+            <tr><th scope="row"><code>"blue"</code></th><td>문자열 값</td><td>따옴표 안의 글자 <code>blue</code>를 데이터로 사용</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>이 줄을 실행하면 화면에 <code>blue</code>가 바로 나타나는 것이 아닙니다. Python의 실행 공간에 <code>favorite_color → "blue"</code>라는 연결이 생깁니다. 값을 화면에서 확인하려면 다음 줄에 <code>print(favorite_color)</code>처럼 출력 명령을 사용합니다.</p>
+
+      <pre><code>favorite_color = "blue"
+print(favorite_color)</code></pre>
+
+      <pre><code>blue</code></pre>
+
+      <div class="callout callout-info">
+        <p class="callout-title">괄호와 쉼표가 보일 때의 첫 번째 해석</p>
+        <p><code>position = (2, 1)</code>의 괄호는 위치에 필요한 두 값을 한 묶음으로 만듭니다. 쉼표 앞의 <code>2</code>는 x, 뒤의 <code>1</code>은 y입니다. <code>color = (40, 110, 230)</code>도 같은 방식으로 세 색상 값을 순서대로 묶습니다. 지금은 ‘튜플’이라는 용어를 외우기보다 <strong>괄호 안에 순서가 있는 여러 값이 들어 있다</strong>고 읽으면 충분합니다.</p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 생각 · 2분</span>
+        <h3>파란 점 하나를 컴퓨터에 알려주려면?</h3>
+        <p>빈 화면에 파란 점 하나를 정확히 표시하려고 합니다. 컴퓨터에 알려줘야 할 정보를 두 종류로 나누어 적습니다.</p>
+        <ul>
+          <li><strong>어디에:</strong> 화면 안의 위치</li>
+          <li><strong>어떤 모습으로:</strong> 점의 색상</li>
+        </ul>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">왜 “왼쪽 위쯤 파란색”만으로는 부족할까?</summary>
+        <div class="details-motion-content"><p>컴퓨터에는 “쯤”을 처리할 공통 기준이 없습니다. 사람마다 떠올리는 범위도 다릅니다. 위치를 나타내는 좌표와 색상을 나타내는 수치처럼 실행 가능한 데이터로 바꾸어야 같은 명령이 같은 결과를 만듭니다. 정확한 수치는 표현을 제한하는 규칙이 아니라, 의도한 결과를 반복하고 수정하고 비교하기 위한 공통 언어입니다.</p></div>
+      </details>
+
+      <h2 id="image-structure">5-18분 · 디지털 이미지는 픽셀의 격자다</h2>
+
+      <h3 id="pixel-definition">픽셀, 래스터 이미지, 해상도</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>디지털 이미지의 기본 용어</caption>
+          <thead><tr><th scope="col">용어</th><th scope="col">뜻</th><th scope="col">이번 수업의 예</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">픽셀</th><td>래스터 이미지 안에서 하나의 위치와 색상 값을 가지는 가장 작은 주소 단위</td><td><code>(2, 1)</code> 위치의 파란색 칸</td></tr>
+            <tr><th scope="row">래스터 이미지</th><td>픽셀이 가로와 세로의 격자로 배열된 이미지</td><td>사진, PNG, JPEG처럼 픽셀로 저장되는 이미지</td></tr>
+            <tr><th scope="row">해상도</th><td>이미지를 구성하는 가로 픽셀 수 × 세로 픽셀 수</td><td><code>800 × 600</code> 픽셀</td></tr>
+            <tr><th scope="row">색상 값</th><td>각 픽셀이 어떤 색으로 보일지 나타내는 데이터</td><td>2교시에서 배울 <code>(R, G, B)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>픽셀을 단순히 “아주 작은 네모”라고만 이해하면 중요한 특징을 놓칠 수 있습니다. 핵심은 모양보다 <strong>주소를 가진 데이터 단위</strong>라는 점입니다. 각 픽셀은 격자 안에서 자신의 위치를 가지며, 그 위치에는 색상 정보가 저장됩니다. 이미지를 확대했을 때 네모난 칸이 보이는 이유는 연속된 장면을 유한한 수의 격자로 나누어 기록했기 때문입니다.</p>
+
+      <p>이미지의 한 부분을 수정한다는 말은 결국 특정 좌표에 저장된 색상 값을 바꾼다는 뜻입니다. 붓으로 선을 긋는 명령도 내부적으로는 선이 지나가는 여러 픽셀의 값을 갱신합니다. 원을 그리는 명령 역시 완성된 원 모양을 이미지에 붙이는 것이 아니라, 원의 내부와 경계에 해당하는 픽셀을 계산해 새로운 색으로 기록합니다.</p>
+
+      <p><strong>800 × 600 이미지</strong>는 가로 800칸, 세로 600칸으로 이루어진 격자입니다. 전체 픽셀 수는 <code>800 * 600</code>, 즉 <strong>480,000개</strong>입니다. 픽셀 수가 많을수록 항상 좋은 작품이 되는 것은 아니지만, 같은 크기로 확대했을 때 더 세밀한 정보를 담을 수 있습니다.</p>
+
+      <h3 id="raster-and-vector">래스터와 벡터는 이미지를 기록하는 출발점이 다르다</h3>
+      <p>오늘 다루는 Pillow는 <strong>래스터 이미지</strong>를 처리합니다. 래스터는 각 위치의 픽셀 값을 기록합니다. 반면 벡터 그래픽은 선, 곡선, 도형의 수학적 관계를 기록합니다. 두 방식 가운데 하나가 항상 우수한 것은 아닙니다. 사진처럼 미세한 색 변화가 많은 장면은 래스터가 자연스럽고, 로고처럼 크기를 자주 바꾸는 단순한 형태는 벡터가 유리합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>래스터 이미지와 벡터 그래픽의 구조 비교</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">래스터 이미지</th><th scope="col">벡터 그래픽</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">기록 단위</th><td>좌표마다 저장된 픽셀의 색상 값</td><td>점, 선, 곡선, 도형을 만드는 수학적 명령</td></tr>
+            <tr><th scope="row">확대할 때</th><td>원래 픽셀 수보다 크게 표시하면 경계가 거칠어질 수 있음</td><td>도형을 다시 계산하므로 다양한 크기에서 선명하게 표현 가능</td></tr>
+            <tr><th scope="row">적합한 예</th><td>사진, 회화 스캔, 픽셀 아트, Pillow 결과 이미지</td><td>로고, 아이콘, 다이어그램, 글자 윤곽선</td></tr>
+            <tr><th scope="row">대표 형식</th><td>PNG, JPEG</td><td>SVG</td></tr>
+            <tr><th scope="row">이번 주의 초점</th><td><strong>좌표와 RGB 값으로 픽셀을 생성</strong></td><td>개념 비교만 하고 직접 제작하지 않음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-question">
+        <p class="callout-title">같은 원인데 왜 확대 결과가 다를까?</p>
+        <p>래스터 파일의 원은 이미 정해진 격자 안의 픽셀 값으로 저장되어 있습니다. 크게 확대하면 기존 픽셀도 함께 커집니다. 벡터 파일의 원은 중심과 반지름 같은 관계로 저장되어 있어 새로운 크기에 맞추어 경계를 다시 계산할 수 있습니다. 이번 주에는 Pillow가 계산한 도형을 최종적으로 래스터 픽셀에 기록합니다.</p>
+      </div>
+
+      <figure class="lesson-visual" aria-labelledby="resolution-caption">
+        <div class="execution-model">
+          <div class="execution-stage"><span>Image</span><strong>하나의 이미지</strong><p>눈에는 하나의 장면이나 그림으로 보입니다.</p></div>
+          <div class="execution-stage"><span>Grid</span><strong>가로 × 세로 격자</strong><p>코드는 이미지를 행과 열의 구조로 다룹니다.</p></div>
+          <div class="execution-stage"><span>Pixel</span><strong>위치가 있는 칸</strong><p>각 칸은 서로 다른 좌표를 가집니다.</p></div>
+          <div class="execution-stage"><span>Value</span><strong>색상 데이터</strong><p>각 좌표에 표시할 색상 값이 저장됩니다.</p></div>
+        </div>
+        <figcaption id="resolution-caption">이미지를 데이터로 본다는 것은 전체 장면을 격자, 위치, 색상 값으로 나누어 읽는다는 뜻입니다.</figcaption>
+      </figure>
+
+      <h3 id="resolution-display-file">해상도, 표시 크기, 파일 용량은 서로 다른 값이다</h3>
+      <p>초심자가 자주 혼동하는 세 가지 값이 있습니다. <strong>해상도</strong>는 이미지가 실제로 가진 픽셀의 개수이고, <strong>표시 크기</strong>는 그 이미지를 현재 화면이나 문서에서 얼마나 크게 보여주는지이며, <strong>파일 용량</strong>은 저장 장치에서 차지하는 바이트의 양입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이미지의 크기를 말할 때 구분해야 하는 세 기준</caption>
+          <thead><tr><th scope="col">기준</th><th scope="col">질문</th><th scope="col">예</th><th scope="col">달라지는 요인</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">픽셀 해상도</th><td>몇 개의 픽셀로 이루어졌는가?</td><td>800 × 600픽셀</td><td>가로·세로 픽셀 수</td></tr>
+            <tr><th scope="row">표시 크기</th><td>지금 화면에서 얼마나 크게 보이는가?</td><td>웹페이지에서 가로 400픽셀로 표시</td><td>브라우저, CSS, 화면 배율</td></tr>
+            <tr><th scope="row">파일 용량</th><td>저장할 때 몇 바이트를 차지하는가?</td><td>82KB 또는 1.2MB</td><td>파일 형식, 압축 방식, 이미지 내용</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>예를 들어 800 × 600 이미지를 웹페이지에서 가로 400픽셀로 표시해도 원본이 가진 픽셀 수는 그대로입니다. 반대로 작은 원본을 크게 표시하면 화면에서 차지하는 공간은 커지지만 새로운 세부 정보가 저절로 생기지는 않습니다. 따라서 “크게 보인다”와 “많은 픽셀을 가진다”를 같은 뜻으로 사용해서는 안 됩니다.</p>
+
+      <h3 id="pixel-data-scale">한 장의 이미지는 얼마나 많은 숫자를 가지는가</h3>
+      <p>800 × 600 이미지에는 480,000개의 픽셀이 있습니다. 2교시에서 배울 RGB 이미지는 픽셀마다 빨강, 초록, 파랑의 세 값을 가지므로, 단순하게 세어도 <code>480000 * 3</code>, 즉 <strong>1,440,000개의 채널 값</strong>을 다룹니다. 우리가 화면에서 즉시 보는 한 장의 이미지 뒤에는 이처럼 많은 수치 데이터가 놓여 있습니다.</p>
+
+      <div class="callout callout-info">
+        <p class="callout-title">계산된 데이터 양과 실제 파일 용량은 같지 않다</p>
+        <p>RGB 채널 값의 개수는 이미지 구조를 이해하기 위한 계산입니다. PNG와 JPEG 같은 파일은 픽셀 정보를 각기 다른 방식으로 압축하므로 실제 파일 용량은 이미지 내용과 저장 방식에 따라 달라집니다. <code>가로 × 세로 × 3</code>의 결과를 그대로 PNG 파일 용량이라고 해석하지 않습니다.</p>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">픽셀은 화면에서 항상 같은 크기로 보이지 않는다</p>
+        <p>이미지를 확대하면 한 픽셀이 큰 네모처럼 보이고 축소하면 여러 픽셀이 한데 모여 보입니다. <strong>이미지의 픽셀 수</strong>와 웹페이지나 화면에서 보이는 <strong>표시 크기</strong>는 서로 다른 개념입니다.</p>
+      </div>
+
+      <h2 id="coordinates">18-29분 · 이미지 안의 위치는 좌표로 찾는다</h2>
+
+      <h3 id="origin-and-axes">왼쪽 위가 원점이고 y는 아래로 증가한다</h3>
+      <p>Pillow를 포함한 일반적인 이미지 처리 환경에서는 왼쪽 위 픽셀을 <strong>원점 <code>(0, 0)</code></strong>으로 사용합니다. 첫 번째 숫자 <code>x</code>는 오른쪽으로 갈수록 커지고, 두 번째 숫자 <code>y</code>는 아래로 갈수록 커집니다.</p>
+
+      <p>수학 시간의 좌표평면에서는 흔히 왼쪽 아래를 기준으로 y축이 위로 증가합니다. 이미지 좌표는 종이의 첫 줄을 왼쪽에서 오른쪽으로 읽고 다음 줄로 내려가는 방식에 가깝습니다. 어느 체계가 더 옳은 것이 아니라 <strong>목적에 따라 사용하는 약속이 다릅니다.</strong> 코드를 읽을 때에는 지금 사용하는 환경의 좌표 약속을 먼저 확인해야 합니다.</p>
+
+      <div class="value-contrast" role="group" aria-label="수학 좌표와 이미지 좌표 비교">
+        <div class="value-case">
+          <span class="visual-label">Mathematics</span>
+          <p><strong>원점:</strong> 보통 왼쪽 아래 또는 평면의 중심</p>
+          <p><strong>y 증가:</strong> 위쪽으로 이동</p>
+          <p><strong>주요 목적:</strong> 위치와 관계를 수학적으로 표현</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Digital image</span>
+          <p><strong>원점:</strong> 이미지의 왼쪽 위</p>
+          <p><strong>y 증가:</strong> 아래쪽으로 이동</p>
+          <p><strong>주요 목적:</strong> 행과 열로 배열된 픽셀 위치를 지정</p>
+        </div>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">좌표의 순서는 언제나 (x, y)</p>
+        <p><code>(120, 80)</code>은 “120번째 행, 80번째 열”이 아닙니다. 첫 값 120은 가로 방향인 x, 둘째 값 80은 세로 방향인 y입니다. 표나 배열을 설명할 때는 행을 먼저 말하기도 하지만, 이미지의 점 좌표는 <code>(x, y)</code> 순서로 읽습니다.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>가로 4픽셀 × 세로 3픽셀 이미지의 모든 좌표</caption>
+          <thead>
+            <tr><th scope="col">y ＼ x</th><th scope="col">0</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">0</th><td><strong>(0, 0)</strong><br><small>왼쪽 위</small></td><td>(1, 0)</td><td>(2, 0)</td><td>(3, 0)</td></tr>
+            <tr><th scope="row">1</th><td>(0, 1)</td><td>(1, 1)</td><td>(2, 1)</td><td>(3, 1)</td></tr>
+            <tr><th scope="row">2</th><td>(0, 2)</td><td>(1, 2)</td><td>(2, 2)</td><td><strong>(3, 2)</strong><br><small>오른쪽 아래</small></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>표의 첫 행에는 y가 모두 0인 픽셀이 놓입니다. 같은 행에서 오른쪽으로 이동하면 x만 바뀝니다. 첫 열에는 x가 모두 0인 픽셀이 놓이며, 아래로 이동하면 y만 바뀝니다. 따라서 <code>(3, 1)</code>은 “오른쪽으로 3, 아래로 1 이동한 위치”라고 읽을 수 있습니다.</p>
+
+      <p>좌표는 두 숫자를 외우는 문제가 아니라 <strong>가로 위치와 세로 위치를 분리해 사고하는 방법</strong>입니다. 도형이 너무 오른쪽에 있다면 x값을 줄이고, 너무 위에 있다면 y값을 늘립니다. 결과를 보고 어떤 숫자를 바꾸어야 하는지 판단할 수 있을 때 좌표를 실제 창작 도구로 사용하게 됩니다.</p>
+
+      <div class="type-grid" role="group" aria-label="이미지 좌표에서 네 방향으로 이동하는 규칙">
+        <div class="type-card"><span class="visual-label">Move right</span><strong>오른쪽으로 한 칸</strong><br><code>(x + 1, y)</code><p>x만 1 커지고 y는 그대로입니다.</p></div>
+        <div class="type-card"><span class="visual-label">Move left</span><strong>왼쪽으로 한 칸</strong><br><code>(x - 1, y)</code><p>x만 1 작아지고 y는 그대로입니다.</p></div>
+        <div class="type-card"><span class="visual-label">Move down</span><strong>아래로 한 칸</strong><br><code>(x, y + 1)</code><p>y가 1 커집니다. 수학 그래프와 다른 핵심입니다.</p></div>
+        <div class="type-card"><span class="visual-label">Move up</span><strong>위로 한 칸</strong><br><code>(x, y - 1)</code><p>y가 1 작아집니다.</p></div>
+      </div>
+
+      <h3 id="coordinate-code-trace">좌표 이동을 실제 Python 코드로 추적하기</h3>
+      <p>좌표를 코드에 저장할 때에는 x와 y를 각각 정수 변수로 둘 수 있습니다. 다음 코드는 점을 <code>(120, 80)</code>에 놓은 뒤 오른쪽으로 30픽셀, 위로 20픽셀 이동합니다.</p>
+
+      <pre><code>point_x = 120
+point_y = 80
+
+point_x = point_x + 30
+point_y = point_y - 20
+
+print(point_x, point_y)</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>좌표 이동 코드가 실행되는 여섯 단계</caption>
+          <thead><tr><th scope="col">실행 순서</th><th scope="col">Python이 하는 일</th><th scope="col">기억된 좌표</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">1. <code>point_x = 120</code></th><td>정수 120을 <code>point_x</code>라는 이름으로 기억</td><td>x = 120</td></tr>
+            <tr><th scope="row">2. <code>point_y = 80</code></th><td>정수 80을 <code>point_y</code>라는 이름으로 기억</td><td>(120, 80)</td></tr>
+            <tr><th scope="row">3. <code>point_x + 30</code></th><td>오른쪽의 기존 x값 120에 30을 더함</td><td>계산 결과 150</td></tr>
+            <tr><th scope="row">4. <code>point_x = 150</code></th><td>계산 결과를 같은 이름에 다시 대입</td><td>(150, 80)</td></tr>
+            <tr><th scope="row">5. <code>point_y = point_y - 20</code></th><td>기존 y값 80에서 20을 빼고 결과 60을 다시 대입</td><td>(150, 60)</td></tr>
+            <tr><th scope="row">6. <code>print(...)</code></th><td>쉼표로 나눈 두 변수의 현재 값을 출력</td><td><code>150 60</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p><code>point_x = point_x + 30</code>은 수학의 등식이 아니라 실행 순서가 있는 명령입니다. 오른쪽의 기존 값을 먼저 찾아 계산하고, 계산이 끝난 뒤 왼쪽 변수의 값을 바꿉니다. 반면 <code>point_y</code>는 위로 이동해야 하므로 값을 더하지 않고 뺍니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">코드를 실행했는데 아무 그림도 나타나지 않는 이유는?</summary>
+        <div class="details-motion-content"><p>이 코드는 점의 위치를 숫자로 계산하고 출력할 뿐, 아직 이미지를 만들거나 점을 그리는 명령은 포함하지 않습니다. 좌표 데이터가 준비되었다는 것과 화면에 도형이 그려졌다는 것은 서로 다른 단계입니다. 2교시에는 이 좌표를 <code>draw.rectangle()</code>이나 <code>draw.ellipse()</code> 같은 그리기 명령에 전달합니다.</p></div>
+      </details>
+
+      <h3 id="coordinates-and-composition">좌표는 화면 구성의 언어가 된다</h3>
+      <p>좌표는 단지 픽셀의 주소를 찾는 기술 용어가 아닙니다. 시각 구성에서 사용하는 정렬, 여백, 중심, 반복 간격 역시 좌표의 관계로 표현할 수 있습니다. “왼쪽에 놓는다”는 말은 작은 x값을 사용한다는 뜻이고, “아래쪽에 충분한 여백을 둔다”는 말은 도형의 마지막 y좌표와 캔버스 높이 사이에 일정한 차이를 남긴다는 뜻입니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>시각 구성의 언어를 좌표 관계로 번역하기</caption>
+          <thead><tr><th scope="col">시각적 의도</th><th scope="col">좌표로 생각하는 방법</th><th scope="col">확인 질문</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">왼쪽 정렬</th><td>여러 도형이 같은 시작 x값을 사용</td><td>각 도형의 왼쪽 경계가 같은가?</td></tr>
+            <tr><th scope="row">일정한 위쪽 여백</th><td>첫 도형의 y값을 여백 값으로 지정</td><td>원점에서 도형까지의 거리가 충분한가?</td></tr>
+            <tr><th scope="row">화면 중심 배치</th><td>캔버스 중심과 도형 중심을 일치</td><td>가로와 세로 중심이 각각 맞는가?</td></tr>
+            <tr><th scope="row">규칙적인 간격</th><td>다음 도형의 x 또는 y에 같은 값을 반복해 더함</td><td>도형 사이의 차이가 일정한가?</td></tr>
+            <tr><th scope="row">비대칭 균형</th><td>크기가 다른 도형을 서로 다른 영역에 배치</td><td>수치가 달라도 시각적 무게가 균형을 이루는가?</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>마지막 행의 비대칭 균형은 좌표만으로 자동 판정할 수 없습니다. 좌표는 위치를 정확히 기록하지만, 어떤 구성이 더 안정적이거나 긴장감 있게 느껴지는지는 사람이 결과를 보고 판단해야 합니다. 프로그래밍은 미적 판단을 없애는 것이 아니라, 판단한 내용을 다시 실행할 수 있는 값으로 옮깁니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 좌표 추적 · 3분</span>
+        <h3><code>(1, 1)</code>에서 이동하기</h3>
+        <ol>
+          <li>오른쪽으로 두 칸 이동한 좌표를 적습니다.</li>
+          <li>그 위치에서 아래로 한 칸 이동한 좌표를 적습니다.</li>
+          <li>가로 4 × 세로 3 이미지 안에 남아 있는지 확인합니다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">이동 결과 확인</summary>
+        <div class="details-motion-content"><p><code>(1, 1)</code>에서 오른쪽으로 두 칸 이동하면 <code>(3, 1)</code>, 다시 아래로 한 칸 이동하면 <code>(3, 2)</code>입니다. 가로 4 × 세로 3 이미지의 유효 범위는 x가 0~3, y가 0~2이므로 이미지 안의 좌표입니다.</p></div>
+      </details>
+
+      <h2 id="size-and-bounds">29-39분 · 이미지 크기와 마지막 좌표는 다르다</h2>
+
+      <p>프로그래밍에서는 첫 번째 항목을 0부터 세는 경우가 많습니다. 따라서 가로가 <code>width</code>픽셀인 이미지의 x좌표는 <code>0</code>부터 <code>width - 1</code>까지입니다. 세로 좌표도 같은 원리로 <code>0</code>부터 <code>height - 1</code>까지입니다.</p>
+
+      <p>가로 4픽셀 이미지에는 픽셀이 네 개 있습니다. 첫 픽셀에 0이라는 주소를 부여하면 주소는 0, 1, 2, 3이 됩니다. 마지막 주소가 3이라고 해서 픽셀이 세 개라는 뜻은 아닙니다. <strong>개수는 4이고 마지막 주소는 3</strong>입니다. 개수와 주소를 같은 값으로 생각하는 순간 이미지 오른쪽이나 아래쪽에서 한 칸씩 벗어나는 오류가 생깁니다.</p>
+
+      <div class="value-contrast" role="group" aria-label="픽셀 개수와 마지막 주소 비교">
+        <div class="value-case">
+          <span class="visual-label">Count</span>
+          <p class="value-result">4 pixels</p>
+          <p>실제로 존재하는 픽셀의 개수입니다. <code>width = 4</code>로 표현합니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Last address</span>
+          <p class="value-result">x = 3</p>
+          <p>0부터 주소를 붙였을 때 마지막 픽셀을 가리키는 값입니다.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이미지 크기와 사용할 수 있는 픽셀 좌표 범위</caption>
+          <thead><tr><th scope="col">이미지 크기</th><th scope="col">x 좌표 범위</th><th scope="col">y 좌표 범위</th><th scope="col">오른쪽 아래 픽셀</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">4 × 3</th><td>0~3</td><td>0~2</td><td><code>(3, 2)</code></td></tr>
+            <tr><th scope="row">400 × 300</th><td>0~399</td><td>0~299</td><td><code>(399, 299)</code></td></tr>
+            <tr><th scope="row"><code>width × height</code></th><td><code>0 ~ width - 1</code></td><td><code>0 ~ height - 1</code></td><td><code>(width - 1, height - 1)</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="arithmetic-reading">크기 계산 코드를 오른쪽부터 읽기</h3>
+      <p>가로 400픽셀 이미지의 마지막 x좌표를 변수에 저장한다면 다음처럼 작성할 수 있습니다. 한 줄을 세 단계로 나누면 계산과 대입을 혼동하지 않게 됩니다.</p>
+
+      <pre><code>canvas_width = 400
+last_x = canvas_width - 1
+print(last_x)</code></pre>
+
+      <div class="trace-board" role="group" aria-label="마지막 x좌표 계산 과정">
+        <div class="trace-state"><span class="visual-label">1 / Find</span><code>canvas_width</code><div class="trace-binding">저장된 값 400 찾기</div></div>
+        <div class="trace-state"><span class="visual-label">2 / Calculate</span><code>400 - 1</code><div class="trace-binding">계산 결과 399</div></div>
+        <div class="trace-state"><span class="visual-label">3 / Assign</span><code>last_x = 399</code><div class="trace-binding">last_x → 399</div></div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이번 시간의 계산 기호를 말로 읽는 방법</caption>
+          <thead><tr><th scope="col">기호</th><th scope="col">코드 예</th><th scope="col">말로 읽기</th><th scope="col">결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>*</code></th><td><code>800 * 600</code></td><td>800과 600을 곱한다</td><td><code>480000</code></td></tr>
+            <tr><th scope="row"><code>-</code></th><td><code>400 - 1</code></td><td>400에서 1을 뺀다</td><td><code>399</code></td></tr>
+            <tr><th scope="row"><code>+</code></th><td><code>120 + 30</code></td><td>120에 30을 더한다</td><td><code>150</code></td></tr>
+            <tr><th scope="row"><code>//</code></th><td><code>600 // 2</code></td><td>600을 2로 나눈 정수 몫을 구한다</td><td><code>300</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">Python의 곱셈 기호는 ×가 아니라 *</p>
+        <p>설명 문장에서는 이미지 크기를 <code>800 × 600</code>처럼 적지만, Python 코드에서 곱셈을 실행할 때에는 별표 <code>*</code>를 사용합니다. 키보드에 있는 문자 <code>x</code>나 인쇄용 기호 <code>×</code>를 입력하면 곱셈으로 처리되지 않습니다.</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">가로 400픽셀 이미지에서 x = 400은 픽셀 주소가 아니다</p>
+        <p>픽셀이 400개 있어도 0부터 세기 때문에 마지막 픽셀의 x좌표는 <code>399</code>입니다. <code>400</code>은 이미지의 오른쪽 경계를 설명할 때는 쓸 수 있지만, 이미지 안의 개별 픽셀 주소로는 범위를 벗어납니다.</p>
+      </div>
+
+      <h3 id="center-and-margin">중심과 여백도 계산할 수 있다</h3>
+      <p>좌표를 직접 정하는 첫 단계에서는 모든 값을 숫자로 적어도 됩니다. 그러나 캔버스 크기가 바뀔 때마다 중심과 여백을 다시 계산해야 한다면 변수를 사용하는 편이 안전합니다. 캔버스의 가로 중심은 <code>canvas_width // 2</code>, 세로 중심은 <code>canvas_height // 2</code>로 구할 수 있습니다.</p>
+
+      <pre><code>canvas_width = 600
+canvas_height = 400
+
+center_x = canvas_width // 2
+center_y = canvas_height // 2
+
+print(center_x, center_y)</code></pre>
+
+      <pre><code>300 200</code></pre>
+
+      <div class="callout callout-info">
+        <p class="callout-title"><code>//</code>는 정수 몫을 만드는 나눗셈</p>
+        <p>2주차의 <code>/</code>는 나눈 결과를 <code>float</code>로 만듭니다. 픽셀 위치를 정수로 유지하려면 <code>//</code>를 사용해 나눗셈의 정수 몫을 얻을 수 있습니다. 이번 주에는 캔버스의 중심처럼 정확한 정수 좌표가 필요할 때만 이 표기를 사용합니다.</p>
+      </div>
+
+      <p>여백도 같은 방식으로 관계를 만들 수 있습니다. <code>margin = 40</code>이라고 정하면 왼쪽 위 안전 영역은 <code>(40, 40)</code>에서 시작합니다. 오른쪽 여백을 40만큼 남긴 위치는 <code>canvas_width - margin</code>, 아래쪽 여백을 40만큼 남긴 위치는 <code>canvas_height - margin</code>입니다.</p>
+
+      <pre><code>margin = 40
+
+left = margin
+top = margin
+right = canvas_width - margin
+bottom = canvas_height - margin
+
+print(left, top, right, bottom)</code></pre>
+
+      <pre><code>40 40 560 360</code></pre>
+
+      <p>이 코드는 단순한 계산 이상의 의미를 가집니다. 캔버스를 800 × 600으로 바꾸어도 <code>margin</code>을 제외한 나머지 경계가 자동으로 다시 계산됩니다. 모든 좌표를 개별 숫자로 고정하는 대신, <strong>크기와 여백 사이의 관계</strong>를 코드로 기록한 것입니다.</p>
+
+      <div class="callout callout-info">
+        <p class="callout-title">설계 기준선과 마지막 픽셀 주소를 구분한다</p>
+        <p><code>canvas_width - margin</code>으로 구한 560은 캔버스의 오른쪽 경계 600에서 40만큼 떨어진 <strong>설계 기준선</strong>입니다. 빈 픽셀을 좌우에 정확히 40개씩 남기고 픽셀 주소를 지정한다면 오른쪽에서 사용할 마지막 주소는 <code>canvas_width - margin - 1</code>, 즉 559입니다. 이번 활동에서는 화면 구성을 위한 기준선으로 560을 사용하고, 2교시의 도형 명령에서는 Pillow가 경계 상자의 끝점을 포함한다는 규칙을 다시 확인합니다.</p>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">단계별 계산 · 3분</span>
+        <h3>800 × 500 캔버스의 안전 영역</h3>
+        <p>사방에 50픽셀의 여백을 남긴 직사각형 영역을 설계합니다. 다음 네 값을 순서대로 계산합니다.</p>
+        <ol>
+          <li><code>left = margin</code></li>
+          <li><code>top = margin</code></li>
+          <li><code>right = canvas_width - margin</code></li>
+          <li><code>bottom = canvas_height - margin</code></li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">안전 영역 계산 확인</summary>
+        <div class="details-motion-content"><p>여백이 50이므로 왼쪽과 위쪽은 각각 50입니다. 오른쪽은 <code>800 - 50 = 750</code>, 아래쪽은 <code>500 - 50 = 450</code>입니다. 결과는 <code>(50, 50, 750, 450)</code>입니다. 이 네 값은 다음 교시에서 사각형과 타원의 경계 상자를 읽을 때 다시 사용합니다.</p></div>
+      </details>
+
+      <h3 id="after-class-review">수업 후 개별 복습: 경계 좌표 빠르게 판정하기</h3>
+      <p>아래 네 문제는 50분 수업에서 모두 설명하지 않습니다. 수업 중에는 오른쪽 아래 좌표 한 문제를 함께 확인하고, 나머지는 자신의 답을 적은 뒤 개별 복습에 활용합니다.</p>
+      <div class="concept-check-list">
+        <details>
+          <summary>1. 800 × 600 이미지의 오른쪽 아래 픽셀 좌표는?</summary>
+          <div class="details-motion-content"><p><code>(799, 599)</code>입니다. 가로와 세로 크기에서 각각 1을 뺍니다.</p></div>
+        </details>
+        <details>
+          <summary>2. 800 × 600 이미지에서 (800, 200)은 이미지 안의 픽셀인가?</summary>
+          <div class="details-motion-content"><p>아닙니다. 유효한 x좌표는 0부터 799까지입니다. y좌표 200은 범위 안이지만 x좌표 800이 범위를 벗어납니다.</p></div>
+        </details>
+        <details>
+          <summary>3. (120, 80)에서 아래로 25픽셀 이동한 좌표는?</summary>
+          <div class="details-motion-content"><p><code>(120, 105)</code>입니다. 이미지 좌표에서는 아래로 이동할 때 y값을 더합니다.</p></div>
+        </details>
+        <details>
+          <summary>4. 좌표 (40, 210)에서 40과 210은 각각 무엇을 뜻하는가?</summary>
+          <div class="details-motion-content"><p>40은 왼쪽에서 오른쪽으로 이동한 x 위치이고, 210은 위에서 아래로 이동한 y 위치입니다. 좌표는 항상 <code>(x, y)</code> 순서로 읽습니다.</p></div>
+        </details>
+      </div>
+
+      <h2 id="code-connection">39-47분 · 좌표도 2주차에 배운 정수 데이터다</h2>
+
+      <p>이미지의 크기와 위치는 새로운 종류의 마법 같은 정보가 아닙니다. 2주차에 배운 <code>int</code> 값을 의미 있는 변수명에 저장한 것입니다.</p>
+
+      <pre><code>canvas_width = 400
+canvas_height = 300
+
+point_x = 120
+point_y = 80
+
+print("캔버스 크기:", canvas_width, "x", canvas_height)
+print("점의 위치:", point_x, point_y)</code></pre>
+
+      <figure class="lesson-visual" aria-labelledby="variable-map-caption">
+        <div class="code-walkthrough">
+          <div class="code-line"><span class="line-number">1</span><span class="code-source">canvas_width = 400</span><span class="line-meaning">가로 픽셀 수 400을 의미 있는 이름에 저장합니다.</span></div>
+          <div class="code-line"><span class="line-number">2</span><span class="code-source">canvas_height = 300</span><span class="line-meaning">세로 픽셀 수 300을 저장합니다.</span></div>
+          <div class="code-line"><span class="line-number">3</span><span class="code-source">point_x = 120</span><span class="line-meaning">점의 가로 위치를 정수로 저장합니다.</span></div>
+          <div class="code-line"><span class="line-number">4</span><span class="code-source">point_y = 80</span><span class="line-meaning">점의 세로 위치를 정수로 저장합니다.</span></div>
+        </div>
+        <figcaption id="variable-map-caption">변수의 값을 바꾸면 같은 의미 구조를 유지한 채 캔버스 크기나 점의 위치를 조정할 수 있습니다.</figcaption>
+      </figure>
+
+      <h3 id="print-coordinate-values"><code>print()</code> 안의 설명 글자와 변수를 구분하기</h3>
+      <p>출력 명령에는 사람이 읽을 설명 글자와 Python이 기억한 변수를 함께 넣을 수 있습니다. 따옴표 안은 글자 그대로 보여 주고, 따옴표가 없는 변수 이름은 연결된 값을 찾아 보여 줍니다. 쉼표는 출력할 여러 항목을 구분합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption><code>print("점의 위치:", point_x, point_y)</code> 읽기</caption>
+          <thead><tr><th scope="col">코드 조각</th><th scope="col">Python이 확인하는 것</th><th scope="col">화면에 보이는 것</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>print</code></th><td>괄호 안의 값을 출력하는 기능</td><td>이름 자체는 출력되지 않음</td></tr>
+            <tr><th scope="row"><code>"점의 위치:"</code></th><td>따옴표 안의 문자열</td><td><code>점의 위치:</code></td></tr>
+            <tr><th scope="row"><code>point_x</code></th><td>변수에 저장된 현재 값 120</td><td><code>120</code></td></tr>
+            <tr><th scope="row"><code>point_y</code></th><td>변수에 저장된 현재 값 80</td><td><code>80</code></td></tr>
+            <tr><th scope="row"><code>,</code></th><td>각 출력 항목의 경계</td><td>기본적으로 항목 사이에 공백이 들어감</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <pre><code>점의 위치: 120 80</code></pre>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">변수 이름에 따옴표를 붙이면 값 대신 이름이 보인다</p>
+        <p><code>print("point_x")</code>는 저장된 120을 찾지 않고 <code>point_x</code>라는 글자를 그대로 출력합니다. 변수의 현재 값을 확인할 때에는 <code>print(point_x)</code>처럼 변수 이름을 따옴표 밖에 작성합니다.</p>
+      </div>
+
+      <p>여기서 변수명은 단순한 약어가 아니라 시각적 의도를 설명합니다. <code>x1</code>, <code>a</code>, <code>number</code>만으로도 코드는 실행될 수 있지만, 시간이 지난 뒤 그 값이 캔버스의 너비인지 점의 위치인지 다시 해석해야 합니다. <code>canvas_width</code>와 <code>point_x</code>처럼 역할이 드러나는 이름을 사용하면 코드가 곧 작업 기록이 됩니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>좌표 변수명을 읽을 때 확인할 의미</caption>
+          <thead><tr><th scope="col">변수명</th><th scope="col">저장하는 값</th><th scope="col">값을 키우면 생기는 변화</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>canvas_width</code></th><td>이미지의 가로 픽셀 수</td><td>캔버스가 가로로 넓어짐</td></tr>
+            <tr><th scope="row"><code>canvas_height</code></th><td>이미지의 세로 픽셀 수</td><td>캔버스가 아래 방향으로 길어짐</td></tr>
+            <tr><th scope="row"><code>point_x</code></th><td>점의 가로 위치</td><td>점이 오른쪽으로 이동</td></tr>
+            <tr><th scope="row"><code>point_y</code></th><td>점의 세로 위치</td><td>점이 아래로 이동</td></tr>
+            <tr><th scope="row"><code>margin</code></th><td>경계에서 비워둘 거리</td><td>안쪽 작업 영역이 좁아짐</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="first-image-code">첫 이미지 생성 코드를 개념으로 읽기</h3>
+      <p>아래 코드는 2교시와 3교시에서 사용할 Pillow 이미지 생성 코드입니다. 지금은 문법을 외우거나 직접 작성하지 않고, 각 값이 오늘 배운 어떤 개념과 연결되는지만 읽습니다.</p>
+
+      <pre><code>from PIL import Image
+
+canvas_width = 400
+canvas_height = 300
+background_color = (245, 240, 230)
+
+image = Image.new(
+    "RGB",
+    (canvas_width, canvas_height),
+    background_color
+)
+
+image</code></pre>
+
+      <h3 id="image-new-reading"><code>Image.new()</code> 코드를 위에서 아래로 해석하기</h3>
+      <p>이 코드는 길어 보이지만 네 묶음으로 나누면 됩니다. 첫 줄은 도구를 준비하고, 다음 세 줄은 값을 기억하며, <code>Image.new()</code> 묶음은 그 값을 재료로 이미지를 만듭니다. 마지막 <code>image</code>는 Colab이 완성된 값을 출력 영역에 보여주도록 합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>첫 이미지 코드에서 새로 만나는 단어와 기호</caption>
+          <thead><tr><th scope="col">코드 조각</th><th scope="col">초심자의 읽는 방법</th><th scope="col">주의할 점</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>from PIL import Image</code></th><td>Pillow가 제공하는 이미지 도구 <code>Image</code>를 현재 노트북으로 가져옴</td><td><code>from</code>과 <code>import</code>는 Python이 정한 단어이므로 번역하거나 바꾸지 않음</td></tr>
+            <tr><th scope="row"><code>Image.new</code></th><td><code>Image</code> 도구에 들어 있는 새 이미지 만들기 기능을 선택</td><td><code>Image</code>의 첫 글자와 <code>RGB</code>는 대문자 그대로 작성</td></tr>
+            <tr><th scope="row"><code>( ... )</code></th><td>기능을 실행할 때 필요한 입력을 괄호 안에 전달</td><td>여는 괄호와 닫는 괄호가 모두 있어야 함</td></tr>
+            <tr><th scope="row"><code>,</code></th><td>모드, 크기, 배경색이라는 세 입력의 경계를 구분</td><td>줄이 바뀌어도 쉼표가 각 입력을 나눔</td></tr>
+            <tr><th scope="row"><code>"RGB"</code></th><td>R·G·B 세 채널 모드의 이름을 문자열로 전달</td><td>따옴표를 포함해 작성</td></tr>
+            <tr><th scope="row"><code>image = ...</code></th><td>오른쪽에서 만든 이미지 결과를 왼쪽 변수 <code>image</code>에 저장</td><td>이미지를 만들기 전에 결과가 저장되는 것이 아님</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="trace-board" role="group" aria-label="Image.new 실행과 대입 순서">
+        <div class="trace-state"><span class="visual-label">1 / Read values</span><code>"RGB", (400, 300), background_color</code><div class="trace-binding">모드·크기·배경색 준비</div></div>
+        <div class="trace-state"><span class="visual-label">2 / Make</span><code>Image.new(...)</code><div class="trace-binding">400 × 300 픽셀 이미지 생성</div></div>
+        <div class="trace-state"><span class="visual-label">3 / Remember</span><code>image = 결과</code><div class="trace-binding">image → 생성된 이미지</div></div>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">괄호 안에서는 한 명령을 여러 줄로 나누어도 된다</p>
+        <p><code>Image.new("RGB", (400, 300), background_color)</code>를 한 줄에 적어도 실행 결과는 같습니다. 수업 자료에서는 세 입력을 눈으로 구분하기 쉽도록 줄을 나누었습니다. 들여쓰기는 이 명령의 입력이 계속되고 있음을 보여줍니다. 닫는 괄호가 나오기 전까지는 같은 <code>Image.new()</code> 명령입니다.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption><code>Image.new()</code>에 전달하는 세 가지 정보</caption>
+          <thead><tr><th scope="col">코드 조각</th><th scope="col">역할</th><th scope="col">연결되는 개념</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>"RGB"</code></th><td>이미지가 색상을 저장하는 방식</td><td>2교시 RGB 색상</td></tr>
+            <tr><th scope="row"><code>(canvas_width, canvas_height)</code></th><td>가로와 세로 픽셀 수</td><td>해상도와 이미지 크기</td></tr>
+            <tr><th scope="row"><code>background_color</code></th><td>처음 모든 픽셀에 넣을 색</td><td>픽셀의 색상 값</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="inspect-image">생성한 이미지의 구조를 코드로 확인하기</h3>
+      <p>이미지가 만들어졌다면 눈으로만 확인하지 않고, 코드가 기억한 속성을 직접 출력할 수 있습니다. <code>size</code>는 가로와 세로 크기, <code>mode</code>는 픽셀의 데이터 구조, <code>getbands()</code>는 이미지가 가진 채널의 이름을 보여줍니다.</p>
+
+      <p>여기서 점 <code>.</code>은 소수점이 아닙니다. <code>image.size</code>는 “<code>image</code>가 가진 <code>size</code> 정보를 찾는다”, <code>image.getbands()</code>는 “<code>image</code>가 제공하는 <code>getbands</code> 기능을 실행한다”라고 읽습니다. 괄호가 없는 정보와 괄호가 있는 기능을 다음처럼 구분합니다.</p>
+
+      <pre><code>print("크기:", image.size)
+print("모드:", image.mode)
+print("채널:", image.getbands())</code></pre>
+
+      <pre><code>크기: (400, 300)
+모드: RGB
+채널: ('R', 'G', 'B')</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이미지 객체에서 확인할 세 가지 정보</caption>
+          <thead><tr><th scope="col">확인 코드</th><th scope="col">괄호</th><th scope="col">출력</th><th scope="col">해석</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>image.size</code></th><td>없음</td><td><code>(400, 300)</code></td><td>이미지가 이미 가진 크기 정보를 읽음</td></tr>
+            <tr><th scope="row"><code>image.mode</code></th><td>없음</td><td><code>RGB</code></td><td>이미지가 이미 가진 모드 정보를 읽음</td></tr>
+            <tr><th scope="row"><code>image.getbands()</code></th><td>있음</td><td><code>('R', 'G', 'B')</code></td><td>채널 이름을 돌려주는 기능을 실행</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">점을 기준으로 앞뒤 순서를 바꾸지 않는다</p>
+        <p><code>image.size</code>에서 점 앞의 <code>image</code>는 확인할 대상이고, 점 뒤의 <code>size</code>는 그 대상에서 찾을 정보입니다. <code>size.image</code>처럼 순서를 뒤집으면 같은 의미가 되지 않습니다. 영어 문장으로 외우기보다 “대상.정보” 또는 “대상.기능()” 구조로 읽습니다.</p>
+      </div>
+
+      <p>이 확인 과정은 오류를 찾을 때도 유용합니다. 예상한 크기와 실제 <code>image.size</code>가 다르면 이미지 생성 셀의 값을 확인해야 합니다. 색상 튜플을 세 값으로 작성했는데 이미지 모드가 <code>RGB</code>가 아니라면, 어떤 모드로 이미지를 만들었는지 다시 살펴볼 수 있습니다. 추측보다 현재 상태를 출력해 확인하는 습관이 안정적인 작업 흐름을 만듭니다.</p>
+
+      <div class="callout callout-info">
+        <p class="callout-title">괄호로 묶인 값은 오늘 외우지 않는다</p>
+        <p><code>(400, 300)</code>과 <code>(245, 240, 230)</code>처럼 여러 값을 괄호로 묶은 형태를 Python에서는 <strong>튜플</strong>이라고 합니다. 이번 주에는 “크기 두 값”과 “색상 세 값”을 정해진 순서로 묶는 표기라고 읽으면 충분합니다.</p>
+      </div>
+
+      <h2 id="check">47-50분 · 개념 확인과 2교시 연결</h2>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 출구 확인 · 3분</span>
+        <h3>6 × 4 이미지 설계 카드</h3>
+        <ol>
+          <li>전체 픽셀 수를 계산합니다.</li>
+          <li>왼쪽 위와 오른쪽 아래 픽셀 좌표를 적습니다.</li>
+          <li><code>(2, 1)</code>에서 오른쪽으로 3칸, 아래로 2칸 이동한 좌표를 적습니다.</li>
+          <li>마지막 좌표가 이미지 안인지 판정하고 이유를 씁니다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">설계 카드 정답 확인</summary>
+        <div class="details-motion-content"><p>전체 픽셀 수는 <code>6 * 4 = 24</code>개입니다. 왼쪽 위는 <code>(0, 0)</code>, 오른쪽 아래는 <code>(5, 3)</code>입니다. <code>(2, 1)</code>에서 오른쪽으로 3칸, 아래로 2칸 이동하면 <code>(5, 3)</code>이므로 이미지 안의 마지막 픽셀입니다.</p></div>
+      </details>
+
+      <h3 id="next-period">2교시 예고: 위치에 색상과 형태를 연결하기</h3>
+      <p>1교시에는 <strong>어디에 그릴 것인가</strong>를 좌표로 표현했습니다. 2교시에는 각 픽셀과 도형을 <strong>어떤 색으로 그릴 것인가</strong>를 RGB 값으로 표현하고, Pillow의 사각형·원·다각형 명령이 좌표를 어떻게 사용하는지 읽습니다.</p>
+
+      <div class="callout callout-success">
+        <p class="callout-title">2교시 시작 전 준비 완료 기준</p>
+        <ul>
+          <li>픽셀, 해상도, 좌표를 서로 구분해 설명할 수 있습니다.</li>
+          <li>이미지 좌표에서 y값이 커질 때 아래로 이동한다고 예측할 수 있습니다.</li>
+          <li><code>width × height</code> 이미지의 마지막 픽셀을 <code>(width - 1, height - 1)</code>로 찾을 수 있습니다.</li>
+          <li>이미지의 크기와 점의 위치가 <code>int</code> 변수로 표현된다는 것을 이해합니다.</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">이번 시간에 아직 다루지 않는 것</p>
+        <p>RGB 채널의 계산, 투명도, 반복문을 이용한 픽셀 순회, 이미지 확대 알고리즘은 아직 다루지 않습니다. 오늘의 목표는 이미지가 <strong>좌표를 가진 픽셀 데이터</strong>라는 구조를 정확히 이해하는 것입니다.</p>
+      </div>
+
+      <h2 id="extension">50-60분 · 확장: 좌표로 화면 구성 설계하기</h2>
+
+      <p>60분 교시에서는 코드를 작성하기 전에 한 장의 화면을 좌표로 설계합니다. 이 활동의 목적은 그림을 정교하게 완성하는 것이 아니라, “왼쪽”, “가운데”, “여백이 넓다”와 같은 시각적 표현을 계산 가능한 값으로 바꾸는 데 있습니다.</p>
+
+      <h3 id="extension-brief">설계 조건</h3>
+      <ul>
+        <li>캔버스 크기는 <strong>600 × 400픽셀</strong>입니다.</li>
+        <li>사방에 최소 <strong>40픽셀의 여백</strong>을 남깁니다.</li>
+        <li>큰 형태의 기준점 A는 왼쪽 영역에 둡니다.</li>
+        <li>보조 형태의 기준점 B는 오른쪽 위 영역에 둡니다.</li>
+        <li>강조점 C는 화면의 중심보다 조금 아래에 둡니다.</li>
+      </ul>
+
+      <p>먼저 사용할 수 있는 안전 영역을 계산합니다. 왼쪽과 위쪽은 40에서 시작하고, 오른쪽은 <code>600 - 40 = 560</code>, 아래쪽은 <code>400 - 40 = 360</code>입니다. 세 기준점은 모두 x가 40~560, y가 40~360 사이에 있어야 합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>언어로 표현한 구성 의도를 좌표 후보로 바꾸기</caption>
+          <thead><tr><th scope="col">요소</th><th scope="col">시각적 의도</th><th scope="col">좌표 후보</th><th scope="col">판단 근거</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">기준점 A</th><td>왼쪽의 주된 형태</td><td><code>(150, 200)</code></td><td>x가 중심 300보다 작고, y는 세로 중심에 가까움</td></tr>
+            <tr><th scope="row">기준점 B</th><td>오른쪽 위의 보조 형태</td><td><code>(450, 110)</code></td><td>x가 중심보다 크고, y는 중심 200보다 작음</td></tr>
+            <tr><th scope="row">강조점 C</th><td>중심보다 조금 아래</td><td><code>(320, 275)</code></td><td>x는 중심에 가깝고, y가 세로 중심보다 75 큼</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>이 좌표들은 유일한 정답이 아닙니다. 중요한 것은 각 값이 언어로 표현한 의도와 모순되지 않는지 설명하는 일입니다. 예를 들어 B의 y값이 330이라면 안전 영역 안에는 있지만 “오른쪽 위”라는 조건에는 맞지 않습니다. <strong>범위 안에 있다는 기술적 조건</strong>과 <strong>구성 의도에 맞는다는 표현적 조건</strong>을 함께 확인해야 합니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 설계 · 5분</span>
+        <h3>나만의 세 기준점 정하기</h3>
+        <ol>
+          <li>A, B, C의 좌표를 각각 하나씩 정합니다.</li>
+          <li>세 좌표가 안전 영역 안에 있는지 x와 y를 따로 확인합니다.</li>
+          <li>각 좌표가 시각적 의도에 맞는 이유를 한 문장으로 씁니다.</li>
+          <li>세 점 가운데 하나를 30픽셀 이동하고, 어느 값을 어떻게 바꾸었는지 기록합니다.</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">예시 해설: 강조점 C를 오른쪽 위로 이동하려면?</summary>
+        <div class="details-motion-content"><p>예시 C가 <code>(320, 275)</code>라면 오른쪽으로 이동할 때 x를 키우고, 위로 이동할 때 y를 줄입니다. 각각 30픽셀 이동하면 새 좌표는 <code>(350, 245)</code>입니다. 두 값을 모두 더하는 것이 아니라 축의 방향에 따라 하나는 더하고 하나는 뺍니다.</p></div>
+      </details>
+
+      <div class="callout callout-success">
+        <p class="callout-title">1교시 핵심 문장</p>
+        <p>디지털 이미지는 <strong>정해진 크기의 픽셀 격자</strong>이며, 각 픽셀은 <strong>왼쪽 위 원점을 기준으로 한 좌표</strong>와 <strong>색상 값</strong>을 가집니다. 좌표를 사용한다는 것은 단순히 숫자를 입력하는 일이 아니라, 화면 구성의 의도를 반복 가능한 관계로 기록하는 일입니다.</p>
+      </div>
+
+      <h2 id="references">참고 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://pillow.readthedocs.io/en/stable/handbook/concepts.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: Concepts</strong></a><small>이미지 모드, 크기, 왼쪽 위 원점과 픽셀 좌표 체계에 관한 공식 설명</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/Image.html#PIL.Image.new" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: Image.new()</strong></a><small>모드, 가로·세로 크기, 배경색으로 새 이미지를 만드는 함수의 공식 설명</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html#concepts" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw 좌표</strong></a><small>왼쪽 위 <code>(0, 0)</code> 원점과 이미지 경계 밖 그리기의 처리 방식</small></li>
+        <li><a href="https://www.w3.org/TR/SVG2/intro.html" target="_blank" rel="noopener noreferrer"><strong>W3C SVG 2: Introduction</strong></a><small>점, 선, 곡선 같은 벡터 그래픽 객체를 기술하는 SVG의 공식 개요</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#recall">0-5분 · 이전 학습과 기호</a></li>
+        <li class="toc-level-3"><a href="#code-reading-recall">가장 짧은 코드 읽기</a></li>
+        <li class="toc-level-2"><a href="#image-structure">5-18분 · 이미지의 구조</a></li>
+        <li class="toc-level-3"><a href="#pixel-definition">픽셀, 래스터, 해상도</a></li>
+        <li class="toc-level-3"><a href="#raster-and-vector">래스터와 벡터</a></li>
+        <li class="toc-level-3"><a href="#resolution-display-file">해상도와 표시 크기</a></li>
+        <li class="toc-level-2"><a href="#coordinates">18-29분 · 이미지 좌표</a></li>
+        <li class="toc-level-3"><a href="#origin-and-axes">원점과 축 방향</a></li>
+        <li class="toc-level-3"><a href="#coordinate-code-trace">좌표 이동 코드 추적</a></li>
+        <li class="toc-level-3"><a href="#coordinates-and-composition">좌표와 화면 구성</a></li>
+        <li class="toc-level-2"><a href="#size-and-bounds">29-39분 · 크기와 계산</a></li>
+        <li class="toc-level-3"><a href="#arithmetic-reading">계산 기호 읽기</a></li>
+        <li class="toc-level-3"><a href="#center-and-margin">중심과 여백 계산</a></li>
+        <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
+        <li class="toc-level-2"><a href="#code-connection">39-47분 · 첫 이미지 코드</a></li>
+        <li class="toc-level-3"><a href="#print-coordinate-values">print() 조각 읽기</a></li>
+        <li class="toc-level-3"><a href="#first-image-code">첫 이미지 코드 읽기</a></li>
+        <li class="toc-level-3"><a href="#image-new-reading">Image.new() 해설</a></li>
+        <li class="toc-level-3"><a href="#inspect-image">이미지 구조 확인</a></li>
+        <li class="toc-level-2"><a href="#check">47-50분 · 개념 확인</a></li>
+        <li class="toc-level-3"><a href="#next-period">2교시 예고</a></li>
+        <li class="toc-level-2"><a href="#extension">50-60분 · 좌표 구성 확장</a></li>
+        <li class="toc-level-3"><a href="#extension-brief">확장 설계 조건</a></li>
+        <li class="toc-level-2"><a href="#references">참고 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice / Week 03 / Period 01</p>
+  <script src="assets/week-03.js?v=week3-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

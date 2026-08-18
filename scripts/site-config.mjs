@@ -26,6 +26,18 @@ export const TEACHING_SHARE_IMAGES = Object.freeze({
 });
 
 const PAGE_SHARE_IMAGES = Object.freeze({
+  "teaching/contents-programming/week-03-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-03-period1-hero.webp",
+    alt: "정사각 픽셀 격자에서 원점과 좌표 관계를 보여 주는 3주차 1교시 이미지",
+  }),
+  "teaching/contents-programming/week-03-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-03-period2-hero.webp",
+    alt: "RGB 색상 조각과 좌표 기반 도형 구성을 보여 주는 3주차 2교시 이미지",
+  }),
+  "teaching/contents-programming/week-03-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-03-period3-hero.webp",
+    alt: "종이 위 기하학적 도형 작품과 색상표를 보여 주는 3주차 이미지 미션",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",
