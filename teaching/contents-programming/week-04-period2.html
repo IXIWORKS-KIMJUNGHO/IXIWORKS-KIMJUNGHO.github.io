@@ -465,15 +465,20 @@ image</code></pre>
         <figcaption id="grid-variations-caption">같은 행·열 구조도 색의 선택 기준, 크기 계산, 간격에 따라 안정적 반복·색의 층·점진적 변화로 읽힐 수 있습니다.</figcaption>
       </figure>
 
+      <div class="callout callout-info">
+        <p class="callout-title">3교시 편집 경계</p>
+        <p>세 패널의 차이는 개념 비교용입니다. 실제 미션에서는 <code>palette</code>의 RGB 두 색 이상, <code>columns = 6</code>, <code>size_step</code> 4~10만 EDIT 영역에서 수정합니다. <code>rows</code>는 팔레트 길이로 자동 계산되며, <code>gap_x</code>, <code>gap_y</code>, 좌표 계산과 중첩 반복은 <strong>DO NOT EDIT</strong> 영역입니다.</p>
+      </div>
+
       <div class="table-wrap">
         <table>
           <caption>50-60분 확장 운영</caption>
           <thead><tr><th scope="col">시간</th><th scope="col">활동</th><th scope="col">남겨야 할 결과</th></tr></thead>
           <tbody>
             <tr><th scope="row">50-53분</th><td>세 패널에서 고정된 속성과 변한 속성을 각각 표시</td><td>패널별 관찰 두 항목</td></tr>
-            <tr><th scope="row">53-56분</th><td>색, 크기, 간격 가운데 원인이 되는 매개변수 연결</td><td>코드 수정 지점 세 개</td></tr>
-            <tr><th scope="row">56-59분</th><td>3교시에서 만들 구성을 하나 선택해 값 결정</td><td>행·열·간격·크기·팔레트 초안</td></tr>
-            <tr><th scope="row">59-60분</th><td>전체 도형 수와 캔버스 경계 점검</td><td>계산식과 최종 선택 이유</td></tr>
+            <tr><th scope="row">53-56분</th><td>색, 크기, 간격을 만드는 매개변수를 개념상 연결</td><td>패널별 원인 한 가지</td></tr>
+            <tr><th scope="row">56-59분</th><td>3교시에서 바꿀 팔레트 두 색과 <code>size_step</code> 결정</td><td>RGB 두 묶음과 4~10 사이의 정수</td></tr>
+            <tr><th scope="row">59-60분</th><td><code>columns = 6</code>과 자동 행 수로 전체 도형 수 계산</td><td>20개 이상임을 확인한 계산식</td></tr>
           </tbody>
         </table>
       </div>
@@ -490,19 +495,19 @@ image</code></pre>
 
       <h2 id="after-class-review">수업 후 개별 복습</h2>
 
-      <p>아래 내용은 기본 50분과 확장 10분의 현장 설명에 포함하지 않습니다. 3교시를 시작하기 전에 자신의 설계 값을 바꿀 때 참고하거나, 오류가 발생했을 때 필요한 항목만 찾아봅니다. 한 번에 한 종류의 값만 바꾸고 결과를 확인하면 무엇이 화면을 바꾸었는지 분명하게 설명할 수 있습니다.</p>
+      <p>아래 내용은 기본 50분과 확장 10분의 현장 설명에 포함하지 않는 이론 복습입니다. 각 매개변수가 일반적인 격자에서 맡는 역할을 읽되, 3교시 미션에서는 표의 <strong>3교시 처리</strong> 열에 EDIT라고 표시된 값만 수정합니다. 오류가 발생하면 보호된 코드를 새로 고치지 않고 원래 템플릿과 비교해 복구합니다.</p>
 
       <h3 id="safe-edits">매개변수와 예상 결과 연결하기</h3>
       <div class="table-wrap">
         <table>
-          <caption>한 번에 하나씩 바꿀 값과 점검할 위험</caption>
-          <thead><tr><th scope="col">바꿀 값</th><th scope="col">직접 변하는 것</th><th scope="col">점검할 위험</th></tr></thead>
+          <caption>이론에서 읽을 매개변수와 3교시 편집 범위</caption>
+          <thead><tr><th scope="col">매개변수</th><th scope="col">개념상 직접 변하는 것</th><th scope="col">3교시 처리</th></tr></thead>
           <tbody>
-            <tr><th scope="row"><code>palette</code></th><td>행별 색상</td><td>색상 수가 행 수보다 적지 않은지 확인</td></tr>
-            <tr><th scope="row"><code>rows</code></th><td>세로 방향 도형 수</td><td>팔레트 길이와 캔버스 높이 확인</td></tr>
-            <tr><th scope="row"><code>columns</code></th><td>가로 방향 도형 수</td><td>마지막 도형이 오른쪽 경계를 넘는지 확인</td></tr>
-            <tr><th scope="row"><code>gap_x</code>, <code>gap_y</code></th><td>가로·세로 간격</td><td>너무 작으면 겹치고 너무 크면 화면 밖으로 나감</td></tr>
-            <tr><th scope="row"><code>size</code> 계산</th><td>열에 따른 도형 크기</td><td>크기가 간격보다 커져 겹치는 시점 확인</td></tr>
+            <tr><th scope="row"><code>palette</code></th><td>행별 색상과 행 수</td><td>EDIT · RGB 두 색 이상 수정, 전체 4~6색</td></tr>
+            <tr><th scope="row"><code>rows</code></th><td>세로 방향 도형 수</td><td>DO NOT EDIT · <code>len(palette)</code>로 자동 계산</td></tr>
+            <tr><th scope="row"><code>columns</code></th><td>가로 방향 도형 수</td><td>EDIT · 숫자를 6으로 고정</td></tr>
+            <tr><th scope="row"><code>gap_x</code>, <code>gap_y</code></th><td>가로·세로 간격</td><td>DO NOT EDIT · 제공된 간격 유지</td></tr>
+            <tr><th scope="row"><code>size</code> 계산</th><td>열에 따른 도형 크기</td><td>계산식은 DO NOT EDIT · <code>size_step</code>만 4~10으로 수정</td></tr>
           </tbody>
         </table>
       </div>
@@ -514,7 +519,7 @@ image</code></pre>
           <thead><tr><th scope="col">오류 또는 현상</th><th scope="col">뜻</th><th scope="col">점검 순서</th></tr></thead>
           <tbody>
             <tr><th scope="row"><code>IndentationError</code></th><td>Python이 바깥 반복과 안쪽 반복의 코드 블록을 구분하지 못함</td><td>두 <code>for</code>와 도형 명령의 들여쓰기 깊이를 위에서부터 비교</td></tr>
-            <tr><th scope="row"><code>IndexError</code></th><td>리스트에 없는 주소의 항목을 요청함</td><td><code>rows</code>와 팔레트의 색상 수, <code>palette[row]</code>의 마지막 row 확인</td></tr>
+            <tr><th scope="row"><code>IndexError</code></th><td>리스트에 없는 주소의 항목을 요청함</td><td>3교시에서는 <code>rows = len(palette)</code>와 <code>palette[row]</code>를 원래 템플릿과 비교해 복구</td></tr>
             <tr><th scope="row"><code>NameError</code></th><td>사용한 이름이 아직 실행되지 않았거나 철자가 다름</td><td><code>palette</code>, <code>row</code>, <code>column</code> 정의 셀을 위에서부터 실행</td></tr>
             <tr><th scope="row">격자가 한 줄로 겹침</th><td>y 계산이 <code>row</code>와 연결되지 않았을 가능성</td><td><code>y = start_y + row * gap_y</code> 확인</td></tr>
             <tr><th scope="row">오류 없이 일부가 안 보임</th><td>도형 좌표가 캔버스 밖에 있어 잘리거나 보이지 않음</td><td>마지막 x·y에 크기를 더해 캔버스 너비·높이와 비교</td></tr>
@@ -523,8 +528,8 @@ image</code></pre>
       </div>
 
       <div class="callout callout-warning">
-        <p class="callout-title">행 수가 색상 수보다 많으면 IndexError가 생길 수 있다</p>
-        <p>팔레트에 색이 네 개일 때 <code>rows = 5</code>로 바꾸면 마지막 행에서 <code>palette[4]</code>를 요청합니다. 유효한 인덱스는 0부터 3까지이므로 다섯 번째 행의 색을 찾을 수 없습니다. 이번 수업에서는 <strong>행 수와 팔레트 길이를 같게</strong> 유지합니다.</p>
+        <p class="callout-title">rows를 직접 바꾸는 것은 이론 예시일 뿐이다</p>
+        <p>일반 코드에서 팔레트에 색이 네 개일 때 <code>rows = 5</code>로 바꾸면 마지막 행에서 존재하지 않는 <code>palette[4]</code>를 요청합니다. 3교시 템플릿은 이 오류를 막기 위해 <code>rows = len(palette)</code>로 자동 계산하므로 해당 줄을 수정하지 않습니다.</p>
       </div>
 
       <div class="concept-check-list">
