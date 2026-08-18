@@ -283,7 +283,7 @@ def make_prototype(source: Image.Image) -> Image.Image:
     presentation_draw.text((58, 44), "TRANSFORMATION PROTOTYPE", fill=INK, font=font(38, bold=True))
     presentation_draw.text(
         (58, 92),
-        "One crop, three scales, three rotations — one source image.",
+        "One crop, three scales, three rotations from one source image.",
         fill=(75, 78, 72, 255),
         font=font(22),
     )

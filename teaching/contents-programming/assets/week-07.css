@@ -1,0 +1,879 @@
+.week-seven-document {
+  scroll-behavior: auto;
+}
+
+body.course-contents-programming.week-seven-page {
+  --week-seven-reading-width: 74ch;
+  --week-seven-radius: 5px;
+  --week-seven-warning: #765b31;
+}
+
+body.course-contents-programming.week-seven-page .skip-link {
+  transition: none;
+}
+
+body.course-contents-programming.week-seven-page .lesson-sequence a,
+body.course-contents-programming.week-seven-page .toc a,
+body.course-contents-programming.week-seven-page .week-seven-hero-actions a {
+  transition-property: transform;
+  transition-duration: 160ms;
+  transition-timing-function: var(--ease-out);
+}
+
+body.course-contents-programming.week-seven-page .lesson-sequence a:active:not(:focus-visible),
+body.course-contents-programming.week-seven-page .toc a:active:not(:focus-visible),
+body.course-contents-programming.week-seven-page .week-seven-hero-actions a:active:not(:focus-visible) {
+  transform: scale(0.97);
+}
+
+body.course-contents-programming.week-seven-page summary:active {
+  transform: none;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero {
+  border-bottom-color: var(--line-strong);
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero .hero-inner {
+  min-height: min(680px, calc(100dvh - 62px));
+  padding: 46px 0;
+  grid-template-columns: minmax(0, 0.94fr) minmax(390px, 0.86fr);
+  gap: clamp(40px, 6vw, 84px);
+  align-items: center;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero-copy {
+  min-width: 0;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero h1 {
+  max-width: 14ch;
+  font-size: clamp(40px, 4.7vw, 62px);
+  line-height: 1.02;
+  text-wrap: balance;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero .lead {
+  max-width: 550px;
+  margin-top: 20px;
+  font-size: clamp(15px, 1.45vw, 17px);
+  line-height: 1.68;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero-visual {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--week-seven-radius);
+  background: var(--surface);
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero-visual img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border: 0;
+  border-radius: 0;
+  display: block;
+  object-fit: cover;
+  background: var(--surface);
+  box-shadow: none;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero-actions {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-hero-actions a {
+  min-height: 44px;
+  padding: 11px 16px;
+  border: 1px solid var(--accent-strong);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 720;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-primary-action,
+body.course-contents-programming.week-seven-page .week-seven-primary-action:visited {
+  background: var(--accent-strong);
+  color: var(--paper);
+}
+
+body.course-contents-programming.week-seven-page .week-seven-secondary-action,
+body.course-contents-programming.week-seven-page .week-seven-secondary-action:visited {
+  background: transparent;
+  color: var(--accent-strong);
+}
+
+body.course-contents-programming.week-seven-page .layout,
+body.course-contents-programming.week-seven-page main.layout {
+  padding-top: 52px;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: clamp(36px, 5vw, 68px);
+}
+
+body.course-contents-programming.week-seven-page .article {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-contents-programming.week-seven-page .article .document-title {
+  max-width: var(--week-seven-reading-width);
+  margin: 0 0 24px;
+  color: var(--ink-strong);
+  font-size: clamp(24px, 3vw, 32px);
+  font-weight: 740;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
+  word-break: keep-all;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-lesson-facts {
+  max-width: var(--week-seven-reading-width);
+  margin: 0 0 30px;
+  border-top: 1px solid var(--line-strong);
+}
+
+body.course-contents-programming.week-seven-page .week-seven-lesson-facts > div {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-lesson-facts dt,
+body.course-contents-programming.week-seven-page .week-seven-lesson-facts dd {
+  margin: 0;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-lesson-facts dt {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-lesson-facts dd {
+  color: var(--ink);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.week-seven-page .article > p,
+body.course-contents-programming.week-seven-page .article > pre,
+body.course-contents-programming.week-seven-page .article > ul:not([class]),
+body.course-contents-programming.week-seven-page .article > ol:not([class]),
+body.course-contents-programming.week-seven-page .article > h2,
+body.course-contents-programming.week-seven-page .article > h3,
+body.course-contents-programming.week-seven-page .article > h4,
+body.course-contents-programming.week-seven-page .article > details,
+body.course-contents-programming.week-seven-page .article > .callout,
+body.course-contents-programming.week-seven-page .article > .worksheet,
+body.course-contents-programming.week-seven-page .article > .checkpoint,
+body.course-contents-programming.week-seven-page .article > .goal-contract,
+body.course-contents-programming.week-seven-page .article > .mission-route,
+body.course-contents-programming.week-seven-page .article > .exit-gate,
+body.course-contents-programming.week-seven-page .article > .completion-criteria,
+body.course-contents-programming.week-seven-page .article > .check-output,
+body.course-contents-programming.week-seven-page .article > .submission-strip,
+body.course-contents-programming.week-seven-page .article > .week-seven-lesson-facts,
+body.course-contents-programming.week-seven-page .article > .week-seven-reference-notes,
+body.course-contents-programming.week-seven-page .article > .pipeline,
+body.course-contents-programming.week-seven-page .article > .lesson-visual,
+body.course-contents-programming.week-seven-page .article > .table-wrap,
+body.course-contents-programming.week-seven-page .article > .value-contrast,
+body.course-contents-programming.week-seven-page .article > .assignment-visual,
+body.course-contents-programming.week-seven-page .article > .trace-board {
+  max-width: var(--week-seven-reading-width);
+}
+
+body.course-contents-programming.week-seven-page .article h2 {
+  margin-top: 64px;
+  padding-top: 22px;
+  display: block;
+  counter-increment: none;
+  scroll-margin-top: 92px;
+}
+
+body.course-contents-programming.week-seven-page .article h2::before {
+  content: none;
+}
+
+body.course-contents-programming.week-seven-page .article h3,
+body.course-contents-programming.week-seven-page .article h4 {
+  scroll-margin-top: 92px;
+}
+
+body.course-contents-programming.week-seven-page .callout {
+  padding: 16px 0 16px 18px;
+  border: 0;
+  border-left: 3px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-contents-programming.week-seven-page .callout-question {
+  border-left-color: var(--accent);
+}
+
+body.course-contents-programming.week-seven-page .callout-warning {
+  border-left-color: var(--week-seven-warning);
+}
+
+body.course-contents-programming.week-seven-page .callout-success {
+  border-left-color: var(--success-ink);
+}
+
+body.course-contents-programming.week-seven-page .callout-abstract {
+  margin: 0 0 30px;
+  padding: 20px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .callout-abstract .callout-title {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-contents-programming.week-seven-page .session-grid {
+  margin: 28px 0 42px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  display: block;
+  overflow: visible;
+}
+
+body.course-contents-programming.week-seven-page .session-grid li,
+body.course-contents-programming.week-seven-page .session-grid-six li:nth-child(3n + 1),
+body.course-contents-programming.week-seven-page .session-grid-six li:nth-child(n + 4) {
+  width: 100%;
+  margin: 0;
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 96px minmax(150px, 0.62fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .session-grid .session-label,
+body.course-contents-programming.week-seven-page .session-grid strong,
+body.course-contents-programming.week-seven-page .session-grid p {
+  margin: 0;
+}
+
+body.course-contents-programming.week-seven-page .session-grid .session-label {
+  color: var(--accent);
+}
+
+body.course-contents-programming.week-seven-page .session-grid strong {
+  font-size: 14px;
+}
+
+body.course-contents-programming.week-seven-page .session-grid p {
+  font-size: 13px;
+  line-height: 1.58;
+}
+
+body.course-contents-programming.week-seven-page .worksheet {
+  padding: 18px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-contents-programming.week-seven-page .value-contrast {
+  margin: 20px 0 30px;
+  gap: 28px;
+}
+
+body.course-contents-programming.week-seven-page .value-case {
+  padding: 16px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .assignment-visual {
+  margin: 20px 0 30px;
+  gap: 28px;
+}
+
+body.course-contents-programming.week-seven-page .assignment-side {
+  padding: 16px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .pipeline {
+  gap: 8px;
+  border-top: 1px solid var(--line-strong);
+}
+
+body.course-contents-programming.week-seven-page .pipeline-step {
+  padding: 18px 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .pipeline-step:first-child {
+  padding-left: 0;
+}
+
+body.course-contents-programming.week-seven-page .pipeline-step:last-child {
+  padding-right: 0;
+}
+
+body.course-contents-programming.week-seven-page .trace-board {
+  margin: 20px 0 30px;
+  gap: 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+body.course-contents-programming.week-seven-page .trace-state {
+  padding: 16px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .trace-state:last-child {
+  border-right: 0;
+}
+
+body.course-contents-programming.week-seven-page .lesson-visual {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .lesson-visual img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--week-seven-radius);
+  display: block;
+  background: var(--surface);
+}
+
+body.course-contents-programming.week-seven-page .lesson-visual > figcaption {
+  margin-top: 11px;
+  padding-left: 14px;
+  border-left: 2px solid var(--line-strong);
+}
+
+body.course-contents-programming.week-seven-page .week-seven-reference-notes {
+  margin: 20px 0 32px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 28px;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-reference-note {
+  padding: 17px 0;
+  border-top: 1px solid var(--line-strong);
+}
+
+body.course-contents-programming.week-seven-page .week-seven-reference-note h4,
+body.course-contents-programming.week-seven-page .week-seven-reference-note p {
+  margin-top: 0;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-reference-note h4 {
+  margin-bottom: 9px;
+  font-size: 16px;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-reference-note > p:last-child {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+body.course-contents-programming.week-seven-page .reference-kicker {
+  margin-bottom: 7px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+body.course-contents-programming.week-seven-page .week-seven-reference-note .case-data-map {
+  margin-top: 16px;
+}
+
+body.course-contents-programming.week-seven-page .goal-contract {
+  margin: 30px 0 0;
+  padding: 26px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .goal-contract h2 {
+  margin-top: 8px;
+  padding-top: 0;
+}
+
+body.course-contents-programming.week-seven-page .goal-contract-note {
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .mission-route {
+  margin: 0 0 34px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  display: block;
+  overflow: visible;
+}
+
+body.course-contents-programming.week-seven-page .mission-route li,
+body.course-contents-programming.week-seven-page .mission-route li:nth-child(3n + 1),
+body.course-contents-programming.week-seven-page .mission-route li:nth-child(n + 4) {
+  margin: 0;
+  padding: 13px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(110px, 0.4fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .mission-route strong,
+body.course-contents-programming.week-seven-page .mission-route small {
+  margin: 0;
+}
+
+body.course-contents-programming.week-seven-page .mission-route small {
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.week-seven-page .exit-gate {
+  margin-top: 30px;
+  padding: 22px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-contents-programming.week-seven-page .completion-criteria {
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 28px;
+}
+
+body.course-contents-programming.week-seven-page .completion-criteria li {
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  grid-template-columns: minmax(120px, 0.35fr) minmax(0, 1fr);
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .completion-criteria li::before {
+  content: none;
+}
+
+body.course-contents-programming.week-seven-page .checkpoint {
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .checkpoint-label {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+body.course-contents-programming.week-seven-page .check-output {
+  padding: 20px 0 20px 18px;
+  border: 0;
+  border-left: 3px solid var(--success-ink);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .submission-strip {
+  padding: 14px 0;
+  border: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .submission-strip span {
+  border: 0;
+  border-left: 1px solid var(--line);
+  color: var(--ink);
+  font-weight: 650;
+  text-align: center;
+}
+
+body.course-contents-programming.week-seven-page .submission-strip span:first-child {
+  border-left: 0;
+}
+
+body.course-contents-programming.week-seven-page .toc {
+  padding: 4px 0 4px 18px;
+  border: 0;
+  border-left: 1px solid var(--line-strong);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.week-seven-page .toc-title {
+  margin: 0 0 10px 9px;
+}
+
+body.course-contents-programming.week-seven-page .toc a {
+  border-radius: 3px;
+}
+
+body.course-contents-programming.week-seven-page .toc a[aria-current="location"] {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+body.course-contents-programming.week-seven-page > .footer-note {
+  margin: -46px auto 46px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.course-contents-programming.week-seven-page .lesson-sequence a:hover,
+  body.course-contents-programming.week-seven-page .week-seven-secondary-action:hover {
+    border-color: var(--accent);
+    color: var(--accent-strong);
+    text-decoration: none;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-primary-action:hover {
+    background: var(--accent);
+    color: var(--paper);
+    text-decoration: none;
+  }
+
+  body.course-contents-programming.week-seven-page .toc a:hover {
+    background: var(--accent-soft);
+    color: var(--accent-strong);
+    text-decoration: none;
+  }
+
+}
+
+@media (hover: none), (pointer: coarse) {
+  body.course-contents-programming.week-seven-page a:not(:active):hover {
+    text-decoration: none;
+  }
+
+  body.course-contents-programming.week-seven-page .lesson-breadcrumb a:not(:active):hover {
+    color: var(--muted);
+  }
+
+  body.course-contents-programming.week-seven-page .lesson-breadcrumb .lesson-course:not(:active):hover {
+    color: var(--ink-strong);
+  }
+
+  body.course-contents-programming.week-seven-page .concept-check-list summary:not(:active):hover {
+    color: var(--ink-strong);
+  }
+
+  body.course-contents-programming.week-seven-page .lesson-sequence a:not(:active):hover,
+  body.course-contents-programming.week-seven-page .toc a:not(:active):hover,
+  body.course-contents-programming.week-seven-page .week-seven-hero-actions a:not(:active):hover {
+    transform: none !important;
+    text-decoration: none;
+  }
+
+  body.course-contents-programming.week-seven-page .toc a:not([aria-current="location"]):not(:active):hover {
+    background: transparent !important;
+    color: var(--muted) !important;
+  }
+
+  body.course-contents-programming.week-seven-page .toc a[aria-current="location"]:not(:active):hover {
+    background: var(--accent-soft) !important;
+    color: var(--accent-strong) !important;
+  }
+
+  body.course-contents-programming.week-seven-page .lesson-sequence a:not(:active):hover {
+    border-color: var(--line) !important;
+    background: transparent !important;
+    color: var(--muted) !important;
+  }
+}
+
+@media (max-width: 980px) {
+  body.course-contents-programming.week-seven-page .week-seven-hero .hero-inner {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.72fr);
+    gap: 34px;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-hero h1 {
+    font-size: clamp(35px, 5.7vw, 50px);
+  }
+
+  body.course-contents-programming.week-seven-page .layout,
+  body.course-contents-programming.week-seven-page main.layout {
+    padding-top: 0;
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+
+  body.course-contents-programming.week-seven-page .toc {
+    position: sticky;
+    top: 58px;
+    z-index: 40;
+    order: -1;
+    max-height: none;
+    padding: 9px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line-strong);
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter: blur(14px);
+    scrollbar-width: none;
+  }
+
+  body.course-contents-programming.week-seven-page .toc::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.course-contents-programming.week-seven-page .toc-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+  }
+
+  body.course-contents-programming.week-seven-page .toc ol {
+    width: max-content;
+    display: flex;
+    gap: 4px;
+  }
+
+  body.course-contents-programming.week-seven-page .toc li {
+    flex: 0 0 auto;
+  }
+
+  body.course-contents-programming.week-seven-page .toc .toc-level-3 {
+    display: none;
+  }
+
+  body.course-contents-programming.week-seven-page .toc a {
+    padding: 8px 11px;
+    white-space: nowrap;
+  }
+
+  body.course-contents-programming.week-seven-page .article h2,
+  body.course-contents-programming.week-seven-page .article h3,
+  body.course-contents-programming.week-seven-page .article h4 {
+    scroll-margin-top: 122px;
+  }
+}
+
+@media (max-width: 760px) {
+  body.course-contents-programming.week-seven-page .week-seven-hero .hero-inner {
+    min-height: 0;
+    padding: 36px 0 34px;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-hero h1 {
+    max-width: 14ch;
+    font-size: clamp(34px, 10vw, 46px);
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-hero .lead {
+    margin-top: 16px;
+    font-size: 15px;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-hero-visual {
+    width: min(100%, 560px);
+  }
+
+  body.course-contents-programming.week-seven-page .toc {
+    top: 68px;
+  }
+
+  body.course-contents-programming.week-seven-page .article h2 {
+    margin-top: 54px;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-lesson-facts > div {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  body.course-contents-programming.week-seven-page .session-grid li,
+  body.course-contents-programming.week-seven-page .session-grid-six li:nth-child(3n + 1),
+  body.course-contents-programming.week-seven-page .session-grid-six li:nth-child(n + 4) {
+    grid-template-columns: 78px minmax(0, 1fr);
+    gap: 5px 14px;
+  }
+
+  body.course-contents-programming.week-seven-page .session-grid p {
+    grid-column: 2;
+  }
+
+  body.course-contents-programming.week-seven-page .value-contrast,
+  body.course-contents-programming.week-seven-page .assignment-visual,
+  body.course-contents-programming.week-seven-page .trace-board,
+  body.course-contents-programming.week-seven-page .week-seven-reference-notes,
+  body.course-contents-programming.week-seven-page .goal-contract,
+  body.course-contents-programming.week-seven-page .completion-criteria {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-contents-programming.week-seven-page .pipeline {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  body.course-contents-programming.week-seven-page .pipeline-step,
+  body.course-contents-programming.week-seven-page .pipeline-step:first-child,
+  body.course-contents-programming.week-seven-page .pipeline-step:last-child {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  body.course-contents-programming.week-seven-page .pipeline-arrow {
+    display: none;
+  }
+
+  body.course-contents-programming.week-seven-page .trace-state,
+  body.course-contents-programming.week-seven-page .trace-state:last-child {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  body.course-contents-programming.week-seven-page .goal-contract {
+    gap: 18px;
+  }
+
+  body.course-contents-programming.week-seven-page .goal-contract-note {
+    padding-left: 15px;
+  }
+
+  body.course-contents-programming.week-seven-page > .footer-note {
+    width: min(100% - 32px, 1180px);
+    margin-top: -36px;
+  }
+}
+
+@media (max-width: 520px) {
+  body.course-contents-programming.week-seven-page .week-seven-hero-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  body.course-contents-programming.week-seven-page .mission-route li {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  body.course-contents-programming.week-seven-page .exit-gate {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-contents-programming.week-seven-page .completion-criteria li {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+
+  body.course-contents-programming.week-seven-page .submission-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  body.course-contents-programming.week-seven-page .submission-strip span:nth-child(3) {
+    border-left: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body.course-contents-programming.week-seven-page {
+    --week-seven-warning: #d3ad70;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-hero-visual img,
+  body.course-contents-programming.week-seven-page .lesson-visual img {
+    filter: brightness(0.82) saturate(0.9);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.course-contents-programming.week-seven-page .lesson-sequence a,
+  body.course-contents-programming.week-seven-page .toc a,
+  body.course-contents-programming.week-seven-page .week-seven-hero-actions a {
+    transition: none;
+  }
+}
+
+@media print {
+  body.course-contents-programming.week-seven-page .week-seven-hero .hero-inner {
+    min-height: 0;
+    display: block;
+  }
+
+  body.course-contents-programming.week-seven-page .week-seven-hero-visual {
+    max-width: 520px;
+    margin-top: 24px;
+  }
+}

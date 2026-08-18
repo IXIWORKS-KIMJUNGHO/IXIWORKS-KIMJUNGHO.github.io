@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-seven-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,20 +7,23 @@
   <meta name="description" content="6주차에 생성한 이미지를 다시 불러와 원본을 보존하면서 자르기, 크기 변경, 회전을 적용하는 과정을 초보자의 언어로 설명하는 7주차 1교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-07-period1.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/week-07-period1-hero-720.webp" imagesrcset="assets/week-07-period1-hero-720.webp 720w, assets/week-07-period1-hero.webp 1080w" imagesizes="(max-width: 760px) calc(100vw - 36px), (max-width: 980px) 39vw, 520px">
   <meta property="og:title" content="7주차 1교시: 원본을 보존하며 이미지 변형하기 | Contents Programming Practice">
   <meta property="og:description" content="파일과 이미지 객체를 구분하고 crop, resize, rotate로 하나의 이미지를 여러 시각 재료로 바꿉니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-07-period1.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-07-period1-hero.webp">
+  <meta property="og:image:alt" content="한 장의 기하학 포스터를 자르고 크기와 방향을 바꾼 종이 조각을 보여 주는 7주차 1교시 이미지">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="7주차 1교시: 원본을 보존하며 이미지 변형하기">
   <meta name="twitter:description" content="원본과 작업본을 분리하고 이미지 변형의 좌표와 크기를 읽는 입문 강의입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-07-period1-hero.webp">
+  <meta name="twitter:image:alt" content="한 장의 기하학 포스터를 자르고 크기와 방향을 바꾼 종이 조각을 보여 주는 7주차 1교시 이미지">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-07.css?v=week7-1">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-seven-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -32,40 +35,33 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-04-period3.html" rel="prev" aria-label="이전 자료: 4주차 3교시: 나만의 리듬 그리드 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-06-period3.html" rel="prev" aria-label="이전 자료: 6주차 3교시: 매개변수형 이미지 생성기 미션 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
         <a href="week-07-period2.html" rel="next" aria-label="다음 자료: 7주차 2교시: RGBA 레이어 합성과 책임 있는 이미지 이용 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
       </div>
     </nav>
   </header>
-<div class="hero">
+  <div class="hero week-seven-hero">
     <div class="hero-inner">
-      <div>
+      <div class="week-seven-hero-copy">
         <p class="eyebrow">Open / Copy / Crop / Resize / Rotate</p>
-        <h1>7주차 1교시: 원본을 보존하며 이미지 변형하기</h1>
-        <p class="lead">완성한 이미지를 다시 불러와 필요한 부분을 선택하고, 크기와 방향을 바꾸어 새로운 구성 재료로 준비합니다.</p>
-        <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 07</span>
-          <span class="hero-chip">PERIOD 01</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">+ 10 MIN EXTENSION</span>
-          <span class="hero-chip">THEORY</span>
-        </div>
+        <h1>한 장을 여러 재료로 바꾸기</h1>
+        <p class="lead">원본은 보존하고, 선택한 픽셀을 새로운 크기와 방향의 작업본으로 바꿉니다.</p>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">한 이미지는 어떻게 여러 재료가 되는가?</span></div>
-        <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">원본, 작업본, 결과물</span></div>
-        <div class="meta-row"><span class="meta-key">Pillow</span><span class="meta-value">open, copy, crop, resize, rotate</span></div>
-        <div class="meta-row"><span class="meta-key">이전 학습</span><span class="meta-value">create_poster()와 PNG 저장</span></div>
-        <div class="meta-row"><span class="meta-key">다음 학습</span><span class="meta-value">RGBA 레이어 합성</span></div>
-        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
-      </aside>
+      <figure class="week-seven-hero-visual">
+        <img src="assets/week-07-period1-hero-720.webp" srcset="assets/week-07-period1-hero-720.webp 720w, assets/week-07-period1-hero.webp 1080w" sizes="(max-width: 760px) calc(100vw - 36px), (max-width: 980px) 39vw, 520px" width="1080" height="810" loading="eager" fetchpriority="high" decoding="async" alt="한 장의 기하학 포스터와 그 일부를 서로 다른 크기와 방향으로 바꾼 세 종이 조각">
+      </figure>
     </div>
   </div>
 
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">한 장의 출력물을 다시 사용할 수 있는 시각 재료로 바꾸기</p>
+
+      <dl class="week-seven-lesson-facts">
+        <div><dt>FORMAT</dt><dd>50 MIN + 10 MIN EXTENSION (기본 50분 / 확장 60분)</dd></div>
+        <div><dt>CORE</dt><dd>원본 보존, 자르기, 크기 변경, 회전</dd></div>
+        <div><dt>NEXT</dt><dd>변형한 작업본을 RGBA 레이어로 합성하기</dd></div>
+      </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
@@ -196,38 +192,22 @@ cropped_image = working_image.crop(crop_box)</code></pre>
 
       <p><strong>포토몽타주</strong>는 서로 다른 사진 조각을 자르고 결합해 하나의 이미지를 구성하는 방식입니다. MoMA의 공식 용어 페이지에는 여러 포토몽타주 작품과 작가가 정리되어 있습니다. 특히 한나 회흐는 대중매체의 이미지와 문자를 잘라 재결합하며 기존 이미지의 문맥을 비판적으로 바꾸었습니다.</p>
 
-      <div class="official-case-grid">
-        <article class="official-case-card">
-          <figure class="official-case-figure">
-            <a href="https://www.moma.org/collection/terms/photomontage" target="_blank" rel="noopener noreferrer" aria-label="MoMA 포토몽타주 공식 용어 페이지 열기">
-              <img src="assets/week-07-transform-operations.png" width="1440" height="820" loading="lazy" decoding="async" alt="원본의 일부를 선택하고 크기와 방향을 바꾸는 포토몽타주 원리의 수업용 변형 구조도">
-            </a>
-            <figcaption>수업용 구조도 · 선택 → 크기와 방향 변경 → 새로운 관계</figcaption>
-          </figure>
-          <div class="official-case-copy">
-            <span class="case-kicker">MUSEUM TERM</span>
-            <h4><a href="https://www.moma.org/collection/terms/photomontage" target="_blank" rel="noopener noreferrer">MoMA: Photomontage ↗</a></h4>
-            <p>실제 작품을 보며 무엇을 잘랐는지만 찾지 않습니다. 조각의 크기, 방향, 이웃 관계가 원래 이미지의 의미를 어떻게 바꾸는지 관찰합니다.</p>
-            <dl class="case-data-map">
-              <div><dt>선택</dt><dd>어느 부분을 남겼는가?</dd></div>
-              <div><dt>변형</dt><dd>크기와 방향을 어떻게 바꾸었는가?</dd></div>
-              <div><dt>관계</dt><dd>어떤 조각과 새롭게 만나는가?</dd></div>
-            </dl>
-          </div>
+      <div class="week-seven-reference-notes">
+        <article class="week-seven-reference-note">
+          <p class="reference-kicker">MUSEUM TERM</p>
+          <h4><a href="https://www.moma.org/collection/terms/photomontage" target="_blank" rel="noopener noreferrer">MoMA: Photomontage ↗</a></h4>
+          <p>실제 작품을 보며 무엇을 잘랐는지만 찾지 않습니다. 조각의 크기, 방향, 이웃 관계가 원래 이미지의 의미를 어떻게 바꾸는지 관찰합니다.</p>
+          <dl class="case-data-map">
+            <div><dt>선택</dt><dd>어느 부분을 남겼는가?</dd></div>
+            <div><dt>변형</dt><dd>크기와 방향을 어떻게 바꾸었는가?</dd></div>
+            <div><dt>관계</dt><dd>어떤 조각과 새롭게 만나는가?</dd></div>
+          </dl>
         </article>
 
-        <article class="official-case-card">
-          <figure class="official-case-figure">
-            <a href="https://www.moma.org/collection/artists/2675" target="_blank" rel="noopener noreferrer" aria-label="MoMA 한나 회흐 공식 작가 페이지 열기">
-              <img src="assets/week-07-prototype-example.png" width="1200" height="900" loading="lazy" decoding="async" alt="하나의 기하학 이미지에서 자른 조각 세 개를 크기와 각도를 달리해 겹친 수업용 합성 예시">
-            </a>
-            <figcaption>수업용 예시 · 같은 원본도 선택과 배열에 따라 새로운 화면이 됩니다.</figcaption>
-          </figure>
-          <div class="official-case-copy">
-            <span class="case-kicker">ARTIST CASE</span>
-            <h4><a href="https://www.moma.org/collection/artists/2675" target="_blank" rel="noopener noreferrer">MoMA: Hannah Höch ↗</a></h4>
-            <p>회흐의 작업에서 조각은 단순한 장식이 아니라 사회와 매체를 다시 읽는 단위였습니다. 우리 실습도 기능을 확인하는 데서 멈추지 않고 “무엇을 강조하려고 이 부분을 선택했는가?”를 묻습니다.</p>
-          </div>
+        <article class="week-seven-reference-note">
+          <p class="reference-kicker">ARTIST CASE</p>
+          <h4><a href="https://www.moma.org/collection/artists/2675" target="_blank" rel="noopener noreferrer">MoMA: Hannah Höch ↗</a></h4>
+          <p>회흐의 작업에서 조각은 단순한 장식이 아니라 사회와 매체를 다시 읽는 단위였습니다. 우리 실습도 기능을 확인하는 데서 멈추지 않고 “무엇을 강조하려고 이 부분을 선택했는가?”를 묻습니다.</p>
         </article>
       </div>
 
@@ -432,7 +412,8 @@ result_image.save(result_path)</code></pre>
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 07 · Period 01</p>
+  <p class="footer-note">Contents Programming Practice / Week 07 / Period 01</p>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-07.js?v=week7-1" defer></script>
 </body>
 </html>

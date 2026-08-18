@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko">
+<html lang="ko" class="week-seven-document">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,20 +7,23 @@
   <meta name="description" content="RGB와 RGBA, 알파 값, 캔버스와 레이어, 합성 순서를 이해하고 이미지 출처와 라이선스, 변형 내용을 기록하는 7주차 2교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-07-period2.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/week-07-period2-hero-720.webp" imagesrcset="assets/week-07-period2-hero-720.webp 720w, assets/week-07-period2-hero.webp 1080w" imagesizes="(max-width: 760px) calc(100vw - 36px), (max-width: 980px) 39vw, 520px">
   <meta property="og:title" content="7주차 2교시: RGBA 레이어 합성과 책임 있는 이미지 이용 | Contents Programming Practice">
   <meta property="og:description" content="투명도, 위치, 쌓이는 순서로 여러 이미지를 하나의 구성으로 만들고 출처 기록을 남깁니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-07-period2.html">
-  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
-  <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-07-period2-hero.webp">
+  <meta property="og:image:alt" content="투명도가 다른 세 종이 레이어가 겹쳐 하나의 화면이 되는 7주차 2교시 이미지">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="7주차 2교시: RGBA 레이어 합성과 책임 있는 이미지 이용">
   <meta name="twitter:description" content="RGBA 레이어 합성의 원리와 이미지 출처 기록을 함께 배우는 입문 강의입니다.">
-  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-07-period2-hero.webp">
+  <meta name="twitter:image:alt" content="투명도가 다른 세 종이 레이어가 겹쳐 하나의 화면이 되는 7주차 2교시 이미지">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-07.css?v=week7-1">
 </head>
-<body class="teaching-document course-contents-programming">
+<body class="teaching-document course-contents-programming week-seven-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="lesson-header" data-teaching-shell="v1">
     <nav class="lesson-header-inner" aria-label="Course">
@@ -37,35 +40,28 @@
       </div>
     </nav>
   </header>
-<div class="hero">
+  <div class="hero week-seven-hero">
     <div class="hero-inner">
-      <div>
+      <div class="week-seven-hero-copy">
         <p class="eyebrow">RGBA / Alpha / Layer / Attribution</p>
-        <h1>7주차 2교시: RGBA 레이어 합성과 책임 있는 이미지 이용</h1>
-        <p class="lead">변형한 이미지에 투명도와 위치, 쌓이는 순서를 부여해 하나의 화면을 만들고, 사용한 이미지의 출처와 변형 과정을 함께 기록합니다.</p>
-        <div class="hero-meta" role="group" aria-label="핵심 정보">
-          <span class="hero-chip">WEEK 07</span>
-          <span class="hero-chip">PERIOD 02</span>
-          <span class="hero-chip">50 MIN</span>
-          <span class="hero-chip">+ 10 MIN EXTENSION</span>
-          <span class="hero-chip">THEORY</span>
-        </div>
+        <h1>투명한 레이어로 화면 구성하기</h1>
+        <p class="lead">투명도, 위치, 순서를 조절해 여러 작업본을 하나의 책임 있는 이미지로 합성합니다.</p>
       </div>
-      <aside class="doc-card" aria-label="문서 정보">
-        <p class="doc-card-title">Lesson Spec</p>
-        <div class="meta-row"><span class="meta-key">핵심 질문</span><span class="meta-value">여러 이미지는 어떻게 하나의 화면이 되는가?</span></div>
-        <div class="meta-row"><span class="meta-key">핵심 개념</span><span class="meta-value">RGBA, 알파, 좌표, 순서</span></div>
-        <div class="meta-row"><span class="meta-key">Pillow</span><span class="meta-value">alpha_composite()</span></div>
-        <div class="meta-row"><span class="meta-key">책임 있는 이용</span><span class="meta-value">TASL + 변형 내용</span></div>
-        <div class="meta-row"><span class="meta-key">다음 학습</span><span class="meta-value">목표 달성형 합성 실습</span></div>
-        <div class="meta-row"><span class="meta-key">운영 시간</span><span class="meta-value">기본 50분 / 확장 60분</span></div>
-      </aside>
+      <figure class="week-seven-hero-visual">
+        <img src="assets/week-07-period2-hero-720.webp" srcset="assets/week-07-period2-hero-720.webp 720w, assets/week-07-period2-hero.webp 1080w" sizes="(max-width: 760px) calc(100vw - 36px), (max-width: 980px) 39vw, 520px" width="1080" height="810" loading="eager" fetchpriority="high" decoding="async" alt="파랑, 청록, 산호, 노랑의 반투명 종이 레이어가 서로 겹쳐 색과 깊이를 만드는 구성">
+      </figure>
     </div>
   </div>
 
   <main id="main-content" class="layout">
     <article class="article">
       <p class="document-title">보이는 픽셀과 가려지는 픽셀의 관계를 설계하기</p>
+
+      <dl class="week-seven-lesson-facts">
+        <div><dt>FORMAT</dt><dd>50 MIN + 10 MIN EXTENSION (기본 50분 / 확장 60분)</dd></div>
+        <div><dt>CORE</dt><dd>RGBA, 알파, 좌표, 레이어 순서</dd></div>
+        <div><dt>RECORD</dt><dd>제목, 창작자, 원본 주소, 라이선스, 변형 내용</dd></div>
+      </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
@@ -230,19 +226,11 @@ canvas.alpha_composite(layer_3, dest=(345, 555))</code></pre>
 
       <p>MoMA의 한나 회흐 공식 페이지는 그가 대중매체의 이미지와 텍스트를 재결합해 사회와 문화의 관습을 비판했다고 설명합니다. 여기서 중요한 것은 조각 하나의 내용만이 아닙니다. 어떤 이미지를 더 크게 놓았는지, 무엇이 무엇을 가리는지, 서로 다른 출처의 조각이 어떤 충돌을 만드는지가 전체 의미에 참여합니다.</p>
 
-      <div class="official-case-grid">
-        <article class="official-case-card">
-          <figure class="official-case-figure">
-            <a href="https://www.moma.org/calendar/exhibitions/241" target="_blank" rel="noopener noreferrer" aria-label="MoMA 한나 회흐 포토몽타주 전시 공식 페이지 열기">
-              <img src="assets/week-07-alpha-composite.png" width="1440" height="820" loading="lazy" decoding="async" alt="투명도가 다른 세 이미지 조각이 차례로 겹쳐 최종 구성을 만드는 수업용 레이어 구조도">
-            </a>
-            <figcaption>수업용 구조도 · 개별 조각의 내용 + 위치 + 앞뒤 관계</figcaption>
-          </figure>
-          <div class="official-case-copy">
-            <span class="case-kicker">PHOTOMONTAGE</span>
-            <h4><a href="https://www.moma.org/calendar/exhibitions/241" target="_blank" rel="noopener noreferrer">MoMA: The Photomontages of Hannah Höch ↗</a></h4>
-            <p>공식 페이지에서 실제 작품을 볼 때 “무엇을 사용했는가?”에 이어 “어떤 크기와 위치, 방향, 겹침을 선택했는가?”를 관찰합니다. 코드의 매개변수는 이러한 구성 선택을 기록하는 방법입니다.</p>
-          </div>
+      <div class="week-seven-reference-notes">
+        <article class="week-seven-reference-note">
+          <p class="reference-kicker">PHOTOMONTAGE</p>
+          <h4><a href="https://www.moma.org/calendar/exhibitions/241" target="_blank" rel="noopener noreferrer">MoMA: The Photomontages of Hannah Höch ↗</a></h4>
+          <p>공식 페이지에서 실제 작품을 볼 때 “무엇을 사용했는가?”에 이어 “어떤 크기와 위치, 방향, 겹침을 선택했는가?”를 관찰합니다. 코드의 매개변수는 이러한 구성 선택을 기록하는 방법입니다.</p>
         </article>
       </div>
 
@@ -408,7 +396,8 @@ canvas.save("week07_20260000_김민지.png")</code></pre>
     </nav>
   </main>
 
-  <p class="footer-note">Contents Programming Practice · Week 07 · Period 02</p>
+  <p class="footer-note">Contents Programming Practice / Week 07 / Period 02</p>
   <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-07.js?v=week7-1" defer></script>
 </body>
 </html>

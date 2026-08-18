@@ -74,6 +74,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-06-period3-hero.webp",
     alt: "하나의 파란 생성 틀에서 나온 서로 다른 세 기하학 포스터를 나란히 보여 주는 6주차 3교시 이미지",
   }),
+  "teaching/contents-programming/week-07-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-07-period1-hero.webp",
+    alt: "한 장의 기하학 포스터를 자르고 크기와 방향을 바꾼 종이 조각을 보여 주는 7주차 1교시 이미지",
+  }),
+  "teaching/contents-programming/week-07-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-07-period2-hero.webp",
+    alt: "투명도가 다른 세 종이 레이어가 겹쳐 하나의 화면이 되는 7주차 2교시 이미지",
+  }),
+  "teaching/contents-programming/week-07-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-07-period3-hero.webp",
+    alt: "서로 다르게 변형한 세 종이 레이어를 한 화면에 합성한 7주차 3교시 이미지",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",
