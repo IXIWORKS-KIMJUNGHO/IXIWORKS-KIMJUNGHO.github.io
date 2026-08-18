@@ -35,11 +35,12 @@ function assertTimeline(source, expectedRanges) {
 }
 
 test("Contents Programming week 11 period 1 teaches beginners to choose an honest visual encoding", async () => {
-  const period1 = await readFile(
-    resolve(courseDirectory, "week-11-period1.html"),
-    "utf8",
-  );
+  const [period1, period9Mission] = await Promise.all([
+    readFile(resolve(courseDirectory, "week-11-period1.html"), "utf8"),
+    readFile(resolve(courseDirectory, "week-09-period3.html"), "utf8"),
+  ]);
 
+  assert.match(period9Mission, /href="week-11-period1\.html" rel="next"/);
   assert.match(period1, /href="week-09-period3\.html" rel="prev"/);
   assert.match(period1, /href="week-11-period2\.html" rel="next"/);
   assertTimeline(period1, [
