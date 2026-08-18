@@ -56,6 +56,10 @@ function assertContinuousFiftyMinutePlan(fragment) {
   assert.ok(ranges.length > 1, "a period should contain a detailed time plan");
   assert.equal(ranges[0][0], 0, "a period should begin at minute 0");
 
+  for (const [start, end] of ranges) {
+    assert.ok(end > start, "every time block should have a positive duration");
+  }
+
   for (let index = 1; index < ranges.length; index += 1) {
     assert.equal(
       ranges[index][0],
