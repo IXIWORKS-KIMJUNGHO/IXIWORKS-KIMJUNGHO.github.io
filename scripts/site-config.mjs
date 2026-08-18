@@ -50,6 +50,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/contents-programming/assets/week-04-period3-hero.webp",
     alt: "완성된 리듬 그리드 출력물과 색상표를 보여 주는 4주차 개인 실습 이미지",
   }),
+  "teaching/contents-programming/week-05-period1.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-05-period1-hero.webp",
+    alt: "같은 규칙에서 달라진 세 가지 종이 도형 배열로 난수와 시드를 보여 주는 5주차 1교시 이미지",
+  }),
+  "teaching/contents-programming/week-05-period2.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-05-period2-hero.webp",
+    alt: "크기에 따라 윤곽 원과 채운 원, 사각형으로 나뉜 조건문 구성을 보여 주는 5주차 2교시 이미지",
+  }),
+  "teaching/contents-programming/week-05-period3.html": Object.freeze({
+    path: "/teaching/contents-programming/assets/week-05-period3-hero.webp",
+    alt: "무작위 위치와 크기를 조건에 따라 분류한 완성 포스터와 색상표를 보여 주는 5주차 개인 실습 이미지",
+  }),
   "teaching/contents-programming/week-02-period2.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-02-data-profile-high.png",
     alt: "변수 값으로 막대 길이와 원 크기를 표현한 데이터 프로필 예시",

@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="ko" class="week-five-document">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 2교시: 조건문으로 우연의 범위 정하기 | Contents Programming Practice</title>
+  <meta name="description" content="난수로 선택한 크기와 위치를 비교식, bool, if, elif, else로 분류하고 조건에 따라 색상과 형태를 바꾸는 규칙 기반 생성 이미지의 원리를 다루는 5주차 2교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-05-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="5주차 2교시: 조건문으로 우연의 범위 정하기 | Contents Programming Practice">
+  <meta property="og:description" content="비교식과 if·elif·else로 무작위 값을 시각적 의미가 있는 세 갈래 규칙으로 바꿉니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-05-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-05-period2-hero.webp">
+  <meta property="og:image:alt" content="크기에 따라 윤곽 원과 채운 원, 사각형으로 나뉜 조건문 구성을 보여 주는 5주차 2교시 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5주차 2교시: 조건문으로 우연의 범위 정하기 | Contents Programming Practice">
+  <meta name="twitter:description" content="비교식, bool, if, elif, else를 생성 이미지의 선택 규칙과 연결하는 입문 강의입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-05-period2-hero.webp">
+  <link rel="preload" as="image" href="assets/week-05-period2-hero.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-05.css?v=week5-1">
+</head>
+<body class="teaching-document course-contents-programming week-five-page">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Contents Programming Practice</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-05-period1.html" rel="prev" aria-label="이전 자료: 5주차 1교시: 우연을 설계하는 난수와 시드 | Contents Programming Practice">← <span class="sequence-label">Previous</span></a>
+        <a href="week-05-period3.html" rel="next" aria-label="다음 자료: 5주차 3교시: 통제된 우연 포스터 미션 | Contents Programming Practice"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <div class="hero week-five-hero">
+    <div class="hero-inner">
+      <div class="week-five-hero-copy">
+        <p class="eyebrow">Compare / Branch / Control</p>
+        <h1>우연에 조건을 더하기</h1>
+        <p class="lead">난수 값을 비교하고 분기해 크기와 위치에 따라 다른 형태와 색을 선택합니다.</p>
+      </div>
+      <figure class="week-five-hero-visual">
+        <img src="assets/week-05-period2-hero.webp" width="1448" height="1086" alt="크기에 따라 윤곽 원과 채운 원, 사각형으로 나뉜 조건문 구성을 보여 주는 5주차 2교시 이미지" loading="eager" decoding="async" fetchpriority="high">
+      </figure>
+    </div>
+  </div>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <p class="document-title">선택된 값을 질문하고 서로 다른 시각적 행동으로 연결하기</p>
+
+      <dl class="week-five-lesson-facts" aria-label="2교시 핵심 정보">
+        <div><dt>형식</dt><dd>기본 50분 / 확장 60분 · + 10 MIN EXTENSION</dd></div>
+        <div><dt>핵심</dt><dd><code>if</code>, <code>elif</code>, <code>else</code>, 비교식</dd></div>
+        <div><dt>연결</dt><dd>무작위 값 → 시각적 의미와 행동</dd></div>
+      </dl>
+
+      <div class="callout callout-abstract">
+        <p class="callout-title">오늘의 학습 목표</p>
+        <ul>
+          <li>비교식이 숫자가 아니라 <code>True</code> 또는 <code>False</code>라는 <code>bool</code> 값을 만든다는 사실을 설명할 수 있습니다.</li>
+          <li>값을 저장하는 <code>=</code>와 같은지 비교하는 <code>==</code>의 역할을 구분할 수 있습니다.</li>
+          <li><code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>==</code>, <code>!=</code>로 시각적 질문을 작성할 수 있습니다.</li>
+          <li><code>if / elif / else</code>를 위에서 아래로 확인하고 처음 참이 된 한 갈래만 실행되는 과정을 추적할 수 있습니다.</li>
+          <li>조건문의 콜론과 들여쓰기가 각 분기의 코드 범위를 나타낸다는 사실을 구분할 수 있습니다.</li>
+          <li>난수를 한 번 선택해 변수에 저장한 뒤 같은 값을 조건 검사와 도형 그리기에 재사용할 수 있습니다.</li>
+          <li>반복문, 리스트, 난수, 조건문을 결합한 Pillow 프로그램을 묶음별로 읽고 대표 오류를 진단할 수 있습니다.</li>
+        </ul>
+      </div>
+
+      <ul class="session-grid session-grid-six" aria-label="2교시 시간 구성">
+        <li><span class="session-label">0-5 min</span><strong>난수 선택 회상</strong><p>1교시의 크기 선택 코드에서 아직 정하지 않은 시각적 의미를 찾습니다.</p></li>
+        <li><span class="session-label">5-16 min</span><strong>비교식과 bool</strong><p>숫자에 질문을 던지고 참·거짓 결과와 경계값을 확인합니다.</p></li>
+        <li><span class="session-label">16-27 min</span><strong>if와 else</strong><p>두 갈래 분기의 실행 흐름과 콜론·들여쓰기의 역할을 읽습니다.</p></li>
+        <li><span class="session-label">27-38 min</span><strong>elif와 조건 순서</strong><p>세 크기 구간을 추적하고 처음 참인 분기만 실행되는 원리를 확인합니다.</p></li>
+        <li><span class="session-label">38-46 min</span><strong>전체 생성 규칙</strong><p>반복·난수·조건·Pillow 도형을 하나의 프로그램으로 연결합니다.</p></li>
+        <li><span class="session-label">46-50 min</span><strong>3교시 설계 연결</strong><p>통제된 우연 포스터의 필수 조건과 규칙 문장을 확정합니다.</p></li>
+      </ul>
+
+      <div class="callout callout-info">
+        <p class="callout-title">수업 운영: 기본 50분과 확장 60분</p>
+        <p><strong>기본 50분</strong>에서는 1교시 회상, 비교식과 <code>bool</code>, 두 갈래와 세 갈래 조건문, 조건 순서, 전체 생성 프로그램, 3교시 설계까지 진행합니다. 모든 코드 추적은 먼저 종이에 참·거짓과 실행 분기를 표시한 뒤 기준 답안을 확인합니다. 진도가 빠르면 <strong>50-60분 확장</strong>에서 <code>random.random()</code>과 비교식을 이용해 드문 강조가 나타나는 규칙을 분석합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">조건문을 처음 보는 학생을 위한 읽기 순서</p>
+        <ol>
+          <li><strong>질문에 사용되는 값을 찾습니다.</strong> 이번 예에서는 먼저 선택해 둔 <code>size</code>입니다.</li>
+          <li><strong>비교식을 일상 문장으로 읽습니다.</strong> <code>size &gt;= 60</code>은 “크기가 60 이상인가?”입니다.</li>
+          <li><strong>참 또는 거짓을 적습니다.</strong> 머릿속으로 다음 줄로 넘어가지 않습니다.</li>
+          <li><strong>참인 분기의 들여쓴 줄만 표시합니다.</strong> 실행하지 않는 분기에는 선을 긋습니다.</li>
+          <li><strong>선택 결과가 화면의 무엇을 바꾸는지 연결합니다.</strong> 색, 형태, 위치 가운데 실제로 달라지는 속성을 말합니다.</li>
+        </ol>
+      </div>
+
+      <h2 id="random-recall">0-5분 · 난수가 후보를 만들었지만 아직 의미는 정하지 않았다</h2>
+
+      <p>1교시에는 <code>random.randint(20, 80)</code>로 도형 크기를 선택했습니다. 가능한 값의 범위와 안전한 좌표는 정했지만, 큰 원과 작은 원을 모두 같은 색과 같은 도형 명령으로 그렸습니다.</p>
+
+      <pre><code>size = random.randint(20, 80)
+color = random.choice(palette)
+
+draw.ellipse(
+    (x, y, x + size, y + size),
+    fill=color,
+)</code></pre>
+
+      <p>이 코드에서 <code>size</code>는 화면의 크기 차이를 만들지만, 크기가 어떤 역할을 하는지는 정하지 않았습니다. 예를 들어 제작자는 “큰 값은 강조색 사각형으로, 중간 값은 채운 원으로, 작은 값은 윤곽선 원으로 표현한다”라는 규칙을 추가할 수 있습니다. 조건문은 난수의 결과를 다시 뽑는 기능이 아니라, <strong>이미 선택된 값에 질문하고 그 답에 따라 실행할 코드를 고르는 구조</strong>입니다.</p>
+
+      <div class="pipeline" aria-label="난수에서 조건을 거쳐 이미지가 되는 흐름">
+        <div class="pipeline-step"><span class="pipeline-label">1 / Candidate</span><strong>값 선택</strong><p><code>randint()</code>가 허용 범위에서 크기 하나를 만듭니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">2 / Question</span><strong>조건 확인</strong><p>선택된 크기가 어느 구간에 들어가는지 질문합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">3 / Response</span><strong>시각적 행동</strong><p>해당 구간의 색상과 형태로 도형을 그립니다.</p></div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 회상 · 90초</span>
+        <h3>크기 20부터 80까지를 두 그룹으로 나누기</h3>
+        <p>20 이상 80 이하의 크기를 “강조”와 “기본” 두 그룹으로 나눈다고 가정합니다. 자신이 정한 경계값과 각 그룹에 부여할 색상 또는 형태를 적습니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">두 그룹 규칙의 기준 예시</summary>
+        <div class="details-motion-content"><p>예를 들어 55 이상은 강조색 사각형, 55 미만은 팔레트 색 원으로 정할 수 있습니다. 경계값은 다른 숫자도 가능하지만 20~80 범위 안에 있어야 두 그룹이 실제로 나타날 가능성이 있습니다.</p></div>
+      </details>
+
+      <h2 id="boolean-comparisons">5-16분 · 비교식은 True 또는 False를 만든다</h2>
+
+      <p>컴퓨터에게 조건을 전달하려면 예 또는 아니요로 답할 수 있는 문장을 작성해야 합니다. Python에서는 두 값을 비교한 결과가 <code>True</code> 또는 <code>False</code>가 됩니다. 두 값은 2주차에서 배운 <strong>불리언 자료형</strong>, 즉 <code>bool</code>입니다. 첫 글자가 대문자이며 따옴표를 사용하지 않습니다.</p>
+
+      <pre><code>size = 72
+
+print(size &gt;= 60)  # True
+print(size &lt; 40)   # False</code></pre>
+
+      <p><code>size &gt;= 60</code>은 “size가 60 이상인가?”라는 질문입니다. 현재 <code>size</code>가 72이므로 답은 <code>True</code>입니다. 비교식은 size를 바꾸지 않으며, 질문의 결과만 새로 만듭니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>생성 이미지에서 자주 쓰는 비교 연산자</caption>
+          <thead><tr><th scope="col">기호</th><th scope="col">읽는 방법</th><th scope="col">시각 규칙 예시</th><th scope="col">경계 포함</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>&gt;</code></th><td>보다 크다</td><td><code>size &gt; 60</code>: 60보다 큰 도형</td><td>60 제외</td></tr>
+            <tr><th scope="row"><code>&gt;=</code></th><td>크거나 같다, 이상</td><td><code>size &gt;= 60</code>: 60 이상인 도형</td><td>60 포함</td></tr>
+            <tr><th scope="row"><code>&lt;</code></th><td>보다 작다</td><td><code>x &lt; 300</code>: 화면 왼쪽 절반</td><td>300 제외</td></tr>
+            <tr><th scope="row"><code>&lt;=</code></th><td>작거나 같다, 이하</td><td><code>y &lt;= 300</code>: 중앙선까지의 위쪽</td><td>300 포함</td></tr>
+            <tr><th scope="row"><code>==</code></th><td>같다</td><td><code>color == accent_color</code>: 강조색인지 확인</td><td>정확히 같을 때만 참</td></tr>
+            <tr><th scope="row"><code>!=</code></th><td>같지 않다</td><td><code>color != background_color</code>: 배경색이 아닌지 확인</td><td>다른 모든 경우 참</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="assignment-equality">=는 저장이고 ==는 질문이다</h3>
+
+      <div class="assignment-visual" role="group" aria-label="대입과 같음 비교의 차이">
+        <div class="assignment-side">
+          <span class="visual-label">Assignment</span>
+          <div class="assignment-equation"><span class="assignment-token">size</span><span class="assignment-equals">=</span><span class="assignment-token">60</span></div>
+          <p><code>size = 60</code>은 오른쪽 값 60을 변수에 저장합니다. 질문이 아니므로 참·거짓 결과를 만들지 않습니다.</p>
+        </div>
+        <div class="assignment-side">
+          <span class="visual-label">Comparison</span>
+          <div class="assignment-equation"><span class="assignment-token">size</span><span class="assignment-equals">==</span><span class="assignment-token">60</span></div>
+          <p><code>size == 60</code>은 현재 값이 60과 같은지 질문하고 <code>True</code> 또는 <code>False</code>를 만듭니다.</p>
+        </div>
+      </div>
+
+      <p><code>if size = 60:</code>처럼 조건 자리에 대입 기호 하나를 쓰면 Python 문법에 맞지 않아 <code>SyntaxError</code>가 발생합니다. 같음을 질문할 때에는 반드시 등호 두 개를 사용합니다. 또한 “이상”은 <code>=&gt;</code>가 아니라 <code>&gt;=</code> 순서로 작성합니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 판정 · 2분</span>
+        <h3>경계값의 참·거짓 적기</h3>
+        <p><code>size = 60</code>일 때 다음 네 비교식의 결과를 순서대로 적습니다: <code>size &gt; 60</code>, <code>size &gt;= 60</code>, <code>size == 60</code>, <code>size != 60</code>.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">경계값 판정 답안</summary>
+        <div class="details-motion-content"><p>순서대로 <code>False</code>, <code>True</code>, <code>True</code>, <code>False</code>입니다. “보다 크다”에는 60이 포함되지 않지만 “이상”과 “같다”에는 60이 포함됩니다.</p></div>
+      </details>
+
+      <h3 id="visual-questions">시각적 속성을 예·아니요 질문으로 바꾸기</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>화면 설계 문장과 비교식의 대응</caption>
+          <thead><tr><th scope="col">화면 설계 문장</th><th scope="col">비교식</th><th scope="col">참일 때 가능한 행동</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">크기가 60 이상인가?</th><td><code>size &gt;= 60</code></td><td>강조색 사각형으로 그림</td></tr>
+            <tr><th scope="row">도형이 왼쪽 절반에 있는가?</th><td><code>x &lt; 300</code></td><td>차가운 색을 사용</td></tr>
+            <tr><th scope="row">도형이 위쪽 영역에 있는가?</th><td><code>y &lt; 300</code></td><td>원으로 그림</td></tr>
+            <tr><th scope="row">선택 색이 강조색과 같은가?</th><td><code>color == accent_color</code></td><td>윤곽선을 더 굵게 그림</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2 id="if-else">16-27분 · if와 else는 두 갈래 가운데 하나를 실행한다</h2>
+
+      <p>비교식만 작성하면 참·거짓 결과를 확인할 수 있지만 이미지에는 아직 변화가 없습니다. <code>if</code>는 조건이 참일 때 실행할 코드 블록을 정하고, <code>else</code>는 그 조건이 거짓인 나머지 경우를 담당합니다.</p>
+
+      <pre><code>if size &gt;= 55:
+    color = accent_color
+else:
+    color = base_color</code></pre>
+
+      <div class="code-walkthrough" aria-label="if else 코드 읽기">
+        <div class="code-line"><span class="line-number">1</span><span class="code-source">if</span><span class="line-meaning">첫 번째 조건 검사를 시작합니다.</span></div>
+        <div class="code-line"><span class="line-number">2</span><span class="code-source">size &gt;= 55</span><span class="line-meaning">선택된 크기가 55 이상인지 질문합니다.</span></div>
+        <div class="code-line"><span class="line-number">3</span><span class="code-source">:</span><span class="line-meaning">이 조건에 속한 코드 블록이 아래에 시작됨을 표시합니다.</span></div>
+        <div class="code-line"><span class="line-number">4</span><span class="code-source">    color = accent_color</span><span class="line-meaning">조건이 참일 때만 실행하는 들여쓴 문장입니다.</span></div>
+        <div class="code-line"><span class="line-number">5</span><span class="code-source">else:</span><span class="line-meaning">앞 조건이 거짓인 모든 나머지 경우를 받습니다. 별도 조건을 쓰지 않습니다.</span></div>
+        <div class="code-line"><span class="line-number">6</span><span class="code-source">    color = base_color</span><span class="line-meaning">조건이 거짓일 때만 실행하는 들여쓴 문장입니다.</span></div>
+      </div>
+
+      <p>한 번의 실행에서는 두 대입문 가운데 하나만 실행됩니다. <code>size = 70</code>이면 <code>color = accent_color</code>만 실행되고, <code>size = 42</code>이면 <code>color = base_color</code>만 실행됩니다. <code>else</code>는 “반대 조건을 다시 검사한다”가 아니라 앞의 조건에 들어가지 않은 모든 경우를 받습니다.</p>
+
+      <div class="trace-board" role="group" aria-label="if else 실행의 세 단계">
+        <div class="trace-state"><span class="visual-label">Question</span><code>size &gt;= 55</code><div class="trace-binding">True 또는 False</div></div>
+        <div class="trace-state"><span class="visual-label">True path</span><code>color = accent_color</code><div class="trace-binding">if 블록 실행</div></div>
+        <div class="trace-state"><span class="visual-label">False path</span><code>color = base_color</code><div class="trace-binding">else 블록 실행</div></div>
+      </div>
+
+      <h3 id="conditional-indentation">콜론은 블록의 시작, 들여쓰기는 블록의 범위다</h3>
+
+      <div class="value-contrast" role="group" aria-label="조건문 안과 밖의 실행 차이">
+        <div class="value-case">
+          <span class="visual-label">Inside branch</span>
+          <pre><code>if size &gt;= 55:
+    color = accent_color
+    outline_width = 4</code></pre>
+          <p>같은 깊이로 들여쓴 두 문장은 조건이 참일 때 함께 실행됩니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">After branch</span>
+          <pre><code>if size &gt;= 55:
+    color = accent_color
+
+print(color)</code></pre>
+          <p>들여쓰기가 끝난 <code>print()</code>는 조건문 바깥이므로 다음 순서에서 실행됩니다.</p>
+        </div>
+      </div>
+
+      <p><code>if</code> 줄과 <code>else</code> 줄 끝에는 모두 콜론이 필요합니다. 같은 분기에 속한 문장은 스페이스 네 칸으로 같은 깊이에 맞춥니다. 들여쓰기는 보기 좋게 정렬하는 장식이 아니라 Python이 실행 관계를 구분하는 문법입니다.</p>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">size가 55일 때 어느 분기가 실행되는가?</summary>
+        <div class="details-motion-content"><p><code>size &gt;= 55</code>는 55를 포함하므로 <code>True</code>입니다. <code>if</code> 블록의 <code>color = accent_color</code>가 실행되고 <code>else</code> 블록은 건너뜁니다.</p></div>
+      </details>
+
+      <h2 id="elif-order">27-38분 · elif는 앞 조건이 거짓일 때 다음 질문을 한다</h2>
+
+      <p>두 갈래보다 세밀한 분류가 필요하면 <code>elif</code>를 추가합니다. <code>elif</code>는 “else if”의 줄임말이며, 앞의 <code>if</code> 또는 <code>elif</code>가 거짓일 때만 다음 조건을 확인합니다. 아래 코드는 20~80의 크기를 큰 값, 중간 값, 작은 값의 세 구간으로 나눕니다.</p>
+
+      <pre><code>if size &gt;= 60:
+    visual_role = "large accent"
+elif size &gt;= 40:
+    visual_role = "medium base"
+else:
+    visual_role = "small outline"</code></pre>
+
+      <p>Python은 위에서 아래로 조건을 확인하고 <strong>처음 참이 된 한 분기만 실행한 뒤 조건문 전체를 빠져나갑니다.</strong> <code>size = 72</code>이면 첫 조건이 이미 참이므로 <code>72 &gt;= 40</code>도 사실이지만 두 번째 조건은 확인하지 않습니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>세 크기값의 분기 추적</caption>
+          <thead><tr><th scope="col">size</th><th scope="col"><code>size &gt;= 60</code></th><th scope="col"><code>size &gt;= 40</code></th><th scope="col">실행 분기</th><th scope="col">역할</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">72</th><td>True</td><td>확인하지 않음</td><td><code>if</code></td><td>큰 강조</td></tr>
+            <tr><th scope="row">51</th><td>False</td><td>True</td><td><code>elif</code></td><td>중간 기본</td></tr>
+            <tr><th scope="row">32</th><td>False</td><td>False</td><td><code>else</code></td><td>작은 윤곽</td></tr>
+            <tr><th scope="row">60</th><td>True</td><td>확인하지 않음</td><td><code>if</code></td><td>큰 강조</td></tr>
+            <tr><th scope="row">40</th><td>False</td><td>True</td><td><code>elif</code></td><td>중간 기본</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="range-coverage">조건의 순서는 큰 경계에서 작은 경계로 내려온다</h3>
+
+      <p>아래처럼 작은 경계를 먼저 검사하면 <code>size = 72</code>도 첫 조건 <code>size &gt;= 40</code>에서 참이 됩니다. 그 결과 <code>size &gt;= 60</code> 분기는 한 번도 실행될 수 없습니다.</p>
+
+      <pre><code># 잘못된 순서: 60 이상도 첫 조건에서 이미 잡힙니다.
+if size &gt;= 40:
+    visual_role = "medium base"
+elif size &gt;= 60:
+    visual_role = "large accent"</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>20~80 범위를 빠짐없이 나눈 결과</caption>
+          <thead><tr><th scope="col">분기</th><th scope="col">실제 담당 범위</th><th scope="col">경계값</th><th scope="col">빠진 값</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>if size &gt;= 60</code></th><td>60~80</td><td>60 포함</td><td>없음</td></tr>
+            <tr><th scope="row"><code>elif size &gt;= 40</code></th><td>40~59</td><td>40 포함, 60은 앞 분기</td><td>없음</td></tr>
+            <tr><th scope="row"><code>else</code></th><td>20~39</td><td>나머지 전부</td><td>없음</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="reuse-random-value">난수는 한 번 뽑고 같은 값을 질문과 그리기에 사용한다</h3>
+
+      <div class="value-contrast" role="group" aria-label="난수값 재사용의 올바른 코드와 잘못된 코드">
+        <div class="value-case">
+          <span class="visual-label">One candidate</span>
+          <pre><code>size = random.randint(20, 80)
+
+if size &gt;= 60:
+    color = accent_color
+
+draw.ellipse((x, y, x + size, y + size), fill=color)</code></pre>
+          <p>조건이 확인한 크기와 실제로 그린 크기가 같습니다. 결과를 설명하고 오류를 재현할 수 있습니다.</p>
+        </div>
+        <div class="value-case">
+          <span class="visual-label">Two candidates</span>
+          <pre><code>if random.randint(20, 80) &gt;= 60:
+    color = accent_color
+
+size = random.randint(20, 80)</code></pre>
+          <p>조건이 확인한 값과 실제 크기가 서로 다른 두 난수입니다. 작은 도형이 강조색이 되는 이유를 추적하기 어렵습니다.</p>
+        </div>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 추적 · 3분</span>
+        <h3>다섯 크기의 실행 분기 기록하기</h3>
+        <p>다음 값이 순서대로 선택되었다고 가정합니다: 24, 40, 59, 60, 78. 각 값이 <code>if</code>, <code>elif</code>, <code>else</code> 가운데 어느 분기로 들어가는지 적고, 각 분기가 실행되는 횟수를 셉니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">다섯 크기 추적 답안</summary>
+        <div class="details-motion-content"><p>24는 <code>else</code>, 40과 59는 <code>elif</code>, 60과 78은 <code>if</code>입니다. 따라서 큰 강조 분기 2회, 중간 기본 분기 2회, 작은 윤곽 분기 1회입니다.</p></div>
+      </details>
+
+      <h2 id="full-rule-system">38-46분 · 반복·난수·조건을 하나의 생성 규칙으로 결합하기</h2>
+
+      <p>아래 이미지는 크기 범위를 세 구간으로 나누고 각 구간을 다른 시각 행동에 연결한 수업용 결과입니다. 모든 요소의 크기는 우연히 선택되지만, 작은 값은 초록색 윤곽 원, 중간 값은 황토색 원, 큰 값은 산호색 사각형이라는 관계는 변하지 않습니다.</p>
+
+      <figure class="lesson-visual" aria-labelledby="condition-branches-caption">
+        <img src="assets/week-05-condition-branches.png" width="1200" height="680" loading="eager" decoding="async" alt="세 줄에 무작위 크기의 도형이 배열되어 있으며 작은 값은 초록 윤곽 원, 중간 값은 황토 원, 큰 값은 산호색 사각형으로 표현된 이미지">
+        <figcaption id="condition-branches-caption">수업용 개념도. 난수는 각 요소의 크기를 선택하고, 조건문은 그 크기를 작은 값·중간 값·큰 값으로 분류해 서로 다른 형태와 색상을 부여합니다.</figcaption>
+      </figure>
+
+      <p>다음 완전한 코드는 1교시의 안전한 좌표 계산과 오늘의 세 갈래 조건을 결합합니다. 처음부터 한 글자씩 외우지 않고, 고정 규칙 → 이미지 준비 → 난수 선택 → 조건 분기 → 확인과 저장의 다섯 단계로 읽습니다.</p>
+
+      <pre><code>from PIL import Image, ImageDraw
+import random
+
+# 1. 고정 규칙
+canvas_width = 600
+canvas_height = 600
+background_color = (245, 240, 228)
+outline_color = (37, 62, 78)
+accent_color = (201, 111, 93)
+medium_color = (211, 155, 42)
+small_color = (111, 143, 126)
+margin = 40
+shape_count = 45
+seed_number = 29
+
+# 2. 이미지와 난수 시작점
+image = Image.new(
+    "RGB",
+    (canvas_width, canvas_height),
+    background_color,
+)
+draw = ImageDraw.Draw(image)
+random.seed(seed_number)
+
+# 3. 반복마다 후보 선택
+for shape_number in range(shape_count):
+    size = random.randint(20, 80)
+    x = random.randint(
+        margin,
+        canvas_width - margin - size,
+    )
+    y = random.randint(
+        margin,
+        canvas_height - margin - size,
+    )
+
+    # 4. 같은 size를 조건과 도형에 함께 사용
+    if size &gt;= 60:
+        draw.rectangle(
+            (x, y, x + size, y + size),
+            fill=accent_color,
+        )
+    elif size &gt;= 40:
+        draw.ellipse(
+            (x, y, x + size, y + size),
+            fill=medium_color,
+        )
+    else:
+        draw.ellipse(
+            (x, y, x + size, y + size),
+            fill=small_color,
+            outline=outline_color,
+            width=3,
+        )
+
+# 5. 확인과 저장
+image
+image.save("week05_controlled_chance_seed29.png")</code></pre>
+
+      <div class="table-wrap">
+        <table>
+          <caption>전체 코드에서 이전 학습과 새 학습 찾기</caption>
+          <thead><tr><th scope="col">코드 요소</th><th scope="col">배운 주차</th><th scope="col">현재 역할</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">변수와 정수·문자열</th><td>2주차</td><td>캔버스, 색상, 개수, 시드, 파일명 저장</td></tr>
+            <tr><th scope="row">좌표·RGB·Pillow 도형</th><td>3주차</td><td>선택된 값을 실제 이미지 픽셀에 기록</td></tr>
+            <tr><th scope="row"><code>for</code>와 <code>range()</code></th><td>4주차</td><td>도형 생성 절차를 45번 반복</td></tr>
+            <tr><th scope="row"><code>randint()</code>와 <code>seed()</code></th><td>5주차 1교시</td><td>크기·위치 후보 선택과 결과 재현</td></tr>
+            <tr><th scope="row"><code>if / elif / else</code></th><td>5주차 2교시</td><td>크기 구간을 색상과 형태의 세 행동으로 연결</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="rule-card">코드를 자연어 규칙으로 다시 설명하기</h3>
+
+      <div class="pipeline" aria-label="전체 생성 규칙의 입력 규칙 출력">
+        <div class="pipeline-step"><span class="pipeline-label">Input</span><strong>크기·위치 후보</strong><p>20~80의 크기와 안전한 x·y를 난수로 선택합니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">Rule</span><strong>크기 구간 분류</strong><p>60 이상, 40~59, 20~39의 세 갈래로 나눕니다.</p></div>
+        <span class="pipeline-arrow" aria-hidden="true">→</span>
+        <div class="pipeline-step"><span class="pipeline-label">Output</span><strong>형태와 색상</strong><p>큰 사각형, 중간 원, 작은 윤곽 원으로 기록합니다.</p></div>
+      </div>
+
+      <p>이 설명이 가능해야 조건문의 역할을 이해한 것입니다. “조건문을 사용했다”라는 문장은 문법 이름만 말합니다. “무작위 크기를 세 구간으로 분류하고 큰 값은 강조 사각형으로 보이게 했다”라고 말하면 데이터, 조건, 시각 결과의 관계가 드러납니다.</p>
+
+      <h3 id="errors">조건문에서 자주 만나는 문제와 점검 순서</h3>
+
+      <div class="table-wrap">
+        <table>
+          <caption>대표 오류와 진단 방법</caption>
+          <thead><tr><th scope="col">오류 또는 현상</th><th scope="col">가능한 원인</th><th scope="col">첫 점검</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>SyntaxError</code></th><td>조건 끝의 콜론 누락, <code>==</code> 대신 <code>=</code> 사용</td><td><code>if</code>와 <code>elif</code> 줄의 기호</td></tr>
+            <tr><th scope="row"><code>IndentationError</code></th><td>분기 안의 도형 명령 깊이가 섞임</td><td>각 분기의 네 칸 들여쓰기</td></tr>
+            <tr><th scope="row"><code>NameError: size</code></th><td>난수 선택 전에 조건을 검사함</td><td><code>size = random.randint(...)</code> 실행 위치</td></tr>
+            <tr><th scope="row">큰 도형 분기가 한 번도 안 나옴</th><td>작은 경계를 먼저 검사하거나 기준이 난수 최댓값보다 큼</td><td>조건 순서와 <code>randint</code> 범위</td></tr>
+            <tr><th scope="row">작은 도형인데 강조색</th><td>조건에 사용한 난수와 그리기에 사용한 난수가 다름</td><td>난수를 한 번만 뽑아 <code>size</code>에 저장했는지 확인</td></tr>
+            <tr><th scope="row">일부 크기가 어느 분기에도 안 들어감</th><td>서로 떨어진 <code>if</code>만 쓰고 나머지 범위를 처리하지 않음</td><td><code>elif</code>와 <code>else</code>가 전체 범위를 덮는지 확인</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">오류가 없다는 것과 규칙이 맞다는 것은 다르다</p>
+        <p>조건 순서를 잘못 작성해도 Python 문법에는 맞을 수 있으므로 오류 메시지가 나오지 않습니다. 실행되지만 의도와 다른 <strong>논리 오류</strong>는 경계값 39, 40, 59, 60처럼 분기가 바뀌는 숫자를 직접 대입해 확인합니다. 무작위 실행만 여러 번 보면서 추측하는 것보다 경계값 검사가 빠르고 정확합니다.</p>
+      </div>
+
+      <h3 id="after-class-review">수업 후 개별 복습</h3>
+
+      <div class="concept-check-list">
+        <details>
+          <summary>1. size = 45일 때 size &gt;= 60의 자료형과 값은?</summary>
+          <div class="details-motion-content"><p>자료형은 <code>bool</code>이고 값은 <code>False</code>입니다. 비교식은 원래의 정수 45를 바꾸지 않습니다.</p></div>
+        </details>
+        <details>
+          <summary>2. if와 elif 조건이 모두 참일 수 있으면 어느 분기가 실행되는가?</summary>
+          <div class="details-motion-content"><p>위에서부터 확인해 처음 참이 된 분기 하나만 실행됩니다. 그래서 겹치는 크기 조건은 큰 경계를 먼저 적어야 합니다.</p></div>
+        </details>
+        <details>
+          <summary>3. else 뒤에는 왜 비교식을 적지 않는가?</summary>
+          <div class="details-motion-content"><p><code>else</code>는 앞의 모든 조건이 거짓인 나머지 경우 전체를 담당하기 때문입니다. <code>else size &lt; 40:</code>처럼 작성하지 않습니다.</p></div>
+        </details>
+        <details>
+          <summary>4. 조건 검사와 도형 크기에 같은 변수를 써야 하는 이유는?</summary>
+          <div class="details-motion-content"><p>분류한 값과 실제로 그린 값이 같아야 “큰 값은 강조한다”라는 규칙이 화면에서 성립하고, 결과를 다시 추적할 수 있기 때문입니다.</p></div>
+        </details>
+        <details>
+          <summary>5. 크기 대신 위치를 조건으로 사용한다면 어떤 규칙이 가능한가?</summary>
+          <div class="details-motion-content"><p>예를 들어 <code>if x &lt; 300:</code>이면 왼쪽은 차가운 색, <code>else:</code>이면 오른쪽은 따뜻한 색을 사용할 수 있습니다. 선택된 x좌표가 화면의 색상 영역을 결정합니다.</p></div>
+        </details>
+      </div>
+
+      <h2 id="practice-bridge">46-50분 · 3교시 연결: 통제된 우연 포스터 설계하기</h2>
+
+      <p>3교시는 정해진 시간을 모두 채우는 방식이 아니라, 필수 목표를 완성하고 자동 검사와 파일 제출을 통과하면 종료하는 <strong>목표 달성형 개인 실습</strong>으로 이어집니다. 2교시 마지막에는 코드를 완성하지 않고 자신이 사용할 고정층, 변화층, 조건 규칙을 먼저 결정합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>통제된 우연 포스터의 예정 필수 목표</caption>
+          <thead><tr><th scope="col">목표</th><th scope="col">최소 기준</th><th scope="col">2교시에서 결정할 것</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">캔버스와 여백</th><td>600 × 600 RGB, 모든 도형이 안전 영역 안에 배치</td><td>배경색과 여백</td></tr>
+            <tr><th scope="row">색상 후보</th><td>서로 다른 RGB 색상 4개 이상의 리스트</td><td>기본 팔레트와 강조색</td></tr>
+            <tr><th scope="row">재현 가능한 우연</th><td>정수 시드와 <code>randint()</code>, <code>choice()</code> 사용</td><td>최종 결과의 시드번호</td></tr>
+            <tr><th scope="row">충분한 반복</th><td><code>for</code>로 도형 30개 이상 생성</td><td>도형 개수와 크기 범위</td></tr>
+            <tr><th scope="row">조건 규칙</th><td><code>if / elif / else</code>가 색상 또는 형태에 실제 영향</td><td>질문할 값과 분기별 행동</td></tr>
+            <tr><th scope="row">설명 가능성</th><td>고정 요소·변화 요소·조건 결과를 한 문장으로 작성</td><td>생성 규칙 문장</td></tr>
+            <tr><th scope="row">결과 제출</th><td>전체 실행 PASS, PNG와 Colab 노트북</td><td>학번·이름·시드를 포함한 파일명</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 사전 설계 · 3분</span>
+        <h3>한 문장 규칙 카드 완성하기</h3>
+        <ol>
+          <li>고정할 요소 두 개: ________, ________</li>
+          <li>무작위로 선택할 요소 두 개: ________, ________</li>
+          <li>조건 질문: “________이/가 ________인가?”</li>
+          <li>참일 때 행동: ________</li>
+          <li>그 밖의 행동: ________</li>
+          <li>전체 문장: “________은 고정하고, ________을 무작위로 선택하며, ________이면 ________한다.”</li>
+        </ol>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">규칙 카드 완성 예시</summary>
+        <div class="details-motion-content"><p>“600 × 600 캔버스와 네 색 팔레트는 고정하고, 원의 위치와 크기를 무작위로 선택하며, 크기가 60 이상이면 강조색 사각형으로 그린다.” 이 문장에는 고정층, 변화층, 조건, 시각적 행동이 모두 들어 있습니다.</p></div>
+      </details>
+
+      <div class="callout callout-info">
+        <p class="callout-title">이번 시간에 아직 다루지 않는 것</p>
+        <p>사용자 정의 함수와 매개변수는 6주차, 외부 이미지 불러오기와 합성은 7주차에서 다룹니다. 이번 기본 수업에서는 <code>while</code>, 딕셔너리, 리스트 컴프리헨션, 복잡한 확률 분포, 애니메이션을 추가하지 않습니다. 코드가 반복되어 보이더라도 먼저 조건의 실행 원리를 정확히 이해하고, 다음 주에 함수로 정리합니다.</p>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">2교시 핵심 문장</p>
+        <p><strong>난수는 후보를 만들고, 조건문은 그 후보를 분류하여 서로 다른 시각적 행동으로 연결합니다.</strong></p>
+      </div>
+
+      <h2 id="extension">50-60분 · 드문 강조를 만드는 확률 조건</h2>
+
+      <p>확장 시간에는 <code>random.random()</code>을 한 번만 소개합니다. 이 함수는 0.0 이상 1.0 미만의 실수 하나를 만듭니다. 선택된 값이 0.2보다 작은지 비교하면 매 반복에서 약 20%의 가능성으로 강조 분기에 들어가는 규칙을 만들 수 있습니다.</p>
+
+      <pre><code>chance = random.random()
+
+if chance &lt; 0.2:
+    color = accent_color
+else:
+    color = base_color</code></pre>
+
+      <p><code>chance &lt; 0.2</code>의 가능한 구간은 0.0 이상 0.2 미만이며 전체 0.0~1.0 범위의 약 20%입니다. 하지만 원을 10개 그린다고 강조색이 정확히 2개 나온다는 뜻은 아닙니다. 한 번의 짧은 실행에서는 0개나 4개가 나올 수도 있으며, 반복 횟수가 충분히 커질 때 전체 비율이 기준에 가까워지는 경향을 기대합니다.</p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>확률 문턱과 시각적 인상</caption>
+          <thead><tr><th scope="col">조건</th><th scope="col">기대되는 강조 비율</th><th scope="col">시각적 역할</th><th scope="col">보장 여부</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>chance &lt; 0.1</code></th><td>약 10%</td><td>매우 드문 사건 또는 강한 초점</td><td>정확한 개수 보장 안 됨</td></tr>
+            <tr><th scope="row"><code>chance &lt; 0.2</code></th><td>약 20%</td><td>드문 강조와 기본 요소의 대비</td><td>정확한 개수 보장 안 됨</td></tr>
+            <tr><th scope="row"><code>chance &lt; 0.5</code></th><td>약 50%</td><td>두 상태가 비슷한 빈도로 나타남</td><td>정확한 개수 보장 안 됨</td></tr>
+            <tr><th scope="row"><code>chance &lt; 0.9</code></th><td>약 90%</td><td>강조가 기본처럼 자주 나타남</td><td>정확한 개수 보장 안 됨</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption>50-60분 확장 운영</caption>
+          <thead><tr><th scope="col">시간</th><th scope="col">활동</th><th scope="col">남겨야 할 결과</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">50-53분</th><td>0.1, 0.2, 0.5의 구간을 수직선에 표시</td><td>각 조건의 참 구간</td></tr>
+            <tr><th scope="row">53-56분</th><td>도형 10개에서 예상되는 강조 수와 실제 보장 여부 구분</td><td>“기대”와 “보장” 문장</td></tr>
+            <tr><th scope="row">56-59분</th><td>같은 시드로 문턱 0.2와 0.5 결과 비교</td><td>강조 밀도 차이</td></tr>
+            <tr><th scope="row">59-60분</th><td>작품 의도에 맞는 문턱 하나 선택</td><td>선택 이유 한 문장</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">도형 10개와 20% 조건이면 강조는 반드시 2개인가?</summary>
+        <div class="details-motion-content"><p>아닙니다. 각 반복에서 20% 구간에 들어갈 가능성이 있다는 뜻이며 짧은 실행의 실제 개수는 달라질 수 있습니다. 정확히 2개를 반드시 강조해야 한다면 확률 선택이 아니라 강조할 인덱스나 위치를 직접 정하는 다른 규칙이 필요합니다.</p></div>
+      </details>
+
+      <h2 id="references">참고 자료</h2>
+      <ul class="reference-list">
+        <li><a href="https://docs.python.org/3/tutorial/controlflow.html#if-statements" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: if Statements</strong></a><small>0개 이상의 <code>elif</code>와 선택적인 <code>else</code>, 위에서 아래로 이어지는 조건 분기의 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/reference/expressions.html#comparisons" target="_blank" rel="noopener noreferrer"><strong>Python 언어 참조: Comparisons</strong></a><small>비교 연산자의 의미와 비교 결과가 불리언 값을 만드는 방식에 관한 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/library/stdtypes.html#truth-value-testing" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서: Truth Value Testing</strong></a><small><code>True</code>, <code>False</code>와 조건 검사에서 값이 해석되는 방식에 관한 공식 설명</small></li>
+        <li><a href="https://docs.python.org/3/library/random.html" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서: random</strong></a><small>0.0 이상 1.0 미만의 값을 만드는 <code>random()</code>, <code>randint()</code>, <code>seed()</code>의 공식 설명</small></li>
+        <li><a href="https://pillow.readthedocs.io/en/stable/reference/ImageDraw.html" target="_blank" rel="noopener noreferrer"><strong>Pillow 공식 문서: ImageDraw</strong></a><small>조건 분기에서 사용하는 타원·사각형의 경계 상자, 내부색, 윤곽선, 선 굵기에 관한 공식 설명</small></li>
+      </ul>
+    </article>
+
+    <nav class="toc" aria-label="문서 구조">
+      <p class="toc-title">문서 구조</p>
+      <ol>
+        <li class="toc-level-2"><a href="#random-recall">0-5분 · 난수 선택 회상</a></li>
+        <li class="toc-level-2"><a href="#boolean-comparisons">5-16분 · 비교식과 bool</a></li>
+        <li class="toc-level-3"><a href="#assignment-equality">대입과 같음 비교</a></li>
+        <li class="toc-level-3"><a href="#visual-questions">시각적 질문</a></li>
+        <li class="toc-level-2"><a href="#if-else">16-27분 · if와 else</a></li>
+        <li class="toc-level-3"><a href="#conditional-indentation">콜론과 들여쓰기</a></li>
+        <li class="toc-level-2"><a href="#elif-order">27-38분 · elif와 조건 순서</a></li>
+        <li class="toc-level-3"><a href="#range-coverage">조건 범위와 순서</a></li>
+        <li class="toc-level-3"><a href="#reuse-random-value">난수값 재사용</a></li>
+        <li class="toc-level-2"><a href="#full-rule-system">38-46분 · 전체 생성 규칙</a></li>
+        <li class="toc-level-3"><a href="#rule-card">자연어 규칙 카드</a></li>
+        <li class="toc-level-3"><a href="#errors">대표 오류</a></li>
+        <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
+        <li class="toc-level-2"><a href="#practice-bridge">46-50분 · 3교시 연결</a></li>
+        <li class="toc-level-2"><a href="#extension">50-60분 · 확률 조건 확장</a></li>
+        <li class="toc-level-2"><a href="#references">참고 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Contents Programming Practice / Week 05 / Period 02</p>
+  <script src="/assets/details-motion.js" defer></script>
+  <script src="assets/week-05.js?v=week5-1" defer></script>
+</body>
+</html>
