@@ -19,7 +19,6 @@ const week9GeneratedFilenames = [
   "week-09-observation-to-table.png",
   "week-09-dataframe-anatomy.png",
   "week-09-data-reading-card-example.html",
-  "week-09-data-reading-card-example.png",
 ];
 const week9PngFilenames = week9GeneratedFilenames.filter((filename) =>
   filename.endsWith(".png")
@@ -336,8 +335,13 @@ test("Contents Programming week 9 period 3 produces a verified data reading card
     /10열/,
     /답할 수 있는 질문/,
     /아직 답할 수 없는 질문/,
-    /시각화 전에 먼저 읽기/,
+    /시각화 전에 읽기/,
     /<html lang="ko">/,
+    /<span>작성자<\/span><strong>20261234 · 김데이터<\/strong>/,
+    /<h2>결측값<\/h2>/,
+    /<h2>실제 값 읽기<\/h2>/,
+    /인덱스 1 · duration_min = 55/,
+    /두 번째 창작 활동인 코딩을 55분 동안 진행했다는 뜻입니다/,
   ]) {
     assert.match(sampleCard, pattern);
   }
@@ -385,6 +389,10 @@ test("Contents Programming week 9 presentation is localized, responsive, and act
     resolve(courseDirectory, "assets", "week-09-navigation.js"),
     "utf8",
   );
+  const shellGenerator = await readFile(
+    resolve(root, "scripts", "refresh-teaching-navigation.mjs"),
+    "utf8",
+  );
 
   for (const lesson of lessons) {
     assert.match(lesson, /<html lang="ko" class="week-09-page">/);
@@ -401,6 +409,16 @@ test("Contents Programming week 9 presentation is localized, responsive, and act
     assert.doesNotMatch(lesson, /[—–]/);
   }
 
+  assert.match(
+    lessons[0],
+    /class="diagram-mini-row" role="group" aria-label="표에 추가된 한 행"/,
+  );
+  assert.match(
+    lessons[1],
+    /class="anatomy-legend" role="list" aria-label="표 구조 강조 표시 설명"/,
+  );
+  assert.match(lessons[1], /<span role="listitem"><strong>헤더<\/strong>/);
+
   assert.match(week9Styles, /html\.week-09-page\s*\{[^}]*scroll-behavior:\s*auto/s);
   assert.match(week9Styles, /\.week-09[^\n]*h2\[id\][^\n]*h3\[id\]/);
   assert.match(week9Styles, /scroll-margin-top:\s*8[0-9]px/);
@@ -411,11 +429,31 @@ test("Contents Programming week 9 presentation is localized, responsive, and act
   assert.match(week9Styles, /@media \(prefers-color-scheme:\s*dark\)/);
   assert.match(week9Styles, /@media print/);
   assert.match(week9Styles, /details:not\(\[open\]\)\s*>\s*\.details-motion-content/);
+  assert.match(
+    week9Styles,
+    /@media \(hover: none\), \(pointer: coarse\)[\s\S]*?\.toc a\[aria-current="location"\][\s\S]*?background:\s*var\(--accent-soft\)\s*!important[\s\S]*?color:\s*var\(--accent-strong\)\s*!important/,
+  );
+  const quickStartStyles = week9Styles.match(
+    /\/\* Put the first lab action above explanatory material\. \*\/[\s\S]*?@media \(hover: hover\)/,
+  )?.[0];
+  assert.ok(quickStartStyles, "week 9 should define quick-start styles");
+  assert.match(quickStartStyles, /var\(--accent(?:-strong)?\)/);
+  assert.doesNotMatch(quickStartStyles, /var\(--success-ink\)/);
 
   assert.match(week9Navigation, /IntersectionObserver/);
   assert.match(week9Navigation, /aria-current/);
   assert.match(week9Navigation, /matchMedia\("\(max-width: 980px\)"\)/);
+  assert.match(week9Navigation, /function syncTocToViewport\(mediaQuery\)/);
+  assert.doesNotMatch(week9Navigation, /syncTocToViewport\(event\)/);
   assert.doesNotMatch(week9Navigation, /addEventListener\(["']scroll["']/);
+
+  assert.match(
+    shellGenerator,
+    /course === "contents-programming"[\s\S]*?current\.startsWith\("week-09-"\)/,
+  );
+  assert.match(shellGenerator, /navigationLabel:\s*"강의 이동"/);
+  assert.match(shellGenerator, /previousText:\s*"이전"/);
+  assert.match(shellGenerator, /nextText:\s*"다음"/);
 });
 
 test("Contents Programming week 9 declares deterministic asset inputs", async () => {
@@ -434,7 +472,16 @@ test("Contents Programming week 9 declares deterministic asset inputs", async ()
   }
   assert.match(generator, /def make_observation_to_table/);
   assert.match(generator, /def make_dataframe_anatomy/);
-  assert.match(generator, /def make_reading_card/);
+  assert.doesNotMatch(generator, /def make_reading_card/);
+  assert.doesNotMatch(generator, /week-09-data-reading-card-example\.png/);
+  assert.match(generator, /def render_data_reading_card/);
+  assert.match(generator, /inspect\.getsource\(render_data_reading_card\)/);
+  assert.match(generator, /PROVIDED_DATASET_METADATA/);
+  assert.equal(
+    generator.match(/수업용 예시 데이터 - 교수자 제공/g)?.length,
+    1,
+    "provided metadata should have one source of truth",
+  );
   assert.match(generator, /inter-latin-variable\.woff2/);
   assert.match(generator, /def parse_visual_runtime_requirements/);
   assert.match(generator, /--check-runtime/);

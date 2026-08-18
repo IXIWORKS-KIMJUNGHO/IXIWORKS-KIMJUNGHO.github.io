@@ -19,8 +19,8 @@
     }
   }
 
-  function syncTocToViewport(event) {
-    setTocState(!event.matches);
+  function syncTocToViewport(mediaQuery) {
+    setTocState(!mediaQuery.matches);
   }
 
   function setCurrentSection(id) {

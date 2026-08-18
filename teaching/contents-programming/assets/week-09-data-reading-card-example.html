@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>9주차 데이터 읽기 카드 예시</title>
+  <title>창작 활동 기록 · 데이터 읽기 카드</title>
   <meta name="description" content="시각화 전에 데이터의 구조와 맥락, 답할 수 있는 질문과 누락된 정보를 정리한 데이터 읽기 카드 예시입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-09-data-reading-card-example.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -18,25 +18,30 @@
   <meta name="twitter:description" content="시각화 전에 데이터의 구조와 맥락을 읽는 카드 예시입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <style>
-    :root { color-scheme: light dark; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#a6a49a; }
+    :root { color-scheme:light dark; --ink:#1c1f1e; --paper:#f4f1e8; --panel:#fcfaf5; --teal:#25696f; --coral:#a83e32; --line:#a6a49a; }
     * { box-sizing:border-box; }
-    body { margin:0; padding:36px; background:var(--paper); color:var(--ink); font-family:Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
+    body { margin:0; padding:36px; color:var(--ink); background:var(--paper); font-family:Arial,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
     .skip-link { position:absolute; left:12px; top:-80px; padding:10px 14px; color:white; background:var(--ink); z-index:10; }
     .skip-link:focus { top:12px; }
     :where(a,[tabindex]):focus-visible { outline:3px solid var(--teal); outline-offset:3px; }
-    main { max-width:980px; margin:auto; border:3px solid var(--ink); background:var(--panel); padding:38px; }
+    main { max-width:1000px; margin:auto; padding:40px; border:3px solid var(--ink); background:var(--panel); }
     .kicker { color:var(--coral); font-weight:800; letter-spacing:.12em; }
-    h1 { margin:.25rem 0 1rem; font-size:clamp(2rem,6vw,4.6rem); line-height:.95; }
-    .meta { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
-    .meta div { background:var(--panel); padding:18px; }
-    .meta span,.question span { display:block; color:var(--teal); font-size:.78rem; font-weight:800; letter-spacing:.08em; margin-bottom:6px; }
-    .columns { display:flex; flex-wrap:wrap; gap:8px; margin:22px 0; }
-    .columns code { border:1px solid var(--ink); background:var(--panel); color:var(--ink); padding:8px 10px; }
+    h1 { margin:.2rem 0 1.4rem; font-size:clamp(2rem,6vw,4.5rem); line-height:1; }
+    h2 { margin-top:2rem; font-size:1rem; color:var(--teal); letter-spacing:.08em; }
+    .meta { display:grid; grid-template-columns:repeat(2,1fr); border:1px solid var(--line); background:var(--line); gap:1px; }
+    .meta div { padding:16px; background:var(--panel); }
+    .meta span,.question span { display:block; margin-bottom:6px; color:var(--teal); font-size:.76rem; font-weight:800; letter-spacing:.08em; }
+    .columns { display:flex; flex-wrap:wrap; gap:8px; }
+    .columns code { padding:7px 9px; border:1px solid var(--ink); color:var(--ink); background:var(--panel); }
     .questions { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-    .question { border:2px solid var(--ink); padding:20px; min-height:140px; }
+    .question { min-height:160px; padding:20px; border:2px solid var(--teal); }
     .question.missing { border-color:var(--coral); }
-    footer { margin-top:24px; padding-top:16px; border-top:2px solid var(--ink); display:flex; justify-content:space-between; font-weight:800; }
-    @media (max-width:720px) { body{padding:8px} .meta,.questions{grid-template-columns:1fr} main{padding:16px} footer{display:grid;gap:6px} }
+    .question.missing span { color:var(--coral); }
+    .missing-list { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; padding:0; list-style:none; }
+    .missing-list li { display:flex; justify-content:space-between; padding:10px; border:1px solid var(--line); }
+    .evidence { padding:18px; border-left:5px solid var(--teal); background:var(--paper); }
+    footer { display:flex; justify-content:space-between; gap:16px; margin-top:26px; padding-top:16px; border-top:2px solid var(--ink); font-weight:800; }
+    @media (max-width:720px) { body { padding:14px; } main { padding:24px; } .meta,.questions,.missing-list { grid-template-columns:1fr; } footer { display:block; } }
     @media (prefers-color-scheme:dark) { :root{--ink:#edf1ed;--paper:#151917;--panel:#1c211e;--teal:#9bc1cb;--coral:#f2aaa3;--line:#556058} }
   </style>
 </head>
@@ -48,12 +53,16 @@
     <div class="meta">
       <div><span>크기</span><strong>24행 × 10열</strong></div>
       <div><span>관찰 단위</span><strong>한 번의 창작 활동</strong></div>
-      <div><span>기록 기간</span><strong>2026-05-04 - 2026-05-27</strong></div>
-      <div><span>출처</span><strong>교수자가 제공한 수업용 예시</strong></div>
-      <div><span>이용 조건</span><strong>수업 활동 / 제공 자료</strong></div>
-      <div><span>결측값</span><strong>focus_level 2 / mood_after 1</strong></div>
+      <div><span>시간 범위</span><strong>2026-05-04부터 2026-05-27까지</strong></div>
+      <div><span>출처</span><strong>수업용 예시 데이터 - 교수자 제공</strong></div>
+      <div><span>이용 조건</span><strong>수업 목적 사용 허용</strong></div>
+      <div><span>작성자</span><strong>20261234 · 김데이터</strong></div>
     </div>
+    <h2>열</h2>
     <div class="columns"><code>record_id</code><code>date</code><code>activity</code><code>duration_min</code><code>focus_level</code><code>mood_before</code><code>mood_after</code><code>location_type</code><code>used_reference</code><code>note</code></div>
+    <h2>결측값</h2>
+    <ul class="missing-list"><li><code>focus_level</code><strong>2</strong></li><li><code>mood_after</code><strong>1</strong></li></ul>
+    <h2>질문과 한계</h2>
     <div class="questions"><div class="question">
         <span>답할 수 있는 질문</span>
         <strong>활동 종류에 따라 평균 작업 시간은 어떻게 다른가?</strong>
@@ -64,7 +73,9 @@
         <strong>다른 사람과 함께한 활동은 무엇인가?</strong>
         <p>함께한 사람을 기록한 열이 없습니다.</p>
       </div></div>
-    <footer><span>시각화 전에 먼저 읽기</span><span>구조 → 맥락 → 질문</span></footer>
+    <h2>실제 값 읽기</h2>
+    <p class="evidence"><strong>인덱스 1 · duration_min = 55</strong><br>두 번째 창작 활동인 코딩을 55분 동안 진행했다는 뜻입니다.</p>
+    <footer><span>시각화 전에 읽기</span><span>구조 → 맥락 → 질문</span></footer>
   </main>
 </body>
 </html>

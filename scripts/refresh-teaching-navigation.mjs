@@ -135,8 +135,26 @@ function removeLegacyDocumentHeader(html) {
     .replace(/\s*<header class="site-header">[\s\S]*?<\/header>\s*/i, "\n");
 }
 
+function lessonNavigationCopy(course, current) {
+  const usesKoreanWeek9Copy =
+    course === "contents-programming" && current.startsWith("week-09-");
+
+  return usesKoreanWeek9Copy
+    ? {
+        navigationLabel: "강의 이동",
+        previousText: "이전",
+        nextText: "다음",
+      }
+    : {
+        navigationLabel: "Course",
+        previousText: "Previous",
+        nextText: "Next",
+      };
+}
+
 function lessonHeader(course, current, previous, next, titles) {
   const config = courses[course];
+  const copy = lessonNavigationCopy(course, current);
   const titleFor = (name) => {
     const title = titles.get(name) ?? name;
     return config.detailDocuments?.has(current)
@@ -144,14 +162,14 @@ function lessonHeader(course, current, previous, next, titles) {
       : title;
   };
   const previousLink = previous
-    ? `<a href="${previous}" rel="prev" aria-label="이전 자료: ${escapeAttribute(titleFor(previous))}">← <span class="sequence-label">Previous</span></a>`
+    ? `<a href="${previous}" rel="prev" aria-label="이전 자료: ${escapeAttribute(titleFor(previous))}">← <span class="sequence-label">${copy.previousText}</span></a>`
     : "";
   const nextLink = next
-    ? `<a href="${next}" rel="next" aria-label="다음 자료: ${escapeAttribute(titleFor(next))}"><span class="sequence-label">Next</span> →</a>`
+    ? `<a href="${next}" rel="next" aria-label="다음 자료: ${escapeAttribute(titleFor(next))}"><span class="sequence-label">${copy.nextText}</span> →</a>`
     : "";
 
   return `  <header class="lesson-header" data-teaching-shell="v1">
-    <nav class="lesson-header-inner" aria-label="Course">
+    <nav class="lesson-header-inner" aria-label="${copy.navigationLabel}">
       <div class="lesson-breadcrumb">
         <a class="lesson-home" href="/">Kim Jungho</a>
         <span aria-hidden="true">/</span>
