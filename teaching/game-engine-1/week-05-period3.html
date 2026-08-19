@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-five-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 3교시: 상호작용 가능한 1분 레벨 | Game Engine I</title>
+  <meta name="description" content="학생이 목표와 통과 조건을 바탕으로 Tilemap, Trigger, Layer, Prefab을 연결해 수집물 세 개, 위험 구역 두 개, 목표 하나가 작동하는 1분 레벨을 만들고 8개 테스트로 검증하는 Game Engine I 5주차 3교시 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-05-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="5주차 3교시: 상호작용 가능한 1분 레벨 | Game Engine I">
+  <meta property="og:description" content="수집물 세 개, 위험 구역 두 개와 조건부 목표 하나를 직접 설계하고 여덟 테스트로 작동을 증명합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-05-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-05-period3-interaction-mission.webp">
+  <meta property="og:image:alt" content="주황색 플레이어가 수집물 세 개와 위험 구역 두 개를 지나 목표 문과 여덟 검증 지점으로 향하는 입체 미션 장면">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5주차 3교시: 상호작용 가능한 1분 레벨">
+  <meta name="twitter:description" content="방법은 스스로 정하고, 수집, 위험, 목표 시스템의 완료를 8 / 8 PASS로 증명합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-05-period3-interaction-mission.webp">
+  <link rel="preload" as="image" href="assets/week-05-period3-interaction-mission.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-05.css?v=ge1w5-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-five week-five-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-05-period2.html" rel="prev" aria-label="이전 자료: 5주차 2교시: Tilemap 위에 상호작용 시스템 세우기 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+
+      </div>
+    </nav>
+  </header>
+<header class="hero week-five-hero">
+    <div class="hero-inner">
+      <div class="week-five-hero-copy">
+        <p class="eyebrow">5주차 3교시 / 개인 목표지향 실습</p>
+        <h1>상호작용 가능한<br>1분 레벨</h1>
+        <p class="lead">목표와 수량, 통과 조건은 고정되어 있습니다. 공간의 형태와 구현 순서는 스스로 결정하고, 플레이 가능한 결과와 여덟 테스트로 작동을 증명합니다.</p>
+        <div class="week-five-hero-actions" aria-label="주요 위치로 이동">
+          <a class="week-five-hero-action week-five-hero-action-primary" href="#mission">미션 계약 읽기</a>
+          <a class="week-five-hero-action" href="#tests">8개 테스트 열기</a>
+        </div>
+      </div>
+      <figure class="week-five-hero-visual">
+        <img src="assets/week-05-period3-interaction-mission.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="주황색 플레이어가 청록색 경로를 따라 초록색 수집물 세 개와 붉은 위험 구역 두 개를 지나 목표 문으로 향하고, 아래쪽 검증 표시 여덟 개가 켜진 입체 레벨 장면">
+        <figcaption><span>분명한 완료 조건</span> 정확히 3개의 수집물, 2개의 위험 구역, 1개의 목표와 8개의 검증 조건을 완성합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="week-five-arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">3교시의 도착점</h2>
+          <p>교수자의 완성 화면을 재현하지 않습니다. 같은 시스템 계약 안에서 각자의 경로를 만들고, 다른 사람이 반복할 수 있는 조건으로 결과를 검증합니다.</p>
+        </div>
+        <ul class="week-five-lesson-facts" aria-label="3교시 핵심 정보">
+          <li><span>형식</span><strong>개인 목표지향 실습</strong></li>
+          <li><span>성공 조건</span><strong>필수 8 / 8 PASS</strong></li>
+          <li><span>레벨 구성</span><strong>Collect 3 / Hazard 2 / Goal 1</strong></li>
+        </ul>
+        <ul class="arrival-list">
+          <li><span>01</span><p>Ground와 Collision Tilemap으로 <strong>30-60초 분량의 짧은 경로</strong>를 설계합니다.</p></li>
+          <li><span>02</span><p>하나의 Prefab 원본에서 만든 <strong>수집물 3개와 위험 구역 2개</strong>를 배치합니다.</p></li>
+          <li><span>03</span><p>수집물 세 개를 모두 얻기 전에는 닫히고 이후에는 성공하는 <strong>Goal 1개</strong>를 연결합니다.</p></li>
+          <li><span>04</span><p>필수 테스트 <strong>8개를 모두 PASS</strong>하고 CSV, 영상, 설명으로 근거를 남깁니다.</p></li>
+        </ul>
+
+        <ol class="session-track" aria-label="3교시 60분 권장 중간 도착점">
+          <li><time>00-05</time><strong>계약 해석</strong><p>고정된 수량, 금지 조건과 제출 증거를 읽고 먼저 해결할 두 항목을 정합니다.</p></li>
+          <li><time>05-20</time><strong>최소 사건</strong><p>수집물 하나가 PlayerProgress를 정확히 한 번 바꾸는 상태를 만듭니다.</p></li>
+          <li><time>20-38</time><strong>공간과 시스템</strong><p>두 Tilemap, Layer Matrix와 세 종류의 Interaction을 하나의 Scene에 연결합니다.</p></li>
+          <li><time>38-48</time><strong>전체 경로</strong><p>정확한 수량을 배치하고 시작에서 목표까지 플레이 흐름을 조정합니다.</p></li>
+          <li><time>48-56</time><strong>검증과 수정</strong><p>T01-T08을 실행하고 FAIL이 생긴 층에서 한 가지 원인만 바꿉니다.</p></li>
+          <li><time>56-60</time><strong>증거 저장</strong><p>8 / 8 PASS, Error 0, 영상과 제출 파일 이름을 마지막으로 확인합니다.</p></li>
+        </ol>
+      </section>
+
+      <aside class="scope-line" aria-label="3교시 운영 방식">
+        <div><span>수업 방식</span><strong>학생 개인 실습</strong></div>
+        <p>교수자는 목표 확인, 질문 되묻기와 실패 범위 좁히기만 지원합니다. 학생은 공간 설계, 구현 순서, 테스트와 수정 기록을 직접 결정합니다.</p>
+      </aside>
+
+      <section class="week-five-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <h2 id="mission-title">목표는 고정하고 경로와 순서는 선택합니다</h2>
+          <p>아래 계약은 모두 충족해야 합니다. Trigger 하나부터 증명할지, 공간의 외곽을 먼저 만들지, Prefab 원본을 먼저 정리할지는 각자 선택합니다.</p>
+        </header>
+
+        <div class="mission-contract">
+          <div class="mission-contract-main">
+            <span>MISSION / WEEK05_MICROLEVEL</span>
+            <strong>60분 안에 수집물 세 개와 위험 구역 두 개를 통과해 조건부 목표에 도달하는 짧은 2D 레벨을 완성합니다.</strong>
+            <p>완료 여부는 겉모습이 아니라 필수 T01-T08의 재현 가능한 결과로 판단합니다.</p>
+          </div>
+          <dl class="mission-facts">
+            <div><dt>Scene</dt><dd>Week05_MicroLevel</dd></div>
+            <div><dt>Play length</dt><dd>30-60초</dd></div>
+            <div><dt>Interactions</dt><dd>3 + 2 + 1</dd></div>
+            <div><dt>Gate</dt><dd>8 / 8 PASS</dd></div>
+          </dl>
+        </div>
+
+        <div class="requirement-grid">
+          <article><span>필수 / Player</span><h3>4주차 이동 보존</h3><p>WASD와 방향키 이동, 정지와 Wall 충돌이 계속 작동합니다. Player Tag와 PlayerProgress를 같은 Player에 둡니다.</p></article>
+          <article><span>필수 / Space</span><h3>두 Tilemap 분리</h3><p>Ground는 화면 표시를, Collision은 Tilemap Collider 2D를 통한 물리 벽을 담당합니다. 책임이 Hierarchy 이름으로 보입니다.</p></article>
+          <article><span>필수 / Collect</span><h3>수집물 정확히 3개</h3><p>하나의 PF_Collectible 원본에서 세 Instance를 만듭니다. 각 Instance는 한 번만 개수를 올리고 사라집니다.</p></article>
+          <article><span>필수 / Hazard</span><h3>위험 구역 정확히 2개</h3><p>하나의 PF_HazardZone 원본에서 두 Instance를 만듭니다. 접촉하면 시작 위치로 돌아가되 수집 개수는 유지합니다.</p></article>
+          <article><span>필수 / Goal</span><h3>조건부 목표 정확히 1개</h3><p>3개를 모으기 전에는 완료를 거절하고, 3개를 모두 모은 뒤 다시 들어가면 성공을 Console에 기록합니다.</p></article>
+          <article><span>필수 / Filter</span><h3>필요한 접촉만 허용</h3><p>Player와 Environment, Player와 Interaction은 켜고 불필요한 Layer 조합은 끕니다. 모든 Trigger는 Is Trigger를 사용합니다.</p></article>
+          <article><span>필수 / Route</span><h3>선택이 있는 짧은 경로</h3><p>시작과 Goal이 구분되고, 세 수집물을 얻는 동안 적어도 한 번 위험을 피하거나 우회해야 합니다.</p></article>
+          <article><span>필수 / Evidence</span><h3>재현 가능한 검증</h3><p>Console Error 0, 테스트 8 / 8 PASS와 45-60초 화면 영상을 남겨 다른 사람이 같은 결과를 확인하게 합니다.</p></article>
+        </div>
+
+        <div class="pass-gate" aria-label="미션의 핵심 수량 조건">
+          <article><span>03</span><strong>Collectibles</strong><p>하나의 Prefab, 정확히 세 Instance, 각각 한 번만 수집</p></article>
+          <article><span>02</span><strong>Hazard zones</strong><p>하나의 Prefab, 정확히 두 Instance, 위치만 초기화</p></article>
+          <article><span>01</span><strong>Goal zone</strong><p>세 개를 모두 모았을 때만 완료를 허용</p></article>
+          <article><span>08</span><strong>Required tests</strong><p>T01부터 T08까지 모두 PASS, Console Error 0</p></article>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="starter" aria-labelledby="starter-title">
+        <header class="section-heading">
+          <h2 id="starter-title">작동하는 4주차 결과에서 출발합니다</h2>
+          <p>이동을 다시 만드는 실습이 아닙니다. 4주차 테스트를 통과한 Player를 보존하고, 별도 Scene에 이번 주의 공간과 사건만 추가합니다.</p>
+        </header>
+
+        <div class="starter-pack">
+          <div>
+            <p class="support-heading">컴파일되는 스크립트 뼈대 4개</p>
+            <h3>TODO Script 묶음</h3>
+            <p>네 파일은 class와 event function의 외곽만 갖고 있어 오류 없이 컴파일됩니다. TODO 주석을 계약으로 읽고 2교시의 전체 흐름을 참고해 행동을 직접 완성합니다.</p>
+            <ul>
+              <li><code>PlayerProgress.cs</code>: 수집 개수, 필요 개수, 시작 위치</li>
+              <li><code>Collectible.cs</code>: 한 번의 수집 보고</li>
+              <li><code>HazardZone.cs</code>: Player 위치 초기화</li>
+              <li><code>GoalZone.cs</code>: 완료 조건 확인</li>
+            </ul>
+          </div>
+          <a class="starter-download" href="assets/week-05-interaction-starter.zip" download>
+            <span>ZIP 내려받기</span>
+            <strong>Week 05 interaction starter ↓</strong>
+          </a>
+        </div>
+
+        <div class="constraint-grid">
+          <article data-state="required"><span>USE</span><h3>한 상태 소유자</h3><p>PlayerProgress 하나만 수집 개수와 시작 위치를 관리합니다. Trigger Script끼리 서로의 field를 직접 바꾸지 않습니다.</p></article>
+          <article data-state="required"><span>USE</span><h3>2D 물리만 사용</h3><p>Collider2D, Rigidbody2D와 2D callback을 사용합니다. 3D Collider나 OnTriggerEnter와 섞지 않습니다.</p></article>
+          <article data-state="forbidden"><span>금지</span><h3>일회성 사건을 반복하지 않기</h3><p>Interaction Script에서 Update나 OnTriggerStay2D로 수집, 리셋, 완료를 반복 처리하지 않습니다.</p></article>
+          <article data-state="forbidden"><span>DO NOT</span><h3>범위를 장식으로 넓히지 않기</h3><p>UI, 점수 화면, 효과음과 Animation은 이번 완료 조건이 아닙니다. 먼저 8개 동작 증거를 완성합니다.</p></article>
+        </div>
+
+        <div class="callout callout-info">
+          <p class="callout-title">권장 시작 상태</p>
+          <p><code>Week04_InputPhysics</code>를 별도 Scene <code>Week05_MicroLevel</code>로 보존하고, Error 0과 4주차 이동, 충돌을 한 번 확인합니다. 바닥과 벽은 2교시 시연용 Tile Palette 또는 단순한 Tile Asset을 사용해도 됩니다. 미술 완성도는 평가하지 않습니다.</p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="route" aria-labelledby="route-title">
+        <header class="section-heading">
+          <h2 id="route-title">중간 도착점만 확인하고 순서는 스스로 고릅니다</h2>
+          <p>아래 항목은 클릭 절차가 아닙니다. 각 문장이 실제 Scene에서 참인지 확인하고, 막힌 항목이 있으면 그 책임을 가진 Layer, Prefab, Script로 돌아갑니다.</p>
+        </header>
+
+        <div class="system-stack" aria-label="학생이 확인할 여섯 중간 도착점">
+          <div class="system-layer"><span>EVENT / ONE</span><strong>최소 사건</strong><p>수집물 하나와 Player가 겹치면 Console의 개수가 정확히 1 증가하고 수집물은 사라집니다.</p></div>
+          <div class="system-layer"><span>SPACE / TWO</span><strong>분리된 공간</strong><p>Ground Tilemap은 지나갈 수 있고 Collision Tilemap의 벽은 Player를 막습니다.</p></div>
+          <div class="system-layer"><span>REUSE / THREE</span><strong>Prefab 반복</strong><p>세 Collectible과 두 Hazard가 각각 하나의 Prefab Asset에 연결되어 있습니다.</p></div>
+          <div class="system-layer"><span>STATE / FOUR</span><strong>공유 상태</strong><p>Hazard 뒤에도 수집 개수는 유지되고 Goal은 같은 PlayerProgress에 완료 여부를 묻습니다.</p></div>
+          <div class="system-layer"><span>LEVEL / FIVE</span><strong>읽히는 경로</strong><p>시작에서 세 수집물을 거쳐 Goal까지 이동할 수 있고, 위험 구역을 피할 공간이 있습니다.</p></div>
+          <div class="system-layer"><span>증거</span><strong>재현 가능한 결과</strong><p>다른 사람이 T01-T08을 같은 조건으로 실행해도 같은 PASS 결과를 얻습니다.</p></div>
+        </div>
+
+        <div class="callout callout-success">
+          <p class="callout-title">가장 작은 작동 단위부터 증명해도 좋습니다</p>
+          <p>완성된 맵을 먼저 만들 필요는 없습니다. 수집물 하나가 정확히 한 번 작동하는 작은 상태를 얻으면, 그 원본을 반복하고 Hazard와 Goal을 연결할 수 있습니다. 단, 어떤 순서를 택할지는 학생이 결정합니다.</p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading">
+          <h2 id="tests-title">필수 테스트 8개로 완료를 증명합니다</h2>
+          <p>각 행의 조건을 정확히 만든 뒤 기대 결과와 실제 결과를 비교합니다. FAIL을 숨기지 말고 첫 현상과 바꾼 한 가지를 기록해야 수정 과정도 증거가 됩니다.</p>
+        </header>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">PASS 규칙</p>
+          <p>필수 T01-T08이 모두 PASS이고 Play 전후 Console Error가 0개여야 완료입니다. 추측으로 PASS를 고르지 말고 Game View, Hierarchy, Inspector 또는 Console에서 관찰한 근거를 메모합니다.</p>
+        </div>
+
+        <div class="test-panel">
+          <div class="test-identity">
+            <label>학번<input type="text" inputmode="numeric" autocomplete="off" placeholder="20260000" data-student-id></label>
+            <label>이름<input type="text" autocomplete="off" placeholder="이름" data-student-name></label>
+            <p class="test-identity-note">학번과 이름은 현재 탭에서만 유지되며, 탭을 닫으면 사라집니다.</p>
+          </div>
+          <div class="test-table-wrap" role="region" aria-label="5주차 상호작용 레벨 필수 테스트표" tabindex="0">
+            <table class="test-table" data-test-table data-storage-key="game-engine-1-week-05-tests-v1">
+              <thead><tr><th scope="col">ID</th><th scope="col">조작과 조건</th><th scope="col">기대 결과</th><th scope="col">판정</th><th scope="col">관찰과 수정 기록</th></tr></thead>
+              <tbody>
+                <tr data-test-id="T01" data-required="true"><th scope="row">T01</th><td>Scene을 열고 Play 시작</td><td><code>Week05_MicroLevel</code>이 실행되고 Console Error가 0개</td><td><select data-test-status aria-label="T01 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T01 관찰 기록" placeholder="Scene과 Console 상태"></td></tr>
+                <tr data-test-id="T02" data-required="true"><th scope="row">T02</th><td>Player를 Ground와 벽 쪽으로 각각 이동</td><td>Ground는 통과하고 Collision Tilemap의 벽은 통과하지 않음</td><td><select data-test-status aria-label="T02 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T02 관찰 기록" placeholder="바닥과 벽의 차이"></td></tr>
+                <tr data-test-id="T03" data-required="true"><th scope="row">T03</th><td>Hierarchy, Inspector와 Layer Matrix 확인</td><td>Ground, Collision, Interactions가 분리되고 필요한 두 Layer 조합만 접촉</td><td><select data-test-status aria-label="T03 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T03 관찰 기록" placeholder="Layer와 Component 근거"></td></tr>
+                <tr data-test-id="T04" data-required="true"><th scope="row">T04</th><td>세 Collectible Instance를 차례로 통과</td><td>Console 개수가 1 / 3, 2 / 3, 3 / 3으로 증가하고 각 수집물이 사라짐</td><td><select data-test-status aria-label="T04 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T04 관찰 기록" placeholder="세 변화 순서"></td></tr>
+                <tr data-test-id="T05" data-required="true"><th scope="row">T05</th><td>첫 Collectible 경계에 들어간 뒤 그 자리에 잠시 머묾</td><td>해당 Collectible이 개수를 한 번만 올리고 중복 수집되지 않음</td><td><select data-test-status aria-label="T05 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T05 관찰 기록" placeholder="증가 횟수와 방어선"></td></tr>
+                <tr data-test-id="T06" data-required="true"><th scope="row">T06</th><td>Collectible 하나를 얻은 뒤 두 Hazard를 각각 접촉</td><td>두 구역 모두 Player의 속도를 멈추고 시작점으로 보내며 수집 개수 1은 유지</td><td><select data-test-status aria-label="T06 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T06 관찰 기록" placeholder="속도, 위치와 상태 변화"></td></tr>
+                <tr data-test-id="T07" data-required="true"><th scope="row">T07</th><td>수집물 0-2개 상태에서 Goal 접촉</td><td>완료되지 않고 남은 수집물이 있다는 결과가 Console에 기록됨</td><td><select data-test-status aria-label="T07 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T07 관찰 기록" placeholder="거절 상태와 메시지"></td></tr>
+                <tr data-test-id="T08" data-required="true"><th scope="row">T08</th><td>새 Play에서 세 개를 모아 Goal까지 전체 경로 실행</td><td>30-60초 안에 완료 메시지가 나오고 전체 플레이 중 Error가 0개</td><td><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T08 관찰 기록" placeholder="시간과 완료 근거"></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="test-actions">
+            <strong class="test-progress" data-test-progress role="status" aria-live="polite" aria-atomic="true">0 / 8 PASS</strong>
+            <div class="test-buttons">
+              <button class="test-button test-button-primary" type="button" data-export-tests>CSV 저장</button>
+              <button class="test-button" type="button" data-reset-tests>기록 초기화</button>
+            </div>
+          </div>
+          <p class="test-status-message" data-test-status-message aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="debug" aria-labelledby="debug-title">
+        <header class="section-heading">
+          <h2 id="debug-title">FAIL은 사건이 멈춘 가장 가까운 층에서 찾습니다</h2>
+          <p>한 번에 여러 설정과 코드를 바꾸면 어떤 변화가 해결했는지 알 수 없습니다. 화면에 나타난 첫 현상을 고르고, 해당 층의 한 조건만 확인합니다.</p>
+        </header>
+
+        <div class="debug-protocol">
+          <h3 class="support-heading">관찰하고, 위치를 찾고, 하나만 바꾼 뒤 다시 검사합니다</h3>
+          <ol>
+            <li><strong>화면부터 기록</strong><p>막힘, 통과, 사라짐, 위치 초기화, Console 수치 중 실제로 본 첫 현상을 씁니다.</p></li>
+            <li><strong>책임 층 선택</strong><p>그림은 Tilemap Renderer, 막힘은 Collider, 사건은 Trigger, 상대 확인은 Tag, 상태는 Script에서 찾습니다.</p></li>
+            <li><strong>한 조건만 변경</strong><p>Collider 형상, Is Trigger, Layer, Tag, Component, 코드 중 하나를 고쳐 원인과 결과를 연결합니다.</p></li>
+            <li><strong>같은 테스트 반복</strong><p>새 기능으로 넘어가기 전에 실패했던 조작과 조건을 그대로 다시 실행합니다.</p></li>
+          </ol>
+        </div>
+
+        <div class="hint-ladder">
+          <details>
+            <summary><span>Hint 01 / Event absent</span><strong>Player가 수집물을 통과하지만 아무 일도 일어나지 않습니다</strong></summary>
+            <div><p>두 GameObject의 Collider2D, Player의 Rigidbody2D, Collectible의 Is Trigger, Player와 Interaction Matrix를 순서대로 확인합니다. callback 안의 Debug.Log를 첫 줄에 잠시 두면 물리 사건과 코드 조건을 나눌 수 있습니다.</p></div>
+          </details>
+          <details>
+            <summary><span>Hint 02 / Early return</span><strong>callback은 오지만 수집 개수가 바뀌지 않습니다</strong></summary>
+            <div><p><code>other.CompareTag("Player")</code>와 <code>other.TryGetComponent(out PlayerProgress progress)</code> 중 어느 조건에서 return되는지 확인합니다. Player Tag와 PlayerProgress가 Collider와 같은 GameObject에 있어야 현재 코드가 찾을 수 있습니다.</p></div>
+          </details>
+          <details>
+            <summary><span>Hint 03 / Duplicate count</span><strong>수집 개수가 한 번에 여러 번 증가합니다</strong></summary>
+            <div><p>일회성 사건이 <code>OnTriggerEnter2D</code>에 있는지, <code>collected</code>를 true로 바꾸는 시점이 AddCollectible보다 늦지 않은지 확인합니다. Player에 같은 Collectible 처리 Script가 중복으로 붙지 않았는지도 봅니다.</p></div>
+          </details>
+          <details>
+            <summary><span>Hint 04 / Hazard state</span><strong>위험 구역 뒤 수집 진행까지 사라집니다</strong></summary>
+            <div><p>ResetToStart가 위치만 바꾸는지 확인합니다. collectedCount를 0으로 바꾸거나 Scene을 다시 불러오면 이번 계약의 “진행 유지” 조건과 달라집니다.</p></div>
+          </details>
+          <details>
+            <summary><span>Hint 05 / Goal always open</span><strong>Goal이 수집 개수와 관계없이 완료됩니다</strong></summary>
+            <div><p>완료 로그가 <code>HasAllCollectibles()</code>의 false 분기 뒤에 있는지 확인합니다. requiredCollectibles가 Inspector에서 3인지, Player가 수집한 바로 그 PlayerProgress를 Goal이 읽는지도 확인합니다.</p></div>
+          </details>
+        </div>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">AI 사용 범위</p>
+          <p>Ask로 오류 문구, 공식 문서와 자신이 작성한 코드의 의미를 설명받을 수 있습니다. 코드 생성과 자동 수정, Agent 실행과 Generator 사용은 이번 개인 실습에서 허용하지 않습니다. 질문에는 먼저 자신의 예측과 확인한 조건을 포함합니다.</p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="submission" aria-labelledby="submission-title">
+        <header class="section-heading">
+          <h2 id="submission-title">작동 결과와 판단 근거를 함께 제출합니다</h2>
+          <p>Scene만 제출하면 우연히 작동한 결과와 이해한 설계를 구분하기 어렵습니다. 프로젝트, 실행 증거, 테스트 기록과 짧은 설명을 하나의 묶음으로 제출합니다.</p>
+        </header>
+
+        <div class="submission-grid">
+          <article><span>01 / PROJECT</span><h3>Unity 프로젝트</h3><p><code>Assets</code>, <code>Packages</code>, <code>ProjectSettings</code>를 포함합니다. <code>Library</code>, <code>Temp</code>, <code>Logs</code>, <code>Obj</code>는 제외합니다.</p></article>
+          <article><span>02 / SCENE</span><h3>Week05_MicroLevel</h3><p>Player, Grid 아래 두 Tilemap, Interactions 아래 3 / 2 / 1 Instance와 Prefab Asset 연결이 보존되어야 합니다.</p></article>
+          <article><span>03 / VIDEO</span><h3>45-60초 화면 기록</h3><p>세 수집, 위험 접촉 한 번, 수집 전 Goal 거절과 최종 성공이 한 흐름 안에 보이게 녹화합니다.</p></article>
+          <article><span>04 / TEST</span><h3>CSV 검증표</h3><p>이 페이지에서 학번과 이름, T01-T08 판정과 관찰 근거를 입력하고 CSV 저장 버튼으로 내려받습니다.</p></article>
+          <article><span>05 / EXPLANATION</span><h3>정확한 여섯 문장</h3><p>Layer 분리, Trigger 조건, Prefab 반복, 상태 소유자, FAIL 한 건, 최종 수정의 이유를 한 문장씩 씁니다.</p></article>
+          <article><span>06 / FILENAME</span><h3>식별 가능한 묶음</h3><p><code>GE1_W05_학번_이름.zip</code>, <code>GE1_W05_학번_이름.mp4</code>와 페이지에서 만든 CSV를 같은 제출 항목에 올립니다.</p></article>
+        </div>
+
+        <div data-build-checklist data-storage-key="game-engine-1-week-05-build-v1">
+          <ul class="build-checklist">
+            <li class="build-check"><input id="w5-check-01" type="checkbox" data-check-id="scene"><label for="w5-check-01">별도 Scene 이름이 <code>Week05_MicroLevel</code>입니다.<p>4주차 결과를 덮어쓰지 않고 이동과 충돌이 유지됩니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-02" type="checkbox" data-check-id="tilemaps"><label for="w5-check-02">Ground와 Collision Tilemap의 책임이 분리되어 있습니다.<p>Collider는 막아야 하는 Collision 쪽에만 있습니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-03" type="checkbox" data-check-id="collectibles"><label for="w5-check-03">하나의 Collectible Prefab에서 정확히 세 Instance를 만들었습니다.<p>각 수집물은 개수를 한 번만 올리고 사라집니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-04" type="checkbox" data-check-id="hazards"><label for="w5-check-04">하나의 Hazard Prefab에서 정확히 두 Instance를 만들었습니다.<p>둘 다 속도와 물리 위치를 초기화하고 진행 상태는 유지합니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-05" type="checkbox" data-check-id="goal"><label for="w5-check-05">Goal 하나가 3개 전에는 거절하고 3개 뒤에는 성공합니다.<p>같은 PlayerProgress의 완료 조건을 읽습니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-06" type="checkbox" data-check-id="layers"><label for="w5-check-06">Tag, Layer와 Layer Collision Matrix를 확인했습니다.<p>Player에게 필요한 접촉만 callback까지 도달합니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-07" type="checkbox" data-check-id="tests"><label for="w5-check-07">T01-T08이 모두 PASS이고 Console Error가 0개입니다.<p>각 행에 관찰 또는 수정 근거가 남아 있습니다.</p></label></li>
+            <li class="build-check"><input id="w5-check-08" type="checkbox" data-check-id="evidence"><label for="w5-check-08">프로젝트, 영상, CSV와 여섯 문장 설명을 준비했습니다.<p>제출 파일에 학번과 이름이 포함되어 있습니다.</p></label></li>
+          </ul>
+          <div class="checklist-progress"><span data-build-progress-label role="status" aria-live="polite" aria-atomic="true">0 / 8 완료</span><button class="checklist-reset" type="button" data-build-reset>체크 초기화</button></div>
+          <p class="checklist-status-message" data-build-status-message aria-live="polite"></p>
+        </div>
+
+        <div class="callout callout-success">
+          <p class="callout-title">제출 전 마지막 설명</p>
+          <p>“Player와 Interaction Layer가 만나고, Trigger callback이 PlayerProgress를 찾아 상태를 바꾸며, Goal은 그 상태에 완료 조건을 묻는다”를 자신의 Scene을 가리키며 코드 없이 말할 수 있으면 이번 주의 구조를 이해한 것입니다.</p>
+        </div>
+
+        <aside class="next-lesson">
+          <span>6주차 예고</span>
+          <div><h3><a href="./#week-06">다음에는 상태 변화가 화면의 움직임으로 보이게 만듭니다 →</a></h3><p>Sprite Sheet와 Animation Clip, Animator 상태를 연결해 입력과 게임 상태에 맞는 시각적 피드백을 구성합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-five-section" id="sources" aria-labelledby="sources-title">
+        <header class="section-heading">
+          <h2 id="sources-title">실습 중 확인할 Unity 6.3 공식 문서</h2>
+          <p>기억에 의존해 Component를 무작정 바꾸지 않습니다. 막힌 책임에 해당하는 문서에서 조건과 API 형태를 확인합니다.</p>
+        </header>
+        <div class="source-grid">
+          <article class="source-card"><span class="source-label">Trigger</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.OnTriggerEnter2D.html" target="_blank" rel="noopener noreferrer">OnTriggerEnter2D ↗</a></h3><p>2D Trigger callback의 함수 형태, other parameter와 Rigidbody2D 조건</p></article>
+          <article class="source-card"><span class="source-label">Tilemap</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/tilemaps.html" target="_blank" rel="noopener noreferrer">Introduction to Tilemaps ↗</a></h3><p>Grid와 Tilemap을 사용해 셀 단위 2D 레벨을 만드는 기본 구조</p></article>
+          <article class="source-card"><span class="source-label">Collider</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/work-with-tilemaps/tilemap-collider-2d.html" target="_blank" rel="noopener noreferrer">Tilemap Collider 2D ↗</a></h3><p>Tile의 Collider Type이 물리 형상으로 변환되는 방식</p></article>
+          <article class="source-card"><span class="source-label">Prefab</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Prefabs.html" target="_blank" rel="noopener noreferrer">Prefabs ↗</a></h3><p>같은 Component와 property를 가진 GameObject 구성을 원본과 Instance로 재사용하는 기능</p></article>
+          <article class="source-card"><span class="source-label">Filter</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/class-Physics2DSettings.html#LayerCollisionMatrix" target="_blank" rel="noopener noreferrer">Layer Collision Matrix ↗</a></h3><p>Layer 조합별 접촉 계산을 허용하거나 제외하는 Project 설정</p></article>
+          <article class="source-card"><span class="source-label">Identity</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.CompareTag.html" target="_blank" rel="noopener noreferrer">Component.CompareTag ↗</a></h3><p>callback에 들어온 Collider2D가 속한 GameObject의 Tag를 확인하는 API</p></article>
+        </div>
+      </section>
+    </article>
+
+    <nav class="toc" aria-label="3교시 목차" data-week-five-toc>
+      <p class="toc-title">3교시 목차</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location">오늘의 도착점</a></li>
+        <li><a href="#mission">미션 계약</a></li>
+        <li><a href="#starter">시작 자료</a></li>
+        <li><a href="#route">자율 경로</a></li>
+        <li><a href="#tests">8개 검증</a></li>
+        <li><a href="#debug">오류 좁히기</a></li>
+        <li><a href="#submission">과제 2 제출</a></li>
+        <li><a href="#sources">공식 문서</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / 5주차 / 3교시</p>
+  <script src="assets/week-05.js?v=ge1w5-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

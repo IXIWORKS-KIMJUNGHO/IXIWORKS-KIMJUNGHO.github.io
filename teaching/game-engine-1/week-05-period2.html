@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-five-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 2교시: Tilemap 위에 상호작용 시스템 세우기 | Game Engine I</title>
+  <meta name="description" content="교수자 설명과 시연으로 Grid, Tilemap, Tile Palette, Tilemap Collider 2D, Prefab을 구분하고 수집, 위험, 목표 시스템의 코드 흐름을 연결하는 Game Engine I 5주차 2교시 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-05-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="5주차 2교시: Tilemap 위에 상호작용 시스템 세우기 | Game Engine I">
+  <meta property="og:description" content="반복되는 타일과 Prefab을 역할별 Layer로 나누고, 네 Script를 하나의 상호작용 흐름으로 연결합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-05-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-05-period2-tilemap-system.webp">
+  <meta property="og:image:alt" content="타일로 조립한 작은 2D 레벨과 Ground·Collision·Interaction 레이어를 분리해 보여 주는 입체 시스템 장면">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5주차 2교시: Tilemap 위에 상호작용 시스템 세우기">
+  <meta name="twitter:description" content="Grid, Tilemap, Collider, Prefab과 상호작용 Script의 책임을 하나의 레벨 구조로 읽습니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-05-period2-tilemap-system.webp">
+  <link rel="preload" as="image" href="assets/week-05-period2-tilemap-system.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-05.css?v=ge1w5-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-five week-five-period-two">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-05-period1.html" rel="prev" aria-label="이전 자료: 5주차 1교시: 막는 충돌, 감지하는 Trigger | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-05-period3.html" rel="next" aria-label="다음 자료: 5주차 3교시: 상호작용 가능한 1분 레벨 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-five-hero">
+    <div class="hero-inner">
+      <div class="week-five-hero-copy">
+        <p class="eyebrow">5주차 2교시 / 이론과 설명</p>
+        <h1>Tilemap 위에<br>시스템 세우기</h1>
+        <p class="lead">타일은 공간을 빠르게 반복하고, Prefab은 행동을 정확히 반복합니다. 두 도구의 책임을 나누면 수집, 위험, 목표가 하나의 작은 레벨로 연결됩니다.</p>
+        <div class="week-five-hero-actions" aria-label="주요 위치로 이동">
+          <a class="week-five-hero-action week-five-hero-action-primary" href="#tilemap">Tilemap 구조 보기</a>
+          <a class="week-five-hero-action" href="#system">전체 코드 읽기</a>
+        </div>
+      </div>
+      <figure class="week-five-hero-visual">
+        <img src="assets/week-05-period2-tilemap-system.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="어두운 격자 보드 위에 반복 타일로 만든 작은 길과 수집물 세 개, 위험 구역 두 개, 목표 문이 있고 옆에는 바닥, 충돌, 상호작용 층이 분리되어 있는 장면">
+        <figcaption><span>공간과 행동의 분리</span> Tilemap은 셀 단위 공간을, Prefab은 반복 가능한 상호작용 묶음을 담당합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="week-five-arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">2교시의 도착점</h2>
+          <p>학생은 교수자의 Scene 구조와 완성 코드를 보며 “무엇을 어디에 두고, 어떤 사건이 누구에게 전달되는가”를 설명합니다. 실제 레벨 제작은 3교시에 시작합니다.</p>
+        </div>
+        <ul class="week-five-lesson-facts" aria-label="2교시 핵심 정보">
+          <li><span>형식</span><strong>교수자 이론과 시연</strong></li>
+          <li><span>공간 구조</span><strong>Grid / Tilemap</strong></li>
+          <li><span>행동 구조</span><strong>Prefab / Script</strong></li>
+        </ul>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>Grid, Tile Asset, Tile Palette, Tilemap</strong>의 역할을 한 문장씩 구분합니다.</p></li>
+          <li><span>02</span><p>Ground, Collision, Interaction을 분리해 <strong>그림, 물리, 사건</strong>의 책임을 보이게 만듭니다.</p></li>
+          <li><span>03</span><p><strong>Prefab</strong>을 같은 Component와 설정을 가진 반복 가능한 원본으로 설명합니다.</p></li>
+          <li><span>04</span><p>네 Script의 callback이 하나의 <strong>PlayerProgress</strong>로 모이는 흐름을 추적합니다.</p></li>
+        </ul>
+
+        <ol class="session-track" aria-label="2교시 60분 운영 순서">
+          <li><time>00-08</time><strong>Trigger 회수</strong><p>접촉 후보가 callback이 되기까지 네 조건을 그림 없이 복원합니다.</p></li>
+          <li><time>08-20</time><strong>Tilemap 어휘</strong><p>Grid부터 Tilemap Renderer까지 편집 도구와 실행 결과를 구분합니다.</p></li>
+          <li><time>20-31</time><strong>세 Layer 구조</strong><p>Ground, Collision, Interaction을 나눈 Scene Hierarchy를 해설합니다.</p></li>
+          <li><time>31-41</time><strong>Prefab과 Matrix</strong><p>반복 행동의 원본과 필요한 접촉 조합만 남기는 필터를 연결합니다.</p></li>
+          <li><time>41-55</time><strong>전체 코드 추적</strong><p>수집, 리셋, 목표 판정이 PlayerProgress를 공유하는 흐름을 읽습니다.</p></li>
+          <li><time>55-60</time><strong>상태 시나리오</strong><p>수집 전과 후, 위험 접촉 뒤의 결과를 실행 전에 예측합니다.</p></li>
+        </ol>
+      </section>
+
+      <aside class="scope-line" aria-label="2교시 운영 방식">
+        <div><span>수업 방식</span><strong>교수자 설명 자료</strong></div>
+        <p>교수자가 Tile Palette로 공간이 반복되는 모습과 Prefab Instance가 같은 행동을 공유하는 모습을 시연합니다. 학생은 따라 만들지 않고 Hierarchy, Inspector, 코드 사이의 책임을 말로 연결합니다.</p>
+      </aside>
+
+      <section class="week-five-section" id="tilemap" aria-labelledby="tilemap-title">
+        <header class="section-heading">
+          <h2 id="tilemap-title">Tilemap은 그림 한 장이 아니라 셀 데이터입니다</h2>
+          <p>완성 화면만 보면 바닥이 하나의 이미지처럼 보입니다. 실제로는 Grid의 좌표 위에 “어느 셀에 어떤 Tile을 놓았는가”가 저장되고, Renderer와 Collider가 그 데이터를 각자의 방식으로 읽습니다.</p>
+        </header>
+
+        <div class="concept-grid">
+          <article class="concept-card"><code>Grid</code><h3>셀 좌표의 기준</h3><p>여러 Tilemap이 같은 셀 크기와 정렬 규칙을 공유하도록 좌표 틀을 제공합니다. 보통 Tilemap을 만들면 부모에 함께 생깁니다.</p></article>
+          <article class="concept-card"><code>Tile Asset</code><h3>한 칸의 데이터</h3><p>한 셀에 표시할 Sprite와 색, Collider 형태 같은 정보를 담습니다. Scene의 GameObject가 아니라 Project의 Asset입니다.</p></article>
+          <article class="concept-card"><code>Tile Palette</code><h3>편집용 도구함</h3><p>사용할 Tile을 모아 두고 붓, 상자, 지우개로 Tilemap에 칠하게 해 줍니다. 게임이 실행될 때 화면에 보이는 UI는 아닙니다.</p></article>
+          <article class="concept-card"><code>Tilemap</code><h3>셀 배치 기록</h3><p>어느 좌표에 어떤 Tile이 놓였는지 저장하는 Component입니다. Ground와 Collision을 별도 GameObject로 나누면 책임이 선명해집니다.</p></article>
+          <article class="concept-card"><code>Tilemap Renderer</code><h3>셀을 화면에 그림</h3><p>Tilemap의 Sprite를 한꺼번에 렌더링합니다. Sorting Layer와 Order로 다른 Sprite 앞뒤 관계를 정합니다.</p></article>
+          <article class="concept-card"><code>Tilemap Collider 2D</code><h3>셀을 물리 형상으로 바꿈</h3><p>Tile의 Collider Type을 읽어 각 셀에 Collider 형상을 만듭니다. 벽처럼 막아야 하는 Tilemap에만 둡니다.</p></article>
+        </div>
+
+        <div class="callout callout-info">
+          <p class="callout-title">편집 도구와 실행 Component를 나눕니다</p>
+          <p>Tile Palette는 제작자가 칠할 때 사용하는 창입니다. 게임 속 레벨은 Grid와 Tilemap Component에 저장됩니다. 따라서 Palette 창을 닫아도 이미 칠한 레벨은 사라지지 않습니다.</p>
+        </div>
+
+        <div class="knowledge-check" data-quiz data-answer="b" data-correct-feedback="맞았습니다. Tile Palette는 Tile을 고르고 칠하는 편집 도구이고, 배치 결과는 Tilemap에 저장됩니다." data-incorrect-feedback="게임을 실행할 때 필요한 데이터와 제작 중에만 사용하는 도구를 나누어 보세요.">
+          <span class="quiz-kicker">Retrieval 01</span>
+          <h3>Tile을 골라 셀에 칠할 때 직접 사용하는 것은?</h3>
+          <p>편집 작업의 역할을 고릅니다.</p>
+          <div class="quiz-options" role="group" aria-label="Tilemap 편집 도구 선택">
+            <button class="quiz-option" type="button" data-choice="a" aria-pressed="false">Grid</button>
+            <button class="quiz-option" type="button" data-choice="b" aria-pressed="false">Tile Palette</button>
+            <button class="quiz-option" type="button" data-choice="c" aria-pressed="false">Rigidbody2D</button>
+          </div>
+          <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="layers" aria-labelledby="layers-title">
+        <header class="section-heading">
+          <h2 id="layers-title">그림, 물리, 사건을 서로 다른 층에 둡니다</h2>
+          <p>모든 Tile을 한 Tilemap에 칠하면 처음에는 빨라 보입니다. 그러나 무엇이 막고 무엇이 장식인지 찾기 어려워집니다. 책임별 GameObject를 나누면 Scene을 보는 것만으로 수정 위치가 드러납니다.</p>
+        </header>
+
+        <div class="system-stack" aria-label="작은 2D 레벨의 세 층">
+          <div class="system-layer"><span>01 / VISUAL</span><strong>Ground Tilemap</strong><p>바닥과 길을 그립니다. Tilemap Renderer는 사용하지만 Collider는 두지 않습니다. Player는 이 그림 위를 자유롭게 이동합니다.</p></div>
+          <div class="system-layer"><span>02 / PHYSICS</span><strong>Collision Tilemap</strong><p>벽과 경계를 칠합니다. Tilemap Collider 2D가 셀을 막는 형상으로 바꾸며 Environment Layer에 둡니다.</p></div>
+          <div class="system-layer"><span>사건</span><strong>Interactions</strong><p>Collectible, HazardZone, GoalZone Prefab Instance를 담는 빈 부모입니다. 각각 Is Trigger가 켜진 Collider2D와 Script를 가집니다.</p></div>
+        </div>
+
+        <div class="comparison-grid">
+          <article class="comparison-card" data-kind="collision"><span>Collision Tilemap</span><h3>많이 반복되는 공간</h3><p>격자에 맞춘 벽처럼 동일한 규칙이 넓게 반복될 때 유리합니다. 여러 셀의 Collider를 자동으로 관리합니다.</p></article>
+          <article class="comparison-card" data-kind="trigger"><span>Interaction Prefab</span><h3>의미가 있는 개별 사건</h3><p>수집, 위험, 목표처럼 각 Instance가 상태와 행동을 가질 때 유리합니다. 위치는 달라도 같은 Component 구성을 공유합니다.</p></article>
+        </div>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">Tilemap Collider 2D는 필요한 곳에만 둡니다</p>
+          <p>Ground까지 Collider를 가지면 Player가 이동해야 할 바닥이 장애물이 될 수 있습니다. 이번 주에는 Collision Tilemap 하나만 물리 벽을 담당하게 해 원인을 좁힙니다. 큰 Tilemap의 Collider 형상을 단순화하는 Composite Collider 2D는 원리를 이해한 뒤 선택적으로 사용합니다.</p>
+        </div>
+
+        <div class="knowledge-check" data-quiz data-answer="c" data-correct-feedback="맞았습니다. 막는 책임은 Collision Tilemap 하나에 모으고, Ground는 화면 표시만 담당합니다." data-incorrect-feedback="Player가 지나가야 하는 그림과 Player를 막아야 하는 셀을 구분해 보세요.">
+          <span class="quiz-kicker">Retrieval 02</span>
+          <h3>Tilemap Collider 2D가 필요한 곳은?</h3>
+          <p>이번 주의 역할 분리 원칙을 적용합니다.</p>
+          <div class="quiz-options" role="group" aria-label="Tilemap Collider 2D 배치 선택">
+            <button class="quiz-option" type="button" data-choice="a" aria-pressed="false">모든 Tilemap</button>
+            <button class="quiz-option" type="button" data-choice="b" aria-pressed="false">Ground만</button>
+            <button class="quiz-option" type="button" data-choice="c" aria-pressed="false">Collision만</button>
+          </div>
+          <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="prefab" aria-labelledby="prefab-title">
+        <header class="section-heading">
+          <h2 id="prefab-title">Prefab은 모양보다 행동 묶음을 반복합니다</h2>
+          <p>수집물 세 개를 복사하는 목적은 같은 Sprite를 얻는 데 그치지 않습니다. Collider의 크기, Is Trigger, Layer, Script와 설정값까지 하나의 검증된 원본에서 반복하는 것이 핵심입니다.</p>
+        </header>
+
+        <div class="role-grid">
+          <article><span>PF_Collectible</span><h3>정확히 세 Instance</h3><p>Sprite Renderer, Circle Collider 2D, Collectible Script를 가집니다. 한 번 수집되면 PlayerProgress에 1을 전달하고 자신을 비활성화합니다.</p></article>
+          <article><span>PF_HazardZone</span><h3>정확히 두 Instance</h3><p>구역을 보여 주는 Sprite, Box Collider 2D, HazardZone Script를 가집니다. Player를 시작 위치로 돌려보냅니다.</p></article>
+          <article><span>PF_GoalZone</span><h3>정확히 한 Instance</h3><p>목표 문 Sprite, Box Collider 2D, GoalZone Script를 가집니다. PlayerProgress에 완료 조건을 질문합니다.</p></article>
+          <article><span>Player</span><h3>상태의 유일한 소유자</h3><p>4주차 이동 Component에 PlayerProgress를 추가합니다. 수집 개수와 시작 위치를 한곳에서 관리해 Trigger끼리 직접 의존하지 않게 합니다.</p></article>
+        </div>
+
+        <div class="matrix" role="table" aria-label="이번 주 권장 Layer Collision Matrix">
+          <div class="matrix-row matrix-head" role="row"><span role="columnheader">Layer</span><span role="columnheader">Player</span><span role="columnheader">Environment</span><span role="columnheader">Interaction</span></div>
+          <div class="matrix-row" role="row"><strong role="rowheader">Player</strong><span class="matrix-status" data-active="false" role="cell" aria-label="Player와 Player 접촉 끔">×</span><span class="matrix-status" data-active="true" role="cell" aria-label="Player와 Environment 접촉 켬">✓</span><span class="matrix-status" data-active="true" role="cell" aria-label="Player와 Interaction 접촉 켬">✓</span></div>
+          <div class="matrix-row" role="row"><strong role="rowheader">Environment</strong><span class="matrix-status" data-active="true" role="cell" aria-label="Environment와 Player 접촉 켬">✓</span><span class="matrix-status" data-active="false" role="cell" aria-label="Environment끼리 접촉 끔">×</span><span class="matrix-status" data-active="false" role="cell" aria-label="Environment와 Interaction 접촉 끔">×</span></div>
+          <div class="matrix-row" role="row"><strong role="rowheader">Interaction</strong><span class="matrix-status" data-active="true" role="cell" aria-label="Interaction과 Player 접촉 켬">✓</span><span class="matrix-status" data-active="false" role="cell" aria-label="Interaction과 Environment 접촉 끔">×</span><span class="matrix-status" data-active="false" role="cell" aria-label="Interaction끼리 접촉 끔">×</span></div>
+        </div>
+
+        <p>이 표는 이번 레벨에 필요한 접촉만 남긴 개념 모델입니다. 실제 Matrix는 대칭이므로 한 Layer 조합을 바꾸면 반대쪽 관계도 함께 바뀝니다. Player는 벽과 부딪히고 Interaction을 감지하지만, 벽과 수집물끼리 서로 사건을 만들 필요는 없습니다.</p>
+
+        <div class="knowledge-check" data-quiz data-answer="a" data-correct-feedback="맞았습니다. Prefab Asset을 고치면 같은 원본에 연결된 Instance가 공통 변경을 이어받을 수 있습니다." data-incorrect-feedback="Scene에 놓인 세 복사본의 공통 Component 설정을 한 번에 바로잡는 방법을 생각해 보세요.">
+          <span class="quiz-kicker">Retrieval 03</span>
+          <h3>수집물 세 개의 Collider 크기를 함께 수정하려면?</h3>
+          <p>반복 가능한 원본의 장점을 고릅니다.</p>
+          <div class="quiz-options" role="group" aria-label="Prefab 수정 방법 선택">
+            <button class="quiz-option" type="button" data-choice="a" aria-pressed="false">Prefab 원본 수정</button>
+            <button class="quiz-option" type="button" data-choice="b" aria-pressed="false">각각 다시 제작</button>
+            <button class="quiz-option" type="button" data-choice="c" aria-pressed="false">Sorting 변경</button>
+          </div>
+          <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="system" aria-labelledby="system-title">
+        <header class="section-heading">
+          <h2 id="system-title">세 Trigger가 하나의 Player 상태를 공유합니다</h2>
+          <p>각 Trigger는 자신이 감지한 사건만 해석합니다. 수집 개수와 시작 위치는 PlayerProgress 한 곳에 두고, 다른 Script는 필요한 public method만 요청합니다.</p>
+        </header>
+
+        <div class="contact-model" role="list" aria-label="상호작용 시스템의 네 책임">
+          <div role="listitem"><span>01 / STORE</span><strong>PlayerProgress</strong><p>필요 개수, 현재 개수와 시작 위치를 기억합니다.</p></div>
+          <div role="listitem"><span>02 / ADD</span><strong>Collectible</strong><p>Player를 확인하고 수집 개수를 한 번 올립니다.</p></div>
+          <div role="listitem"><span>03 / RESET</span><strong>HazardZone</strong><p>Player를 시작 위치로 돌려보냅니다.</p></div>
+          <div role="listitem"><span>04 / ASK</span><strong>GoalZone</strong><p>필요 개수를 모았는지 질문하고 성공을 판정합니다.</p></div>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">PlayerProgress.cs / 상태의 단일 소유자</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">using</span> UnityEngine;
+
+<span class="code-keyword">public class</span> PlayerProgress : <span class="code-type">MonoBehaviour</span>
+{
+    [SerializeField, Min(<span class="code-value">1</span>)]
+    <span class="code-keyword">private int</span> requiredCollectibles = <span class="code-value">3</span>;
+
+    <span class="code-keyword">private int</span> collectedCount;
+    <span class="code-keyword">private</span> <span class="code-type">Rigidbody2D</span> body;
+    <span class="code-keyword">private</span> <span class="code-type">Vector2</span> startPosition;
+
+    <span class="code-keyword">private void</span> <span class="code-method">Awake</span>()
+    {
+        body = GetComponent&lt;<span class="code-type">Rigidbody2D</span>&gt;();
+    }
+
+    <span class="code-keyword">private void</span> <span class="code-method">Start</span>()
+    {
+        startPosition = body.position;
+    }
+
+    <span class="code-keyword">public void</span> <span class="code-method">AddCollectible</span>()
+    {
+        collectedCount++;
+        Debug.Log(<span class="code-value">"수집: "</span> + collectedCount + <span class="code-value">" / "</span> + requiredCollectibles);
+    }
+
+    <span class="code-keyword">public bool</span> <span class="code-method">HasAllCollectibles</span>()
+    {
+        <span class="code-keyword">return</span> collectedCount &gt;= requiredCollectibles;
+    }
+
+    <span class="code-keyword">public void</span> <span class="code-method">ResetToStart</span>()
+    {
+        body.linearVelocity = <span class="code-type">Vector2</span>.zero;
+        body.position = startPosition;
+    }
+}</code></pre>
+        </div>
+
+        <ul class="code-reading">
+          <li><code>private field</code><span>상태는 PlayerProgress 안에서만 직접 바꿉니다. Inspector에 보여야 하는 필요 개수만 SerializeField로 노출합니다.</span></li>
+          <li><code>AddCollectible()</code><span>Collectible은 내부 field를 알지 않고 “하나를 더하라”는 요청만 보냅니다.</span></li>
+          <li><code>HasAllCollectibles()</code><span>GoalZone은 계산식을 복제하지 않고 bool 질문 하나로 완료 조건을 확인합니다.</span></li>
+          <li><code>ResetToStart()</code><span>위험 접촉은 Rigidbody2D의 속도를 0으로 만들고 물리 위치를 시작점으로 옮깁니다. 수집 개수는 유지됩니다.</span></li>
+        </ul>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">Collectible.cs / 한 번만 보고</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">using</span> UnityEngine;
+
+<span class="code-keyword">public class</span> Collectible : <span class="code-type">MonoBehaviour</span>
+{
+    <span class="code-keyword">private bool</span> collected;
+
+    <span class="code-keyword">private void</span> <span class="code-method">OnTriggerEnter2D</span>(<span class="code-type">Collider2D</span> other)
+    {
+        <span class="code-keyword">if</span> (collected || !other.CompareTag(<span class="code-value">"Player"</span>))
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        <span class="code-keyword">if</span> (!other.TryGetComponent(<span class="code-keyword">out</span> PlayerProgress progress))
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        collected = <span class="code-value">true</span>;
+        progress.AddCollectible();
+        gameObject.SetActive(<span class="code-value">false</span>);
+    }
+}</code></pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">HazardZone.cs / 속도와 물리 위치 초기화</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">using</span> UnityEngine;
+
+<span class="code-keyword">public class</span> HazardZone : <span class="code-type">MonoBehaviour</span>
+{
+    <span class="code-keyword">private void</span> <span class="code-method">OnTriggerEnter2D</span>(<span class="code-type">Collider2D</span> other)
+    {
+        <span class="code-keyword">if</span> (!other.CompareTag(<span class="code-value">"Player"</span>))
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        <span class="code-keyword">if</span> (other.TryGetComponent(<span class="code-keyword">out</span> PlayerProgress progress))
+        {
+            progress.ResetToStart();
+        }
+    }
+}</code></pre>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">GoalZone.cs / 조건을 물어본 뒤 판정</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">using</span> UnityEngine;
+
+<span class="code-keyword">public class</span> GoalZone : <span class="code-type">MonoBehaviour</span>
+{
+    <span class="code-keyword">private void</span> <span class="code-method">OnTriggerEnter2D</span>(<span class="code-type">Collider2D</span> other)
+    {
+        <span class="code-keyword">if</span> (!other.CompareTag(<span class="code-value">"Player"</span>))
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        <span class="code-keyword">if</span> (!other.TryGetComponent(<span class="code-keyword">out</span> PlayerProgress progress))
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        <span class="code-keyword">if</span> (!progress.HasAllCollectibles())
+        {
+            Debug.Log(<span class="code-value">"아직 수집물이 남았습니다."</span>);
+            <span class="code-keyword">return</span>;
+        }
+
+        Debug.Log(<span class="code-value">"LEVEL COMPLETE"</span>);
+    }
+}</code></pre>
+        </div>
+
+        <div class="callout callout-info">
+          <p class="callout-title">TryGetComponent가 두 가지를 동시에 확인합니다</p>
+          <p>상대 GameObject에 PlayerProgress가 있는지 확인하고, 있다면 같은 줄에서 <code>progress</code> 변수로 받아 옵니다. 이번 구성에서는 Player Tag와 PlayerProgress가 같은 Player GameObject에 있어야 합니다.</p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="trace" aria-labelledby="trace-title">
+        <header class="section-heading">
+          <h2 id="trace-title">화면보다 먼저 상태 변화를 예측합니다</h2>
+          <p>같은 Scene도 접촉 순서에 따라 결과가 달라집니다. 교수자는 Play 전에 아래 시나리오를 제시하고, 학생에게 어떤 field와 위치가 바뀌는지 먼저 말하게 합니다.</p>
+        </header>
+
+        <div class="prediction-grid">
+          <article><span>SCENARIO A</span><h3>0개 상태에서 Goal 접촉</h3><p><code>HasAllCollectibles()</code>가 false를 반환합니다. 완료되지 않고 “아직 수집물이 남았습니다”가 기록됩니다.</p></article>
+          <article><span>SCENARIO B</span><h3>수집물 하나를 두 번 통과</h3><p>첫 접촉 뒤 GameObject가 비활성화되고 <code>collected</code> 방어선도 생깁니다. 개수는 한 번만 증가합니다.</p></article>
+          <article><span>SCENARIO C</span><h3>2개 수집 후 Hazard 접촉</h3><p>Player 위치는 시작점으로 돌아가지만 <code>collectedCount</code>는 2를 유지합니다. 남은 하나만 찾으면 됩니다.</p></article>
+          <article><span>SCENARIO D</span><h3>3개 수집 후 Goal 접촉</h3><p><code>3 &gt;= 3</code>이 true가 되어 완료 메시지가 한 번 기록됩니다. 레벨의 최소 목표가 성립합니다.</p></article>
+        </div>
+
+        <div class="lecture-cues">
+          <h3 class="support-heading">시연에서 확인할 장면</h3>
+          <ol>
+            <li><strong>Hierarchy부터 읽기</strong><p>Grid 아래 두 Tilemap과 Interactions 부모를 접은 상태에서도 책임이 보이는지 확인합니다.</p></li>
+            <li><strong>Prefab 원본 수정</strong><p>Collectible Collider 반지름을 바꾸고 세 Instance가 같은 변경을 이어받는 모습을 보여 줍니다.</p></li>
+            <li><strong>Matrix 한 칸 끄기</strong><p>Player와 Interaction 조합을 끄면 코드가 같아도 모든 Trigger 사건이 사라짐을 비교합니다.</p></li>
+            <li><strong>상태 순서 실행</strong><p>Goal 거절 → 수집 2 → Hazard → 수집 1 → Goal 성공 순서로 Console과 위치를 추적합니다.</p></li>
+          </ol>
+        </div>
+
+        <aside class="next-lesson">
+          <span>Period 03</span>
+          <div><h3><a href="week-05-period3.html">이제 여덟 검증 조건을 만족하는 1분 레벨을 스스로 만듭니다 →</a></h3><p>제공된 TODO Script와 Tile Palette를 출발점으로 삼고, 정해진 수량과 동작 조건 안에서 자신만의 짧은 경로를 설계합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-five-section" id="sources" aria-labelledby="sources-title">
+        <header class="section-heading">
+          <h2 id="sources-title">Unity 6.3 공식 문서</h2>
+          <p>Tilemap과 Prefab의 정확한 역할, Collider 생성 방식과 Component 탐색 동작은 아래 공식 문서를 기준으로 정리했습니다.</p>
+        </header>
+        <div class="source-grid">
+          <article class="source-card"><span class="source-label">Tilemap</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/tilemaps.html" target="_blank" rel="noopener noreferrer">Introduction to Tilemaps ↗</a></h3><p>Grid 위에 Tile을 배치해 2D 레벨을 만드는 Tilemap 시스템의 기본 구조</p></article>
+          <article class="source-card"><span class="source-label">Physics</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/work-with-tilemaps/tilemap-collider-2d.html" target="_blank" rel="noopener noreferrer">Tilemap Collider 2D ↗</a></h3><p>Tile Collider Type을 읽어 셀마다 Collider 형상을 생성하는 방식</p></article>
+          <article class="source-card"><span class="source-label">Reuse</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Prefabs.html" target="_blank" rel="noopener noreferrer">Prefabs ↗</a></h3><p>Component, property와 child를 재사용 가능한 Asset 원본으로 저장하는 기능</p></article>
+          <article class="source-card"><span class="source-label">Component</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.TryGetComponent.html" target="_blank" rel="noopener noreferrer">Component.TryGetComponent ↗</a></h3><p>GameObject에서 요청한 Component를 찾아 성공 여부와 참조를 함께 얻는 API</p></article>
+          <article class="source-card"><span class="source-label">Filter</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/class-Physics2DSettings.html#LayerCollisionMatrix" target="_blank" rel="noopener noreferrer">Layer Collision Matrix ↗</a></h3><p>Layer 조합별 2D 접촉 계산을 Project 단위로 켜거나 끄는 설정</p></article>
+        </div>
+        <div class="callout callout-info">
+          <p class="callout-title">질문이 남았다면</p>
+          <p>“Collision Tilemap의 벽은 Player를 막지만 Collectible callback만 오지 않습니다. 두 Collider와 Player Rigidbody2D, Is Trigger까지 확인했습니다”처럼 정상인 층과 실패한 층을 나누어 말합니다.</p>
+        </div>
+      </section>
+    </article>
+
+    <nav class="toc" aria-label="2교시 목차" data-week-five-toc>
+      <p class="toc-title">2교시 목차</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location">오늘의 도착점</a></li>
+        <li><a href="#tilemap">Tilemap 어휘</a></li>
+        <li><a href="#layers">세 Layer 구조</a></li>
+        <li><a href="#prefab">Prefab과 Matrix</a></li>
+        <li><a href="#system">전체 코드 흐름</a></li>
+        <li><a href="#trace">상태 시나리오</a></li>
+        <li><a href="#sources">공식 문서</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / 5주차 / 2교시</p>
+  <script src="assets/week-05.js?v=ge1w5-1" defer></script>
+</body>
+</html>

@@ -191,8 +191,11 @@ test("period 3 has measurable gates, persistent tests, and reproducible evidence
   assert.match(period3, /data-test-status-message role="status" aria-live="polite"/);
   assert.match(period3, /assets\/week-04-period3-hero\.webp/);
   assert.match(period3, /week04_학번_이름_test\.csv/);
-  assert.doesNotMatch(period3, /href="week-05-period1\.html"/);
-  assert.match(period3, /href="\.\/"[\s\S]*Course index/);
+  assert.match(
+    period3,
+    /href="week-05-period1\.html" rel="next"[\s\S]*Next/,
+  );
+  assert.doesNotMatch(period3, /href="\.\/"[\s\S]*Course index/);
 
   for (const pattern of [
     /localStorage/,

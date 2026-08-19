@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-five-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>5주차 1교시: 막는 충돌, 감지하는 Trigger | Game Engine I</title>
+  <meta name="description" content="교수자 설명과 시연으로 Collision과 Trigger, OnTriggerEnter2D, Rigidbody2D 조건, Layer와 Tag의 역할을 구분하는 Game Engine I 5주차 1교시 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-05-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="5주차 1교시: 막는 충돌, 감지하는 Trigger | Game Engine I">
+  <meta property="og:description" content="접촉이 물리적 차단이 될지, 겹침 사건이 될지 결정하는 2D 상호작용 구조를 이해합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-05-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-05-period1-trigger-event.webp">
+  <meta property="og:image:alt" content="주황색 플레이어가 단단한 벽에는 막히고 청록색 Trigger 영역은 통과하며 사건을 발생시키는 입체 비교 장면">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="5주차 1교시: 막는 충돌, 감지하는 Trigger">
+  <meta name="twitter:description" content="Collision, Trigger, Layer와 Tag를 접촉 사건의 흐름으로 연결합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-05-period1-trigger-event.webp">
+  <link rel="preload" as="image" href="assets/week-05-period1-trigger-event.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-05.css?v=ge1w5-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-five week-five-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-04-period3.html" rel="prev" aria-label="이전 자료: 4주차 3교시: 여덟 가지 테스트를 통과하라 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-05-period2.html" rel="next" aria-label="다음 자료: 5주차 2교시: Tilemap 위에 상호작용 시스템 세우기 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-five-hero">
+    <div class="hero-inner">
+      <div class="week-five-hero-copy">
+        <p class="eyebrow">5주차 1교시 / 이론과 설명</p>
+        <h1>막는 충돌,<br>감지하는 Trigger</h1>
+        <p class="lead">4주차에는 벽이 Player를 막았습니다. 이제 같은 Collider가 겹침을 허용하면서 수집, 위험, 목표라는 사건을 보내는 구조를 배웁니다.</p>
+        <div class="week-five-hero-actions" aria-label="주요 위치로 이동">
+          <a class="week-five-hero-action week-five-hero-action-primary" href="#contact">접촉 조건 보기</a>
+          <a class="week-five-hero-action" href="#code">코드 흐름 읽기</a>
+        </div>
+      </div>
+      <figure class="week-five-hero-visual">
+        <img src="assets/week-05-period1-trigger-event.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="왼쪽에서는 주황색 플레이어가 단단한 벽에 멈추고, 오른쪽에서는 청록색 Trigger 영역을 통과하며 초록색 수집물 사건을 발생시키는 장면">
+        <figcaption><span>접촉의 두 결과</span> 같은 접촉 후보도 Is Trigger와 Layer 규칙에 따라 물리적 차단 또는 겹침 사건이 됩니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="week-five-arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>학생은 Unity를 따라 조작하지 않습니다. 교수자의 장면 시연과 코드 판독을 보며 접촉이 사건으로 바뀌는 조건과 흐름을 설명합니다.</p>
+        </div>
+        <ul class="week-five-lesson-facts" aria-label="1교시 핵심 정보">
+          <li><span>형식</span><strong>교수자 이론과 시연</strong></li>
+          <li><span>핵심 구분</span><strong>Collision / Trigger</strong></li>
+          <li><span>학생 활동</span><strong>예측 / 코드 추적</strong></li>
+        </ul>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>Collision과 Trigger</strong>가 움직임에 주는 결과를 구분합니다.</p></li>
+          <li><span>02</span><p>2D Trigger callback에 필요한 <strong>Collider2D와 Rigidbody2D 조건</strong>을 설명합니다.</p></li>
+          <li><span>03</span><p><code>OnTriggerEnter2D(Collider2D other)</code>의 parameter가 무엇을 가리키는지 읽습니다.</p></li>
+          <li><span>04</span><p><strong>Layer, Tag, Sorting Layer</strong>가 각각 물리 필터, 정체성, 그림 순서를 담당함을 구분합니다.</p></li>
+        </ul>
+
+        <ol class="session-track" aria-label="1교시 60분 운영 순서">
+          <li><time>00-08</time><strong>4주차 회수</strong><p>Rigidbody2D와 Collider2D가 Player와 Wall에서 맡았던 책임을 복원합니다.</p></li>
+          <li><time>08-20</time><strong>접촉 성립 조건</strong><p>Collider 형상, Rigidbody2D, Layer 규칙이 만나는 순서를 봅니다.</p></li>
+          <li><time>20-33</time><strong>Collision과 Trigger</strong><p>물리적 분리와 겹침 callback의 차이를 같은 장면에서 비교합니다.</p></li>
+          <li><time>33-44</time><strong>Trigger 생명주기</strong><p>Enter, Stay, Exit 중 이번 주에 필요한 Enter의 의미를 구분합니다.</p></li>
+          <li><time>44-54</time><strong>상대 식별</strong><p>Layer, Tag, CompareTag와 other parameter를 하나의 판단으로 연결합니다.</p></li>
+          <li><time>54-60</time><strong>코드 시연과 회수</strong><p>값을 바꾸기 전에 결과를 예측하고 세 질문으로 개념을 회수합니다.</p></li>
+        </ol>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 방식">
+        <div><span>수업 방식</span><strong>교수자 설명 자료</strong></div>
+        <p>교수자가 Wall과 Trigger Zone의 Inspector를 비교하고 Play 결과를 시연합니다. 학생은 코드나 Scene을 만들지 않고, “어느 설정이 어떤 결과를 만들었는가”를 자신의 말로 설명합니다.</p>
+      </aside>
+
+      <section class="week-five-section" id="contact" aria-labelledby="contact-title">
+        <header class="section-heading">
+          <h2 id="contact-title">겹쳐 보인다고 바로 사건이 되지는 않습니다</h2>
+          <p>Trigger callback이 오기까지 네 개의 문을 통과합니다. 이 흐름을 알면 “코드는 맞는데 반응하지 않는다”는 문제를 Inspector와 Project Settings에서 나누어 찾을 수 있습니다.</p>
+        </header>
+
+        <div class="contact-model" role="list" aria-label="2D 접촉 사건이 성립하는 네 단계">
+          <div role="listitem"><span>형상</span><strong>Collider2D</strong><p>두 GameObject에 접촉을 계산할 2D 형상이 있어야 합니다.</p></div>
+          <div role="listitem"><span>움직임</span><strong>Rigidbody2D</strong><p>Trigger 이벤트를 보내려면 두 Collider 중 적어도 한쪽에 Rigidbody2D가 있어야 합니다.</p></div>
+          <div role="listitem"><span>필터</span><strong>Layer Matrix</strong><p>두 Layer 조합의 접촉이 Project Settings에서 허용되어야 합니다.</p></div>
+          <div role="listitem"><span>방식</span><strong>Is Trigger</strong><p>꺼져 있으면 물리 충돌, 켜져 있으면 겹침과 callback이 됩니다.</p></div>
+        </div>
+
+        <div class="callout callout-info">
+          <p class="callout-title">이번 수업의 표준 구성</p>
+          <p>4주차 Player에는 이미 Rigidbody2D와 Collider2D가 있습니다. 따라서 수집물, 위험, 목표 오브젝트에는 Collider2D를 붙이고 <strong>Is Trigger를 켜는 것</strong>만으로 Trigger 쪽에 별도 Rigidbody2D를 추가하지 않아도 됩니다.</p>
+        </div>
+
+        <div class="knowledge-check" data-quiz data-answer="b" data-correct-feedback="맞았습니다. Trigger는 물리적으로 막지 않고 겹침을 허용하면서 callback을 보냅니다." data-incorrect-feedback="Player가 통과한 뒤에도 사건을 알아야 한다는 목적을 다시 떠올려 보세요.">
+          <span class="quiz-kicker">Retrieval 01</span>
+          <h3>Player가 통과하면서 수집 사건을 보내야 한다면?</h3>
+          <p>원하는 물리 결과를 기준으로 선택합니다.</p>
+          <div class="quiz-options" role="group" aria-label="Collision과 Trigger 선택">
+            <button class="quiz-option" type="button" data-choice="a" aria-pressed="false">물리차단</button>
+            <button class="quiz-option" type="button" data-choice="b" aria-pressed="false">겹침감지</button>
+            <button class="quiz-option" type="button" data-choice="c" aria-pressed="false">화면정렬</button>
+          </div>
+          <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="compare" aria-labelledby="compare-title">
+        <header class="section-heading">
+          <h2 id="compare-title">Collision은 공간을 지키고, Trigger는 사건을 알립니다</h2>
+          <p>둘 다 Collider2D의 형상을 사용하지만 목적이 다릅니다. 물리적 벽과 상호작용 구역을 같은 방식으로 설정하면 레벨의 의미가 흐려집니다.</p>
+        </header>
+
+        <div class="comparison-grid">
+          <article class="comparison-card" data-kind="collision">
+            <span>Collision / Is Trigger Off</span>
+            <h3>겹침을 해결합니다</h3>
+            <p>물리 엔진이 Collider가 서로 파고들지 않도록 위치와 속도를 해결합니다. 벽, 바닥, 움직일 수 없는 장애물에 사용합니다.</p>
+          </article>
+          <article class="comparison-card" data-kind="trigger">
+            <span>Trigger / Is Trigger On</span>
+            <h3>겹침을 허용하고 알립니다</h3>
+            <p>물리적 차단은 하지 않고 Enter, Stay, Exit callback을 보냅니다. 수집물, 위험 구역, 목표 지점에 사용합니다.</p>
+          </article>
+        </div>
+
+        <div class="event-timeline" aria-label="Trigger callback 세 시점">
+          <article><span>ENTER</span><strong>경계에 들어온 순간</strong><p><code>OnTriggerEnter2D</code>. 한 번 발생해야 하는 수집, 리셋, 목표 판정에 적합합니다.</p></article>
+          <article><span>STAY</span><strong>안에 머무는 동안</strong><p><code>OnTriggerStay2D</code>. 물리 step마다 반복됩니다. 이번 주의 일회성 사건에는 사용하지 않습니다.</p></article>
+          <article><span>EXIT</span><strong>경계에서 나온 순간</strong><p><code>OnTriggerExit2D</code>. 구역 효과 해제처럼 떠나는 시점이 필요할 때 사용합니다.</p></article>
+        </div>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">한 번 수집할 일을 Stay에 두지 않습니다</p>
+          <p>Player가 Trigger 안에 여러 physics step 머무르면 Stay는 반복 호출됩니다. 카운트가 빠르게 여러 번 증가할 수 있으므로 이번 주 수집, 위험, 목표는 Enter를 기본으로 사용합니다.</p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="callback" aria-labelledby="callback-title">
+        <header class="section-heading">
+          <h2 id="callback-title">Unity가 접촉 정보를 parameter로 건넵니다</h2>
+          <p>Trigger가 다른 Collider와 겹치면 Unity가 정확한 이름과 형태의 event function을 호출합니다. 우리는 직접 호출하지 않고, 전달된 <code>other</code>를 읽어 누구인지 판단합니다.</p>
+        </header>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">Trigger event signature / 설명용</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">private void</span> <span class="code-method">OnTriggerEnter2D</span>(<span class="code-type">Collider2D</span> other)
+{
+    Debug.Log(other.name);
+}</code></pre>
+        </div>
+
+        <ul class="code-reading">
+          <li><code>private void</code><span>외부에 결과를 반환하지 않는 event function입니다. Unity가 이름과 parameter 형태를 보고 호출합니다.</span></li>
+          <li><code>OnTriggerEnter2D</code><span>2D Trigger 경계에 다른 Collider가 들어온 순간을 나타냅니다. 3D 함수 이름과 섞지 않습니다.</span></li>
+          <li><code>Collider2D other</code><span>이번 접촉에 들어온 상대 Collider를 가리킵니다. 상대의 이름, Tag, Component를 확인하는 출발점입니다.</span></li>
+          <li><code>other.name</code><span>시연 중 어떤 GameObject가 들어왔는지 Console에서 확인합니다. 실제 판단은 이름 문자열보다 Tag와 Component를 사용합니다.</span></li>
+        </ul>
+
+        <div class="knowledge-check" data-quiz data-answer="a" data-correct-feedback="맞았습니다. Trigger 이벤트에는 두 Collider2D와 적어도 한쪽 Rigidbody2D가 필요합니다." data-incorrect-feedback="4주차 Player가 이미 가진 Component와 Trigger Zone이 새로 가져야 할 Component를 나누어 보세요.">
+          <span class="quiz-kicker">Retrieval 02</span>
+          <h3>2D Trigger callback의 최소 물리 구성은?</h3>
+          <p>두 오브젝트를 합친 조건입니다.</p>
+          <div class="quiz-options" role="group" aria-label="Trigger 이벤트 최소 구성 선택">
+            <button class="quiz-option" type="button" data-choice="a" aria-pressed="false">Collider 2개 / Body 1개</button>
+            <button class="quiz-option" type="button" data-choice="b" aria-pressed="false">Collider 1개 / Body 2개</button>
+            <button class="quiz-option" type="button" data-choice="c" aria-pressed="false">Transform 2개 / Tag 1개</button>
+          </div>
+          <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="identity" aria-labelledby="identity-title">
+        <header class="section-heading">
+          <h2 id="identity-title">Layer는 만남을 거르고, Tag는 상대를 확인합니다</h2>
+          <p>둘은 비슷해 보이지만 질문이 다릅니다. Layer는 물리 엔진이 접촉을 계산할지 정하고, Tag는 callback 안에서 상대의 의미를 확인합니다.</p>
+        </header>
+
+        <div class="role-grid">
+          <article><span>Layer</span><h3>누구와 접촉할 수 있는가?</h3><p>Player, Environment, Interaction처럼 물리 그룹을 나눕니다. Layer Collision Matrix가 허용하지 않으면 callback 이전에 접촉 후보가 제거됩니다.</p></article>
+          <article><span>Tag</span><h3>들어온 상대는 누구인가?</h3><p><code>Player</code>처럼 GameObject의 역할을 표시합니다. callback에서 <code>CompareTag</code>로 빠르고 명확하게 확인합니다.</p></article>
+          <article><span>Sorting Layer</span><h3>무엇이 앞에 그려지는가?</h3><p>Sprite Renderer의 화면 표시 순서입니다. 물리 접촉 여부나 Trigger callback에는 영향을 주지 않습니다.</p></article>
+          <article><span>Component</span><h3>어떤 능력을 가지고 있는가?</h3><p><code>TryGetComponent</code>로 상대에게 필요한 Script가 실제로 붙어 있는지 확인하고, 성공했을 때만 그 기능을 호출합니다.</p></article>
+        </div>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">Identity guard / Player만 통과</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">if</span> (!other.CompareTag(<span class="code-value">"Player"</span>))
+{
+    <span class="code-keyword">return</span>;
+}</code></pre>
+        </div>
+
+        <p><code>!</code>는 논리값을 반대로 바꿉니다. “Player Tag와 같은가?”가 false라면 <code>!false</code>는 true가 되어 즉시 돌아갑니다. 따라서 아래쪽 수집 코드는 Player에게만 실행됩니다.</p>
+
+        <div class="knowledge-check" data-quiz data-answer="c" data-correct-feedback="맞았습니다. Layer는 접촉 계산을 거르고, Tag는 callback 안에서 들어온 상대의 역할을 확인합니다." data-incorrect-feedback="접촉이 일어나기 전의 필터와 callback 안의 판단을 시간 순서로 나누어 보세요.">
+          <span class="quiz-kicker">Retrieval 03</span>
+          <h3>물리 접촉 필터와 상대 역할 확인의 올바른 조합은?</h3>
+          <p>Layer와 Tag의 책임을 고릅니다.</p>
+          <div class="quiz-options" role="group" aria-label="Layer와 Tag 역할 선택">
+            <button class="quiz-option" type="button" data-choice="a" aria-pressed="false">Tag 필터 / Layer 그림</button>
+            <button class="quiz-option" type="button" data-choice="b" aria-pressed="false">Layer 그림 / Tag 물리</button>
+            <button class="quiz-option" type="button" data-choice="c" aria-pressed="false">Layer 필터 / Tag 확인</button>
+          </div>
+          <p class="quiz-feedback" data-quiz-feedback aria-live="polite"></p>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="code" aria-labelledby="code-title">
+        <header class="section-heading">
+          <h2 id="code-title">수집물 하나의 사건 흐름을 끝까지 읽습니다</h2>
+          <p>아래 코드는 교수자 시연용 최소 예시입니다. 아직 수집 개수를 저장하지 않고, Player가 들어오면 한 번 기록한 뒤 수집물을 비활성화합니다.</p>
+        </header>
+
+        <div class="code-card">
+          <div class="code-card-header"><span class="code-filename">Collectible.cs / 교수자 시연 완성본</span><button class="copy-code" type="button" data-copy-code>교수자 시연용 복사</button></div>
+          <pre><code><span class="code-keyword">using</span> UnityEngine;
+
+<span class="code-keyword">public class</span> Collectible : <span class="code-type">MonoBehaviour</span>
+{
+    <span class="code-keyword">private bool</span> collected;
+
+    <span class="code-keyword">private void</span> <span class="code-method">OnTriggerEnter2D</span>(<span class="code-type">Collider2D</span> other)
+    {
+        <span class="code-keyword">if</span> (collected)
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        <span class="code-keyword">if</span> (!other.CompareTag(<span class="code-value">"Player"</span>))
+        {
+            <span class="code-keyword">return</span>;
+        }
+
+        collected = <span class="code-value">true</span>;
+        Debug.Log(name + <span class="code-value">" 수집 완료"</span>);
+        gameObject.SetActive(<span class="code-value">false</span>);
+    }
+}</code></pre>
+        </div>
+
+        <ol class="code-reading">
+          <li><code>collected</code><span>이미 처리한 수집물인지 기억합니다. 같은 사건이 겹쳐 들어와도 한 번만 처리하는 방어선입니다.</span></li>
+          <li><code>CompareTag("Player")</code><span>들어온 상대가 Player 역할인지 확인합니다. 다른 Trigger나 오브젝트는 즉시 건너뜁니다.</span></li>
+          <li><code>collected = true</code><span>화면을 숨기기 전에 상태를 먼저 기록합니다. 코드의 의도를 분명하게 만듭니다.</span></li>
+          <li><code>SetActive(false)</code><span>수집물 GameObject를 비활성화해 화면과 물리 접촉에서 제거합니다. Prefab Asset 자체는 사라지지 않습니다.</span></li>
+        </ol>
+
+        <div class="lecture-cues">
+          <h3 class="support-heading">시연에서 확인할 장면</h3>
+          <ol>
+            <li><strong>Is Trigger 끄기</strong><p>Player가 수집물에 막히고 Trigger callback은 발생하지 않는 차이를 보여 줍니다.</p></li>
+            <li><strong>Player Rigidbody2D의 Simulated 끄기</strong><p>필수 물리 구성이 깨졌을 때 callback이 오지 않는 상황을 비교합니다.</p></li>
+            <li><strong>Layer 조합 끄기</strong><p>코드는 그대로지만 Matrix에서 접촉을 막으면 사건이 사라지는 것을 보여 줍니다.</p></li>
+            <li><strong>Tag 바꾸기</strong><p>접촉은 성립하지만 코드의 역할 확인에서 return되는 차이를 보여 줍니다.</p></li>
+          </ol>
+        </div>
+      </section>
+
+      <section class="week-five-section" id="exit" aria-labelledby="exit-title">
+        <header class="section-heading">
+          <h2 id="exit-title">한 사건을 원인 순서로 설명합니다</h2>
+          <p>학생은 화면을 보지 않고 다음 흐름을 말합니다. 교수자는 용어 암기보다 순서와 책임의 연결이 맞는지 확인합니다.</p>
+        </header>
+
+        <div class="contact-model" role="list" aria-label="Trigger 사건 설명 순서">
+          <div role="listitem"><span>01</span><strong>형상</strong><p>두 Collider2D가 공간에서 겹칩니다.</p></div>
+          <div role="listitem"><span>02</span><strong>물리와 필터</strong><p>Rigidbody2D 조건과 Layer Matrix를 통과합니다.</p></div>
+          <div role="listitem"><span>03</span><strong>Callback</strong><p>Unity가 OnTriggerEnter2D에 other를 전달합니다.</p></div>
+          <div role="listitem"><span>04</span><strong>판단과 결과</strong><p>Tag를 확인하고 수집물 상태를 바꿉니다.</p></div>
+        </div>
+
+        <aside class="next-lesson">
+          <span>Period 02</span>
+          <div><h3><a href="week-05-period2.html">사건을 하나의 작은 레벨 시스템으로 연결합니다 →</a></h3><p>Grid, Tilemap, Tile Palette, Tilemap Collider 2D와 Prefab을 역할별로 나누고, 수집, 위험, 목표 Script가 PlayerProgress를 공유하는 구조를 해설합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-five-section" id="sources" aria-labelledby="sources-title">
+        <header class="section-heading">
+          <h2 id="sources-title">Unity 6.3 공식 문서</h2>
+          <p>수업에서는 핵심 관계만 쉬운 언어로 설명합니다. 정확한 callback 조건과 API 의미는 아래 공식 문서에서 확인합니다.</p>
+        </header>
+        <div class="source-grid">
+          <article class="source-card"><span class="source-label">2D Physics</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/2d-game-creation-wokflow.html#Physics" target="_blank" rel="noopener noreferrer">2D game creation workflow ↗</a></h3><p>Collider 2D와 Trigger가 물리적 차단과 겹침 사건을 만드는 기본 구조</p></article>
+          <article class="source-card"><span class="source-label">Callback</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.OnTriggerEnter2D.html" target="_blank" rel="noopener noreferrer">OnTriggerEnter2D ↗</a></h3><p>other parameter와 2D Trigger 이벤트에 필요한 Rigidbody2D 조건</p></article>
+          <article class="source-card"><span class="source-label">Identity</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.CompareTag.html" target="_blank" rel="noopener noreferrer">Component.CompareTag ↗</a></h3><p>Collider2D 같은 Component가 속한 GameObject의 Tag를 확인하는 API</p></article>
+          <article class="source-card"><span class="source-label">Filter</span><h3><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/class-Physics2DSettings.html#LayerCollisionMatrix" target="_blank" rel="noopener noreferrer">Layer Collision Matrix ↗</a></h3><p>Layer 조합별로 Collider 접촉을 허용하거나 제거하는 Project 설정</p></article>
+        </div>
+        <div class="callout callout-info">
+          <p class="callout-title">질문이 남았다면</p>
+          <p>“Collectible의 Is Trigger는 켜져 있고 Player에 Rigidbody2D가 있습니다. 접촉은 되지만 CompareTag에서 return되는 것 같습니다”처럼 확인한 조건과 멈춘 지점을 함께 말합니다.</p>
+        </div>
+      </section>
+    </article>
+
+    <nav class="toc" aria-label="1교시 목차" data-week-five-toc>
+      <p class="toc-title">1교시 목차</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location">오늘의 도착점</a></li>
+        <li><a href="#contact">접촉 성립 조건</a></li>
+        <li><a href="#compare">Collision과 Trigger</a></li>
+        <li><a href="#callback">Trigger callback</a></li>
+        <li><a href="#identity">Layer와 Tag</a></li>
+        <li><a href="#code">수집 코드 추적</a></li>
+        <li><a href="#exit">회수 질문</a></li>
+        <li><a href="#sources">공식 문서</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / 5주차 / 1교시</p>
+  <script src="assets/week-05.js?v=ge1w5-1" defer></script>
+</body>
+</html>

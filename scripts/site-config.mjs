@@ -62,6 +62,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-04-period3-hero.webp",
     alt: "주황색 플레이어가 네 개의 벽을 피해 정확히 여덟 개의 초록색 검증 지점을 통과하는 입체 테스트 코스",
   }),
+  "teaching/game-engine-1/week-05-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-05-period1-trigger-event.webp",
+    alt: "주황색 플레이어가 단단한 벽에는 막히고 청록색 Trigger 영역은 통과하며 사건을 발생시키는 입체 비교 장면",
+  }),
+  "teaching/game-engine-1/week-05-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-05-period2-tilemap-system.webp",
+    alt: "타일로 조립한 작은 2D 레벨과 Ground·Collision·Interaction 레이어를 분리해 보여 주는 입체 시스템 장면",
+  }),
+  "teaching/game-engine-1/week-05-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-05-period3-interaction-mission.webp",
+    alt: "주황색 플레이어가 수집물 세 개와 위험 구역 두 개를 지나 목표 문과 여덟 검증 지점으로 향하는 입체 미션 장면",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",
