@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 3교시: 하나의 에셋 키트를 게임 안에서 증명하라 | Game Engine I</title>
+  <meta name="description" content="4프레임 Player, 세 상호작용 Sprite와 UI 패널을 제작, 후처리, import해 기존 게임에 통합하고 필수 테스트 8개와 제작 로그로 검증하는 10주차 개인 목표지향 실습입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-10-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="10주차 3교시: 하나의 에셋 키트를 게임 안에서 증명하라 | Game Engine I">
+  <meta property="og:description" content="생성 또는 수작업 경로로 같은 규격의 Sprite, UI 키트를 만들고, Animator와 실제 게임 루프에서 8개 기준으로 증명합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-10-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-10-period3-asset-kit-mission.webp">
+  <meta property="og:image:alt" content="네 캐릭터 프레임, 수집물, 위험, 목표 아이콘, UI 패널이 여덟 검증등과 함께 실제 숲 게임 장면에서 작동하는 개인 미션 보드">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="10주차 3교시: 하나의 에셋 키트를 게임 안에서 증명하라">
+  <meta name="twitter:description" content="생성량이 아니라 정규화, 사람의 수정, Unity 통합과 테스트 증거로 에셋 키트를 완성합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-10-period3-asset-kit-mission.webp">
+  <link rel="preload" as="image" href="assets/week-10-period3-asset-kit-mission.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-10.css?v=ge1w10-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-ten week-ten-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-10-period2.html" rel="prev" aria-label="이전 자료: 10주차 2교시: 후처리에서 Unity 통합까지 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-11-period1.html" rel="next" aria-label="다음 자료: 11주차 1교시: AI의 답보다 변경 계약을 먼저 읽습니다 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-ten-hero">
+    <div class="hero-inner">
+      <div class="week-ten-hero-copy">
+        <p class="eyebrow">Week 10 / Period 03 / Individual Mission</p>
+        <h1>하나의 에셋 키트를<br>게임 안에서 증명하라</h1>
+        <p class="lead">네 캐릭터 프레임, 세 상호작용 Sprite, 한 UI 패널을 완성하고 기존 게임에서 움직임, 역할, UI와 전체 루프를 증명합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#mission">미션 계약 확인하기</a>
+          <a class="hero-action" href="#tests">필수 테스트 8개 보기</a>
+        </div>
+      </div>
+      <figure class="week-ten-hero-visual">
+        <img src="assets/week-10-period3-asset-kit-mission.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="네 캐릭터 프레임, 수집물, 위험, 목표 아이콘, UI 패널이 여덟 검증등과 함께 실제 숲 게임 장면에서 작동하는 개인 미션 보드">
+        <figcaption><span>8 PIECES → 1 COHERENT KIT → 8 TESTS</span> 하나의 시각 규칙이 Sprite, UI와 실제 게임 플레이에서 유지되어야 합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">3교시의 도착점</h2>
+          <p>이미지 묶음이 아니라 기존 게임의 기능을 해치지 않고 교체 가능한 작은 아트 시스템을 제출합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>4프레임 Player, 3개 상호작용 Sprite, 1개 UI 패널</strong>의 규격을 완성합니다.</p></li>
+          <li><span>02</span><p>배경, 결함, 팔레트, 크기 중 필요한 문제를 고치고 <strong>사람의 수정 두 가지 이상</strong>을 기록합니다.</p></li>
+          <li><span>03</span><p>Sprite sheet를 분할하고 Animator와 uGUI에 연결해 <strong>실제 Game View</strong>에서 확인합니다.</p></li>
+          <li><span>04</span><p><strong>필수 테스트 8개</strong>, CSV, 제작 로그와 45-60초 영상으로 결과를 증명합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="3교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 03</span><strong>학생 개인 목표지향 실습</strong></div>
+        <p>목표는 고정하고 구현 경로는 선택합니다. 클릭 순서 대신 중간 도착점을 확인합니다. 교수자는 파일 규격과 판정 기준만 분명히 하고, 생성형 AI, 수작업, 혼합 경로, 수정 도구와 최종 표현은 학생이 결정합니다. 작업 속도와 생성 횟수는 평가하지 않습니다.</p>
+      </aside>
+
+      <section class="week-ten-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <h2 id="mission-title">미션: 한 키트를 게임 안에서 작동시킵니다</h2>
+          <p>9주차의 선택 원본과 style board, 7주차의 작동하는 게임 루프 또는 현재 프로젝트를 출발점으로 사용합니다.</p>
+        </header>
+        <div class="test-contract"><span>FIXED OUTCOME</span><p>하나의 시점, 형태, 팔레트, 빛을 공유하는 8개 시각 조각을 정규화하고 Unity에 통합합니다. Player 애니메이션, 세 오브젝트의 역할, UI 가독성과 기존 시작, 플레이, 결과, 재시작 루프를 필수 테스트 8개로 증명합니다.</p></div>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="mission-clock-title">
+            <header><span>00-60 min</span><h3 id="mission-clock-title">파일보다 검증에 시간을 남기는 60분</h3><p>Individual / goal-directed</p></header>
+            <ol>
+              <li><time>00-06</time><div><strong>원본 보존과 장면 복제</strong><p>현재 작동 장면을 <code>Week10_AssetIntegration</code>으로 복제하고 9주차 source와 로그를 엽니다.</p></div></li>
+              <li><time>06-13</time><div><strong>세 파일 규격 잠금</strong><p>파일명, 전체 크기, 셀, PPU, 피벗, 팔레트와 각 자산의 게임 역할을 적습니다.</p></div></li>
+              <li><time>13-27</time><div><strong>후보 제작과 사람의 수정</strong><p>생성, 수작업, 혼합 경로로 필요한 조각을 만들고 적어도 두 문제를 직접 수정해 전후를 기록합니다.</p></div></li>
+              <li><time>27-36</time><div><strong>정규화와 저장</strong><p>4×1 Player, 3×1 Interactables, UI Panel을 정확한 픽셀과 투명, 채움 규칙으로 저장합니다.</p></div></li>
+              <li><time>36-45</time><div><strong>Import, Slice, Animator</strong><p>128 PPU, Multiple과 128×128 Grid를 적용하고 8 Samples 반복 Clip을 연결합니다.</p></div></li>
+              <li><time>45-52</time><div><strong>UI와 게임 통합</strong><p>기존 placeholder만 교체하고 역할 가독성, 패널 왜곡과 게임 루프 회귀를 확인합니다.</p></div></li>
+              <li><time>52-60</time><div><strong>8개 테스트와 증거 저장</strong><p>T01부터 T08을 모두 PASS하고 CSV, 로그, project와 45-60초 영상을 저장합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="starting-line" aria-labelledby="starting-line-title">
+        <header class="section-heading">
+          <h2 id="starting-line-title">작동하는 게임에서 시작합니다</h2>
+          <p>이번 미션은 새 게임을 만드는 시간이 아닙니다. 기능이 확인된 상태를 복제해 시각 자산만 바꾸고, 문제가 생기면 비교할 기준을 남깁니다.</p>
+        </header>
+        <div class="setup-notice"><span>BEFORE EDIT</span><div><strong><code>Week10_AssetIntegration</code> Scene을 만듭니다</strong><p>현재 Scene을 실행해 시작, 이동, 수집 또는 상호작용, 결과와 재시작이 작동하는지 먼저 확인한 뒤 Save As로 복제합니다.</p></div><div><strong>Console을 0에서 시작합니다</strong><p>기존 오류가 있으면 이번 에셋 통합의 실패와 구분할 수 없습니다. Error 0, Missing Reference 0 상태를 캡처합니다.</p></div></div>
+        <div class="concept-grid">
+          <article><span>AVAILABLE</span><h3>9주차 결과가 있는 경우</h3><p><code>week09_학번_이름_selected.png</code>, style board와 process log를 열고 선택한 방향을 그대로 이어갑니다.</p></article>
+          <article><span>FALLBACK</span><h3>9주차 결과가 없거나 손상된 경우</h3><p>현재 프로젝트의 placeholder 한 세트 또는 제공 예제를 복제하고, 다섯 색과 형태 규칙을 새로 적은 뒤 같은 8개 테스트를 적용합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="pack" aria-labelledby="pack-title">
+        <header class="section-heading">
+          <h2 id="pack-title">세 파일에서 여덟 조각이 나옵니다</h2>
+          <p>파일명과 크기는 수업의 공통 계약입니다. 미술 스타일은 달라도 import와 테스트 방법은 같아집니다.</p>
+        </header>
+        <div class="asset-pack-grid">
+          <article><span>FILE 01 / FOUR PIECES</span><h3><code>Player_Walk_4x1.png</code></h3><p>512×128px, 128×128 셀 4개, RGBA 투명, 같은 발 기준선, Bottom Center, Player walk 01-04</p></article>
+          <article><span>FILE 02 / THREE PIECES</span><h3><code>Interactables_3x1.png</code></h3><p>384×128px, 128×128 셀 3개, RGBA 투명, Collectible, Hazard, Goal이 실루엣으로 즉시 구분됨</p></article>
+          <article><span>FILE 03 / ONE PIECE</span><h3><code>UI_Panel_512x256.png</code></h3><p>512×256px, 가운데 텍스트 공간, 보호된 모서리, 9-slice 또는 고정 비율 중 사용 방식을 로그에 명시</p></article>
+        </div>
+        <div class="starter-download">
+          <div><h3>Week 10 starter pack</h3><p>규격 CSV, AI_ASSET_LOG Markdown과 실습 README가 들어 있습니다. 압축을 풀고 학번, 이름과 실제 제작 경로를 채웁니다.</p></div>
+          <a href="assets/week-10-asset-kit-starter.zip" download>starter ZIP 받기</a>
+        </div>
+        <div class="table-wrap" role="region" aria-label="10주차 에셋 파일 규격표" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">파일</th><th scope="col">Import</th><th scope="col">Slice / UI</th><th scope="col">통과 조건</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Player_Walk_4x1.png</th><td>Sprite, Multiple, 128 PPU, Full Rect</td><td>Grid 128×128, Bottom Center</td><td>child Sprite 4개, 8 Samples 반복에서 떨림 없음</td></tr>
+              <tr><th scope="row">Interactables_3x1.png</th><td>Sprite, Multiple, 128 PPU, Full Rect</td><td>Grid 128×128, Center 또는 합의한 공통 Pivot</td><td>child Sprite 3개, 게임 크기에서 세 역할 구분</td></tr>
+              <tr><th scope="row">UI_Panel_512x256.png</th><td>Sprite Single 또는 Texture2D</td><td>Image Sliced 또는 RawImage 고정 비율</td><td>텍스트 가독성, 모서리와 장식이 늘어나지 않음</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="route" aria-labelledby="route-title">
+        <header class="section-heading">
+          <h2 id="route-title">도구는 달라도 제출 증거는 같습니다</h2>
+          <p>Unity AI 사용 가능 여부, 계정과 네트워크는 평가 대상이 아닙니다. 자신에게 가능한 경로를 바로 선택하고 규격과 테스트에 시간을 씁니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>ROUTE A / AI-ASSISTED</span><h3>후보를 만들고 사람이 정규화합니다</h3><p>Sprite Generator 또는 허용된 이미지 도구로 후보를 만들고 Remove Background, Inpaint, Recolor 등을 문제별로 적용합니다. 도구, 모델, prompt와 참조 권리를 모두 기록합니다.</p></article>
+          <article><span>ROUTE B / MANUAL OR OFFLINE</span><h3>기존 자산을 직접 변형합니다</h3><p>자신이 만든 또는 이용이 허락된 원본을 복제해 crop, erase, paint, recolor, resize와 frame edit로 같은 규격을 만듭니다. 사용한 수작업 방법과 사람의 판단을 같은 로그에 적습니다.</p></article>
+        </div>
+        <aside class="teacher-check"><span>동등한 평가</span><p>AI 경로는 생성량을, 수작업 경로는 작업 시간을 점수로 바꾸지 않습니다. 세 파일의 규격, 두 번 이상의 사람 수정, Unity 통합, 기능 보존, 8개 테스트와 재현 가능한 기록만 같은 기준으로 봅니다.</p></aside>
+      </section>
+
+      <section class="week-ten-section" id="workflow" aria-labelledby="workflow-title">
+        <header class="section-heading">
+          <h2 id="workflow-title">다음 중간 도착점만 확인합니다</h2>
+          <p>아래 순서는 요구되는 결과의 흐름입니다. 사용하는 편집 도구, 생성 방식과 세부 클릭은 학생이 선택합니다.</p>
+        </header>
+        <ol class="build-steps">
+          <li><span class="step-number">01</span><div><h3>규격과 원본을 고정합니다</h3><p><code>asset-spec-template.csv</code>에 세 파일의 역할, 픽셀, 셀, alpha, PPU, pivot과 사용 컴포넌트를 적고 source 파일을 복제합니다.</p><div class="step-check"><b>CHECKPOINT</b><span>원본과 작업본의 파일명이 다르고 세 target file의 규격 칸이 모두 채워졌습니다.</span></div></div></li>
+          <li><span class="step-number">02</span><div><h3>게임 크기에서 후보를 선택합니다</h3><p>후보를 128×128 preview와 실제 Game View 예상 크기로 놓고 역할과 실루엣이 가장 잘 읽히는 결과만 남깁니다.</p><div class="step-check"><b>CHECKPOINT</b><span>생성 횟수가 아니라 선택 1개와 거절 이유가 로그에 있습니다.</span></div></div></li>
+          <li><span class="step-number">03</span><div><h3>관찰한 문제 두 가지 이상을 직접 고칩니다</h3><p>halo, 잘린 외곽, 손, 소품, 팔레트, 발 기준선, 패널 모서리 중 실제로 보이는 문제를 고칩니다.</p><div class="step-check"><b>CHECKPOINT</b><span>두 수정의 영역, 전후 관찰, 변경 내용과 이유가 각각 기록되어 있습니다.</span></div></div></li>
+          <li><span class="step-number">04</span><div><h3>세 최종 파일을 정규화합니다</h3><p>Player 512×128, Interactables 384×128, UI 512×256을 정확한 alpha 규칙으로 저장하고 다시 열어 확인합니다.</p><div class="step-check"><b>CHECKPOINT</b><span>크기, 셀 수, 배경 투명, 채움과 파일명이 계약과 일치합니다.</span></div></div></li>
+          <li><span class="step-number">05</span><div><h3>Unity에서 4+3 Sprite를 분할합니다</h3><p>Sprite Mode Multiple, 128 PPU, Full Rect와 Alpha Is Transparency를 적용하고 128×128 Grid로 Slice합니다.</p><div class="step-check"><b>CHECKPOINT</b><span>Project 창에 Player 4개와 Interactables 3개가 빈 셀 없이 보입니다.</span></div></div></li>
+          <li><span class="step-number">06</span><div><h3>기존 기능의 그림만 교체합니다</h3><p>Player SpriteRenderer와 Walk Clip, 세 상호작용 Prefab의 Sprite, 기존 UI의 Source Image 또는 Texture만 교체합니다.</p><div class="step-check"><b>CHECKPOINT</b><span>Collider, Tag, Script, Animator parameter와 Button On Click을 새로 만들거나 지우지 않았습니다.</span></div></div></li>
+          <li><span class="step-number">07</span><div><h3>실제 플레이에서 증거를 남깁니다</h3><p>시작부터 재시작까지 플레이하며 여덟 기준을 판정하고 실패는 가장 작은 단계로 돌아가 수정합니다.</p><div class="step-check"><b>CHECKPOINT</b><span>8 / 8 PASS, Error 0, Missing Reference 0이며 45-60초 영상과 CSV가 있습니다.</span></div></div></li>
+        </ol>
+      </section>
+
+      <section class="week-ten-section" id="log" aria-labelledby="log-title">
+        <header class="section-heading">
+          <h2 id="log-title">완성 이미지보다 판단의 흔적을 더 오래 남깁니다</h2>
+          <p><code>AI_ASSET_LOG.md</code>는 AI 사용 여부와 상관없이 제출합니다. 수작업 경로라면 tool/model 대신 사용한 편집 방법을 기록합니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>IDENTITY</span><dl><div><dt>필수</dt><dd>날짜, 주차, 학번, 이름, 게임 내 역할</dd></div><div><dt>파일</dt><dd>source, edited, final의 정확한 이름</dd></div><div><dt>규격</dt><dd>픽셀, 셀, alpha, PPU, pivot</dd></div></dl></article>
+          <article><span>PRODUCTION</span><dl><div><dt>AI 경로</dt><dd>도구, 모델, prompt, reference</dd></div><div><dt>수작업 경로</dt><dd>도구와 crop, paint, resize 등 수행 방법</dd></div><div><dt>권리</dt><dd>참조 출처, 이용 조건, 참조 역할</dd></div></dl></article>
+          <article><span>HUMAN EDITS</span><dl><div><dt>최소</dt><dd>서로 다른 수정 두 가지</dd></div><div><dt>기록</dt><dd>문제 영역, 관찰, 변경, 이유</dd></div><div><dt>비교</dt><dd>수정 전후 crop 또는 파일명</dd></div></dl></article>
+          <article><span>UNITY TEST</span><dl><div><dt>Import</dt><dd>실제 적용한 설정값</dd></div><div><dt>Game View</dt><dd>가독성, 떨림, UI, 회귀 관찰</dd></div><div><dt>한계</dt><dd>남아 있는 문제와 다음 수정</dd></div></dl></article>
+        </div>
+        <div class="rule-banner"><span>기록 원칙</span><strong>prompt 원문과 참조 조건을 지우지 않습니다. “AI가 만들었다” 또는 “직접 수정했다”만으로는 재현할 수 없으므로 무엇을 왜 바꾸었는지 관찰 가능한 문장으로 씁니다.</strong></div>
+      </section>
+
+      <section class="week-ten-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading">
+          <h2 id="tests-title">필수 테스트 8개가 완료를 결정합니다</h2>
+          <p>예상과 다르면 FAIL이 정상입니다. 관찰, 수정 기록을 남기고 관련 단계만 고친 뒤 같은 조건으로 다시 실행합니다.</p>
+        </header>
+        <aside class="test-contract"><span>PASS CONTRACT</span><p><strong>8 / 8 PASS</strong>와 제출 증거가 완료 조건입니다. 빨리 끝났는지, 몇 번 생성했는지, 어떤 유료 도구를 사용했는지는 평가에 반영하지 않습니다.</p></aside>
+        <div class="test-identity">
+          <label>학번<input type="text" inputmode="numeric" autocomplete="off" placeholder="20260000" data-student-id></label>
+          <label>이름<input type="text" autocomplete="name" placeholder="이름" data-student-name></label>
+          <div class="test-progress" data-test-progress><span>Required tests</span><strong data-test-progress-label>0 / 8 PASS</strong></div>
+        </div>
+        <div class="test-table-wrap table-wrap" role="region" aria-label="10주차 Sprite와 UI 에셋 통합 테스트표" tabindex="0">
+          <table class="test-table" data-test-table>
+            <thead><tr><th scope="col">ID</th><th scope="col">조작, 조건</th><th scope="col">기대 결과</th><th scope="col">판정</th><th scope="col">관찰, 수정 기록</th></tr></thead>
+            <tbody>
+              <tr data-test-id="T01" data-required="true"><th scope="row">T01</th><td>asset spec와 제작 로그를 처음부터 끝까지 확인</td><td>세 파일의 역할, 픽셀, 셀, alpha, PPU, pivot이 있고 도구 또는 수작업 방법, prompt, 참조 출처, 조건, 사람 수정 2개가 빠짐없이 기록됨</td><td><select data-test-status aria-label="T01 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T01 관찰 기록" placeholder="누락 항목 또는 수정"></td></tr>
+              <tr data-test-id="T02" data-required="true"><th scope="row">T02</th><td>세 PNG를 체커보드와 파일 정보에서 100%로 확인</td><td>파일명이 정확하고 크기가 512×128, 384×128, 512×256이며 독립 Sprite 외곽에 halo, 잘림, 배경 잔여물이 없음</td><td><select data-test-status aria-label="T02 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T02 관찰 기록" placeholder="크기, alpha, edge"></td></tr>
+              <tr data-test-id="T03" data-required="true"><th scope="row">T03</th><td>Player 네 프레임을 빠르게 순환하거나 onion skin으로 비교</td><td>모두 128×128 셀이고 발 기준선, 피벗, 실루엣 부피, 팔레트, 빛이 안정적이며 프레임 중복이나 빈 칸이 없음</td><td><select data-test-status aria-label="T03 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T03 관찰 기록" placeholder="흔들린 프레임, 수정"></td></tr>
+              <tr data-test-id="T04" data-required="true"><th scope="row">T04</th><td>Collectible, Hazard, Goal을 실제 Game View 크기로 동시에 배치</td><td>설명 문구 없이도 세 역할이 실루엣과 색 역할로 구분되고 Player 및 배경과 묻히지 않음</td><td><select data-test-status aria-label="T04 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T04 관찰 기록" placeholder="가장 약한 역할"></td></tr>
+              <tr data-test-id="T05" data-required="true"><th scope="row">T05</th><td>Project 창과 Sprite Editor에서 두 sheet를 펼쳐 확인</td><td>128 PPU, Multiple, Full Rect, Alpha 설정이며 128×128 Grid 결과가 Player 4개, Interactables 3개로 정확함</td><td><select data-test-status aria-label="T05 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T05 관찰 기록" placeholder="import, slice 결과"></td></tr>
+              <tr data-test-id="T06" data-required="true"><th scope="row">T06</th><td>Player를 정지, 이동, 방향 전환하며 Walk Clip을 5회 이상 재생</td><td>4프레임, 8 Samples, Loop Time으로 반복되고 튐, 크기 변화, 빈 프레임 없이 기존 이동과 충돌이 유지됨</td><td><select data-test-status aria-label="T06 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T06 관찰 기록" placeholder="Animator, 기준선"></td></tr>
+              <tr data-test-id="T07" data-required="true"><th scope="row">T07</th><td>UI 패널을 16:9와 좁은 Game View에서 각각 확인</td><td>Image 또는 RawImage 선택 이유가 로그에 있고 텍스트가 읽히며 장식, 모서리, 비율이 왜곡되지 않고 버튼 기능이 작동함</td><td><select data-test-status aria-label="T07 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T07 관찰 기록" placeholder="UI 비율, 대비, 기능"></td></tr>
+              <tr data-test-id="T08" data-required="true"><th scope="row">T08</th><td>Start → Play → Collect/Hazard → Goal/Result → Restart 전체 흐름을 녹화</td><td>기존 게임 루프가 유지되고 Console Error 0, Missing Reference 0이며 45-60초 영상, 로그와 test CSV가 정확한 이름으로 다시 열림</td><td><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T08 관찰 기록" placeholder="회귀, Console, 증거"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="test-actions">
+          <button class="test-action test-action-primary" type="button" data-export-tests>CSV 저장</button>
+          <button class="test-action" type="button" data-reset-tests>기록 초기화</button>
+          <p data-test-status-message role="status" aria-live="polite">기록은 이 브라우저에 자동 저장됩니다.</p>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="repair" aria-labelledby="repair-title">
+        <header class="section-heading">
+          <h2 id="repair-title">FAIL은 가장 가까운 원인으로 돌아가는 표지입니다</h2>
+          <p>전체를 다시 만들기 전에 이미지, import, animation, UI와 게임 기능 중 어느 층에서 처음 어긋났는지 찾습니다.</p>
+        </header>
+        <div class="debug-ladder" aria-label="Sprite와 UI 에셋 문제 확인 순서"><span>원본, alpha</span><b aria-hidden="true">→</b><span>파일 규격</span><b aria-hidden="true">→</b><span>Import, Slice</span><b aria-hidden="true">→</b><span>Clip, UI</span><b aria-hidden="true">→</b><span>Game loop</span></div>
+        <div class="trouble-grid">
+          <details><summary>Sprite 외곽에 흰 선이나 배경 조각이 남습니다</summary><div class="details-motion-content"><p>원본을 체커보드 위 100%에서 보고 반투명 halo를 지웁니다. Unity에서는 Alpha Is Transparency와 Filter를 확인합니다. Transform scale로 숨기지 않습니다.</p></div></details>
+          <details><summary>Slice 결과가 4개 또는 3개가 아닙니다</summary><div class="details-motion-content"><p>실제 파일 크기, Sprite Mode Multiple, Grid By Cell Size 128×128과 offset, padding 0을 확인하고 Apply합니다. 빈 열이 있다면 source sheet부터 다시 자릅니다.</p></div></details>
+          <details><summary>걷는 동안 캐릭터가 위아래로 튑니다</summary><div class="details-motion-content"><p>네 셀의 발 기준선과 투명 여백, Sprite Editor의 Pivot을 같은 값으로 맞춥니다. Clip의 Transform Position key가 우연히 생겼다면 제거합니다.</p></div></details>
+          <details><summary>한 프레임에서 캐릭터가 커지거나 장비가 사라집니다</summary><div class="details-motion-content"><p>문제 프레임만 inpaint 또는 직접 페인팅하고 인접 프레임과 실루엣 부피를 비교합니다. 좋은 나머지 세 장을 다시 생성하지 않습니다.</p></div></details>
+          <details><summary>세 상호작용 오브젝트의 역할이 구분되지 않습니다</summary><div class="details-motion-content"><p>색만 바꾸기 전에 큰 실루엣을 다르게 만듭니다. 수집물은 작고 둥근 끌림, 위험은 뾰족한 방해, 목표는 열린 통과 형태처럼 기능을 형태에 연결합니다.</p></div></details>
+          <details><summary>UI 패널 모서리와 장식이 늘어납니다</summary><div class="details-motion-content"><p>Image라면 Border와 Sliced를 설정하고 stretch되지 않을 모서리 범위를 확인합니다. RawImage라면 원본 비율을 유지하거나 고정 크기로 사용합니다.</p></div></details>
+          <details><summary>아트를 교체한 뒤 충돌, 수집, 버튼이 작동하지 않습니다</summary><div class="details-motion-content"><p>SpriteRenderer 또는 Source Image만 바꿨는지 확인합니다. Collider, Tag, Layer, Script, Animator parameter, Prefab override와 Button On Click을 baseline Scene과 비교합니다.</p></div></details>
+          <details><summary>Unity AI 또는 생성 서비스에 접속할 수 없습니다</summary><div class="details-motion-content"><p>즉시 Route B로 바꿉니다. 9주차 원본이나 사용 허가된 placeholder를 복제해 erase, paint, recolor, resize와 frame edit로 같은 세 파일을 만들고 수작업 방법을 로그에 남깁니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="ai" aria-labelledby="ai-title">
+        <header class="section-heading">
+          <h2 id="ai-title">AI는 후보와 국소 수정에 쓰고 결정은 학생이 남깁니다</h2>
+          <p>이번 주는 시각 자산 수업입니다. Agent가 Scene, Prefab 또는 Script를 직접 고치게 하지 않고 코드 변경은 11주차의 제한 실행에서 다룹니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>ALLOWED</span><dl><div><dt>생성</dt><dd>자신의 콘셉트와 허용된 참조로 Sprite, UI 후보 만들기</dd></div><div><dt>후처리</dt><dd>배경 제거, 국소 수정, 팔레트, 크기 보조</dd></div><div><dt>Ask</dt><dd>관찰 기준과 Unity 설정 이유를 설명받기</dd></div></dl></article>
+          <article><span>REQUIRED</span><dl><div><dt>기록</dt><dd>provider, model, prompt, reference, 출처, 이용 조건</dd></div><div><dt>수정</dt><dd>학생이 직접 판단한 서로 다른 수정 2개 이상</dd></div><div><dt>검증</dt><dd>8개 PASS와 Game View 증거</dd></div></dl></article>
+          <article><span>NOT ALLOWED</span><dl><div><dt>개인정보</dt><dd>얼굴, 학번, 연락처, 비공개 작품을 입력하지 않음</dd></div><div><dt>참조</dt><dd>권리를 확인하지 않은 이미지와 특정 생존 작가 모방 지시를 사용하지 않음</dd></div><div><dt>Agent</dt><dd>Scene, Prefab, Script와 제출 로그를 자동 변경하지 않음</dd></div></dl></article>
+          <article><span>IF UNAVAILABLE</span><dl><div><dt>계정</dt><dd>가입, 결제, trial 사용을 완료 조건으로 요구하지 않음</dd></div><div><dt>대체</dt><dd>허용된 기존 자산과 수작업 편집으로 즉시 전환</dd></div><div><dt>평가</dt><dd>AI 경로와 같은 규격, 통합, 테스트 기준</dd></div></dl></article>
+        </div>
+        <aside class="ask-template"><span>ASK TEMPLATE</span><p><code>게임용 Sprite/UI 에셋을 검사 중입니다. 목표 규격은 [파일, 픽셀, 셀, PPU, 피벗, 용도]이고 현재 관찰은 [실제 Game View와 확대 화면의 사실]입니다. 이미지를 새로 만들거나 프로젝트를 수정하지 말고, 원본 → import → animation/UI → 게임 기능 순서에서 확인할 항목과 각 항목의 통과 기준만 설명해 주세요.</code></p></aside>
+      </section>
+
+      <section class="week-ten-section" id="submission" aria-labelledby="submission-title">
+        <header class="section-heading">
+          <h2 id="submission-title">다음 주가 바로 이어받을 수 있는 다섯 증거를 남깁니다</h2>
+          <p>11주차에는 기능을 제한적으로 수정합니다. 따라서 이번 제출은 새 아트를 넣은 뒤에도 baseline 기능이 보존된 상태여야 합니다.</p>
+        </header>
+        <div class="submission-grid">
+          <article><span>UNITY PROJECT</span><h3><code>Week10_학번_이름</code></h3><p><code>Week10_AssetIntegration</code> Scene이 열리고 필요한 asset과 meta가 빠짐없이 포함된 프로젝트 또는 수업이 지정한 package입니다.</p></article>
+          <article><span>ASSET KIT</span><h3><code>week10_학번_이름_asset-kit</code></h3><p>세 최종 PNG, source와 수정 전후 증거, <code>asset-spec.csv</code>를 역할별 폴더에 정리합니다.</p></article>
+          <article><span>PROCESS LOG</span><h3><code>AI_ASSET_LOG.md</code></h3><p>AI 또는 수작업 방법, prompt, 참조 권리, 두 번 이상의 사람 수정과 Unity 테스트를 기록합니다.</p></article>
+          <article><span>PLAY VIDEO</span><h3><code>week10_학번_이름_play.mp4</code></h3><p>45-60초 안에 Player animation, 세 역할, UI, 결과와 재시작, Console 0을 순서대로 보여 줍니다.</p></article>
+          <article><span>TEST LOG</span><h3><code>week10_학번_이름_test.csv</code></h3><p>이 페이지에서 저장한 T01부터 T08의 PASS와 관찰, 수정 기록입니다.</p></article>
+        </div>
+        <div class="completion-panel" data-build-checklist>
+          <header><div><span>FINAL CHECK</span><h3>제출 전 마지막 확인</h3></div><strong data-build-progress-label>0 / 8 완료</strong></header>
+          <ol>
+            <li><label><input type="checkbox" data-check-id="spec"><span>세 target file의 역할, 픽셀, 셀, alpha, PPU, pivot 규격이 기록되어 있습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="files"><span>512×128 Player, 384×128 Interactables, 512×256 UI 파일이 정확한 이름으로 다시 열립니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="edits"><span>서로 다른 사람 수정 두 가지 이상이 전후 관찰, 변경, 이유와 함께 로그에 있습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="sprites"><span>Player 4개와 Interactables 3개가 128×128 Grid로 정확히 분할됩니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="animation"><span>Player Walk가 4프레임, 8 Samples, Loop로 떨림 없이 재생됩니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="ui"><span>UI가 두 Game View 비율에서 읽히고 모서리, 장식, 버튼 기능이 유지됩니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="loop"><span>전체 게임 루프, Error 0, Missing Reference 0을 45-60초 영상으로 기록했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="tests"><span>T01부터 T08까지 모두 PASS이고 test CSV와 AI_ASSET_LOG를 저장했습니다.</span></label></li>
+          </ol>
+          <button type="button" data-build-reset>체크 초기화</button>
+          <p class="control-status" data-build-status-message role="status" aria-live="polite">체크 결과는 이 브라우저에 자동 저장됩니다.</p>
+        </div>
+        <aside class="next-week"><span>WEEK 11 / AI-ASSISTED CODING</span><div><h3>보존된 baseline 위에서 기능 하나만 제한적으로 바꿉니다</h3><p>11주차에는 Ask → Plan → 승인 → script-only Agent 순서로 작은 mechanic 하나를 수정하고 diff, Console, 기존 테스트와 코드 구술로 검증합니다.</p><a href="week-11-period1.html">11주차 1교시 열기 →</a></div></aside>
+        <div class="rule-banner"><span>ASSIGNMENT 03</span><strong>AI Sprite, UI asset kit와 제작 로그. 수업이 정한 제출 위치와 마감에 project, asset kit, Markdown log, 45-60초 영상과 CSV를 함께 제출합니다.</strong></div>
+      </section>
+
+      <section class="week-ten-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">실습 중 확인할 Unity 공식 자료</h2>
+          <p>Unity AI가 보이지 않거나 기능 이름이 바뀌면 공식 페이지와 설치된 package version을 확인한 뒤 수작업 경로로 같은 결과를 만듭니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://unity.com/blog/unity-ai-sprite-generator" target="_blank" rel="noopener noreferrer"><strong>Unity AI Sprite Generator 안내 ↗</strong></a><span>prototype 목적, 참조, 후처리, Sprite sheet와 GeneratedAssets 흐름</span></li>
+          <li><a href="https://unity.com/blog/unity-ai-ui-generator" target="_blank" rel="noopener noreferrer"><strong>Unity AI UI workflow 안내 ↗</strong></a><span>Sprite와 Texture2D의 구분, uGUI를 먼저 작동시키는 순서</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/texture-type-sprite.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Sprite Import Settings ↗</strong></a><span>Multiple, PPU, Mesh, Alpha, Filter, Compression과 Read/Write</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/sprite/sprite-editor/use-editor.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Sprite Editor ↗</strong></a><span>Grid slicing과 child Sprite 생성</span></li>
+          <li><a href="https://unity.com/legal/unityai-guiding-principles" target="_blank" rel="noopener noreferrer"><strong>Unity AI Guiding Principles ↗</strong></a><span>AI metadata와 이용자가 확인해야 할 권리, 책임</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-ten-toc" aria-label="3교시 목차" data-week-ten-toc>
+      <button class="toc-toggle" type="button" data-toc-toggle aria-expanded="false" aria-controls="week-ten-toc-list">
+        <span>이 페이지</span><strong data-toc-current>도착점</strong><i aria-hidden="true"></i>
+      </button>
+      <p class="toc-title">Week 10 / Period 03</p>
+      <ol id="week-ten-toc-list">
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#mission"><span>01</span>미션 계약</a></li>
+        <li><a href="#starting-line"><span>02</span>시작 상태</a></li>
+        <li><a href="#pack"><span>03</span>에셋 규격</a></li>
+        <li><a href="#route"><span>04</span>경로 선택</a></li>
+        <li><a href="#workflow"><span>05</span>자기주도 흐름</a></li>
+        <li><a href="#log"><span>06</span>제작 로그</a></li>
+        <li><a href="#tests"><span>07</span>8개 테스트</a></li>
+        <li><a href="#repair"><span>08</span>FAIL 수정</a></li>
+        <li><a href="#ai"><span>09</span>AI 사용 계약</a></li>
+        <li><a href="#submission"><span>10</span>제출과 체크</a></li>
+        <li><a href="#references"><span>11</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>규격</span><i></i><span>통합</span><i></i><span>검증</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 10 / Period 03 / Individual goal-directed lab</p>
+  <script src="assets/week-10.js?v=ge1w10-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

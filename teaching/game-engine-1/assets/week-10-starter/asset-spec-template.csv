@@ -1,0 +1,4 @@
+asset_id,target_file,game_role,total_pixels,cell_pixels,cell_count,alpha_rule,ppu,pivot,unity_use,style_lock,rights_source,status
+P01,Player_Walk_4x1.png,Player walk,512x128,128x128,4,transparent,128,Bottom Center,Sprite Multiple + Animator,"9주차 형태, 5색, 빛",기입,planned
+I01,Interactables_3x1.png,Collectible Hazard Goal,384x128,128x128,3,transparent,128,Center,Sprite Multiple + Prefabs,"역할별 실루엣, 공통 팔레트",기입,planned
+U01,UI_Panel_512x256.png,HUD or result panel,512x256,512x256,1,filled as designed,n/a,n/a,Image Sliced or RawImage,"조용한 내부, 보호된 모서리",기입,planned

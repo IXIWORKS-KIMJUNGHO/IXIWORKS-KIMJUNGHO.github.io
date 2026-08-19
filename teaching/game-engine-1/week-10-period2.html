@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 2교시: 후처리에서 Unity 통합까지 | Game Engine I</title>
+  <meta name="description" content="Remove Background, Inpaint, Recolor, Pixelate, Upscale의 선택 기준과 Unity 6.3 Sprite import, slicing, Animator, Image, RawImage 연결을 시연하는 10주차 2교시 교수자 설명 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-10-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="10주차 2교시: 후처리에서 Unity 통합까지 | Game Engine I">
+  <meta property="og:description" content="거친 후보를 국소 수정하고, 4프레임 Sprite sheet와 UI Texture로 정규화해 Unity 게임 안에서 검증하는 전체 흐름을 봅니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-10-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-10-period2-integration-pipeline.webp">
+  <meta property="og:image:alt" content="배경이 남은 캐릭터 후보가 투명 배경의 정리된 Sprite, 같은 기준선의 네 프레임, 게임과 UI에 통합된 결과로 이어지는 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="10주차 2교시: 후처리에서 Unity 통합까지">
+  <meta name="twitter:description" content="후처리 순서와 Unity import, slicing, Animator, UI 연결을 하나의 교체 가능한 파이프라인으로 이해합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-10-period2-integration-pipeline.webp">
+  <link rel="preload" as="image" href="assets/week-10-period2-integration-pipeline.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-10.css?v=ge1w10-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-ten week-ten-period-two">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-10-period1.html" rel="prev" aria-label="이전 자료: 10주차 1교시: 생성된 그림은 아직 게임 에셋이 아닙니다 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-10-period3.html" rel="next" aria-label="다음 자료: 10주차 3교시: 하나의 에셋 키트를 게임 안에서 증명하라 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-ten-hero">
+    <div class="hero-inner">
+      <div class="week-ten-hero-copy">
+        <p class="eyebrow">Week 10 / Period 02 / Demonstration</p>
+        <h1>후처리에서<br>Unity 통합까지</h1>
+        <p class="lead">후처리는 효과를 더하는 일이 아닙니다. 문제에 맞는 도구 하나를 고르고, 규격을 지킨 채 Unity에서 다시 검증하는 반복입니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#tools">후처리 선택표 보기</a>
+          <a class="hero-action" href="#import">Unity import 설정 보기</a>
+        </div>
+      </div>
+      <figure class="week-ten-hero-visual">
+        <img src="assets/week-10-period2-integration-pipeline.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="배경이 남은 캐릭터 후보가 투명 배경의 정리된 Sprite, 같은 기준선의 네 프레임, 게임과 UI에 통합된 결과로 이어지는 작업대">
+        <figcaption><span>REPAIR → NORMALIZE → IMPORT → VERIFY</span> 단계마다 결과를 저장하고 다음 단계가 요구하는 규격을 먼저 확인합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">2교시의 도착점</h2>
+          <p>교수자의 한 번의 완성 시연을 통해 3교시 학생 실습의 순서, 설정값과 실패 지점을 미리 봅니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>Remove Background, Inpaint, Recolor, Pixelate, Upscale</strong>를 문제에 맞춰 선택합니다.</p></li>
+          <li><span>02</span><p>4×1 Sprite sheet를 <strong>같은 셀, 기준선, 피벗</strong>으로 정규화합니다.</p></li>
+          <li><span>03</span><p>Unity 6.3에서 <strong>Sprite Mode Multiple, 128 PPU, Grid slicing</strong>을 설정합니다.</p></li>
+          <li><span>04</span><p>Animator와 uGUI에 연결하고 <strong>기존 게임 루프를 보존한 채</strong> 화면에서 검증합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="2교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 02</span><strong>교수자 설명과 완성 시연</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자가 문제 진단, 도구 선택, 저장, Unity import와 실제 Game View 검증을 한 흐름으로 시연합니다. 학생은 각 단계의 다음 결과를 먼저 예측하고 설정 이유를 말로 설명합니다. 자기 프로젝트 제작은 3교시 개인 실습에서 시작합니다.</p>
+      </aside>
+
+      <section class="week-ten-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <h2 id="run-title">60분의 설명과 시연 흐름</h2>
+          <p>한 캐릭터 후보를 네 프레임 걷기와 UI 패널로 확장해, 기존 게임 장면의 placeholder를 교체하는 지점까지 보여 줍니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="period2-run-title">
+            <header><span>00-60 min</span><h3 id="period2-run-title">한 문제, 한 수정, 한 번의 게임 검증</h3><p>Demonstration / professor-led</p></header>
+            <ol>
+              <li><time>00-06</time><div><strong>계약과 원본 고정</strong><p>Week09_selected 원본을 복제하고 파일명, 목표 셀과 사용 위치를 먼저 적습니다.</p></div></li>
+              <li><time>06-18</time><div><strong>후처리 판단</strong><p>배경, 국소 결함, 팔레트, 픽셀 질감, 크기 문제를 구분하고 필요한 도구만 적용합니다.</p></div></li>
+              <li><time>18-29</time><div><strong>4프레임 정규화</strong><p>네 프레임을 128×128 셀에 놓고 발 기준선, 피벗과 실루엣 부피를 맞춥니다.</p></div></li>
+              <li><time>29-41</time><div><strong>Import와 slicing</strong><p>Sprite Mode Multiple, 128 PPU, Filter와 Alpha를 정하고 128×128 Grid로 분할합니다.</p></div></li>
+              <li><time>41-50</time><div><strong>Animator와 UI 연결</strong><p>4프레임 Clip을 8 Samples로 반복하고 Sprite와 Texture2D를 올바른 UI 컴포넌트에 배치합니다.</p></div></li>
+              <li><time>50-56</time><div><strong>게임 안 검증</strong><p>실제 Game View에서 떨림, 역할 가독성, 패널 왜곡과 기존 루프의 회귀를 확인합니다.</p></div></li>
+              <li><time>56-60</time><div><strong>회수와 3교시 인계</strong><p>저장할 세 이미지, 제작 로그와 여덟 테스트를 다시 읽습니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="pipeline" aria-labelledby="pipeline-title">
+        <header class="section-heading">
+          <h2 id="pipeline-title">파이프라인은 다음 단계의 입력을 만드는 일입니다</h2>
+          <p>각 단계는 목적과 통과 조건이 있습니다. 앞 단계가 끝나지 않은 채 뒤로 가면 Unity 설정으로 이미지 결함을 숨기려 하게 됩니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="생성 후보를 Unity 에셋으로 바꾸는 다섯 단계">
+          <li><span>01 / BRIEF</span><strong>규격</strong><p>역할, 시점, 셀, 팔레트, 파일명과 권리를 잠급니다.</p></li>
+          <li><span>02 / SELECT</span><strong>선택</strong><p>필요한 후보만 남기고 원본을 별도로 보존합니다.</p></li>
+          <li><span>03 / REPAIR</span><strong>후처리</strong><p>문제가 있는 배경, 영역, 색, 크기만 수정합니다.</p></li>
+          <li><span>04 / IMPORT</span><strong>정규화</strong><p>셀, 피벗, PPU, 분할, Clip을 같은 규칙으로 묶습니다.</p></li>
+          <li><span>05 / VERIFY</span><strong>검증</strong><p>게임 크기와 기존 루프에서 결과를 확인하고 기록합니다.</p></li>
+        </ol>
+        <div class="rule-banner"><span>저장 규칙</span><strong><code>source</code>, <code>edited</code>, <code>integrated</code>를 덮어쓰지 않고 구분합니다. 이전 단계로 돌아갈 수 있어야 수정이 짧아집니다.</strong></div>
+      </section>
+
+      <section class="week-ten-section" id="tools" aria-labelledby="tools-title">
+        <header class="section-heading">
+          <h2 id="tools-title">효과 이름이 아니라 관찰한 문제로 선택합니다</h2>
+          <p>모든 도구를 순서대로 적용하지 않습니다. 아래 조건에 해당할 때만 한 번 적용하고 전후를 같은 크기로 비교합니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="AI Sprite 후처리 도구 선택표" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">도구</th><th scope="col">사용할 문제</th><th scope="col">확인할 결과</th><th scope="col">주의할 점</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Remove Background</th><td>독립 Sprite 뒤에 불필요한 배경이 남음</td><td>외곽이 잘리지 않고 투명 영역에 잔여물, halo가 없음</td><td>UI 배경, 패널처럼 배경 자체가 자산이면 제거하지 않음</td></tr>
+              <tr><th scope="row">Inpaint</th><td>손, 얼굴, 소품, 모서리의 국소 결함</td><td>수정 부위가 주변 형태, 빛, 외곽선과 자연스럽게 이어짐</td><td>전체 구도를 바꾸지 말고 작은 mask로 시작</td></tr>
+              <tr><th scope="row">Recolor</th><td>9주차 팔레트와 강조색 역할이 어긋남</td><td>다섯 색의 관계와 명도 대비가 여러 에셋에서 유지됨</td><td>역할 구분에 필요한 위험, 목표 색을 같게 만들지 않음</td></tr>
+              <tr><th scope="row">Pixelate</th><td>프로젝트가 의도한 픽셀 질감과 화면 밀도가 다름</td><td>최종 사용 크기에서 픽셀 단위와 외곽선 두께가 일정함</td><td>여러 번 적용하지 않고 최종 크기 근처에서 한 번 수행</td></tr>
+              <tr><th scope="row">Upscale</th><td>실제 사용 크기나 국소 수정을 위한 픽셀이 부족함</td><td>새로운 halo, 노이즈 없이 필요한 크기를 확보함</td><td>확대는 품질 점수가 아니며 마지막에 다시 목표 크기로 확인</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="teacher-check"><span>판단 시연</span><p>배경은 깨끗하지만 손 하나가 이상한 1024px 캐릭터라면 무엇을 쓸까요? Remove Background와 Upscale을 자동으로 더하지 않고 작은 mask의 Inpaint 또는 직접 페인팅만 사용합니다. 도구 수가 적을수록 좋은 것이 아니라 문제와 수정이 정확히 대응하는지가 중요합니다.</p></aside>
+      </section>
+
+      <section class="week-ten-section" id="sheet" aria-labelledby="sheet-title">
+        <header class="section-heading">
+          <h2 id="sheet-title">수업 표준은 128px 네 칸입니다</h2>
+          <p>현재 Sprite Generator는 animation-ready Sprite sheet를 만들 수 있고 공식 안내의 현재 예시는 4×4, 16프레임입니다. 이번 수업은 그중 사용할 네 프레임을 선택하거나 직접 만든 네 장을 4×1 표준으로 정규화합니다.</p>
+        </header>
+        <div class="test-contract"><span>CLASS SPEC</span><p><code>Player_Walk_4x1.png</code>, 전체 512×128px, 프레임당 128×128px, 투명 배경, 네 프레임, 발 기준선과 Bottom Center 피벗 공유</p></div>
+        <div class="sprite-strip" aria-label="Player Walk 4x1 Sprite sheet의 네 셀">
+          <div><strong>01</strong><span>x 0-127</span></div>
+          <div><strong>02</strong><span>x 128-255</span></div>
+          <div><strong>03</strong><span>x 256-383</span></div>
+          <div><strong>04</strong><span>x 384-511</span></div>
+        </div>
+        <ol class="build-steps">
+          <li><span class="step-number">01</span><div><h3>원본을 복제합니다</h3><p><code>Week09_selected</code>는 남겨 두고 <code>Player_Walk_source</code>와 <code>Player_Walk_4x1</code>을 구분합니다.</p><div class="step-check"><b>CHECK</b><span>원본을 다시 열 수 있고 최종 sheet와 파일명이 다릅니다.</span></div></div></li>
+          <li><span class="step-number">02</span><div><h3>프레임을 같은 셀에 놓습니다</h3><p>각 프레임의 캔버스를 128×128로 맞추고 캐릭터의 발을 같은 수평 가이드에 정렬합니다.</p><div class="step-check"><b>CHECK</b><span>네 셀의 크기, 바닥 여백과 중심선이 같습니다.</span></div></div></li>
+          <li><span class="step-number">03</span><div><h3>실루엣을 빠르게 넘겨 봅니다</h3><p>머리, 몸, 대표 소품의 큰 부피가 유지되는지 onion skin 또는 빠른 frame preview로 확인합니다.</p><div class="step-check"><b>CHECK</b><span>동작은 변하지만 몸집과 장비의 정체성은 갑자기 바뀌지 않습니다.</span></div></div></li>
+          <li><span class="step-number">04</span><div><h3>RGBA PNG로 저장합니다</h3><p>투명 영역을 유지하고 실제 이미지가 512×128인지 파일 정보에서 다시 확인합니다.</p><div class="step-check"><b>CHECK</b><span>체커보드 배경에서 잘린 외곽과 흰 halo가 없습니다.</span></div></div></li>
+        </ol>
+      </section>
+
+      <section class="week-ten-section" id="import" aria-labelledby="import-title">
+        <header class="section-heading">
+          <h2 id="import-title">파일을 가져오는 순간 해석 규칙을 적습니다</h2>
+          <p>이미지는 그대로지만 import 설정에 따라 Unity 안의 크기, 가장자리, 분할과 메모리 사용이 달라집니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>SPRITE SHEET</span><dl><div><dt>Texture Type</dt><dd>Sprite (2D and UI)</dd></div><div><dt>Sprite Mode</dt><dd>Multiple</dd></div><div><dt>Pixels Per Unit</dt><dd>128</dd></div><div><dt>Mesh Type</dt><dd>Full Rect</dd></div></dl></article>
+          <article><span>EDGE &amp; FILTER</span><dl><div><dt>Alpha Is Transparency</dt><dd>On</dd></div><div><dt>Filter Mode</dt><dd>Point, 픽셀 아트 / Bilinear, 부드러운 아트</dd></div><div><dt>Compression</dt><dd>수업 품질 검사에서는 None, 실제 배포는 target별 재검토</dd></div><div><dt>Read/Write</dt><dd>Script가 pixel data를 읽지 않으면 Off</dd></div></dl></article>
+          <article><span>SPRITE EDITOR</span><dl><div><dt>Slice</dt><dd>Grid By Cell Size</dd></div><div><dt>Pixel Size</dt><dd>X 128, Y 128</dd></div><div><dt>Pivot</dt><dd>Bottom Center</dd></div><div><dt>결과</dt><dd>child Sprite 정확히 4개</dd></div></dl></article>
+          <article><span>INTERACTABLE SHEET</span><dl><div><dt>파일</dt><dd>Interactables_3x1.png</dd></div><div><dt>전체 크기</dt><dd>384×128px</dd></div><div><dt>Slice</dt><dd>128×128 Grid</dd></div><div><dt>결과</dt><dd>Collectible, Hazard, Goal 3개</dd></div></dl></article>
+        </div>
+        <div class="setup-notice"><span>중요</span><div><strong>Apply를 누른 뒤 child Sprite 수를 셉니다</strong><p>설정값을 입력했어도 Apply 전에는 import 결과가 바뀌지 않습니다. Project 창의 펼침 화살표 아래에 Player 4개, Interactables 3개가 보이는지 확인합니다.</p></div></div>
+      </section>
+
+      <section class="week-ten-section" id="animator" aria-labelledby="animator-title">
+        <header class="section-heading">
+          <h2 id="animator-title">분할된 네 장을 하나의 반복으로 묶습니다</h2>
+          <p>새로운 움직임 시스템을 만들지 않습니다. 6주차의 Animator와 이동 조건은 보존하고, Sprite frame과 Clip만 교체해 회귀 범위를 줄입니다.</p>
+        </header>
+        <div class="component-stack" aria-label="Player Walk Animation Clip 연결 구조">
+          <div class="component-object"><span>Player</span><strong>기존 Rigidbody2D, Collider2D, Move Script 보존</strong><small>게임 규칙을 바꾸지 않고 시각 자산만 교체</small></div>
+          <div><span>SpriteRenderer</span><strong>첫 번째 Player_Walk Sprite</strong><small>정지 화면과 scale을 먼저 확인</small></div>
+          <div><span>Animation Clip</span><strong>Player_Walk, 4 frames, 8 Samples</strong><small>0.5초에 한 주기, Loop Time On</small></div>
+          <div><span>Animator</span><strong>기존 Move state의 Motion 교체</strong><small>Parameter와 transition 조건은 유지</small></div>
+        </div>
+        <div class="concept-grid">
+          <article><span>PREVIEW / FIRST</span><h3>Animation 창에서 먼저 재생</h3><p>발 기준선, 프레임 순서, 갑작스러운 scale 변화와 빈 프레임을 짧게 확인합니다.</p></article>
+          <article><span>GAME VIEW / SECOND</span><h3>움직이며 실제 크기로 확인</h3><p>카메라와 배경 안에서 실루엣이 읽히는지, 방향 전환과 충돌 중 기존 기능이 유지되는지 확인합니다.</p></article>
+        </div>
+        <aside class="teacher-check"><span>떨림 진단</span><p>Preview에서 떨리면 source sheet의 기준선, 여백, 피벗을 확인합니다. Preview는 안정적이지만 Game View에서만 크기가 바뀌면 Player의 Transform, Animator state 또는 다른 Clip의 scale key를 확인합니다.</p></aside>
+      </section>
+
+      <section class="week-ten-section" id="ui" aria-labelledby="ui-title">
+        <header class="section-heading">
+          <h2 id="ui-title">UI의 기능을 먼저 만들고 그림을 교체합니다</h2>
+          <p>버튼과 패널의 hierarchy, anchor와 text 대비가 작동하는 상태에서 시각 자산을 바꿉니다. 예쁜 이미지를 먼저 놓고 기능을 끼워 맞추지 않습니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>IMAGE / SPRITE</span><h3>아이콘과 늘어나는 패널</h3><p>Sprite로 import한 아이콘은 <code>Image</code>에 넣습니다. 모서리를 보존하며 늘려야 하는 패널은 Border를 정의하고 Image Type을 <code>Sliced</code>로 사용합니다.</p></article>
+          <article><span>RAWIMAGE / TEXTURE</span><h3>분할하지 않는 배경과 임시 화면</h3><p>한 장의 Texture2D를 그대로 표시할 때 <code>RawImage</code>를 사용할 수 있습니다. 비율이 바뀌면 왜곡되므로 aspect와 anchor를 함께 확인합니다.</p></article>
+        </div>
+        <div class="settings-grid">
+          <article><span>UI PANEL CLASS SPEC</span><dl><div><dt>파일</dt><dd>UI_Panel_512x256.png</dd></div><div><dt>핵심</dt><dd>가운데는 텍스트를 위한 조용한 공간</dd></div><div><dt>모서리</dt><dd>장식이 stretch 영역에 들어가지 않음</dd></div><div><dt>대비</dt><dd>텍스트와 배경이 실제 Game View에서 읽힘</dd></div></dl></article>
+          <article><span>REPLACE, DO NOT REBUILD</span><dl><div><dt>보존</dt><dd>Canvas, Button On Click, Text, anchor</dd></div><div><dt>교체</dt><dd>Image Source Image 또는 RawImage Texture</dd></div><div><dt>확인</dt><dd>16:9와 좁은 Game View 두 비율</dd></div><div><dt>회귀</dt><dd>Start, Result, Restart 흐름</dd></div></dl></article>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="handoff" aria-labelledby="handoff-title">
+        <header class="section-heading">
+          <h2 id="handoff-title">결과 옆에 재현 가능한 제작 경로를 둡니다</h2>
+          <p>UnityAI metadata가 있더라도 수업 로그를 별도로 남깁니다. 서비스 밖에서 한 직접 수정과 게임 안 테스트까지 한 파일에서 이어져야 합니다.</p>
+        </header>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>AI_ASSET_LOG.md / minimum fields</span><button type="button" data-copy-code="asset-log-fields">로그 항목 복사</button></div>
+          <pre><code id="asset-log-fields"># Week 10 AI Asset Log
+
+## Asset
+- date / week:
+- purpose in game:
+- target file and pixel specification:
+
+## Production
+- tool / model or manual method:
+- prompt or operation:
+- reference source / permission / role:
+- output kept and output rejected:
+
+## Human edits
+- edited area:
+- problem observed:
+- change made and reason:
+
+## Unity verification
+- import / slicing / pivot settings:
+- Game View test:
+- remaining limitation:</code></pre>
+        </div>
+        <p class="copy-status" data-copy-status role="status" aria-live="polite">없는 항목은 비워 두지 말고 “없음” 또는 “수작업 경로”라고 적습니다.</p>
+        <div class="rule-banner"><span>최소 인간 수정</span><strong>3교시에는 halo 제거, 기준선 정렬, 한 프레임 형태 수정, 팔레트 통일, 패널 모서리 정리 중 적어도 두 가지를 실제로 수행하고 전후와 이유를 기록합니다.</strong></div>
+      </section>
+
+      <section class="week-ten-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">3교시를 시작하기 전 네 가지 예측</h2>
+          <p>먼저 문제의 층과 검사 위치를 말한 뒤 펼쳐 확인합니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. 투명 Sprite 가장자리에 흰 선이 보이면 Unity scale부터 바꿔야 할까?</summary><div class="details-motion-content"><p>먼저 원본의 반투명 halo와 Remove Background 결과를 100% 확대에서 확인합니다. 그다음 Alpha Is Transparency와 Filter를 확인합니다. Transform scale은 경계 결함을 고치는 도구가 아닙니다.</p></div></details>
+          <details><summary>Q2. 512×128 sheet를 네 장으로 나누려면 어떤 Slice를 선택하는가?</summary><div class="details-motion-content"><p>Sprite Mode를 Multiple로 하고 Sprite Editor에서 <code>Grid By Cell Size</code>, X 128, Y 128을 사용합니다. 결과 child Sprite가 정확히 네 개인지 확인합니다.</p></div></details>
+          <details><summary>Q3. 캐릭터는 안정적이지만 UI 패널 모서리가 늘어나면 어디를 고치는가?</summary><div class="details-motion-content"><p>Image를 사용한다면 Sprite Editor의 Border와 Image Type Sliced를 확인합니다. RawImage라면 텍스처 전체가 늘어나므로 비율을 유지하거나 9-slice 가능한 Image 구조로 바꿉니다.</p></div></details>
+          <details><summary>Q4. 새 아트 연결 뒤 수집과 재시작이 실패하면 이미지를 다시 생성해야 하는가?</summary><div class="details-motion-content"><p>아닙니다. SpriteRenderer, Animator와 UI source만 교체했는지 확인하고, Collider, Script, Button On Click, Prefab 참조가 함께 바뀌지 않았는지 회귀 테스트합니다.</p></div></details>
+        </div>
+        <div class="exit-ticket">
+          <article><span>01</span><p>국소 결함은 전체 재생성보다 작은 mask의 ______부터 검토합니다.</p></article>
+          <article><span>02</span><p>4×1 sheet는 Sprite Mode ______와 128×128 Grid로 나눕니다.</p></article>
+          <article><span>03</span><p>새 에셋 통합 뒤에는 화면 품질과 기존 게임 ______을 함께 검사합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-ten-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">시연에 사용한 Unity 공식 자료</h2>
+          <p>메뉴 이름이 다르면 현재 설치된 Unity 6.3과 package의 공식 문서를 우선합니다. Unity AI가 보이지 않아도 같은 규격의 수작업 경로로 실습할 수 있습니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://unity.com/blog/unity-ai-sprite-generator" target="_blank" rel="noopener noreferrer"><strong>Unity AI Sprite Generator 안내 ↗</strong></a><span>Remove Background, Upscale, Pixelate, Recolor, Inpaint와 Sprite sheet 흐름</span></li>
+          <li><a href="https://unity.com/blog/unity-ai-ui-generator" target="_blank" rel="noopener noreferrer"><strong>Unity AI UI workflow 안내 ↗</strong></a><span>Sprite Generator와 Texture2D Generator의 역할, uGUI 우선 구성</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/texture-type-sprite.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Sprite Import Settings ↗</strong></a><span>Multiple, PPU, Mesh, Alpha, Filter와 Read/Write</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/sprite/sprite-editor/use-editor.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Sprite Editor ↗</strong></a><span>Automatic, Grid By Cell Size와 Grid By Cell Count slicing</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/AnimationOverview.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Animation overview ↗</strong></a><span>Animation Clip과 Animator의 역할</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-ten-toc" aria-label="2교시 목차" data-week-ten-toc>
+      <button class="toc-toggle" type="button" data-toc-toggle aria-expanded="false" aria-controls="week-ten-toc-list">
+        <span>이 페이지</span><strong data-toc-current>도착점</strong><i aria-hidden="true"></i>
+      </button>
+      <p class="toc-title">Week 10 / Period 02</p>
+      <ol id="week-ten-toc-list">
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#pipeline"><span>02</span>파이프라인</a></li>
+        <li><a href="#tools"><span>03</span>후처리 선택</a></li>
+        <li><a href="#sheet"><span>04</span>4프레임 sheet</a></li>
+        <li><a href="#import"><span>05</span>Unity import</a></li>
+        <li><a href="#animator"><span>06</span>Animator</a></li>
+        <li><a href="#ui"><span>07</span>Texture2D와 UI</a></li>
+        <li><a href="#handoff"><span>08</span>제작 로그</a></li>
+        <li><a href="#check"><span>09</span>회수 질문</a></li>
+        <li><a href="#references"><span>10</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>수정</span><i></i><span>통합</span><i></i><span>검증</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 10 / Period 02 / Professor-led demonstration</p>
+  <script src="assets/week-10.js?v=ge1w10-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

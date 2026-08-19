@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>10주차 1교시: 생성된 그림은 아직 게임 에셋이 아닙니다 | Game Engine I</title>
+  <meta name="description" content="생성 이미지와 게임 에셋의 차이를 이해하고, 픽셀 크기, PPU, 프레임 일관성, 투명 경계, 권리 기록을 하나의 에셋 규격으로 설명하는 10주차 1교시 교수자 설명 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-10-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="10주차 1교시: 생성된 그림은 아직 게임 에셋이 아닙니다 | Game Engine I">
+  <meta property="og:description" content="좋아 보이는 후보를 크기, 경계, 프레임, 기능과 제작 기록이 검증된 게임 에셋으로 바꾸는 기준을 세웁니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-10-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-10-period1-asset-readiness.webp">
+  <meta property="og:image:alt" content="여러 캐릭터 후보가 픽셀 격자와 피벗, 투명 경계, 다섯 개 검증 관문을 갖춘 하나의 게임 에셋으로 정리되는 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="10주차 1교시: 생성된 그림은 아직 게임 에셋이 아닙니다">
+  <meta name="twitter:description" content="생성 결과를 게임 안에서 쓸 수 있게 만드는 에셋 규격과 판정 기준을 배웁니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-10-period1-asset-readiness.webp">
+  <link rel="preload" as="image" href="assets/week-10-period1-asset-readiness.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-10.css?v=ge1w10-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-ten week-ten-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-09-period3.html" rel="prev" aria-label="이전 자료: 9주차 3교시: 하나의 세계를 세 장으로 증명하라 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-10-period2.html" rel="next" aria-label="다음 자료: 10주차 2교시: 후처리에서 Unity 통합까지 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-ten-hero">
+    <div class="hero-inner">
+      <div class="week-ten-hero-copy">
+        <p class="eyebrow">Week 10 / Period 01 / Lecture</p>
+        <h1>생성된 그림은 아직<br>게임 에셋이 아닙니다</h1>
+        <p class="lead">보기 좋은 후보만으로는 게임 에셋이 되지 않습니다. 크기, 경계, 프레임, 기능과 출처를 규격으로 설명하고 실제 화면에서 검증해야 합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#contract">에셋 규격 보기</a>
+          <a class="hero-action" href="#pixels">픽셀, PPU 계산하기</a>
+        </div>
+      </div>
+      <figure class="week-ten-hero-visual">
+        <img src="assets/week-10-period1-asset-readiness.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="여러 캐릭터 후보가 픽셀 격자와 피벗, 투명 경계, 다섯 개 검증 관문을 갖춘 하나의 게임 에셋으로 정리되는 작업대">
+        <figcaption><span>CANDIDATE → SPEC → ASSET</span> 생성은 후보를 만들고, 규격과 사람의 판단이 사용 가능한 에셋을 완성합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>지금은 생성 도구를 조작하는 시간이 아닙니다. 3교시에서 무엇을 만들고 어떤 근거로 통과시킬지 먼저 설명할 수 있게 합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>이미지 후보와 게임 에셋</strong>의 차이를 기능과 검증의 언어로 설명합니다.</p></li>
+          <li><span>02</span><p>픽셀 크기와 <strong>Pixels Per Unit</strong>이 월드 크기를 어떻게 결정하는지 계산합니다.</p></li>
+          <li><span>03</span><p>애니메이션 프레임에서 <strong>캔버스, 기준선, 피벗, 실루엣</strong>이 같아야 하는 이유를 설명합니다.</p></li>
+          <li><span>04</span><p>사람의 수정과 <strong>권리, 출처, 제작 기록</strong>이 에셋 품질의 일부임을 이해합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 01</span><strong>교수자 이론과 설명</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자가 9주차 후보 이미지와 규격표, 확대 화면을 보여 주면 학생은 어떤 문제가 게임 안에서 드러날지 먼저 예측하고 자신의 말로 기준을 회수합니다. 실제 후처리와 Unity 연결은 2교시 시연 뒤 3교시 개인 실습에서 수행합니다.</p>
+      </aside>
+
+      <section class="week-ten-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <h2 id="run-title">60분의 설명 흐름</h2>
+          <p>9주차에 선택한 한 장을 출발점으로 삼아, 생성 결과를 반복 사용 가능한 제작 자산으로 판단하는 언어를 세웁니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase" aria-labelledby="period1-run-title">
+            <header><span>00-60 min</span><h3 id="period1-run-title">좋아 보인다에서 사용할 수 있다로</h3><p>Lecture / professor-led</p></header>
+            <ol>
+              <li><time>00-07</time><div><strong>9주차 결과 회수</strong><p>선택 후보를 100%와 실제 게임 크기로 나란히 보여 주고, 같은 그림인데 판단이 달라지는 이유를 묻습니다.</p></div></li>
+              <li><time>07-18</time><div><strong>후보와 에셋 구분</strong><p>기능, 파일 규격, 경계, 일관성, 출처와 테스트가 더해져야 게임 에셋이 된다는 계약을 세웁니다.</p></div></li>
+              <li><time>18-31</time><div><strong>픽셀과 PPU</strong><p>이미지 해상도, 셀 크기, PPU와 Unity 월드 크기의 관계를 계산하고 큰 원본이 자동으로 좋은 것은 아님을 확인합니다.</p></div></li>
+              <li><time>31-43</time><div><strong>프레임 일관성</strong><p>같은 캔버스, 발 기준선, 피벗, 실루엣 부피, 팔레트와 빛이 애니메이션의 안정성을 만드는 과정을 봅니다.</p></div></li>
+              <li><time>43-53</time><div><strong>다섯 준비 관문</strong><p>가독성, 경계, 크기, 시스템 호환, 제작 기록으로 통과 여부를 판정합니다.</p></div></li>
+              <li><time>53-60</time><div><strong>회수 질문</strong><p>화면을 덮고 하나의 후보를 에셋으로 바꾸기 전에 잠글 규격과 검사 순서를 복원합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-ten-section" id="bridge" aria-labelledby="bridge-title">
+        <header class="section-heading">
+          <h2 id="bridge-title">선택은 끝이 아니라 제작의 시작입니다</h2>
+          <p>9주차는 방향을 선택했습니다. 10주차는 그 선택이 게임의 움직임, 상호작용과 UI 안에서도 유지되는지 증명합니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>WEEK 09 / ART DIRECTION</span><h3>무엇처럼 보여야 하는가</h3><p>한 문장, 세 키워드, 금지 요소, 시점과 다섯 색을 잠그고 같은 대상의 후보 세 장에서 하나를 선택했습니다.</p></article>
+          <article><span>WEEK 10 / ASSET PRODUCTION</span><h3>어떻게 작동해야 하는가</h3><p>선택한 방향을 프레임과 UI로 확장하고, 파일 규격과 Unity 설정을 맞춘 뒤 실제 게임 크기에서 기능을 확인합니다.</p></article>
+        </div>
+        <div class="equation-strip" aria-label="게임 에셋의 구성">
+          <span>선택된 이미지</span><b aria-hidden="true">+</b><span>명시된 규격</span><b aria-hidden="true">+</b><span>게임 안 검증</span><b aria-hidden="true">=</b><strong>사용 가능한 에셋</strong>
+        </div>
+        <aside class="teacher-check"><span>교수자 질문</span><p>“배경이 투명하고 해상도가 높다면 게임 에셋일까요?” 먼저 답을 받은 뒤, 같은 크기와 피벗을 가진 프레임인지, 역할이 읽히는지, 권리와 수정 경로를 추적할 수 있는지도 함께 확인해야 한다고 연결합니다.</p></aside>
+      </section>
+
+      <section class="week-ten-section" id="contract" aria-labelledby="contract-title">
+        <header class="section-heading">
+          <h2 id="contract-title">생성 전에 일곱 항목을 잠급니다</h2>
+          <p>프롬프트는 바뀔 수 있지만 에셋 계약은 흔들리지 않아야 합니다. 같은 계약이 후보 비교, 사람의 수정과 최종 테스트를 연결합니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>ROLE &amp; VIEW</span><dl><div><dt>기능</dt><dd>Player walk, Collectible, Hazard, Goal, UI panel 중 하나</dd></div><div><dt>시점</dt><dd>탑다운, 측면, 정면 중 게임 카메라와 일치</dd></div><div><dt>읽기 거리</dt><dd>Scene 확대가 아니라 실제 Game View 크기에서 판정</dd></div></dl></article>
+          <article><span>PIXEL &amp; CANVAS</span><dl><div><dt>셀</dt><dd>Sprite 한 장의 정확한 가로×세로 픽셀</dd></div><div><dt>배경</dt><dd>독립 Sprite는 투명, 패널은 필요한 채움 유지</dd></div><div><dt>기준</dt><dd>같은 여백, 발 기준선, Bottom Center 피벗</dd></div></dl></article>
+          <article><span>STYLE SYSTEM</span><dl><div><dt>형태</dt><dd>외곽선 두께와 둥글기, 큰 덩어리 비율</dd></div><div><dt>색</dt><dd>9주차의 다섯 색과 역할을 우선 사용</dd></div><div><dt>빛</dt><dd>한 방향과 한 강도로 모든 프레임에 고정</dd></div></dl></article>
+          <article><span>NAME &amp; RIGHTS</span><dl><div><dt>파일명</dt><dd>역할, 동작, 배열이 드러나는 영문 이름</dd></div><div><dt>출처</dt><dd>도구, 모델, prompt, 참조 이미지 이용 조건</dd></div><div><dt>수정</dt><dd>사람이 고친 위치와 이유, 게임 안 테스트</dd></div></dl></article>
+        </div>
+        <div class="rule-banner"><span>규격의 역할</span><strong>규격은 창의성을 줄이는 표가 아니라, 여러 결과를 같은 질문으로 비교하고 필요할 때 다시 만들 수 있게 하는 제작 약속입니다.</strong></div>
+      </section>
+
+      <section class="week-ten-section" id="pixels" aria-labelledby="pixels-title">
+        <header class="section-heading">
+          <h2 id="pixels-title">해상도와 게임 속 크기는 같은 말이 아닙니다</h2>
+          <p>이미지의 픽셀 수는 파일의 정보량이고, Pixels Per Unit은 몇 픽셀을 Unity 월드의 1 unit으로 볼지 정하는 해석 규칙입니다.</p>
+        </header>
+        <div class="equation-strip" aria-label="Sprite의 Unity 월드 크기 계산식">
+          <span>Sprite 한 변의 픽셀</span><b aria-hidden="true">÷</b><span>Pixels Per Unit</span><b aria-hidden="true">=</b><strong>Unity 월드 크기</strong>
+        </div>
+        <div class="ppu-lab" data-ppu-lab>
+          <div>
+            <h3>픽셀에서 월드 크기로</h3>
+            <p>정사각 Sprite의 한 변을 기준으로 계산합니다. 같은 PPU에서 픽셀이 두 배면 월드 크기도 두 배가 됩니다.</p>
+            <div class="ppu-controls">
+              <label>Sprite pixels<input type="number" min="1" step="1" value="128" data-sprite-pixels></label>
+              <label>Pixels Per Unit<input type="number" min="1" step="1" value="128" data-ppu></label>
+            </div>
+          </div>
+          <div class="ppu-result">
+            <span>WORLD SIZE</span>
+            <output data-world-size aria-live="polite">1 unit</output>
+            <small data-ppu-explanation>128px ÷ 128 PPU = 1 Unity unit입니다.</small>
+          </div>
+        </div>
+        <div class="concept-grid">
+          <article><span>128 PX / 128 PPU</span><h3>1 unit</h3><p>수업의 캐릭터와 상호작용 Sprite는 한 셀을 128×128로 맞추고 128 PPU로 읽어 1×1 unit 기준을 만듭니다.</p></article>
+          <article><span>512 PX / 128 PPU</span><h3>4 units</h3><p>512px 원본을 그대로 128 PPU로 가져오면 4 unit가 됩니다. 높은 해상도가 자동으로 같은 크기를 보장하지 않습니다.</p></article>
+        </div>
+        <aside class="teacher-check"><span>먼저 예측하기</span><p>128×128 Sprite와 256×256 Sprite를 모두 128 PPU로 import하면 누가 더 크게 보일까요? 같은 크기로 보여야 한다면 해상도를 맞추거나 PPU를 각각 128과 256으로 정할 수 있지만, 한 프로젝트에서는 가능한 한 공통 해상도와 PPU를 사용해 규칙을 단순하게 유지합니다.</p></aside>
+      </section>
+
+      <section class="week-ten-section" id="frames" aria-labelledby="frames-title">
+        <header class="section-heading">
+          <h2 id="frames-title">네 장이 아니라 하나의 움직임을 만듭니다</h2>
+          <p>각 프레임이 개별 그림으로는 좋아 보여도 기준선과 부피가 달라지면 재생 순간에 캐릭터가 흔들리고 커졌다 작아집니다.</p>
+        </header>
+        <div class="sprite-strip" aria-label="같은 기준선을 공유하는 128×128 걷기 프레임 네 칸">
+          <div><strong>01</strong><span>128×128</span></div>
+          <div><strong>02</strong><span>128×128</span></div>
+          <div><strong>03</strong><span>128×128</span></div>
+          <div><strong>04</strong><span>128×128</span></div>
+        </div>
+        <ol class="signal-chain" aria-label="프레임 일관성을 판단하는 다섯 기준">
+          <li><span>01 / CANVAS</span><strong>같은 셀</strong><p>모든 프레임이 128×128이고 여백도 같습니다.</p></li>
+          <li><span>02 / BASELINE</span><strong>같은 발 위치</strong><p>발이 놓이는 수평선이 프레임마다 움직이지 않습니다.</p></li>
+          <li><span>03 / PIVOT</span><strong>같은 원점</strong><p>Bottom Center 또는 합의한 피벗을 유지합니다.</p></li>
+          <li><span>04 / VOLUME</span><strong>같은 몸집</strong><p>머리와 몸의 큰 덩어리가 갑자기 커지거나 줄지 않습니다.</p></li>
+          <li><span>05 / STYLE</span><strong>같은 세계</strong><p>팔레트, 외곽선과 빛의 방향이 이어집니다.</p></li>
+        </ol>
+        <div class="rule-banner"><span>프레임 검사 순서</span><strong>먼저 실루엣과 발 기준선을 보고, 다음으로 큰 부피와 팔레트, 마지막으로 작은 장식을 봅니다. 작은 디테일을 먼저 고치면 큰 흔들림을 놓치기 쉽습니다.</strong></div>
+      </section>
+
+      <section class="week-ten-section" id="gates" aria-labelledby="gates-title">
+        <header class="section-heading">
+          <h2 id="gates-title">에셋은 다섯 관문을 모두 통과해야 합니다</h2>
+          <p>한 관문에서 실패하면 전체를 다시 생성하지 않습니다. 문제가 있는 층만 고치고 같은 조건으로 다시 확인합니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="게임 에셋 준비도 다섯 관문">
+          <li><span>G01 / READ</span><strong>가독성</strong><p>실제 게임 크기에서 Player, 수집물, 위험과 목표의 역할이 구분됩니다.</p></li>
+          <li><span>G02 / EDGE</span><strong>경계</strong><p>배경 잔여물, 흰 halo, 잘린 외곽과 불필요한 반투명 픽셀이 없습니다.</p></li>
+          <li><span>G03 / SCALE</span><strong>크기</strong><p>셀, PPU, 피벗이 프로젝트 규칙과 맞고 프레임이 흔들리지 않습니다.</p></li>
+          <li><span>G04 / SYSTEM</span><strong>호환</strong><p>Sprite 분할, Animator, Image 또는 RawImage에서 의도대로 작동합니다.</p></li>
+          <li><span>G05 / TRACE</span><strong>기록</strong><p>출처, 도구, prompt, 수정, 테스트를 다시 따라갈 수 있습니다.</p></li>
+        </ol>
+        <div class="test-contract"><span>QUALITY RULE</span><p>생성 횟수, 사용한 유료 도구와 원본의 화려함은 평가하지 않습니다. 가장 적은 후보로도 규격을 지키고 사람이 수정해 게임 안에서 증명했다면 같은 기준으로 통과합니다.</p></div>
+      </section>
+
+      <section class="week-ten-section" id="correction" aria-labelledby="correction-title">
+        <header class="section-heading">
+          <h2 id="correction-title">사람의 수정은 실패가 아니라 제작입니다</h2>
+          <p>생성 결과를 그대로 사용하는 것이 목표가 아닙니다. 무엇이 문제인지 관찰하고 가장 작은 수정으로 계약에 맞추는 능력이 이번 주의 핵심입니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>LOCAL REPAIR</span><h3>문제 영역만 고칩니다</h3><p>손가락, 소품, 잘린 모서리처럼 국소 결함은 inpaint 또는 직접 페인팅으로 수정하고 변경 위치와 이유를 로그에 남깁니다.</p></article>
+          <article><span>SYSTEM REPAIR</span><h3>공통 규칙을 다시 맞춥니다</h3><p>팔레트, 캔버스, 피벗이나 발 기준선이 어긋나면 모든 프레임을 같은 표와 가이드에 놓고 함께 정렬합니다.</p></article>
+        </div>
+        <ul class="mistake-list">
+          <li><span>01</span><div><strong>해상도가 높으면 품질도 높다고 판단함</strong><p>게임 크기, 외곽과 프레임 일관성이 먼저입니다. 필요 없는 확대는 수정할 픽셀과 파일 크기만 늘립니다.</p></div></li>
+          <li><span>02</span><div><strong>문제 하나 때문에 전체를 계속 재생성함</strong><p>좋은 실루엣과 팔레트를 보존하고 배경, 손, 기준선처럼 실패한 영역만 수정합니다.</p></div></li>
+          <li><span>03</span><div><strong>확대 화면에서만 검사함</strong><p>100% 확대는 경계를 찾는 도구이고, 실제 Game View는 기능과 가독성을 판정하는 장소입니다. 둘 다 필요합니다.</p></div></li>
+          <li><span>04</span><div><strong>AI metadata를 권리 확인으로 오해함</strong><p>생성 표시는 제작 경로의 한 부분입니다. 입력 참조의 이용 조건과 각 제공자의 약관을 사용자가 별도로 확인하고 기록합니다.</p></div></li>
+        </ul>
+      </section>
+
+      <section class="week-ten-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">도구를 열기 전 네 질문</h2>
+          <p>먼저 자신의 말로 답한 뒤 펼쳐 확인합니다. 답이 막히면 생성보다 규격을 다시 봅니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. 선택된 이미지와 게임 에셋의 가장 큰 차이는 무엇인가?</summary><div class="details-motion-content"><p>선택 이미지는 방향 후보입니다. 게임 에셋은 역할, 크기, 경계, 프레임, import 방식, 권리, 수정 기록과 게임 안 테스트까지 확인된 제작 자산입니다.</p></div></details>
+          <details><summary>Q2. 256px Sprite를 128 PPU로 import하면 한 변은 몇 unit인가?</summary><div class="details-motion-content"><p><code>256 ÷ 128 = 2</code>이므로 2 unit입니다. 1 unit로 보이게 하려면 128px로 정규화하거나 해당 Sprite의 PPU를 256으로 정할 수 있습니다.</p></div></details>
+          <details><summary>Q3. 걷기 프레임이 위아래로 흔들릴 때 먼저 무엇을 비교하는가?</summary><div class="details-motion-content"><p>모든 셀의 크기와 발 기준선, 피벗을 먼저 비교합니다. 그다음 캐릭터 부피와 프레임별 투명 여백을 확인합니다.</p></div></details>
+          <details><summary>Q4. 사람이 수정한 흔적은 왜 로그에 남기는가?</summary><div class="details-motion-content"><p>최종 결과가 어떤 판단과 수정으로 만들어졌는지 설명하고, 같은 문제가 생겼을 때 전체를 다시 만들지 않고 재현, 교체하기 위해서입니다.</p></div></details>
+        </div>
+        <div class="exit-ticket">
+          <article><span>01</span><p>Sprite 월드 크기는 픽셀 수를 ______로 나누어 계산합니다.</p></article>
+          <article><span>02</span><p>프레임 흔들림은 셀, 발 기준선과 ______을 먼저 확인합니다.</p></article>
+          <article><span>03</span><p>생성 횟수가 아니라 규격, 사람의 수정과 게임 안 ______을 평가합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-ten-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">설명에 사용한 Unity 공식 자료</h2>
+          <p>Unity AI 기능과 약관은 바뀔 수 있습니다. 수업 직전에는 설치된 Unity와 package version, 학교 계정에서 보이는 기능을 다시 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://unity.com/blog/unity-ai-sprite-generator" target="_blank" rel="noopener noreferrer"><strong>Unity AI Sprite Generator 안내 ↗</strong></a><span>prototype placeholder, 참조 이미지와 후처리 도구의 현재 범위</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/texture-type-sprite.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Sprite Import Settings ↗</strong></a><span>Sprite Mode, Pixels Per Unit, Mesh, Pivot, Filter와 Read/Write</span></li>
+          <li><a href="https://unity.com/legal/unityai-guiding-principles" target="_blank" rel="noopener noreferrer"><strong>Unity AI Guiding Principles ↗</strong></a><span>UnityAI metadata와 이용자의 권리, 책임</span></li>
+          <li><a href="https://unity.com/legal/third-party-ai-terms" target="_blank" rel="noopener noreferrer"><strong>Unity Third-Party AI Terms ↗</strong></a><span>연결된 모델 제공자와 적용 약관을 확인하는 출발점</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-ten-toc" aria-label="1교시 목차" data-week-ten-toc>
+      <button class="toc-toggle" type="button" data-toc-toggle aria-expanded="false" aria-controls="week-ten-toc-list">
+        <span>이 페이지</span><strong data-toc-current>도착점</strong><i aria-hidden="true"></i>
+      </button>
+      <p class="toc-title">Week 10 / Period 01</p>
+      <ol id="week-ten-toc-list">
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#bridge"><span>02</span>9주차 연결</a></li>
+        <li><a href="#contract"><span>03</span>에셋 규격</a></li>
+        <li><a href="#pixels"><span>04</span>픽셀과 PPU</a></li>
+        <li><a href="#frames"><span>05</span>프레임 일관성</a></li>
+        <li><a href="#gates"><span>06</span>다섯 관문</a></li>
+        <li><a href="#correction"><span>07</span>사람의 수정</a></li>
+        <li><a href="#check"><span>08</span>회수 질문</a></li>
+        <li><a href="#references"><span>09</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>규격</span><i></i><span>비교</span><i></i><span>검증</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 10 / Period 01 / Professor-led lecture</p>
+  <script src="assets/week-10.js?v=ge1w10-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
