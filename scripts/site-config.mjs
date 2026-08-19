@@ -110,6 +110,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-10-period3-asset-kit-mission.webp",
     alt: "네 캐릭터 프레임, 수집물, 위험, 목표 아이콘, UI 패널이 여덟 검증등과 함께 실제 숲 게임 장면에서 작동하는 개인 미션 보드",
   }),
+  "teaching/game-engine-1/week-11-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-11-period1-ai-workflow.webp",
+    alt: "확대경의 읽기 단계, 두 파일의 계획 단계, 권한 문 안쪽의 도구 팔과 마지막 검증 관문을 연결한 입체 작업대",
+  }),
+  "teaching/game-engine-1/week-11-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-11-period2-bounded-change.webp",
+    alt: "한 변경 조각이 좁은 권한 문을 지나 두 Script가 되고 diff 확대경, 수동 연결과 시간 다이얼 검증으로 이어지는 입체 작업대",
+  }),
+  "teaching/game-engine-1/week-11-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-11-period3-time-bonus-mission.webp",
+    alt: "플레이어가 하나의 시계 보너스로 향하고 두 파일 범위, 한 번 처리 관문, 시간 다이얼과 기존 게임 루프 검증 등을 통과하는 입체 미션 보드",
+  }),
   "teaching/game-engine-1/week-12-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-12-period1-control-surfaces.webp",
     alt: "Gateway, MCP, CLI와 Pipeline 네 모듈이 읽기 허용과 쓰기 잠금 경계를 지나 기준 상태와 검증 결과를 연결하는 입체 작업대",
