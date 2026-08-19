@@ -88,7 +88,7 @@ test("Game Engine I week 10 is published as three connected periods", async () =
   assert.match(period2, /href="week-10-period1\.html" rel="prev"/);
   assert.match(period2, /href="week-10-period3\.html" rel="next"/);
   assert.match(period3, /href="week-10-period2\.html" rel="prev"/);
-  assert.doesNotMatch(period3, /week-11-period1\.html/);
+  assert.match(period3, /href="week-11-period1\.html" rel="next"/);
 });
 
 test("week 10 documents have balanced HTML, unique IDs, and valid local fragments", async () => {

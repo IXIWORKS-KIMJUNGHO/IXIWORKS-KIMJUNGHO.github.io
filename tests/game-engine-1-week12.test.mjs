@@ -195,7 +195,7 @@ test("week 12 is self-contained and does not publish local identity paths", asyn
     "utf8",
   );
 
-  assert.doesNotMatch(period1, /href="week-11-period3\.html"/);
+  assert.match(period1, /href="week-11-period3\.html" rel="prev"/);
   assert.doesNotMatch(period3, /href="week-13-period1\.html"/);
   assert.match(period3, /<input type="text" autocomplete="off" placeholder="이름" data-student-name>/);
   assert.doesNotMatch(generationLog, /\/Users\/|codex-accounts|generated_images/);
