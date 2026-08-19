@@ -74,6 +74,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-05-period3-interaction-mission.webp",
     alt: "주황색 플레이어가 수집물 세 개와 위험 구역 두 개를 지나 목표 문과 여덟 검증 지점으로 향하는 입체 미션 장면",
   }),
+  "teaching/game-engine-1/week-07-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-07-period1-state-loop.webp",
+    alt: "플레이어 말이 준비, 플레이, 성공, 실패 지점을 순환하고 중앙의 점수 계수기와 시간 다이얼이 상태를 보여 주는 입체 모형",
+  }),
+  "teaching/game-engine-1/week-07-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-07-period2-feedback-system.webp",
+    alt: "중앙의 게임 관리자 장치가 점수 표시기, 수집물, 스피커, 재시작 버튼과 빌드 상자에 케이블로 연결된 입체 모형",
+  }),
+  "teaching/game-engine-1/week-07-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-07-period3-preflight-mission.webp",
+    alt: "플레이어가 제한 시간 안에 세 개의 수집물을 모으는 작은 경기장과 점수 슬롯, 결과 패널, 실패 경광등, 재시작 버튼을 보여 주는 입체 모형",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

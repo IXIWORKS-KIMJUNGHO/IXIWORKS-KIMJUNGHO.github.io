@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 1교시: 게임은 상태를 기억해야 합니다 | Game Engine I</title>
+  <meta name="description" content="UI를 장식이 아닌 게임 상태의 출력으로 이해하고, Ready·Playing·Won·Lost 상태와 점수·시간·성공·실패·재시작 흐름을 설계하는 7주차 1교시 교수자 설명 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-07-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="7주차 1교시: 게임은 상태를 기억해야 합니다 | Game Engine I">
+  <meta property="og:description" content="점수와 시간, 성공과 실패를 하나의 상태 흐름으로 읽고 UI가 무엇을 보여 줘야 하는지 이해합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-07-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-07-period1-state-loop.webp">
+  <meta property="og:image:alt" content="플레이어 말이 준비, 플레이, 성공, 실패 지점을 순환하고 중앙의 점수 계수기와 시간 다이얼이 상태를 보여 주는 입체 모형">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="7주차 1교시: 게임은 상태를 기억해야 합니다">
+  <meta name="twitter:description" content="UI와 게임 상태를 원인과 결과의 관계로 이해합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-07-period1-state-loop.webp">
+  <link rel="preload" as="image" href="assets/week-07-period1-state-loop.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-07.css?v=ge1w7-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-seven week-seven-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-05-period3.html" rel="prev" aria-label="이전 자료: 5주차 3교시: 상호작용 가능한 1분 레벨 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-07-period2.html" rel="next" aria-label="다음 자료: 7주차 2교시: UI, 소리, 상태를 하나의 흐름으로 묶기 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-seven-hero">
+    <div class="hero-inner">
+      <div class="week-seven-hero-copy">
+        <p class="eyebrow">Week 07 / Period 01 / Lecture</p>
+        <h1>게임은 상태를<br>기억해야 합니다</h1>
+        <p class="lead">게임이 현재 상태를 기억하면 UI와 소리는 그 사실을 화면과 소리로 정확히 전달할 수 있습니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#model">상태 구조 보기</a>
+          <a class="hero-action" href="#hud">HUD와 화면 구분하기</a>
+        </div>
+      </div>
+      <figure class="week-seven-hero-visual">
+        <img src="assets/week-07-period1-state-loop.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="플레이어 말이 준비, 플레이, 성공, 실패 지점을 순환하고 중앙의 점수 계수기와 시간 다이얼이 상태를 보여 주는 입체 모형">
+        <figcaption><span>GAME STATE</span>가 규칙을 결정하고 <span>UI / AUDIO</span>가 그 결과를 플레이어에게 전달합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <p class="section-index">학습 목표</p>
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>지금은 제작보다 판단 기준을 세우는 시간입니다. 3교시에서 무엇을 연결해야 하는지 상태의 언어로 설명할 수 있게 합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>게임 데이터, 게임 상태, 화면 출력</strong>을 서로 다른 층으로 설명합니다.</p></li>
+          <li><span>02</span><p><strong>Ready, Playing, Won, Lost</strong>에서 허용되는 행동을 구분합니다.</p></li>
+          <li><span>03</span><p><strong>HUD와 시작·결과 화면</strong>이 각각 언제 보여야 하는지 설명합니다.</p></li>
+          <li><span>04</span><p>수집과 시간 종료가 <strong>점수·UI·소리·상태 전환</strong>으로 이어지는 흐름을 말합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 01</span><strong>교수자 이론과 설명</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자의 상태 도표와 Unity 화면을 관찰하고, 사건 뒤에 어떤 값과 화면이 바뀔지 먼저 예측합니다. 실제 연결은 2교시 시연 뒤 3교시 개인 실습에서 수행합니다.</p>
+      </aside>
+
+      <section class="week-seven-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <p class="section-index">수업 흐름</p>
+          <h2 id="run-title">60분의 설명 흐름</h2>
+          <p>6주차에 완성한 움직이는 장면에서 출발해, 플레이어가 목표와 결과를 이해할 수 있는 게임 루프로 확장합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase" aria-labelledby="period1-run-title">
+            <header><span>00-60 min</span><h3 id="period1-run-title">보이지 않는 상태를 보이는 피드백으로 바꾸기</h3><p>Lecture / professor-led</p></header>
+            <ol>
+              <li><time>00-07</time><div><strong>6주차 결과 회수</strong><p>움직임과 카메라는 있지만 목표, 남은 시간과 끝이 없는 장면을 보여 주고 무엇이 부족한지 묻습니다.</p></div></li>
+              <li><time>07-18</time><div><strong>데이터와 출력 구분</strong><p>점수 숫자와 점수 글자, 남은 시간과 타이머 글자를 각각 원인과 표시로 나눕니다.</p></div></li>
+              <li><time>18-31</time><div><strong>네 가지 게임 상태</strong><p>Ready, Playing, Won, Lost의 허용 행동과 전환 조건을 하나씩 정의합니다.</p></div></li>
+              <li><time>31-42</time><div><strong>HUD와 화면 레이어</strong><p>계속 보여야 할 정보와 특정 상태에서만 보여야 할 화면을 구분합니다.</p></div></li>
+              <li><time>42-53</time><div><strong>사건과 피드백</strong><p>수집과 시간 종료가 데이터, UI, Audio, 상태에 미치는 영향을 순서대로 읽습니다.</p></div></li>
+              <li><time>53-60</time><div><strong>회수 질문</strong><p>화면을 덮고 하나의 수집 사건과 하나의 실패 사건을 상태 흐름으로 복원합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="bridge" aria-labelledby="bridge-title">
+        <header class="section-heading">
+          <p class="section-index">이전 학습 연결</p>
+          <h2 id="bridge-title">움직이는 장면과 완결된 게임은 다릅니다</h2>
+          <p>조작할 수 있다는 사실만으로는 게임의 목표와 결과를 알 수 없습니다. 플레이어는 현재 상황을 해석하고 다음 행동을 결정할 정보가 필요합니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>WEEK 06 / PLAYABLE SCENE</span><h3>움직이고 따라옵니다</h3><p>Player, Collision, Animation과 Camera가 반응합니다. 그러나 얼마나 모았고 언제 끝나는지는 아직 알 수 없습니다.</p></article>
+          <article><span>WEEK 07 / GAME LOOP</span><h3>목표와 끝을 이해합니다</h3><p>점수와 시간이 보이고, 성공과 실패가 구분되며, 버튼으로 처음 상태에서 다시 시작할 수 있습니다.</p></article>
+        </div>
+        <div class="equation-strip" aria-label="완결된 게임 루프의 구성">
+          <span>조작 가능한 장면</span><b aria-hidden="true">+</b><span>상태와 피드백</span><b aria-hidden="true">=</b><strong>반복 가능한 게임 루프</strong>
+        </div>
+        <aside class="teacher-check">
+          <span>교수자 질문</span>
+          <p>“수집물을 모두 먹었는데 아무 일도 일어나지 않는다면, 코드가 실패한 것일까요, 피드백이 빠진 것일까요?” 먼저 학생의 답을 받은 뒤 데이터 변경, 판정, 표현을 따로 확인해야 한다고 연결합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-seven-section" id="model" aria-labelledby="model-title">
+        <header class="section-heading">
+          <p class="section-index">하나의 기준</p>
+          <h2 id="model-title">게임의 사실은 UI 글자 안에 있지 않습니다</h2>
+          <p>화면은 결과를 보여 주는 출력입니다. 실제 점수와 남은 시간, 현재 상태는 코드의 데이터가 기억하고 있어야 합니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="게임 데이터에서 플레이어 피드백까지의 흐름">
+          <li><span>01 / EVENT</span><strong>사건 발생</strong><p>Player가 수집물에 닿거나 시간이 흐릅니다.</p></li>
+          <li><span>02 / DATA</span><strong>값 변경</strong><p><code>score</code>가 늘고 <code>timeRemaining</code>이 줄어듭니다.</p></li>
+          <li><span>03 / RULE</span><strong>조건 판정</strong><p>목표 점수와 시간 종료 조건을 검사합니다.</p></li>
+          <li><span>04 / STATE</span><strong>상태 전환</strong><p>Playing에서 Won 또는 Lost로 이동합니다.</p></li>
+          <li><span>05 / FEEDBACK</span><strong>표현 갱신</strong><p>HUD, 결과 화면과 효과음이 상태를 알립니다.</p></li>
+        </ol>
+        <div class="code-anatomy">
+          <div><span>DATA</span><strong><code>score</code></strong><p>현재 모은 수를 저장하는 정수입니다.</p></div>
+          <div><span>DATA</span><strong><code>timeRemaining</code></strong><p>현재 남은 시간을 저장하는 실수입니다.</p></div>
+          <div><span>STATE</span><strong><code>currentState</code></strong><p>지금 허용할 게임 규칙을 선택합니다.</p></div>
+          <div><span>OUTPUT</span><strong><code>scoreText.text</code></strong><p>저장된 값을 사람이 읽는 글자로 보여 줍니다.</p></div>
+        </div>
+        <div class="rule-banner">
+          <span>한 곳에서만 진실을 관리하기</span>
+          <strong>성공 여부를 확인하려고 화면의 “3 / 3” 문자열을 다시 읽지 않습니다. <code>score</code>와 <code>targetScore</code>를 비교하고, 그 결과를 UI에 씁니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="states" aria-labelledby="states-title">
+        <header class="section-heading">
+          <p class="section-index">상태 모델</p>
+          <h2 id="states-title">상태는 지금 허용되는 규칙의 묶음입니다</h2>
+          <p>상태 이름은 화면 제목이 아닙니다. 입력, 시간, 수집, 패널과 재시작 중 무엇이 작동해야 하는지를 한 단어로 묶은 규칙입니다.</p>
+        </header>
+        <ol class="state-loop" aria-label="Ready, Playing, Won, Lost 상태">
+          <li><span>STATE 01</span><strong>Ready</strong><p>시작 패널이 보입니다. 타이머와 플레이는 아직 멈춰 있습니다.</p></li>
+          <li><span>STATE 02</span><strong>Playing</strong><p>입력, 물리, 수집과 타이머가 작동합니다.</p></li>
+          <li><span>STATE 03A</span><strong>Won</strong><p>목표 점수에 도달했습니다. 성공 화면을 보여 줍니다.</p></li>
+          <li><span>STATE 03B</span><strong>Lost</strong><p>시간이 먼저 끝났습니다. 실패 화면을 보여 줍니다.</p></li>
+        </ol>
+        <div class="table-wrap" role="region" aria-label="상태별 허용 규칙표" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">상태</th><th scope="col">타이머</th><th scope="col">수집</th><th scope="col">보이는 화면</th><th scope="col">다음 전환</th></tr></thead>
+            <tbody>
+              <tr><td>Ready</td><td>정지</td><td>무시</td><td>Start Panel</td><td>Start 버튼 → Playing</td></tr>
+              <tr><td>Playing</td><td>감소</td><td>허용</td><td>HUD</td><td>목표 달성 → Won<br>시간 종료 → Lost</td></tr>
+              <tr><td>Won</td><td>정지</td><td>무시</td><td>Success Panel</td><td>Restart 버튼 → Ready</td></tr>
+              <tr><td>Lost</td><td>정지</td><td>무시</td><td>Failure Panel</td><td>Restart 버튼 → Ready</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="teacher-check">
+          <span>판정 순서 질문</span>
+          <p>남은 시간이 0.02초일 때 마지막 수집물을 얻었다면 어떤 결과가 되어야 할까요? 이 수업에서는 먼저 들어온 사건을 한 번만 처리하도록 설계합니다. 상태가 Won으로 바뀐 뒤에는 Lost 판정과 추가 점수가 무시되어야 합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-seven-section" id="hud" aria-labelledby="hud-title">
+        <header class="section-heading">
+          <p class="section-index">화면 구조</p>
+          <h2 id="hud-title">계속 보는 정보와 잠깐 보는 화면을 나눕니다</h2>
+          <p>모든 정보를 한 Panel에 넣으면 상태 전환 때 무엇을 숨겨야 하는지 복잡해집니다. 역할과 표시 시점을 기준으로 계층을 나눕니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>HUD / WHILE PLAYING</span><h3>플레이 중 판단을 돕는 정보</h3><p>현재 점수, 목표 점수와 남은 시간을 화면 가장자리에 작고 지속적으로 보여 줍니다. 플레이 공간을 가리지 않아야 합니다.</p></article>
+          <article><span>OVERLAY / AT A MOMENT</span><h3>상태가 바뀌었음을 알리는 화면</h3><p>시작, 성공과 실패 Panel은 중요한 순간에만 중앙에 나타납니다. 짧은 문장과 한 개의 분명한 행동 버튼을 둡니다.</p></article>
+        </div>
+        <div class="component-stack" aria-label="초급 2D 게임 UI 계층 예시">
+          <div class="component-object"><span>Canvas</span><strong>Screen Space · Overlay</strong><small>화면 위에 UI를 그리는 최상위 공간</small></div>
+          <div><span>HUD</span><strong>Score Text · Timer Text</strong><small>Playing 동안 계속 보이는 정보</small></div>
+          <div><span>Start Panel</span><strong>Title · Start Button</strong><small>Ready에서만 보이는 시작 화면</small></div>
+          <div><span>Result Panel</span><strong>Result Text · Restart Button</strong><small>Won 또는 Lost에서만 보이는 결과 화면</small></div>
+        </div>
+        <div class="settings-grid">
+          <article><span>CANVAS</span><dl><div><dt>Render Mode</dt><dd>Screen Space · Overlay</dd></div><div><dt>이유</dt><dd>카메라 설정과 분리해 화면 위에 직접 표시</dd></div><div><dt>Hierarchy</dt><dd>최상위에 두고 UI를 자식으로 구성</dd></div></dl></article>
+          <article><span>CANVAS SCALER</span><dl><div><dt>UI Scale Mode</dt><dd>Scale With Screen Size</dd></div><div><dt>Reference Resolution</dt><dd>수업 기준 화면 크기와 일치</dd></div><div><dt>확인</dt><dd>Game View 비율을 바꿔 글자와 버튼 위치 점검</dd></div></dl></article>
+        </div>
+        <div class="rule-banner">
+          <span>UI의 역할</span>
+          <strong>좋은 UI는 정보를 많이 보여 주는 화면이 아니라, 지금 필요한 판단을 가장 적은 방해로 가능하게 하는 화면입니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="events" aria-labelledby="events-title">
+        <header class="section-heading">
+          <p class="section-index">사건과 피드백</p>
+          <h2 id="events-title">한 사건은 여러 피드백을 함께 일으킵니다</h2>
+          <p>수집물은 스스로 점수 글자를 고치고 성공 화면을 켜지 않습니다. 사건을 알리고, 상태를 관리하는 한 곳이 데이터와 표현을 함께 조정합니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="사건별 데이터와 피드백" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">사건</th><th scope="col">데이터</th><th scope="col">판정</th><th scope="col">보이는 피드백</th><th scope="col">들리는 피드백</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Start 클릭</th><td>점수 0, 시간 30</td><td>Ready → Playing</td><td>시작 Panel 숨김, HUD 초기화</td><td>필수 아님</td></tr>
+              <tr><th scope="row">수집물 접촉</th><td>점수 +1</td><td>목표 점수 검사</td><td>점수 Text 갱신, 수집물 숨김</td><td>Collect 효과음</td></tr>
+              <tr><th scope="row">목표 달성</th><td>점수 고정</td><td>Playing → Won</td><td>성공 Panel 표시</td><td>Win 효과음</td></tr>
+              <tr><th scope="row">시간 0</th><td>시간 0에 고정</td><td>Playing → Lost</td><td>실패 Panel 표시</td><td>Lose 효과음</td></tr>
+              <tr><th scope="row">Restart 클릭</th><td>초깃값 복원</td><td>Scene 다시 로드</td><td>모든 오브젝트와 HUD 복원</td><td>필수 아님</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="teacher-check">
+          <span>AudioSource를 보는 관점</span>
+          <p>AudioSource는 소리의 출발점이고 AudioClip은 재생할 소리 데이터입니다. 짧은 수집, 성공과 실패 효과음은 하나의 AudioSource에서 <code>PlayOneShot</code>으로 재생할 수 있습니다. 소리는 사건의 원인이 아니라 결과를 강화하는 피드백입니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-seven-section" id="mistakes" aria-labelledby="mistakes-title">
+        <header class="section-heading">
+          <p class="section-index">자주 생기는 오류</p>
+          <h2 id="mistakes-title">기능이 늘어날수록 책임을 한곳에 모읍니다</h2>
+          <p>처음에는 어디에 코드를 써도 작동해 보이지만, 성공과 실패가 추가되면 서로 다른 Script가 같은 값을 바꾸기 시작합니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>점수를 UI Text에서 다시 읽습니다</summary><div class="details-motion-content"><p>화면 문자열은 표현 형식이 바뀌기 쉽습니다. <code>score</code> 정수를 진실로 유지하고, <code>scoreText.text</code>에는 그 값을 사람이 읽는 모양으로 써 줍니다.</p></div></details>
+          <details><summary><code>isWin</code>, <code>isLose</code>, <code>isPlaying</code>을 따로 둡니다</summary><div class="details-motion-content"><p>여러 bool이 동시에 true가 되는 모순이 생길 수 있습니다. 한 번에 하나만 가질 수 있는 <code>GameState</code> enum으로 현재 상태를 표현합니다.</p></div></details>
+          <details><summary>각 수집물이 성공 화면을 직접 켭니다</summary><div class="details-motion-content"><p>수집물은 접촉 사건만 전달합니다. 전체 목표 점수와 종료 조건을 아는 GameManager가 점수를 올리고 성공 여부를 판단합니다.</p></div></details>
+          <details><summary>결과 화면 뒤에서도 점수가 계속 오릅니다</summary><div class="details-motion-content"><p><code>AddScore</code> 시작에서 현재 상태가 Playing인지 검사합니다. Won이나 Lost라면 곧바로 return해 사건을 무시합니다.</p></div></details>
+          <details><summary>시간이 0 아래로 계속 내려갑니다</summary><div class="details-motion-content"><p><code>Mathf.Max(0f, ...)</code>로 표시값을 0에 고정하고, Playing에서만 시간을 줄입니다. 종료 전환은 한 번만 실행합니다.</p></div></details>
+          <details><summary>UI 크기가 화면 비율마다 크게 달라집니다</summary><div class="details-motion-content"><p>Canvas Scaler와 Rect Transform Anchor를 함께 확인합니다. 화면 중앙, 모서리 등 요소의 역할에 맞는 기준 위치를 먼저 정합니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <p class="section-index">회수 질문</p>
+          <h2 id="check-title">화면을 덮고 상태 흐름을 복원합니다</h2>
+          <p>먼저 자신의 말로 답한 뒤 펼쳐 확인합니다. 메뉴 이름보다 원인, 상태와 출력의 순서를 설명하는 것이 중요합니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. 점수 Text가 게임의 실제 점수가 아닌 이유는?</summary><div class="details-motion-content"><p>Text는 <code>score</code>를 사람이 읽도록 보여 주는 출력이기 때문입니다. 게임 규칙은 정수 데이터인 <code>score</code>와 <code>targetScore</code>를 비교해야 합니다.</p></div></details>
+          <details><summary>Q2. Playing 상태에서만 해야 하는 일은?</summary><div class="details-motion-content"><p>입력과 물리 이동, 수집 처리, 타이머 감소와 성공·실패 판정입니다. Ready, Won과 Lost에서는 이 규칙을 멈추거나 무시합니다.</p></div></details>
+          <details><summary>Q3. HUD와 Result Panel의 차이는?</summary><div class="details-motion-content"><p>HUD는 플레이 중 계속 참고하는 점수와 시간입니다. Result Panel은 Won 또는 Lost로 상태가 바뀐 순간 중앙에 나타나 결과와 다음 행동을 알립니다.</p></div></details>
+          <details><summary>Q4. 수집 사건 뒤의 올바른 순서는?</summary><div class="details-motion-content"><p>Playing인지 확인하고 점수를 올립니다. HUD와 수집 효과음을 갱신한 뒤 목표 점수를 검사하고, 도달했다면 Won으로 한 번만 전환합니다.</p></div></details>
+        </div>
+        <div class="exit-ticket">
+          <article><span>01</span><p>게임의 실제 점수는 ______에 저장하고, UI Text는 그 값을 화면에 보여 줍니다.</p></article>
+          <article><span>02</span><p>Ready, Playing, Won, Lost처럼 한 번에 하나만 선택되는 상태 묶음은 C#의 ______으로 표현할 수 있습니다.</p></article>
+          <article><span>03</span><p>상태 → UI·Audio처럼 원인에서 표현으로 흐르면 디버깅할 때 ______을 좁히기 쉽습니다.</p></article>
+        </div>
+        <aside class="next-week">
+          <span>PERIOD 02 / NEXT</span>
+          <div><h3><a href="week-07-period2.html">상태를 실제 UI와 Audio에 연결합니다 →</a></h3><p>교수자가 Canvas 계층, GameManager, 수집 사건, AudioSource, Start와 Restart Button, Build Profiles를 하나의 완성 흐름으로 시연합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-seven-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <p class="section-index">공식 자료</p>
+          <h2 id="references-title">Unity 공식 자료</h2>
+          <p>화면 공간 UI, 해상도 대응과 효과음의 역할은 Unity 6 공식 문서를 기준으로 정리했습니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/class-Canvas.html" target="_blank" rel="noopener noreferrer"><strong>Canvas ↗</strong></a><span>UI 요소를 담는 Canvas와 Screen Space · Overlay 렌더 모드</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/script-CanvasScaler.html" target="_blank" rel="noopener noreferrer"><strong>Canvas Scaler ↗</strong></a><span>Scale With Screen Size와 Reference Resolution의 역할</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/AudioSource.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource ↗</strong></a><span>AudioClip을 재생하는 Component와 주요 재생 함수</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/AudioSource.PlayOneShot.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource.PlayOneShot ↗</strong></a><span>현재 재생을 취소하지 않고 짧은 AudioClip을 한 번 재생하는 함수</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-seven-toc" aria-label="1교시 목차" data-week-seven-toc>
+      <p class="toc-title">Week 07 / Period 01</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#bridge"><span>02</span>게임 루프</a></li>
+        <li><a href="#model"><span>03</span>진실의 원천</a></li>
+        <li><a href="#states"><span>04</span>네 가지 상태</a></li>
+        <li><a href="#hud"><span>05</span>UI 레이어</a></li>
+        <li><a href="#events"><span>06</span>사건과 피드백</a></li>
+        <li><a href="#mistakes"><span>07</span>설계 오류</a></li>
+        <li><a href="#check"><span>08</span>회수 질문</a></li>
+        <li><a href="#references"><span>09</span>공식 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 07 / Period 01 / Professor-led theory</p>
+  <script src="assets/week-07.js?v=ge1w7-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

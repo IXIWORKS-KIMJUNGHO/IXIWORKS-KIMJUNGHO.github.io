@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>7주차 3교시: 30초 게임 루프를 완성하라 | Game Engine I</title>
+  <meta name="description" content="학생이 고정된 목표와 통과 조건을 바탕으로 점수·시간 HUD, 효과음, 시작·성공·실패·재시작과 실제 빌드를 통합하고 필수 테스트 8개로 검증하는 7주차 목표지향 개인 실습 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-07-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="7주차 3교시: 30초 게임 루프를 완성하라 | Game Engine I">
+  <meta property="og:description" content="세 개의 수집물과 30초 제한을 가진 시작·성공·실패·재시작 루프를 완성하고 실제 빌드에서 증명합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-07-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-07-period3-preflight-mission.webp">
+  <meta property="og:image:alt" content="플레이어가 제한 시간 안에 세 개의 수집물을 모으는 작은 경기장과 점수 슬롯, 결과 패널, 실패 경광등, 재시작 버튼을 보여 주는 입체 모형">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="7주차 3교시: 30초 게임 루프를 완성하라">
+  <meta name="twitter:description" content="목표지향 개인 실습으로 UI, Audio, 게임 상태와 빌드를 통합하고 8개 테스트를 기록합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-07-period3-preflight-mission.webp">
+  <link rel="preload" as="image" href="assets/week-07-period3-preflight-mission.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-07.css?v=ge1w7-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-seven week-seven-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-07-period2.html" rel="prev" aria-label="이전 자료: 7주차 2교시: UI, 소리, 상태를 하나의 흐름으로 묶기 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+
+      </div>
+    </nav>
+  </header>
+<header class="hero week-seven-hero">
+    <div class="hero-inner">
+      <div class="week-seven-hero-copy">
+        <p class="eyebrow">Week 07 / Period 03 / Individual Goal Lab</p>
+        <h1>30초 게임 루프를<br>완성하라</h1>
+        <p class="lead">3개 수집, 30초 제한, 성공과 실패, 재시작, 실제 빌드를 하나의 반복 가능한 흐름으로 완성합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#mission">미션 계약 읽기</a>
+          <a class="hero-action" href="#tests">8개 테스트 시작</a>
+        </div>
+      </div>
+      <figure class="week-seven-hero-visual">
+        <img src="assets/week-07-period3-preflight-mission.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="플레이어가 제한 시간 안에 세 개의 수집물을 모으는 작은 경기장과 점수 슬롯, 결과 패널, 실패 경광등, 재시작 버튼을 보여 주는 입체 모형">
+        <figcaption><span>3 ITEMS / 30 SECONDS</span>라는 고정 목표를 <span>8 TESTS</span>와 실제 빌드로 검증합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <p class="section-index">학습 목표</p>
+          <h2 id="arrival-title">3교시의 도착점</h2>
+          <p>교수자의 장면을 그대로 복제하는 시간이 아닙니다. 같은 기능 계약을 자신의 기존 프로젝트에 통합하고 테스트로 완료 여부를 판단합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p>Ready, Playing, Won, Lost가 분리된 <strong>하나의 게임 상태 흐름</strong>을 완성합니다.</p></li>
+          <li><span>02</span><p>점수와 시간 HUD, Start와 Result Panel을 <strong>현재 데이터와 상태</strong>에 맞게 표시합니다.</p></li>
+          <li><span>03</span><p>수집, 성공과 실패에 <strong>서로 구분되는 효과음</strong>을 연결합니다.</p></li>
+          <li><span>04</span><p>필수 테스트 <strong>8개를 모두 PASS</strong>하고 Editor 밖의 빌드에서 전체 루프를 재현합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="3교시 운영 방식">
+        <div><span>CLASS MODE / PERIOD 03</span><strong>학생 개인 목표지향 실습</strong></div>
+        <p>교수자는 클릭 순서를 다시 시연하지 않습니다. 목표 확인, 질문 되묻기와 오류 범위 좁히기를 지원합니다. 학생은 작업 순서, UI 배치와 표현을 선택하고 구현, 테스트, 기록과 빌드를 직접 수행합니다.</p>
+      </aside>
+
+      <section class="week-seven-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <p class="section-index">미션 계약</p>
+          <h2 id="mission-title">목표는 고정하고 구현 경로는 선택합니다</h2>
+          <p>아래 행동과 결과는 모두 충족해야 합니다. UI를 먼저 만들지, 상태 코드를 먼저 연결할지, 기존 수집물을 먼저 점검할지는 각자 결정합니다.</p>
+        </header>
+        <div class="test-contract">
+          <span>MISSION / WEEK07_PREFLIGHT</span>
+          <p><strong>60분 안에</strong> Start 버튼으로 시작해 30초 동안 수집물 3개를 모으면 성공하고, 시간이 먼저 0이 되면 실패하며, 어느 결과에서도 깨끗하게 재시작되는 2D 게임 Scene을 완성합니다. 마지막에는 실제 빌드에서 전체 흐름을 검증합니다.</p>
+        </div>
+        <div class="submission-grid">
+          <article><span>REQUIRED 01 / STATE</span><h3>한 번에 하나의 상태</h3><p>Ready, Playing, Won, Lost 중 하나만 현재 상태입니다. 여러 bool이 동시에 결과를 나타내지 않습니다.</p></article>
+          <article><span>REQUIRED 02 / HUD</span><h3>점수와 시간 표시</h3><p>Ready에서 <code>0 / 3</code>과 <code>30.0</code>을 보이고 Playing에서 실제 데이터와 함께 갱신합니다.</p></article>
+          <article><span>REQUIRED 03 / EVENTS</span><h3>정확히 한 번의 수집</h3><p>각 수집물은 Player 접촉 한 번에 점수 1, 효과음 1회와 비활성화 1회를 일으킵니다.</p></article>
+          <article><span>REQUIRED 04 / RESULTS</span><h3>서로 배타적인 성공과 실패</h3><p>목표가 먼저면 Won, 시간이 먼저면 Lost입니다. 결과 뒤 타이머와 추가 점수는 멈춥니다.</p></article>
+          <article><span>REQUIRED 05 / RESTART</span><h3>초기 상태 완전 복원</h3><p>두 결과의 Restart 모두 점수, 시간, 수집물, Panel과 게임 시간 흐름을 처음으로 되돌립니다.</p></article>
+          <article><span>REQUIRED 06 / BUILD</span><h3>Editor 밖에서 같은 동작</h3><p>Week07_Preflight Scene을 Scene List에 포함하고 실제 빌드에서 성공, 실패와 재시작을 재현합니다.</p></article>
+        </div>
+        <div class="rule-banner">
+          <span>완료의 정의</span>
+          <strong>“한 번 성공 화면이 나왔다”가 아니라, 처음부터 성공 → 재시작 → 실패 → 재시작을 반복해도 8개 결과가 모두 PASS이면 완료입니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="choices" aria-labelledby="choices-title">
+        <header class="section-heading">
+          <p class="section-index">고정 조건과 선택</p>
+          <h2 id="choices-title">검증할 행동과 표현 선택을 구분합니다</h2>
+          <p>목표지향 실습은 아무렇게나 만드는 시간이 아닙니다. 테스트에 필요한 값은 고정하고, 게임의 인상을 만드는 선택은 학생에게 남깁니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>FIXED / TEST CONTRACT</span><h3>모두 같아야 하는 행동</h3><p>목표 3개, 제한 30초, 네 상태, 세 효과음, Start와 Restart, 필수 테스트 8개와 실제 빌드는 변경하지 않습니다.</p></article>
+          <article><span>FLEXIBLE / AUTHORING</span><h3>각자 선택할 표현</h3><p>HUD 위치, Panel 크기, 색, 글꼴, 문구, AudioClip과 수집물 배치는 자유입니다. 단, 정보가 읽히고 플레이를 가리지 않아야 합니다.</p></article>
+        </div>
+        <aside class="teacher-check">
+          <span>다른 구현도 허용</span>
+          <p>2교시의 <code>Time.timeScale</code> 방식 대신 Player와 타이머를 명시적으로 멈추는 구조를 써도 됩니다. 다만 상태가 한 번에 하나이며, 필수 테스트가 같은 관찰 결과를 보여야 합니다. 자신이 선택한 방식은 설명할 수 있어야 합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-seven-section" id="starting-line" aria-labelledby="starting-line-title">
+        <header class="section-heading">
+          <p class="section-index">시작 상태</p>
+          <h2 id="starting-line-title">작동하는 기존 Scene을 복제해 시작합니다</h2>
+          <p>이 주차는 UI만 새로 붙이는 실습이 아닙니다. 이전 주차의 이동, 충돌, 수집, Animation과 Camera가 정상인 상태 위에 게임 루프를 통합합니다.</p>
+        </header>
+        <div class="setup-notice">
+          <div><span>Source</span><strong>가장 최근 작동 Scene</strong></div>
+          <div><span>Save As</span><strong>Week07_Preflight</strong></div>
+          <div><span>Target</span><strong>3 items · 30 sec</strong></div>
+          <div><span>Console</span><strong>Error 0</strong></div>
+        </div>
+        <div class="line-reasons">
+          <article><code>File → Save As</code><p>이전 주차 Scene을 덮어쓰지 않고 <code>Assets/Scenes/Week07_Preflight.unity</code>로 저장합니다.</p></article>
+          <article><code>Play → Move → Collect</code><p>새 기능을 붙이기 전에 이동, 벽 충돌, Camera와 기존 Trigger가 여전히 작동하는지 확인합니다.</p></article>
+          <article><code>Console → Clear</code><p>기존 빨간 오류를 먼저 해결합니다. 이전 오류와 새 UI 오류가 섞이면 원인을 판단하기 어렵습니다.</p></article>
+          <article><code>Period 02 reference</code><p>기준 코드가 필요하면 <a href="week-07-period2.html#manager">2교시 GameManager</a>와 <a href="week-07-period2.html#collectible">Collectible</a>을 읽고 현재 Scene 이름과 참조에 맞게 적용합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="route" aria-labelledby="route-title">
+        <header class="section-heading">
+          <p class="section-index">자율 실습 경로</p>
+          <h2 id="route-title">클릭 순서 대신 중간 도착점을 확인합니다</h2>
+          <p>아래 시간은 권장 배분입니다. 막힌 지점과 자신의 강점에 따라 순서를 바꿀 수 있지만, 45분에는 Editor 테스트를 시작하고 52분에는 빌드 단계로 넘어갑니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="student-route-title">
+            <header><span>권장 시간 · 순서 변경 가능</span><h3 id="student-route-title">여섯 개의 중간 도착점</h3><p>Individual work</p></header>
+            <ol>
+              <li><time>00-05</time><div><strong>계약과 시작 상태</strong><p>Scene을 복제하고 고정 목표, 제출 증거와 자신이 먼저 해결할 두 항목을 표시합니다.</p></div></li>
+              <li><time>05-16</time><div><strong>UI와 참조 준비</strong><p>HUD, StartPanel, ResultPanel, AudioSource와 GameManager의 Inspector 참조가 모두 존재하게 합니다.</p></div></li>
+              <li><time>16-31</time><div><strong>상태와 사건 연결</strong><p>Start, 타이머, 수집 점수, Won과 Lost가 한 상태 흐름 안에서 동작하게 합니다.</p></div></li>
+              <li><time>31-41</time><div><strong>피드백과 재시작</strong><p>세 효과음, 결과 문구와 Restart를 연결하고 두 종료 상태에서 다시 시작해 봅니다.</p></div></li>
+              <li><time>41-52</time><div><strong>Editor 검증</strong><p>T01부터 T07까지 실행하며 한 번에 한 원인만 수정하고 관찰 내용을 기록합니다.</p></div></li>
+              <li><time>52-60</time><div><strong>Build와 증거</strong><p>Scene List, Build and Run, T08 전체 루프, CSV와 화면 증거 파일명을 확인합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+        <ol class="wire-steps" aria-label="중간 도착점의 최소 확인">
+          <li><span>STATE</span><p>네 상태가 배타적</p></li>
+          <li><span>HUD</span><p>점수·시간이 데이터와 일치</p></li>
+          <li><span>EVENT</span><p>수집 1회에 점수 1</p></li>
+          <li><span>RESULT</span><p>성공·실패가 한 번만 발생</p></li>
+          <li><span>BUILD</span><p>실행 파일에서 재현</p></li>
+        </ol>
+      </section>
+
+      <section class="week-seven-section" id="spec" aria-labelledby="spec-title">
+        <header class="section-heading">
+          <p class="section-index">최소 인터페이스</p>
+          <h2 id="spec-title">구조가 달라도 책임은 분명해야 합니다</h2>
+          <p>아래는 2교시 기준 구현의 최소 인터페이스입니다. 이름을 바꾸거나 Script를 나눠도 되지만 각 책임의 소유자와 호출 방향이 명확해야 합니다.</p>
+        </header>
+        <div class="code-anatomy">
+          <div><span>STATE</span><strong><code>GameState</code></strong><p>Ready, Playing, Won, Lost 중 현재 하나를 저장합니다.</p></div>
+          <div><span>START</span><strong><code>StartRound()</code></strong><p>값을 초기화하고 Playing을 시작합니다.</p></div>
+          <div><span>EVENT</span><strong><code>AddScore(1)</code></strong><p>Playing에서만 점수와 수집 피드백을 갱신합니다.</p></div>
+          <div><span>RESET</span><strong><code>RestartScene()</code></strong><p>현재 Scene과 실행 데이터를 처음으로 되돌립니다.</p></div>
+        </div>
+        <div class="table-wrap" role="region" aria-label="최소 책임과 관찰 기준" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">책임</th><th scope="col">가능한 위치</th><th scope="col">관찰 가능한 기준</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">점수와 목표</th><td>GameManager 또는 별도 Score 모델</td><td>UI 문자열을 읽지 않고 정수 데이터로 성공 판정</td></tr>
+              <tr><th scope="row">타이머</th><td>Playing 상태의 Update</td><td>30.0에서 감소, 0 아래로 내려가지 않고 결과 뒤 정지</td></tr>
+              <tr><th scope="row">상태 전환</th><td>한 관리자 Script</td><td>Won과 Lost가 동시에 발생하지 않고 종료 함수가 한 번만 실행</td></tr>
+              <tr><th scope="row">UI 출력</th><td>한 UpdateHud 함수 또는 명확한 View</td><td>저장 데이터가 바뀐 직후 Text와 Panel이 같은 사실 표시</td></tr>
+              <tr><th scope="row">효과음</th><td>GameManager의 AudioSource</td><td>수집, 성공, 실패 사건마다 대응 Clip이 정확히 한 번 재생</td></tr>
+              <tr><th scope="row">재시작</th><td>Scene 재로드 또는 동등한 전체 Reset</td><td>두 결과에서 값, 수집물, UI와 게임 시간이 모두 초기 상태</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading">
+          <p class="section-index">검증 관문</p>
+          <h2 id="tests-title">필수 테스트 8개로 완료를 증명합니다</h2>
+          <p>기대 결과와 실제 결과를 비교해 판정합니다. FAIL을 숨기지 말고 관찰한 첫 현상과 바꾼 한 가지를 기록한 뒤 같은 조건으로 다시 실행합니다.</p>
+        </header>
+        <aside class="test-contract">
+          <span>PASS RULE</span>
+          <p>완료 기준은 <strong>8 / 8 PASS</strong>, Editor Console Error 0개, 실제 빌드 실행입니다. T08은 Editor Play Mode가 아니라 빌드된 실행 파일에서 판정합니다.</p>
+        </aside>
+        <div class="test-identity">
+          <label>학번<input type="text" inputmode="numeric" autocomplete="off" placeholder="20260000" data-student-id></label>
+          <label>이름<input type="text" autocomplete="name" placeholder="이름" data-student-name></label>
+        </div>
+        <div class="test-progress" data-test-progress role="status" aria-live="polite" aria-atomic="true"><span>필수 테스트 진행</span><strong data-test-progress-label>0 / 8 PASS</strong></div>
+        <div class="table-wrap test-table-wrap" role="region" aria-label="7주차 UI, Audio, 상태와 빌드 테스트표" tabindex="0">
+          <table class="test-table" data-test-table>
+            <thead><tr><th scope="col">ID</th><th scope="col">조작·조건</th><th scope="col">기대 결과</th><th scope="col">판정</th><th scope="col">관찰·수정 기록</th></tr></thead>
+            <tbody>
+              <tr data-test-row data-test-id="T01" data-required="true"><th scope="row">T01</th><td data-label="조작·조건">Scene을 열고 Play, Start를 누르지 않음</td><td data-label="기대 결과">StartPanel 표시, 점수 <code>0 / 3</code>, 시간 <code>30.0</code> 고정, 플레이 정지</td><td data-label="결과"><select data-test-status aria-label="T01 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T01 관찰 기록" placeholder="초기 화면과 값"></td></tr>
+              <tr data-test-row data-test-id="T02" data-required="true"><th scope="row">T02</th><td data-label="조작·조건">Start 버튼을 한 번 클릭</td><td data-label="기대 결과">StartPanel 숨김, Player 이동 가능, 시간이 30.0에서 감소</td><td data-label="결과"><select data-test-status aria-label="T02 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T02 관찰 기록" placeholder="상태와 타이머"></td></tr>
+              <tr data-test-row data-test-id="T03" data-required="true"><th scope="row">T03</th><td data-label="조작·조건">수집물 하나에 한 번 접촉</td><td data-label="기대 결과">점수 <code>1 / 3</code>, Collect 음 1회, 해당 수집물만 사라짐</td><td data-label="결과"><select data-test-status aria-label="T03 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T03 관찰 기록" placeholder="점수·소리·오브젝트"></td></tr>
+              <tr data-test-row data-test-id="T04" data-required="true"><th scope="row">T04</th><td data-label="조작·조건">30초 안에 세 수집물을 모두 획득</td><td data-label="기대 결과"><code>3 / 3</code>, 성공 Panel과 Win 음 1회, 시간과 추가 점수 정지</td><td data-label="결과"><select data-test-status aria-label="T04 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T04 관찰 기록" placeholder="Won 전환 시점"></td></tr>
+              <tr data-test-row data-test-id="T05" data-required="true"><th scope="row">T05</th><td data-label="조작·조건">목표 전에 시간이 0이 되도록 기다림</td><td data-label="기대 결과">시간 <code>0.0</code>, 실패 Panel과 Lose 음 1회, 타이머와 수집 정지</td><td data-label="결과"><select data-test-status aria-label="T05 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T05 관찰 기록" placeholder="Lost 전환 시점"></td></tr>
+              <tr data-test-row data-test-id="T06" data-required="true"><th scope="row">T06</th><td data-label="조작·조건">Won과 Lost에서 각각 Restart 클릭</td><td data-label="기대 결과">두 경우 모두 Ready, <code>0 / 3</code>, <code>30.0</code>, 수집물 3개와 StartPanel 복원</td><td data-label="결과"><select data-test-status aria-label="T06 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T06 관찰 기록" placeholder="두 결과의 초기화"></td></tr>
+              <tr data-test-row data-test-id="T07" data-required="true"><th scope="row">T07</th><td data-label="조작·조건">Game View 16:9와 4:3에서 실행, Console 확인</td><td data-label="기대 결과">HUD와 Button이 겹치거나 잘리지 않고 Console Error 0</td><td data-label="결과"><select data-test-status aria-label="T07 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T07 관찰 기록" placeholder="비율·Anchor·Console"></td></tr>
+              <tr data-test-row data-test-id="T08" data-required="true"><th scope="row">T08</th><td data-label="조작·조건">Build and Run 후 Start → Won → Restart → Lost → Restart</td><td data-label="기대 결과">실행 파일에서 전체 순서가 끊김 없이 재현되고 마지막 Ready가 정상</td><td data-label="결과"><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T08 관찰 기록" placeholder="빌드 파일에서의 결과"></td></tr>
+              <tr data-test-id="T09" data-required="false"><th scope="row">T09 <span class="optional-label">선택</span></th><td data-label="조작·조건">연속으로 두 수집물을 빠르게 획득</td><td data-label="기대 결과">두 Collect 음을 들을 수 있고 점수가 정확히 2 증가</td><td data-label="결과"><select data-test-status aria-label="T09 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T09 관찰 기록" placeholder="빠른 연속 사건"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="test-actions">
+          <button class="test-action test-action-primary" type="button" data-export-tests>CSV 저장</button>
+          <button class="test-action" type="button" data-reset-tests data-confirm-label="한 번 더 눌러 초기화">기록 초기화</button>
+          <p data-test-status-message role="status" aria-live="polite" aria-atomic="true">테스트 기록은 이 브라우저에, 학번과 이름은 현재 탭에만 저장됩니다.</p>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="debug" aria-labelledby="debug-title">
+        <header class="section-heading">
+          <p class="section-index">디버깅 순서</p>
+          <h2 id="debug-title">증상이 보이면 원인에 가까운 층부터 봅니다</h2>
+          <p>UI 색이나 글꼴부터 바꾸지 않습니다. 현재 상태, 실제 데이터, 사건 호출, Inspector 참조, 마지막 출력 순서로 처음 어긋난 지점을 찾습니다.</p>
+        </header>
+        <div class="debug-ladder" aria-label="상태 기반 디버깅 순서">
+          <span>STATE</span><b aria-hidden="true">→</b><span>DATA</span><b aria-hidden="true">→</b><span>EVENT</span><b aria-hidden="true">→</b><span>REFERENCE</span><b aria-hidden="true">→</b><span>OUTPUT</span>
+        </div>
+        <div class="trouble-grid">
+          <details><summary>Start를 눌러도 시간이 줄지 않습니다</summary><div class="details-motion-content"><p><strong>State:</strong> CurrentState가 Playing인지 봅니다. <strong>Time:</strong> <code>Time.timeScale</code>이 1인지 확인합니다. <strong>Button:</strong> On Click이 Scene의 GameManager와 StartRound를 가리키는지 확인합니다.</p></div></details>
+          <details><summary>점수 글자가 바뀌지 않거나 Null 오류가 납니다</summary><div class="details-motion-content"><p><strong>Data:</strong> Debug Inspector나 로그로 score가 변하는지 봅니다. 변한다면 <strong>Reference:</strong> scoreText 필드에 TMP_Text가 연결되었는지, <strong>Output:</strong> UpdateHud가 호출되는지 확인합니다.</p></div></details>
+          <details><summary>한 수집물에서 점수가 두 번 오릅니다</summary><div class="details-motion-content"><p>Collectible의 <code>collected</code> guard와 SetActive 순서를 확인합니다. Player에 Collider가 여러 개라면 같은 Trigger가 여러 접촉 사건을 받을 수 있으므로 한 번 처리한 사실을 먼저 기록합니다.</p></div></details>
+          <details><summary>시간이 음수로 내려가거나 결과 뒤에도 변합니다</summary><div class="details-motion-content"><p><code>Mathf.Max(0f, ...)</code>로 0에 고정하고, Update 시작에서 Playing이 아니면 return하는지 확인합니다. FinishRound를 매 프레임 반복 호출하지 않아야 합니다.</p></div></details>
+          <details><summary>효과음이 들리지 않습니다</summary><div class="details-motion-content"><p>AudioSource, Clip 참조, Mute, Volume, Audio Listener 순서로 확인합니다. Scene 안의 Audio Listener는 보통 Main Camera에 하나만 있어야 합니다.</p></div></details>
+          <details><summary>Restart가 Editor 또는 빌드에서 실패합니다</summary><div class="details-motion-content"><p><code>using UnityEngine.SceneManagement;</code>, public 함수와 Button On Click을 확인합니다. 빌드에서는 Scene List 포함 여부와 체크 상태를 추가로 확인하고, 로드 전에 Time Scale을 1로 복원합니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-seven-section" id="ai" aria-labelledby="ai-title">
+        <header class="section-heading">
+          <p class="section-index">AI 사용 경계</p>
+          <h2 id="ai-title">이번 주는 Ask로 이해만 보조합니다</h2>
+          <p>2주차부터 7주차까지 Agent와 생성 기능은 사용하지 않습니다. 코드와 Scene 변경은 학생이 직접 수행하고, Ask는 자신이 관찰한 오류를 설명받는 데만 사용할 수 있습니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>ALLOWED / ASK</span><h3>원인 후보와 확인 순서 묻기</h3><p>현재 상태, 실제 현상, 기대 결과, Console 첫 오류와 이미 확인한 참조를 포함합니다. 답을 받은 뒤 한 단계씩 직접 확인합니다.</p></article>
+          <article><span>NOT USED / AGENT · GENERATOR</span><h3>프로젝트 변경과 결과 생성 맡기지 않기</h3><p>Script 작성, Scene 조작, 에셋 생성과 자동 수정은 이번 주 제작 증거로 인정하지 않습니다.</p></article>
+        </div>
+        <aside class="ask-template">
+          <span>ASK TEMPLATE</span>
+          <p><code>Unity 6.3 2D 프로젝트입니다. 현재 상태는 [Ready/Playing/Won/Lost]이고, [조작] 뒤 실제로 [현상]이 보이지만 [기대 결과]가 필요합니다. Console 첫 오류는 [오류]이며 [확인한 참조]까지 점검했습니다. 전체 코드를 다시 쓰지 말고 가능한 원인 3개와 확인 순서를 설명해 주세요.</code></p>
+        </aside>
+      </section>
+
+      <section class="week-seven-section" id="submission" aria-labelledby="submission-title">
+        <header class="section-heading">
+          <p class="section-index">제출물</p>
+          <h2 id="submission-title">중간고사 전 사전 점검 증거를 남깁니다</h2>
+          <p>파일 수를 늘리는 것이 목적이 아닙니다. 다른 사람이 Scene과 빌드를 열고 같은 테스트를 다시 수행할 수 있을 만큼만 정확히 남깁니다.</p>
+        </header>
+        <div class="submission-grid">
+          <article><span>SCENE</span><h3><code>Week07_Preflight.unity</code></h3><p>GameManager, Canvas, 세 Collectible과 기존 Player·Camera가 연결된 최종 Scene입니다.</p></article>
+          <article><span>SCRIPTS</span><h3><code>GameManager.cs</code> · <code>Collectible.cs</code></h3><p>현재 프로젝트에서 실제로 사용한 상태 관리와 수집 사건 Script입니다.</p></article>
+          <article><span>BUILD</span><h3><code>Week07_학번_이름</code></h3><p>수업 컴퓨터의 데스크톱 플랫폼에서 실행 가능한 빌드 폴더 전체입니다.</p></article>
+          <article><span>TEST LOG</span><h3><code>week07_학번_이름_test.csv</code></h3><p>이 페이지에서 저장한 T01부터 T08의 판정과 관찰·수정 기록입니다.</p></article>
+          <article><span>EVIDENCE 01</span><h3><code>week07_play.png</code></h3><p>Player, 수집물, 점수와 시간이 함께 보이는 Playing 화면입니다.</p></article>
+          <article><span>EVIDENCE 02</span><h3><code>week07_result.png</code></h3><p>결과 Panel과 Restart Button이 보이는 Won 또는 Lost 화면입니다.</p></article>
+        </div>
+        <div class="completion-panel" data-build-checklist>
+          <header><div><span>FINAL CHECK</span><h3>제출 전 마지막 확인</h3></div><strong data-build-progress-label role="status" aria-live="polite" aria-atomic="true">0 / 8 완료</strong></header>
+          <ol>
+            <li><label><input type="checkbox" data-check-id="scene"><span>Scene 이름이 <code>Week07_Preflight</code>이고 저장되어 있습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="state"><span>Ready, Playing, Won, Lost가 한 번에 하나만 활성입니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="ui"><span>점수·시간 HUD와 Start·Result Panel 참조가 모두 연결되어 있습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="audio"><span>Collect, Win, Lose 효과음이 정확한 사건에서 한 번 재생됩니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="restart"><span>Won과 Lost 모두 Restart 뒤 같은 Ready 상태로 돌아옵니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="console"><span>Editor Play 전후 Console Error가 0개입니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="tests"><span>T01부터 T08까지 모두 PASS이고 CSV를 저장했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="build"><span>빌드에서 전체 회귀 순서를 실행하고 화면 증거를 저장했습니다.</span></label></li>
+          </ol>
+          <button type="button" data-build-reset data-confirm-label="한 번 더 눌러 초기화">체크 초기화</button>
+          <p class="completion-status" data-build-status-message role="status" aria-live="polite" aria-atomic="true">체크 상태는 이 브라우저에 자동 저장됩니다.</p>
+        </div>
+        <aside class="next-week">
+          <span>WEEK 08 / MIDTERM</span>
+          <div><h3>기능 하나보다 완전한 흐름을 우선합니다</h3><p>중간고사 전에는 화려한 새 기능보다 입력 → 상호작용 → 점수·시간 → 결과 → 재시작 → 빌드가 끊기지 않는지 확인합니다. 설명할 수 없는 기능과 재현되지 않는 결과는 완료로 보지 않습니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-seven-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <p class="section-index">공식 자료</p>
+          <h2 id="references-title">막혔을 때 확인할 Unity 공식 자료</h2>
+          <p>검색 결과보다 현재 사용하는 Unity 버전의 공식 문서를 먼저 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/class-Canvas.html" target="_blank" rel="noopener noreferrer"><strong>Canvas ↗</strong></a><span>화면 공간 UI와 Render Mode의 공식 설명</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/AudioSource.PlayOneShot.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource.PlayOneShot ↗</strong></a><span>짧은 효과음을 한 번 재생하는 함수</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/SceneManagement.SceneManager.LoadScene.html" target="_blank" rel="noopener noreferrer"><strong>SceneManager.LoadScene ↗</strong></a><span>현재 Scene을 이름 또는 buildIndex로 다시 불러오는 방법</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/build-profile-scene-list.html" target="_blank" rel="noopener noreferrer"><strong>빌드의 씬 관리 ↗</strong></a><span>Build Profiles의 Scene List에 현재 Scene을 포함하는 절차</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/build-profiles-reference.html" target="_blank" rel="noopener noreferrer"><strong>빌드 프로파일 창 레퍼런스 ↗</strong></a><span>Build, Build and Run과 Development Build 설정</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-seven-toc" aria-label="3교시 목차" data-week-seven-toc>
+      <p class="toc-title">Week 07 / Period 03</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#mission"><span>01</span>미션 계약</a></li>
+        <li><a href="#choices"><span>02</span>고정과 선택</a></li>
+        <li><a href="#starting-line"><span>03</span>시작 상태</a></li>
+        <li><a href="#route"><span>04</span>자기주도 경로</a></li>
+        <li><a href="#spec"><span>05</span>최소 인터페이스</a></li>
+        <li><a href="#tests"><span>06</span>8개 테스트</a></li>
+        <li><a href="#debug"><span>07</span>오류 진단</a></li>
+        <li><a href="#ai"><span>08</span>AI 경계</a></li>
+        <li><a href="#submission"><span>09</span>제출과 체크</a></li>
+        <li><a href="#references"><span>10</span>공식 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 07 / Period 03 / Individual goal-directed lab</p>
+  <script src="assets/week-07.js?v=ge1w7-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
