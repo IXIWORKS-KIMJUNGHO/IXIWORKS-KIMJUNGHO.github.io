@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-two-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 1교시: Unity Editor를 읽는 법 | Game Engine I</title>
+  <meta name="description" content="Unity Editor의 주요 창과 Project, Scene, GameObject, Component의 관계를 쉽고 정확하게 이해하는 Game Engine I 2주차 1교시 강의 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="2주차 1교시: Unity Editor를 읽는 법 | Game Engine I">
+  <meta property="og:description" content="Editor의 창을 외우지 않고 선택, 구조, 저장의 관계로 이해합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-period1-editor-model.webp">
+  <meta property="og:image:alt" content="하나의 2D 게임 프로젝트 상자 안에 Scene과 GameObject, Component 조각이 단계별로 정리된 픽셀 아트 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2주차 1교시: Unity Editor를 읽는 법 | Game Engine I">
+  <meta name="twitter:description" content="Project, Scene, GameObject, Component와 Editor의 여섯 창을 하나의 구조로 연결합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-period1-editor-model.webp">
+  <link rel="preload" as="image" href="assets/week-02-period1-editor-model.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-02-lessons.css?v=ge1w2p2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-two week-two-period1" data-lesson-key="game-engine-1-week-02-period1">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="./#week-02" rel="prev" aria-label="이전 자료: 2주차 강의 자료">← <span class="sequence-label">Previous</span></a>
+        <a href="week-02-period2.html" rel="next" aria-label="다음 자료: 2주차 2교시: 장면을 조립하고 재사용하는 법 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-two-hero">
+    <div class="hero-inner">
+      <div class="week-two-hero-copy">
+        <p class="eyebrow">Week 02 / Period 01 / Teacher-led concept</p>
+        <h1>Unity Editor를 읽는 법</h1>
+        <p class="lead">창의 위치를 외우기 전에, 무엇을 선택했고 어디에 저장되며 어떤 기능으로 화면에 보이는지 하나의 구조로 연결합니다.</p>
+        <p class="hero-summary">60분 / 교수자 설명 / 개념과 관찰</p>
+      </div>
+      <figure class="week-two-hero-visual">
+        <img src="assets/week-02-period1-editor-model.webp" width="1568" height="1003" loading="eager" decoding="async" fetchpriority="high" alt="하나의 프로젝트 상자 안에 탑다운 Scene, GameObject 조각과 여러 Component 모듈이 정리된 픽셀 아트 작업대">
+        <figcaption>Project 안에 Scene이 있고, Scene 안의 GameObject는 Component로 기능을 얻습니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <details class="mobile-section-nav">
+      <summary>이 페이지에서</summary>
+      <nav aria-label="1교시 모바일 목차">
+        <ol>
+          <li><a href="#arrival" data-section-link>도착점과 흐름</a></li>
+          <li><a href="#editor" data-section-link>Editor의 여섯 창</a></li>
+          <li><a href="#structure" data-section-link>Unity의 네 층</a></li>
+          <li><a href="#selection" data-section-link>선택과 Inspector</a></li>
+          <li><a href="#asset-instance" data-section-link>Asset과 Instance</a></li>
+          <li><a href="#demonstration" data-section-link>교수자 시연</a></li>
+          <li><a href="#misconceptions" data-section-link>자주 생기는 오해</a></li>
+          <li><a href="#recall" data-section-link>회수 질문</a></li>
+          <li><a href="#sources" data-section-link>공식 문서</a></li>
+        </ol>
+      </nav>
+    </details>
+
+    <article class="article">
+      <section class="lesson-intro" id="arrival" aria-labelledby="arrival-title">
+        <dl class="lesson-facts" aria-label="1교시 핵심 정보">
+          <div><dt>핵심 질문</dt><dd>Unity는 선택한 대상을 어떻게 보여 주는가?</dd></div>
+          <div><dt>교수 방식</dt><dd>설명, 화면 시연, 짧은 회수 질문</dd></div>
+          <div><dt>핵심 어휘</dt><dd>Project, Scene, GameObject, Component</dd></div>
+          <div><dt>관찰 대상</dt><dd>Scene, Game, Hierarchy, Inspector, Project, Console</dd></div>
+          <div><dt>학생 산출물</dt><dd>구조를 설명하는 한 문장</dd></div>
+          <div><dt>이번 교시 제외</dt><dd>장면 제작과 세부 조작 실습</dd></div>
+        </dl>
+
+        <div class="arrival-statement">
+          <span>오늘의 도착점</span>
+          <strong id="arrival-title">선택한 대상이 어느 창에 있고, 어떤 Component를 가지며, 어디에 저장되는지 설명할 수 있습니다.</strong>
+          <p>이번 교시는 학생이 기능을 따라 만드는 시간이 아닙니다. 교사의 화면을 함께 읽고, 같은 대상을 여러 창에서 관찰하면서 Unity의 기본 문법을 세웁니다.</p>
+        </div>
+
+        <ol class="session-track" aria-label="1교시 60분 운영 순서">
+          <li><time>00-08</time><strong>이전 학습 회수</strong><p>설치한 Editor와 Hub의 역할을 구분하고 오늘 볼 화면을 예고합니다.</p></li>
+          <li><time>08-22</time><strong>Editor의 여섯 창</strong><p>창의 위치가 아니라 각 창이 답하는 질문을 기준으로 설명합니다.</p></li>
+          <li><time>22-36</time><strong>Unity의 네 층</strong><p>Project, Scene, GameObject, Component의 포함 관계를 한 장면으로 풉니다.</p></li>
+          <li><time>36-48</time><strong>선택과 Inspector</strong><p>Main Camera와 Sprite를 선택해 오브젝트와 기능이 연결되는 과정을 시연합니다.</p></li>
+          <li><time>48-56</time><strong>Asset, Instance, 저장</strong><p>Project 창의 파일과 Hierarchy의 배치된 대상을 구분합니다.</p></li>
+          <li><time>56-60</time><strong>회수 질문</strong><p>화면을 보지 않고 세 문장으로 핵심 구조를 복원합니다.</p></li>
+        </ol>
+      </section>
+
+      <section class="lesson-section" id="editor" aria-labelledby="editor-title">
+        <header>
+          <h2 id="editor-title">여섯 창은 서로 다른 질문에 답합니다</h2>
+          <p>Unity의 Layout은 기기와 설정에 따라 달라질 수 있습니다. 왼쪽, 오른쪽 같은 위치보다 창의 이름과 역할을 기억해야 다른 화면에서도 길을 잃지 않습니다.</p>
+        </header>
+
+        <div class="teacher-cue">
+          <span class="cue-label">교수자 도입 문장</span>
+          <p class="teacher-words">Unity Editor는 게임을 보여 주는 한 화면이 아니라, 같은 프로젝트를 여러 관점에서 살펴보는 작업대입니다.</p>
+        </div>
+
+        <div class="window-matrix" aria-label="Unity Editor 주요 창의 역할">
+          <article>
+            <span>Scene</span>
+            <h3>어디에 놓을까?</h3>
+            <p>GameObject를 선택하고 위치, 회전, 크기와 구성을 편집하는 제작 화면입니다.</p>
+            <small>만드는 사람의 시점</small>
+          </article>
+          <article>
+            <span>Game</span>
+            <h3>플레이어에게 어떻게 보일까?</h3>
+            <p>Main Camera가 촬영하는 최종 화면을 확인합니다. Scene 뷰와 보이는 범위가 다를 수 있습니다.</p>
+            <small>카메라의 시점</small>
+          </article>
+          <article>
+            <span>Hierarchy</span>
+            <h3>현재 Scene에 무엇이 있을까?</h3>
+            <p>열려 있는 Scene의 GameObject 목록과 부모, 자식 관계를 보여 줍니다.</p>
+            <small>현재 장면의 구조</small>
+          </article>
+          <article>
+            <span>Inspector</span>
+            <h3>선택한 대상은 어떤 상태일까?</h3>
+            <p>선택한 GameObject의 Component와 값, 또는 선택한 Asset의 설정을 보여 줍니다.</p>
+            <small>선택에 따라 내용이 달라짐</small>
+          </article>
+          <article>
+            <span>Project</span>
+            <h3>어떤 재료가 저장되어 있을까?</h3>
+            <p><code>Assets</code> 폴더의 Scene, Prefab, 이미지, 소리와 Script 같은 파일을 관리합니다.</p>
+            <small>프로젝트의 저장된 재료</small>
+          </article>
+          <article>
+            <span>Console</span>
+            <h3>무슨 일이 기록되었을까?</h3>
+            <p>오류, 경고와 실행 메시지를 모아 보여 줍니다. 문제가 생기면 가장 먼저 확인합니다.</p>
+            <small>상태와 문제의 기록</small>
+          </article>
+        </div>
+
+        <div class="board-note">
+          <span class="cue-label">판서 핵심</span>
+          <strong>Scene은 만든다. Game은 확인한다. Hierarchy는 고른다. Inspector는 바꾼다. Project는 보관한다. Console은 알린다.</strong>
+          <p>창 이름을 설명할 때마다 이 동사로 돌아오면 초보자가 역할을 빠르게 구분할 수 있습니다.</p>
+        </div>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">Scene 뷰에서 보인다고 Game 뷰에도 보이는 것은 아닙니다</p>
+          <p>Scene 뷰는 제작 공간 전체를 자유롭게 보는 화면입니다. Game 뷰는 Main Camera의 촬영 범위만 보여 줍니다. 오브젝트가 사라졌다고 느끼면 먼저 두 화면을 구분합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="structure" aria-labelledby="structure-title">
+        <header>
+          <h2 id="structure-title">Unity는 큰 단위에서 작은 단위로 읽습니다</h2>
+          <p>네 용어는 나란히 놓인 기능 목록이 아닙니다. 큰 그릇 안에 작은 단위가 포함되고, 가장 작은 기능 조각이 GameObject의 행동과 모습을 결정합니다.</p>
+        </header>
+
+        <div class="concept-ladder" aria-label="Project에서 Component까지의 포함 관계">
+          <div><span>Project</span><strong>게임 전체 작업</strong><p>여러 Scene, Asset, 설정과 패키지를 함께 담는 가장 큰 단위입니다.</p></div>
+          <div><span>Scene</span><strong>한 장면 또는 상태</strong><p>레벨, 메뉴, 테스트 공간처럼 GameObject가 배치되는 저장 단위입니다.</p></div>
+          <div><span>GameObject</span><strong>장면 속 대상</strong><p>플레이어, 카메라, 배경처럼 이름과 계층을 가진 기본 그릇입니다.</p></div>
+          <div><span>Component</span><strong>대상이 가진 기능</strong><p>위치, 화면 표시, 카메라 촬영처럼 실제 역할을 나누어 담당합니다.</p></div>
+        </div>
+
+        <p class="containment-line">Project &gt; Scene &gt; GameObject &gt; Component</p>
+
+        <div class="teacher-cue">
+          <span class="cue-label">설명 비유</span>
+          <p class="teacher-words">Project가 공연 전체라면 Scene은 한 막, GameObject는 무대 위 배우와 소품, Component는 각 대상이 가진 위치, 모습, 소리와 행동입니다.</p>
+        </div>
+
+        <dl class="comparison-list">
+          <div><dt>Project</dt><dd><code>GE1_Week02</code> 폴더 전체입니다. Scene 파일뿐 아니라 이미지와 프로젝트 설정까지 함께 있어야 다른 컴퓨터에서도 같은 작업을 열 수 있습니다.</dd></div>
+          <div><dt>Scene</dt><dd><code>Week02_Playground.unity</code>처럼 저장되는 하나의 장면 파일입니다. 이 파일은 현재 배치와 각 GameObject의 상태를 기억합니다.</dd></div>
+          <div><dt>GameObject</dt><dd>그 자체만으로는 기능이 정해지지 않은 기본 단위입니다. 이름을 가지고 Hierarchy에 놓이며, 반드시 Transform을 가집니다.</dd></div>
+          <div><dt>Component</dt><dd>GameObject에 붙어 기능을 더합니다. 같은 GameObject도 어떤 Component를 붙였는지에 따라 카메라, 그림, 소리 또는 움직이는 대상으로 달라집니다.</dd></div>
+        </dl>
+
+        <div class="callout">
+          <p class="callout-title">GameObject는 빈 상자라는 표현을 정확히 이해합니다</p>
+          <p>아무 기능도 없다는 뜻이 아니라, 기능이 Component로 조립된다는 뜻입니다. 모든 GameObject에는 위치와 계층을 담당하는 Transform이 기본으로 붙으며 제거할 수 없습니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="selection" aria-labelledby="selection-title">
+        <header>
+          <h2 id="selection-title">선택이 Hierarchy와 Inspector를 연결합니다</h2>
+          <p>초보자가 Inspector를 어렵게 느끼는 가장 큰 이유는 Inspector가 고정된 설정 창이라고 생각하기 때문입니다. Inspector는 마지막으로 선택한 대상의 설명서입니다.</p>
+        </header>
+
+        <div class="selection-loop" aria-label="선택에서 수정까지 이어지는 흐름">
+          <div><strong>대상을 선택</strong><p>Hierarchy에서 GameObject를 고르거나 Project에서 Asset을 고릅니다.</p></div>
+          <span aria-hidden="true">→</span>
+          <div><strong>Inspector가 갱신</strong><p>선택한 대상의 Component 또는 Asset 설정이 나타납니다.</p></div>
+          <span aria-hidden="true">→</span>
+          <div><strong>값을 관찰하고 수정</strong><p>변경 결과가 Scene, Game 또는 파일 설정에 반영됩니다.</p></div>
+        </div>
+
+        <h3>Main Camera를 선택하면 무엇이 보일까요?</h3>
+        <div class="component-pair">
+          <article>
+            <span class="visual-label">Selected GameObject</span>
+            <h3>Main Camera</h3>
+            <p>Hierarchy에서 선택한 장면 속 대상입니다. 이름은 대상을 구분하고, Component가 실제 기능을 담당합니다.</p>
+            <ul class="component-list">
+              <li><span>Transform</span><span>카메라의 위치와 방향</span></li>
+              <li><span>Camera</span><span>촬영 범위와 배경 설정</span></li>
+              <li><span>Audio Listener</span><span>장면의 소리를 듣는 위치</span></li>
+            </ul>
+          </article>
+          <article>
+            <span class="visual-label">Selected GameObject</span>
+            <h3>Player</h3>
+            <p>이번 주에는 기본 Sprite로 보이는 대상입니다. 아직 Script나 물리는 붙이지 않습니다.</p>
+            <ul class="component-list">
+              <li><span>Transform</span><span>플레이어의 위치, 회전, 크기</span></li>
+              <li><span>Sprite Renderer</span><span>Sprite, 색과 앞뒤 순서</span></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="teacher-cue">
+          <span class="cue-label">교수자 화면 시연</span>
+          <ol>
+            <li>Hierarchy에서 <code>Main Camera</code>를 선택하고 Inspector의 Component 이름만 천천히 읽습니다.</li>
+            <li>Hierarchy의 다른 GameObject를 선택해 Inspector 내용이 즉시 바뀌는 것을 보여 줍니다.</li>
+            <li>Project 창에서 Scene Asset을 선택해 이번에는 GameObject가 아니라 파일 설정이 나타난다고 설명합니다.</li>
+            <li>다시 Hierarchy의 Main Camera를 선택하며 선택의 출발점이 Inspector의 내용을 결정한다고 정리합니다.</li>
+          </ol>
+        </div>
+
+        <div class="board-note">
+          <span class="cue-label">판서 핵심</span>
+          <strong>Hierarchy에서 고르면 Scene의 대상, Project에서 고르면 저장된 Asset을 Inspector가 설명합니다.</strong>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="asset-instance" aria-labelledby="asset-instance-title">
+        <header>
+          <h2 id="asset-instance-title">Asset과 Instance를 구분하면 저장이 보입니다</h2>
+          <p>Project 창의 파일과 Scene에 배치된 대상은 서로 연결될 수 있지만 같은 것은 아닙니다. 이 구분은 다음 교시의 Prefab을 이해하는 바탕입니다.</p>
+        </header>
+
+        <div class="two-column">
+          <article class="teacher-cue">
+            <span class="cue-label">Asset</span>
+            <h3>Project 창에 저장된 원본 재료</h3>
+            <p>Scene, Prefab, 이미지와 Script처럼 프로젝트 폴더에 파일로 남는 대상입니다. 프로젝트를 닫았다가 열어도 존재합니다.</p>
+            <p><code>Assets/Scenes/Week02_Playground.unity</code></p>
+          </article>
+          <article class="teacher-cue">
+            <span class="cue-label">Instance</span>
+            <h3>현재 Scene에 놓인 실제 사용본</h3>
+            <p>Hierarchy에 보이는 GameObject입니다. 위치와 Component 값은 Scene의 일부로 저장됩니다.</p>
+            <p><code>Collectible_01</code>, <code>Collectible_02</code></p>
+          </article>
+        </div>
+
+        <h3>저장 버튼은 무엇을 저장할까요?</h3>
+        <dl class="comparison-list">
+          <div><dt>Scene 저장</dt><dd><code>Ctrl/Cmd + S</code>는 열려 있는 Scene의 GameObject 배치와 Component 값을 Scene Asset에 기록합니다. Scene 이름 옆 별표가 사라졌는지 확인합니다.</dd></div>
+          <div><dt>Project 파일</dt><dd>가져온 이미지, 만든 Prefab과 Script는 Project 창의 Assets 폴더에 별도 Asset으로 존재합니다.</dd></div>
+          <div><dt>Play Mode</dt><dd>Play 중 Inspector에서 바꾼 Scene 값은 테스트용 임시 변경입니다. Play를 멈추면 대부분 시작 전 상태로 돌아오므로 영구 편집은 Edit Mode에서 합니다.</dd></div>
+        </dl>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">프로젝트를 저장한다는 표현은 범위를 확인해야 합니다</p>
+          <p>Unity에는 Scene 파일, Prefab Asset, Project 설정처럼 서로 다른 저장 대상이 있습니다. 이번 주에는 먼저 Scene을 명시적으로 저장하고 Project 창에서 파일이 생겼는지 확인합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="demonstration" aria-labelledby="demonstration-title">
+        <header>
+          <span class="section-kicker">교수자 시연</span>
+          <h2 id="demonstration-title">8분 시연으로 모든 창을 한 번 연결합니다</h2>
+          <p>학생에게 같은 조작을 요구하지 않습니다. 교사는 하나의 선택이 여러 창에 어떤 변화를 만드는지 천천히 보여 주고, 학생은 결과를 예측한 뒤 관찰합니다.</p>
+        </header>
+
+        <ol class="demo-sequence">
+          <li>
+            <div><h3>Scene과 Game을 나란히 봅니다</h3><p>Scene 뷰에서 카메라 프레임 밖의 오브젝트를 가리킨 뒤 Game 뷰에서는 보이지 않는 이유를 묻습니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>제작 공간과 최종 촬영 범위는 다릅니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Hierarchy에서 Main Camera를 선택합니다</h3><p>선택 표시와 Inspector의 Transform, Camera Component를 연결해 읽습니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>GameObject의 기능은 Component 목록으로 보입니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Project의 Scene Asset을 선택합니다</h3><p>같은 Inspector가 이번에는 파일 정보를 보여 준다는 점을 비교합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>어디에서 선택했는지가 Inspector의 대상을 바꿉니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Console을 열고 정상 상태를 확인합니다</h3><p>빨간 오류, 노란 경고, 일반 메시지의 시각적 차이를 짧게 소개합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>문제가 보이지 않아도 Console은 확인 대상입니다.</span></div>
+          </li>
+        </ol>
+
+        <div class="teacher-cue">
+          <span class="cue-label">중간 질문</span>
+          <p class="teacher-words">지금 Inspector가 설명하는 것은 장면 속 GameObject인가요, Project에 저장된 Asset인가요? 선택한 위치를 근거로 답해 봅시다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="misconceptions" aria-labelledby="misconceptions-title">
+        <header>
+          <h2 id="misconceptions-title">처음 생기는 오해를 바로잡습니다</h2>
+          <p>용어를 많이 외우는 것보다 비슷해 보이는 개념의 경계를 정확히 세우는 것이 중요합니다.</p>
+        </header>
+
+        <div class="misconception-list">
+          <article><h3>Scene 뷰가 게임 화면이다</h3><p>Scene은 제작자의 편집 화면이고 Game은 Main Camera가 보여 주는 플레이 화면입니다.</p></article>
+          <article><h3>Inspector는 설정 메뉴다</h3><p>Inspector는 고정된 메뉴가 아니라 현재 선택한 GameObject 또는 Asset의 상태를 보여 주는 창입니다.</p></article>
+          <article><h3>GameObject가 기능을 모두 가진다</h3><p>GameObject는 기능의 그릇입니다. 위치, 화면 표시와 행동은 각각의 Component가 담당합니다.</p></article>
+          <article><h3>Hierarchy는 파일 목록이다</h3><p>Hierarchy는 현재 Scene의 GameObject 목록입니다. 실제 Asset 파일은 Project 창에서 관리합니다.</p></article>
+          <article><h3>Play 중 바꾸면 저장된다</h3><p>Play Mode의 Scene 값 변경은 테스트가 끝나면 되돌아갈 수 있습니다. 영구 편집은 Play를 멈춘 뒤 저장합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="recall" aria-labelledby="recall-title">
+        <header>
+          <h2 id="recall-title">화면을 닫고 세 문장으로 회수합니다</h2>
+          <p>먼저 소리 내어 답한 뒤 정답을 엽니다. 맞힌 개수보다 이유를 완전한 문장으로 설명하는 것이 목표입니다.</p>
+        </header>
+
+        <div class="retrieval-set">
+          <details>
+            <summary>Scene 뷰에는 보이지만 Game 뷰에는 보이지 않는 이유는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>Scene 뷰는 제작 공간 전체를 보여 주지만 Game 뷰는 Main Camera의 촬영 범위만 보여 줍니다. 따라서 카메라 프레임 밖의 대상은 Game 뷰에 나타나지 않습니다.</p></div>
+          </details>
+          <details>
+            <summary>Hierarchy에서 Player를 선택하면 Inspector에는 무엇이 보이나요?</summary>
+            <div class="details-motion-content"><p>현재 Scene의 Player GameObject에 붙은 Transform, Sprite Renderer 같은 Component와 각 값이 보입니다.</p></div>
+          </details>
+          <details>
+            <summary>Project, Scene, GameObject, Component를 큰 순서대로 말해 보세요.</summary>
+            <div class="details-motion-content"><p>Project 안에 Scene이 있고, Scene 안에 GameObject가 배치되며, GameObject는 Component로 기능을 얻습니다.</p></div>
+          </details>
+        </div>
+
+        <div class="board-note">
+          <span class="cue-label">1교시 종료 문장</span>
+          <strong>Unity Editor는 선택한 대상을 여러 창에서 연결해 읽고, GameObject에 붙은 Component를 수정하는 작업 환경입니다.</strong>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="sources" aria-labelledby="sources-title">
+        <header>
+          <h2 id="sources-title">수업 기준이 되는 Unity 문서</h2>
+          <p>메뉴 위치가 달라졌을 때는 화면 캡처보다 현재 Editor의 창 이름과 공식 문서를 기준으로 확인합니다.</p>
+        </header>
+
+        <ul class="source-list">
+          <li><a href="https://docs.unity.com/en-us/hub/project-create" target="_blank" rel="noopener noreferrer">Unity Hub 프로젝트 생성 ↗</a><span>Editor 버전, 템플릿, 이름과 위치를 정해 프로젝트를 만드는 흐름</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/unity-editor.html" target="_blank" rel="noopener noreferrer">Unity Editor 소개 ↗</a><span>Editor를 구성하는 주요 창과 작업 공간</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/hierarchy-window.html" target="_blank" rel="noopener noreferrer">Hierarchy 창 ↗</a><span>현재 Scene의 GameObject와 부모, 자식 구조</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/GameObjects.html" target="_blank" rel="noopener noreferrer">GameObject ↗</a><span>Scene을 구성하는 기본 대상과 Component의 관계</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/Components.html" target="_blank" rel="noopener noreferrer">Component ↗</a><span>GameObject에 기능을 더하는 구성 요소</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/scenes-working-with.html" target="_blank" rel="noopener noreferrer">Scene 작업 ↗</a><span>Scene 생성, 열기와 저장의 기본 원칙</span></li>
+        </ul>
+      </section>
+
+      <div class="period-bridge">
+        <div><span>Next period</span><strong>2교시에는 Transform, 부모와 자식, Sprite 정렬과 Prefab을 교사 시연으로 연결합니다.</strong></div>
+        <a href="week-02-period2.html">2교시로 이동 →</a>
+      </div>
+    </article>
+
+    <aside class="week-two-toc" aria-label="1교시 목차">
+      <span>On this page</span>
+      <ol>
+        <li><a href="#arrival" data-section-link>도착점과 흐름</a></li>
+        <li><a href="#editor" data-section-link>Editor의 여섯 창</a></li>
+        <li><a href="#structure" data-section-link>Unity의 네 층</a></li>
+        <li><a href="#selection" data-section-link>선택과 Inspector</a></li>
+        <li><a href="#asset-instance" data-section-link>Asset과 Instance</a></li>
+        <li><a href="#demonstration" data-section-link>교수자 시연</a></li>
+        <li><a href="#misconceptions" data-section-link>자주 생기는 오해</a></li>
+        <li><a href="#recall" data-section-link>회수 질문</a></li>
+        <li><a href="#sources" data-section-link>공식 문서</a></li>
+      </ol>
+      <div class="toc-periods">
+        <a href="week-02-foundations.html">교수자 운영안</a>
+        <a href="week-02-period2.html">2교시 자료</a>
+        <a href="week-02-period3.html">3교시 미션</a>
+      </div>
+    </aside>
+  </main>
+<script src="assets/week-02-lessons.js?v=ge1w2p2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

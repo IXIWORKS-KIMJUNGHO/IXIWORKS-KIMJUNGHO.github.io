@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 교수자 운영안: 첫 2D 프로젝트와 Unity 기본 구조 | Game Engine I</title>
+  <meta name="description" content="1교시 Unity Editor 구조 설명, 2교시 Transform과 Prefab 설명 및 시연, 3교시 Week02_Playground 목표 미션으로 이어지는 Game Engine I 2주차 전체 운영안입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-foundations.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="2주차 교수자 운영안: 첫 2D 프로젝트와 Unity 기본 구조">
+  <meta property="og:description" content="두 교시의 교수자 설명과 한 교시의 목표 지향 미션으로 Unity의 핵심 구조와 재사용 방식을 익힙니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-foundations.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-modular-scene.webp">
+  <meta property="og:image:alt" content="탑다운 2D 게임 장면과 장면을 구성하는 배경, 캐릭터, 수집물, 상자와 나무 모듈을 함께 보여 주는 픽셀 아트 이미지">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2주차 교수자 운영안: 첫 2D 프로젝트와 Unity 기본 구조">
+  <meta name="twitter:description" content="두 교시의 교수자 설명과 한 교시의 목표 지향 미션으로 Unity의 핵심 구조와 재사용 방식을 익힙니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-modular-scene.webp">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-01-ot.css?v=ge1ot1">
+  <link rel="stylesheet" href="assets/week-02-foundations.css?v=ge1w2f1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-ot game-engine-foundations">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+
+
+      </div>
+    </nav>
+  </header>
+<header class="hero ot-hero foundations-hero">
+    <div class="hero-inner">
+      <div class="ot-hero-copy">
+        <p class="eyebrow">Week 02 / Instructor guide</p>
+        <h1>첫 2D 프로젝트와 Unity 기본 구조</h1>
+        <p class="lead">1교시와 2교시에는 교사의 설명과 시연으로 구조를 이해하고, 3교시에는 목표와 통과 기준을 보고 첫 장면을 스스로 완성합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="week-02-period1.html">1교시 자료</a>
+          <a class="hero-action" href="week-02-period2.html">2교시 자료</a>
+          <a class="hero-action" href="week-02-period3.html">3교시 미션</a>
+        </div>
+      </div>
+      <figure class="ot-hero-visual foundations-hero-visual">
+        <img src="assets/week-02-modular-scene.webp" width="1586" height="992" loading="eager" fetchpriority="high" decoding="async" alt="완성된 탑다운 2D 게임 장면 주변에 같은 수집물과 상자, 플레이어 표시, 배경과 나무 모듈이 분리되어 배치된 모습">
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="goals" aria-labelledby="goals-title">
+        <div class="arrival-heading">
+          <h2 id="goals-title">오늘의 도착점</h2>
+          <p>Unity의 용어를 외우는 대신, 두 번의 설명에서 구조를 이해하고 마지막 미션에서 각 구조의 역할을 직접 증명합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><strong>Project, Scene, GameObject, Component</strong>의 포함 관계를 설명할 수 있습니다.</li>
+          <li><strong>Scene, Game, Hierarchy, Inspector, Project</strong> 창을 목적에 맞게 사용할 수 있습니다.</li>
+          <li><strong>Transform과 부모-자식 관계</strong>를 이용해 오브젝트를 묶고 이동할 수 있습니다.</li>
+          <li><strong>Sorting Layer와 Order in Layer</strong>로 2D 오브젝트의 앞뒤 순서를 제어할 수 있습니다.</li>
+          <li><strong>Prefab Asset과 Instance</strong>를 만들고 원본 수정이 복제본에 반영되는지 확인할 수 있습니다.</li>
+        </ul>
+      </section>
+
+      <aside class="stop-line lab-finish-line" aria-label="오늘의 실습 범위">
+        <div>
+          <span>오늘의 종료선</span>
+          <strong>Week02_Playground Scene 검증 완료</strong>
+        </div>
+        <p><strong>저장된 Scene, 부모-자식 구조, 세 개의 Prefab Instance와 올바른 Sprite 순서</strong>가 Game 뷰에 보이면 완료입니다. C# Script와 2D 물리는 아직 추가하지 않습니다.</p>
+      </aside>
+
+      <section class="ot-section" id="agenda" aria-labelledby="agenda-title">
+        <header class="section-heading">
+          <h2 id="agenda-title">세 교시의 역할</h2>
+          <p>1교시와 2교시는 교수자가 이론과 원리를 설명하고 시연합니다. 학생이 직접 제작하는 시간은 3교시의 목표 지향 미션입니다.</p>
+        </header>
+        <div class="agenda-bands">
+          <section class="agenda-band" aria-labelledby="agenda-open">
+            <div class="agenda-band-heading">
+              <span>1교시 / 60분</span>
+              <h3 id="agenda-open">Unity Editor의 구조를 읽습니다</h3>
+            </div>
+            <ol>
+              <li><time>00-22분</time><div><strong>Editor의 여섯 창</strong><p>Scene, Game, Hierarchy, Inspector, Project와 Console이 답하는 질문을 구분합니다.</p></div></li>
+              <li><time>22-48분</time><div><strong>Unity의 핵심 구조</strong><p>Project, Scene, GameObject, Component와 선택의 관계를 설명합니다.</p></div></li>
+              <li><time>48-60분</time><div><strong>Asset과 저장</strong><p>Project의 Asset과 Scene의 Instance를 비교하고 핵심 문장을 회수합니다.</p></div></li>
+            </ol>
+            <p><a href="week-02-period1.html"><strong>1교시 상세 자료 열기 ↗</strong></a></p>
+          </section>
+          <section class="agenda-band" aria-labelledby="agenda-build">
+            <div class="agenda-band-heading">
+              <span>2교시 / 60분</span>
+              <h3 id="agenda-build">장면 조립 원리를 설명하고 시연합니다</h3>
+            </div>
+            <ol>
+              <li><time>00-21분</time><div><strong>Transform</strong><p>Position, Rotation, Scale을 2D 장면의 주소, 방향과 크기로 설명합니다.</p></div></li>
+              <li><time>21-35분</time><div><strong>부모와 자식</strong><p>Player와 DirectionMarker로 local 좌표와 함께 움직이는 관계를 시연합니다.</p></div></li>
+              <li><time>35-46분</time><div><strong>Sprite 정렬</strong><p>Sorting Layer와 Order in Layer가 해결하는 순서 문제를 비교합니다.</p></div></li>
+              <li><time>46-60분</time><div><strong>Prefab 재사용</strong><p>하나의 Asset, 세 Instance와 Override의 영향을 시연합니다.</p></div></li>
+            </ol>
+            <p><a href="week-02-period2.html"><strong>2교시 상세 자료 열기 ↗</strong></a></p>
+          </section>
+          <section class="agenda-band agenda-band-accent" aria-labelledby="agenda-reuse">
+            <div class="agenda-band-heading">
+              <span>3교시 / 60분</span>
+              <h3 id="agenda-reuse">목표를 보고 Playground를 완성합니다</h3>
+            </div>
+            <ol>
+              <li><time>00-24분</time><div><strong>Scene과 Hierarchy</strong><p>학생이 파일, 이름과 부모, 자식 구조를 스스로 구성합니다.</p></div></li>
+              <li><time>24-38분</time><div><strong>보이는 순서</strong><p>세 Sorting Layer를 적용하고 장면의 겹침을 검증합니다.</p></div></li>
+              <li><time>38-50분</time><div><strong>Prefab 재사용</strong><p>하나의 Collectible 원본과 연결된 세 Instance를 배치합니다.</p></div></li>
+              <li><time>50-60분</time><div><strong>통과와 증거</strong><p>8개 기준, Console 오류 0개, 두 화면과 설명 한 문장을 확인합니다.</p></div></li>
+            </ol>
+            <p><a href="week-02-period3.html"><strong>3교시 목표 미션 열기 ↗</strong></a></p>
+          </section>
+        </div>
+        <aside class="callout callout-key">
+          <p class="callout-title">이 페이지의 나머지 내용은 교수자 참고 자료입니다</p>
+          <p>1교시와 2교시에는 학생에게 아래 조작 절차를 그대로 따라 하게 하지 않습니다. 개념 설명과 시연의 근거로 사용하고, 학생의 제작은 3교시 미션 페이지에 제시된 목표와 통과 기준으로 운영합니다.</p>
+        </aside>
+      </section>
+
+      <section class="ot-section" id="mental-model" aria-labelledby="mental-model-title">
+        <header class="section-heading">
+          <h2 id="mental-model-title">Unity는 네 층으로 생각합니다</h2>
+          <p>큰 단위에서 작은 단위로 내려가면 Unity Editor의 대부분을 같은 방식으로 읽을 수 있습니다.</p>
+        </header>
+
+        <div class="concept-stack" aria-label="Project에서 Component까지 이어지는 Unity의 기본 포함 관계">
+          <article>
+            <span>Project</span>
+            <strong>게임 전체 작업 폴더</strong>
+            <p>Scene, Prefab, 이미지, 소리, Script와 설정을 담습니다.</p>
+          </article>
+          <span class="concept-connector" aria-hidden="true">포함</span>
+          <article>
+            <span>Scene</span>
+            <strong>한 화면 또는 한 상태</strong>
+            <p>레벨, 메뉴, 테스트 공간처럼 오브젝트가 놓이는 단위입니다.</p>
+          </article>
+          <span class="concept-connector" aria-hidden="true">포함</span>
+          <article>
+            <span>GameObject</span>
+            <strong>장면 속 빈 그릇</strong>
+            <p>플레이어, 카메라, 배경과 수집물의 이름과 정체성을 가집니다.</p>
+          </article>
+          <span class="concept-connector" aria-hidden="true">구성</span>
+          <article class="concept-stack-accent">
+            <span>Component</span>
+            <strong>오브젝트의 기능</strong>
+            <p>Transform은 위치를, Sprite Renderer는 화면 표시를 담당합니다.</p>
+          </article>
+        </div>
+
+        <div class="asset-instance-model">
+          <div class="asset-side">
+            <span>Project 창</span>
+            <h3>파일과 원본 Asset</h3>
+            <p>디스크에 저장되는 재료입니다. Scene 파일과 Prefab 원본은 프로젝트를 닫아도 남습니다.</p>
+            <code>Assets/Scenes/Week02_Playground.unity</code>
+          </div>
+          <div class="model-arrow" aria-hidden="true">→</div>
+          <div class="instance-side">
+            <span>Hierarchy 창</span>
+            <h3>현재 Scene의 Instance</h3>
+            <p>열려 있는 Scene에 실제로 배치된 대상입니다. Hierarchy 수정은 Scene 저장이 필요합니다.</p>
+            <code>Collectible_01, Collectible_02, Collectible_03</code>
+          </div>
+        </div>
+
+        <aside class="callout callout-key">
+          <p class="callout-title">선택이 설명을 연결합니다</p>
+          <p>Hierarchy에서 GameObject를 선택하면 Inspector에 그 오브젝트의 Component가 나타납니다. Project에서 Asset을 선택하면 Inspector는 그 파일의 설정을 보여 줍니다.</p>
+        </aside>
+      </section>
+
+      <section class="ot-section" id="editor" aria-labelledby="editor-title">
+        <header class="section-heading">
+          <h2 id="editor-title">다섯 창을 한 문장으로 구분합니다</h2>
+          <p>창의 위치는 Layout에 따라 달라질 수 있습니다. 이름과 역할을 기준으로 찾습니다.</p>
+        </header>
+
+        <div class="window-map">
+          <article class="window-scene">
+            <span>Scene</span>
+            <h3>만드는 화면</h3>
+            <p>GameObject를 선택하고 이동, 회전, 크기를 편집합니다.</p>
+            <small>질문: 어디에 놓을까?</small>
+          </article>
+          <article class="window-game">
+            <span>Game</span>
+            <h3>플레이어가 보는 화면</h3>
+            <p>Main Camera가 촬영하는 최종 프레임을 확인합니다.</p>
+            <small>질문: 실제로 어떻게 보일까?</small>
+          </article>
+          <article>
+            <span>Hierarchy</span>
+            <h3>현재 Scene의 목록</h3>
+            <p>GameObject의 이름, 순서와 부모-자식 구조를 관리합니다.</p>
+          </article>
+          <article>
+            <span>Inspector</span>
+            <h3>선택한 대상의 속성</h3>
+            <p>Transform과 Sprite Renderer 같은 Component 값을 편집합니다.</p>
+          </article>
+          <article>
+            <span>Project</span>
+            <h3>사용 가능한 Asset</h3>
+            <p>Assets 폴더 안의 Scene, Prefab, 이미지와 Script를 관리합니다.</p>
+          </article>
+          <article class="window-console">
+            <span>Console</span>
+            <h3>문제의 기록</h3>
+            <p>오류, 경고와 실행 중 출력되는 메시지를 확인합니다.</p>
+          </article>
+        </div>
+
+        <div class="micro-exercise">
+          <span>5분 확인</span>
+          <div>
+            <h3>선택의 경로를 따라갑니다</h3>
+            <ol>
+              <li>Hierarchy에서 <code>Main Camera</code>를 선택합니다.</li>
+              <li>Inspector에서 Transform과 Camera Component를 찾습니다.</li>
+              <li>Project 창에서 현재 Scene Asset을 선택하고 Inspector가 바뀌는지 확인합니다.</li>
+              <li>다시 Hierarchy의 Main Camera를 선택해 오브젝트 편집 상태로 돌아옵니다.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="shortcut-strip" aria-label="오늘 사용하는 Unity 단축키">
+          <div><kbd>Q</kbd><span>Hand</span></div>
+          <div><kbd>W</kbd><span>Move</span></div>
+          <div><kbd>E</kbd><span>Rotate</span></div>
+          <div><kbd>R</kbd><span>Scale</span></div>
+          <div><kbd>T</kbd><span>Rect</span></div>
+          <div><kbd>F</kbd><span>Frame selected</span></div>
+          <div><kbd>Ctrl/Cmd + S</kbd><span>Save</span></div>
+          <div><kbd>Ctrl/Cmd + D</kbd><span>Duplicate</span></div>
+        </div>
+      </section>
+
+      <section class="ot-section" id="project" aria-labelledby="project-title">
+        <header class="section-heading">
+          <h2 id="project-title">공통 프로젝트를 정확히 만듭니다</h2>
+          <p>버전, 템플릿, 이름과 저장 위치가 같아야 수업 중 문제를 함께 해결할 수 있습니다.</p>
+        </header>
+
+        <div class="project-contract">
+          <div>
+            <span>Editor</span>
+            <strong>공지된 정확한 6000.3.xf1</strong>
+            <p>1주 차에 설치한 버전을 선택합니다.</p>
+          </div>
+          <div>
+            <span>Template</span>
+            <strong>Universal 2D</strong>
+            <p>Core 범주의 2D URP 템플릿을 사용합니다.</p>
+          </div>
+          <div>
+            <span>Project name</span>
+            <strong>GE1_Week02</strong>
+            <p>영문, 숫자와 밑줄만 사용합니다.</p>
+          </div>
+          <div>
+            <span>Location</span>
+            <strong>로컬 UnityProjects 폴더</strong>
+            <p>다른 Unity Project 안이나 동기화 폴더는 피합니다.</p>
+          </div>
+        </div>
+
+        <ol class="project-create-steps">
+          <li><span>Hub</span><div><strong>Projects → New project</strong><p>Editor version이 수업 공지와 같은지 먼저 확인합니다.</p></div></li>
+          <li><span>Template</span><div><strong>Core → Universal 2D</strong><p>템플릿이 내려받아지지 않았다면 Download template 완료 후 선택합니다.</p></div></li>
+          <li><span>Name</span><div><strong>GE1_Week02</strong><p>프로젝트 이름과 폴더 이름을 같게 유지합니다.</p></div></li>
+          <li><span>Location</span><div><strong>짧고 찾기 쉬운 로컬 경로</strong><p>예: macOS의 UnityProjects/GE1 또는 Windows의 C:\UnityProjects\GE1</p></div></li>
+          <li><span>Create</span><div><strong>Create project</strong><p>Editor와 패키지 임포트가 끝날 때까지 창을 닫지 않습니다.</p></div></li>
+        </ol>
+
+        <aside class="callout">
+          <p class="callout-title">프로젝트 폴더를 직접 옮기지 않습니다</p>
+          <p>Editor가 열린 상태에서 Finder나 Explorer로 Assets 폴더의 파일을 이동하면 참조가 꼬일 수 있습니다. 수업 중 Asset 정리는 Unity의 Project 창에서 진행합니다.</p>
+        </aside>
+      </section>
+
+      <section class="ot-section mission-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <h2 id="mission-title">실습: 첫 Playground를 조립합니다</h2>
+          <p>각 단계가 다음 개념의 재료가 됩니다. 완료 표시를 남기고 순서대로 진행합니다.</p>
+        </header>
+
+        <div class="lab-progress" data-lab-progress data-complete="false" aria-live="polite">
+          <div>
+            <span>실습 진행</span>
+            <strong data-progress-label>0 / 8 완료</strong>
+          </div>
+          <p data-progress-message>프로젝트 생성부터 시작합니다.</p>
+          <button type="button" data-progress-reset>체크 초기화</button>
+        </div>
+
+        <p class="progress-note">체크 상태는 현재 브라우저에만 저장됩니다. Unity Project 파일은 별도로 저장해야 합니다.</p>
+
+        <ol class="lab-checklist" data-lab-checklist>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-project" data-lab-check-id="project">
+            <div class="lab-step-body">
+              <label for="lab-check-project"><span>15분</span><strong>GE1_Week02 프로젝트를 엽니다</strong></label>
+              <p>Hub에서 공지된 6000.3.xf1과 Universal 2D 템플릿을 사용합니다.</p>
+              <ul>
+                <li>Editor 제목 표시줄 또는 Hub에서 전체 버전을 확인합니다.</li>
+                <li>Console에 빨간 오류가 있다면 다음 단계로 넘어가지 않습니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-folders" data-lab-check-id="folders">
+            <div class="lab-step-body">
+              <label for="lab-check-folders"><span>10분</span><strong>Assets 폴더와 Scene을 저장합니다</strong></label>
+              <p>Project 창의 Assets 아래에 <code>Scenes</code>와 <code>Prefabs</code> 폴더를 만듭니다.</p>
+              <ul>
+                <li><code>File → Save As</code>를 선택합니다.</li>
+                <li><code>Assets/Scenes/Week02_Playground.unity</code>로 저장합니다.</li>
+                <li>Hierarchy 위 Scene 이름에서 별표가 사라졌는지 확인합니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-background" data-lab-check-id="background">
+            <div class="lab-step-body">
+              <label for="lab-check-background"><span>10분</span><strong>Background Sprite를 만듭니다</strong></label>
+              <p><code>GameObject → 2D Object → Sprites → Square</code>로 흰 사각형을 만들고 <code>Background</code>로 이름을 바꿉니다.</p>
+              <ul>
+                <li>Transform Position은 <code>(0, 0, 0)</code>, Scale은 약 <code>(12, 7, 1)</code>로 설정합니다.</li>
+                <li>Sprite Renderer의 Color를 어두운 녹색 또는 회색으로 지정합니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-player" data-lab-check-id="player">
+            <div class="lab-step-body">
+              <label for="lab-check-player"><span>15분</span><strong>Player와 DirectionMarker를 묶습니다</strong></label>
+              <p>Player는 Square, DirectionMarker는 Circle Sprite로 만듭니다.</p>
+              <ul>
+                <li>Player를 파란색으로 바꾸고 Position을 <code>(0, -1, 0)</code>으로 설정합니다.</li>
+                <li>DirectionMarker를 작게 줄인 뒤 Hierarchy에서 Player 아래로 드래그합니다.</li>
+                <li>DirectionMarker의 local Position을 <code>(0, 0.65, 0)</code>으로 맞춥니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-hierarchy" data-lab-check-id="hierarchy">
+            <div class="lab-step-body">
+              <label for="lab-check-hierarchy"><span>10분</span><strong>빈 GameObject로 Scene을 정리합니다</strong></label>
+              <p><code>Create Empty</code>로 <code>Level</code>, <code>Props</code>, <code>Collectibles</code>를 만들고 구조를 정리합니다.</p>
+              <ul>
+                <li>Background와 Props, Collectibles를 Level의 자식으로 둡니다.</li>
+                <li>그룹용 빈 GameObject의 Transform은 Position <code>(0, 0, 0)</code>, Rotation <code>(0, 0, 0)</code>, Scale <code>(1, 1, 1)</code>을 유지합니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-sorting" data-lab-check-id="sorting">
+            <div class="lab-step-body">
+              <label for="lab-check-sorting"><span>15분</span><strong>세 Sorting Layer를 적용합니다</strong></label>
+              <p>Sprite Renderer의 Sorting Layer 메뉴에서 <code>Background</code>, <code>Actors</code>, <code>Foreground</code>를 만듭니다.</p>
+              <ul>
+                <li>Background Sprite는 Background Layer를 사용합니다.</li>
+                <li>Player와 수집물은 Actors Layer를 사용합니다.</li>
+                <li>DirectionMarker는 Actors Layer에서 Order in Layer <code>1</code>을 사용합니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-prefab" data-lab-check-id="prefab">
+            <div class="lab-step-body">
+              <label for="lab-check-prefab"><span>20분</span><strong>Collectible Prefab과 세 Instance를 만듭니다</strong></label>
+              <p>Circle Sprite를 수집물로 꾸민 뒤 Hierarchy에서 <code>Assets/Prefabs</code>로 드래그합니다.</p>
+              <ul>
+                <li>Prefab 이름은 <code>Collectible</code>로 지정합니다.</li>
+                <li>Scene의 Instance를 복제해 <code>Collectible_01</code>, <code>02</code>, <code>03</code>을 만듭니다.</li>
+                <li>Prefab Asset의 Color를 바꿔 세 Instance가 함께 바뀌는지 확인합니다.</li>
+              </ul>
+            </div>
+          </li>
+          <li>
+            <input class="lab-check" type="checkbox" id="lab-check-verify" data-lab-check-id="verify">
+            <div class="lab-step-body">
+              <label for="lab-check-verify"><span>10분</span><strong>저장하고 Play Mode를 검증합니다</strong></label>
+              <p><code>Ctrl/Cmd + S</code>로 저장한 뒤 Play 버튼을 눌러 Game 뷰를 확인합니다.</p>
+              <ul>
+                <li>배경, Player, DirectionMarker와 수집물 세 개가 모두 보입니다.</li>
+                <li>Play Mode를 종료하고 Console의 빨간 오류가 0개인지 확인합니다.</li>
+                <li>Scene 이름의 별표가 없다면 마지막 저장이 완료된 상태입니다.</li>
+              </ul>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="ot-section" id="hierarchy" aria-labelledby="hierarchy-title">
+        <header class="section-heading">
+          <h2 id="hierarchy-title">부모는 묶고, 자식은 따라갑니다</h2>
+          <p>부모-자식 관계는 파일을 폴더에 넣는 것이 아니라 Transform의 기준을 연결하는 일입니다.</p>
+        </header>
+
+        <div class="hierarchy-layout">
+          <div class="scene-tree" aria-label="Week02 Playground의 권장 Hierarchy 구조">
+            <span>Week02_Playground</span>
+            <ul>
+              <li><strong>Main Camera</strong></li>
+              <li><strong>Level</strong>
+                <ul>
+                  <li>Background</li>
+                  <li><strong>Props</strong>
+                    <ul><li>Crate_01</li><li>ForegroundBush</li></ul>
+                  </li>
+                  <li><strong>Collectibles</strong>
+                    <ul><li>Collectible_01</li><li>Collectible_02</li><li>Collectible_03</li></ul>
+                  </li>
+                </ul>
+              </li>
+              <li><strong>Player</strong>
+                <ul><li>DirectionMarker</li></ul>
+              </li>
+            </ul>
+          </div>
+          <div class="hierarchy-rules">
+            <article>
+              <span>World</span>
+              <h3>부모가 없을 때의 기준</h3>
+              <p>Player의 Position은 Scene 전체 좌표를 기준으로 읽습니다.</p>
+            </article>
+            <article>
+              <span>Local</span>
+              <h3>부모가 있을 때의 기준</h3>
+              <p>DirectionMarker의 Position은 Player 중심에서 떨어진 거리입니다.</p>
+            </article>
+            <article class="hierarchy-rule-accent">
+              <span>Inheritance</span>
+              <h3>부모 Transform의 영향</h3>
+              <p>Player를 옮기면 DirectionMarker도 같은 거리와 방향으로 따라갑니다.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="transform-test">
+          <span>3분 실험</span>
+          <div>
+            <h3>Level을 움직였다가 되돌립니다</h3>
+            <p>Level의 X Position을 <code>0</code>에서 <code>2</code>로 바꾸고 모든 자식이 함께 이동하는지 봅니다. 확인 후 Undo하거나 Position을 다시 <code>0</code>으로 되돌립니다.</p>
+          </div>
+          <div>
+            <h3>Player만 움직입니다</h3>
+            <p>Player를 이동해 DirectionMarker가 함께 움직이는지 확인합니다. Marker의 local Position 값은 그대로 유지되어야 합니다.</p>
+          </div>
+        </div>
+
+        <aside class="callout">
+          <p class="callout-title">그룹 Transform은 Scale 1을 유지합니다</p>
+          <p>Level이나 Props 같은 그룹용 부모의 Scale을 바꾸면 모든 자식의 크기와 위치 감각이 함께 달라집니다. 그룹은 이동과 정리에 사용하고 개별 Sprite의 크기는 자식에서 조절합니다.</p>
+        </aside>
+      </section>
+
+      <section class="ot-section" id="sorting" aria-labelledby="sorting-title">
+        <header class="section-heading">
+          <h2 id="sorting-title">Hierarchy 순서와 화면 순서는 다릅니다</h2>
+          <p>2D Sprite의 앞뒤는 주로 Sprite Renderer의 Sorting Layer와 Order in Layer가 결정합니다.</p>
+        </header>
+
+        <div class="sorting-explainer">
+          <div class="sorting-stage" aria-label="배경, 캐릭터, 전경 순서로 렌더링되는 세 Sorting Layer">
+            <div class="sorting-plane plane-foreground"><span>Foreground</span><strong>나중에 그려져 위에 보임</strong></div>
+            <div class="sorting-plane plane-actors"><span>Actors</span><strong>Player와 수집물</strong></div>
+            <div class="sorting-plane plane-background"><span>Background</span><strong>먼저 그려지는 바닥</strong></div>
+          </div>
+          <div class="sorting-copy">
+            <article>
+              <h3>Sorting Layer</h3>
+              <p>큰 범주의 순서를 정합니다. Background, Actors, Foreground처럼 역할별로 나눕니다.</p>
+            </article>
+            <article>
+              <h3>Order in Layer</h3>
+              <p>같은 Sorting Layer 안에서 숫자가 큰 Sprite를 나중에 그려 위에 보이게 합니다.</p>
+            </article>
+            <article>
+              <h3>Z Position</h3>
+              <p>이번 실습에서는 모든 Sprite의 Z를 0으로 유지합니다. 앞뒤 문제를 Z 이동으로 숨기지 않습니다.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="sorting-contract">
+          <div><span>Background</span><strong>Background / 0</strong><p>바닥 Sprite</p></div>
+          <div><span>Player</span><strong>Actors / 0</strong><p>플레이어 본체</p></div>
+          <div><span>DirectionMarker</span><strong>Actors / 1</strong><p>Player 위에 표시</p></div>
+          <div><span>Collectible</span><strong>Actors / 0</strong><p>수집물 세 개</p></div>
+          <div><span>ForegroundBush</span><strong>Foreground / 0</strong><p>다른 Sprite를 가림</p></div>
+        </div>
+
+        <div class="micro-exercise sorting-test">
+          <span>5분 확인</span>
+          <div>
+            <h3>의도적으로 순서를 깨고 복구합니다</h3>
+            <ol>
+              <li>Background를 Foreground Layer로 바꿔 다른 Sprite가 가려지는지 확인합니다.</li>
+              <li>즉시 Background Layer로 되돌립니다.</li>
+              <li>DirectionMarker의 Order in Layer를 <code>-1</code>로 바꿔 Player 뒤로 숨는지 확인합니다.</li>
+              <li>Order in Layer를 <code>1</code>로 복구합니다.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <section class="ot-section" id="prefab" aria-labelledby="prefab-title">
+        <header class="section-heading">
+          <h2 id="prefab-title">Prefab은 복사가 아니라 연결된 원본입니다</h2>
+          <p>같은 설정의 GameObject를 여러 번 사용하고 한 번에 고칠 때 Prefab의 가치가 드러납니다.</p>
+        </header>
+
+        <div class="prefab-model">
+          <div class="prefab-asset">
+            <span>Prefab Asset</span>
+            <strong>Collectible.prefab</strong>
+            <p>Project 창에 저장된 재사용 원본</p>
+          </div>
+          <div class="prefab-links" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="prefab-instances">
+            <article><span>Instance</span><strong>Collectible_01</strong><p>Position -3, 1, 0</p></article>
+            <article><span>Instance</span><strong>Collectible_02</strong><p>Position 0, 2, 0</p></article>
+            <article><span>Instance</span><strong>Collectible_03</strong><p>Position 3, 0, 0</p></article>
+          </div>
+        </div>
+
+        <div class="prefab-proof">
+          <article>
+            <span>원본 수정</span>
+            <h3>세 Instance가 함께 바뀝니다</h3>
+            <p>Project 창의 Collectible Prefab을 열어 Sprite Renderer Color를 바꿉니다. Scene으로 돌아가 세 개가 모두 같은 색인지 확인합니다.</p>
+          </article>
+          <article>
+            <span>개별 Override</span>
+            <h3>한 Instance만 다르게 만들 수 있습니다</h3>
+            <p>Collectible_03의 Color만 바꿔 Override 표시를 확인합니다. Inspector의 Overrides에서 Revert해 원본 값으로 복구합니다.</p>
+          </article>
+        </div>
+
+        <aside class="callout callout-key">
+          <p class="callout-title">Duplicate만 하면 같은 원본이 생기지 않습니다</p>
+          <p>일반 GameObject를 복제한 두 개는 서로 연결되지 않습니다. 먼저 Project 창에 Prefab Asset을 만들고, 그 Prefab Instance를 배치하거나 복제해야 원본 수정이 함께 반영됩니다.</p>
+        </aside>
+      </section>
+
+      <section class="ot-section" id="verify" aria-labelledby="verify-title">
+        <header class="section-heading">
+          <h2 id="verify-title">저장, 실행, 종료를 구분합니다</h2>
+          <p>Play Mode는 저장 명령이 아닙니다. 실행 전 저장하고, 실행 중 수정은 실험으로만 사용합니다.</p>
+        </header>
+
+        <div class="play-mode-sequence">
+          <article>
+            <span>Save</span>
+            <h3>Scene을 저장합니다</h3>
+            <p><code>Ctrl/Cmd + S</code>를 누르고 Scene 이름의 별표가 사라졌는지 확인합니다.</p>
+          </article>
+          <article class="play-mode-active">
+            <span>Play</span>
+            <h3>Game 뷰를 확인합니다</h3>
+            <p>Play 버튼을 누른 뒤 배경, Player, Marker, 수집물과 겹침 순서를 확인합니다.</p>
+          </article>
+          <article>
+            <span>Stop</span>
+            <h3>편집 상태로 돌아옵니다</h3>
+            <p>Play 버튼을 다시 눌러 종료하고 Console의 빨간 오류가 0개인지 확인합니다.</p>
+          </article>
+        </div>
+
+        <div class="play-mode-test">
+          <div>
+            <span>의도적인 실험</span>
+            <h3>Play Mode에서 Player를 옮깁니다</h3>
+            <p>실행 중 Player Position을 바꾼 뒤 Play Mode를 종료합니다. 실행 전 위치로 돌아오면 정상입니다.</p>
+          </div>
+          <p><strong>실행 중 변경은 기본적으로 종료할 때 사라집니다.</strong> 유지할 작업은 Edit Mode에서 하고 저장합니다.</p>
+        </div>
+
+        <div class="completion-audit">
+          <span>최종 확인</span>
+          <ul>
+            <li>Scene Asset이 <code>Assets/Scenes</code>에 있습니다.</li>
+            <li>Player 아래에 DirectionMarker가 있습니다.</li>
+            <li>Collectible 세 개가 같은 Prefab Asset에 연결되어 있습니다.</li>
+            <li>Background, Actors, Foreground Sorting Layer가 적용되었습니다.</li>
+            <li>Game 뷰의 겹침 순서가 의도와 같습니다.</li>
+            <li>Console의 빨간 오류가 0개입니다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="ot-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">설명할 수 있는지 확인합니다</h2>
+          <p>답을 먼저 열지 않고 한 문장으로 말한 뒤 확인합니다.</p>
+        </header>
+        <div class="knowledge-check">
+          <details>
+            <summary>Scene 창과 Game 창의 차이는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>Scene 창은 제작자가 오브젝트를 배치하고 편집하는 공간입니다. Game 창은 활성 Camera를 통해 플레이어가 보게 될 화면입니다.</p></div>
+          </details>
+          <details>
+            <summary>GameObject와 Component의 관계는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>GameObject는 장면 속 대상의 기본 그릇이고, Component는 위치, 표시, 물리와 Script 같은 기능을 그 대상에 추가합니다.</p></div>
+          </details>
+          <details>
+            <summary>자식의 Position이 부모를 기준으로 표시되는 이유는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>부모-자식 관계가 Transform 기준을 연결하기 때문입니다. 자식의 Inspector Position은 부모에서 얼마나 떨어졌는지를 나타내는 local 좌표입니다.</p></div>
+          </details>
+          <details>
+            <summary>Prefab과 일반 Duplicate의 가장 큰 차이는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>Prefab Instance는 Project 창의 Prefab Asset과 연결됩니다. 일반 Duplicate끼리는 공통 원본이 없으므로 하나를 바꿔도 다른 복제본이 함께 바뀌지 않습니다.</p></div>
+          </details>
+        </div>
+      </section>
+
+      <section class="ot-section" id="troubleshooting" aria-labelledby="troubleshooting-title">
+        <header class="section-heading">
+          <h2 id="troubleshooting-title">막히면 증상부터 분리합니다</h2>
+          <p>무작정 다시 만들기 전에 Project, Scene, Inspector, Game 또는 Console 중 어디의 문제인지 찾습니다.</p>
+        </header>
+
+        <div class="trouble-grid">
+          <details>
+            <summary>Universal 2D 템플릿이 보이지 않습니다</summary>
+            <div class="details-motion-content"><p>Hub의 New project 화면에서 공지된 Editor version을 다시 선택합니다. Core 범주에서 템플릿 타일의 Download template를 완료합니다. 다른 2D 템플릿으로 임의 진행하지 않습니다.</p></div>
+          </details>
+          <details>
+            <summary>2D Object 아래에 Square나 Circle이 없습니다</summary>
+            <div class="details-motion-content"><p><code>Window → Package Manager</code>에서 2D Sprite 패키지가 설치되어 있는지 확인합니다. Universal 2D 템플릿 생성이 완전히 끝나기 전이라면 임포트 완료를 먼저 기다립니다.</p></div>
+          </details>
+          <details>
+            <summary>Scene 창에서 오브젝트를 찾을 수 없습니다</summary>
+            <div class="details-motion-content"><p>Hierarchy에서 오브젝트를 선택하고 Scene 창에 마우스를 둔 뒤 <kbd>F</kbd>를 누릅니다. Inspector의 Transform 값이 지나치게 크거나 Z 값이 0이 아닌지도 확인합니다.</p></div>
+          </details>
+          <details>
+            <summary>Scene에는 보이지만 Game에는 보이지 않습니다</summary>
+            <div class="details-motion-content"><p>Main Camera를 선택해 Game 뷰의 촬영 범위를 확인합니다. Sprite Renderer의 체크 상태, Color Alpha, Sorting Layer와 Camera의 위치도 차례로 확인합니다.</p></div>
+          </details>
+          <details>
+            <summary>Background가 모든 오브젝트를 가립니다</summary>
+            <div class="details-motion-content"><p>Background의 Sprite Renderer에서 Sorting Layer를 Background로 되돌립니다. Z Position 이동으로 임시 해결하지 말고 Sorting Layer 설정을 수정합니다.</p></div>
+          </details>
+          <details>
+            <summary>자식 오브젝트가 갑자기 멀리 이동했습니다</summary>
+            <div class="details-motion-content"><p>부모로 연결한 뒤 Inspector의 Position은 local 좌표입니다. 자식을 선택해 Transform을 Reset한 후 의도한 local Position을 다시 입력합니다.</p></div>
+          </details>
+          <details>
+            <summary>Prefab 원본을 바꿔도 하나만 바뀝니다</summary>
+            <div class="details-motion-content"><p>Project 창에 파란 Prefab Asset이 있는지, Hierarchy의 대상이 Prefab Instance인지 확인합니다. 개별 Instance에 Override가 있으면 Overrides 메뉴에서 필요한 항목을 Revert합니다.</p></div>
+          </details>
+          <details>
+            <summary>Play Mode에서 고친 값이 사라졌습니다</summary>
+            <div class="details-motion-content"><p>정상 동작입니다. Play Mode의 Scene 변경은 종료할 때 원래 상태로 돌아갑니다. 기억할 값을 기록한 뒤 Edit Mode에서 다시 적용하고 Scene을 저장합니다.</p></div>
+          </details>
+        </div>
+
+        <div class="error-record">
+          <span>질문 형식</span>
+          <p><strong>선택한 오브젝트 / 보고 있는 창 / 기대한 결과 / 실제 결과 / Console의 첫 빨간 오류</strong></p>
+          <p>예: “Background의 Sorting Layer를 Background로 설정했지만 Game 뷰에서 Player가 안 보이고, Console 오류는 없습니다.”</p>
+        </div>
+      </section>
+
+      <section class="ot-section" id="wrap-up" aria-labelledby="wrap-up-title">
+        <header class="section-heading">
+          <h2 id="wrap-up-title">종료 확인</h2>
+          <p>완성된 모양보다 구조를 설명하고 다시 만들 수 있는지가 오늘의 기준입니다.</p>
+        </header>
+
+        <div class="exit-ticket">
+          <div>
+            <span>구조 설명</span>
+            <strong>GameObject는 ______이고 Component는 ______이다.</strong>
+            <p>오늘 만든 Player와 Sprite Renderer를 예로 들어 한 문장으로 답합니다.</p>
+          </div>
+          <div>
+            <span>재사용 증거</span>
+            <strong>Prefab 원본 수정이 세 Instance에 반영됨</strong>
+            <p>Collectible 세 개의 색과 Hierarchy의 Prefab 표시를 함께 확인합니다.</p>
+          </div>
+          <div>
+            <span>파일 확인</span>
+            <strong>Scene 저장 / Console 오류 0개</strong>
+            <p>Scene 이름의 별표가 없고 Project 창에 Scene과 Prefab Asset이 있어야 합니다.</p>
+          </div>
+        </div>
+
+        <aside class="next-week">
+          <span>다음 주</span>
+          <div>
+            <h3>C#으로 GameObject를 움직입니다</h3>
+            <p>변수, 조건문, 함수와 MonoBehaviour 생명주기를 익히고, 오늘 만든 Player에 첫 Script Component를 연결합니다. 저장된 GE1_Week02 프로젝트를 유지합니다.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="ot-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">공식 자료</h2>
+          <p>메뉴명이나 동작이 달라졌을 때에는 현재 Unity 공식 문서를 먼저 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity.com/en-us/hub/project-create" target="_blank" rel="noopener noreferrer"><strong>Create a new project ↗</strong></a><span>Unity Hub에서 Editor, 템플릿, 이름과 위치를 선택하는 절차</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/unity-editor.html" target="_blank" rel="noopener noreferrer"><strong>Unity 에디터 ↗</strong></a><span>Editor 인터페이스와 주요 창의 공식 안내</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/hierarchy-window.html" target="_blank" rel="noopener noreferrer"><strong>Hierarchy window ↗</strong></a><span>현재 Scene의 GameObject 확인과 관리</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/GameObjects.html" target="_blank" rel="noopener noreferrer"><strong>게임 오브젝트 소개 ↗</strong></a><span>GameObject와 Component의 관계</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/Components.html" target="_blank" rel="noopener noreferrer"><strong>컴포넌트 소개 ↗</strong></a><span>Component 프로퍼티와 Transform의 기본 역할</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/class-Transform.html" target="_blank" rel="noopener noreferrer"><strong>Transform ↗</strong></a><span>Position, Rotation, Scale과 부모 기준 local 좌표</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/scenes-working-with.html" target="_blank" rel="noopener noreferrer"><strong>Scene 생성, 로드 및 저장 ↗</strong></a><span>Scene Asset과 저장 단축키</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/2d-renderer-sorting.html" target="_blank" rel="noopener noreferrer"><strong>2D renderer sorting ↗</strong></a><span>Sorting Layer와 Order in Layer의 렌더 순서</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/CreatingPrefabs.html" target="_blank" rel="noopener noreferrer"><strong>Prefab 생성 ↗</strong></a><span>Hierarchy의 GameObject를 Prefab Asset으로 만드는 방법</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/prefabs-introduction.html" target="_blank" rel="noopener noreferrer"><strong>Prefab 소개 ↗</strong></a><span>Prefab Asset, Instance와 Override의 관계</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc ot-toc lab-toc" aria-label="강의 흐름" data-foundations-toc>
+      <p class="toc-title">강의 흐름</p>
+      <ol>
+        <li><a href="#goals" aria-current="location">오늘의 도착점</a></li>
+        <li><a href="#agenda">180분의 흐름</a></li>
+        <li><a href="#mental-model">Unity 기본 구조</a></li>
+        <li><a href="#editor">Editor의 다섯 창</a></li>
+        <li><a href="#project">프로젝트 생성</a></li>
+        <li><a href="#mission">Playground 실습</a></li>
+        <li><a href="#hierarchy">Transform 계층</a></li>
+        <li><a href="#sorting">Sprite 정렬</a></li>
+        <li><a href="#prefab">Prefab 재사용</a></li>
+        <li><a href="#verify">저장과 Play Mode</a></li>
+        <li><a href="#check">개념 확인</a></li>
+        <li><a href="#troubleshooting">문제 해결</a></li>
+        <li><a href="#wrap-up">종료 확인</a></li>
+        <li><a href="#references">공식 자료</a></li>
+      </ol>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 02 / Unity foundations</p>
+  <script src="assets/week-02-foundations.js" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

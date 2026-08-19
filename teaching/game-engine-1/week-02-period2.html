@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-two-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 2교시: 장면을 조립하고 재사용하는 법 | Game Engine I</title>
+  <meta name="description" content="Transform, 부모와 자식의 local 좌표, Sprite Renderer 정렬, Prefab Asset과 Instance를 교사 시연으로 이해하는 Game Engine I 2주차 2교시 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="2주차 2교시: 장면을 조립하고 재사용하는 법 | Game Engine I">
+  <meta property="og:description" content="Transform, 부모와 자식, Sprite 정렬과 Prefab을 하나의 장면 조립 원리로 연결합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-period2-scene-system.webp">
+  <meta property="og:image:alt" content="방향 표시가 붙은 캐릭터, 겹친 배경과 전경, 하나의 원본에서 나온 세 수집물로 장면 조립 원리를 보여 주는 픽셀 아트 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2주차 2교시: 장면을 조립하고 재사용하는 법 | Game Engine I">
+  <meta name="twitter:description" content="위치, 계층, 화면 순서와 재사용의 원리를 교사 시연으로 관찰합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-period2-scene-system.webp">
+  <link rel="preload" as="image" href="assets/week-02-period2-scene-system.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-02-lessons.css?v=ge1w2p2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-two week-two-period2" data-lesson-key="game-engine-1-week-02-period2">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-02-period1.html" rel="prev" aria-label="이전 자료: 2주차 1교시: Unity Editor를 읽는 법 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-02-period3.html" rel="next" aria-label="다음 자료: 2주차 3교시: 작은 Playground 완성 미션 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-two-hero">
+    <div class="hero-inner">
+      <div class="week-two-hero-copy">
+        <p class="eyebrow">Week 02 / Period 02 / Teacher-led demonstration</p>
+        <h1>장면을 조립하고 재사용하는 법</h1>
+        <p class="lead">오브젝트의 위치, 계층, 화면 순서와 공통 원본을 차례로 바꾸며 무엇이 함께 움직이고 무엇이 함께 수정되는지 관찰합니다.</p>
+        <p class="hero-summary">60분 / 교수자 설명과 시연 / 원리 예측</p>
+      </div>
+      <figure class="week-two-hero-visual">
+        <img src="assets/week-02-period2-scene-system.webp" width="1586" height="992" loading="eager" decoding="async" fetchpriority="high" alt="방향 표시가 붙은 캐릭터, 배경부터 전경까지 겹친 장면, 한 원본에서 나온 세 수집물을 보여 주는 픽셀 아트 작업대">
+        <figcaption>붙이면 함께 움직이고, 순서를 정하면 의도대로 겹치며, 원본을 만들면 여러 번 재사용할 수 있습니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <details class="mobile-section-nav">
+      <summary>이 페이지에서</summary>
+      <nav aria-label="2교시 모바일 목차">
+        <ol>
+          <li><a href="#arrival" data-section-link>도착점과 흐름</a></li>
+          <li><a href="#transform" data-section-link>Transform</a></li>
+          <li><a href="#parenting" data-section-link>부모와 자식</a></li>
+          <li><a href="#sorting" data-section-link>Sprite 정렬</a></li>
+          <li><a href="#prefab" data-section-link>Prefab 재사용</a></li>
+          <li><a href="#system" data-section-link>하나의 장면 구조</a></li>
+          <li><a href="#recall" data-section-link>회수 질문</a></li>
+          <li><a href="#sources" data-section-link>공식 문서</a></li>
+        </ol>
+      </nav>
+    </details>
+
+    <article class="article">
+      <section class="lesson-intro" id="arrival" aria-labelledby="arrival-title">
+        <dl class="lesson-facts" aria-label="2교시 핵심 정보">
+          <div><dt>핵심 질문</dt><dd>하나를 바꾸면 어디까지 함께 달라지는가?</dd></div>
+          <div><dt>교수 방식</dt><dd>예측, 교사 시연, 결과 설명</dd></div>
+          <div><dt>핵심 개념</dt><dd>Transform, local, sorting, Prefab</dd></div>
+          <div><dt>시연 장면</dt><dd>Player, DirectionMarker, Collectible</dd></div>
+          <div><dt>학생 역할</dt><dd>결과 예측과 관찰 근거 말하기</dd></div>
+          <div><dt>다음 교시</dt><dd>작은 Playground 개인 미션</dd></div>
+        </dl>
+
+        <div class="arrival-statement">
+          <span>오늘의 도착점</span>
+          <strong id="arrival-title">Transform, 부모와 자식, Sprite 정렬과 Prefab이 장면의 어떤 문제를 해결하는지 설명할 수 있습니다.</strong>
+          <p>교사는 하나의 작은 장면을 단계별로 바꾸며 원리를 시연합니다. 학생은 조작 순서를 받아 적기보다 바뀌기 전 결과를 예측하고, 관찰한 변화의 원인을 말합니다.</p>
+        </div>
+
+        <ol class="session-track" aria-label="2교시 60분 운영 순서">
+          <li><time>00-07</time><strong>1교시 구조 회수</strong><p>GameObject와 Component, Hierarchy와 Inspector의 관계를 다시 말합니다.</p></li>
+          <li><time>07-21</time><strong>Transform</strong><p>Position, Rotation, Scale을 2D 장면의 주소, 방향, 크기로 설명합니다.</p></li>
+          <li><time>21-35</time><strong>부모와 자식</strong><p>Player와 DirectionMarker를 이용해 world와 local 좌표를 시연합니다.</p></li>
+          <li><time>35-46</time><strong>Sprite 정렬</strong><p>Sorting Layer와 Order in Layer를 큰 순서와 같은 층의 순서로 구분합니다.</p></li>
+          <li><time>46-57</time><strong>Prefab 재사용</strong><p>원본 Asset, 세 Instance와 한 Instance의 Override를 비교합니다.</p></li>
+          <li><time>57-60</time><strong>미션 예고</strong><p>3교시 통과 기준을 읽고 필요한 원리를 연결합니다.</p></li>
+        </ol>
+      </section>
+
+      <section class="lesson-section" id="transform" aria-labelledby="transform-title">
+        <header>
+          <h2 id="transform-title">모든 GameObject는 장소와 방향과 크기를 가집니다</h2>
+          <p>Transform은 GameObject가 Scene 안에서 어디에 있고, 어느 방향을 향하며, 얼마나 큰지를 저장합니다. 모든 GameObject에 반드시 존재하는 기본 Component입니다.</p>
+        </header>
+
+        <div class="teacher-cue">
+          <span class="cue-label">교수자 설명 문장</span>
+          <p class="teacher-words">Position은 주소, Rotation은 방향, Scale은 원래 크기에 곱하는 배율입니다.</p>
+        </div>
+
+        <div class="table-scroll">
+          <table class="axis-table">
+            <caption>2D 장면에서 읽는 Transform의 핵심 값</caption>
+            <thead><tr><th scope="col">항목</th><th scope="col">2D에서의 의미</th><th scope="col">이번 주 기준</th><th scope="col">먼저 확인할 문제</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Position X</th><td>화면의 좌우 위치</td><td>오른쪽은 양수, 왼쪽은 음수</td><td>대상이 화면 좌우 어디에 있는가?</td></tr>
+              <tr><th scope="row">Position Y</th><td>화면의 위아래 위치</td><td>위쪽은 양수, 아래쪽은 음수</td><td>카메라 촬영 범위 안에 있는가?</td></tr>
+              <tr><th scope="row">Position Z</th><td>3D 공간의 깊이 위치</td><td>모든 Sprite를 <code>0</code>에 둠</td><td>Sprite 순서를 Z로 임시 해결하지 않았는가?</td></tr>
+              <tr><th scope="row">Rotation Z</th><td>평면에서 도는 각도</td><td><code>0</code>에서 시작</td><td>원하지 않게 기울어졌는가?</td></tr>
+              <tr><th scope="row">Scale X, Y</th><td>가로와 세로 배율</td><td>처음은 <code>1, 1</code></td><td>음수 또는 지나친 값이 들어갔는가?</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="board-note">
+          <span class="cue-label">판서 핵심</span>
+          <strong>2D에서도 Transform은 X, Y, Z를 모두 가집니다. 이번 장면은 Z를 0으로 두고 보이는 앞뒤 순서는 Sprite Renderer에서 정합니다.</strong>
+        </div>
+
+        <ol class="demo-sequence">
+          <li>
+            <div><h3>Player의 X만 바꿉니다</h3><p>Inspector에서 Position X를 <code>0</code>, <code>2</code>, <code>-2</code>로 바꾸며 좌우 이동을 확인합니다.</p></div>
+            <div class="demo-observe"><strong>예측 질문</strong><span>Y와 Scale은 바뀌지 않았을 때 화면에서 무엇만 달라질까요?</span></div>
+          </li>
+          <li>
+            <div><h3>Rotation Z만 바꿉니다</h3><p><code>0</code>에서 <code>45</code>로 바꾸고 평면에서 회전하는 축이 Z라는 사실을 연결합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>2D 화면은 X와 Y 평면이고 그 평면을 관통하는 축을 중심으로 돕니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Scale을 원래 값으로 되돌립니다</h3><p>X와 Y를 함께 <code>1</code>로 맞춘 뒤 Reset의 의미가 임의의 기본값이 아니라 Component의 초기값이라는 점을 설명합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>문제가 생기면 한 값씩 바꾸고 바로 되돌려 원인을 분리합니다.</span></div>
+          </li>
+        </ol>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">크기를 0으로 만들면 삭제된 것이 아닙니다</p>
+          <p>Scale이 <code>0</code>이면 대상은 Hierarchy에 남아 있지만 화면에서 보이지 않습니다. 보이지 않는 Sprite를 찾을 때는 활성 상태, 카메라 범위, Sprite Renderer와 함께 Transform Scale을 확인합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="parenting" aria-labelledby="parenting-title">
+        <header>
+          <h2 id="parenting-title">부모와 자식은 이동의 기준을 공유합니다</h2>
+          <p>Hierarchy에서 자식으로 묶는 것은 보기 좋게 정리하는 것에 그치지 않습니다. 자식의 Transform은 부모를 기준으로 해석되고, 부모가 움직이거나 돌거나 커지면 자식도 함께 영향을 받습니다.</p>
+        </header>
+
+        <pre class="hierarchy-tree" aria-label="Player와 DirectionMarker의 부모 자식 구조">Main Camera
+Level
+Player
+└── DirectionMarker</pre>
+
+        <div class="local-world">
+          <article>
+            <span class="visual-label">World position</span>
+            <h3>장면 전체를 기준으로 한 위치</h3>
+            <p>Scene의 원점에서 GameObject가 실제로 어디에 있는지 나타냅니다. 부모가 움직이면 자식의 world 위치도 달라집니다.</p>
+          </article>
+          <article>
+            <span class="visual-label">Local position</span>
+            <h3>부모를 기준으로 한 상대 위치</h3>
+            <p>Inspector에 보이는 자식의 Position입니다. <code>(0.65, 0, 0)</code>은 부모 중심에서 오른쪽으로 0.65만큼 떨어졌다는 뜻입니다.</p>
+          </article>
+        </div>
+
+        <div class="teacher-cue">
+          <span class="cue-label">설명 비유</span>
+          <p class="teacher-words">기차 안에서 내 자리는 객차를 기준으로 그대로지만, 기차가 이동하면 지도 위의 내 위치도 함께 바뀝니다. local 위치와 world 위치의 차이가 이와 같습니다.</p>
+        </div>
+
+        <ol class="demo-sequence">
+          <li>
+            <div><h3>DirectionMarker를 Player의 자식으로 둡니다</h3><p>Hierarchy에서 Marker를 Player 위로 드래그해 들여쓰기된 구조를 만듭니다. Marker의 local Position을 <code>(0.65, 0, 0)</code>으로 둡니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>Hierarchy의 들여쓰기는 Transform 관계를 나타냅니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Player만 이동합니다</h3><p>Player의 Position X를 바꾸고 Marker가 같은 간격을 유지한 채 따라오는지 확인합니다.</p></div>
+            <div class="demo-observe"><strong>예측 질문</strong><span>Marker의 local Position 값은 바뀔까요, 그대로일까요?</span></div>
+          </li>
+          <li>
+            <div><h3>Player만 회전합니다</h3><p>Player의 Rotation Z를 바꾸어 Marker가 Player 중심을 기준으로 함께 도는 것을 보여 줍니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>자식은 부모의 이동뿐 아니라 회전과 크기에도 영향을 받습니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Marker의 local 위치만 바꿉니다</h3><p>Player는 그대로 두고 Marker의 값을 바꾸어 자식은 부모 안에서 독립적인 상대 위치도 가질 수 있음을 설명합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>함께 움직인다는 말이 두 대상의 Transform 값이 같다는 뜻은 아닙니다.</span></div>
+          </li>
+        </ol>
+
+        <div class="board-note">
+          <span class="cue-label">판서 핵심</span>
+          <strong>부모는 자식의 좌표 기준입니다. 자식의 Inspector Position은 부모로부터 떨어진 상대 위치입니다.</strong>
+        </div>
+
+        <div class="callout">
+          <p class="callout-title">부모와 자식은 의미가 있는 움직임 단위로 묶습니다</p>
+          <p>Player와 방향 표시는 함께 움직여야 하므로 좋은 관계입니다. 단지 Hierarchy를 짧게 보이게 하려고 관련 없는 오브젝트를 부모와 자식으로 묶으면 예상하지 못한 이동과 크기 변화가 생깁니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="sorting" aria-labelledby="sorting-title">
+        <header>
+          <h2 id="sorting-title">2D의 앞뒤는 그리는 순서로 정합니다</h2>
+          <p>Sprite Renderer는 어떤 Sprite를 그릴지뿐 아니라 언제 그릴지도 정합니다. 나중에 그려진 Sprite가 앞에 보이므로 큰 범주와 같은 범주 안의 순서를 나누어 설정합니다.</p>
+        </header>
+
+        <div class="sorting-stage" aria-label="Background, Actors, Foreground의 Sprite 그리기 순서">
+          <div class="sorting-plane"><span>Background</span><strong>먼저 그리는 바탕</strong></div>
+          <div class="sorting-plane"><span>Actors</span><strong>그 위에 놓이는 Player와 Collectible</strong></div>
+          <div class="sorting-plane"><span>Foreground</span><strong>마지막에 그려 장면 앞을 가리는 요소</strong></div>
+        </div>
+
+        <div class="component-pair">
+          <article>
+            <span class="visual-label">Sorting Layer</span>
+            <h3>큰 범주의 순서</h3>
+            <p><code>Background</code>, <code>Actors</code>, <code>Foreground</code>처럼 역할이 다른 묶음 사이의 우선순위를 정합니다.</p>
+          </article>
+          <article>
+            <span class="visual-label">Order in Layer</span>
+            <h3>같은 Layer 안의 세부 순서</h3>
+            <p>같은 Sorting Layer라면 숫자가 큰 Sprite가 나중에 그려져 앞에 보입니다. Player가 <code>0</code>이면 Marker는 <code>1</code>로 둡니다.</p>
+          </article>
+        </div>
+
+        <div class="table-scroll">
+          <table class="parameter-table">
+            <caption>3교시 미션에서 사용할 Sprite 정렬 기준</caption>
+            <thead><tr><th scope="col">GameObject</th><th scope="col">Sorting Layer</th><th scope="col">Order in Layer</th><th scope="col">화면 결과</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Background</th><td><code>Background</code></td><td><code>0</code></td><td>모든 대상의 뒤에 보임</td></tr>
+              <tr><th scope="row">Player</th><td><code>Actors</code></td><td><code>0</code></td><td>배경 위에 보임</td></tr>
+              <tr><th scope="row">DirectionMarker</th><td><code>Actors</code></td><td><code>1</code></td><td>Player 위에 보임</td></tr>
+              <tr><th scope="row">Collectible</th><td><code>Actors</code></td><td><code>0</code></td><td>배경 위에 세 개가 보임</td></tr>
+              <tr><th scope="row">ForegroundBush</th><td><code>Foreground</code></td><td><code>0</code></td><td>다른 Sprite의 일부를 가림</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <ol class="demo-sequence">
+          <li>
+            <div><h3>모든 Sprite의 Z를 0으로 맞춥니다</h3><p>깊이 값을 섞지 않고 Sprite Renderer의 정렬 설정만으로 결과를 비교할 준비를 합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>이번 수업의 변수는 정렬 설정 하나로 제한합니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Background를 잘못된 Layer로 바꿉니다</h3><p>배경이 Player를 가리는 실패를 일부러 만들고 원인을 학생에게 묻습니다.</p></div>
+            <div class="demo-observe"><strong>예측 질문</strong><span>Z를 옮기지 않고 어느 Component의 어떤 값을 고쳐야 할까요?</span></div>
+          </li>
+          <li>
+            <div><h3>Marker의 Order를 바꿉니다</h3><p><code>1</code>과 <code>-1</code>을 비교해 같은 Actors Layer 안의 세부 순서를 보여 줍니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>큰 범주는 Layer, 같은 범주의 세부 순서는 Order입니다.</span></div>
+          </li>
+        </ol>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">Z Position으로 가림 문제를 숨기지 않습니다</p>
+          <p>2D Sprite의 역할이 배경, 캐릭터, 전경으로 분명할 때는 Sorting Layer와 Order in Layer를 사용합니다. Z를 임의로 흩어 놓으면 장면 구조를 설명하고 수정하기 어려워집니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="prefab" aria-labelledby="prefab-title">
+        <header>
+          <h2 id="prefab-title">Prefab은 복제본이 아니라 연결된 원본입니다</h2>
+          <p>같은 구조를 여러 번 배치하고 공통 부분을 한 번에 고치려면 원본 Asset이 필요합니다. Prefab Asset은 설계도이고 Scene의 Instance는 그 설계도를 사용한 배치본입니다.</p>
+        </header>
+
+        <div class="prefab-system" aria-label="Collectible Prefab Asset과 세 Instance의 관계">
+          <div class="prefab-source"><span>Prefab Asset</span><strong>Collectible.prefab</strong><p>Project 창에 저장된 공통 원본</p></div>
+          <div class="prefab-arrow" aria-hidden="true">→</div>
+          <div class="prefab-instances">
+            <div class="prefab-instance"><span>Instance</span><strong>Collectible_01</strong><p>위치만 다름</p></div>
+            <div class="prefab-instance"><span>Instance</span><strong>Collectible_02</strong><p>위치만 다름</p></div>
+            <div class="prefab-instance"><span>Instance</span><strong>Collectible_03</strong><p>위치만 다름</p></div>
+          </div>
+        </div>
+
+        <dl class="comparison-list">
+          <div><dt>Prefab Asset</dt><dd>Project 창에 저장된 원본입니다. 공통 Sprite, Color, Scale와 자식 구조를 정의할 수 있습니다.</dd></div>
+          <div><dt>Prefab Instance</dt><dd>Scene에 배치된 사용본입니다. 같은 원본에 연결되면서도 Position처럼 배치마다 달라야 하는 값을 가질 수 있습니다.</dd></div>
+          <div><dt>Override</dt><dd>특정 Instance에서 원본과 다르게 바꾼 값입니다. 의도한 차이는 유지하고, 실수로 만든 차이는 Revert해 원본 값으로 되돌립니다.</dd></div>
+          <div><dt>Apply</dt><dd>Instance의 변경을 원본에 반영하는 동작입니다. 다른 Instance에도 영향을 줄 수 있으므로 영향 범위를 알고 사용할 때만 선택합니다.</dd></div>
+        </dl>
+
+        <ol class="demo-sequence">
+          <li>
+            <div><h3>일반 Collectible을 만듭니다</h3><p>기본 Sprite의 색과 Scale을 정하고 이름을 <code>Collectible</code>로 지정합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>아직은 Hierarchy에만 있는 일반 GameObject입니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Hierarchy에서 Project로 드래그합니다</h3><p><code>Assets/Prefabs</code> 폴더에 놓아 <code>Collectible.prefab</code> Asset을 만듭니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>Project 창에 원본이 생기고 Scene의 대상은 Instance가 됩니다.</span></div>
+          </li>
+          <li>
+            <div><h3>Instance를 세 곳에 배치합니다</h3><p>Prefab Asset을 Scene으로 더 가져오거나 연결된 Instance를 복제하고 Position만 다르게 둡니다.</p></div>
+            <div class="demo-observe"><strong>예측 질문</strong><span>원본의 Color를 바꾸면 세 Instance는 어떻게 될까요?</span></div>
+          </li>
+          <li>
+            <div><h3>원본과 Override를 비교합니다</h3><p>Prefab Asset의 색을 바꾸어 공통 변경을 확인한 뒤 한 Instance만 색을 바꾸고 Revert합니다.</p></div>
+            <div class="demo-observe"><strong>관찰점</strong><span>공통값과 개별값을 구분하는 것이 Prefab 사용의 핵심입니다.</span></div>
+          </li>
+        </ol>
+
+        <div class="teacher-cue">
+          <span class="cue-label">설명 비유</span>
+          <p class="teacher-words">일반 Duplicate는 서로 모르는 복사본이고, Prefab Instance는 같은 설계도를 계속 참조하는 제품입니다.</p>
+        </div>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">세 개가 똑같이 생겼다고 Prefab인 것은 아닙니다</p>
+          <p>일반 GameObject를 세 번 Duplicate하면 처음 모습은 같아도 공통 원본이 없습니다. Project 창의 Prefab Asset과 연결된 Instance인지 Hierarchy의 표시와 Inspector의 Prefab 정보를 확인합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="system" aria-labelledby="system-title">
+        <header>
+          <h2 id="system-title">네 개념을 하나의 장면으로 연결합니다</h2>
+          <p>Transform, 계층, Sprite 정렬과 Prefab은 서로 경쟁하는 기능이 아닙니다. 각각 공간, 관계, 보이는 순서와 재사용이라는 다른 문제를 해결합니다.</p>
+        </header>
+
+        <div class="table-scroll">
+          <table class="pass-table">
+            <caption>문제에 맞는 Unity 구조 선택</caption>
+            <thead><tr><th scope="col">장면의 질문</th><th scope="col">사용할 구조</th><th scope="col">관찰할 값</th></tr></thead>
+            <tbody>
+              <tr><td>Player를 오른쪽으로 옮기려면?</td><td>Transform</td><td>Player의 Position X</td></tr>
+              <tr><td>방향 표시가 Player를 따라오게 하려면?</td><td>부모와 자식</td><td>DirectionMarker의 local Position</td></tr>
+              <tr><td>Marker를 Player보다 앞에 보이게 하려면?</td><td>Sprite 정렬</td><td>Actors Layer의 Order in Layer</td></tr>
+              <tr><td>같은 Collectible을 세 번 쓰려면?</td><td>Prefab</td><td>하나의 Asset과 세 Instance</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="board-note">
+          <span class="cue-label">2교시 종료 문장</span>
+          <strong>Transform은 한 대상의 공간, 부모와 자식은 대상 사이의 기준, Sorting은 화면의 순서, Prefab은 여러 대상의 공통 원본을 관리합니다.</strong>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="recall" aria-labelledby="recall-title">
+        <header>
+          <h2 id="recall-title">3교시 전에 네 가지를 회수합니다</h2>
+          <p>정답을 열기 전 손을 들거나 옆 학생에게 한 문장으로 설명합니다. 용어만 말하지 않고 결과가 달라지는 이유까지 붙입니다.</p>
+        </header>
+
+        <div class="retrieval-set">
+          <details>
+            <summary>Player를 옮길 때 DirectionMarker가 같은 간격으로 따라오는 이유는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>DirectionMarker가 Player의 자식이고, Inspector의 Position이 Player를 기준으로 한 local 위치이기 때문입니다. 부모가 움직이면 자식의 world 위치도 함께 달라집니다.</p></div>
+          </details>
+          <details>
+            <summary>Sorting Layer와 Order in Layer는 어떻게 다른가요?</summary>
+            <div class="details-motion-content"><p>Sorting Layer는 Background, Actors, Foreground처럼 큰 범주의 순서를 정하고, Order in Layer는 같은 Sorting Layer 안에서 숫자로 세부 순서를 정합니다.</p></div>
+          </details>
+          <details>
+            <summary>일반 Duplicate 세 개와 Prefab Instance 세 개의 차이는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>Prefab Instance는 Project 창의 하나의 Prefab Asset과 연결되어 공통 변경을 공유합니다. 일반 Duplicate는 서로 연결된 원본이 없으므로 하나를 바꿔도 나머지가 함께 바뀌지 않습니다.</p></div>
+          </details>
+          <details>
+            <summary>이번 미션에서 모든 Sprite의 Z Position을 0으로 두는 이유는 무엇인가요?</summary>
+            <div class="details-motion-content"><p>2D의 보이는 순서를 Sprite Renderer의 Sorting Layer와 Order in Layer라는 명시적인 규칙 하나로 관리하기 위해서입니다.</p></div>
+          </details>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="sources" aria-labelledby="sources-title">
+        <header>
+          <h2 id="sources-title">수업 기준이 되는 Unity 문서</h2>
+          <p>버전별 화면 차이가 있으면 메뉴의 시각적 위치보다 Component 이름과 공식 개념을 우선합니다.</p>
+        </header>
+
+        <ul class="source-list">
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/class-Transform.html" target="_blank" rel="noopener noreferrer">Transform Component ↗</a><span>Position, Rotation, Scale과 부모, 자식의 local 좌표</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/2d-renderer-sorting.html" target="_blank" rel="noopener noreferrer">2D renderer sorting ↗</a><span>Sorting Layer와 Order in Layer를 이용한 Sprite 렌더 순서</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/CreatingPrefabs.html" target="_blank" rel="noopener noreferrer">Prefab 생성 ↗</a><span>Hierarchy의 GameObject를 Project 창의 Prefab Asset으로 만드는 방법</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/prefabs-introduction.html" target="_blank" rel="noopener noreferrer">Prefab 소개 ↗</a><span>Prefab Asset, Instance와 Override의 기본 관계</span></li>
+        </ul>
+      </section>
+
+      <div class="period-bridge">
+        <div><span>Next period</span><strong>3교시에는 순서표를 따라 하지 않고, 목표와 통과 기준을 보고 Week02_Playground를 스스로 완성합니다.</strong></div>
+        <a href="week-02-period3.html">3교시 미션으로 이동 →</a>
+      </div>
+    </article>
+
+    <aside class="week-two-toc" aria-label="2교시 목차">
+      <span>On this page</span>
+      <ol>
+        <li><a href="#arrival" data-section-link>도착점과 흐름</a></li>
+        <li><a href="#transform" data-section-link>Transform</a></li>
+        <li><a href="#parenting" data-section-link>부모와 자식</a></li>
+        <li><a href="#sorting" data-section-link>Sprite 정렬</a></li>
+        <li><a href="#prefab" data-section-link>Prefab 재사용</a></li>
+        <li><a href="#system" data-section-link>하나의 장면 구조</a></li>
+        <li><a href="#recall" data-section-link>회수 질문</a></li>
+        <li><a href="#sources" data-section-link>공식 문서</a></li>
+      </ol>
+      <div class="toc-periods">
+        <a href="week-02-period1.html">1교시 자료</a>
+        <a href="week-02-foundations.html">교수자 운영안</a>
+        <a href="week-02-period3.html">3교시 미션</a>
+      </div>
+    </aside>
+  </main>
+<script src="assets/week-02-lessons.js?v=ge1w2p2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

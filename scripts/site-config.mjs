@@ -30,6 +30,22 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-01-blockout-to-game.webp",
     alt: "동일한 탑다운 2D 게임 장면이 회색 블록아웃에서 완성된 픽셀 아트 장면으로 발전하는 비교 이미지",
   }),
+  "teaching/game-engine-1/week-02-foundations.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-02-modular-scene.webp",
+    alt: "탑다운 2D 게임 장면과 장면을 구성하는 배경, 캐릭터, 수집물, 상자와 나무 모듈을 함께 보여 주는 픽셀 아트 이미지",
+  }),
+  "teaching/game-engine-1/week-02-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-02-period1-editor-model.webp",
+    alt: "하나의 2D 게임 프로젝트 상자 안에 Scene과 GameObject, Component 조각이 단계별로 정리된 픽셀 아트 작업대",
+  }),
+  "teaching/game-engine-1/week-02-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-02-period2-scene-system.webp",
+    alt: "방향 표시가 붙은 캐릭터, 겹친 배경과 전경, 하나의 원본에서 나온 세 수집물로 장면 조립 원리를 보여 주는 픽셀 아트 작업대",
+  }),
+  "teaching/game-engine-1/week-02-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-02-period3-playground-goal.webp",
+    alt: "플레이어와 방향 표시, 동일한 수집물 세 개, 배경과 전경이 배치된 작은 탑다운 픽셀 아트 Playground 완성 예시",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

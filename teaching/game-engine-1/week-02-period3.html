@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-two-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2주차 3교시: 작은 Playground 완성 미션 | Game Engine I</title>
+  <meta name="description" content="목표, 제약과 통과 기준을 바탕으로 부모와 자식, Sprite 정렬과 Prefab 재사용이 적용된 Week02_Playground를 스스로 완성하는 Game Engine I 2주차 3교시 미션입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="2주차 3교시: 작은 Playground 완성 미션 | Game Engine I">
+  <meta property="og:description" content="정답 절차 없이 목표와 통과 기준을 보고 첫 재사용 가능한 2D Scene을 완성합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-02-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-period3-playground-goal.webp">
+  <meta property="og:image:alt" content="플레이어와 방향 표시, 동일한 수집물 세 개, 배경과 전경이 배치된 작은 탑다운 픽셀 아트 Playground 완성 예시">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2주차 3교시: 작은 Playground 완성 미션 | Game Engine I">
+  <meta name="twitter:description" content="목표, 제약과 통과 기준을 바탕으로 Week02_Playground를 스스로 설계하고 검증합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-02-period3-playground-goal.webp">
+  <link rel="preload" as="image" href="assets/week-02-period3-playground-goal.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-02-lessons.css?v=ge1w2p2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-two week-two-period3" data-lesson-key="game-engine-1-week-02-period3">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-02-period2.html" rel="prev" aria-label="이전 자료: 2주차 2교시: 장면을 조립하고 재사용하는 법 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-03-period1.html" rel="next" aria-label="다음 자료: 3주차 1교시: C# 코드를 읽는 법 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-two-hero">
+    <div class="hero-inner">
+      <div class="week-two-hero-copy">
+        <p class="eyebrow">Week 02 / Period 03 / Goal-directed mission</p>
+        <h1>작은 Playground를 완성하라</h1>
+        <p class="lead">정해진 클릭 순서 없이 목표, 제약과 통과 기준을 읽고 첫 재사용 가능한 2D Scene을 스스로 설계하고 검증합니다.</p>
+        <p class="hero-summary">60분 / 개인 목표 미션 / 8개 통과 기준</p>
+      </div>
+      <figure class="week-two-hero-visual">
+        <img src="assets/week-02-period3-playground-goal.webp" width="1587" height="991" loading="eager" decoding="async" fetchpriority="high" alt="플레이어와 방향 표시, 동일한 주황색 수집물 세 개, 상자, 배경과 앞쪽 수풀이 배치된 작은 탑다운 픽셀 아트 Playground">
+        <figcaption>이 이미지는 가능한 결과 한 가지입니다. 같은 배치가 아니라 같은 구조와 검증 상태를 만드는 것이 목표입니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <details class="mobile-section-nav">
+      <summary>이 페이지에서</summary>
+      <nav aria-label="3교시 모바일 목차">
+        <ol>
+          <li><a href="#mission" data-section-link>미션 브리프</a></li>
+          <li><a href="#goal" data-section-link>완성 목표</a></li>
+          <li><a href="#contract" data-section-link>Hierarchy 계약</a></li>
+          <li><a href="#route" data-section-link>시간 이정표</a></li>
+          <li><a href="#pass" data-section-link>8개 통과 기준</a></li>
+          <li><a href="#evidence" data-section-link>증거와 제출</a></li>
+          <li><a href="#hints" data-section-link>필요할 때 힌트</a></li>
+          <li><a href="#extension" data-section-link>선택 확장</a></li>
+          <li><a href="#sources" data-section-link>참고 문서</a></li>
+        </ol>
+      </nav>
+    </details>
+
+    <article class="article">
+      <section class="mission-brief" id="mission" aria-labelledby="mission-title">
+        <span class="mission-kicker">Mission brief</span>
+        <h2 id="mission-title">Week02_Playground를 60분 안에 작동 가능한 장면으로 완성합니다</h2>
+        <p>Player와 방향 표시가 하나의 움직임 단위로 묶이고, 배경부터 전경까지 의도한 순서로 보이며, 같은 원본을 사용하는 Collectible 세 개가 배치되어야 합니다. C#과 물리는 아직 사용하지 않습니다.</p>
+        <dl>
+          <div><dt>Output</dt><dd>저장된 Scene과 Prefab Asset</dd></div>
+          <div><dt>Success</dt><dd>8개 통과 기준과 오류 0개</dd></div>
+          <div><dt>Freedom</dt><dd>색, 위치, 크기와 장면 구성</dd></div>
+        </dl>
+      </section>
+
+      <section class="lesson-section" id="goal" aria-labelledby="goal-title">
+        <header>
+          <h2 id="goal-title">완성 이미지는 답안이 아니라 방향입니다</h2>
+          <p>이미지를 그대로 복사할 필요가 없습니다. 필수 구조가 화면에서 읽히고, 자신의 배치 선택을 설명할 수 있다면 색과 구도는 자유롭게 정할 수 있습니다.</p>
+        </header>
+
+        <ol class="goal-reading" aria-label="목표 이미지에서 확인할 세 가지">
+          <li><strong>움직임 단위</strong><span>위의 목표 이미지에서 Player와 DirectionMarker가 하나의 방향 단위로 읽히는지 확인합니다.</span></li>
+          <li><strong>재사용의 증거</strong><span>같은 모습의 Collectible 세 개가 서로 떨어져 배치되어 하나의 원본을 반복 사용했음을 보여 줍니다.</span></li>
+          <li><strong>화면 순서</strong><span>Background는 뒤에, Player와 Collectible은 가운데에, ForegroundBush는 앞에 보입니다.</span></li>
+        </ol>
+
+        <div class="mission-contract">
+          <section>
+            <span class="visual-label">반드시 지킬 것</span>
+            <h3>기술 구조</h3>
+            <ul>
+              <li>프로젝트 이름은 <code>GE1_Week02</code>입니다.</li>
+              <li>Scene은 <code>Assets/Scenes/Week02_Playground.unity</code>에 저장합니다.</li>
+              <li><code>DirectionMarker</code>는 <code>Player</code>의 자식입니다.</li>
+              <li>세 Collectible은 하나의 <code>Collectible.prefab</code>을 사용합니다.</li>
+              <li>Sprite의 Z Position은 모두 <code>0</code>으로 둡니다.</li>
+            </ul>
+          </section>
+          <section>
+            <span class="visual-label">직접 결정할 것</span>
+            <h3>시각적 선택</h3>
+            <ul>
+              <li>Player와 Collectible의 색</li>
+              <li>세 Collectible의 위치와 간격</li>
+              <li>Props의 수, 크기와 배치</li>
+              <li>ForegroundBush가 화면을 가리는 정도</li>
+              <li>전체 장면의 균형과 시선의 흐름</li>
+            </ul>
+          </section>
+        </div>
+
+        <div class="callout callout-warning">
+          <p class="callout-title">오늘 추가하지 않는 것</p>
+          <p>C# Script, Rigidbody2D, Collider2D, 이동 입력, 외부 Asset 다운로드는 이번 미션의 범위가 아닙니다. 먼저 정적인 Scene의 구조, 보이는 순서와 재사용을 정확하게 완성합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="contract" aria-labelledby="contract-title">
+        <header>
+          <h2 id="contract-title">Hierarchy가 장면의 의도를 설명해야 합니다</h2>
+          <p>이름과 들여쓰기만 읽어도 무엇이 배경이고, 무엇이 묶여 움직이며, 무엇이 반복 사용되는지 알 수 있어야 합니다.</p>
+        </header>
+
+        <pre class="hierarchy-tree" aria-label="Week02 Playground의 필수 Hierarchy 구조">Main Camera
+Level
+├── Background
+├── Props
+│   ├── Crate_01
+│   └── ForegroundBush
+└── Collectibles
+    ├── Collectible_01
+    ├── Collectible_02
+    └── Collectible_03
+Player
+└── DirectionMarker</pre>
+
+        <div class="table-scroll">
+          <table class="parameter-table">
+            <caption>필수 GameObject의 책임과 확인 위치</caption>
+            <thead><tr><th scope="col">대상</th><th scope="col">역할</th><th scope="col">핵심 설정</th><th scope="col">확인 화면</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Background</th><td>장면의 바탕</td><td><code>Background / 0</code></td><td>Game 뷰에서 가장 뒤</td></tr>
+              <tr><th scope="row">Player</th><td>장면의 중심 대상</td><td><code>Actors / 0</code></td><td>배경 위, 카메라 안</td></tr>
+              <tr><th scope="row">DirectionMarker</th><td>Player의 방향 표시</td><td>Player의 자식, <code>Actors / 1</code></td><td>Player를 이동하면 함께 이동</td></tr>
+              <tr><th scope="row">Collectible 3개</th><td>Prefab 재사용 증거</td><td><code>Actors / 0</code>, 같은 원본</td><td>서로 다른 위치, 같은 공통 모습</td></tr>
+              <tr><th scope="row">ForegroundBush</th><td>전경 겹침 증거</td><td><code>Foreground / 0</code></td><td>다른 Sprite 일부를 앞에서 가림</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="board-note">
+          <span class="cue-label">구조를 읽는 문장</span>
+          <strong>Player와 Marker는 함께 움직이는 단위이고, Level 아래의 요소는 장면을 구성하는 환경이며, Collectibles 아래의 세 대상은 같은 원본을 재사용합니다.</strong>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="route" aria-labelledby="route-title">
+        <header>
+          <h2 id="route-title">경로는 자유롭지만 중간 상태는 확인합니다</h2>
+          <p>아래는 클릭 순서가 아니라 시간 관리용 이정표입니다. 각 구간의 확인 상태를 만들 수 있다면 자신에게 편한 순서로 작업해도 됩니다.</p>
+        </header>
+
+        <ol class="mission-route">
+          <li>
+            <time>00-10</time>
+            <div><h3>파일과 Scene을 준비합니다</h3><p>공지된 Editor와 2D 템플릿으로 <code>GE1_Week02</code>를 열고, 필요한 <code>Scenes</code>와 <code>Prefabs</code> 폴더를 준비합니다.</p></div>
+            <div class="checkpoint"><strong>Checkpoint</strong><p>Project 창에 <code>Week02_Playground</code> Scene Asset이 보이고 Scene 이름에 미저장 별표가 없습니다.</p></div>
+          </li>
+          <li>
+            <time>10-24</time>
+            <div><h3>읽을 수 있는 Hierarchy를 만듭니다</h3><p>필수 GameObject의 이름과 부모, 자식 관계를 구성합니다. 시각적 모양보다 먼저 구조가 설명되는지 봅니다.</p></div>
+            <div class="checkpoint"><strong>Checkpoint</strong><p>Player를 이동했을 때 DirectionMarker가 같은 상대 위치를 유지하며 따라옵니다.</p></div>
+          </li>
+          <li>
+            <time>24-38</time>
+            <div><h3>보이는 순서를 설계합니다</h3><p><code>Background</code>, <code>Actors</code>, <code>Foreground</code> Sorting Layer를 사용해 모든 Sprite의 역할을 나눕니다.</p></div>
+            <div class="checkpoint"><strong>Checkpoint</strong><p>배경이 Player를 가리지 않고 Marker는 Player 위에 보이며 ForegroundBush는 앞을 가립니다.</p></div>
+          </li>
+          <li>
+            <time>38-50</time>
+            <div><h3>Collectible을 재사용합니다</h3><p>하나의 <code>Collectible.prefab</code>과 연결된 세 Instance를 만들고 서로 다른 위치에 배치합니다.</p></div>
+            <div class="checkpoint"><strong>Checkpoint</strong><p>Prefab Asset의 Color를 바꾸었을 때 세 Instance가 모두 함께 바뀝니다.</p></div>
+          </li>
+          <li>
+            <time>50-60</time>
+            <div><h3>실행하고 증명합니다</h3><p>Play Mode에서 Game 뷰를 확인하고 Console의 빨간 오류를 없앤 뒤 Scene을 다시 저장합니다.</p></div>
+            <div class="checkpoint"><strong>Checkpoint</strong><p>통과 기준 8개를 근거와 함께 확인하고 최종 화면을 캡처할 수 있습니다.</p></div>
+          </li>
+        </ol>
+
+        <div class="callout">
+          <p class="callout-title">한 번에 여러 값을 바꾸지 않습니다</p>
+          <p>결과가 예상과 다르면 마지막에 바꾼 한 가지를 되돌리고 다시 관찰합니다. Transform, 부모와 자식, Sorting, Prefab 중 어떤 원리가 문제인지 먼저 분리합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="pass" aria-labelledby="pass-title">
+        <header>
+          <h2 id="pass-title">8개 기준을 모두 증명하면 완료입니다</h2>
+          <p>체크는 작업을 했다는 표시가 아니라 결과를 직접 확인했다는 표시입니다. 페이지의 상태는 이 브라우저에 자동 저장됩니다.</p>
+        </header>
+
+        <div class="pass-board">
+          <div class="pass-board-header">
+            <div><h3>Mission pass</h3><p>눈으로 보고, 값을 확인하고, 필요한 경우 한 번 바꾸어 검증합니다.</p></div>
+            <div class="pass-progress"><strong data-progress-text>0 / 8</strong><span>verified</span><progress data-progress-bar value="0" max="8" aria-label="미션 통과 진행률"></progress></div>
+          </div>
+          <div class="pass-checks">
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="scene-file">
+              <span><strong>Scene 파일이 정확한 위치에 저장되었습니다</strong><span>Project 창에서 <code>Assets/Scenes/Week02_Playground.unity</code>를 직접 확인합니다.</span></span>
+              <code>FILE</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="hierarchy">
+              <span><strong>Hierarchy의 이름과 들여쓰기가 계약과 맞습니다</strong><span>Level, Props, Collectibles, Player와 DirectionMarker의 관계를 읽습니다.</span></span>
+              <code>STRUCTURE</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="parent-child">
+              <span><strong>Player를 움직이면 DirectionMarker가 함께 움직입니다</strong><span>Marker의 local Position은 그대로이고 world 위치가 함께 달라지는지 봅니다.</span></span>
+              <code>LOCAL</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="sorting">
+              <span><strong>Background, Actors, Foreground의 순서가 화면에서 읽힙니다</strong><span>모든 Sprite의 Z Position은 0이며 Marker는 Actors의 Order 1입니다.</span></span>
+              <code>SORTING</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="prefab-asset">
+              <span><strong>Project 창에 Collectible Prefab Asset이 있습니다</strong><span><code>Assets/Prefabs/Collectible.prefab</code>을 선택해 원본 설정을 확인합니다.</span></span>
+              <code>ASSET</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="prefab-instances">
+              <span><strong>세 Collectible이 같은 Prefab Asset에 연결되어 있습니다</strong><span>원본 Color 변경이 세 Instance에 함께 반영되는지 시험합니다.</span></span>
+              <code>INSTANCE</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="play-console">
+              <span><strong>Play Mode의 Game 뷰가 의도대로 보이고 빨간 오류가 0개입니다</strong><span>Play를 멈춘 뒤 임시 변경이 남지 않았는지도 확인합니다.</span></span>
+              <code>VERIFY</code>
+            </label>
+            <label class="pass-check">
+              <input type="checkbox" data-mission-check="evidence">
+              <span><strong>최종 화면과 핵심 구조를 설명할 증거를 남겼습니다</strong><span>Game 뷰 캡처와 Hierarchy가 보이는 캡처, 아래의 설명 한 문장을 준비합니다.</span></span>
+              <code>EVIDENCE</code>
+            </label>
+          </div>
+          <div class="pass-board-footer">
+            <p data-check-save-state aria-live="polite">체크 상태는 이 기기에만 저장됩니다. Unity 프로젝트 파일과는 별개입니다.</p>
+            <button class="reset-checks" type="button" data-reset-checks>통과 확인 초기화</button>
+          </div>
+        </div>
+
+        <div class="mission-note">
+          <label for="mission-explanation">내 장면의 구조를 설명하는 한 문장</label>
+          <textarea id="mission-explanation" data-mission-note placeholder="예: Player의 자식으로 DirectionMarker를 두어 함께 움직이게 했고, 세 Collectible은 하나의 Prefab 원본을 사용합니다."></textarea>
+          <span class="save-state" data-save-state>입력한 문장은 이 기기에 자동 저장됩니다.</span>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="evidence" aria-labelledby="evidence-title">
+        <header>
+          <h2 id="evidence-title">결과보다 구조가 보이는 증거를 남깁니다</h2>
+          <p>예쁜 Game 뷰 한 장만으로는 부모와 자식, Prefab 연결과 저장 상태를 확인할 수 없습니다. 서로 다른 사실을 증명하는 두 화면을 남깁니다.</p>
+        </header>
+
+        <div class="evidence-grid">
+          <article>
+            <span class="visual-label">Evidence A</span>
+            <h3>Game 뷰 최종 화면</h3>
+            <p>Player, DirectionMarker, Collectible 세 개, 배경과 전경의 겹침이 한 화면에 보여야 합니다. 파일 이름은 <code>week02_game.png</code>로 정합니다.</p>
+          </article>
+          <article>
+            <span class="visual-label">Evidence B</span>
+            <h3>Hierarchy와 Project 창</h3>
+            <p>부모와 자식의 들여쓰기, Collectible 세 Instance, <code>Collectible.prefab</code> Asset이 한눈에 보이게 캡처합니다. 파일 이름은 <code>week02_structure.png</code>입니다.</p>
+          </article>
+        </div>
+
+        <div class="table-scroll">
+          <table class="pass-table">
+            <caption>수업 종료 전 제출 또는 확인 항목</caption>
+            <thead><tr><th scope="col">항목</th><th scope="col">포함할 내용</th><th scope="col">완료 기준</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Unity Project</th><td><code>GE1_Week02</code> 전체</td><td>Scene과 Prefab Asset이 열리고 누락된 참조가 없음</td></tr>
+              <tr><th scope="row">화면 증거</th><td><code>week02_game.png</code>, <code>week02_structure.png</code></td><td>시각 결과와 구조가 각각 읽힘</td></tr>
+              <tr><th scope="row">설명</th><td>부모와 자식, Sorting 또는 Prefab 중 두 개를 연결한 한 문장</td><td>무엇을 설정했고 어떤 결과가 생겼는지 포함</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout callout-success">
+          <p class="callout-title">완료의 정의</p>
+          <p>통과 기준 8개가 모두 확인되고, Console의 빨간 오류가 0개이며, Scene을 저장한 상태에서 두 화면과 설명 한 문장을 준비하면 2주 차 미션 완료입니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="hints" aria-labelledby="hints-title">
+        <header>
+          <span class="section-kicker">필요할 때만</span>
+          <h2 id="hints-title">막혔을 때만 필요한 힌트를 엽니다</h2>
+          <p>먼저 마지막으로 바꾼 값을 되돌리고, 문제의 대상을 선택해 Inspector를 읽습니다. 그래도 원인을 찾지 못할 때 관련 힌트 하나만 엽니다.</p>
+        </header>
+
+        <ol class="support-ladder">
+          <li><strong>관찰</strong><span>Scene과 Game 중 어디에서 문제가 보이는지 구분합니다.</span></li>
+          <li><strong>선택</strong><span>문제가 있는 GameObject를 Hierarchy에서 선택합니다.</span></li>
+          <li><strong>분리</strong><span>Transform, 계층, Sorting, Prefab 중 하나만 확인합니다.</span></li>
+          <li><strong>질문</strong><span>시도한 값과 예상, 실제 결과를 함께 말합니다.</span></li>
+        </ol>
+
+        <div class="hint-stack">
+          <details>
+            <summary>Scene을 저장했는데 Project 창에서 찾을 수 없습니다</summary>
+            <div class="details-motion-content"><p>Project 창의 <code>Assets/Scenes</code> 폴더를 먼저 선택합니다. 현재 Scene의 이름이 <code>Week02_Playground</code>인지 확인하고 <code>Ctrl/Cmd + S</code>를 누릅니다. Scene 탭 이름의 별표가 사라져야 합니다.</p></div>
+          </details>
+          <details>
+            <summary>Player를 움직여도 DirectionMarker가 따라오지 않습니다</summary>
+            <div class="details-motion-content"><p>Hierarchy에서 DirectionMarker가 Player 아래에 들여쓰기되어 있는지 확인합니다. 옆에 놓여 있다면 형제 관계이므로 함께 움직이지 않습니다. 자식이라면 Marker의 Inspector Position은 local 값입니다.</p></div>
+          </details>
+          <details>
+            <summary>Player 또는 Collectible이 Background 뒤에 숨습니다</summary>
+            <div class="details-motion-content"><p>대상의 Sprite Renderer를 확인합니다. Background는 <code>Background</code>, Player와 Collectible은 <code>Actors</code> Sorting Layer여야 합니다. 모든 Sprite의 Z Position은 0으로 유지합니다.</p></div>
+          </details>
+          <details>
+            <summary>DirectionMarker가 Player 뒤에 숨습니다</summary>
+            <div class="details-motion-content"><p>두 대상이 같은 <code>Actors</code> Sorting Layer인지 확인합니다. Player의 Order in Layer가 0이라면 DirectionMarker는 1로 둡니다.</p></div>
+          </details>
+          <details>
+            <summary>Prefab 원본을 바꿔도 Collectible 하나만 바뀝니다</summary>
+            <div class="details-motion-content"><p>Project 창의 <code>Collectible.prefab</code>을 선택해 원본을 수정했는지 확인합니다. Hierarchy의 세 대상이 모두 Prefab Instance인지도 봅니다. 특정 Instance에 Color Override가 있다면 Overrides에서 해당 값을 Revert합니다.</p></div>
+          </details>
+          <details>
+            <summary>Play를 멈추자 방금 바꾼 값이 사라졌습니다</summary>
+            <div class="details-motion-content"><p>Play Mode에서 바꾼 Scene 값은 테스트가 끝나면 시작 전 상태로 돌아갈 수 있습니다. Play를 멈춘 Edit Mode에서 값을 다시 설정하고 Scene을 저장합니다.</p></div>
+          </details>
+          <details>
+            <summary>질문을 어떻게 해야 할지 모르겠습니다</summary>
+            <div class="details-motion-content"><p>대상, 바꾼 값, 예상 결과, 실제 결과를 말합니다. 예: Background의 Sorting Layer를 Background로 설정했지만 Game 뷰에서 Player가 보이지 않고 Console의 빨간 오류는 0개입니다.</p></div>
+          </details>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="extension" aria-labelledby="extension-title">
+        <header>
+          <span class="section-kicker">선택 확장</span>
+          <h2 id="extension-title">8개 기준을 통과한 뒤에만 한 단계 확장합니다</h2>
+          <p>확장은 기본 구조를 대신하지 않습니다. 먼저 완료 상태를 저장하고 캡처한 뒤 아래에서 한 가지만 선택합니다.</p>
+        </header>
+
+        <div class="decision-grid">
+          <article>
+            <span class="visual-label">Option A</span>
+            <h3>의도적인 Instance Override</h3>
+            <p><code>Collectible_03</code>의 Scale만 조금 바꾸어 Override 표시를 확인합니다. 차이를 설명한 뒤 Revert해 세 Instance를 다시 공통 원본 상태로 돌립니다.</p>
+          </article>
+          <article>
+            <span class="visual-label">Option B</span>
+            <h3>전경 겹침 개선</h3>
+            <p>기존 기본 Sprite만 사용해 ForegroundBush의 위치와 Scale을 조절하고 장면의 아래쪽 일부를 자연스럽게 가립니다. 새 Asset은 가져오지 않습니다.</p>
+          </article>
+        </div>
+
+        <div class="callout">
+          <p class="callout-title">확장 결과도 한 문장으로 설명합니다</p>
+          <p>무엇을 바꾸었는지보다 왜 그 값을 선택했고 화면에서 무엇이 더 분명해졌는지 말합니다.</p>
+        </div>
+      </section>
+
+      <section class="lesson-section" id="sources" aria-labelledby="sources-title">
+        <header>
+          <h2 id="sources-title">미션 중 필요한 공식 참고 문서</h2>
+          <p>힌트로 해결되지 않을 때 관련 개념 하나만 찾아봅니다. 문서를 읽은 뒤에는 자신의 Scene에서 같은 Component와 값을 직접 확인합니다.</p>
+        </header>
+
+        <ul class="source-list">
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/class-Transform.html" target="_blank" rel="noopener noreferrer">Transform과 부모, 자식 ↗</a><span>자식의 local 좌표와 부모 Transform의 영향</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/2d-renderer-sorting.html" target="_blank" rel="noopener noreferrer">2D renderer sorting ↗</a><span>Sorting Layer와 Order in Layer의 렌더 순서</span></li>
+          <li><a href="https://docs.unity3d.com/kr/current/Manual/CreatingPrefabs.html" target="_blank" rel="noopener noreferrer">Prefab 생성 ↗</a><span>GameObject에서 Prefab Asset과 Instance를 만드는 방법</span></li>
+          <li><a href="week-02-period1.html"><strong>1교시 개념 자료</strong></a><span>Editor의 창, Project, Scene, GameObject와 Component</span></li>
+          <li><a href="week-02-period2.html"><strong>2교시 설명 자료</strong></a><span>Transform, 계층, Sorting과 Prefab 시연</span></li>
+        </ul>
+      </section>
+
+      <div class="period-bridge">
+        <div><span>Mission complete</span><strong>다음 주에는 이 Scene 위에 C# Script를 Component로 붙여 시간에 따라 움직이는 오브젝트를 만듭니다.</strong></div>
+        <a href="week-03-period1.html">3주차 1교시로 이동 →</a>
+      </div>
+    </article>
+
+    <aside class="week-two-toc" aria-label="3교시 미션 목차">
+      <span>Mission index</span>
+      <ol>
+        <li><a href="#mission" data-section-link>미션 브리프</a></li>
+        <li><a href="#goal" data-section-link>완성 목표</a></li>
+        <li><a href="#contract" data-section-link>Hierarchy 계약</a></li>
+        <li><a href="#route" data-section-link>시간 이정표</a></li>
+        <li><a href="#pass" data-section-link>8개 통과 기준</a></li>
+        <li><a href="#evidence" data-section-link>증거와 제출</a></li>
+        <li><a href="#hints" data-section-link>필요할 때 힌트</a></li>
+        <li><a href="#extension" data-section-link>선택 확장</a></li>
+        <li><a href="#sources" data-section-link>참고 문서</a></li>
+      </ol>
+      <div class="toc-periods">
+        <a href="week-02-period1.html">1교시 자료</a>
+        <a href="week-02-period2.html">2교시 자료</a>
+        <a href="week-02-foundations.html">교수자 운영안</a>
+      </div>
+    </aside>
+  </main>
+<script src="assets/week-02-lessons.js?v=ge1w2p2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

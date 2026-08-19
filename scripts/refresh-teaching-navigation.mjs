@@ -53,6 +53,28 @@ const courses = {
           title: "2주차 강의 자료",
         },
       },
+      "week-02-foundations.html": {
+        previous: null,
+        next: null,
+      },
+      "week-02-period1.html": {
+        previous: {
+          href: "./#week-02",
+          title: "2주차 강의 자료",
+        },
+      },
+      "week-02-period3.html": {
+        next: {
+          href: "week-03-period1.html",
+          title: "3주차 1교시: C# 코드를 읽는 법 | Game Engine I",
+        },
+      },
+      "week-03-period1.html": {
+        previous: {
+          href: "week-02-period3.html",
+          title: "2주차 3교시: 작은 Playground 완성 미션 | Game Engine I",
+        },
+      },
     },
   },
   "media-art-programming": {
