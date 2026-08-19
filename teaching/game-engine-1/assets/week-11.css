@@ -2428,6 +2428,14 @@ body.course-game-engine-1.game-engine-week-eleven .oral-grid article h3 {
     text-shadow: none !important;
   }
 
+  body.course-game-engine-1.game-engine-week-eleven :is(.starter-download a, .time-contract-controls input, .time-contract-controls select) {
+    border-color: #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+    box-shadow: none !important;
+    -webkit-text-fill-color: #000 !important;
+  }
+
   body.course-game-engine-1.game-engine-week-eleven .code-panel {
     border-color: #333;
     box-shadow: none;

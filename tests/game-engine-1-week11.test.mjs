@@ -554,6 +554,20 @@ test("week 11 updates live progress only for result changes and calculates the t
     false,
   );
 
+  const numberReaderSource = script.match(
+    /const readNumberInput = \(input\) =>([\s\S]*?);\n/,
+  );
+  assert.ok(numberReaderSource, "number input boundary must remain behavior-testable");
+  const readNumberInput = Function(
+    "input",
+    `return (${numberReaderSource[1]});`,
+  );
+  assert.ok(
+    Number.isNaN(readNumberInput({ value: "", valueAsNumber: 0 })),
+    "clearing a number input should stay invalid instead of becoming zero",
+  );
+  assert.equal(readNumberInput({ value: "28", valueAsNumber: 28 }), 28);
+
   assert.match(
     script,
     /querySelectorAll\("\[data-test-status\]"\)[\s\S]*?addEventListener\("change", saveTestResult\)/,
@@ -613,6 +627,7 @@ test("week 11 visual system is responsive, printable, reduced-motion aware, and 
     /\.wire-steps\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\);/,
     /\.exit-ticket-single\s*\{[\s\S]*?grid-template-columns:\s*1fr;/,
     /@media print[\s\S]*?:is\(\.code-panel, \.equation-strip, \.debug-ladder, \.next-week, \.exit-ticket-single\)[\s\S]*?background:\s*#fff !important;[\s\S]*?color:\s*#000 !important;/,
+    /@media print[\s\S]*?:is\(\.starter-download a, \.time-contract-controls input, \.time-contract-controls select\)[\s\S]*?background:\s*#fff !important;[\s\S]*?color:\s*#000 !important;/,
   ]) {
     assert.match(styles, pattern);
   }

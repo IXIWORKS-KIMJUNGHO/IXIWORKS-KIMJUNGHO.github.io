@@ -57,6 +57,11 @@
     return true;
   };
 
+  const readNumberInput = (input) =>
+    input && input.value.trim() !== "" && Number.isFinite(input.valueAsNumber)
+      ? input.valueAsNumber
+      : Number.NaN;
+
   const calculateTimeBonus = ({ state, currentValue, bonusValue, cap }) => {
     if (!Number.isFinite(currentValue) || !Number.isFinite(bonusValue)) {
       return { valid: false };
@@ -384,8 +389,8 @@
 
     const renderTimeContract = () => {
       const state = stateInput?.value ?? "Ready";
-      const currentValue = Number(currentInput?.value);
-      const bonusValue = Number(bonusInput?.value);
+      const currentValue = readNumberInput(currentInput);
+      const bonusValue = readNumberInput(bonusInput);
       const calculation = calculateTimeBonus({ state, currentValue, bonusValue, cap });
 
       if (!calculation.valid) {
