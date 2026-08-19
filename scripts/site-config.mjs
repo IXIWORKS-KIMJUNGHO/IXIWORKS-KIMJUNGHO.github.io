@@ -46,6 +46,22 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-02-period3-playground-goal.webp",
     alt: "플레이어와 방향 표시, 동일한 수집물 세 개, 배경과 전경이 배치된 작은 탑다운 픽셀 아트 Playground 완성 예시",
   }),
+  "teaching/game-engine-1/week-04-input-physics.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-04-period1-hero.webp",
+    alt: "빈 방향키 묶음과 아날로그 스틱의 신호가 하나의 이동 행동으로 합쳐지는 입체 도해",
+  }),
+  "teaching/game-engine-1/week-04-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-04-period1-hero.webp",
+    alt: "빈 방향키 묶음과 아날로그 스틱의 신호가 하나의 2축 이동 행동으로 합쳐지는 입체 도해",
+  }),
+  "teaching/game-engine-1/week-04-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-04-period2-hero.webp",
+    alt: "어두운 격자형 2D 공간에서 주황색 플레이어가 네 방향으로 움직이고 벽 앞에서 멈추는 입체 장면",
+  }),
+  "teaching/game-engine-1/week-04-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-04-period3-hero.webp",
+    alt: "주황색 플레이어가 네 개의 벽을 피해 정확히 여덟 개의 초록색 검증 지점을 통과하는 입체 테스트 코스",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

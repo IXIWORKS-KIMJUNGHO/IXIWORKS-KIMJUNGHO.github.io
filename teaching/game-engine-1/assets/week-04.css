@@ -1,0 +1,2405 @@
+/* Game Engine I / Week 04 / three-period lesson set
+   Visual rule: input is coral, physics is cyan, verification is acid-lime. */
+
+html.game-engine-week-four-root {
+  scroll-behavior: auto;
+}
+
+body.course-game-engine-1.game-engine-week-four {
+  --w4-coral: #d85e43;
+  --w4-coral-dark: #9e3f2d;
+  --w4-coral-soft: #f6dfd7;
+  --w4-cyan: #177084;
+  --w4-cyan-dark: #0b4a59;
+  --w4-cyan-soft: #d8e9eb;
+  --w4-lime: #93a33c;
+  --w4-lime-dark: #65721f;
+  --w4-lime-soft: #e9edcf;
+  --w4-accent: var(--w4-coral);
+  --w4-accent-dark: var(--w4-coral-dark);
+  --w4-accent-soft: var(--w4-coral-soft);
+  --w4-black: #161a1a;
+  --w4-code: #171d1e;
+  --w4-code-ink: #eaf0ec;
+  --w4-rule: color-mix(in srgb, var(--ink-strong) 17%, transparent);
+  --w4-rule-strong: color-mix(in srgb, var(--ink-strong) 31%, transparent);
+  background: var(--bg);
+}
+
+body.course-game-engine-1.game-engine-week-four.week-four-period-two {
+  --w4-accent: var(--w4-cyan);
+  --w4-accent-dark: var(--w4-cyan-dark);
+  --w4-accent-soft: var(--w4-cyan-soft);
+}
+
+body.course-game-engine-1.game-engine-week-four.week-four-period-three {
+  --w4-accent: var(--w4-lime);
+  --w4-accent-dark: var(--w4-lime-dark);
+  --w4-accent-soft: var(--w4-lime-soft);
+}
+
+body.course-game-engine-1.game-engine-week-four [id] {
+  scroll-margin-top: 92px;
+}
+
+body.course-game-engine-1.game-engine-week-four :is(a, button, input, select, summary, [tabindex="0"]):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--w4-accent) 62%, transparent);
+  outline-offset: 3px;
+}
+
+body.course-game-engine-1.game-engine-week-four .lesson-header {
+  background: color-mix(in srgb, var(--paper) 95%, transparent);
+}
+
+body.course-game-engine-1.game-engine-week-four .lesson-sequence a {
+  border-color: color-mix(in srgb, var(--w4-accent) 38%, var(--line));
+  color: var(--w4-accent-dark);
+}
+
+/* Hero */
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero {
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero .hero-inner {
+  min-height: min(720px, calc(100dvh - 58px));
+  padding: clamp(46px, 7vh, 78px) 0;
+  grid-template-columns: minmax(350px, 0.82fr) minmax(490px, 1.18fr);
+  gap: clamp(44px, 5.4vw, 76px);
+  align-items: center;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero-copy {
+  min-width: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero .eyebrow {
+  margin-bottom: 17px;
+  color: var(--w4-accent-dark);
+  letter-spacing: 0.075em;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero h1 {
+  max-width: 560px;
+  font-size: clamp(43px, 5vw, 65px);
+  font-weight: 795;
+  letter-spacing: -0.064em;
+  line-height: 1.01;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero .lead {
+  max-width: 510px;
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero .lead code {
+  color: var(--w4-accent-dark);
+  font-family: var(--mono);
+  font-size: 0.88em;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-actions {
+  margin-top: 29px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-action {
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-strong);
+  font-size: 13px;
+  font-weight: 720;
+  line-height: 1.2;
+  transition: border-color 150ms ease, transform 120ms var(--ease-out);
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-action-primary {
+  border-color: var(--w4-accent-dark);
+  background: var(--w4-accent-dark);
+  color: #fffaf7;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-facts {
+  margin: 37px 0 0;
+  padding: 18px 0 0;
+  border-top: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-facts li {
+  min-width: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-facts span,
+body.course-game-engine-1.game-engine-week-four .hero-facts strong {
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-facts span {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .hero-facts strong {
+  margin-top: 5px;
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.45;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero-visual {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid color-mix(in srgb, var(--w4-accent) 42%, var(--line));
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--w4-code);
+  box-shadow: 0 28px 68px rgba(13, 31, 34, 0.2);
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  z-index: 1;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero-visual img {
+  width: 100%;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero-visual figcaption {
+  margin: 0;
+  padding: 13px 16px 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.13);
+  background: var(--w4-code);
+  color: rgba(234, 240, 236, 0.7);
+  font-size: 12px;
+  line-height: 1.55;
+  text-align: left;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-hero-visual figcaption span {
+  color: #ff997d;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Document frame */
+
+body.course-game-engine-1.game-engine-week-four .layout,
+body.course-game-engine-1.game-engine-week-four main.layout {
+  padding: 80px 0 128px;
+  grid-template-columns: minmax(0, 840px) minmax(220px, 250px);
+  gap: clamp(54px, 7vw, 88px);
+}
+
+body.course-game-engine-1.game-engine-week-four .article {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .article :is(p, li, td, th, summary, label) {
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+body.course-game-engine-1.game-engine-week-four .article > :is(.week-four-section, .scope-line) {
+  margin-top: 104px;
+}
+
+body.course-game-engine-1.game-engine-week-four .article > .arrival {
+  margin-top: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .section-heading {
+  max-width: 740px;
+  margin-bottom: 32px;
+}
+
+body.course-game-engine-1.game-engine-week-four .section-index {
+  margin: 0 0 12px;
+  color: var(--w4-accent-dark);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.055em;
+}
+
+body.course-game-engine-1.game-engine-week-four .section-heading h2,
+body.course-game-engine-1.game-engine-week-four .arrival h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: block;
+  color: var(--ink-strong);
+  font-size: clamp(29px, 3.5vw, 41px);
+  font-weight: 780;
+  letter-spacing: -0.048em;
+  line-height: 1.14;
+}
+
+body.course-game-engine-1.game-engine-week-four .section-heading h2::before,
+body.course-game-engine-1.game-engine-week-four .arrival h2::before {
+  content: none;
+  display: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .section-heading > p:last-child,
+body.course-game-engine-1.game-engine-week-four .arrival-heading > p:last-child {
+  max-width: 65ch;
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.76;
+}
+
+body.course-game-engine-1.game-engine-week-four .article h3 {
+  color: var(--ink-strong);
+  font-family: var(--sans);
+}
+
+body.course-game-engine-1.game-engine-week-four .article code {
+  font-family: var(--mono);
+}
+
+/* Arrival and scope */
+
+body.course-game-engine-1.game-engine-week-four .arrival {
+  padding-bottom: 76px;
+  border-bottom: 1px solid var(--w4-rule-strong);
+  display: grid;
+  grid-template-columns: minmax(205px, 0.72fr) minmax(0, 1.28fr);
+  gap: clamp(40px, 6vw, 72px);
+  align-items: start;
+}
+
+body.course-game-engine-1.game-engine-week-four .arrival-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .arrival-list li {
+  padding: 15px 0;
+  border-top: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 14px;
+}
+
+body.course-game-engine-1.game-engine-week-four .arrival-list li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .arrival-list li > span {
+  padding-top: 3px;
+  color: var(--w4-accent-dark);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .arrival-list p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+body.course-game-engine-1.game-engine-week-four .arrival-list strong {
+  color: var(--ink-strong);
+  font-weight: 720;
+}
+
+body.course-game-engine-1.game-engine-week-four .scope-line {
+  padding: 25px 27px;
+  border: 1px solid color-mix(in srgb, var(--w4-accent) 38%, var(--line));
+  border-left: 5px solid var(--w4-accent);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.28fr);
+  gap: 28px;
+  align-items: center;
+  background: color-mix(in srgb, var(--w4-accent-soft) 62%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four .scope-line span,
+body.course-game-engine-1.game-engine-week-four .scope-line strong {
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-week-four .scope-line span {
+  color: var(--w4-accent-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+body.course-game-engine-1.game-engine-week-four .scope-line strong {
+  margin-top: 7px;
+  color: var(--ink-strong);
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+body.course-game-engine-1.game-engine-week-four .scope-line p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.73;
+}
+
+/* Agenda */
+
+body.course-game-engine-1.game-engine-week-four .agenda-track {
+  border-top: 1px solid var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--w4-rule-strong);
+  display: grid;
+  grid-template-columns: minmax(190px, 0.58fr) minmax(0, 1.42fr);
+  gap: 42px;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase > header > span,
+body.course-game-engine-1.game-engine-week-four .agenda-phase > header > p {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase > header > span {
+  color: var(--w4-coral-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase-build > header > span {
+  color: var(--w4-cyan-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase > header h3 {
+  margin: 10px 0 0;
+  font-size: 21px;
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase > header > p {
+  margin: 10px 0 0;
+  color: var(--quiet);
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase li {
+  padding: 12px 0;
+  border-top: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  gap: 17px;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase li:first-child {
+  padding-top: 0;
+  border-top: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase time {
+  padding-top: 2px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase li strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.course-game-engine-1.game-engine-week-four .agenda-phase li p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.62;
+}
+
+/* Signal model */
+
+body.course-game-engine-1.game-engine-week-four .signal-chain {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  overflow: hidden;
+  list-style: none;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain li {
+  position: relative;
+  min-width: 0;
+  padding: 22px 18px;
+  border-left: 1px solid var(--w4-rule);
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain li:first-child {
+  border-left: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 31px;
+  right: -4px;
+  z-index: 2;
+  width: 7px;
+  height: 7px;
+  border-top: 1.5px solid var(--w4-coral);
+  border-right: 1.5px solid var(--w4-coral);
+  background: var(--paper);
+  transform: rotate(45deg);
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain li:nth-child(n + 4):not(:last-child)::after {
+  border-color: var(--w4-cyan);
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain li > span {
+  display: block;
+  margin-bottom: 17px;
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain li:nth-child(n + 4) > span {
+  color: var(--w4-cyan-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain strong {
+  display: block;
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+body.course-game-engine-1.game-engine-week-four .signal-chain p {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+body.course-game-engine-1.game-engine-week-four .equation-strip {
+  margin-top: 16px;
+  padding: 20px 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(12px, 3vw, 30px);
+  background: var(--w4-code);
+  color: var(--w4-code-ink);
+  font-family: var(--mono);
+  text-align: center;
+}
+
+body.course-game-engine-1.game-engine-week-four .equation-strip span,
+body.course-game-engine-1.game-engine-week-four .equation-strip strong {
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+body.course-game-engine-1.game-engine-week-four .equation-strip span:first-child {
+  color: #ff997d;
+}
+
+body.course-game-engine-1.game-engine-week-four .equation-strip strong {
+  color: #78ced8;
+}
+
+body.course-game-engine-1.game-engine-week-four .equation-strip b {
+  color: rgba(234, 240, 236, 0.48);
+  font-size: 16px;
+  font-weight: 400;
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid article {
+  padding: 24px;
+  border: 1px solid var(--w4-rule);
+  border-top: 3px solid var(--w4-coral);
+  border-radius: 4px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid article:last-child {
+  border-top-color: var(--w4-cyan);
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid span {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid article:last-child span {
+  color: var(--w4-cyan-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid h3 {
+  margin: 10px 0 0;
+  font-size: 19px;
+  font-weight: 740;
+  letter-spacing: -0.025em;
+}
+
+body.course-game-engine-1.game-engine-week-four .concept-grid p {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* Setup and steps */
+
+body.course-game-engine-1.game-engine-week-four .setup-notice {
+  margin-bottom: 22px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .setup-notice > div {
+  min-width: 0;
+  padding: 17px 19px;
+  border-left: 1px solid var(--w4-rule);
+}
+
+body.course-game-engine-1.game-engine-week-four .setup-notice > div:first-child {
+  border-left: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .setup-notice span,
+body.course-game-engine-1.game-engine-week-four .setup-notice strong {
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-week-four .setup-notice span {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .setup-notice strong {
+  margin-top: 6px;
+  color: var(--ink-strong);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+body.course-game-engine-1.game-engine-week-four .build-steps {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--w4-rule-strong);
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .build-steps > li {
+  padding: 27px 0;
+  border-bottom: 1px solid var(--w4-rule-strong);
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 24px;
+}
+
+body.course-game-engine-1.game-engine-week-four .step-number {
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--w4-coral) 58%, var(--line));
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .build-steps h3 {
+  margin: 2px 0 10px;
+  font-size: 19px;
+  font-weight: 750;
+  letter-spacing: -0.025em;
+}
+
+body.course-game-engine-1.game-engine-week-four .build-steps p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.76;
+}
+
+body.course-game-engine-1.game-engine-week-four .build-steps p + p {
+  margin-top: 10px;
+}
+
+body.course-game-engine-1.game-engine-week-four .build-steps code,
+body.course-game-engine-1.game-engine-week-four .step-check code {
+  padding: 2px 5px;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  background: var(--surface);
+  color: var(--ink-strong);
+  font-size: 0.88em;
+}
+
+body.course-game-engine-1.game-engine-week-four .step-check {
+  padding-left: 15px;
+  border-left: 2px solid var(--w4-lime);
+}
+
+body.course-game-engine-1.game-engine-week-four .step-check strong {
+  color: var(--w4-lime-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .table-wrap {
+  width: 100%;
+  margin-top: 18px;
+  overflow-x: auto;
+}
+
+body.course-game-engine-1.game-engine-week-four table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+body.course-game-engine-1.game-engine-week-four th,
+body.course-game-engine-1.game-engine-week-four td {
+  padding: 11px 13px;
+  border: 1px solid var(--w4-rule);
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  text-align: left;
+  vertical-align: top;
+}
+
+body.course-game-engine-1.game-engine-week-four thead th {
+  background: var(--surface);
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four tbody th {
+  color: var(--ink-strong);
+  font-weight: 690;
+}
+
+body.course-game-engine-1.game-engine-week-four .teacher-check,
+body.course-game-engine-1.game-engine-week-four .test-contract,
+body.course-game-engine-1.game-engine-week-four .ask-template {
+  margin-top: 20px;
+  padding: 20px 23px;
+  border-left: 4px solid var(--w4-lime);
+  background: color-mix(in srgb, var(--w4-lime-soft) 60%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.teacher-check, .test-contract, .ask-template) > span {
+  display: block;
+  color: var(--w4-lime-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.teacher-check, .test-contract, .ask-template) p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+/* Two clocks */
+
+body.course-game-engine-1.game-engine-week-four .clock-compare {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card {
+  min-width: 0;
+  padding: 25px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card header span {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card-physics header span {
+  color: var(--w4-cyan-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-pulses {
+  height: 44px;
+  margin: 22px 0;
+  border-bottom: 1px solid var(--w4-rule);
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-pulses i {
+  width: 3px;
+  height: 22px;
+  background: var(--w4-coral);
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-pulses i:nth-child(2),
+body.course-game-engine-1.game-engine-week-four .clock-pulses i:nth-child(5) {
+  height: 34px;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-pulses i:nth-child(4) {
+  height: 15px;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-pulses-fixed {
+  justify-content: space-around;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-pulses-fixed i,
+body.course-game-engine-1.game-engine-week-four .clock-pulses-fixed i:nth-child(n) {
+  height: 27px;
+  background: var(--w4-cyan);
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card > p {
+  min-height: 92px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.72;
+}
+
+body.course-game-engine-1.game-engine-week-four .clock-card > code {
+  margin-top: 18px;
+  padding: 11px 12px;
+  border-radius: 3px;
+  display: block;
+  overflow-x: auto;
+  background: var(--w4-code);
+  color: var(--w4-code-ink);
+  font-size: 10.5px;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+
+body.course-game-engine-1.game-engine-week-four .rule-banner {
+  margin-top: 16px;
+  padding: 22px 24px;
+  border: 1px solid color-mix(in srgb, var(--w4-cyan) 36%, var(--line));
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  background: color-mix(in srgb, var(--w4-cyan-soft) 58%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four .rule-banner span {
+  color: var(--w4-cyan-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .rule-banner strong {
+  color: var(--ink-strong);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+body.course-game-engine-1.game-engine-week-four .mistake-list,
+body.course-game-engine-1.game-engine-week-four .trouble-grid {
+  margin-top: 22px;
+  border-top: 1px solid var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.mistake-list, .trouble-grid) details {
+  border-bottom: 1px solid var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.mistake-list, .trouble-grid) summary {
+  padding: 17px 48px 17px 0;
+  color: var(--ink-strong);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.mistake-list, .trouble-grid) summary code {
+  color: inherit;
+  font-size: 0.88em;
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.mistake-list, .trouble-grid) .details-motion-content {
+  padding: 0 42px 18px 0;
+}
+
+body.course-game-engine-1.game-engine-week-four :is(.mistake-list, .trouble-grid) .details-motion-content p {
+  max-width: 68ch;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.74;
+}
+
+/* Component stack */
+
+body.course-game-engine-1.game-engine-week-four .component-stack {
+  padding: 20px;
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  background: var(--w4-code);
+}
+
+body.course-game-engine-1.game-engine-week-four .component-stack > div {
+  min-width: 0;
+  padding: 16px 17px;
+  border: 1px solid rgba(234, 240, 236, 0.12);
+  border-radius: 3px;
+  display: grid;
+  grid-template-columns: minmax(125px, 0.7fr) minmax(0, 1.1fr);
+  gap: 6px 16px;
+  align-items: baseline;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+body.course-game-engine-1.game-engine-week-four .component-stack .component-object {
+  grid-column: 1 / -1;
+  border-color: rgba(255, 153, 125, 0.46);
+  background: rgba(216, 94, 67, 0.14);
+}
+
+body.course-game-engine-1.game-engine-week-four .component-stack span {
+  color: #78ced8;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+body.course-game-engine-1.game-engine-week-four .component-stack .component-object span {
+  color: #ff997d;
+}
+
+body.course-game-engine-1.game-engine-week-four .component-stack strong {
+  color: var(--w4-code-ink);
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .component-stack small {
+  grid-column: 2;
+  color: rgba(234, 240, 236, 0.57);
+  font-size: 10.5px;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid article {
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid article > span {
+  padding: 15px 18px;
+  border-bottom: 1px solid var(--w4-rule-strong);
+  display: block;
+  color: var(--w4-cyan-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid article:last-child > span {
+  color: var(--w4-coral-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid dl {
+  margin: 0;
+  padding: 6px 18px;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid dl > div {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid dl > div:last-child {
+  border-bottom: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid dt,
+body.course-game-engine-1.game-engine-week-four .settings-grid dd {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid dt {
+  color: var(--muted);
+}
+
+body.course-game-engine-1.game-engine-week-four .settings-grid dd {
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-align: right;
+}
+
+body.course-game-engine-1.game-engine-week-four .collision-note {
+  margin-top: 18px;
+  padding: 22px 24px;
+  border: 1px solid color-mix(in srgb, var(--w4-coral) 32%, var(--line));
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--w4-coral-soft) 52%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four .collision-note > strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 15px;
+}
+
+body.course-game-engine-1.game-engine-week-four .collision-note p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.73;
+}
+
+/* Code */
+
+body.course-game-engine-1.game-engine-week-four .code-anatomy {
+  margin-bottom: 14px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .code-anatomy > div {
+  min-width: 0;
+  padding: 16px;
+  border-left: 1px solid var(--w4-rule);
+}
+
+body.course-game-engine-1.game-engine-week-four .code-anatomy > div:first-child {
+  border-left: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-anatomy span {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-anatomy strong {
+  margin-top: 5px;
+  display: block;
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 10.5px;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-anatomy p {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code {
+  margin-top: 24px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  background: var(--surface);
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code > summary {
+  min-height: 58px;
+  padding: 11px 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 4px 18px;
+  color: var(--ink-strong);
+  cursor: pointer;
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code > summary::-webkit-details-marker {
+  display: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code > summary::after {
+  content: "+";
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  color: var(--w4-accent-dark);
+  font-family: var(--mono);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code[open] > summary::after {
+  content: "−";
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code > summary span,
+body.course-game-engine-1.game-engine-week-four .reference-code > summary strong {
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code > summary span {
+  color: var(--w4-accent-dark);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 650;
+  letter-spacing: 0.045em;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code > summary strong {
+  font-size: 13px;
+  font-weight: 680;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-code .code-panel {
+  margin: 0 12px 12px;
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel {
+  border: 1px solid rgba(234, 240, 236, 0.13);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--w4-code);
+  box-shadow: 0 20px 46px rgba(8, 16, 17, 0.16);
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel-bar {
+  min-height: 47px;
+  padding: 9px 12px 9px 18px;
+  border-bottom: 1px solid rgba(234, 240, 236, 0.13);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel-bar > span {
+  color: rgba(234, 240, 236, 0.66);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel-bar button {
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid rgba(234, 240, 236, 0.22);
+  border-radius: 3px;
+  background: transparent;
+  color: rgba(234, 240, 236, 0.82);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel-bar button[data-copy-state="success"] {
+  border-color: #b4ca74;
+  color: #dceaa6;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel-bar button[data-copy-state="error"] {
+  border-color: #ff997d;
+  color: #ffc4b4;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel pre {
+  margin: 0;
+  padding: 24px;
+  overflow: auto;
+  color: var(--w4-code-ink);
+  font-size: 12.5px;
+  line-height: 1.72;
+  tab-size: 4;
+}
+
+body.course-game-engine-1.game-engine-week-four .code-panel pre code {
+  color: inherit;
+  font-family: var(--mono);
+  white-space: pre;
+}
+
+body.course-game-engine-1.game-engine-week-four .copy-status {
+  min-height: 0;
+  margin: 0;
+  padding: 0 18px;
+  color: #b4ca74;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.course-game-engine-1.game-engine-week-four .copy-status:not(:empty) {
+  min-height: 38px;
+  padding-block: 9px;
+  border-top: 1px solid rgba(234, 240, 236, 0.1);
+}
+
+body.course-game-engine-1.game-engine-week-four .line-reasons {
+  margin-top: 20px;
+  border-top: 1px solid var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four .line-reasons article {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: minmax(185px, 0.58fr) minmax(0, 1.42fr);
+  gap: 26px;
+}
+
+body.course-game-engine-1.game-engine-week-four .line-reasons code {
+  color: var(--w4-coral-dark);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .line-reasons p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.68;
+}
+
+body.course-game-engine-1.game-engine-week-four .wire-steps {
+  margin: 23px 0 0;
+  padding: 22px 24px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 22px;
+  background: var(--paper);
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .wire-steps li {
+  min-width: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .wire-steps span {
+  color: var(--w4-cyan-dark);
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .wire-steps p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.6;
+}
+
+/* Test lab */
+
+body.course-game-engine-1.game-engine-week-four .storage-notice {
+  margin: 0;
+  padding: 14px 18px;
+  border: 1px solid var(--w4-rule-strong);
+  border-bottom: 0;
+  border-radius: 5px 5px 0 0;
+  background: color-mix(in srgb, var(--w4-cyan-soft) 34%, var(--paper));
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.65;
+}
+
+body.course-game-engine-1.game-engine-week-four .storage-notice strong {
+  margin-right: 7px;
+  color: var(--w4-cyan-dark);
+  font-weight: 720;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-identity {
+  padding: 18px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 0;
+  display: grid;
+  grid-template-columns: minmax(150px, 0.7fr) minmax(150px, 0.7fr) minmax(180px, 1fr);
+  gap: 12px;
+  align-items: end;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .test-identity label {
+  display: grid;
+  gap: 7px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-identity input,
+body.course-game-engine-1.game-engine-week-four .test-table input,
+body.course-game-engine-1.game-engine-week-four .test-table select {
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink-strong);
+  font-family: var(--sans);
+  font-size: 13px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-identity input::placeholder,
+body.course-game-engine-1.game-engine-week-four .test-table input::placeholder {
+  color: var(--quiet);
+  opacity: 0.72;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-progress {
+  min-height: 61px;
+  padding: 10px 14px;
+  border-left: 3px solid var(--w4-lime);
+  display: grid;
+  align-content: center;
+  background: color-mix(in srgb, var(--w4-lime-soft) 56%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four .test-progress span,
+body.course-game-engine-1.game-engine-week-four .test-progress strong {
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-progress span {
+  color: var(--w4-lime-dark);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-progress strong {
+  margin-top: 5px;
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-progress[data-complete="true"] {
+  background: var(--w4-lime-soft);
+}
+
+body.course-game-engine-1.game-engine-week-four .table-scroll-hint {
+  margin: 0;
+  padding: 10px 14px;
+  border-right: 1px solid var(--w4-rule-strong);
+  border-left: 1px solid var(--w4-rule-strong);
+  display: none;
+  background: var(--surface);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table-wrap {
+  margin-top: 0;
+  border-right: 1px solid var(--w4-rule-strong);
+  border-bottom: 1px solid var(--w4-rule-strong);
+  border-left: 1px solid var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table {
+  min-width: 820px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table th,
+body.course-game-engine-1.game-engine-week-four .test-table td {
+  padding: 10px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table thead th {
+  border-top: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table tbody th {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table tr[data-result="pass"] {
+  background: color-mix(in srgb, var(--w4-lime-soft) 42%, transparent);
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table tr[data-result="fail"] {
+  background: color-mix(in srgb, var(--w4-coral-soft) 42%, transparent);
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table select {
+  min-width: 88px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-table input {
+  min-width: 175px;
+}
+
+body.course-game-engine-1.game-engine-week-four .optional-label {
+  margin-left: 5px;
+  padding: 2px 4px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-actions {
+  margin-top: 14px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-action,
+body.course-game-engine-1.game-engine-week-four .completion-panel button {
+  min-height: 44px;
+  padding: 9px 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink-strong);
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 680;
+  cursor: pointer;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-action-primary {
+  border-color: var(--w4-lime-dark);
+  background: var(--w4-lime-dark);
+  color: #fff;
+}
+
+body.course-game-engine-1.game-engine-week-four .undo-action {
+  border-color: var(--w4-lime-dark);
+  color: var(--w4-lime-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .test-actions > p {
+  flex: 1 1 260px;
+  margin: 0 0 0 7px;
+  color: var(--quiet);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+body.course-game-engine-1.game-engine-week-four .test-contract {
+  border-left-color: var(--w4-lime);
+}
+
+/* Debug */
+
+body.course-game-engine-1.game-engine-week-four .debug-ladder {
+  padding: 17px 20px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  background: var(--w4-code);
+  color: var(--w4-code-ink);
+  font-family: var(--mono);
+  text-align: center;
+}
+
+body.course-game-engine-1.game-engine-week-four .debug-ladder span {
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .debug-ladder span:nth-of-type(1),
+body.course-game-engine-1.game-engine-week-four .debug-ladder span:nth-of-type(2) {
+  color: #ff997d;
+}
+
+body.course-game-engine-1.game-engine-week-four .debug-ladder span:nth-of-type(4),
+body.course-game-engine-1.game-engine-week-four .debug-ladder span:nth-of-type(5) {
+  color: #78ced8;
+}
+
+body.course-game-engine-1.game-engine-week-four .debug-ladder b {
+  color: rgba(234, 240, 236, 0.36);
+  font-weight: 400;
+}
+
+body.course-game-engine-1.game-engine-week-four .trouble-grid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.course-game-engine-1.game-engine-week-four .trouble-grid details:nth-child(odd) {
+  padding-right: 20px;
+  border-right: 1px solid var(--w4-rule);
+}
+
+body.course-game-engine-1.game-engine-week-four .trouble-grid details:nth-child(even) {
+  padding-left: 20px;
+}
+
+body.course-game-engine-1.game-engine-week-four .trouble-grid summary {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+}
+
+body.course-game-engine-1.game-engine-week-four .ask-template {
+  border-left-color: var(--w4-coral);
+  background: color-mix(in srgb, var(--w4-coral-soft) 46%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four .ask-template > span {
+  color: var(--w4-coral-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .ask-template code {
+  color: var(--ink-strong);
+  font-size: 11px;
+}
+
+/* Submission */
+
+body.course-game-engine-1.game-engine-week-four .submission-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four .submission-grid article {
+  min-width: 0;
+  padding: 23px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .submission-grid span {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+body.course-game-engine-1.game-engine-week-four .submission-grid h3 {
+  margin: 10px 0 0;
+  font-size: 17px;
+  font-weight: 730;
+}
+
+body.course-game-engine-1.game-engine-week-four .submission-grid h3 code {
+  color: var(--ink-strong);
+  font-size: 0.82em;
+}
+
+body.course-game-engine-1.game-engine-week-four .submission-grid p {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.68;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel {
+  margin-top: 20px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel > header {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--w4-rule-strong);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel header span {
+  color: var(--w4-lime-dark);
+  font-family: var(--mono);
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel header h3 {
+  margin: 6px 0 0;
+  font-size: 18px;
+  font-weight: 740;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel header > strong {
+  color: var(--w4-lime-dark);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel[data-complete="true"] header {
+  background: color-mix(in srgb, var(--w4-lime-soft) 66%, var(--paper));
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel ol {
+  margin: 0;
+  padding: 8px 22px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel li {
+  border-bottom: 1px solid var(--w4-rule);
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel label {
+  min-height: 61px;
+  padding: 12px 0;
+  display: grid;
+  grid-template-columns: 19px minmax(0, 1fr);
+  gap: 11px;
+  align-items: start;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+  cursor: pointer;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel input {
+  width: 17px;
+  height: 17px;
+  margin: 1px 0 0;
+  accent-color: var(--w4-lime-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel li[data-checked="true"] label {
+  color: var(--ink-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel-actions {
+  margin: 12px 22px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 9px;
+}
+
+body.course-game-engine-1.game-engine-week-four .completion-panel-actions p {
+  flex: 1 1 240px;
+  margin: 0;
+  color: var(--quiet);
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+/* Exit and references */
+
+body.course-game-engine-1.game-engine-week-four .exit-ticket {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--w4-rule-strong);
+  border-radius: 5px;
+  overflow: hidden;
+  background: var(--w4-rule-strong);
+}
+
+body.course-game-engine-1.game-engine-week-four .exit-ticket article {
+  min-width: 0;
+  padding: 23px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-week-four .exit-ticket span {
+  color: var(--w4-coral-dark);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .exit-ticket p {
+  margin: 20px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.76;
+}
+
+body.course-game-engine-1.game-engine-week-four .exit-ticket code {
+  color: var(--ink-strong);
+  font-size: 0.87em;
+}
+
+body.course-game-engine-1.game-engine-week-four .next-week {
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  gap: 27px;
+  background: var(--w4-code);
+  color: var(--w4-code-ink);
+}
+
+body.course-game-engine-1.game-engine-week-four .next-week > span {
+  color: #78ced8;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+}
+
+body.course-game-engine-1.game-engine-week-four .next-week h3 {
+  margin: 0;
+  color: var(--w4-code-ink);
+  font-size: 20px;
+  font-weight: 730;
+}
+
+body.course-game-engine-1.game-engine-week-four .next-week p {
+  margin: 9px 0 0;
+  color: rgba(234, 240, 236, 0.66);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-list {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--w4-rule-strong);
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-list li {
+  padding: 15px 0;
+  border-bottom: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: minmax(240px, 0.82fr) minmax(0, 1.18fr);
+  gap: 28px;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-list a {
+  color: var(--w4-cyan-dark);
+  font-size: 13px;
+}
+
+body.course-game-engine-1.game-engine-week-four .reference-list span {
+  color: var(--muted);
+  font-size: 12.5px;
+}
+
+/* TOC */
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc {
+  padding: 17px;
+  border-color: var(--w4-rule-strong);
+  border-radius: 5px;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc .toc-title {
+  margin: 0 0 10px;
+  color: var(--w4-accent-dark);
+  letter-spacing: 0.04em;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc ol {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  list-style: none;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc li {
+  margin: 0;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc a {
+  padding: 7px 9px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc a span {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 9px;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc a[aria-current="location"] {
+  background: color-mix(in srgb, var(--w4-accent-soft) 67%, var(--paper));
+  color: var(--ink-strong);
+  font-weight: 700;
+}
+
+body.course-game-engine-1.game-engine-week-four .week-four-toc a[aria-current="location"] span {
+  color: var(--w4-accent-dark);
+}
+
+body.course-game-engine-1.game-engine-week-four .toc-legend {
+  margin-top: 14px;
+  padding-top: 13px;
+  border-top: 1px solid var(--w4-rule);
+  display: grid;
+  grid-template-columns: 7px auto 7px auto 7px auto;
+  gap: 6px;
+  align-items: center;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+body.course-game-engine-1.game-engine-week-four .toc-legend i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--w4-coral);
+}
+
+body.course-game-engine-1.game-engine-week-four .toc-legend i:nth-of-type(2) {
+  background: var(--w4-cyan);
+}
+
+body.course-game-engine-1.game-engine-week-four .toc-legend i:nth-of-type(3) {
+  background: var(--w4-lime);
+}
+
+body.course-game-engine-1.game-engine-week-four > .footer-note {
+  width: min(1180px, calc(100% - 48px));
+  margin: -64px auto 48px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.course-game-engine-1.game-engine-week-four .hero-action:hover {
+    border-color: var(--w4-accent);
+    text-decoration: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .hero-action-primary:hover {
+    border-color: var(--w4-accent);
+    background: var(--w4-accent);
+    color: #fff;
+  }
+
+  body.course-game-engine-1.game-engine-week-four :is(.mistake-list, .trouble-grid) summary:hover {
+    color: var(--w4-accent-dark);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-panel-bar button:hover {
+    border-color: var(--w4-accent);
+    color: #fff;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-action:hover,
+  body.course-game-engine-1.game-engine-week-four .completion-panel button:hover {
+    border-color: var(--w4-accent);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .reference-list a:hover {
+    color: var(--w4-cyan);
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  body.course-game-engine-1.game-engine-week-four a:hover {
+    text-decoration: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .lesson-breadcrumb a:hover {
+    color: var(--muted);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .lesson-breadcrumb .lesson-course:hover {
+    color: var(--ink-strong);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .lesson-sequence a:hover {
+    border-color: color-mix(in srgb, var(--w4-accent) 38%, var(--line));
+    color: var(--w4-accent-dark);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc a:hover {
+    background: transparent;
+    color: var(--muted);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc a[aria-current="location"]:hover {
+    background: color-mix(in srgb, var(--w4-accent-soft) 67%, transparent);
+    color: var(--ink-strong);
+  }
+}
+
+/* Responsive */
+
+@media (max-width: 1120px) {
+  body.course-game-engine-1.game-engine-week-four .week-four-hero .hero-inner {
+    grid-template-columns: minmax(310px, 0.8fr) minmax(430px, 1.2fr);
+    gap: 40px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain li:nth-child(4) {
+    border-left: 0;
+    border-top: 1px solid var(--w4-rule);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain li:nth-child(5) {
+    border-top: 1px solid var(--w4-rule);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .wire-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  body.course-game-engine-1.game-engine-week-four [id] {
+    scroll-margin-top: 148px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero .hero-inner {
+    min-height: 0;
+    padding: 56px 0;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero-copy {
+    max-width: 680px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero-visual {
+    max-width: 760px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .layout,
+  body.course-game-engine-1.game-engine-week-four main.layout {
+    padding-top: 42px;
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc {
+    position: sticky;
+    top: 70px;
+    z-index: 20;
+    order: -1;
+    max-height: none;
+    padding: 11px 13px;
+    overflow-x: auto;
+    background: color-mix(in srgb, var(--paper) 95%, transparent);
+    backdrop-filter: blur(14px);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc .toc-title,
+  body.course-game-engine-1.game-engine-week-four .toc-legend {
+    display: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc ol {
+    display: flex;
+    gap: 4px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc li {
+    flex: 0 0 auto;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-toc a {
+    min-height: 35px;
+    padding: 7px 10px;
+    grid-template-columns: auto auto;
+    white-space: nowrap;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .table-scroll-hint {
+    display: block;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-table :is(th, td):first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+    background: var(--paper);
+    box-shadow: 1px 0 0 var(--w4-rule-strong);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-table thead th:first-child {
+    z-index: 3;
+    background: var(--surface);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-table tr[data-result="pass"] > :first-child {
+    background: color-mix(in srgb, var(--w4-lime-soft) 42%, var(--paper));
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-table tr[data-result="fail"] > :first-child {
+    background: color-mix(in srgb, var(--w4-coral-soft) 42%, var(--paper));
+  }
+}
+
+@media (max-width: 760px) {
+  body.course-game-engine-1.game-engine-week-four .lesson-breadcrumb .lesson-home,
+  body.course-game-engine-1.game-engine-week-four .lesson-breadcrumb .lesson-home + span,
+  body.course-game-engine-1.game-engine-week-four .lesson-breadcrumb > a[href="/teaching/"],
+  body.course-game-engine-1.game-engine-week-four .lesson-breadcrumb > a[href="/teaching/"] + span {
+    display: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero .hero-inner,
+  body.course-game-engine-1.game-engine-week-four .layout,
+  body.course-game-engine-1.game-engine-week-four main.layout,
+  body.course-game-engine-1.game-engine-week-four > .footer-note {
+    width: min(100% - 32px, 1180px);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero .hero-inner {
+    padding: 34px 0 36px;
+    gap: 28px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero h1 {
+    font-size: clamp(38px, 10.5vw, 50px);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero .lead {
+    margin-top: 18px;
+    font-size: 15px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .hero-actions {
+    margin-top: 22px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .hero-facts {
+    margin-top: 26px;
+    padding-top: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .hero-facts li:last-child {
+    grid-column: 1 / -1;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero-visual img {
+    height: min(52vw, 260px);
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .article > :is(.week-four-section, .scope-line) {
+    margin-top: 82px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .arrival,
+  body.course-game-engine-1.game-engine-week-four .scope-line,
+  body.course-game-engine-1.game-engine-week-four .agenda-phase {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .arrival {
+    padding-bottom: 54px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain li,
+  body.course-game-engine-1.game-engine-week-four .signal-chain li:nth-child(n) {
+    border-top: 1px solid var(--w4-rule);
+    border-left: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain li:first-child {
+    border-top: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .signal-chain li:not(:last-child)::after {
+    top: auto;
+    right: 25px;
+    bottom: -4px;
+    transform: rotate(135deg);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .concept-grid,
+  body.course-game-engine-1.game-engine-week-four .clock-compare,
+  body.course-game-engine-1.game-engine-week-four .settings-grid,
+  body.course-game-engine-1.game-engine-week-four .submission-grid,
+  body.course-game-engine-1.game-engine-week-four .trouble-grid,
+  body.course-game-engine-1.game-engine-week-four .completion-panel ol,
+  body.course-game-engine-1.game-engine-week-four .exit-ticket {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .setup-notice {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .setup-notice > div {
+    border-top: 1px solid var(--w4-rule);
+    border-left: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .setup-notice > div:first-child {
+    border-top: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .component-stack {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .component-stack .component-object {
+    grid-column: auto;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-anatomy {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-anatomy > div:nth-child(3) {
+    border-top: 1px solid var(--w4-rule);
+    border-left: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-anatomy > div:nth-child(4) {
+    border-top: 1px solid var(--w4-rule);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .wire-steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-identity {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-progress {
+    grid-column: 1 / -1;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .trouble-grid details:nth-child(n) {
+    padding-inline: 0;
+    border-right: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .trouble-grid summary {
+    min-height: 0;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .reference-list li,
+  body.course-game-engine-1.game-engine-week-four .next-week,
+  body.course-game-engine-1.game-engine-week-four .rule-banner {
+    grid-template-columns: 1fr;
+    gap: 11px;
+  }
+}
+
+@media (max-width: 520px) {
+  body.course-game-engine-1.game-engine-week-four .week-four-hero h1 br {
+    display: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero-visual figcaption {
+    display: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .hero-actions {
+    display: grid;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .hero-action {
+    width: 100%;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .scope-line {
+    padding: 21px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .agenda-phase li {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .equation-strip {
+    padding: 18px 12px;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .equation-strip span,
+  body.course-game-engine-1.game-engine-week-four .equation-strip strong {
+    font-size: 11.5px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .build-steps > li {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .component-stack > div {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .component-stack small {
+    grid-column: auto;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-panel pre {
+    padding: 18px;
+    font-size: 12.5px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .line-reasons article {
+    grid-template-columns: 1fr;
+    gap: 7px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .wire-steps,
+  body.course-game-engine-1.game-engine-week-four .test-identity {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-progress {
+    grid-column: auto;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .debug-ladder {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .debug-ladder b {
+    transform: rotate(90deg);
+  }
+
+  body.course-game-engine-1.game-engine-week-four .completion-panel > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body.course-game-engine-1.game-engine-week-four {
+    --w4-coral: #f07d60;
+    --w4-coral-dark: #f39a82;
+    --w4-coral-soft: #452d28;
+    --w4-cyan: #58b4c7;
+    --w4-cyan-dark: #88cad7;
+    --w4-cyan-soft: #213b3f;
+    --w4-lime: #b0c45a;
+    --w4-lime-dark: #c2d775;
+    --w4-lime-soft: #333b20;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero-visual img {
+    filter: brightness(0.91) saturate(0.93);
+  }
+
+  body.course-game-engine-1.game-engine-week-four :is(.test-identity input, .test-table input, .test-table select) {
+    color-scheme: dark;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.course-game-engine-1.game-engine-week-four *,
+  body.course-game-engine-1.game-engine-week-four *::before,
+  body.course-game-engine-1.game-engine-week-four *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body.course-game-engine-1.game-engine-week-four .week-four-hero .hero-inner {
+    min-height: 0;
+    display: block;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .week-four-hero-visual,
+  body.course-game-engine-1.game-engine-week-four .hero-actions,
+  body.course-game-engine-1.game-engine-week-four .code-panel-bar button,
+  body.course-game-engine-1.game-engine-week-four .test-actions,
+  body.course-game-engine-1.game-engine-week-four .completion-panel button {
+    display: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .article > :is(.week-four-section, .scope-line) {
+    margin-top: 52px;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-panel {
+    border-color: #333;
+    box-shadow: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .reference-code > summary {
+    display: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .reference-code:not([open]) > .code-panel {
+    display: block;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .code-panel pre {
+    white-space: pre-wrap;
+  }
+
+  body.course-game-engine-1.game-engine-week-four .test-table {
+    min-width: 0;
+  }
+}

@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4주차 1교시: 입력은 키가 아니라 의도입니다 | Game Engine I</title>
+  <meta name="description" content="Unity Input System에서 Device, Control, Binding, Action을 구분하고 4방향 입력을 하나의 Vector2 이동 의도로 읽는 원리를 설명하는 4주차 1교시 이론 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-04-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="4주차 1교시: 입력은 키가 아니라 의도입니다 | Game Engine I">
+  <meta property="og:description" content="서로 다른 장치의 신호가 하나의 Move Action과 Vector2 의도로 합쳐지는 구조를 이해합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-04-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-04-period1-hero.webp">
+  <meta property="og:image:alt" content="빈 방향키 묶음과 아날로그 스틱의 신호가 하나의 2축 이동 행동으로 합쳐지는 입체 도해">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="4주차 1교시: 입력은 키가 아니라 의도입니다">
+  <meta name="twitter:description" content="Input Action, Binding과 Vector2의 관계를 쉬운 언어로 연결합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-04-period1-hero.webp">
+  <link rel="preload" as="image" href="assets/week-04-period1-hero.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-04.css?v=ge1w4-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-four week-four-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-03-period3.html" rel="prev" aria-label="이전 자료: 3주차 3교시: 하나의 스크립트, 세 가지 움직임 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-04-period2.html" rel="next" aria-label="다음 자료: 4주차 2교시: 물리의 시계로 움직이기 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-four-hero">
+    <div class="hero-inner">
+      <div class="week-four-hero-copy">
+        <p class="eyebrow">Week 04 · Period 01 · Lecture</p>
+        <h1>입력은 키가 아니라<br>의도입니다</h1>
+        <p class="lead">W키와 게임패드 스틱은 모양이 다르지만 모두 “위로 이동한다”는 같은 뜻을 가질 수 있습니다. 장치의 신호를 게임 속 행동으로 번역하는 구조부터 정확히 이해합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#model">입력 구조 보기</a>
+          <a class="hero-action" href="#vector">Vector2 이해하기</a>
+        </div>
+        <ul class="hero-facts" aria-label="1교시 핵심 정보">
+          <li><span>운영</span><strong>교수자 설명 중심</strong></li>
+          <li><span>시간</span><strong>60분</strong></li>
+          <li><span>학생 활동</span><strong>관찰 · 예측 · 말로 설명</strong></li>
+        </ul>
+      </div>
+      <figure class="week-four-hero-visual">
+        <img src="assets/week-04-period1-hero.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="빈 방향키 묶음과 아날로그 스틱의 주황색 신호가 중앙의 청록색 2축 이동 행동으로 합쳐져 플레이어에 전달되는 모습">
+        <figcaption><span>DEVICE</span>가 달라도 <span>ACTION</span>이 같으면 게임 코드는 하나의 이동 의도로 읽습니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <p class="section-index">00 / ARRIVAL</p>
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>기능을 만드는 시간은 3교시입니다. 지금은 입력이 코드에 도착하기까지의 구조를 이해합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>Device, Control, Binding, Action</strong>을 서로 다른 말로 설명합니다.</p></li>
+          <li><span>02</span><p>왜 코드가 <strong>W키가 아니라 Move 행동</strong>을 읽어야 하는지 설명합니다.</p></li>
+          <li><span>03</span><p>상하좌우 입력을 <strong><code>Vector2 (x, y)</code></strong> 값으로 바꿔 읽습니다.</p></li>
+          <li><span>04</span><p>WASD, 방향키, 게임패드를 <strong>하나의 Action</strong>에 연결하는 이유를 설명합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 01</span><strong>교수자 설명과 화면 시연</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 설명을 들으며 값을 예측하고, 짧은 질문에 말로 답합니다. 설치와 구현은 구조를 이해시키기 위한 교수자 시연으로만 진행합니다.</p>
+      </aside>
+
+      <section class="week-four-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <p class="section-index">01 / RUN OF CLASS</p>
+          <h2 id="run-title">60분의 설명 흐름</h2>
+          <p>3주차의 자동 이동에서 출발해, 사용자의 의도가 물리 이동의 재료가 되는 지점까지 연결합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase" aria-labelledby="period1-run-title">
+            <header><span>00–60 min</span><h3 id="period1-run-title">입력을 행동으로 읽기</h3><p>Lecture / professor-led</p></header>
+            <ol>
+              <li><time>00–07</time><div><strong>3주차와 연결</strong><p>자동으로 움직이던 오브젝트에 “누가 방향을 정하는가?”라는 질문을 더합니다.</p></div></li>
+              <li><time>07–19</time><div><strong>입력의 네 층</strong><p>Device, Control, Binding, Action을 실제 예와 함께 분리합니다.</p></div></li>
+              <li><time>19–31</time><div><strong>Action Map</strong><p>여러 행동을 상황별 묶음으로 관리하는 이유를 설명합니다.</p></div></li>
+              <li><time>31–44</time><div><strong>Vector2</strong><p>상하좌우와 대각선을 두 축의 숫자로 읽고 크기를 비교합니다.</p></div></li>
+              <li><time>44–54</time><div><strong>Binding 설계</strong><p>WASD, 방향키, 왼쪽 스틱을 하나의 Move에 묶습니다.</p></div></li>
+              <li><time>54–60</time><div><strong>회수 질문</strong><p>입력 신호가 Move 값이 되는 과정을 화면 없이 설명합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="bridge" aria-labelledby="bridge-title">
+        <header class="section-heading">
+          <p class="section-index">02 / CONNECT</p>
+          <h2 id="bridge-title">자동 이동에 ‘의도’를 끼워 넣습니다</h2>
+          <p>3주차 코드는 방향이 항상 오른쪽으로 정해져 있었습니다. 이번 주에는 그 고정값을 사용자가 만든 값으로 바꿉니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>Week 03 / automatic</span><h3><code>Vector3.right</code></h3><p>방향이 코드에 고정되어 있습니다. 사용자가 아무것도 하지 않아도 매 프레임 오른쪽으로 움직입니다.</p></article>
+          <article><span>Week 04 / interactive</span><h3><code>moveInput</code></h3><p>방향이 입력에서 옵니다. 입력이 없으면 <code>(0, 0)</code>, 위를 누르면 <code>(0, 1)</code>이 됩니다.</p></article>
+        </div>
+        <div class="equation-strip" aria-label="상호작용 이동의 기본 계산">
+          <span>사용자의 방향 의도</span><b aria-hidden="true">×</b><span>초당 이동 속도</span><b aria-hidden="true">=</b><strong>물리 속도</strong>
+        </div>
+        <aside class="teacher-check">
+          <span>교수자 설명 포인트</span>
+          <p>입력은 오브젝트를 직접 움직이지 않습니다. 입력은 “어느 방향으로 가고 싶은가”라는 값만 제공합니다. 실제 위치 변화와 충돌 계산은 2교시의 Rigidbody2D가 맡습니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-four-section" id="model" aria-labelledby="model-title">
+        <header class="section-heading">
+          <p class="section-index">03 / INPUT MODEL</p>
+          <h2 id="model-title">키를 누른 순간부터 코드가 읽기까지</h2>
+          <p>비슷해 보이는 단어를 “물건 → 부분 → 연결 규칙 → 게임 속 의미”의 순서로 정리합니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="입력 시스템의 다섯 단계">
+          <li><span>01</span><div><strong>Device</strong><p>키보드, 마우스, 게임패드처럼 입력을 만드는 장치입니다.</p></div></li>
+          <li><span>02</span><div><strong>Control</strong><p>W키, 방향키 위, 왼쪽 스틱처럼 장치 안의 한 조작부입니다.</p></div></li>
+          <li><span>03</span><div><strong>Binding</strong><p>특정 Control을 게임 속 Action에 연결하는 규칙입니다.</p></div></li>
+          <li><span>04</span><div><strong>Action</strong><p><code>Move</code>, <code>Jump</code>처럼 게임이 이해하는 행동입니다.</p></div></li>
+          <li><span>05</span><div><strong>Code value</strong><p>코드는 Action이 만든 <code>Vector2</code> 값을 읽습니다.</p></div></li>
+        </ol>
+        <div class="setup-notice">
+          <div><span>물건</span><strong>Keyboard</strong></div>
+          <div><span>조작부</span><strong>W key</strong></div>
+          <div><span>연결</span><strong>Move / Up</strong></div>
+          <div><span>결과값</span><strong>(0, 1)</strong></div>
+        </div>
+        <div class="rule-banner">
+          <span>핵심 규칙</span>
+          <strong>게임 코드는 물리적인 키보다 행동의 의미에 의존할수록 바꾸기 쉽습니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="actions" aria-labelledby="actions-title">
+        <header class="section-heading">
+          <p class="section-index">04 / ACTIONS</p>
+          <h2 id="actions-title">Action Map은 ‘지금 가능한 행동’의 묶음입니다</h2>
+          <p>Action 하나는 한 가지 의미를 나타내고, Action Map은 함께 켜고 끌 행동들을 모읍니다.</p>
+        </header>
+        <div class="component-stack" aria-label="Player Action Map 구조">
+          <div class="component-object"><span>Input Actions Asset</span><strong>PlayerControls</strong><small>프로젝트의 입력 규칙을 저장하는 에셋</small></div>
+          <div><span>Action Map</span><strong>Player</strong><small>플레이 중 허용되는 행동 묶음</small></div>
+          <div><span>Action</span><strong>Move</strong><small>Value / Vector2</small></div>
+          <div><span>Bindings</span><strong>WASD · Arrows · Stick</strong><small>여러 조작부가 같은 행동에 연결됨</small></div>
+        </div>
+        <div class="concept-grid">
+          <article><span>Action</span><h3>무엇을 하려는가</h3><p><code>Move</code>라는 이름은 장치를 말하지 않습니다. 플레이어가 이동하려 한다는 게임의 언어입니다.</p></article>
+          <article><span>Binding</span><h3>어떻게 그 뜻을 보낼까</h3><p>WASD나 스틱은 Move를 만드는 여러 방법입니다. 나중에 키를 바꿔도 이동 코드는 그대로 둘 수 있습니다.</p></article>
+        </div>
+        <aside class="teacher-check">
+          <span>교수자 화면 시연</span>
+          <p><code>PlayerControls.inputactions</code>에서 <code>Player / Move</code>를 보여 주고 <code>Action Type = Value</code>, <code>Control Type = Vector2</code>를 가리킵니다. 이 시간에는 학생이 같은 설정을 만들지 않습니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-four-section" id="vector" aria-labelledby="vector-title">
+        <header class="section-heading">
+          <p class="section-index">05 / VECTOR2</p>
+          <h2 id="vector-title">방향을 두 숫자로 표현합니다</h2>
+          <p><code>Vector2</code>는 X축과 Y축 값을 한 쌍으로 묶습니다. 부호는 방향을, 값의 크기는 입력의 세기를 나타냅니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="방향별 Vector2 값" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">조작</th><th scope="col">X</th><th scope="col">Y</th><th scope="col">Vector2</th><th scope="col">읽는 말</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">입력 없음</th><td>0</td><td>0</td><td><code>(0, 0)</code></td><td>멈춤</td></tr>
+              <tr><th scope="row">오른쪽</th><td>1</td><td>0</td><td><code>(1, 0)</code></td><td>X의 양의 방향</td></tr>
+              <tr><th scope="row">왼쪽</th><td>-1</td><td>0</td><td><code>(-1, 0)</code></td><td>X의 음의 방향</td></tr>
+              <tr><th scope="row">위</th><td>0</td><td>1</td><td><code>(0, 1)</code></td><td>Y의 양의 방향</td></tr>
+              <tr><th scope="row">아래</th><td>0</td><td>-1</td><td><code>(0, -1)</code></td><td>Y의 음의 방향</td></tr>
+              <tr><th scope="row">오른쪽 위</th><td>1</td><td>1</td><td><code>(1, 1)</code></td><td>두 축을 동시에 사용</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="clock-compare">
+          <article class="clock-card"><header><span>Digital input</span><h3>키보드</h3></header><p>대체로 눌리지 않음은 0, 눌림은 1입니다. 방향에 따라 부호가 달라집니다.</p><code>(-1, 0, 1)</code></article>
+          <article class="clock-card clock-card-physics"><header><span>Analog input</span><h3>게임패드 스틱</h3></header><p>기울인 정도를 포함하므로 0과 1 사이의 소수도 나옵니다.</p><code>(0.42, 0.78)</code></article>
+        </div>
+        <div class="rule-banner">
+          <span>대각선 주의</span>
+          <strong><code>(1, 1)</code>의 길이는 1보다 큽니다. 그대로 속도와 곱하면 대각선이 더 빨라질 수 있습니다.</strong>
+        </div>
+        <div class="line-reasons">
+          <article><code>Vector2.ClampMagnitude(value, 1f)</code><p>방향은 유지하면서 벡터의 길이만 최대 1로 제한합니다. 키보드 대각선과 아날로그 입력을 함께 다루기 좋습니다.</p></article>
+          <article><code>value.normalized</code><p>길이를 항상 1로 바꿉니다. 스틱을 조금 기울인 입력도 최대 세기가 되므로, 아날로그 강도를 보존하려면 주의합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="bindings" aria-labelledby="bindings-title">
+        <header class="section-heading">
+          <p class="section-index">06 / BINDINGS</p>
+          <h2 id="bindings-title">네 개의 키를 하나의 2D 값으로 합칩니다</h2>
+          <p>키 하나는 한 축의 한 방향만 표현합니다. <code>2D Vector Composite</code>는 네 키를 묶어 하나의 <code>Vector2</code>를 만듭니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="Move Action 바인딩 예" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">Binding</th><th scope="col">Up</th><th scope="col">Down</th><th scope="col">Left</th><th scope="col">Right</th><th scope="col">출력</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">WASD / 2D Vector</th><td>W</td><td>S</td><td>A</td><td>D</td><td rowspan="3"><code>Move / Vector2</code></td></tr>
+              <tr><th scope="row">Arrows / 2D Vector</th><td>↑</td><td>↓</td><td>←</td><td>→</td></tr>
+              <tr><th scope="row">Gamepad</th><td colspan="4">Left Stick</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ol class="wire-steps" aria-label="Input Actions 시연에서 확인할 네 항목">
+          <li><span>01</span><p><strong>Map</strong><br><code>Player</code></p></li>
+          <li><span>02</span><p><strong>Action</strong><br><code>Move</code></p></li>
+          <li><span>03</span><p><strong>Type</strong><br><code>Value / Vector2</code></p></li>
+          <li><span>04</span><p><strong>Bindings</strong><br>키 두 묶음 + 스틱</p></li>
+        </ol>
+        <aside class="teacher-check">
+          <span>오해 바로잡기</span>
+          <p>WASD와 방향키를 각각 다른 Action으로 만들 필요가 없습니다. 둘 다 같은 <code>Move</code>를 만드는 조작 방법입니다. 반대로 <code>Move</code>와 <code>Jump</code>는 뜻이 다르므로 서로 다른 Action이어야 합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-four-section" id="reading" aria-labelledby="reading-title">
+        <header class="section-heading">
+          <p class="section-index">07 / READ A VALUE</p>
+          <h2 id="reading-title">코드는 Action의 현재값을 묻습니다</h2>
+          <p>1교시에는 문법을 외우지 않습니다. 한 줄이 무엇을 요청하고 무엇을 돌려받는지만 읽습니다.</p>
+        </header>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>Concept preview · 다음 교시 코드의 한 줄</span><button type="button" data-copy-code="period1-read-code">교수자 시연용 복사</button></div>
+          <pre><code id="period1-read-code">moveInput = moveAction.action.ReadValue&lt;Vector2&gt;();
+moveInput = Vector2.ClampMagnitude(moveInput, 1f);</code></pre>
+        </div>
+        <div class="line-reasons">
+          <article><code>ReadValue&lt;Vector2&gt;()</code><p>Move Action이 지금 만든 값을 <code>Vector2</code> 형태로 읽습니다. 어떤 장치가 값을 만들었는지는 이 줄의 관심사가 아닙니다.</p></article>
+          <article><code>ClampMagnitude(..., 1f)</code><p>방향과 아날로그 세기는 보존하되, 길이가 1을 넘는 키보드 대각선만 제한합니다.</p></article>
+        </div>
+        <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="week-four-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <p class="section-index">08 / RETRIEVAL</p>
+          <h2 id="check-title">화면 없이 구조를 복원합니다</h2>
+          <p>먼저 답을 말한 다음 펼쳐 확인합니다. 틀린 답은 실패가 아니라 다음 설명의 출발점입니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. W키와 게임패드 스틱을 같은 Move에 연결하는 이유는?</summary><div class="details-motion-content"><p>물리적 조작은 다르지만 게임 속 의미가 모두 이동이기 때문입니다. 코드는 장치가 아니라 <code>Move</code>의 현재값만 읽을 수 있습니다.</p></div></details>
+          <details><summary>Q2. 오른쪽과 위를 동시에 누르면 어떤 값인가?</summary><div class="details-motion-content"><p>오른쪽은 X가 1, 위는 Y가 1이므로 <code>(1, 1)</code>입니다. 길이가 1보다 커서 대각선 속도 제한이 필요합니다.</p></div></details>
+          <details><summary>Q3. Action과 Binding의 차이는?</summary><div class="details-motion-content"><p>Action은 <code>Move</code>처럼 게임 속 의미이고, Binding은 W키나 스틱을 그 의미에 연결하는 규칙입니다.</p></div></details>
+          <details><summary>Q4. 입력이 없을 때 Move의 값은?</summary><div class="details-motion-content"><p><code>(0, 0)</code>입니다. 방향도 크기도 없으므로, 다음 교시의 물리 속도 역시 0이 됩니다.</p></div></details>
+        </div>
+        <div class="exit-ticket">
+          <article><span>01</span><p><strong>Device</strong>는 ______이고, 그 안의 개별 조작부는 <strong>Control</strong>입니다.</p></article>
+          <article><span>02</span><p><strong>Binding</strong>은 Control을 ______에 연결하는 규칙입니다.</p></article>
+          <article><span>03</span><p>코드는 <strong>Move Action</strong>이 만든 ______ 값을 읽습니다.</p></article>
+        </div>
+        <aside class="next-week">
+          <span>PERIOD 02 / NEXT</span>
+          <div><h3><a href="week-04-period2.html">의도를 물리 속도로 바꿉니다 →</a></h3><p>교수자가 <code>Update</code>와 <code>FixedUpdate</code>, Rigidbody2D와 Collider2D의 책임을 코드 한 줄씩 설명하고 시연합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-four-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <p class="section-index">09 / OFFICIAL SOURCES</p>
+          <h2 id="references-title">Unity 공식 자료</h2>
+          <p>용어와 설정은 Unity 6.3 LTS 및 해당 Editor용 Input System 문서를 기준으로 정리했습니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/com.unity.inputsystem.html" target="_blank" rel="noopener noreferrer"><strong>Input System package for Unity 6.3 ↗</strong></a><span>Unity 6.3 Editor에 릴리스된 Input System 패키지 정보</span></li>
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@1.20/manual/Actions.html" target="_blank" rel="noopener noreferrer"><strong>Input Actions ↗</strong></a><span>Action, Action Map, Binding과 값 읽기의 공식 개념</span></li>
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@1.20/manual/Installation.html" target="_blank" rel="noopener noreferrer"><strong>Install the Input System ↗</strong></a><span>Package Manager 설치와 입력 backend 활성화 절차</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-four-toc" aria-label="1교시 목차" data-week-four-toc>
+      <p class="toc-title">Week 04 / Period 01</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#bridge"><span>02</span>3주차 연결</a></li>
+        <li><a href="#model"><span>03</span>입력의 네 층</a></li>
+        <li><a href="#actions"><span>04</span>Action Map</a></li>
+        <li><a href="#vector"><span>05</span>Vector2</a></li>
+        <li><a href="#bindings"><span>06</span>Bindings</a></li>
+        <li><a href="#reading"><span>07</span>값 읽기</a></li>
+        <li><a href="#check"><span>08</span>회수 질문</a></li>
+        <li><a href="#references"><span>09</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>입력</span><i></i><span>구조</span><i></i><span>회수</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 04 / Period 01 / Professor-led theory</p>
+  <script src="assets/week-04.js?v=ge1w4-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>4주차 3교시: 여덟 가지 테스트를 통과하라 | Game Engine I</title>
+  <meta name="description" content="학생이 목표와 통과 조건을 바탕으로 Input System, Rigidbody2D와 Collider2D를 연결한 4방향 플레이어 Controller를 개인별로 구현하고 8개 테스트로 검증하는 4주차 3교시 실습 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-04-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="4주차 3교시: 여덟 가지 테스트를 통과하라 | Game Engine I">
+  <meta property="og:description" content="설명은 끝났습니다. 목표를 읽고 구현 순서를 결정해 충돌 가능한 4방향 Controller를 완성합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-04-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-04-period3-hero.webp">
+  <meta property="og:image:alt" content="주황색 플레이어가 네 개의 벽을 피해 정확히 여덟 개의 초록색 검증 지점을 통과하는 입체 테스트 코스">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="4주차 3교시: 여덟 가지 테스트를 통과하라">
+  <meta name="twitter:description" content="목표지향 개인 실습으로 4방향 이동과 충돌을 구현하고 8개 테스트를 기록합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-04-period3-hero.webp">
+  <link rel="preload" as="image" href="assets/week-04-period3-hero.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-04.css?v=ge1w4-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-four week-four-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-04-period2.html" rel="prev" aria-label="이전 자료: 4주차 2교시: 물리의 시계로 움직이기 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="./" aria-label="Game Engine I 커리큘럼으로 돌아가기"><span class="sequence-label">Course index</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-four-hero">
+    <div class="hero-inner">
+      <div class="week-four-hero-copy">
+        <p class="eyebrow">Week 04 · Period 03 · Individual Goal Lab</p>
+        <h1>여덟 가지 테스트를<br>통과하라</h1>
+        <p class="lead">완성 방법은 하나가 아닙니다. 입력, 속도, 충돌이라는 고정된 목표를 읽고 자신이 정한 순서로 구현한 뒤, 관찰 가능한 결과로 작동을 증명합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#mission">미션 계약 읽기</a>
+          <a class="hero-action" href="#tests">테스트 시작</a>
+        </div>
+        <ul class="hero-facts" aria-label="3교시 핵심 정보">
+          <li><span>형식</span><strong>개인 목표지향 실습</strong></li>
+          <li><span>성공 조건</span><strong>필수 8 / 8 PASS</strong></li>
+          <li><span>산출물</span><strong>Scene · Script · Evidence</strong></li>
+        </ul>
+      </div>
+      <figure class="week-four-hero-visual">
+        <img src="assets/week-04-period3-hero.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="주황색 플레이어 하나가 네 개의 벽 사이로 이동하며 두 줄로 놓인 초록색 검증 지점 여덟 개를 지나 목표 문으로 향하는 모습">
+        <figcaption><span>GOAL</span>은 하나, 구현 순서는 각자 다릅니다. <span>8 TESTS</span>가 완료 여부를 결정합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <p class="section-index">00 / ARRIVAL</p>
+          <h2 id="arrival-title">3교시의 도착점</h2>
+          <p>교수자의 화면을 그대로 재현하는 것이 아니라, 같은 요구사항을 스스로 해석하고 검증합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p>WASD와 방향키로 움직이는 <strong>4방향 Player</strong>를 완성합니다.</p></li>
+          <li><span>02</span><p>직선과 대각선의 최대 속도를 같게 만들고 <strong>놓으면 멈추게</strong> 합니다.</p></li>
+          <li><span>03</span><p>정면과 대각선으로 접근해도 <strong>네 개 이상의 Wall을 통과하지 않게</strong> 합니다.</p></li>
+          <li><span>04</span><p>필수 테스트 <strong>8개를 모두 PASS</strong>하고 결과를 CSV와 화면 증거로 남깁니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="3교시 운영 방식">
+        <div><span>CLASS MODE / PERIOD 03</span><strong>학생 개인 실습</strong></div>
+        <p>교수자는 정답 화면을 따라 만들게 하지 않고 목표 확인, 질문 되묻기, 오류 범위 좁히기만 지원합니다. 학생은 계획, 구현, 테스트와 기록을 직접 수행합니다.</p>
+      </aside>
+
+      <section class="week-four-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <p class="section-index">01 / MISSION CONTRACT</p>
+          <h2 id="mission-title">목표는 고정하고 방법은 선택합니다</h2>
+          <p>아래 사양은 모두 충족해야 합니다. 폴더를 먼저 만들지, Player를 먼저 구성할지, Input Actions부터 확인할지는 각자 결정합니다.</p>
+        </header>
+        <div class="test-contract">
+          <span>MISSION / WEEK04_INPUTPHYSICS</span>
+          <p><strong>60분 안에</strong> 하나의 Player가 두 종류의 키보드 입력으로 일정한 속도로 움직이고, 손을 놓으면 멈추며, 네 개 이상의 Wall과 충돌하는 Scene을 완성합니다. 완료는 필수 테스트 8개의 PASS로 판단합니다.</p>
+        </div>
+        <div class="submission-grid">
+          <article><span>REQUIRED 01 / INPUT</span><h3>하나의 Move Action</h3><p><code>Player / Move</code>가 <code>Value / Vector2</code>이며 WASD와 방향키의 2D Vector Composite를 모두 가집니다.</p></article>
+          <article><span>REQUIRED 02 / PLAYER</span><h3>물리 기반 Player</h3><p>Rigidbody2D, Collider2D, PlayerController를 사용합니다. Gravity Scale은 0이고 Z 회전은 고정합니다.</p></article>
+          <article><span>REQUIRED 03 / BEHAVIOR</span><h3>예측 가능한 이동</h3><p>입력은 <code>Update</code>에서 읽고, <code>linearVelocity</code>는 <code>FixedUpdate</code>에서 적용합니다. 대각선 크기는 1 이하입니다.</p></article>
+          <article><span>REQUIRED 04 / COURSE</span><h3>검증 가능한 충돌장</h3><p>Box Collider 2D를 가진 Wall을 네 개 이상 배치해 정면과 대각선 충돌을 반복해서 확인할 수 있게 합니다.</p></article>
+          <article><span>REQUIRED 05 / QUALITY</span><h3>오류 없는 실행</h3><p>Play 전후 Console Error가 0개이며, 하나의 Player를 두 Script나 Transform 코드가 동시에 움직이지 않습니다.</p></article>
+          <article><span>REQUIRED 06 / EVIDENCE</span><h3>결과가 남는 검증</h3><p>8개 테스트의 판정과 관찰 내용을 기록하고, 계기판과 코스가 보이는 화면 증거를 저장합니다.</p></article>
+        </div>
+        <div class="rule-banner">
+          <span>완료의 정의</span>
+          <strong>“움직여 보였다”가 아니라, 다른 사람이 같은 조건으로 다시 실행해도 8개 결과가 모두 PASS이면 완료입니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="starting-line" aria-labelledby="starting-line-title">
+        <header class="section-heading">
+          <p class="section-index">02 / STARTING LINE</p>
+          <h2 id="starting-line-title">시작 상태를 먼저 안전하게 만듭니다</h2>
+          <p>기존 결과를 지키고, 실습 실패가 생겨도 돌아갈 수 있는 별도 Scene에서 시작합니다.</p>
+        </header>
+        <div class="setup-notice">
+          <div><span>Project</span><strong>3주차 프로젝트</strong></div>
+          <div><span>Scene</span><strong>Week04_InputPhysics</strong></div>
+          <div><span>Unity</span><strong>6.3 LTS</strong></div>
+          <div><span>Console</span><strong>Error 0</strong></div>
+        </div>
+        <div class="line-reasons">
+          <article><code>File → Save As</code><p>3주차 Scene을 덮어쓰지 않고 <code>Week04_InputPhysics</code>라는 새 Scene으로 저장합니다.</p></article>
+          <article><code>Console → Clear</code><p>기존 오류가 있으면 새 코드의 오류와 섞입니다. 시작 전에 빨간 오류를 0개로 만듭니다.</p></article>
+          <article><code>PlayerControls.inputactions</code><p>패키지가 없을 때만 Input System을 설치합니다. Editor 재시작이 필요할 수 있으므로 초반에 확인합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="route" aria-labelledby="route-title">
+        <header class="section-heading">
+          <p class="section-index">03 / SELF-DIRECTED ROUTE</p>
+          <h2 id="route-title">작업 순서를 스스로 고릅니다</h2>
+          <p>아래는 클릭 순서가 아니라 중간 도착점입니다. 각 도착점의 확인 문장이 참이 되면 다음 문제로 이동합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="student-route-title">
+            <header><span>권장 시간 · 순서 변경 가능</span><h3 id="student-route-title">여섯 개의 중간 도착점</h3><p>Individual work</p></header>
+            <ol>
+              <li><time>00–05</time><div><strong>계약 읽기</strong><p>Scene 이름, 성공 조건, 제출 증거를 확인하고 자신이 먼저 해결할 두 항목을 정합니다.</p></div></li>
+              <li><time>05–14</time><div><strong>입력층 준비</strong><p>Move Action이 WASD와 방향키에서 올바른 Vector2를 만드는지 확인합니다.</p></div></li>
+              <li><time>14–24</time><div><strong>물리층 준비</strong><p>Player와 Wall의 2D Component를 구성하고 Collider 경계가 Sprite에 맞는지 봅니다.</p></div></li>
+              <li><time>24–38</time><div><strong>행동 연결</strong><p>2교시의 책임 구조를 참고해 입력 읽기와 속도 적용을 연결합니다.</p></div></li>
+              <li><time>38–50</time><div><strong>테스트와 수정</strong><p>T01부터 순서대로 실행하고 FAIL의 첫 원인을 한 단계씩 좁힙니다.</p></div></li>
+              <li><time>50–60</time><div><strong>증거 저장</strong><p>8 / 8 PASS, Console Error 0, 화면 기록과 파일명을 확인합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+        <ol class="wire-steps" aria-label="도착점별 최소 확인">
+          <li><span>INPUT</span><p>Move 값이 방향에 맞게 바뀜</p></li>
+          <li><span>BODY</span><p>Player에 2D 몸체와 경계가 있음</p></li>
+          <li><span>CODE</span><p>입력과 물리 책임이 분리됨</p></li>
+          <li><span>WALL</span><p>네 경계에서 통과하지 않음</p></li>
+          <li><span>TEST</span><p>8 / 8 결과가 기록됨</p></li>
+        </ol>
+      </section>
+
+      <section class="week-four-section" id="spec" aria-labelledby="spec-title">
+        <header class="section-heading">
+          <p class="section-index">04 / MINIMUM SPEC</p>
+          <h2 id="spec-title">구현 전에 인터페이스를 확인합니다</h2>
+          <p>코드 모양은 조금 달라도 괜찮지만, 아래 입력·상태·출력과 생명주기는 같아야 합니다.</p>
+        </header>
+        <div class="code-anatomy">
+          <div><span>INPUT</span><strong>Move / Vector2</strong><p>WASD와 방향키가 같은 값을 만듭니다.</p></div>
+          <div><span>STATE</span><strong>moveInput</strong><p>가장 최근의 방향 의도를 저장합니다.</p></div>
+          <div><span>PARAMETER</span><strong>moveSpeed</strong><p>Inspector에서 조절하는 초당 속도입니다.</p></div>
+          <div><span>OUTPUT</span><strong>linearVelocity</strong><p>Rigidbody2D에 전달할 실제 물리 속도입니다.</p></div>
+        </div>
+        <div class="table-wrap" role="region" aria-label="필수 코드 책임" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">위치</th><th scope="col">필수 책임</th><th scope="col">통과 기준</th></tr></thead>
+            <tbody>
+              <tr><th scope="row"><code>Awake</code></th><td>같은 GameObject의 Rigidbody2D 참조 저장</td><td>Play 중 NullReferenceException이 없음</td></tr>
+              <tr><th scope="row"><code>OnEnable</code></th><td>Move Action 확인 및 활성화</td><td>입력 계기판 값이 바뀜</td></tr>
+              <tr><th scope="row"><code>OnDisable</code></th><td>Move Action 비활성화</td><td>생명주기가 대칭임</td></tr>
+              <tr><th scope="row"><code>Update</code></th><td>Vector2 읽기, 크기 최대 1로 제한</td><td>대각선 Speed가 직선과 같음</td></tr>
+              <tr><th scope="row"><code>FixedUpdate</code></th><td>입력 × 속도를 linearVelocity에 적용</td><td>손을 놓으면 즉시 Speed 0</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="teacher-check">
+          <span>참고 자료</span>
+          <p>전체 기준 코드는 <a href="week-04-period2.html#controller">2교시 Controller 해설</a>에 있습니다. 그대로 붙여 넣기보다, 현재 자신이 해결하는 책임에 해당하는 블록만 읽고 직접 입력합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-four-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading">
+          <p class="section-index">05 / VERIFICATION GATE</p>
+          <h2 id="tests-title">필수 테스트 8개로 완료를 증명합니다</h2>
+          <p>한 번에 여러 값을 바꾸지 않습니다. 각 행의 조건을 만들고, 기대 결과와 실제 결과를 비교한 뒤 PASS 또는 FAIL을 기록합니다.</p>
+        </header>
+        <aside class="test-contract">
+          <span>PASS RULE</span>
+          <p>필수 T01–T08이 모두 PASS이고 Console Error가 0개여야 완료입니다. FAIL은 지우지 말고 관찰·수정 기록에 첫 현상과 바꾼 한 가지를 남깁니다.</p>
+        </aside>
+        <p class="storage-notice" id="test-storage-notice"><strong>브라우저 저장 안내</strong> 테스트 판정과 관찰 기록은 이 브라우저에 자동 저장됩니다. 학번과 이름은 현재 탭에서만 유지되며, 공용 컴퓨터에서는 실습이 끝난 뒤 탭을 닫아 주세요.</p>
+        <div class="test-identity" aria-describedby="test-storage-notice">
+          <label>학번<input type="text" inputmode="numeric" autocomplete="off" placeholder="20260000" data-student-id></label>
+          <label>이름<input type="text" autocomplete="name" placeholder="이름" data-student-name></label>
+          <div class="test-progress" data-test-progress role="status" aria-live="polite" aria-atomic="true"><span>Required tests</span><strong data-test-progress-label>0 / 8 PASS</strong></div>
+        </div>
+        <p class="table-scroll-hint" id="test-table-scroll-hint">테스트 표는 좌우로 이동해 조건, 판정과 관찰 기록을 모두 확인할 수 있습니다.</p>
+        <div class="table-wrap test-table-wrap" role="region" aria-label="4주차 이동과 충돌 테스트표" aria-describedby="test-table-scroll-hint" tabindex="0">
+          <table class="test-table" data-test-table>
+            <thead><tr><th scope="col">ID</th><th scope="col">조작·조건</th><th scope="col">기대 결과</th><th scope="col">판정</th><th scope="col">관찰·수정 기록</th></tr></thead>
+            <tbody>
+              <tr data-test-id="T01" data-required="true"><th scope="row">T01</th><td>Play 후 아무 키도 누르지 않음</td><td>Move <code>(0, 0)</code>, Speed <code>0.00</code>, 위치 고정</td><td><select data-test-status aria-label="T01 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T01 관찰 기록" placeholder="관찰한 값을 기록"></td></tr>
+              <tr data-test-id="T02" data-required="true"><th scope="row">T02</th><td>W를 2초간 누름</td><td>위쪽으로 이동, Move <code>(0, 1)</code>, Speed는 설정값</td><td><select data-test-status aria-label="T02 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T02 관찰 기록" placeholder="방향과 Speed"></td></tr>
+              <tr data-test-id="T03" data-required="true"><th scope="row">T03</th><td>S, A, D를 각각 짧게 누름</td><td>아래, 왼쪽, 오른쪽으로 정확히 대응</td><td><select data-test-status aria-label="T03 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T03 관찰 기록" placeholder="잘못된 축이 있었는지"></td></tr>
+              <tr data-test-id="T04" data-required="true"><th scope="row">T04</th><td>방향키 네 개를 각각 누름</td><td>WASD와 같은 네 방향·같은 Speed</td><td><select data-test-status aria-label="T04 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T04 관찰 기록" placeholder="Binding 비교"></td></tr>
+              <tr data-test-id="T05" data-required="true"><th scope="row">T05</th><td>W+D를 동시에 누름</td><td>오른쪽 위 이동, Speed가 직선 최대값과 같음</td><td><select data-test-status aria-label="T05 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T05 관찰 기록" placeholder="직선 / 대각선 Speed"></td></tr>
+              <tr data-test-id="T06" data-required="true"><th scope="row">T06</th><td>이동 중 모든 키를 놓음</td><td>다음 물리 갱신에 Speed <code>0.00</code>, 미끄러지지 않음</td><td><select data-test-status aria-label="T06 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T06 관찰 기록" placeholder="멈춘 시점"></td></tr>
+              <tr data-test-id="T07" data-required="true"><th scope="row">T07</th><td>Wall 정면을 향해 3초간 계속 입력</td><td>Player가 벽을 통과하지 않고 접촉면에서 멈춤</td><td><select data-test-status aria-label="T07 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T07 관찰 기록" placeholder="접촉 위치와 현상"></td></tr>
+              <tr data-test-id="T08" data-required="true"><th scope="row">T08</th><td>Wall 모서리로 대각선 입력</td><td>벽 안으로 들어가거나 반대편으로 빠져나가지 않음</td><td><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T08 관찰 기록" placeholder="모서리 반응"></td></tr>
+              <tr data-test-id="T09" data-required="false"><th scope="row">T09 <span class="optional-label">선택</span></th><td>게임패드 왼쪽 스틱을 절반 기울임</td><td>기울인 방향으로 최대값보다 느리게 이동</td><td><select data-test-status aria-label="T09 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T09 관찰 기록" placeholder="장치가 있을 때만"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="test-actions">
+          <button class="test-action test-action-primary" type="button" data-export-tests>CSV 저장</button>
+          <button class="test-action" type="button" data-reset-tests>테스트 기록 초기화</button>
+          <button class="test-action undo-action" type="button" data-undo-tests hidden>테스트 기록 되돌리기</button>
+          <button class="test-action" type="button" data-reset-identity>학생 정보 지우기</button>
+          <button class="test-action undo-action" type="button" data-undo-identity hidden>학생 정보 되돌리기</button>
+          <p data-test-status-message role="status" aria-live="polite">판정과 관찰 기록은 자동 저장됩니다.</p>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="debug" aria-labelledby="debug-title">
+        <header class="section-heading">
+          <p class="section-index">06 / DEBUG LADDER</p>
+          <h2 id="debug-title">FAIL은 가까운 단계부터 좁힙니다</h2>
+          <p>전체 코드를 한꺼번에 바꾸지 않습니다. 화면에서 확인 가능한 신호를 왼쪽부터 따라가며 처음 끊긴 곳을 찾습니다.</p>
+        </header>
+        <div class="debug-ladder" aria-label="입력부터 충돌까지의 디버깅 순서">
+          <span>KEY / STICK</span><b>→</b><span>MOVE VALUE</span><b>→</b><span>moveInput</span><b>→</b><span>linearVelocity</span><b>→</b><span>COLLISION</span>
+        </div>
+        <div class="trouble-grid">
+          <details><summary>1단계 힌트 · 입력값이 계속 <code>(0, 0)</code></summary><div class="details-motion-content"><p><strong>관찰:</strong> Input Actions 에셋을 열어 Move의 바인딩을 확인합니다. <strong>비교:</strong> Action Type은 Value, Control Type은 Vector2인지 봅니다. <strong>한 가지 수정:</strong> 에셋 저장 또는 Move Action 참조 연결 중 하나만 먼저 고칩니다.</p></div></details>
+          <details><summary>2단계 힌트 · 값은 바뀌지만 속도가 0</summary><div class="details-motion-content"><p><strong>관찰:</strong> PlayerController의 <code>moveSpeed</code>와 Rigidbody2D Body Type을 봅니다. <strong>비교:</strong> FixedUpdate가 <code>body.linearVelocity</code>에 값을 쓰는지 확인합니다. <strong>한 가지 수정:</strong> 처음 발견한 어긋남 하나만 고칩니다.</p></div></details>
+          <details><summary>3단계 힌트 · 대각선만 더 빠름</summary><div class="details-motion-content"><p><strong>관찰:</strong> W+D에서 Move와 Speed를 각각 기록합니다. <strong>비교:</strong> ClampMagnitude의 결과를 다시 <code>moveInput</code>에 저장했는지 봅니다. <strong>예상:</strong> moveSpeed가 5이면 직선과 대각선 모두 Speed 5입니다.</p></div></details>
+          <details><summary>4단계 힌트 · 키를 놓아도 움직임</summary><div class="details-motion-content"><p><strong>관찰:</strong> 키를 놓았을 때 Move가 <code>(0, 0)</code>으로 돌아오는지 봅니다. 값은 0인데 미끄러지면 다른 Script, Damping 또는 속도를 덮어쓰는 코드가 있는지 확인합니다.</p></div></details>
+          <details><summary>5단계 힌트 · 벽을 통과함</summary><div class="details-motion-content"><p><strong>관찰:</strong> Scene 뷰의 Gizmos로 두 Collider 경계를 봅니다. <strong>비교:</strong> 양쪽 모두 2D Component인지, Wall의 Is Trigger가 꺼졌는지 확인합니다. <strong>검색:</strong> Player Transform을 직접 바꾸는 다른 Script가 없는지 찾습니다.</p></div></details>
+          <details><summary>6단계 힌트 · 코드가 컴파일되지 않음</summary><div class="details-motion-content"><p>Console의 가장 위에 있는 첫 빨간 오류 하나만 읽습니다. 파일명과 class명, 괄호의 짝, <code>using UnityEngine.InputSystem;</code>, 표시된 줄 바로 위를 순서대로 확인합니다.</p></div></details>
+        </div>
+        <aside class="ask-template">
+          <span>ASK TEMPLATE / 설명만 요청</span>
+          <p><code>[Unity 6.3 LTS / Week 04] Console 원문: ___ / 오류 줄: ___ / 내가 기대한 값: ___ / 실제로 본 값: ___. 코드를 대신 작성하거나 수정하지 말고, 어느 단계의 문제인지와 먼저 확인할 한 항목만 설명해 주세요.</code></p>
+        </aside>
+        <div class="rule-banner">
+          <span>AI 사용 범위</span>
+          <strong>Ask로 오류 문구와 기존 코드의 의미를 설명받을 수 있습니다. 코드 생성·자동 수정, Agent 실행, Generator 사용은 이번 실습에서 허용하지 않습니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="evidence" aria-labelledby="evidence-title">
+        <header class="section-heading">
+          <p class="section-index">07 / EVIDENCE</p>
+          <h2 id="evidence-title">다른 사람이 다시 확인할 수 있게 남깁니다</h2>
+          <p>작동하는 순간만 보여 주지 않습니다. 구조, 설정, 결과를 함께 남겨 재현 가능한 증거를 만듭니다.</p>
+        </header>
+        <div class="submission-grid">
+          <article><span>01 / SCRIPT</span><h3><code>PlayerController.cs</code></h3><p>입력 읽기와 물리 속도 적용의 책임이 분리된 최종 Script입니다.</p></article>
+          <article><span>02 / SCENE</span><h3><code>Week04_InputPhysics</code></h3><p>Player 한 개와 Wall 네 개 이상이 있으며 테스트를 다시 실행할 수 있습니다.</p></article>
+          <article><span>03 / SCREEN</span><h3><code>week04_학번_이름.png</code></h3><p>Game View의 입력 계기판과 충돌 코스, Console Error 0이 확인되는 화면입니다.</p></article>
+          <article><span>04 / TEST LOG</span><h3><code>week04_학번_이름_test.csv</code></h3><p>이 페이지에서 저장한 T01–T08 판정과 관찰·수정 기록입니다.</p></article>
+        </div>
+        <div class="completion-panel" data-build-checklist>
+          <header><div><span>FINAL GATE</span><h3>종료 전 8개 확인</h3></div><strong data-build-progress-label role="status" aria-live="polite" aria-atomic="true">0 / 8 완료</strong></header>
+          <ol>
+            <li><label><input type="checkbox" data-check-id="scene"> <span>별도 Scene <code>Week04_InputPhysics</code>를 저장했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="console"> <span>Play 전후 Console Error가 0개입니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="action"> <span>Move에 WASD와 방향키가 모두 연결되어 있습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="body"> <span>Player의 Rigidbody2D와 Collider2D 설정을 확인했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="collision"> <span>정면·대각선에서 Wall을 통과하지 않습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="diagonal"> <span>직선과 대각선의 최대 Speed가 같습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="tests"> <span>필수 T01–T08이 모두 PASS입니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="files"> <span>스크린샷과 CSV 파일 이름을 확인했습니다.</span></label></li>
+          </ol>
+          <div class="completion-panel-actions">
+            <button type="button" data-build-reset>체크 초기화</button>
+            <button class="undo-action" type="button" data-build-undo hidden>되돌리기</button>
+            <p data-build-status-message role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="week-four-section" id="exit" aria-labelledby="exit-title">
+        <header class="section-heading">
+          <p class="section-index">08 / EXIT TICKET</p>
+          <h2 id="exit-title">만든 결과를 세 문장으로 설명합니다</h2>
+          <p>자신의 Scene을 가리키며 빈칸을 채웁니다. 코드 줄을 읽지 않고 말할 수 있으면 이번 목표를 이해한 것입니다.</p>
+        </header>
+        <div class="exit-ticket">
+          <article><span>01 / INPUT</span><p>WASD와 방향키는 서로 다른 ______이지만 같은 <code>Move</code> ______에 연결됩니다.</p></article>
+          <article><span>02 / TIME</span><p><code>Update</code>에서 ______을 읽고, <code>FixedUpdate</code>에서 ______을 바꿉니다.</p></article>
+          <article><span>03 / COLLISION</span><p>벽을 통과하지 않는 결과는 Rigidbody2D와 두 ______의 경계를 Physics 2D가 계산하기 때문입니다.</p></article>
+        </div>
+        <aside class="next-week">
+          <span>WEEK 05 / NEXT</span>
+          <div><h3>충돌을 사건으로 바꿉니다</h3><p>다음 주에는 Collision과 Trigger를 구분하고, 접촉 순간에 수집·위험·목표 사건이 발생하도록 설계합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-four-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <p class="section-index">09 / QUICK REFERENCES</p>
+          <h2 id="references-title">실습 중 확인할 공식 자료</h2>
+          <p>메뉴나 속성이 다르게 보일 때에는 현재 Editor 버전의 공식 문서를 먼저 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.inputsystem@1.20/manual/Actions.html" target="_blank" rel="noopener noreferrer"><strong>Input Actions ↗</strong></a><span>Action, Binding, 값 읽기와 활성화</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Rigidbody2D-linearVelocity.html" target="_blank" rel="noopener noreferrer"><strong>Rigidbody2D.linearVelocity ↗</strong></a><span>초당 X·Y 속도 API</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/fixed-updates.html" target="_blank" rel="noopener noreferrer"><strong>Fixed updates ↗</strong></a><span>물리 계산과 고정 timestep</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/2d-physics/collider/collider-2d-landing.html" target="_blank" rel="noopener noreferrer"><strong>Collider 2D ↗</strong></a><span>2D 충돌 경계와 Collider 종류</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-four-toc" aria-label="3교시 목차" data-week-four-toc>
+      <p class="toc-title">Week 04 / Period 03</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#mission"><span>01</span>미션 계약</a></li>
+        <li><a href="#starting-line"><span>02</span>시작 상태</a></li>
+        <li><a href="#route"><span>03</span>자율 경로</a></li>
+        <li><a href="#spec"><span>04</span>최소 사양</a></li>
+        <li><a href="#tests"><span>05</span>8개 테스트</a></li>
+        <li><a href="#debug"><span>06</span>디버깅</a></li>
+        <li><a href="#evidence"><span>07</span>완료 증거</a></li>
+        <li><a href="#exit"><span>08</span>종료 설명</a></li>
+        <li><a href="#references"><span>09</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>목표</span><i></i><span>구현</span><i></i><span>검증</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 04 / Period 03 / Individual goal-oriented practice</p>
+  <script src="assets/week-04.js?v=ge1w4-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
