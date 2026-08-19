@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-fifteen-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15주차 1교시: 완성은 더하는 일이 아니라 위험을 닫는 일입니다 | Game Engine I</title>
+  <meta name="description" content="기말 프로젝트 Release Candidate의 의미, 범위 동결, 우선순위, 실행 build, 로그, 생성 에셋 권리, 최종 제출 관문을 배우는 15주차 1교시 교수자 이론 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-15-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="15주차 1교시: 완성은 위험을 닫는 일입니다 | Game Engine I">
+  <meta property="og:description" content="새 기능을 멈추고 실행 가능성, 설명 가능성, 제출 가능성을 증거로 판정합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-15-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-15-period1-release-gates.webp">
+  <meta property="og:image:alt" content="숲 게임 실행 화면을 중심으로 위험 카드 하나가 검토 관문을 지나 초록색 통과 증거가 되는 릴리스 점검 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="15주차 1교시: 완성은 위험을 닫는 일입니다">
+  <meta name="twitter:description" content="Release Candidate와 최종 제출 관문을 증거 중심으로 이해합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-15-period1-release-gates.webp">
+  <link rel="preload" as="image" href="assets/week-15-period1-release-gates.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-15.css?v=ge1w15-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-fifteen week-fifteen-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a><span aria-hidden="true">/</span><a href="/teaching/">Teaching</a><span aria-hidden="true">/</span><a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-14-period3.html" rel="prev" aria-label="이전 자료: 14주차 3교시 체크포인트">← <span class="sequence-label">Previous</span></a>
+        <a href="week-15-period2.html" rel="next" aria-label="다음 자료: 15주차 2교시 같은 질문으로 릴리스 준비 판정"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+
+  <header class="hero week-fifteen-hero">
+    <div class="hero-inner">
+      <div class="week-fifteen-hero-copy">
+        <p class="eyebrow">15주차 / 1교시 / 이론과 설명</p>
+        <h1>완성은 더하는 일이 아니라 위험을 닫는 일입니다</h1>
+        <p class="lead"><code>RC0</code>가 다른 컴퓨터에서 실행되고 핵심 경험, 권리 기록과 제출 묶음이 증거로 다시 열리는지 판정합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#gates">릴리스 관문 보기</a>
+          <a class="hero-action" href="#priority">무엇을 고칠지 판단하기</a>
+        </div>
+      </div>
+      <figure class="week-fifteen-hero-visual">
+        <img src="assets/week-15-period1-release-gates.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="숲 게임 실행 화면을 중심으로 위험 카드 하나가 검토 관문을 지나 초록색 통과 증거가 되는 릴리스 점검 작업대">
+        <figcaption><span>RC0 → GATE → VERDICT</span> 릴리스 후보는 이름이 아니라 상태입니다. 정해진 관문을 실제 build와 기록으로 통과해야 다음 버전으로 이동합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>면담에서 “거의 완성했습니다”라고 말하는 대신, 어디까지 통과했고 무엇이 막혀 있으며 어떤 한 항목을 닫을지 설명할 수 있어야 합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>Alpha, Beta, Release Candidate</strong>의 질문을 구분합니다.</p></li>
+          <li><span>02</span><p>막판 제작에서 <strong>범위 동결</strong>이 왜 품질을 지키는지 설명합니다.</p></li>
+          <li><span>03</span><p>실행, 경험, 복구, 성능, 권리, 제출의 <strong>릴리스 관문</strong>을 읽습니다.</p></li>
+          <li><span>04</span><p>문제를 P0-P3로 구분하고 <strong>수정, 삭제, 보류</strong> 중 하나를 선택합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 01</span><strong>교수자 이론과 설명</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자가 동일한 수업용 RC0를 사용해 기능 추가, 작은 수정, 불안정 기능 삭제, 보류의 차이를 비교하고 릴리스 관문 판정을 설명합니다. 학생은 각 사례의 위험과 다음 행동을 먼저 구술한 뒤 교수자의 판정 근거와 비교합니다.</p>
+      </aside>
+
+      <section class="week-fifteen-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <h2 id="run-title">60분의 설명 흐름</h2>
+          <p>릴리스 후보의 정의에서 시작해 실제 build, 권리 기록과 제출 폴더까지 한 번에 연결합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="period1-run-title">
+            <header><span>00-60 min</span><h3 id="period1-run-title">“거의 완성”을 통과 가능한 상태로 바꾸기</h3><p>Lecture / professor-led</p></header>
+            <ol>
+              <li><time>00-07</time><div><strong>14, 15, 16주차의 역할 분리</strong><p>구조와 blocking issue를 다루는 1차 면담, 릴리스 준비를 판정하는 2차 면담, 최종 제출의 차이를 확인합니다.</p></div></li>
+              <li><time>07-16</time><div><strong>Release Candidate 정의</strong><p>새 기능 후보가 아니라, 통과하면 그대로 제출할 수 있는 버전이라는 점과 버전 고정 방법을 설명합니다.</p></div></li>
+              <li><time>16-27</time><div><strong>범위 동결</strong><p>mechanic, content, tool, asset을 동결하고 새 아이디어를 backlog로 보내는 이유를 사례로 비교합니다.</p></div></li>
+              <li><time>27-40</time><div><strong>여덟 릴리스 관문</strong><p>독립 실행, 핵심 루프, 상태와 복구, 로그, 화면과 사운드, 면담 수정, 권리 기록, 제출 묶음을 차례로 읽습니다.</p></div></li>
+              <li><time>40-50</time><div><strong>문제 우선순위와 세 행동</strong><p>P0-P3를 영향으로 판정하고 수정, 삭제, 보류 중 가장 안전한 한 행동을 고릅니다.</p></div></li>
+              <li><time>50-57</time><div><strong>Development와 Release 분리</strong><p>진단용 build와 제출용 build를 구분하고 Player log와 target 환경 검사 순서를 설명합니다.</p></div></li>
+              <li><time>57-60</time><div><strong>면담 입력물 회수</strong><p>2교시에 반드시 열 수 있어야 할 RC0, project, evidence, AI asset ledger와 제출 지도를 구술합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="sequence" aria-labelledby="sequence-title">
+        <header class="section-heading">
+          <h2 id="sequence-title">세 주차는 같은 프로젝트에 서로 다른 질문을 던집니다</h2>
+          <p>면담이 두 번 있다고 해서 같은 대화를 반복하지 않습니다. 14주차는 구조, 15주차는 출시 준비, 16주차는 제출된 결과를 봅니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>WEEK 14 / MENTORING I</span><dl><div><dt>질문</dt><dd>핵심 mechanic과 Scene, Prefab, Script 구조가 완주를 막고 있는가?</dd></div><div><dt>증거</dt><dd>Beta build, blocking issue, 핵심 Script 구술</dd></div><div><dt>결과</dt><dd>범위 잠금과 구조적 blocker 하나의 해결 계획</dd></div></dl></article>
+          <article><span>WEEK 15 / MENTORING II</span><dl><div><dt>질문</dt><dd>이 RC0를 그대로 제출 후보라고 부를 수 있는가?</dd></div><div><dt>증거</dt><dd>실행 build, critical path, 로그, 권리 기록, 제출 묶음</dd></div><div><dt>결과</dt><dd>READY, READY IF, HOLD 판정과 한 장의 수정 ticket</dd></div></dl></article>
+          <article><span>WEEK 16 / FINAL</span><dl><div><dt>질문</dt><dd>제출된 게임과 제작 기록이 평가 기준을 충족하는가?</dd></div><div><dt>증거</dt><dd>최종 build, project, 영상, 작품설명, AI 제작 로그</dd></div><div><dt>결과</dt><dd>3-5분 개인 게임 플레이와 제작 과정 회고</dd></div></dl></article>
+          <article><span>KEY DIFFERENCE</span><dl><div><dt>14주차</dt><dd>만들 수 있는 구조인지 확인</dd></div><div><dt>15주차</dt><dd>제출할 수 있는 상태인지 확인</dd></div><div><dt>16주차</dt><dd>실제로 제출된 결과를 평가</dd></div></dl></article>
+        </div>
+        <div class="equation-strip" aria-label="14주차부터 16주차까지의 진행식"><span>Beta</span><b aria-hidden="true">→</b><span>1차 면담</span><b aria-hidden="true">→</b><strong>RC0</strong><b aria-hidden="true">→</b><span>2차 면담</span><b aria-hidden="true">→</b><strong>RC1</strong><b aria-hidden="true">→</b><span>Final</span></div>
+      </section>
+
+      <section class="week-fifteen-section" id="candidate" aria-labelledby="candidate-title">
+        <header class="section-heading">
+          <h2 id="candidate-title">RC는 “마지막으로 시험해 보는 버전”입니다</h2>
+          <p>RC0에 통과 불가능한 기능을 일부러 남겨 두거나 큰 mechanic을 추가할 예정이라면 아직 Beta입니다. RC는 문제가 없다는 선언이 아니라, 남은 위험을 고정된 검사로 판정할 수 있다는 선언입니다.</p>
+        </header>
+        <div class="contract-board">
+          <article><span>PLAYABLE</span><h3>다른 환경에서 시작부터 끝까지</h3><p>Editor가 아니라 지정 target의 독립 폴더에서 실행되고, 설명 없이 3-5분 핵심 루프가 끝나며 성공, 실패, 재시작이 이어집니다.</p></article>
+          <article><span>EXPLAINABLE</span><h3>행동과 구조를 자신의 말로</h3><p>게임 목표, 핵심 상태 전환, 중요한 Script 한 곳과 AI 도움을 받은 부분을 화면과 코드에 연결해 설명할 수 있습니다.</p></article>
+          <article><span>SUBMITTABLE</span><h3>파일과 권리가 함께 열림</h3><p>build, Unity project, 영상, 작품설명서, AI 제작 로그가 정해진 이름과 구조로 있고, 사용한 외부, 생성 에셋의 출처와 최종 사용 여부가 기록됩니다.</p></article>
+        </div>
+        <div class="rule-banner"><span>RELEASE CANDIDATE RULE</span><strong>오늘 새 기능을 넣지 않아도 작품의 핵심이 유지되고, 오늘 통과하면 그대로 최종 제출로 이동할 수 있어야 RC입니다.</strong></div>
+      </section>
+
+      <section class="week-fifteen-section" id="freeze" aria-labelledby="freeze-title">
+        <header class="section-heading">
+          <h2 id="freeze-title">동결은 포기가 아니라 검증할 대상을 지키는 일입니다</h2>
+          <p>막판 변경이 많아질수록 새 오류뿐 아니라 무엇이 효과를 냈는지 설명하기 어려워집니다. 면담 전 네 범위를 잠급니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>MECHANIC FREEZE</span><dl><div><dt>멈춤</dt><dd>새 이동, 적, 점수 방식, 새로운 승패 규칙</dd></div><div><dt>허용</dt><dd>기존 규칙이 약속대로 작동하도록 고치는 수정</dd></div><div><dt>판정</dt><dd>핵심 한 문장에 없는 기능은 backlog로 이동</dd></div></dl></article>
+          <article><span>CONTENT FREEZE</span><dl><div><dt>멈춤</dt><dd>새 Stage, 대량 Sprite 교체, 긴 사운드 추가</dd></div><div><dt>허용</dt><dd>진행 blocker 제거와 의미를 분명히 하는 최소 교체</dd></div><div><dt>판정</dt><dd>한 판 길이와 critical path를 바꾸지 않음</dd></div></dl></article>
+          <article><span>TOOL FREEZE</span><dl><div><dt>멈춤</dt><dd>새 package, 새 AI 도구, 새 자동화 환경 도입</dd></div><div><dt>허용</dt><dd>이미 검증된 도구로 제한된 진단과 수정</dd></div><div><dt>판정</dt><dd>설치, 계정, 버전 위험이 결과보다 크면 사용하지 않음</dd></div></dl></article>
+          <article><span>ASSET FREEZE</span><dl><div><dt>멈춤</dt><dd>출처를 모르는 에셋과 권리 검토 없는 생성 결과</dd></div><div><dt>허용</dt><dd>기존 사용 에셋의 가독성, 크기, 색상 최소 조정</dd></div><div><dt>판정</dt><dd>source, license, AI 여부, 수정, 최종 사용을 기록</dd></div></dl></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="gates" aria-labelledby="gates-title">
+        <header class="section-heading">
+          <h2 id="gates-title">“좋아 보인다” 대신 여덟 문을 통과합니다</h2>
+          <p>2차 면담은 작품 취향을 묻는 시간이 아닙니다. 같은 여덟 관문에서 첫 FAIL을 찾고, 그 지점을 3교시 한 문제로 바꿉니다.</p>
+        </header>
+        <div class="contract-board">
+          <article><span>G01 / LAUNCH</span><h3>독립 실행</h3><p>새 폴더와 지정 target 환경에서 실행 파일이 열리고 시작 화면 또는 게임이 정상 표시됩니다.</p></article>
+          <article><span>G02 / LOOP</span><h3>3-5분 핵심 경로</h3><p>목표를 이해하고 핵심 행동을 거쳐 결과까지 도착합니다. 진행을 막는 dead end가 없습니다.</p></article>
+          <article><span>G03 / STATE</span><h3>결과와 복구</h3><p>진행, 위험, 성공, 실패가 읽히며 재시작 뒤 초기 상태가 다시 만들어집니다.</p></article>
+          <article><span>G04 / DIAGNOSTICS</span><h3>오류와 로그</h3><p>critical path 중 crash, Exception, Missing Reference가 없고 Player log를 확인했습니다.</p></article>
+          <article><span>G05 / EXPERIENCE</span><h3>UI, 화면, 사운드</h3><p>지정 화면 비율에서 잘리지 않고, 음소거 또는 색 하나 없이도 핵심 상태를 구분합니다.</p></article>
+          <article><span>G06 / REVIEW FIX</span><h3>면담 문제 재검사</h3><p>면담에서 승인한 한 문제가 같은 입력과 기대 결과로 개선되고 기존 루프가 유지됩니다.</p></article>
+          <article><span>G07 / RIGHTS</span><h3>출처와 AI 투명성</h3><p>외부, 생성 에셋의 source, 허용 범위, prompt, 직접 수정과 최종 사용 여부가 연결됩니다.</p></article>
+          <article><span>G08 / PACKAGE</span><h3>제출 리허설</h3><p>build, project, 영상, 작품설명서, AI 로그가 정해진 이름으로 한 폴더에서 열립니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="priority" aria-labelledby="priority-title">
+        <header class="section-heading">
+          <h2 id="priority-title">심각도를 정한 뒤 수정, 삭제, 보류 중 하나를 고릅니다</h2>
+          <p>수정 가능 시간이 짧을수록 “불편한가?”보다 “제출과 핵심 경험을 막는가?”를 먼저 묻습니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>P0 / BLOCKER</span><dl><div><dt>상태</dt><dd>실행 불가, crash, 진행 불가, 최종 파일 없음</dd></div><div><dt>행동</dt><dd>즉시 수정하거나 원인 기능을 안전하게 삭제</dd></div><div><dt>예시</dt><dd>목표 도착 시 Exception으로 결과 화면이 열리지 않음</dd></div></dl></article>
+          <article><span>P1 / RELEASE RISK</span><dl><div><dt>상태</dt><dd>완주는 가능하지만 결과, 조작, 복구가 자주 오해됨</dd></div><div><dt>행동</dt><dd>기능 추가 없이 최소 수정 후 같은 조건 재검사</dd></div><div><dt>예시</dt><dd>성공했지만 플레이어가 실패로 이해하고 종료함</dd></div></dl></article>
+          <article><span>P2 / QUALITY</span><dl><div><dt>상태</dt><dd>핵심 루프는 유지되나 일관성, 가독성이 낮음</dd></div><div><dt>행동</dt><dd>P0, P1이 없고 회귀 시간이 남을 때만 수정</dd></div><div><dt>예시</dt><dd>일부 효과음 음량이 다른 사건보다 조금 큼</dd></div></dl></article>
+          <article><span>P3 / BACKLOG</span><dl><div><dt>상태</dt><dd>새 아이디어, 추가 Stage, 장식과 취향</dd></div><div><dt>행동</dt><dd>최종 제출 뒤 확장 목록으로 보류</dd></div><div><dt>예시</dt><dd>두 번째 적 종류와 별도 ending 연출 추가</dd></div></dl></article>
+        </div>
+        <div class="rule-banner"><span>SAFE ACTION ORDER</span><strong>진행을 막으면 수정합니다. 수정 위험이 더 크면 불안정한 선택 기능을 삭제합니다. 핵심을 막지 않으면 backlog로 보류합니다.</strong></div>
+      </section>
+
+      <section class="week-fifteen-section" id="build" aria-labelledby="build-title">
+        <header class="section-heading">
+          <h2 id="build-title">진단용 build와 제출 후보를 구분합니다</h2>
+          <p>Editor Play Mode 통과는 독립 실행 통과와 다릅니다. 원인을 찾을 때는 Development Build를 사용할 수 있지만, RC 판정은 최종 조건과 같은 profile에서 다시 실행합니다.</p>
+        </header>
+        <div class="comparison-grid">
+          <article><span>DIAGNOSTIC BUILD</span><h3>문제를 찾는 상태</h3><p>Development Build, Autoconnect Profiler와 log를 선택적으로 사용합니다. 측정 도구의 overhead가 있을 수 있으므로 이 수치를 최종 체감과 동일하다고 가정하지 않습니다.</p></article>
+          <article><span>RELEASE BUILD / RC</span><h3>제출 조건을 재현하는 상태</h3><p>지정 Build Profile, Scene List, target platform과 같은 폴더 구조를 사용합니다. 새 위치에서 실행하고 3-5분 critical path를 처음부터 끝까지 검사합니다.</p></article>
+        </div>
+        <ol class="build-steps">
+          <li><span class="step-number">01</span><div><h3>실패를 같은 순서로 재현합니다</h3><p>버전, target, 입력, 장면과 기대 결과를 고정합니다. “가끔 안 됨”을 재현 단계로 바꿉니다.</p><p class="step-check"><strong>증거</strong> 동일한 RC0에서 같은 실패가 다시 나타납니다.</p></div></li>
+          <li><span class="step-number">02</span><div><h3>Console과 Player log를 확인합니다</h3><p>Editor 메시지만 보지 않고 독립 Player의 경고, 오류와 발생 시점을 확인합니다. 추측한 원인과 실제 stack 위치를 구분합니다.</p><p class="step-check"><strong>증거</strong> 오류가 없으면 “없음”을, 있으면 첫 관련 오류와 재현 시각을 기록합니다.</p></div></li>
+          <li><span class="step-number">03</span><div><h3>필요할 때만 Profiler로 측정합니다</h3><p>느림이 release risk일 때 CPU, GPU, Memory 중 질문과 연결된 한 module만 봅니다. 무작정 모든 graph를 열지 않습니다.</p><p class="step-check"><strong>증거</strong> target build의 특정 구간과 측정값이 문제 문장에 연결됩니다.</p></div></li>
+          <li><span class="step-number">04</span><div><h3>수정 뒤 release 조건으로 다시 build합니다</h3><p>진단 옵션을 끄고 새 RC 폴더에 build하여 선택 문제와 기존 핵심 경로를 다시 검사합니다.</p><p class="step-check"><strong>증거</strong> RC0와 RC1의 folder, 시간, 변경 범위와 판정이 구분됩니다.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="week-fifteen-section" id="rights" aria-labelledby="rights-title">
+        <header class="section-heading">
+          <h2 id="rights-title">AI metadata는 찾는 단서이지 사용 허가의 증명은 아닙니다</h2>
+          <p>Unity AI 생성 결과는 검색 가능한 metadata를 포함할 수 있지만, 최종 사용에 필요한 제3자 권리와 적합성 판단은 제작자가 책임집니다. 외부 에셋도 같은 방식으로 출처와 허용 범위를 확인합니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>SOURCE</span><dl><div><dt>기록</dt><dd>직접 제작, 수업 제공, Asset Store, 생성 도구</dd></div><div><dt>확인</dt><dd>원본 위치, 제작자 또는 tool, provider, model</dd></div><div><dt>금지</dt><dd>기억에 의존한 “무료였음”</dd></div></dl></article>
+          <article><span>PERMISSION</span><dl><div><dt>기록</dt><dd>license 또는 수업 내 사용 범위</dd></div><div><dt>확인</dt><dd>재배포, 수정, 참조 업로드 제한</dd></div><div><dt>금지</dt><dd>다운로드 가능과 사용 허가를 동일시</dd></div></dl></article>
+          <article><span>TRANSFORMATION</span><dl><div><dt>기록</dt><dd>prompt, reference, 후보, 선택, 직접 수정</dd></div><div><dt>확인</dt><dd>사람의 결정과 게임 내 역할</dd></div><div><dt>금지</dt><dd>최종 결과만 남기고 과정 삭제</dd></div></dl></article>
+          <article><span>FINAL USE</span><dl><div><dt>기록</dt><dd>최종 사용, placeholder, 폐기</dd></div><div><dt>확인</dt><dd>실제 RC1 build 안의 파일과 ledger 일치</dd></div><div><dt>금지</dt><dd>프로젝트에 남은 미사용 파일까지 최종 사용으로 표기</dd></div></dl></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="mistakes" aria-labelledby="mistakes-title">
+        <header class="section-heading">
+          <h2 id="mistakes-title">막판에 자주 생기는 여섯 가지 착각</h2>
+          <p>완성도를 높이려는 행동이 오히려 제출 가능성을 낮추는 순간을 미리 구분합니다.</p>
+        </header>
+        <div class="failure-grid">
+          <article><span>01</span><h3>새 기능이 완성도를 높인다</h3><p>검사하지 못한 새 기능은 새로운 release risk입니다. 핵심 경험이 유지되면 추가하지 않습니다.</p></article>
+          <article><span>02</span><h3>Editor에서 되면 build도 된다</h3><p>Scene List, 경로, 권한, platform 차이가 있습니다. 독립 build에서 다시 확인합니다.</p></article>
+          <article><span>03</span><h3>오류가 안 보이면 로그도 깨끗하다</h3><p>화면에 드러나지 않는 Exception과 경고가 있을 수 있습니다. Player log를 직접 확인합니다.</p></article>
+          <article><span>04</span><h3>모든 문제를 조금씩 고친다</h3><p>여러 변경은 회귀 범위를 키웁니다. 가장 앞의 FAIL 하나를 닫고 전체 경로를 다시 실행합니다.</p></article>
+          <article><span>05</span><h3>생성 도구가 권리를 보장한다</h3><p>도구 사용 가능성과 최종 콘텐츠의 제3자 권리는 다른 질문입니다. 제작자가 확인하고 기록합니다.</p></article>
+          <article><span>06</span><h3>제출 폴더는 마지막에 만들면 된다</h3><p>파일 누락과 잘못된 build는 작품 품질과 별개로 제출을 막습니다. RC 단계에서 미리 리허설합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">면담 전에 다섯 문장으로 회수합니다</h2>
+          <p>학생이 먼저 답하고, 교수자는 답이 아니라 빠진 증거의 종류를 되묻습니다.</p>
+        </header>
+        <div class="exit-ticket">
+          <article><span>Q1</span><h3>RC</h3><p>Beta와 Release Candidate의 가장 중요한 차이는 무엇인가요?</p></article>
+          <article><span>Q2</span><h3>Freeze</h3><p>좋은 아이디어라도 15주차에 backlog로 보내야 하는 이유는 무엇인가요?</p></article>
+          <article><span>Q3</span><h3>Gate</h3><p>“거의 완성”을 대신할 여덟 관문 중 첫 네 개를 말해 보세요.</p></article>
+          <article><span>Q4</span><h3>Triage</h3><p>불안정한 선택 기능을 고치는 것보다 삭제하는 편이 안전한 때는 언제인가요?</p></article>
+          <article><span>Q5</span><h3>Evidence</h3><p>Editor Play Mode 외에 면담에서 열어야 할 증거 네 가지는 무엇인가요?</p></article>
+        </div>
+        <div class="rule-banner"><span>BRIDGE TO PERIOD 02</span><strong>1교시는 판정 기준을 세웠습니다. 2교시는 같은 기준과 질문으로 모든 학생의 RC0를 짧고 공정하게 면담합니다.</strong></div>
+      </section>
+
+      <section class="week-fifteen-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">면담 전에 확인할 공식 자료</h2>
+          <p>메뉴와 기능은 Unity 버전에 따라 달라질 수 있으므로 수업에 설치된 Unity 6.3 LTS와 같은 버전의 문서를 사용합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles-reference.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 , Build Profiles reference ↗</strong></a><span>target profile, Development Build, Profiler와 build 옵션</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/log-files.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 , Log files reference ↗</strong></a><span>Editor, Player log의 역할과 운영체제별 위치</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/profiler-profiling-applications.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 , Collecting performance data ↗</strong></a><span>target application과 Profiler 연결</span></li>
+          <li><a href="https://unity.com/how-to/testing-and-quality-assurance-tips-unity-projects" target="_blank" rel="noopener noreferrer"><strong>Unity , Testing and QA practices ↗</strong></a><span>functional, regression, performance testing과 지속적 QA</span></li>
+          <li><a href="https://unity.com/legal/unityai-guiding-principles" target="_blank" rel="noopener noreferrer"><strong>Unity AI , Guiding Principles ↗</strong></a><span>metadata, data control, traceability와 최종 사용자의 권리 책임</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-fifteen-toc" aria-label="1교시 목차" data-week-fifteen-toc>
+      <p class="toc-title">Week 15 / Period 01</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#sequence"><span>02</span>세 주차 연결</a></li>
+        <li><a href="#candidate"><span>03</span>Release Candidate</a></li>
+        <li><a href="#freeze"><span>04</span>범위 동결</a></li>
+        <li><a href="#gates"><span>05</span>여덟 관문</a></li>
+        <li><a href="#priority"><span>06</span>우선순위</a></li>
+        <li><a href="#build"><span>07</span>Build와 log</a></li>
+        <li><a href="#rights"><span>08</span>권리 기록</a></li>
+        <li><a href="#mistakes"><span>09</span>실패 패턴</a></li>
+        <li><a href="#check"><span>10</span>회수 질문</a></li>
+        <li><a href="#references"><span>11</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>위험</span><i></i><span>판정</span><i></i><span>증거</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 15 / Period 01 / Professor-led lecture</p>
+  <script src="assets/week-15.js?v=ge1w15-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

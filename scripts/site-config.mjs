@@ -158,6 +158,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-14-period3-checkpoint-route.webp",
     alt: "작은 2D 게임의 문제 토큰 하나가 제한된 변경 관문을 지나 같은 게임에서 재검사되고 구조도, 실행 build와 면담 기록이 담긴 증거 보관함으로 이어지는 작업대",
   }),
+  "teaching/game-engine-1/week-15-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-15-period1-release-gates.webp",
+    alt: "숲 게임 실행 화면을 중심으로 위험 카드 하나가 검토 관문을 지나 초록색 통과 증거가 되는 릴리스 점검 작업대",
+  }),
+  "teaching/game-engine-1/week-15-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-15-period2-review-desk.webp",
+    alt: "숲 게임을 가운데 두고 교수자와 학생의 관찰, 구조, 권리와 제출 증거가 차례로 연결된 릴리스 면담 작업대",
+  }),
+  "teaching/game-engine-1/week-15-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-15-period3-rc-mission.webp",
+    alt: "문제가 표시된 숲 게임이 면담 기록과 한 번의 변경을 지나 여덟 검증 불빛을 통과하고 최종 제출 봉투로 이어지는 릴리스 미션 작업대",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

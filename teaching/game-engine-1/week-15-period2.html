@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-fifteen-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15주차 2교시: 같은 질문으로 릴리스 준비를 판정합니다 | Game Engine I</title>
+  <meta name="description" content="고정된 Release Candidate 사례를 교수자가 공개 면담하고 READY, READY IF, HOLD 판정의 근거를 설명하는 15주차 2교시 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-15-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="15주차 2교시: 같은 질문으로 릴리스 준비를 판정합니다 | Game Engine I">
+  <meta property="og:description" content="같은 RC0와 질문으로 실행, 핵심 경험, 설명, 권리와 제출 상태를 판정합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-15-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-15-period2-review-desk.webp">
+  <meta property="og:image:alt" content="숲 게임을 가운데 두고 교수자와 학생의 관찰, 구조, 권리와 제출 증거가 차례로 연결된 릴리스 면담 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="15주차 2교시: 같은 질문으로 릴리스 준비를 판정합니다">
+  <meta name="twitter:description" content="교수자의 공개 면담 시연으로 공정한 릴리스 판정 절차를 이해합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-15-period2-review-desk.webp">
+  <link rel="preload" as="image" href="assets/week-15-period2-review-desk.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-15.css?v=ge1w15-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-fifteen week-fifteen-period-two">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb"><a class="lesson-home" href="/">Kim Jungho</a><span aria-hidden="true">/</span><a href="/teaching/">Teaching</a><span aria-hidden="true">/</span><a class="lesson-course" href="./">Game Engine I</a></div>
+      <div class="lesson-sequence">
+        <a href="week-15-period1.html" rel="prev" aria-label="이전 자료: 15주차 1교시">← <span class="sequence-label">Previous</span></a>
+        <a href="week-15-period3.html" rel="next" aria-label="다음 자료: 15주차 3교시"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <header class="hero week-fifteen-hero">
+    <div class="hero-inner">
+      <div class="week-fifteen-hero-copy">
+        <p class="eyebrow">15주차 / 2교시 / 이론과 설명</p>
+        <h1>같은 질문으로 릴리스 준비를 판정합니다</h1>
+        <p class="lead">교수자가 하나의 RC0를 실행하고 같은 증거 순서로 READY, READY IF, HOLD 판정을 시연합니다.</p>
+      </div>
+      <figure class="week-fifteen-hero-visual">
+        <img src="assets/week-15-period2-review-desk.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="숲 게임을 가운데 두고 교수자와 학생의 관찰, 구조, 권리와 제출 증거가 차례로 연결된 릴리스 면담 작업대">
+        <figcaption><span>RUN / TRACE / JUDGE</span> 면담은 발표가 아니라 같은 기준으로 위험을 찾고 다음 행동을 승인하는 검토입니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading"><h2 id="arrival-title">2교시의 도착점</h2><p>관찰한 사실과 판정을 분리하고, 한 학생에게 적용한 질문을 다른 학생에게도 같은 순서로 적용합니다.</p></div>
+        <ul class="arrival-list">
+          <li><span>01</span><p>면담을 발표가 아니라 <strong>릴리스 위험 검토</strong>로 설명합니다.</p></li>
+          <li><span>02</span><p>주장과 실제 build에서 확인한 <strong>증거</strong>를 분리합니다.</p></li>
+          <li><span>03</span><p>모든 사례에 같은 관문과 질문을 적용해 <strong>판정의 공정성</strong>을 지킵니다.</p></li>
+          <li><span>04</span><p>결과를 <strong>READY, READY IF, HOLD</strong> 중 하나와 다음 행동으로 기록합니다.</p></li>
+        </ul>
+      </section>
+      <aside class="scope-line" aria-label="2교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 02</span><strong>교수자 설명과 공개 릴리스 면담 시연</strong></div>
+        <p><strong>학생 제작 없음.</strong> 학생은 프로젝트를 제작하지 않습니다. 교수자가 같은 RC0, 같은 질문, 같은 순서로 공개 면담을 시연하고 학생은 각 관문의 판정을 먼저 구술한 뒤 실제 근거와 비교합니다.</p>
+      </aside>
+
+      <section class="week-fifteen-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading"><h2 id="run-title">60분의 설명과 시연 흐름</h2><p>판정 언어를 먼저 맞춘 뒤 하나의 수업용 RC0를 끝까지 검토하고 기록으로 닫습니다.</p></header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="period2-run-title">
+            <header><span>00-60 min</span><h3 id="period2-run-title">한 사례를 여러 관점이 아니라 한 절차로 읽기</h3><p>Lecture / professor demonstration</p></header>
+            <ol>
+              <li><time>00-06</time><div><strong>면담의 목적</strong><p>잘 만든 부분을 발표하는 시간이 아니라 제출을 막는 첫 위험을 찾는 검토임을 설명합니다.</p></div></li>
+              <li><time>06-14</time><div><strong>입력물 다섯 가지</strong><p>RC0, critical path, Player log, 권리 ledger와 제출 묶음을 같은 위치에 준비합니다.</p></div></li>
+              <li><time>14-24</time><div><strong>표준 8분 프로토콜</strong><p>실행, 핵심 경로, 상태와 복구, 로그, 권리, 제출 순서로 질문합니다.</p></div></li>
+              <li><time>24-38</time><div><strong>고정 RC0 공개 시연</strong><p>교수자가 실패를 재현하고 학생은 관찰, 질문과 판정을 먼저 적습니다.</p></div></li>
+              <li><time>38-47</time><div><strong>세 판정 비교</strong><p>READY, READY IF, HOLD의 경계와 조건을 같은 증거로 비교합니다.</p></div></li>
+              <li><time>47-55</time><div><strong>권리와 AI 기록</strong><p>사용한 에셋뿐 아니라 AI 미사용 경로도 동일한 ledger에서 확인합니다.</p></div></li>
+              <li><time>55-60</time><div><strong>검토 기록 회수</strong><p>주장, 증거, 판정과 다음 행동을 네 줄로 말하며 3교시 미션을 예고합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="operation" aria-labelledby="operation-title">
+        <header class="section-heading"><h2 id="operation-title">면담은 네 동사로 움직입니다</h2><p>자유로운 대화처럼 보여도 교수자는 항상 실행에서 시작해 판정과 다음 행동으로 끝냅니다.</p></header>
+        <div class="contract-board">
+          <article><span>RUN</span><h3>학생 설명 전에 실행</h3><p>새 폴더에서 RC0를 열고 시작 화면부터 결과와 재시작까지 실제 경로를 확인합니다.</p></article>
+          <article><span>OBSERVE</span><h3>보인 사실만 기록</h3><p>멈춘 위치, 화면 상태, 입력, 시각과 소리, Console 또는 log의 시각을 적습니다.</p></article>
+          <article><span>ASK</span><h3>가까운 증거를 질문</h3><p>“왜 그랬나요?”보다 “그 상태를 바꾸는 사건과 값은 어디에 있나요?”를 묻습니다.</p></article>
+          <article><span>DECIDE</span><h3>한 판정과 한 행동</h3><p>첫 실패 관문을 기준으로 READY, READY IF, HOLD와 3교시 행동 하나를 확정합니다.</p></article>
+        </div>
+        <div class="rule-banner"><span>INTERVIEW RULE</span><strong>설명이 길어져도 관문을 건너뛰지 않습니다. 같은 사실에는 같은 판정 언어를 사용합니다.</strong></div>
+      </section>
+
+      <section class="week-fifteen-section" id="inputs" aria-labelledby="inputs-title">
+        <header class="section-heading"><h2 id="inputs-title">다섯 입력물이 열려야 면담을 시작합니다</h2><p>파일이 있다는 주장보다 지정 위치에서 실제로 열리는지가 먼저입니다.</p></header>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>입력물</th><th>교수자가 확인하는 사실</th><th>불충분한 대답</th></tr></thead>
+            <tbody>
+              <tr><th>독립 실행 RC0</th><td>Editor 없이 새 폴더에서 시작하고 종료할 수 있음</td><td>“제 컴퓨터에서는 됩니다”</td></tr>
+              <tr><th>핵심 경로</th><td>3-5분 목표, 행동, 성공 또는 실패와 재시작 순서</td><td>기능 목록만 설명</td></tr>
+              <tr><th>Player log</th><td>실행 시간대의 첫 관련 오류 또는 오류 없음 기록</td><td>Console 창이 깨끗했다는 기억</td></tr>
+              <tr><th>권리 ledger</th><td>source, permission, AI 여부, 수정, 최종 사용 상태</td><td>무료 사이트에서 받았다는 말</td></tr>
+              <tr><th>제출 묶음</th><td>build, project, 영상, 설명서와 AI 제작 로그의 이름과 위치</td><td>마지막 날에 묶겠다는 계획</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="teacher-check"><span>START CONDITION</span><p>입력물이 하나라도 열리지 않으면 그 사실이 첫 위험입니다. 다른 기능 설명으로 넘어가지 않고 누락 위치와 복구 행동부터 기록합니다.</p></aside>
+      </section>
+
+      <section class="week-fifteen-section" id="protocol" aria-labelledby="protocol-title">
+        <header class="section-heading"><h2 id="protocol-title">표준 8분은 질문보다 순서를 고정합니다</h2><p>작품마다 내용은 달라도 첫 실패 관문을 찾는 순서는 같습니다.</p></header>
+        <div class="table-wrap">
+          <table class="slot-table">
+            <thead><tr><th>시간</th><th>관문</th><th>교수자 질문</th><th>통과 증거</th></tr></thead>
+            <tbody>
+              <tr><th>00:00-01:00</th><td>LAUNCH</td><td>새 폴더에서 어떻게 시작하나요?</td><td>독립 실행과 정상 종료</td></tr>
+              <tr><th>01:00-02:30</th><td>LOOP</td><td>설명 없이 목표와 핵심 행동을 읽을 수 있나요?</td><td>3-5분 핵심 경로 완주</td></tr>
+              <tr><th>02:30-03:30</th><td>STATE</td><td>성공, 실패와 재시작이 각각 어떤 상태인가요?</td><td>결과 신호와 초기화 확인</td></tr>
+              <tr><th>03:30-04:30</th><td>LOG</td><td>이 실행과 같은 시각의 첫 관련 메시지는 무엇인가요?</td><td>Player log 위치와 기록</td></tr>
+              <tr><th>04:30-06:00</th><td>RIGHTS</td><td>화면과 소리에 쓰인 에셋의 출처와 상태는 무엇인가요?</td><td>권리 ledger와 실제 파일 일치</td></tr>
+              <tr><th>06:00-07:00</th><td>PACKAGE</td><td>제출 항목을 지금 다시 열 수 있나요?</td><td>정해진 폴더와 파일명</td></tr>
+              <tr><th>07:00-08:00</th><td>VERDICT</td><td>첫 실패와 다음 한 행동은 무엇인가요?</td><td>판정, 조건, 담당 행동과 재검사</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="demonstration" aria-labelledby="demonstration-title">
+        <header class="section-heading"><h2 id="demonstration-title">고정 사례: 끝까지 되지만 다시 시작되지 않는 숲 게임</h2><p>교수자는 수업용 RC0를 한 번만 실행하고, 학생은 왼쪽 사실에서 오른쪽 해석을 성급하게 만들지 않는 연습을 합니다.</p></header>
+        <div class="comparison-grid">
+          <article><span>OBSERVED FACTS</span><h3>실제로 확인한 것</h3><p>독립 실행은 성공했습니다. 목표 지점과 결과 화면까지 도착했습니다. 재시작 버튼 뒤 Player 위치는 초기화되지만 수집 수가 이전 값으로 남습니다. Player log에 NullReferenceException은 없습니다.</p></article>
+          <article><span>NOT YET A FACT</span><h3>아직 확인하지 않은 해석</h3><p>점수 Script가 잘못되었다, 저장 기능이 문제다, UI가 늦게 갱신된다는 말은 가설입니다. Inspector의 현재 값과 재시작 사건의 호출 순서를 확인하기 전에는 원인으로 기록하지 않습니다.</p></article>
+        </div>
+        <ol class="build-steps">
+          <li><span class="step-number">01</span><div><h3>재현 조건을 고정합니다</h3><p>RC0, 첫 시작, 수집물 3개, 목표 도착, 결과 화면, 재시작의 입력 순서를 적습니다.</p><p class="step-check"><strong>관찰</strong> 재시작 뒤 플레이어 위치는 초기화되고 수집 수만 3으로 남습니다.</p></div></li>
+          <li><span class="step-number">02</span><div><h3>첫 실패 관문을 고릅니다</h3><p>실행과 핵심 경로는 통과했지만 상태와 복구 관문이 실패했습니다.</p><p class="step-check"><strong>판정</strong> 현재 결과는 READY가 아니며 수정 조건이 좁혀질 수 있습니다.</p></div></li>
+          <li><span class="step-number">03</span><div><h3>한 행동과 재검사를 승인합니다</h3><p>3교시에는 새 기능 없이 재시작 사건에서 수집 상태를 초기화하고 같은 순서와 전체 핵심 경로를 다시 검사합니다.</p><p class="step-check"><strong>범위</strong> 관련 상태 소유자와 재시작 연결만 허용합니다.</p></div></li>
+        </ol>
+      </section>
+
+      <section class="week-fifteen-section" id="verdict" aria-labelledby="verdict-title">
+        <header class="section-heading"><h2 id="verdict-title">판정은 세 가지뿐입니다</h2><p>좋음, 아쉬움처럼 사람마다 달라지는 표현 대신 제출 가능성과 남은 조건을 말합니다.</p></header>
+        <div class="verdict-grid">
+          <article><span>READY</span><h3>그대로 제출 후보</h3><p>여덟 관문이 통과했고 제출 묶음을 다시 열었습니다. 새 기능은 추가하지 않고 최종 복사본을 보존합니다.</p></article>
+          <article><span>READY IF</span><h3>한 조건 뒤 제출 후보</h3><p>첫 실패가 작고 변경 범위와 재검사가 명확합니다. 조건이 통과하기 전까지는 READY라고 기록하지 않습니다.</p></article>
+          <article><span>HOLD</span><h3>안전한 기준선 보존</h3><p>실행, 진행, 권리 또는 제출을 막는 위험이 크거나 원인이 불명확합니다. RC0를 보존하고 진단 또는 제거 경로를 선택합니다.</p></article>
+        </div>
+        <div class="rule-banner"><span>DEMO VERDICT</span><strong>숲 게임 RC0는 READY IF입니다. 재시작 상태 초기화와 같은 핵심 경로 회귀 검사가 통과하면 RC1로 이동합니다.</strong></div>
+      </section>
+
+      <section class="week-fifteen-section" id="rights" aria-labelledby="rights-title">
+        <header class="section-heading"><h2 id="rights-title">에셋은 출처와 실제 사용 상태를 함께 봅니다</h2><p>생성 도구 이름만 묻지 않고 최종 build에 들어간 파일과 ledger의 한 행을 연결합니다.</p></header>
+        <div class="settings-grid">
+          <article><span>EXTERNAL ASSET</span><dl><div><dt>질문</dt><dd>어디서 받았고 어떤 사용이 허용되는가?</dd></div><div><dt>증거</dt><dd>source URL, creator, license와 수정 기록</dd></div><div><dt>판정</dt><dd>실제 최종 파일과 기록이 일치</dd></div></dl></article>
+          <article><span>GENERATED ASSET</span><dl><div><dt>질문</dt><dd>무엇을 요청하고 선택, 수정했는가?</dd></div><div><dt>증거</dt><dd>tool, prompt 요약, 후보와 직접 수정</dd></div><div><dt>판정</dt><dd>권리 검토와 최종 사용 여부 기록</dd></div></dl></article>
+          <article><span>AI ASSISTED CODE</span><dl><div><dt>질문</dt><dd>어떤 제안을 채택하고 어떻게 검증했는가?</dd></div><div><dt>증거</dt><dd>문제, 선택, 실제 변경과 테스트</dd></div><div><dt>판정</dt><dd>학생이 구조와 결과를 설명 가능</dd></div></dl></article>
+          <article><span>AI 미사용 경로</span><dl><div><dt>질문</dt><dd>이 항목에 AI를 사용하지 않았는가?</dd></div><div><dt>증거</dt><dd>NONE으로 명시하고 직접 제작 또는 제공 출처 기록</dd></div><div><dt>판정</dt><dd>빈칸과 미사용 선언을 구분</dd></div></dl></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="record" aria-labelledby="record-title">
+        <header class="section-heading"><h2 id="record-title">검토 기록은 네 줄이면 다시 실행할 수 있어야 합니다</h2><p>긴 면담 요약보다 다음 사람이 같은 사실을 확인할 수 있는 최소 기록을 남깁니다.</p></header>
+        <div class="submission-grid">
+          <article><span>CLAIM</span><h3>학생의 주장</h3><p>현재 RC0가 통과한다고 생각하는 관문과 아직 남은 위험을 한 문장으로 씁니다.</p></article>
+          <article><span>EVIDENCE</span><h3>함께 확인한 사실</h3><p>build 경로, 입력 순서, 화면 결과, log 시각과 파일 위치를 적습니다.</p></article>
+          <article><span>VERDICT</span><h3>교수자의 판정</h3><p>READY, READY IF, HOLD 중 하나와 첫 실패 관문을 기록합니다.</p></article>
+          <article><span>NEXT ACTION</span><h3>3교시 한 행동</h3><p>수정, 삭제, 진단 또는 보류 범위와 같은 재검사 조건을 적습니다.</p></article>
+        </div>
+        <aside class="teacher-check"><span>RECORD QUALITY</span><p>“버그 수정하기”는 행동이 아닙니다. “재시작 뒤 수집 수가 0이고 핵심 경로가 다시 끝나는지 T03과 T07로 검사”처럼 관찰 가능한 완료 조건을 씁니다.</p></aside>
+      </section>
+
+      <section class="week-fifteen-section" id="fairness" aria-labelledby="fairness-title">
+        <header class="section-heading"><h2 id="fairness-title">공정성은 같은 시간을 주는 것보다 같은 증거를 요구하는 일입니다</h2><p>작품의 장르와 표현은 달라도 제출 가능성을 막는 사실은 같은 방식으로 확인합니다.</p></header>
+        <div class="trouble-grid">
+          <details><summary>학생 설명이 유창하면 더 높은 판정을 받아도 되나요?</summary><div class="details-motion-content"><p>학생의 말만으로 판정하지 않습니다. 같은 build, 입력, log와 파일을 열어 말과 증거가 일치하는지 확인합니다.</p></div></details>
+          <details><summary>작품마다 플레이 시간이 다른데 표준 8분이 가능한가요?</summary><div class="details-motion-content"><p>전체 콘텐츠를 보는 시간이 아니라 첫 실패 관문을 찾는 시간입니다. 핵심 경로가 5분을 넘으면 제출 범위 자체를 다시 판정합니다.</p></div></details>
+          <details><summary>AI를 사용하지 않은 학생은 권리 질문을 건너뛰나요?</summary><div class="details-motion-content"><p>건너뛰지 않습니다. 외부 에셋, 수업 제공 자료와 직접 제작 상태를 확인하고 AI 항목은 NONE으로 명시합니다.</p></div></details>
+          <details><summary>수정 방법을 바로 알려 주면 더 빠르지 않나요?</summary><div class="details-motion-content"><p>면담에서는 원인과 범위를 대신 결정하지 않습니다. 가까운 증거를 찾는 질문 한 번을 제공하고 학생이 다음 행동과 검사를 말하게 합니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading"><h2 id="check-title">다섯 질문으로 판정 절차를 회수합니다</h2><p>답을 외우기보다 공개 시연의 어느 증거에서 판단했는지 함께 말합니다.</p></header>
+        <div class="exit-ticket">
+          <article><span>Q1</span><p>학생 설명보다 build 실행을 먼저 보는 이유는 무엇인가요?</p></article>
+          <article><span>Q2</span><p>관찰한 사실과 원인 가설을 어떻게 구분하나요?</p></article>
+          <article><span>Q3</span><p>READY IF가 READY와 다른 한 가지 조건은 무엇인가요?</p></article>
+          <article><span>Q4</span><p>AI 미사용 항목을 빈칸으로 두지 않는 이유는 무엇인가요?</p></article>
+          <article><span>Q5</span><p>3교시 한 행동에 반드시 포함해야 할 재검사 조건은 무엇인가요?</p></article>
+        </div>
+        <div class="next-week"><span>PERIOD 03 / INDIVIDUAL MISSION</span><div><h3>첫 실패 관문 하나를 증거로 닫습니다</h3><p>면담 기록에서 한 행동만 가져와 제한 변경, 같은 재검사, RC1 build와 제출 리허설을 완료합니다.</p><a href="week-15-period3.html">3교시 미션으로 이동 →</a></div></div>
+      </section>
+    </article>
+
+    <nav class="toc week-fifteen-toc" aria-label="2교시 목차" data-week-fifteen-toc>
+      <p class="toc-title">Week 15 / Period 02</p>
+      <ol>
+        <li><a href="#arrival" data-toc-link aria-current="location"><span>01</span>도착점</a></li>
+        <li><a href="#run" data-toc-link><span>02</span>60분 흐름</a></li>
+        <li><a href="#operation" data-toc-link><span>03</span>네 동사</a></li>
+        <li><a href="#inputs" data-toc-link><span>04</span>입력물</a></li>
+        <li><a href="#protocol" data-toc-link><span>05</span>8분 프로토콜</a></li>
+        <li><a href="#demonstration" data-toc-link><span>06</span>공개 시연</a></li>
+        <li><a href="#verdict" data-toc-link><span>07</span>세 판정</a></li>
+        <li><a href="#rights" data-toc-link><span>08</span>권리 기록</a></li>
+        <li><a href="#record" data-toc-link><span>09</span>검토 기록</a></li>
+        <li><a href="#fairness" data-toc-link><span>10</span>공정성</a></li>
+        <li><a href="#check" data-toc-link><span>11</span>회수 질문</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Game Engine I / Week 15 / Period 02 / Professor-led demonstration</p>
+  <script src="assets/week-15.js?v=ge1w15-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

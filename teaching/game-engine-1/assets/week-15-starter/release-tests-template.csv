@@ -1,0 +1,9 @@
+test_id,action,expected,result,evidence_path,notes
+T01,Launch RC1 from a new folder,Starts without the Editor,,,
+T02,Complete the 3-5 minute critical path,Goal action and result stay connected,,,
+T03,Restart after success or failure,Player and core state return to baseline,,,
+T04,Inspect the matching Player log,No critical Exception or Missing Reference,,,
+T05,Play at the target ratio and muted,UI remains visible and key state has redundant signals,,,
+T06,Repeat the first failed gate,Expected result appears with no out-of-scope change,,,
+T07,Compare the asset ledger with RC1,Source permission AI use changes and final use match,,,
+T08,Open every submission item,Build project video statement and AI log open,,,

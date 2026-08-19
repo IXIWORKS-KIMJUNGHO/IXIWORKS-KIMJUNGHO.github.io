@@ -1,0 +1,2 @@
+asset_key,asset_path,source,creator_or_provider,permission,ai_usage,transformation,final_use,evidence_path,notes
+A01,Assets/Replace/ThisFile.ext,source URL or direct creation,creator tool or provider,license or allowed classroom use,NONE or tool and prompt summary,selection crop color edit or code change,USED PLACEHOLDER or REMOVED,Evidence/Week15/rights/,replace this sample row

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-fifteen-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>15주차 3교시: 릴리스 후보의 위험 하나를 닫습니다 | Game Engine I</title>
+  <meta name="description" content="RC0의 첫 실패 관문 하나를 수정, 삭제 또는 보류하고 같은 조건의 재검사와 제출 리허설로 RC1을 만드는 목표지향 개인 실습입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-15-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="15주차 3교시: 릴리스 후보의 위험 하나를 닫습니다 | Game Engine I">
+  <meta property="og:description" content="첫 실패 관문 하나를 처리하고 RC1, 테스트 기록과 제출 묶음을 완성합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-15-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-15-period3-rc-mission.webp">
+  <meta property="og:image:alt" content="문제가 표시된 숲 게임이 면담 기록과 한 번의 변경을 지나 여덟 검증 불빛을 통과하고 최종 제출 봉투로 이어지는 릴리스 미션 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="15주차 3교시: 릴리스 후보의 위험 하나를 닫습니다">
+  <meta name="twitter:description" content="한 문제의 제한 변경, 재검사와 제출 리허설로 RC1 증거를 완성합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-15-period3-rc-mission.webp">
+  <link rel="preload" as="image" href="assets/week-15-period3-rc-mission.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-15.css?v=ge1w15-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-fifteen week-fifteen-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb"><a class="lesson-home" href="/">Kim Jungho</a><span aria-hidden="true">/</span><a href="/teaching/">Teaching</a><span aria-hidden="true">/</span><a class="lesson-course" href="./">Game Engine I</a></div>
+      <div class="lesson-sequence">
+        <a href="week-15-period2.html" rel="prev" aria-label="이전 자료: 15주차 2교시">← <span class="sequence-label">Previous</span></a>
+        <a href="./#week-16" rel="next" aria-label="다음 자료: 16주차 기말 제출"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+  <header class="hero week-fifteen-hero">
+    <div class="hero-inner">
+      <div class="week-fifteen-hero-copy">
+        <p class="eyebrow">15주차 / 3교시 / 목표지향 개인 실습</p>
+        <h1>릴리스 후보의 위험 하나를 닫습니다</h1>
+        <p class="lead">RC0의 첫 실패 관문 하나만 처리하고 같은 검사와 제출 리허설로 RC1 증거를 완성합니다.</p>
+      </div>
+      <figure class="week-fifteen-hero-visual">
+        <img src="assets/week-15-period3-rc-mission.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="문제가 표시된 숲 게임이 면담 기록과 한 번의 변경을 지나 여덟 검증 불빛을 통과하고 최종 제출 봉투로 이어지는 릴리스 미션 작업대">
+        <figcaption><span>ONE RISK / EIGHT TESTS / ONE PACKAGE</span> 기능 수가 아니라 제출 가능한 상태와 그 증거가 오늘의 완료 조건입니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="mission" aria-labelledby="mission-title">
+        <div class="arrival-heading"><h2 id="mission-title">오늘의 개인 미션</h2><p>면담에서 확인한 첫 실패 관문을 닫고 재현 가능한 릴리스 기록을 남깁니다.</p></div>
+        <ul class="arrival-list">
+          <li><span>01</span><p>작동하는 <strong>RC0 baseline</strong>을 복사해 보존합니다.</p></li>
+          <li><span>02</span><p>면담 기록의 <strong>첫 실패 관문 하나</strong>만 선택합니다.</p></li>
+          <li><span>03</span><p>수정, 삭제, 보류 중 <strong>가장 안전한 한 경로</strong>를 실행합니다.</p></li>
+          <li><span>04</span><p>T01-T08과 제출 리허설로 <strong>RC1 또는 안전한 HOLD</strong> 증거를 완성합니다.</p></li>
+        </ul>
+      </section>
+      <aside class="scope-line" aria-label="3교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 03</span><strong>목표지향 개인 실습 / 개인 제작</strong></div>
+        <p>목표는 고정하고 해결 경로는 선택합니다. RC0의 첫 실패 관문 하나를 닫고 RC1 증거 묶음을 완성합니다. 작업 속도와 기능 수는 평가하지 않습니다.</p>
+      </aside>
+
+      <section class="week-fifteen-section" id="starting-line" aria-labelledby="starting-line-title">
+        <header class="section-heading"><h2 id="starting-line-title">원본과 작업본을 먼저 분리합니다</h2><p>오늘의 변경이 실패해도 면담 때 확인한 RC0로 돌아갈 수 있어야 합니다.</p></header>
+        <div class="submission-grid">
+          <article><span>01 / BASELINE</span><h3><code>RC0_BASELINE/</code></h3><p>면담에서 실행한 build와 기록을 그대로 복사합니다. 이 폴더에서는 어떤 파일도 수정하지 않습니다.</p></article>
+          <article><span>02 / WORKING COPY</span><h3><code>Project_RC1_WORK/</code></h3><p>승인된 범위의 Scene, Prefab, Script 또는 asset만 바꾸는 작업 복사본입니다.</p></article>
+          <article><span>03 / CANDIDATE</span><h3><code>RC1_CANDIDATE/</code></h3><p>T01-T08을 실행할 독립 build입니다. 기존 폴더 위에 덮어쓰지 않습니다.</p></article>
+          <article><span>04 / RECORD</span><h3><code>Evidence/Week15/</code></h3><p>면담 ticket, before, after, Player log, 테스트 CSV와 RELEASE_RECORD.md를 저장합니다.</p></article>
+        </div>
+        <div class="starter-download">
+          <div><h3>15주차 release starter</h3><p>기록 템플릿과 테스트 CSV, 권리 ledger, 제출 지도를 작업 폴더에 복사합니다. 정답 코드나 완성 project는 포함하지 않습니다.</p></div>
+          <a href="assets/week-15-release-starter.zip" download>starter ZIP 받기</a>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="route" aria-labelledby="route-title">
+        <header class="section-heading"><h2 id="route-title">첫 실패 관문에 맞는 한 경로만 고릅니다</h2><p>여러 문제를 조금씩 만지지 않습니다. 한 경로의 완료 조건을 먼저 쓰고 그 범위만 변경합니다.</p></header>
+        <div class="verdict-grid">
+          <article><span>FIX / 제한 수정</span><h3>작고 원인이 분명함</h3><p>P0 또는 P1이지만 영향 파일과 재현 조건이 좁습니다. 한 변경 뒤 같은 입력과 전체 핵심 경로를 검사합니다.</p></article>
+          <article><span>REMOVE / 불안정 기능 삭제</span><h3>선택 기능이 제출을 위협함</h3><p>핵심 한 판에 필요하지 않고 수정 회귀가 큽니다. 참조와 UI 흔적까지 안전하게 제거한 뒤 baseline 경험을 검사합니다.</p></article>
+          <article><span>DEFER / 기록 후 보류</span><h3>핵심을 막지 않거나 시간이 큼</h3><p>P2 또는 P3이거나 안전한 수정 범위를 확정하지 못했습니다. 현재 RC0를 보존하고 원인, 다음 검사와 보류 위치를 기록합니다.</p></article>
+        </div>
+        <div class="rule-banner"><span>ROUTE LIMIT</span><strong>20분 안에 한 번의 변경과 같은 재검사를 끝낼 수 없으면 새 수정을 쌓지 않고 DEFER 또는 안전한 HOLD로 전환합니다.</strong></div>
+      </section>
+
+      <section class="week-fifteen-section" id="workflow" aria-labelledby="workflow-title">
+        <header class="section-heading"><h2 id="workflow-title">60분 안에 한 위험을 증거로 닫습니다</h2><p>빨리 끝내는 것이 목적은 아니지만, 각 단계가 길어질 때 되돌아갈 기준은 필요합니다.</p></header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="period3-run-title">
+            <header><span>00-60 min</span><h3 id="period3-run-title">한 선택, 한 변경, 같은 검사, 한 묶음</h3><p>Goal-directed individual mission</p></header>
+            <ol>
+              <li><time>00-06</time><div><strong>baseline 봉인</strong><p>RC0, 면담 ticket과 제출 파일을 복사하고 새 폴더 이름을 확인합니다.</p></div></li>
+              <li><time>06-12</time><div><strong>경로 선택</strong><p>첫 실패 관문, 재현 조건, 허용과 금지 범위, 완료 조건을 씁니다.</p></div></li>
+              <li><time>12-30</time><div><strong>제한 변경</strong><p>FIX, REMOVE, DEFER 중 선택한 경로의 한 행동만 수행합니다.</p></div></li>
+              <li><time>30-40</time><div><strong>같은 재검사</strong><p>before와 같은 target, 입력, 상태에서 기대 결과를 확인합니다.</p></div></li>
+              <li><time>40-49</time><div><strong>회귀 검사</strong><p>시작, 핵심 행동, 성공 또는 실패, 재시작과 독립 실행을 다시 확인합니다.</p></div></li>
+              <li><time>49-56</time><div><strong>RC1과 제출 리허설</strong><p>새 폴더에 build하고 권리 ledger와 제출 묶음을 실제로 다시 엽니다.</p></div></li>
+              <li><time>56-60</time><div><strong>증거 봉인</strong><p>T01-T08 CSV, RELEASE_RECORD.md와 90초 설명을 저장합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="change-contract" aria-labelledby="change-contract-title">
+        <header class="section-heading"><h2 id="change-contract-title">변경 전에 여섯 문장을 고정합니다</h2><p>코드를 먼저 열면 범위가 넓어집니다. 관찰과 검사를 먼저 쓰면 한 변경의 경계가 보입니다.</p></header>
+        <div class="submission-grid">
+          <article><span>OBSERVED</span><h3>실제로 본 실패</h3><p>target, 입력 순서, 처음 다른 화면 또는 값과 발생 시각을 씁니다.</p></article>
+          <article><span>EXPECTED</span><h3>통과했을 때의 결과</h3><p>같은 조건에서 화면, 상태, log 또는 파일이 어떻게 달라져야 하는지 씁니다.</p></article>
+          <article><span>ALLOW</span><h3>바꿔도 되는 범위</h3><p>승인된 Scene, Prefab, Script, asset 또는 값의 실제 이름을 씁니다.</p></article>
+          <article><span>FORBID</span><h3>건드리지 않을 범위</h3><p>새 기능, package, 큰 구조 변경과 baseline 폴더를 명시합니다.</p></article>
+          <article><span>RETEST</span><h3>같은 실패 재검사</h3><p>수정 전과 같은 입력으로 기대 결과가 나타나는지 확인합니다.</p></article>
+          <article><span>REGRESSION</span><h3>기존 핵심 경로 확인</h3><p>정상 시작부터 결과, 재시작과 독립 실행까지 다시 검사합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading"><h2 id="tests-title">T01-T08이 모두 통과해야 RC1입니다</h2><p>선택 문제만 고쳐도 기존 한 판이 깨지면 릴리스 후보가 아닙니다. 각 행의 결과와 확인한 증거를 기록합니다.</p></header>
+        <div class="test-progress" data-test-progress><span>RELEASE TESTS</span><strong data-test-count>0 / 8 PASS</strong></div>
+        <div class="table-wrap test-table-wrap">
+          <table class="test-table" data-test-table>
+            <thead><tr><th>검사</th><th>행동</th><th>기대 결과</th><th>결과</th><th>증거</th></tr></thead>
+            <tbody>
+              <tr data-test-id="T01"><th>T01</th><td>새 폴더에서 RC1 실행</td><td>Editor 없이 시작 화면 또는 게임이 정상 표시됨</td><td><select data-test-result aria-label="T01 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T01 증거" placeholder="폴더와 실행 시각"></td></tr>
+              <tr data-test-id="T02"><th>T02</th><td>설명 없이 3-5분 핵심 경로 완주</td><td>목표, 핵심 행동과 결과가 끊기지 않음</td><td><select data-test-result aria-label="T02 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T02 증거" placeholder="경로와 결과"></td></tr>
+              <tr data-test-id="T03"><th>T03</th><td>성공 또는 실패 뒤 재시작</td><td>플레이어와 핵심 상태가 초기값으로 돌아감</td><td><select data-test-result aria-label="T03 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T03 증거" placeholder="초기화한 상태"></td></tr>
+              <tr data-test-id="T04"><th>T04</th><td>같은 실행 시간대의 Player log 확인</td><td>critical path의 Exception과 Missing Reference가 없음</td><td><select data-test-result aria-label="T04 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T04 증거" placeholder="log 위치와 시각"></td></tr>
+              <tr data-test-id="T05"><th>T05</th><td>지정 화면 비율과 음소거에서 플레이</td><td>UI가 잘리지 않고 핵심 상태를 둘 이상의 신호로 읽음</td><td><select data-test-result aria-label="T05 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T05 증거" placeholder="비율과 확인한 신호"></td></tr>
+              <tr data-test-id="T06"><th>T06</th><td>면담의 첫 실패를 같은 조건으로 재검사</td><td>기대 결과가 나타나고 허용 범위 밖 변경이 없음</td><td><select data-test-result aria-label="T06 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T06 증거" placeholder="before와 after"></td></tr>
+              <tr data-test-id="T07"><th>T07</th><td>권리 ledger와 RC1 실제 파일 비교</td><td>source, permission, AI, 수정과 최종 사용이 일치함</td><td><select data-test-result aria-label="T07 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T07 증거" placeholder="확인한 ledger 행"></td></tr>
+              <tr data-test-id="T08"><th>T08</th><td>제출 폴더에서 모든 항목 다시 열기</td><td>build, project, 영상, 설명서와 AI 로그가 열림</td><td><select data-test-result aria-label="T08 결과"><option value="">선택</option><option>PASS</option><option>FAIL</option></select></td><td><input data-test-note aria-label="T08 증거" placeholder="누락 또는 최종 확인"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="test-actions">
+          <button class="test-action test-action-primary" type="button" data-export-tests>테스트 CSV 저장</button>
+          <button class="test-action" type="button" data-reset-tests>기록 초기화</button>
+          <p>8 / 8 PASS는 자동 합격이 아니라 RC1 증거가 모두 준비되었다는 뜻입니다. 실제 파일과 build를 함께 확인합니다.</p>
+        </div>
+        <p class="privacy-note">이 페이지는 이름과 학번을 묻거나 저장하지 않습니다. 이 기기에는 테스트 결과와 짧은 증거만 저장되며 CSV는 버튼을 누를 때만 내려받습니다.</p>
+      </section>
+
+      <section class="week-fifteen-section" id="repair" aria-labelledby="repair-title">
+        <header class="section-heading"><h2 id="repair-title">검사가 실패하면 더 만들지 말고 판정을 낮춥니다</h2><p>한 FAIL을 숨기지 않고 RC1, READY IF 또는 HOLD 중 현재 상태를 다시 기록합니다.</p></header>
+        <div class="trouble-grid">
+          <details><summary>T06은 통과했지만 T02가 실패했습니다</summary><div class="details-motion-content"><p>선택 문제는 고쳤지만 회귀가 생겼습니다. RC1로 승인하지 않습니다. 작업 복사본을 보존하고 baseline과 비교해 변경을 더 작게 나누거나 되돌립니다.</p></div></details>
+          <details><summary>Editor에서는 되지만 T01이 실패합니다</summary><div class="details-motion-content"><p>Build Profile의 Scene List, 저장되지 않은 변경, 파일명 대소문자와 project 밖 경로를 확인합니다. 독립 실행이 통과하기 전에는 다른 polish를 중단합니다.</p></div></details>
+          <details><summary>20분 안에 원인을 찾지 못했습니다</summary><div class="details-motion-content"><p>추가 수정을 쌓지 않습니다. 재현 조건, 최초 다른 상태, 확인한 log, 안전한 RC0와 다음 검사 한 가지를 RELEASE_RECORD.md에 남기고 HOLD로 전환합니다.</p></div></details>
+          <details><summary>권리 기록을 지금 확인할 수 없습니다</summary><div class="details-motion-content"><p>출처 불명 에셋은 최종 사용에서 제외하거나 안전한 수업 제공 에셋으로 교체합니다. 확인 전에는 T07을 PASS로 표시하지 않습니다.</p></div></details>
+          <details><summary>REMOVE 뒤 빈 버튼이나 참조가 남았습니다</summary><div class="details-motion-content"><p>기능 코드만 삭제하지 말고 호출, Inspector 참조, UI 안내와 파일을 함께 검사합니다. Missing Reference와 핵심 경로를 다시 실행합니다.</p></div></details>
+          <details><summary>DEFER를 선택하면 과제를 실패한 건가요?</summary><div class="details-motion-content"><p>아닙니다. 핵심 경로를 보존하고 영향, 보류 이유와 다음 검사를 정확히 남기면 유효한 릴리스 판단입니다. 다만 P0를 해결하지 못한 상태는 HOLD입니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="package" aria-labelledby="package-title">
+        <header class="section-heading"><h2 id="package-title">파일이 함께 열릴 때 제출 묶음입니다</h2><p>각 항목은 존재 여부가 아니라 다른 컴퓨터에서 다시 열리는지 확인합니다.</p></header>
+        <div class="submission-grid">
+          <article><span>BUILD</span><h3><code>RC1_CANDIDATE/</code></h3><p>지정 target의 실행 파일과 Data 폴더 전체입니다.</p></article>
+          <article><span>PROJECT</span><h3><code>UnityProject/</code></h3><p>Library와 임시 build를 제외하고 열 수 있는 project입니다.</p></article>
+          <article><span>EVIDENCE</span><h3><code>Evidence/Week15/</code></h3><p>before, after, Player log와 테스트 CSV입니다.</p></article>
+          <article><span>RECORD</span><h3><code>RELEASE_RECORD.md</code></h3><p>첫 실패, 선택 경로, 변경, 판정과 남은 위험입니다.</p></article>
+          <article><span>RIGHTS</span><h3><code>asset-ledger.csv</code></h3><p>외부 및 생성 에셋의 출처, 허용, 수정과 최종 사용 상태입니다.</p></article>
+          <article><span>FINAL MAP</span><h3><code>submission-map.md</code></h3><p>build, 영상, 작품설명서와 AI 제작 로그의 실제 위치입니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="oral" aria-labelledby="oral-title">
+        <header class="section-heading"><h2 id="oral-title">90초 설명은 네 문장으로 끝냅니다</h2><p>기능을 나열하지 않고 한 판, 위험, 결정과 증거를 연결합니다.</p></header>
+        <div class="contract-board">
+          <article><span>0-20 sec / CORE</span><h3>게임의 핵심</h3><p>플레이어 행동, 상태 변화와 3-5분 목표를 한 문장으로 말합니다.</p></article>
+          <article><span>20-40 sec / RISK</span><h3>첫 실패 관문</h3><p>어떤 target과 입력에서 무엇이 기대와 달랐는지 말합니다.</p></article>
+          <article><span>40-65 sec / CHANGE</span><h3>선택한 경로</h3><p>FIX, REMOVE, DEFER 중 하나와 허용, 금지 범위를 설명합니다.</p></article>
+          <article><span>65-90 sec / PROOF</span><h3>판정 증거</h3><p>T01-T08, RC1 또는 HOLD, 남은 위험과 제출 묶음을 제시합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fifteen-section" id="finish" aria-labelledby="finish-title">
+        <header class="section-heading"><h2 id="finish-title">여덟 항목을 확인하고 16주차로 이동합니다</h2><p>체크 상태만 완료되어도 실제 파일이 없으면 제출 준비가 끝난 것이 아닙니다.</p></header>
+        <div class="completion-panel" data-build-checklist>
+          <header><div><span>RELEASE CHECKPOINT</span><h3 data-build-status>아직 제출할 수 없습니다</h3></div><strong data-build-count>0 / 8</strong></header>
+          <ol>
+            <li><label><input type="checkbox" data-check-id="baseline"><span>RC0_BASELINE을 수정하지 않은 상태로 보존했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="ticket"><span>첫 실패, 경로, 허용과 금지 범위를 기록했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="change"><span>한 경로와 승인 범위 안에서만 변경했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="tests"><span>T01-T08이 8 / 8 PASS이거나 HOLD 근거를 기록했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="build"><span>RC1_CANDIDATE를 새 폴더에서 실행했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="rights"><span>권리 ledger와 최종 사용 파일을 비교했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="package"><span>제출 묶음의 모든 항목을 실제로 다시 열었습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="record"><span>RELEASE_RECORD.md와 90초 설명을 완료했습니다.</span></label></li>
+          </ol>
+          <button type="button" data-build-reset>체크 초기화</button>
+        </div>
+        <aside class="next-week"><span>WEEK 16 / FINAL</span><div><h3>RC1을 최종 제출 복사본으로 보존합니다</h3><p>새 기능을 추가하지 않고 제출 파일명, 실행 환경과 기록을 마지막으로 확인합니다.</p><a href="./#week-16">16주차 커리큘럼 보기 →</a></div></aside>
+      </section>
+    </article>
+
+    <nav class="toc week-fifteen-toc" aria-label="3교시 목차" data-week-fifteen-toc>
+      <p class="toc-title">Week 15 / Period 03</p>
+      <ol>
+        <li><a href="#mission" data-toc-link aria-current="location"><span>01</span>개인 미션</a></li>
+        <li><a href="#starting-line" data-toc-link><span>02</span>작업 복사본</a></li>
+        <li><a href="#route" data-toc-link><span>03</span>경로 선택</a></li>
+        <li><a href="#workflow" data-toc-link><span>04</span>60분 흐름</a></li>
+        <li><a href="#change-contract" data-toc-link><span>05</span>변경 계약</a></li>
+        <li><a href="#tests" data-toc-link><span>06</span>T01-T08</a></li>
+        <li><a href="#repair" data-toc-link><span>07</span>실패 복구</a></li>
+        <li><a href="#package" data-toc-link><span>08</span>제출 묶음</a></li>
+        <li><a href="#oral" data-toc-link><span>09</span>90초 설명</a></li>
+        <li><a href="#finish" data-toc-link><span>10</span>완료 확인</a></li>
+      </ol>
+    </nav>
+  </main>
+  <p class="footer-note">Game Engine I / Week 15 / Period 03 / Goal-directed individual mission</p>
+  <script src="assets/week-15.js?v=ge1w15-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
