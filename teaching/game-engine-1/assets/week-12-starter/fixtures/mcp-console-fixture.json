@@ -1,0 +1,13 @@
+{
+  "_fixture": "교육용 단순화 sample입니다. 실제 MCP tool 출력이 아닙니다.",
+  "_route": "C / Offline fixture",
+  "requestType": "read-only console summary",
+  "targetProject": "Week12_AutomationLab",
+  "tool": "Unity_ReadConsole example",
+  "result": {
+    "errorCount": 0,
+    "warningCount": 0,
+    "summaries": []
+  },
+  "projectModified": false
+}

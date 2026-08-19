@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>12주차 2교시: 읽고 예측하고 한 번만 실행합니다 | Game Engine I</title>
+  <meta name="description" content="Unity MCP로 Console과 Scene을 읽고, AutomationProbe 한 값을 제한적으로 변경·복구하며, Unity CLI의 status·pipeline list·command와 구조화된 출력을 판독하는 12주차 2교시 교수자 시연 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-12-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="12주차 2교시: 읽고 예측하고 한 번만 실행합니다 | Game Engine I">
+  <meta property="og:description" content="기준 상태, 읽기 관찰, 단일 변경, 차이 확인과 원상복구를 MCP·CLI 시연으로 연결합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-12-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-12-period2-bounded-automation.webp">
+  <meta property="og:image:alt" content="기준 상태 저장, 읽기 스캔, 권한 잠금, X축 한 칸 변경과 원상복구를 다섯 단계로 배열한 자동화 시연 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="12주차 2교시: 읽고 예측하고 한 번만 실행합니다">
+  <meta name="twitter:description" content="자동화를 실행 전후의 동일한 관찰로 검증하는 교수자 시연입니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-12-period2-bounded-automation.webp">
+  <link rel="preload" as="image" href="assets/week-12-period2-bounded-automation.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-12.css?v=ge1w12-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-twelve week-twelve-period-two">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-12-period1.html" rel="prev" aria-label="이전 자료: 12주차 1교시: 자동화는 연결보다 경계가 먼저입니다 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-12-period3.html" rel="next" aria-label="다음 자료: 12주차 3교시: 읽기 자동화 보고서를 증명하라 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-twelve-hero">
+    <div class="hero-inner">
+      <div class="week-twelve-hero-copy">
+        <p class="eyebrow">Week 12 / Period 02 / Demonstration</p>
+        <h1>읽고, 예측하고,<br>한 번만 실행합니다</h1>
+        <p class="lead">같은 정보를 실행 전과 후에 읽으면 자동화의 주장을 상태의 차이로 바꿀 수 있습니다. 이번 시연의 유일한 쓰기는 <code>AutomationProbe.Position.x</code> 하나입니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#mcp">MCP 읽기 시연</a>
+          <a class="hero-action" href="#cli">CLI 출력 읽기</a>
+        </div>
+        <ul class="hero-facts" aria-label="2교시 핵심 정보">
+          <li><span>운영</span><strong>교수자 설명과 시연</strong></li>
+          <li><span>시간</span><strong>60분</strong></li>
+          <li><span>학생 활동</span><strong>예측 · 판독 · 구술 회수</strong></li>
+        </ul>
+      </div>
+      <figure class="week-twelve-hero-visual">
+        <img src="assets/week-12-period2-bounded-automation.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="기준 상태 저장, 읽기 스캔, 권한 잠금, X축 한 칸 변경과 원상복구를 다섯 단계로 배열한 자동화 시연 작업대">
+        <figcaption><span>SNAPSHOT → READ → AUTHORIZE → DIFF → ROLLBACK</span> 자동화는 실행이 아니라 기준 상태로 돌아와 검증할 때 끝납니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <p class="section-index">00 / ARRIVAL</p>
+          <h2 id="arrival-title">2교시의 도착점</h2>
+          <p>교수자의 화면을 따라 클릭하는 시간이 아닙니다. 실행 전에 결과를 예측하고, 출력과 실제 Unity 상태가 그 예측을 지지하는지 판독합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p>MCP Bridge의 <strong>연결 요청과 client 승인</strong>을 작업별 권한과 구분합니다.</p></li>
+          <li><span>02</span><p>Console·Hierarchy·Component를 <strong>무변경 읽기</strong>로 관찰하고 수동 화면과 대조합니다.</p></li>
+          <li><span>03</span><p>한 Transform 값의 <strong>예상 차이, 실행, 재읽기와 rollback</strong>을 시연합니다.</p></li>
+          <li><span>04</span><p><code>unity status</code>와 <code>unity pipeline list</code>의 <strong>JSON, stderr와 exit code</strong>를 판독합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="2교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 02</span><strong>교수자 설명과 시연</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자 컴퓨터 한 대와 복제된 시연 프로젝트만 연결합니다. 학생은 각 명령 전에 예상되는 변화와 중단 조건을 말하고, 결과 화면에서 실제 차이를 찾습니다. 개인 환경의 연결은 3교시 경로 선택 뒤에만 수행합니다.</p>
+      </aside>
+
+      <section class="week-twelve-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <h2 id="run-title">60분의 시연 흐름</h2>
+          <p>설치보다 관찰과 검증에 시간을 씁니다. package와 CLI는 수업 전에 준비하고, 연결이 실패하면 fixture로 즉시 같은 판독을 이어갑니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase" aria-labelledby="period2-run-title">
+            <header><span>00–60 min</span><h3 id="period2-run-title">무변경 읽기에서 단일 쓰기와 복구까지</h3><p>Demonstration / professor-led</p></header>
+            <ol>
+              <li><time>00–08</time><div><strong>baseline 공개</strong><p>Scene, <code>AutomationProbe</code>, Player Component, Console count와 열린 Editor 한 개를 수동으로 기록합니다.</p></div></li>
+              <li><time>08–16</time><div><strong>연결과 승인</strong><p>MCP Bridge Running, Pending Connection의 client 정보와 승인·revoke를 보여 주고 연결과 작업 허가를 분리합니다.</p></div></li>
+              <li><time>16–28</time><div><strong>MCP 읽기 두 번</strong><p>Console과 Player Component를 읽고 결과를 수동 Console·Inspector와 항목별로 대조합니다.</p></div></li>
+              <li><time>28–40</time><div><strong>단일 쓰기와 rollback</strong><p>권한 계약을 소리 내어 읽고 Probe X 0 → 1을 한 번 실행한 뒤 재읽기·Undo·재검증합니다.</p></div></li>
+              <li><time>40–52</time><div><strong>CLI 연결 판독</strong><p>version, help, auth status, status와 pipeline list를 JSON으로 읽고 target project와 exit code를 확인합니다.</p></div></li>
+              <li><time>52–57</time><div><strong>FAIL 시연</strong><p>잘못된 project path 또는 닫힌 Editor 예시를 fixture로 보여 주고 성공 출력과 오류 출력을 구분합니다.</p></div></li>
+              <li><time>57–60</time><div><strong>3교시 인계</strong><p>세 경로가 같은 baseline·권한 계약·8개 테스트로 끝나는 이유를 회수합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-twelve-section" id="baseline" aria-labelledby="baseline-title">
+        <header class="section-heading">
+          <p class="section-index">02 / BASELINE SNAPSHOT</p>
+          <h2 id="baseline-title">자동화가 말하기 전에 사람이 먼저 봅니다</h2>
+          <p>baseline은 막연한 “정상 상태”가 아니라 실행 뒤 같은 방식으로 다시 확인할 수 있는 값의 묶음입니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>PROJECT</span><dl><div><dt>복제본</dt><dd><code>Week12_AutomationLab</code></dd></div><div><dt>Editor</dt><dd>한 개만 실행, Play Mode 종료</dd></div><div><dt>Scene</dt><dd>수업이 지정한 Scene을 열고 저장 상태 확인</dd></div></dl></article>
+          <article><span>PROBE</span><dl><div><dt>이름</dt><dd><code>AutomationProbe</code> 빈 GameObject</dd></div><div><dt>Transform</dt><dd>Position (0, 0, 0), Rotation (0, 0, 0), Scale (1, 1, 1)</dd></div><div><dt>Component</dt><dd>Transform 외 추가 Component 없음</dd></div></dl></article>
+          <article><span>READ TARGET</span><dl><div><dt>Player</dt><dd>Hierarchy의 정확한 이름과 Component 목록</dd></div><div><dt>Console</dt><dd>Error·Warning·Log count와 마지막 message</dd></div><div><dt>Scene</dt><dd>active Scene 이름과 root GameObject count</dd></div></dl></article>
+          <article><span>CHECKPOINT</span><dl><div><dt>저장</dt><dd>Scene과 Script의 미저장 표시가 없음</dd></div><div><dt>복구</dt><dd>Undo 또는 별도 project copy</dd></div><div><dt>중단</dt><dd>예상 밖 대상·추가 diff·새 Error가 보이면 즉시 중단</dd></div></dl></article>
+        </div>
+        <div class="test-contract"><span>DEMO RULE</span><p>수업 중 Package 설치, GameObject 생성·삭제, Script·Prefab·ProjectSettings 변경과 build는 하지 않습니다. 유일한 쓰기는 기존 <code>AutomationProbe.Position.x</code>의 0 → 1이며, 시연 안에서 0으로 복구합니다.</p></div>
+      </section>
+
+      <section class="week-twelve-section" id="connect" aria-labelledby="connect-title">
+        <header class="section-heading">
+          <h2 id="connect-title">첫 연결은 client를 확인하고 명시적으로 승인합니다</h2>
+          <p>Unity MCP Server의 Bridge가 실행 중이어도 새로운 외부 client는 승인 전까지 도구를 사용할 수 없습니다. 승인 뒤에는 자동 재연결될 수 있으므로 수업 종료 때 revoke가 필요합니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="MCP client 연결 확인 순서">
+          <li><span>01 / BRIDGE</span><strong>Unity Bridge Running</strong><p>Project Settings의 AI → Unity MCP Server에서 Bridge 상태를 확인합니다.</p></li>
+          <li><span>02 / IDENTITY</span><strong>client 확인</strong><p>Pending Connection의 client 이름과 자신이 시작한 연결인지 확인합니다. 모르는 client는 승인하지 않습니다.</p></li>
+          <li><span>03 / ALLOW</span><strong>연결만 승인</strong><p>Allow Access는 Bridge 연결 승인입니다. Scene 쓰기와 삭제 권한을 포괄 승인한 것이 아닙니다.</p></li>
+          <li><span>04 / TOOLS</span><strong>tool 목록 확인</strong><p><code>Unity_ReadConsole</code>, Scene·GameObject 관리 tool 등 실제 연결된 목록을 읽습니다.</p></li>
+          <li><span>05 / REVOKE</span><strong>종료 때 해제</strong><p>시연이 끝나면 access를 revoke하고 공용 컴퓨터의 외부 client와 provider session을 종료합니다.</p></li>
+        </ol>
+        <aside class="teacher-check"><span>relay 경로</span><p>Unity의 relay 설정은 사용자 폴더 아래 <code>~/.unity/relay/</code>를 사용합니다. 일부 client 설정에서는 <code>~</code>가 확장되지 않을 수 있으므로 실제 absolute path를 확인합니다. 이 경로와 자격 증명 값을 학생 화면에 무분별하게 공유하지 않습니다.</p></aside>
+      </section>
+
+      <section class="week-twelve-section" id="mcp" aria-labelledby="mcp-title">
+        <header class="section-heading">
+          <p class="section-index">04 / MCP READ-ONLY DEMO</p>
+          <h2 id="mcp-title">첫 두 요청은 읽기만 허용합니다</h2>
+          <p>요청마다 대상, 출력 형식과 무변경 조건을 반복합니다. 응답의 요약을 믿기 전에 실제 Console과 Inspector의 항목 수를 맞춥니다.</p>
+        </header>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>MCP REQUEST 01 / CONSOLE</span><button type="button" data-copy-code="mcp-console-prompt">요청 복사</button></div>
+          <pre><code id="mcp-console-prompt">Read the Unity console messages and summarize any warnings or errors.
+Do not create, edit, delete, save, or run anything.
+Return only: error count, warning count, and one-line summaries.</code></pre>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>MCP REQUEST 02 / COMPONENTS</span><button type="button" data-copy-code="mcp-component-prompt">요청 복사</button></div>
+          <pre><code id="mcp-component-prompt">In the active Scene, inspect only the GameObject named "Player".
+Do not modify the project.
+Return the exact GameObject path and the names of its Components.
+If there is no exact match or more than one match, stop and report that ambiguity.</code></pre>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+        <p class="copy-guidance">복사 뒤에도 대상과 금지 조건을 소리 내어 다시 확인합니다.</p>
+        <div class="snapshot-diff">
+          <article><span>MANUAL BASELINE</span><strong>사람이 먼저 기록</strong><p>Console count와 Player Inspector의 Component 이름을 화면에서 씁니다.</p></article>
+          <b aria-hidden="true">→</b>
+          <article><span>MCP REPORT</span><strong>같은 정보 요청</strong><p>요약 문장보다 count, object path와 Component 목록을 비교합니다.</p></article>
+          <b aria-hidden="true">→</b>
+          <article><span>CROSS-CHECK</span><strong>항목별 일치</strong><p>누락·추가·대상 혼동이 없고 project diff가 0일 때만 READ PASS입니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-twelve-section" id="probe" aria-labelledby="probe-title">
+        <header class="section-heading">
+          <h2 id="probe-title">변경은 하나, 관찰은 세 번입니다</h2>
+          <p>쓰기 요청보다 먼저 현재 상태와 예상 차이를 적습니다. 실행 뒤 재읽고, Undo 뒤 한 번 더 읽어 baseline 복귀를 확인합니다.</p>
+        </header>
+        <aside class="ask-template"><span>AUTHORIZED MCP REQUEST</span><p><code>Active Scene의 정확히 하나인 “AutomationProbe”만 대상으로 삼으세요. 먼저 Transform Position을 읽고 X가 0인지 확인하세요. 정확히 0이면 Position X만 1로 한 번 변경하고 Y·Z, Rotation, Scale, 다른 GameObject·Component·file·setting은 읽거나 수정하지 마세요. 대상이 없거나 중복되거나 X가 0이 아니면 아무것도 바꾸지 말고 중단하세요. 실행 뒤 Transform을 다시 읽어 바뀐 값과 사용한 tool을 보고하세요.</code></p></aside>
+        <div class="snapshot-diff">
+          <article><span>BEFORE</span><strong>X = 0</strong><p>Inspector, MCP read와 계약의 before가 모두 일치해야 실행합니다.</p></article>
+          <b aria-hidden="true">→</b>
+          <article><span>ONE DIFF</span><strong>X = 1</strong><p>Hierarchy, 다른 axis·Component·file과 Console에는 변화가 없어야 합니다.</p></article>
+          <b aria-hidden="true">↩</b>
+          <article><span>ROLLBACK</span><strong>X = 0</strong><p>Undo 뒤 같은 관찰을 반복해 baseline과 완전히 일치하는지 확인합니다.</p></article>
+        </div>
+        <ol class="signal-chain" aria-label="단일 쓰기 시연의 다섯 검증">
+          <li><span>V01</span><strong>대상 수 1</strong><p>정확한 이름의 object가 하나입니다.</p></li>
+          <li><span>V02</span><strong>before 일치</strong><p>Position X가 계약대로 0입니다.</p></li>
+          <li><span>V03</span><strong>diff 하나</strong><p>X만 1이고 다른 관찰값은 같습니다.</p></li>
+          <li><span>V04</span><strong>Console 유지</strong><p>새 Error·Warning이 생기지 않습니다.</p></li>
+          <li><span>V05</span><strong>복구 완료</strong><p>Undo 뒤 X와 전체 관찰 상태가 baseline입니다.</p></li>
+        </ol>
+      </section>
+
+      <section class="week-twelve-section" id="cli" aria-labelledby="cli-title">
+        <header class="section-heading">
+          <p class="section-index">06 / UNITY CLI DEMO</p>
+          <h2 id="cli-title">명령보다 먼저 현재 설치의 help를 읽습니다</h2>
+          <p>Unity CLI는 현재 experimental입니다. 아래 순서는 관찰 중심 수업용 기준이며, 실제 옵션은 설치된 CLI의 <code>--help</code>와 공식 reference를 우선합니다.</p>
+        </header>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>TERMINAL / READ-ONLY PREFLIGHT</span><button type="button" data-copy-code="cli-preflight">명령 복사</button></div>
+          <pre><code id="cli-preflight">unity -V
+unity --help
+unity auth status
+unity status --format json
+unity pipeline list --format json
+unity mcp --help</code></pre>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>TERMINAL / TARGET ONE EDITOR</span><button type="button" data-copy-code="cli-target">명령 복사</button></div>
+          <pre><code id="cli-target">unity list --project-path="/absolute/path/to/Week12_AutomationLab" --format json</code></pre>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
+        </div>
+        <div class="settings-grid">
+          <article><span>VERSION &amp; HELP</span><dl><div><dt>목적</dt><dd>문서가 아니라 현재 실행 파일의 기능과 옵션 확인</dd></div><div><dt>기록</dt><dd>CLI version과 필요한 subcommand help</dd></div><div><dt>주의</dt><dd>다른 학생 화면의 옵션을 그대로 복사하지 않음</dd></div></dl></article>
+          <article><span>AUTH STATUS</span><dl><div><dt>목적</dt><dd>로그인 여부만 관찰</dd></div><div><dt>금지</dt><dd>수업 중 개인 계정 생성·결제·강제 login</dd></div><div><dt>대체</dt><dd>미인증이면 fixture 경로로 전환</dd></div></dl></article>
+          <article><span>STATUS</span><dl><div><dt>목적</dt><dd>연결된 Editor의 port, path, version, PID 확인</dd></div><div><dt>판정</dt><dd>의도한 project path와 실행 중인 Editor 한 개</dd></div><div><dt>FAIL</dt><dd>0개 또는 여러 개면 대상부터 정리</dd></div></dl></article>
+          <article><span>PIPELINE LIST</span><dl><div><dt>목적</dt><dd>Pipeline 연결과 사용 가능한 Editor 확인</dd></div><div><dt>판정</dt><dd>project path가 baseline 복제본과 일치</dd></div><div><dt>실행</dt><dd>명시적 <code>--project-path</code>로 한 Editor만 지정</dd></div></dl></article>
+        </div>
+        <div class="rule-banner"><span>고급 시연 선택</span><strong><code>unity list --format json</code>으로 연결된 Editor가 공개한 명령과 parameter schema를 읽을 수 있습니다. 실행 명령을 추측하지 말고 설치 버전의 <code>unity command --help</code>와 list 결과를 먼저 확인합니다.</strong></div>
+      </section>
+
+      <section class="week-twelve-section" id="output" aria-labelledby="output-title">
+        <header class="section-heading">
+          <h2 id="output-title">JSON은 성공 표시가 아니라 판독 가능한 증거입니다</h2>
+          <p>형식이 구조화되어도 내용이 옳다는 보장은 없습니다. command, success, data, errors와 warnings를 실제 target과 함께 읽습니다.</p>
+        </header>
+        <div class="output-anatomy">
+          <pre aria-label="교육용 Unity CLI JSON 예시"><code>{
+  "success": true,
+  "command": "status",
+  "data": {
+    "projectPath": "/…/Week12_AutomationLab",
+    "editorVersion": "installed-version",
+    "pid": 12345
+  },
+  "errors": [],
+  "warnings": []
+}</code></pre>
+          <ol>
+            <li><strong>success</strong>는 명령의 성공 여부이지 수업 목표의 완료 여부가 아닙니다.</li>
+            <li><strong>command</strong>가 실행하려던 명령과 같은지 확인합니다.</li>
+            <li><strong>projectPath</strong>가 baseline 복제본인지 absolute path로 대조합니다.</li>
+            <li><strong>errors·warnings</strong>와 stderr를 함께 읽고 숨은 실패가 없는지 확인합니다.</li>
+            <li>마지막으로 Unity Editor 화면에서 같은 상태를 수동 확인합니다.</li>
+          </ol>
+        </div>
+        <div class="table-wrap" role="region" aria-label="Unity CLI exit code 판독표" tabindex="0">
+          <table class="boundary-matrix">
+            <thead><tr><th scope="col">exit code</th><th scope="col">의미</th><th scope="col">수업에서의 다음 행동</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">0</th><td>명령 성공</td><td>data와 실제 Unity 상태를 대조합니다. 자동 PASS로 바꾸지 않습니다.</td></tr>
+              <tr><th scope="row">1 / 2</th><td>일반 오류 / 사용법 오류</td><td>stderr와 현재 subcommand help를 읽고 명령·option을 수정합니다.</td></tr>
+              <tr><th scope="row">3 / 4</th><td>인증 / 구성 오류</td><td>개인 login을 강제하지 않고 fixture 경로로 전환해 판독을 계속합니다.</td></tr>
+              <tr><th scope="row">6</th><td>주요 작업 실패</td><td>성공으로 기록하지 않습니다. target·Editor·Pipeline 상태를 다시 확인합니다.</td></tr>
+              <tr><th scope="row">7</th><td>service unavailable</td><td>재시도 가능한 상태이지만 반복 호출하지 말고 잠시 멈춰 환경을 확인합니다.</td></tr>
+              <tr><th scope="row">130 / 143</th><td>사용자 중단 / 종료 신호</td><td>중단 이유와 남은 상태를 기록하고 baseline을 수동 확인합니다.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="week-twelve-section" id="log" aria-labelledby="log-title">
+        <header class="section-heading">
+          <h2 id="log-title">좋은 로그는 명령과 판단을 함께 남깁니다</h2>
+          <p>터미널 transcript만으로는 왜 실행했는지 알 수 없고, 회고 문장만으로는 무엇을 실행했는지 재현할 수 없습니다.</p>
+        </header>
+        <div class="settings-grid">
+          <article><span>BEFORE</span><dl><div><dt>시간·환경</dt><dd>Editor·package·CLI version과 선택 경로</dd></div><div><dt>baseline</dt><dd>Scene, target, Console, Transform과 checkpoint</dd></div><div><dt>계약</dt><dd>허용 tool, 예상 diff, 금지·중단·복구</dd></div></dl></article>
+          <article><span>EXECUTION</span><dl><div><dt>MCP</dt><dd>prompt 원문, 호출 tool, target과 응답 요약</dd></div><div><dt>CLI</dt><dd>명령·인수, stdout·stderr와 exit code</dd></div><div><dt>비밀</dt><dd>key·token·개인 path의 식별 정보는 redaction</dd></div></dl></article>
+          <article><span>AFTER</span><dl><div><dt>diff</dt><dd>예상과 실제의 일치·불일치</dd></div><div><dt>교차 확인</dt><dd>Inspector, Console, Hierarchy와 파일 상태</dd></div><div><dt>rollback</dt><dd>복구 방법과 baseline 재검사 결과</dd></div></dl></article>
+          <article><span>VERDICT</span><dl><div><dt>PASS</dt><dd>예상 차이만 존재하고 복구 뒤 baseline 일치</dd></div><div><dt>FAIL</dt><dd>오류·추가 변경·모호한 target과 중단 위치</dd></div><div><dt>다음</dt><dd>전체 재실행이 아니라 실패한 가장 가까운 단계</dd></div></dl></article>
+        </div>
+      </section>
+
+      <section class="week-twelve-section" id="fallback" aria-labelledby="fallback-title">
+        <header class="section-heading">
+          <p class="section-index">09 / OFFLINE CONTINUITY</p>
+          <h2 id="fallback-title">연결 실패는 학습 실패가 아닙니다</h2>
+          <p>자동화 수업의 목표는 account를 뚫는 것이 아니라 권한과 증거를 설계하는 것입니다. 연결이 막히면 같은 시점의 fixture를 읽습니다.</p>
+        </header>
+        <div class="route-grid">
+          <article><span>ROUTE A / CONNECTED</span><h3>MCP + CLI</h3><p>교수자 시연 환경에서 실제 read tool과 CLI status를 사용하고 한 번의 제한 쓰기·Undo를 보여 줍니다.</p></article>
+          <article><span>ROUTE B / PARTIAL</span><h3>CLI 또는 MCP 하나</h3><p>가능한 연결에서는 read evidence를 만들고 나머지는 수동 Inspector·Console과 제공 fixture로 대체합니다.</p></article>
+          <article><span>ROUTE C / OFFLINE</span><h3>fixture + 수동 관찰</h3><p>sample JSON·MCP report를 판독하고 Unity에서는 같은 baseline과 probe를 수동으로 검사·변경·복구합니다.</p></article>
+        </div>
+        <div class="test-contract"><span>EQUAL OUTCOME</span><p>세 경로 모두 baseline 표, 읽기 결과 대조, 권한 계약, 단일 X 변경과 rollback, 자동화 로그와 8개 테스트를 제출합니다. 연결 성공 여부와 유료 도구 사용은 평가하지 않습니다.</p></div>
+      </section>
+
+      <section class="week-twelve-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">3교시 전에 복원할 네 가지</h2>
+          <p>답을 먼저 말하고 펼쳐 확인합니다. 순서를 잊었다면 쓰기를 실행하지 않고 baseline으로 돌아갑니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. 첫 MCP 요청이 Console 읽기인 이유는 무엇인가?</summary><div class="details-motion-content"><p>프로젝트를 바꾸지 않으면서 연결된 tool, 대상 범위와 응답의 정확성을 수동 Console과 비교할 수 있기 때문입니다. 안전한 읽기에서 신뢰도를 먼저 확인합니다.</p></div></details>
+          <details><summary>Q2. AutomationProbe를 0 → 1로 바꾸기 전에 무엇이 모두 일치해야 하는가?</summary><div class="details-motion-content"><p>정확히 하나인 target, Inspector와 MCP read의 X=0, Scene·Play Mode·Console baseline, 허용 property, 예상 diff와 rollback 계획이 모두 일치해야 합니다.</p></div></details>
+          <details><summary>Q3. <code>success: true</code>가 수업 PASS가 아닌 이유는 무엇인가?</summary><div class="details-motion-content"><p>그 값은 CLI 명령이 성공했다고 보고할 뿐, 의도한 project를 대상으로 했는지, 실제 Unity 상태가 맞는지, 다른 변경이나 오류가 없는지까지 증명하지 않습니다.</p></div></details>
+          <details><summary>Q4. 연결되지 않는 학생은 무엇을 똑같이 증명하는가?</summary><div class="details-motion-content"><p>제공 fixture의 상태·출력을 판독하고 수동 Unity 화면에서 baseline, read result, 한 값의 변경과 rollback을 같은 표로 증명합니다. 평가 결과는 연결 경로와 무관합니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-twelve-section" id="handoff" aria-labelledby="handoff-title">
+        <header class="section-heading">
+          <h2 id="handoff-title">학생은 같은 보고서를 서로 다른 경로로 완성합니다</h2>
+          <p>3교시의 고정 목표는 자동화를 많이 실행하는 것이 아니라 읽기 결과와 단일 변경이 실제 상태와 일치함을 증명하는 것입니다.</p>
+        </header>
+        <div class="rule-banner"><span>NEXT MISSION</span><strong>baseline snapshot → read-only Console report → Player Component inventory → authorization contract → Probe X 0 → 1 → 0 → Console·Scene 재검사 → 8 / 8 PASS.</strong></div>
+        <aside class="next-week"><span>PERIOD 03 / INDIVIDUAL GOAL LAB</span><div><h3>읽기 자동화 보고서를 증명하라</h3><p>연결, 부분 연결 또는 fixture 경로 하나를 선언하고 같은 evidence pack과 테스트표를 완성합니다.</p><a href="week-12-period3.html">3교시 미션 열기 →</a></div></aside>
+      </section>
+
+      <section class="week-twelve-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <p class="section-index">12 / PRIMARY SOURCES</p>
+          <h2 id="references-title">시연 옆에 열어 둘 Unity 공식 자료</h2>
+          <p>고정된 slide보다 설치된 버전의 help를 우선하고, 문서와 실제 출력이 다르면 그 차이 자체를 automation log에 남깁니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.ai.assistant@2.17/manual/integration/unity-mcp-get-started.html" target="_blank" rel="noopener noreferrer"><strong>Unity MCP Server 시작하기 ↗</strong></a><span>Bridge, Pending Connection, Allow·Revoke Access와 read Console test</span></li>
+          <li><a href="https://unity.com/blog/unity-ai-mcp-how-to-get-started" target="_blank" rel="noopener noreferrer"><strong>Unity AI MCP 도구 범위 ↗</strong></a><span>Scene, GameObject, Script, Console, Component와 build settings tool 범주</span></li>
+          <li><a href="https://docs.unity.com/en-us/hub/use-unity-cli" target="_blank" rel="noopener noreferrer"><strong>Unity CLI 사용하기 ↗</strong></a><span>설치, upgrade, help, Editor와 project 기본 명령</span></li>
+          <li><a href="https://docs.unity.com/en-us/unity-cli/unity-cli-reference" target="_blank" rel="noopener noreferrer"><strong>Unity CLI reference ↗</strong></a><span>status, pipeline, command, mcp, JSON 형식과 exit code</span></li>
+          <li><a href="https://docs.unity.com/en-us/unity-production-pipeline/local-tools-cli/unity-pipeline-package" target="_blank" rel="noopener noreferrer"><strong>Unity Pipeline package ↗</strong></a><span>install, list와 project path로 연결 Editor 지정</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-twelve-toc" aria-label="2교시 목차" data-week-twelve-toc>
+      <p class="toc-title">Week 12 / Period 02</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 시연</a></li>
+        <li><a href="#baseline"><span>02</span>기준 상태</a></li>
+        <li><a href="#connect"><span>03</span>연결과 승인</a></li>
+        <li><a href="#mcp"><span>04</span>MCP 읽기</a></li>
+        <li><a href="#probe"><span>05</span>단일 쓰기</a></li>
+        <li><a href="#cli"><span>06</span>Unity CLI</a></li>
+        <li><a href="#output"><span>07</span>출력 판독</a></li>
+        <li><a href="#log"><span>08</span>자동화 로그</a></li>
+        <li><a href="#fallback"><span>09</span>대체 경로</a></li>
+        <li><a href="#check"><span>10</span>회수 질문</a></li>
+        <li><a href="#handoff"><span>11</span>3교시 인계</a></li>
+        <li><a href="#references"><span>12</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>baseline</span><i></i><span>one diff</span><i></i><span>rollback</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 12 / Period 02 / Professor-led explanation and demonstration</p>
+  <script src="assets/week-12.js?v=ge1w12-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

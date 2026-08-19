@@ -1,0 +1,18 @@
+{
+  "_fixture": "교육용 단순화 sample입니다. 실제 Unity CLI 출력이 아닙니다.",
+  "_route": "C / Offline fixture",
+  "success": true,
+  "command": "pipeline list",
+  "data": {
+    "projects": [
+      {
+        "projectPath": "/CLASS/Week12_AutomationLab",
+        "connected": true,
+        "playMode": false
+      }
+    ]
+  },
+  "errors": [],
+  "warnings": [],
+  "exitCode": 0
+}

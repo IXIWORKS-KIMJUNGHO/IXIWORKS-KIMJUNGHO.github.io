@@ -1,0 +1,19 @@
+{
+  "_fixture": "교육용 단순화 sample입니다. 실제 MCP tool 출력이 아닙니다.",
+  "_route": "C / Offline fixture",
+  "requestType": "read-only GameObject component inventory",
+  "targetProject": "Week12_AutomationLab",
+  "result": {
+    "exactMatchCount": 1,
+    "gameObjectPath": "Week12_AutomationLab/Player",
+    "components": [
+      "Transform",
+      "SpriteRenderer",
+      "Rigidbody2D",
+      "Collider2D",
+      "PlayerController"
+    ]
+  },
+  "projectModified": false,
+  "note": "실제 수업 project의 Inspector 값이 다르면 수동 관찰을 정답으로 기록합니다."
+}

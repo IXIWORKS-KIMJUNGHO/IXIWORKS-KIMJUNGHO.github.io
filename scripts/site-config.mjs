@@ -110,6 +110,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-10-period3-asset-kit-mission.webp",
     alt: "네 캐릭터 프레임, 수집물, 위험, 목표 아이콘, UI 패널이 여덟 검증등과 함께 실제 숲 게임 장면에서 작동하는 개인 미션 보드",
   }),
+  "teaching/game-engine-1/week-12-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-12-period1-control-surfaces.webp",
+    alt: "Gateway, MCP, CLI와 Pipeline 네 모듈이 읽기 허용과 쓰기 잠금 경계를 지나 기준 상태와 검증 결과를 연결하는 입체 작업대",
+  }),
+  "teaching/game-engine-1/week-12-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-12-period2-bounded-automation.webp",
+    alt: "기준 상태 저장, 읽기 스캔, 권한 잠금, X축 한 칸 변경과 원상복구를 다섯 단계로 배열한 자동화 시연 작업대",
+  }),
+  "teaching/game-engine-1/week-12-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-12-period3-readiness-mission.webp",
+    alt: "연결, CLI와 오프라인 세 경로가 기준 상태, Console, Component, 권한 계약, 단일 변경, 복구 증거와 여덟 검증 표시등으로 모이는 개인 미션 보드",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",
