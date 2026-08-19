@@ -383,10 +383,6 @@ body.course-game-engine-1.game-engine-foundations .project-create-steps p {
   font-size: 13px;
 }
 
-body.course-game-engine-1.game-engine-foundations .mission-section {
-  position: relative;
-}
-
 body.course-game-engine-1.game-engine-foundations .mission-handoff {
   margin: 24px 0 0;
   padding: 0;
@@ -1004,7 +1000,7 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
 @media (hover: hover) and (pointer: fine) {
   body.course-game-engine-1.game-engine-foundations .mission-handoff-footer a:hover {
     background: var(--accent);
-    color: #fff;
+    color: var(--paper);
   }
 }
 
@@ -1027,14 +1023,6 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
   body.course-game-engine-1.game-engine-foundations .prefab-asset,
   body.course-game-engine-1.game-engine-foundations .play-mode-sequence .play-mode-active {
     background: color-mix(in srgb, var(--ink-strong) 88%, var(--accent));
-  }
-}
-
-@media (prefers-reduced-transparency: reduce) {
-  body.course-game-engine-1.game-engine-foundations .lesson-header {
-    background: var(--paper);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
   }
 }
 

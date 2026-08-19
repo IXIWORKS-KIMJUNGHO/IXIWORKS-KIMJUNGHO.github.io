@@ -8,11 +8,12 @@ const root = resolve(import.meta.dirname, "..");
 const courseDirectory = resolve(root, "teaching", "game-engine-1");
 
 test("Game Engine I week 2 builds and verifies the first reusable 2D scene", async () => {
-  const [courseIndex, lesson, stylesheet, script] = await Promise.all([
+  const [courseIndex, lesson, stylesheet, script, baseStylesheet] = await Promise.all([
     readFile(resolve(courseDirectory, "index.html"), "utf8"),
     readFile(resolve(courseDirectory, "week-02-foundations.html"), "utf8"),
     readFile(resolve(courseDirectory, "assets", "week-02-foundations.css"), "utf8"),
     readFile(resolve(courseDirectory, "assets", "week-02-foundations.js"), "utf8"),
+    readFile(resolve(courseDirectory, "assets", "week-01-ot.css"), "utf8"),
   ]);
 
   assert.match(courseIndex, /href="week-02-foundations\.html"/);
@@ -65,7 +66,13 @@ test("Game Engine I week 2 builds and verifies the first reusable 2D scene", asy
   assert.match(stylesheet, /@media \(max-width: 760px\)/);
   assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)/);
   assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);
-  assert.match(stylesheet, /@media \(prefers-reduced-transparency: reduce\)/);
+  assert.match(baseStylesheet, /@media \(prefers-reduced-transparency: reduce\)/);
+  assert.doesNotMatch(stylesheet, /\.mission-section/);
+  assert.match(
+    stylesheet,
+    /\.mission-handoff-footer a:hover \{[\s\S]*?color: var\(--paper\)/,
+    "the instructor mission link should retain dark-mode contrast on hover",
+  );
   assert.match(script, /IntersectionObserver/);
   assert.doesNotMatch(
     script,
@@ -245,7 +252,8 @@ test("Game Engine I week 2 reports browser storage success and failure", async (
   const context = {};
   vm.runInNewContext(helper, context);
 
-  const { persistJsonWithStatus } = context.GameEngineWeek2Storage;
+  const { persistJsonWithStatus, readJsonWithStatus } =
+    context.GameEngineWeek2Storage;
   const values = new Map();
   const workingStorage = {
     setItem(key, value) {
@@ -287,4 +295,22 @@ test("Game Engine I week 2 reports browser storage success and failure", async (
   );
   assert.equal(failureStatus.dataset.state, "error");
   assert.equal(failureStatus.textContent, "저장 실패");
+
+  const readFailureStatus = { dataset: {}, textContent: "" };
+  const readFallback = readJsonWithStatus({
+    storage: {
+      getItem() {
+        throw new Error("storage unreadable");
+      },
+    },
+    key: "week-02:test",
+    fallback: { complete: false },
+    status: readFailureStatus,
+    unavailableMessage: "저장 공간 접근 실패",
+    errorMessage: "저장값 읽기 실패",
+  });
+
+  assert.equal(readFallback.complete, false);
+  assert.equal(readFailureStatus.dataset.state, "error");
+  assert.equal(readFailureStatus.textContent, "저장값 읽기 실패");
 });

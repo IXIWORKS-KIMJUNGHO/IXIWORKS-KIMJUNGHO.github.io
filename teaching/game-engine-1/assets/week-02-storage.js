@@ -8,13 +8,14 @@
   };
 
   const readJsonStorage = (storage, key, fallback) => {
-    if (!storage) return fallback;
+    if (!storage) return { state: "unavailable", value: fallback };
 
     try {
       const stored = storage.getItem(key);
-      return stored === null ? fallback : (JSON.parse(stored) ?? fallback);
+      if (stored === null) return { state: "empty", value: fallback };
+      return { state: "loaded", value: JSON.parse(stored) ?? fallback };
     } catch {
-      return fallback;
+      return { state: "error", value: fallback };
     }
   };
 
@@ -53,9 +54,28 @@
     return saved;
   };
 
+  const readJsonWithStatus = ({
+    storage,
+    key,
+    fallback,
+    status,
+    unavailableMessage,
+    errorMessage,
+  }) => {
+    const result = readJsonStorage(storage, key, fallback);
+
+    if (result.state === "unavailable") {
+      reportStorageResult(status, false, "", unavailableMessage);
+    } else if (result.state === "error") {
+      reportStorageResult(status, false, "", errorMessage);
+    }
+
+    return result.value;
+  };
+
   globalThis.GameEngineWeek2Storage = Object.freeze({
     getBrowserStorage,
     persistJsonWithStatus,
-    readJsonStorage,
+    readJsonWithStatus,
   });
 })();

@@ -42,19 +42,33 @@
   const checklistKey = `${lessonKey}:checks`;
   const storageApi = globalThis.GameEngineWeek2Storage;
   const browserStorage = storageApi?.getBrowserStorage(globalThis) ?? null;
+  const reportStorageError = (status, message) => {
+    if (!status) return;
+    status.dataset.state = "error";
+    status.textContent = message;
+  };
   const persistJsonWithStatus =
     storageApi?.persistJsonWithStatus ??
     (({ status, errorMessage }) => {
-      if (status) {
-        status.dataset.state = "error";
-        status.textContent = errorMessage;
-      }
+      reportStorageError(status, errorMessage);
       return false;
+    });
+  const readJsonWithStatus =
+    storageApi?.readJsonWithStatus ??
+    (({ fallback, status, unavailableMessage }) => {
+      reportStorageError(status, unavailableMessage);
+      return fallback;
     });
 
   if (missionChecks.length) {
-    const savedChecks =
-      storageApi?.readJsonStorage(browserStorage, checklistKey, {}) ?? {};
+    const savedChecks = readJsonWithStatus({
+      storage: browserStorage,
+      key: checklistKey,
+      fallback: {},
+      status: checklistSaveState,
+      unavailableMessage: "이 브라우저의 저장 공간에 접근할 수 없습니다. 제출 전 통과 화면을 캡처하세요.",
+      errorMessage: "이전에 저장한 통과 확인을 읽을 수 없어 빈 상태로 시작했습니다. 새 확인을 저장하면 상태를 다시 만듭니다.",
+    });
 
     missionChecks.forEach((check) => {
       check.checked = Boolean(savedChecks[check.dataset.missionCheck]);
@@ -104,7 +118,14 @@
 
   if (missionNote) {
     const noteKey = `${lessonKey}:note`;
-    missionNote.value = storageApi?.readJsonStorage(browserStorage, noteKey, "") ?? "";
+    missionNote.value = readJsonWithStatus({
+      storage: browserStorage,
+      key: noteKey,
+      fallback: "",
+      status: saveState,
+      unavailableMessage: "이 브라우저의 저장 공간에 접근할 수 없습니다. 제출 전에 문장을 따로 복사하세요.",
+      errorMessage: "이전에 저장한 문장을 읽을 수 없어 빈 상태로 시작했습니다. 새로 입력하면 저장 상태를 다시 만듭니다.",
+    });
 
     missionNote.addEventListener("input", () => {
       persistJsonWithStatus({
