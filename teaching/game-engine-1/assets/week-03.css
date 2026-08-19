@@ -63,10 +63,6 @@ body.course-game-engine-1.game-engine-week-three .week-three-hero .lead {
   line-height: 1.62;
 }
 
-body.course-game-engine-1.game-engine-week-three .week-three-hero .hero-meta {
-  margin-top: 26px;
-}
-
 .week-three-hero-visual {
   min-width: 0;
   margin: 0;
@@ -135,7 +131,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   margin-bottom: 6px;
   color: var(--quiet);
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: .025em;
   text-transform: uppercase;
@@ -183,7 +179,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 .constraint-grid article > span,
 .prediction-grid article > span {
   color: var(--w3-accent-strong);
-  font: 650 10.5px/1.35 var(--mono);
+  font: 650 12px/1.35 var(--mono);
   letter-spacing: .035em;
   text-transform: uppercase;
 }
@@ -216,7 +212,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 .rubric-points {
   color: var(--w3-accent-strong);
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 650;
   letter-spacing: .035em;
   text-transform: uppercase;
@@ -257,7 +253,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 .session-track time {
   color: var(--w3-accent-strong);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
 }
 
@@ -328,7 +324,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 .mental-model span {
   color: var(--w3-accent);
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: 12px;
   font-weight: 650;
 }
 
@@ -427,7 +423,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   gap: 12px;
   color: var(--ink-strong);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .code-card {
@@ -460,14 +456,10 @@ body.course-game-engine-1.game-engine-week-three .article th {
   border-radius: 4px;
   background: transparent;
   color: #dfe9e6;
-  font: 600 10.5px/1 var(--mono);
+  font: 600 12px/1 var(--mono);
   letter-spacing: .02em;
   text-transform: uppercase;
   cursor: pointer;
-}
-
-.copy-code:hover {
-  border-color: rgba(226, 239, 235, .6);
 }
 
 .copy-code[data-copied="true"] {
@@ -556,7 +548,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   place-items: center;
   background: var(--paper);
   color: var(--w3-teal);
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .lifecycle code {
@@ -569,7 +561,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   margin-top: 18px;
   display: block;
   color: var(--w3-accent-strong);
-  font: 650 10.5px/1.35 var(--mono);
+  font: 650 12px/1.35 var(--mono);
   text-transform: uppercase;
 }
 
@@ -658,7 +650,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 .calculation-table thead th,
 .test-matrix thead th {
   color: var(--ink-strong);
-  font: 650 10.5px/1.4 var(--mono);
+  font: 650 12px/1.4 var(--mono);
   letter-spacing: .025em;
   text-transform: uppercase;
 }
@@ -667,7 +659,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 .test-matrix tbody th {
   color: var(--w3-accent-strong);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 650;
   text-transform: uppercase;
 }
@@ -686,7 +678,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   padding-top: 9px;
   display: none;
   color: var(--quiet);
-  font: 500 10.5px/1.45 var(--mono);
+  font: 500 12px/1.45 var(--mono);
 }
 
 .callout {
@@ -755,10 +747,6 @@ body.course-game-engine-1.game-engine-week-three .article th {
   color: var(--ink-strong);
   font: 650 13px/1.35 var(--mono);
   cursor: pointer;
-}
-
-.quiz-option:hover {
-  border-color: var(--w3-teal);
 }
 
 .quiz-option[data-state="correct"] {
@@ -866,7 +854,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   border-radius: 4px;
   background: var(--paper);
   color: var(--ink-strong);
-  font: 650 10.5px/1 var(--mono);
+  font: 650 12px/1 var(--mono);
   cursor: pointer;
 }
 
@@ -889,7 +877,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   bottom: 16px;
   border-right: 1px dashed var(--w3-accent);
   color: var(--w3-accent-strong);
-  font: 600 10.5px/1 var(--mono);
+  font: 600 12px/1 var(--mono);
 }
 
 .motion-object {
@@ -921,7 +909,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   justify-content: space-between;
   gap: 12px;
   color: var(--ink-strong);
-  font: 600 10.5px/1.4 var(--mono);
+  font: 600 12px/1.4 var(--mono);
 }
 
 .motion-control output {
@@ -1081,7 +1069,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 
 .checklist-progress span {
   color: var(--w3-success);
-  font: 650 11px/1.3 var(--mono);
+  font: 650 12px/1.3 var(--mono);
 }
 
 .checklist-reset {
@@ -1091,7 +1079,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   border-radius: 4px;
   background: transparent;
   color: var(--muted);
-  font: 600 10.5px/1 var(--mono);
+  font: 600 12px/1 var(--mono);
   cursor: pointer;
 }
 
@@ -1117,7 +1105,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   top: 20px;
   left: 22px;
   color: var(--w3-accent);
-  font: 650 10.5px/1 var(--mono);
+  font: 650 12px/1 var(--mono);
 }
 
 .parameter-list {
@@ -1134,7 +1122,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
   justify-content: space-between;
   gap: 12px;
   color: var(--muted);
-  font: 11px/1.4 var(--mono);
+  font: 12px/1.4 var(--mono);
 }
 
 .parameter-list code {
@@ -1188,7 +1176,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 
 .submission-list strong {
   color: var(--w3-accent-strong);
-  font: 650 10.5px/1.5 var(--mono);
+  font: 650 12px/1.5 var(--mono);
   text-transform: uppercase;
 }
 
@@ -1239,7 +1227,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 
 .mission-facts dt {
   color: var(--quiet);
-  font: 650 10.5px/1.35 var(--mono);
+  font: 650 12px/1.35 var(--mono);
   text-transform: uppercase;
 }
 
@@ -1309,7 +1297,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 
 .pass-gate article > span {
   color: var(--w3-accent);
-  font: 650 10.5px/1 var(--mono);
+  font: 650 12px/1 var(--mono);
 }
 
 .pass-gate article > strong {
@@ -1354,7 +1342,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 
 .hint-ladder summary span {
   color: var(--w3-accent-strong);
-  font: 650 10.5px/1.35 var(--mono);
+  font: 650 12px/1.35 var(--mono);
   text-transform: uppercase;
 }
 
@@ -1385,10 +1373,6 @@ body.course-game-engine-1.game-engine-week-three .article th {
   font-weight: 700;
 }
 
-.source-card a:hover {
-  color: var(--w3-accent-strong);
-}
-
 .next-lesson {
   margin-top: 78px;
   padding: 26px 0;
@@ -1401,7 +1385,7 @@ body.course-game-engine-1.game-engine-week-three .article th {
 
 .next-lesson > span {
   color: var(--w3-accent);
-  font: 650 10.5px/1.4 var(--mono);
+  font: 650 12px/1.4 var(--mono);
   text-transform: uppercase;
 }
 
@@ -1431,7 +1415,7 @@ body.course-game-engine-1.game-engine-week-three .toc {
 body.course-game-engine-1.game-engine-week-three .toc-title {
   padding: 15px 0 10px;
   color: var(--ink-strong);
-  font: 650 10.5px/1.3 var(--mono);
+  font: 650 12px/1.3 var(--mono);
   text-transform: uppercase;
 }
 
@@ -1454,7 +1438,6 @@ body.course-game-engine-1.game-engine-week-three .toc a {
   line-height: 1.45;
 }
 
-body.course-game-engine-1.game-engine-week-three .toc a:hover,
 body.course-game-engine-1.game-engine-week-three .toc a[aria-current="location"] {
   color: var(--w3-accent-strong);
   text-decoration: none;
@@ -1465,11 +1448,27 @@ body.course-game-engine-1.game-engine-week-three .toc a[aria-current="location"]
   box-shadow: inset 2px 0 0 var(--w3-accent);
 }
 
+@media (hover: hover) and (pointer: fine) {
+  .copy-code:hover {
+    border-color: rgba(226, 239, 235, .6);
+  }
+
+  .quiz-option:hover {
+    border-color: var(--w3-teal);
+  }
+
+  .source-card a:hover,
+  body.course-game-engine-1.game-engine-week-three .toc a:hover {
+    color: var(--w3-accent-strong);
+    text-decoration: none;
+  }
+}
+
 .footer-note {
   margin: 0;
   padding: 20px 24px 30px;
   color: var(--quiet);
-  font: 500 10.5px/1.4 var(--mono);
+  font: 500 12px/1.4 var(--mono);
   text-align: center;
   text-transform: uppercase;
 }
@@ -1729,6 +1728,16 @@ body.course-game-engine-1.game-engine-week-three .toc a[aria-current="location"]
 
   .motion-object {
     border-color: #f3eee6;
+  }
+
+  .quiz-option[data-state="correct"] {
+    background: color-mix(in srgb, var(--w3-success) 16%, var(--paper));
+    color: var(--w3-success);
+  }
+
+  .quiz-option[data-state="incorrect"] {
+    background: color-mix(in srgb, var(--w3-danger) 16%, var(--paper));
+    color: var(--w3-danger);
   }
 }
 

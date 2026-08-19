@@ -30,6 +30,9 @@ test("Game Engine I index presents week 3 as two theory periods and one mission"
   assert.match(courseIndex, /2교시 · 이론과 설명/);
   assert.match(courseIndex, /3교시 · 목표지향 개인 실습/);
   assert.match(courseIndex, /필수 기준 8개로 검증/);
+  assert.match(courseIndex, /매주 수업은 교수자의 이론·설명과 학생의 목표지향 실습을 결합/);
+  assert.match(courseIndex, /주 3시간: 교수자 설명 \+ 목표지향 제작 실습/);
+  assert.doesNotMatch(courseIndex, /매주 수업은 이론 1시간과 실습 2시간/);
 });
 
 test("week 3 handouts form a sourced and navigable three-period sequence", async () => {
@@ -54,14 +57,16 @@ test("week 3 handouts form a sourced and navigable three-period sequence", async
   assert.match(pages[1], /href="week-03-period1\.html" rel="prev"/);
   assert.match(pages[1], /href="week-03-period3\.html" rel="next"/);
   assert.match(pages[2], /href="week-03-period2\.html" rel="prev"/);
+  assert.match(pages[0], /href="week-02-period3\.html" rel="prev"/);
+  assert.match(pages[2], /href="week-04-period1\.html" rel="next"/);
 });
 
 test("period 1 is teacher-led theory for reading C# structures", async () => {
   const [period1] = await readWeekThree();
 
   for (const requiredText of [
-    "교수자 이론과 설명",
-    "학생 코딩 없음",
+    "교수자 설명 자료",
+    "이 교시에는 Unity 프로젝트를 따라 만들지 않습니다",
     "Script는 GameObject의 행동 Component입니다",
     "변수는 값을 기억하는 이름표입니다",
     "함수는 이름 붙인 행동 묶음입니다",
@@ -126,7 +131,6 @@ test("period 3 is a finite goal-directed independent mission", async () => {
   const [, , period3] = await readWeekThree();
 
   for (const requiredText of [
-    "학생 독립 실습",
     "학생 목표지향 독립 실습",
     "정해진 클릭 순서는 없습니다",
     "미션: Motion Test Lane",
@@ -257,6 +261,7 @@ test("week 3 copy and numbered wayfinding stay internally consistent", async () 
 
   pages.forEach((page, index) => {
     assert.match(page, new RegExp('<p class="eyebrow">Week 03 / Period 0' + (index + 1) + "</p>"));
+    assert.doesNotMatch(page, /class="hero-meta"/);
     assert.doesNotMatch(page, /[—–]/);
 
     const sectionLabels = [...page.matchAll(/class="section-label">([^<]+)</g)]
@@ -283,16 +288,16 @@ test("week 3 copy and numbered wayfinding stay internally consistent", async () 
 test("week 3 styles use readable type and quiet concept cards", async () => {
   const css = await readFile(resolve(assetDirectory, "week-03.css"), "utf8");
 
-  assert.match(css, /\.week-three-lesson-facts dt \{[\s\S]*font-size: 10\.5px/);
   assert.match(css, /\.week-three-lesson-facts dd \{[\s\S]*font-size: 14px/);
-  assert.match(css, /\.section-label,[\s\S]*font-size: 10\.5px/);
   assert.match(css, /\.week-three-section > header > p \{[\s\S]*font-size: 15px/);
   assert.match(css, /\.concept-card p,[\s\S]*\.source-card p \{[\s\S]*font-size: 14px/);
   assert.match(
     css,
     /\.concept-card,[\s\S]*\.source-card \{[\s\S]*border: 0;[\s\S]*border-top: 1px solid var\(--line\);[\s\S]*border-radius: 0;[\s\S]*background: transparent/,
   );
-  assert.match(css, /\.toc a \{[\s\S]*font-size: 12px/);
+  const fontSizes = [...css.matchAll(/(?:font-size\s*:\s*|font\s*:[^;\n]*?\s)(\d+(?:\.\d+)?)px/g)]
+    .map((match) => Number(match[1]));
+  assert.ok(fontSizes.every((size) => size >= 12), "week 3 text should never render below 12px");
 });
 
 test("week 3 motion lab sleeps when animation cannot be seen", async () => {
@@ -304,6 +309,8 @@ test("week 3 motion lab sleeps when animation cannot be seen", async () => {
   assert.match(script, /cancelAnimationFrame\(frameRequest\)/);
   assert.match(script, /const syncAnimation = \(\) =>/);
   assert.match(script, /visibilitychange/);
+  assert.match(script, /let inViewport = !\("IntersectionObserver" in window\)/);
+  assert.match(script, /rootMargin: "0px"/);
 });
 
 test("week 3 checklist reports progress and confirms destructive reset", async () => {
@@ -323,4 +330,32 @@ test("week 3 checklist reports progress and confirms destructive reset", async (
   assert.match(script, /reset\.disabled = completed === 0/);
   assert.match(css, /\.checklist-reset\[data-confirming="true"\]/);
   assert.match(css, /\.checklist-reset:disabled/);
+});
+
+test("week 3 dark feedback stays legible and hover is pointer-safe", async () => {
+  const css = await readFile(resolve(assetDirectory, "week-03.css"), "utf8");
+  const hoverMediaStart = css.indexOf("@media (hover: hover) and (pointer: fine)");
+  const darkMediaStart = css.indexOf("@media (prefers-color-scheme: dark)");
+  const reducedMotionStart = css.indexOf("@media (prefers-reduced-motion: reduce)");
+
+  assert.ok(hoverMediaStart >= 0, "fine-pointer hover rules should be grouped in a media query");
+  for (const selector of [
+    ".copy-code:hover",
+    ".quiz-option:hover",
+    ".source-card a:hover",
+    ".toc a:hover",
+  ]) {
+    const selectorIndex = css.indexOf(selector);
+    assert.ok(selectorIndex > hoverMediaStart && selectorIndex < darkMediaStart, selector + " must be pointer-safe");
+  }
+
+  const darkStyles = css.slice(darkMediaStart, reducedMotionStart);
+  assert.match(
+    darkStyles,
+    /\.quiz-option\[data-state="correct"\] \{[\s\S]*background: color-mix\(in srgb, var\(--w3-success\) 16%, var\(--paper\)\)/,
+  );
+  assert.match(
+    darkStyles,
+    /\.quiz-option\[data-state="incorrect"\] \{[\s\S]*background: color-mix\(in srgb, var\(--w3-danger\) 16%, var\(--paper\)\)/,
+  );
 });

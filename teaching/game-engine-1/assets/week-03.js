@@ -219,7 +219,7 @@
 
     const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
     let userPaused = false;
-    let inViewport = true;
+    let inViewport = !("IntersectionObserver" in window);
     let position = 14;
     let rotation = 0;
     let previousTime = performance.now();
@@ -239,7 +239,7 @@
       toggle.textContent = reduceMotion.matches
         ? "동작 줄이기 설정으로 정지"
         : (userPaused ? "재생" : "일시 정지");
-      toggle.setAttribute("aria-pressed", String(userPaused));
+      toggle.setAttribute("aria-pressed", String(reduceMotion.matches || userPaused));
       toggle.disabled = reduceMotion.matches;
     };
 
@@ -303,7 +303,7 @@
       const visibilityObserver = new IntersectionObserver(([entry]) => {
         inViewport = Boolean(entry?.isIntersecting);
         syncAnimation();
-      }, { rootMargin: "120px 0px" });
+      }, { rootMargin: "0px" });
       visibilityObserver.observe(lab);
     }
 
