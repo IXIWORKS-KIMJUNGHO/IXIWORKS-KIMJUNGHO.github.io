@@ -26,6 +26,18 @@ export const TEACHING_SHARE_IMAGES = Object.freeze({
 });
 
 const PAGE_SHARE_IMAGES = Object.freeze({
+  "teaching/game-engine-1/week-03-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
+    alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",
+  }),
+  "teaching/game-engine-1/week-03-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-03-period2-lifecycle-time.webp",
+    alt: "초기화부터 반복 이동과 회전까지 네 프레임의 흐름을 보여 주는 생성형 교육 이미지",
+  }),
+  "teaching/game-engine-1/week-03-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-03-period3-motion-mission.webp",
+    alt: "세 개의 실험 레인에서 서로 다른 움직임을 보이는 오브젝트와 검증 표식을 담은 생성형 교육 이미지",
+  }),
   "teaching/contents-programming/week-03-period1.html": Object.freeze({
     path: "/teaching/contents-programming/assets/week-03-period1-hero.webp",
     alt: "정사각 픽셀 격자에서 원점과 좌표 관계를 보여 주는 3주차 1교시 이미지",
