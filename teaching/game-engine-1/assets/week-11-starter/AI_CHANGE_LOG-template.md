@@ -76,12 +76,14 @@ AI의 설명을 복사하지 않고 현재 데이터 소유자와 사건 흐름�
 - 수정될 것으로 예상한 파일:
 - 새로 생길 것으로 예상한 파일:
 - 학생이 직접 수행할 Scene 단계:
+- 예상 지원 산출물 (`Assets/Plans`, Unity 생성 `.meta`, 수동 Scene):
 - 상태와 경계값 위험:
 - 회귀 위험:
 - 제안된 테스트:
 - 학생이 제거하거나 고친 항목:
 - 중단 조건:
 - 선택한 권한:
+- Route A의 Write scripts only / Route B의 직접 작성 범위:
 - 승인 문장:
 
 ## 5. 실행
@@ -102,6 +104,8 @@ AI의 설명을 복사하지 않고 현재 데이터 소유자와 사건 흐름�
 
 ## 6. 예상 diff와 실제 diff
 
+새 `TimeBonus.cs`가 diff에서 빠지지 않도록 `git add -N -- Assets/Scripts/TimeBonus.cs`를 먼저 실행합니다. 이 명령은 파일 내용을 stage하지 않습니다. 저장 뒤 `git diff --cached`가 비었는지도 확인합니다.
+
 | 파일 | 예상한 행동 | 실제 행동 | 허용 범위 | 학생 설명 |
 | --- | --- | --- | --- | --- |
 |  |  |  |  |  |
@@ -114,6 +118,7 @@ AI의 설명을 복사하지 않고 현재 데이터 소유자와 사건 흐름�
 - 한 번 처리 코드:
 - 찾아서 제거한 불필요한 변경:
 - Script 변경 뒤 Console 결과:
+- Plan, Unity 생성 `.meta`, 수동 Scene을 구현 코드와 분리한 결과:
 
 ## 7. 수동 Unity 변경
 
@@ -124,10 +129,12 @@ Agent가 아니라 학생이 Unity Editor에서 직접 수행한 변경만 적�
 - 제거한 Component:
 - 추가한 Component:
 - Collider2D와 Is Trigger:
+- Player 또는 TimeBonus의 Rigidbody2D:
 - GameManager 참조:
 - Bonus Seconds 값:
 - 시각 또는 소리 선택:
 - 각 선택의 이유:
+- Build Profiles Scene List 등록, 체크와 중복 확인:
 
 ## 8. 테스트 증거
 
@@ -159,4 +166,5 @@ Agent가 아니라 학생이 Unity Editor에서 직접 수행한 변경만 적�
 - [ ] 예상하지 않은 변경과 실패를 숨기지 않았습니다.
 - [ ] prompt와 Plan을 원문 그대로 남겼습니다.
 - [ ] Agent 변경과 학생의 수동 Unity 변경을 구분했습니다.
+- [ ] Plan, Unity 생성 `.meta`, 수동 Scene과 두 C# 구현 diff를 작성 주체별로 구분했습니다.
 - [ ] AI를 사용하지 않은 경우 그 이유와 대체 과정을 기록했습니다.

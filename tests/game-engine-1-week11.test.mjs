@@ -227,6 +227,8 @@ test("period 1 teaches problem framing, autonomy, least privilege, diff, and pro
     /hallucination/,
     /Write scripts only/,
     /GameManager\.cs[\s\S]*TimeBonus\.cs/,
+    /Agent가 작성하는 구현 코드[\s\S]*두 C# 파일/,
+    /Assets\/Plans[\s\S]*\.meta[\s\S]*Scene/,
     /Scene[\s\S]*Prefab[\s\S]*Packages[\s\S]*ProjectSettings/,
     /diff[\s\S]*Console[\s\S]*Play Mode[\s\S]*회귀 테스트[\s\S]*코드 설명/,
     /assets\/week-11-period1-ai-workflow\.webp/,
@@ -263,6 +265,7 @@ test("period 2 demonstrates the complete bounded Time Bonus change", async () =>
     /Write scripts only/,
     /다른 파일을 생성, 수정, 이동 또는 삭제하지 마세요/,
     /Collider2D[\s\S]*Is Trigger[\s\S]*GameManager 참조/,
+    /Player 또는 TimeBonus[\s\S]*Rigidbody2D/,
     /20\.0초[\s\S]*25\.0초/,
     /28\.0초[\s\S]*30\.0초/,
     /assets\/week-11-period2-bounded-change\.webp/,
@@ -310,6 +313,8 @@ test("period 3 fixes the goal while preserving implementation choice and equal a
     /data-build-checklist/,
     /data-export-tests/,
     /assets\/week-11-change-control-starter\.zip/,
+    /File → Build Profiles → Scene List → Add Open Scenes/,
+    /git add -N -- Assets\/Scripts\/TimeBonus\.cs[\s\S]*git diff -- Assets\/Scripts\/GameManager\.cs Assets\/Scripts\/TimeBonus\.cs/,
     /AI_CHANGE_LOG\.md/,
     /week11_학번_이름_diff\.txt/,
     /60-90초 영상/,
@@ -330,6 +335,19 @@ test("period 3 fixes the goal while preserving implementation choice and equal a
     period3,
     /T07[\s\S]*Won[\s\S]*Restart[\s\S]*Start[\s\S]*Lost[\s\S]*Restart/,
   );
+  assert.match(
+    period3,
+    /T03[\s\S]*Route A[\s\S]*Write scripts only[\s\S]*Route B[\s\S]*직접 작성 범위/,
+  );
+  assert.match(
+    period3,
+    /T04[\s\S]*Agent 또는 직접 작성[\s\S]*구현 코드[\s\S]*두 C# 파일/,
+  );
+  assert.match(
+    period3,
+    /T06[\s\S]*실행 증거[\s\S]*코드 경로 증거[\s\S]*return false[\s\S]*SetActive/,
+  );
+  assert.doesNotMatch(period3, /meta 파일 변경은 금지|meta와 로그 파일을 바꾸지/);
 });
 
 test("week 11 starter pack contains reusable logs without shipping solution code", async () => {
@@ -343,7 +361,10 @@ test("week 11 starter pack contains reusable logs without shipping solution code
   assert.ok(archive.size > 4_000);
   assert.match(readme, /# Game Engine I 11주차 시작 자료/);
   assert.match(readme, /완성 코드는 포함하지 않습니다/);
-  assert.match(readme, /Agent 변경 범위/);
+  assert.match(readme, /Agent 구현 코드 변경 범위/);
+  assert.match(readme, /구현 코드[\s\S]*두 C# 파일/);
+  assert.match(readme, /Assets\/Plans[\s\S]*\.meta[\s\S]*Scene/);
+  assert.match(readme, /git add -N -- Assets\/Scripts\/TimeBonus\.cs/);
   assert.match(changeLog, /변경 전 기준 증거/);
   assert.match(changeLog, /예상 diff와 실제 diff/);
   assert.match(changeLog, /수동 Unity 변경/);
@@ -352,6 +373,8 @@ test("week 11 starter pack contains reusable logs without shipping solution code
   assert.match(testTemplate, /조작 조건,기대 결과,판정,관찰 및 수정 기록/);
   assert.match(testTemplate, /T01[\s\S]*Start→Won→Restart→Start→Lost→Restart/);
   assert.match(testTemplate, /T07[\s\S]*Won→Restart→Start→Lost→Restart/);
+  assert.match(testTemplate, /T03[\s\S]*Route A[\s\S]*Route B/);
+  assert.match(testTemplate, /T06[\s\S]*실행 증거[\s\S]*코드 경로 증거/);
 
   const expectedNames = [
     "README.md",
@@ -361,14 +384,11 @@ test("week 11 starter pack contains reusable logs without shipping solution code
   const entries = await readZipEntries(archivePath);
   const archiveFiles = [...entries.keys()].filter((name) => !name.endsWith("/"));
   assert.deepEqual(
-    archiveFiles.map((name) => name.split("/").at(-1)).sort(),
-    [...expectedNames].sort(),
+    archiveFiles.sort(),
+    expectedNames.map((name) => `week-11-starter/${name}`).sort(),
   );
   for (const name of expectedNames) {
-    const archiveName = archiveFiles.find(
-      (entry) => entry === name || entry.endsWith("/" + name),
-    );
-    assert.ok(archiveName, `${name} should be present in the starter archive`);
+    const archiveName = `week-11-starter/${name}`;
     assert.deepEqual(entries.get(archiveName), await readFile(resolve(starterDirectory, name)));
   }
 });
@@ -438,6 +458,107 @@ test("week 11 keeps identity in the current tab and makes destructive resets rec
     /\[data-confirming="true"\][\s\S]*?--w11-danger-strong[\s\S]*?--w11-danger-soft/,
   );
   assert.match(stylesheet, /\.control-status\s*\{[\s\S]*?font-size:\s*14px;/);
+
+  const declaration = script.match(
+    /const armReset = \([\s\S]*?\n  \};\n\n  const buildChecklist/,
+  );
+  assert.ok(declaration, "armReset should remain behavior-testable");
+  let pendingTimeout;
+  const fakeWindow = {
+    clearTimeout: () => {},
+    setTimeout: (callback) => {
+      pendingTimeout = callback;
+      return 1;
+    },
+  };
+  const armReset = Function(
+    "window",
+    `${declaration[0].replace(/\n\n  const buildChecklist$/, "")}; return armReset;`,
+  )(fakeWindow);
+  let click;
+  let confirmations = 0;
+  const button = {
+    dataset: { confirmLabel: "다시 누르기" },
+    textContent: "초기화",
+    addEventListener: (_event, listener) => {
+      click = listener;
+    },
+  };
+  const status = { textContent: "" };
+  armReset(button, {
+    status,
+    confirmMessage: "확인 대기",
+    cancelMessage: "취소됨",
+    completeMessage: "완료됨",
+    onConfirm: () => {
+      confirmations += 1;
+    },
+  });
+  click();
+  assert.equal(status.textContent, "확인 대기");
+  pendingTimeout();
+  assert.equal(status.textContent, "취소됨");
+  assert.equal(button.textContent, "초기화");
+  click();
+  click();
+  assert.equal(confirmations, 1);
+  assert.equal(status.textContent, "완료됨");
+});
+
+test("week 11 updates live progress only for result changes and calculates the time contract as pure behavior", async () => {
+  const [, , , , , , script] = await readWeekEleven();
+  const textHelperSource = script.match(
+    /const setTextIfChanged = \(element, nextText\) => \{([\s\S]*?)\n  \};/,
+  );
+  assert.ok(textHelperSource, "setTextIfChanged helper must remain inspectable");
+  const setTextIfChanged = Function(
+    `return (element, nextText) => {${textHelperSource[1]}};`,
+  )();
+  let announcements = 0;
+  const output = {
+    _text: "0 / 8 PASS",
+    get textContent() {
+      return this._text;
+    },
+    set textContent(value) {
+      announcements += 1;
+      this._text = value;
+    },
+  };
+  assert.equal(setTextIfChanged(output, "0 / 8 PASS"), false);
+  assert.equal(announcements, 0);
+  assert.equal(setTextIfChanged(output, "1 / 8 PASS"), true);
+  assert.equal(announcements, 1);
+
+  const calculatorSource = script.match(
+    /const calculateTimeBonus = \(\{ state, currentValue, bonusValue, cap \}\) => \{([\s\S]*?)\n  \};/,
+  );
+  assert.ok(calculatorSource, "time calculator must remain behavior-testable");
+  const calculateTimeBonus = Function(
+    `return ({ state, currentValue, bonusValue, cap }) => {${calculatorSource[1]}};`,
+  )();
+  assert.deepEqual(
+    calculateTimeBonus({ state: "Playing", currentValue: 28, bonusValue: 5, cap: 30 }),
+    { valid: true, current: 28, accepted: true, result: 30 },
+  );
+  assert.deepEqual(
+    calculateTimeBonus({ state: "Won", currentValue: 20, bonusValue: 5, cap: 30 }),
+    { valid: true, current: 20, accepted: false, result: 20 },
+  );
+  assert.equal(
+    calculateTimeBonus({ state: "Playing", currentValue: Number.NaN, bonusValue: 5, cap: 30 }).valid,
+    false,
+  );
+
+  assert.match(
+    script,
+    /querySelectorAll\("\[data-test-status\]"\)[\s\S]*?addEventListener\("change", saveTestResult\)/,
+  );
+  assert.match(
+    script,
+    /querySelectorAll\("\[data-test-note\]"\)[\s\S]*?addEventListener\("input", persistTests\)/,
+  );
+  assert.doesNotMatch(script, /querySelectorAll\("select, input"\)/);
 });
 
 test("week 11 CSV export neutralizes spreadsheet formula prefixes", async () => {
@@ -484,6 +605,10 @@ test("week 11 visual system is responsive, printable, reduced-motion aware, and 
     /@media print/,
     /\.time-contract-lab/,
     /\.diff-add/,
+    /\.signal-chain\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\);/,
+    /\.wire-steps\s*\{[\s\S]*?grid-template-columns:\s*repeat\(3, minmax\(0, 1fr\)\);/,
+    /\.exit-ticket-single\s*\{[\s\S]*?grid-template-columns:\s*1fr;/,
+    /@media print[\s\S]*?:is\(\.code-panel, \.equation-strip, \.debug-ladder, \.next-week, \.exit-ticket-single\)[\s\S]*?background:\s*#fff !important;[\s\S]*?color:\s*#000 !important;/,
   ]) {
     assert.match(styles, pattern);
   }
@@ -564,7 +689,7 @@ test("week 11 removes decorative metadata and obsolete interaction code", async 
   }
   assert.doesNotMatch(
     stylesheet,
-    /\.hero-facts|\.section-index|\.toc-legend|\.ppu-lab|\.sprite-strip/,
+    /\.hero-facts|\.section-index|\.toc-legend|\.ppu-lab|\.sprite-strip|\.clock-|\.component-stack|\.collision-note|\.state-|\.optional-label|\.diff-remove/,
   );
   assert.doesNotMatch(script, /data-ppu-lab|renderPpu|data-sprite-pixels|data-world-size/);
 });
@@ -626,10 +751,23 @@ test("week 11 keeps student-facing text and mobile test evidence readable", asyn
 test("week 11 pages keep source links safe and visible copy free of forbidden dash glyphs", async () => {
   const [, , period1, period2, period3] = await readWeekEleven();
 
+  assert.match(
+    period1,
+    /https:\/\/docs\.unity3d\.com\/Packages\/com\.unity\.ai\.assistant@2\.10\/manual\/about\/assistant-plan-mode\.html/,
+  );
+  assert.match(
+    period1,
+    /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/Manual\/AssetMetadata\.html/,
+  );
+
   for (const period of [period2, period3]) {
     assert.match(
       period,
       /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/ScriptReference\/Component\.CompareTag\.html/,
+    );
+    assert.match(
+      period,
+      /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/Manual\/build-profile-scene-list\.html/,
     );
   }
 

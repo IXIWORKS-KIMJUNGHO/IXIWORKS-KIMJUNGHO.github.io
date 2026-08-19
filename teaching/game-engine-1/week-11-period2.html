@@ -3,18 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>11주차 2교시: 두 파일만 바꾸는 통제된 시연 | Game Engine I</title>
+  <title>11주차 2교시: 두 코드 파일로 제한하는 통제된 시연 | Game Engine I</title>
   <meta name="description" content="Ask, Plan, 승인, script-only Agent, diff 검토, Unity 수동 연결과 회귀 테스트로 5초 Time Bonus 기능을 구현하는 11주차 2교시 교수자 시연 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-11-period2.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="11주차 2교시: 두 파일만 바꾸는 통제된 시연 | Game Engine I">
+  <meta property="og:title" content="11주차 2교시: 두 코드 파일로 제한하는 통제된 시연 | Game Engine I">
   <meta property="og:description" content="30초 게임에 +5초 Time Bonus를 추가하며, AI의 실행 범위와 사람의 검증 책임을 한 흐름으로 시연합니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-11-period2.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-11-period2-bounded-change.webp">
   <meta property="og:image:alt" content="한 변경 조각이 좁은 권한 문을 지나 두 Script가 되고 diff 확대경, 수동 연결과 시간 다이얼 검증으로 이어지는 입체 작업대">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="11주차 2교시: 두 파일만 바꾸는 통제된 시연">
+  <meta name="twitter:title" content="11주차 2교시: 두 코드 파일로 제한하는 통제된 시연">
   <meta name="twitter:description" content="Ask부터 회귀 테스트까지, 작은 기능을 제한적으로 바꾸는 전체 흐름을 봅니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-11-period2-bounded-change.webp">
   <link rel="preload" as="image" href="assets/week-11-period2-bounded-change.webp" type="image/webp" fetchpriority="high">
@@ -35,7 +35,7 @@
       </div>
       <div class="lesson-sequence">
         <a href="week-11-period1.html" rel="prev" aria-label="이전 자료: 11주차 1교시: AI의 답보다 변경 계약을 먼저 읽습니다 | Game Engine I">← <span class="sequence-label">Previous</span></a>
-        <a href="week-11-period3.html" rel="next" aria-label="다음 자료: 11주차 3교시: 5초를 더하되 두 파일 밖은 바꾸지 마라 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+        <a href="week-11-period3.html" rel="next" aria-label="다음 자료: 11주차 3교시: 5초를 더하되 구현 코드는 두 파일로 제한하라 | Game Engine I"><span class="sequence-label">Next</span> →</a>
       </div>
     </nav>
   </header>
@@ -43,7 +43,7 @@
     <div class="hero-inner">
       <div class="week-eleven-hero-copy">
         <p class="eyebrow">Week 11 / Period 02 / Demonstration</p>
-        <h1>두 파일만 바꾸는<br>통제된 시연</h1>
+        <h1>두 코드 파일로 제한하는<br>통제된 시연</h1>
         <p class="lead">30초 게임에 Time Bonus 하나를 더합니다. Ask, Plan, 승인, 제한 실행, diff, 수동 연결과 회귀 테스트의 순서를 한 번도 건너뛰지 않습니다.</p>
         <div class="hero-actions" aria-label="주요 위치로 이동">
           <a class="hero-action hero-action-primary" href="#ask">Ask부터 보기</a>
@@ -52,7 +52,7 @@
       </div>
       <figure class="week-eleven-hero-visual">
         <img src="assets/week-11-period2-bounded-change.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="한 변경 조각이 좁은 권한 문을 지나 두 Script가 되고 diff 확대경, 수동 연결과 시간 다이얼 검증으로 이어지는 입체 작업대">
-        <figcaption><span>TWO SCRIPTS → HUMAN WIRING → REGRESSION</span> Agent는 코드 두 파일만 바꾸고 Scene 연결과 완료 판정은 사람이 수행합니다.</figcaption>
+        <figcaption><span>TWO SCRIPTS → HUMAN WIRING → REGRESSION</span> Agent는 구현 코드 두 파일만 바꾸고 Scene 연결과 완료 판정은 사람이 수행합니다.</figcaption>
       </figure>
     </div>
   </header>
@@ -90,7 +90,7 @@
               <li><time>06-13</time><div><strong>Ask로 구조 읽기</strong><p>GameManager가 시간과 상태를 소유하고 Trigger가 사건을 전달하는 구조를 설명받아 실제 코드와 대조합니다.</p></div></li>
               <li><time>13-21</time><div><strong>문제 계약 확정</strong><p>+5초, 30초 상한, Playing 전용, 정확히 한 번과 두 파일 범위를 잠급니다.</p></div></li>
               <li><time>21-30</time><div><strong>Plan 검토와 승인</strong><p>예상 diff, 수동 Inspector 작업, 실패 가능성과 테스트가 모두 있는지 확인합니다.</p></div></li>
-              <li><time>30-38</time><div><strong>script-only Agent 실행</strong><p>두 C# 파일만 허용하고 예기치 않은 파일 또는 명령이 나오면 중단합니다.</p></div></li>
+              <li><time>30-38</time><div><strong>script-only Agent 실행</strong><p>구현 코드 두 C# 파일만 허용하고 예기치 않은 구현 파일 또는 명령이 나오면 중단합니다.</p></div></li>
               <li><time>38-47</time><div><strong>diff와 컴파일 검토</strong><p>상태 문, 상한, 반환값, 한 번 처리와 기존 함수 보존을 읽고 Console을 확인합니다.</p></div></li>
               <li><time>47-54</time><div><strong>수동 Unity 연결</strong><p>TimeBonus GameObject, Collider2D, Component와 GameManager 참조를 사람이 직접 연결합니다.</p></div></li>
               <li><time>54-60</time><div><strong>새 기능과 회귀 테스트</strong><p>경계값, 한 번 처리, 상태 거부, 기존 성공, 실패와 재시작을 실행하고 코드를 구술합니다.</p></div></li>
@@ -163,14 +163,14 @@
           <h2 id="plan-title">계획은 실행 순서보다 승인 표입니다</h2>
           <p>좋은 Plan은 무엇을 할지만 말하지 않습니다. 어떤 파일을 바꾸지 않을지와 무엇으로 실패를 알 수 있는지도 함께 적습니다.</p>
         </header>
-        <aside class="ask-template"><span>PLAN PROMPT / NO EXECUTION</span><p><code>아직 파일을 수정하지 마세요. 목표는 Player가 TimeBonus에 처음 닿을 때 Playing에서만 5초를 추가하고 roundDuration을 넘지 않게 하는 것입니다. GameManager.cs 수정과 새 TimeBonus.cs 생성만 허용합니다. Scene, Prefab, 다른 Script, Packages와 ProjectSettings는 변경 금지입니다. 계획에 1) 각 파일의 정확한 변경, 2) Scene에서 사람이 직접 연결할 항목, 3) 상태와 경계값 위험, 4) 실행할 테스트, 5) 범위 밖 변경이 필요할 때 중단 조건을 적으세요.</code></p></aside>
+        <aside class="ask-template"><span>PLAN PROMPT / NO EXECUTION</span><p><code>아직 구현 코드를 수정하지 마세요. 목표는 Player가 TimeBonus에 처음 닿을 때 Playing에서만 5초를 추가하고 roundDuration을 넘지 않게 하는 것입니다. Agent 구현은 GameManager.cs 수정과 새 TimeBonus.cs 생성만 허용합니다. Scene, Prefab, 다른 Script, Packages와 ProjectSettings는 Agent 변경 금지입니다. Plan mode가 저장하는 Assets/Plans 문서, Unity가 자동 생성하는 .meta, 사람이 저장하는 Scene은 예상 지원 산출물로 따로 적으세요. 계획에 1) 각 구현 파일의 정확한 변경, 2) Scene에서 사람이 직접 연결할 항목, 3) 상태와 경계값 위험, 4) 실행할 테스트, 5) 범위 밖 변경이 필요할 때 중단 조건을 적으세요.</code></p></aside>
         <ol class="build-steps">
           <li><span class="step-number">01</span><div><h3><code>GameManager.cs</code></h3><p><code>TryAddTime(float seconds)</code>를 추가합니다. Playing과 양수 여부를 검사하고, 30초 상한으로 시간을 바꾸고 HUD를 갱신한 뒤 성공 여부를 반환합니다.</p><p class="step-check"><strong>승인</strong> 기존 Update, AddScore와 FinishRound를 바꾸지 않습니다.</p></div></li>
           <li><span class="step-number">02</span><div><h3><code>TimeBonus.cs</code></h3><p>Player 접촉과 한 번 처리 여부를 검사하고 GameManager가 변경을 승인한 경우에만 자신을 비활성화합니다.</p><p class="step-check"><strong>승인</strong> 시간 데이터 자체를 저장하거나 직접 바꾸지 않습니다.</p></div></li>
           <li><span class="step-number">03</span><div><h3>사람의 Scene 작업</h3><p>교수자가 TimeBonus GameObject, SpriteRenderer, Collider2D Is Trigger, Script와 GameManager 참조를 Inspector에서 직접 연결합니다.</p><p class="step-check"><strong>승인</strong> Agent가 <code>*.unity</code> 또는 Prefab을 쓰지 않습니다.</p></div></li>
           <li><span class="step-number">04</span><div><h3>컴파일과 행동 검증</h3><p>Console을 먼저 확인하고 20+5, 28+5, 중복 접촉, 상태 거부와 기존 전체 루프를 실행합니다.</p><p class="step-check"><strong>승인</strong> 테스트하지 않은 항목은 완료라고 표시하지 않습니다.</p></div></li>
         </ol>
-        <div class="rule-banner"><span>계획 승인</span><strong>예상 변경 파일이 두 개이고, Scene 수동 작업과 여덟 테스트가 분리되어 있으며, 범위 밖 요구가 없을 때만 Agent로 넘어갑니다.</strong></div>
+        <div class="rule-banner"><span>계획 승인</span><strong>Agent가 작성하는 구현 코드가 두 C# 파일이고, Plan 문서·Unity 생성 <code>.meta</code>·수동 Scene을 지원 산출물로 분리했으며, 여덟 테스트와 중단 조건이 있을 때만 Agent로 넘어갑니다.</strong></div>
       </section>
 
       <section class="week-eleven-section" id="permission" aria-labelledby="permission-title">
@@ -184,10 +184,10 @@
           <div><span>Allowed</span><strong>2 C# files</strong></div>
           <div><span>Stop</span><strong>Unexpected file</strong></div>
         </div>
-        <aside class="ask-template"><span>AGENT PROMPT / BOUNDED EXECUTION</span><p><code>승인한 Plan을 실행하세요. Assets/Scripts/GameManager.cs를 수정하고 Assets/Scripts/TimeBonus.cs만 새로 만드세요. 다른 파일을 생성, 수정, 이동 또는 삭제하지 마세요. Scene, Prefab, Package, ProjectSettings와 meta 파일을 직접 바꾸지 마세요. 새 package 설치와 명령 실행도 금지합니다. 기존 public 이름과 serialized field를 보존하세요. 두 파일 밖의 변경이 필요하거나 컴파일을 확인할 수 없으면 이유를 보고하고 즉시 멈추세요. 실행 뒤 실제 변경 파일 목록과 확인하지 못한 테스트를 구분해 보고하세요.</code></p></aside>
+        <aside class="ask-template"><span>AGENT PROMPT / BOUNDED EXECUTION</span><p><code>승인한 Plan을 실행하세요. Assets/Scripts/GameManager.cs를 수정하고 Assets/Scripts/TimeBonus.cs만 새로 만드세요. 다른 파일을 생성, 수정, 이동 또는 삭제하지 마세요. Scene, Prefab, Package와 ProjectSettings를 바꾸지 말고 .meta를 직접 작성하거나 편집하지 마세요. 새 package 설치와 명령 실행도 금지합니다. 기존 public 이름과 serialized field를 보존하세요. 두 구현 파일 밖의 변경이 필요하거나 컴파일을 확인할 수 없으면 이유를 보고하고 즉시 멈추세요. 실행 뒤 실제 변경 파일 목록과 확인하지 못한 테스트를 구분해 보고하세요. Plan mode가 저장한 Assets/Plans 문서와 Unity가 자동 생성한 .meta는 삭제하지 말고 예상 지원 산출물로 보고하세요.</code></p></aside>
         <div class="concept-grid">
           <article><span>CONTINUE</span><h3>두 파일의 코드 변경만 요청</h3><p>현재 Plan과 일치하면 실행 활동을 펼쳐 매개변수와 결과를 확인합니다.</p></article>
-          <article><span>STOP</span><h3>Scene 또는 세 번째 파일 요청</h3><p>승인하지 않고 Plan으로 돌아갑니다. 새 필요가 목표에 필수인지 사람이 먼저 판단합니다.</p></article>
+          <article><span>STOP</span><h3>Scene 또는 세 번째 구현 파일 요청</h3><p>승인하지 않고 Plan으로 돌아갑니다. 새 필요가 목표에 필수인지 사람이 먼저 판단합니다.</p></article>
         </div>
       </section>
 
@@ -272,9 +272,10 @@ public class TimeBonus : MonoBehaviour
         </header>
         <ol class="build-steps">
           <li><span class="step-number">01</span><div><h3>기존 수집물을 복제해 역할 분리</h3><p>Hierarchy에서 작동하는 Collectible 하나를 복제하고 이름을 <code>TimeBonus</code>로 바꿉니다. 기존 <code>Collectible</code> Component는 제거합니다.</p><p class="step-check"><strong>확인</strong> SpriteRenderer와 Collider2D는 남고 점수 Script는 없습니다.</p></div></li>
-          <li><span class="step-number">02</span><div><h3>표현과 Trigger 확인</h3><p>시계 또는 기존 placeholder Sprite를 연결하고 Collider2D의 Is Trigger를 켭니다. Player Tag와 물리 조건은 기존 수집물과 비교합니다.</p><p class="step-check"><strong>확인</strong> Console Error 0, Missing Script 0입니다.</p></div></li>
+          <li><span class="step-number">02</span><div><h3>표현과 Trigger 확인</h3><p>시계 또는 기존 placeholder Sprite를 연결하고 Collider2D의 Is Trigger를 켭니다. Player Tag를 비교하고 Player 또는 TimeBonus 중 적어도 하나에 활성 <code>Rigidbody2D</code>가 있는지 확인합니다.</p><p class="step-check"><strong>확인</strong> 물리 조건이 갖춰지고 Console Error 0, Missing Script 0입니다.</p></div></li>
           <li><span class="step-number">03</span><div><h3><code>TimeBonus</code> 추가</h3><p>Add Component로 새 Script를 붙이고 Inspector의 Game Manager에 Scene의 GameManager 오브젝트를 끌어 놓습니다. Bonus Seconds는 5로 둡니다.</p><p class="step-check"><strong>확인</strong> 참조가 None이 아니고 값이 5입니다.</p></div></li>
-          <li><span class="step-number">04</span><div><h3>Scene 저장 전 diff 분리</h3><p>Scene 변경은 사람이 의도한 수동 작업입니다. Agent가 바꾼 두 Script의 diff와 Scene 저장을 로그에서 별도 항목으로 기록합니다.</p><p class="step-check"><strong>확인</strong> 누가 무엇을 바꿨는지 다시 설명할 수 있습니다.</p></div></li>
+          <li><span class="step-number">04</span><div><h3>Build Profiles에 Scene 등록</h3><p><code>File → Build Profiles → Scene List → Add Open Scenes</code>를 누르고 새 Scene의 체크가 켜졌는지, 같은 Scene이 중복되지 않았는지 확인합니다.</p><p class="step-check"><strong>확인</strong> Build and Run이 방금 연 Scene을 사용합니다.</p></div></li>
+          <li><span class="step-number">05</span><div><h3>Scene 저장 전 diff 분리</h3><p>Scene과 <code>.meta</code>는 사람이 한 작업과 Unity 생성 산출물입니다. Agent가 바꾼 두 Script의 diff와 로그에서 작성 주체를 별도 항목으로 기록합니다.</p><p class="step-check"><strong>확인</strong> 누가 무엇을 바꿨는지 다시 설명할 수 있습니다.</p></div></li>
         </ol>
         <aside class="teacher-check"><span>중요한 구분</span><p>Agent에게 Scene 쓰기를 금지했다는 것은 Scene을 영원히 바꾸지 않는다는 뜻이 아닙니다. 코드 자동 변경과 사람이 직접 한 연결을 분리해 관찰하고 책임질 수 있게 만드는 범위 설정입니다.</p></aside>
       </section>
@@ -292,7 +293,7 @@ public class TimeBonus : MonoBehaviour
               <tr><th scope="row">20.0초, Playing, 첫 접촉</th><td>25.0초, 보너스 비활성화</td><td>HUD 값과 Hierarchy 활성 상태</td></tr>
               <tr><th scope="row">28.0초, Playing, 첫 접촉</th><td>30.0초에서 제한</td><td>HUD가 33.0이 되지 않음</td></tr>
               <tr><th scope="row">같은 보너스 재접촉 시도</th><td>추가 변화 없음</td><td>비활성화와 한 번 처리</td></tr>
-              <tr><th scope="row">Ready, Won, Lost에서 호출</th><td>시간과 오브젝트 변화 없음</td><td><code>false</code> 경로와 상태 문</td></tr>
+              <tr><th scope="row">Ready, Won, Lost의 거부 경로</th><td>시간과 오브젝트 변화 없음</td><td>diff에서 상태 문 뒤 <code>return false</code>가 시간·HUD 변경보다 앞서고, <code>true</code> 뒤에만 비활성화되는 순서를 줄별 추적</td></tr>
               <tr><th scope="row">기존 수집물 3개</th><td>점수 3, Won 정상</td><td>AddScore와 결과 Panel</td></tr>
               <tr><th scope="row">시간 0</th><td>Lost 정상</td><td>0.0, 실패 Panel과 타이머 정지</td></tr>
               <tr><th scope="row">Won과 Lost 뒤 Restart</th><td>Ready, 30.0, 오브젝트 복원</td><td>두 경로의 초기 상태</td></tr>
@@ -339,12 +340,12 @@ public class TimeBonus : MonoBehaviour
         <ol class="wire-steps" aria-label="3교시로 가져갈 여섯 항목">
           <li><span>BASELINE</span><p>작동하는 시작점</p></li>
           <li><span>ASK</span><p>실제 이름 확인</p></li>
-          <li><span>PLAN</span><p>두 파일 승인</p></li>
+          <li><span>PLAN</span><p>구현 코드 2개 승인</p></li>
           <li><span>AGENT</span><p>script-only 실행</p></li>
           <li><span>MANUAL</span><p>Inspector 연결</p></li>
           <li><span>PROOF</span><p>8 / 8 PASS와 구술</p></li>
         </ol>
-        <div class="next-week"><span>PERIOD 03 / INDIVIDUAL MISSION</span><div><h3>5초를 더하되 두 파일 밖은 바꾸지 마라</h3><p>60분 안에 자신의 기존 프로젝트에 Time Bonus를 추가하고 AI 사용 로그, 실제 diff, 여덟 테스트와 90초 코드 구술을 남깁니다.</p><a href="week-11-period3.html">3교시 미션 열기 →</a></div></div>
+        <div class="next-week"><span>PERIOD 03 / INDIVIDUAL MISSION</span><div><h3>5초를 더하되 구현 코드는 두 파일로 제한하라</h3><p>60분 안에 자신의 기존 프로젝트에 Time Bonus를 추가하고 AI 사용 로그, 실제 diff, 여덟 테스트와 90초 코드 구술을 남깁니다.</p><a href="week-11-period3.html">3교시 미션 열기 →</a></div></div>
       </section>
 
       <section class="week-eleven-section references-section" id="references" aria-labelledby="references-title">
@@ -358,6 +359,7 @@ public class TimeBonus : MonoBehaviour
           <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.OnTriggerEnter2D.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 OnTriggerEnter2D ↗</strong></a><span>2D Trigger 접촉 메시지와 Collider2D 조건</span></li>
           <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.CompareTag.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Component.CompareTag ↗</strong></a><span>Collider2D인 other가 Player Tag인지 확인하는 API</span></li>
           <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SerializeField.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 SerializeField ↗</strong></a><span>private field를 Inspector에 직렬화해 참조와 값을 연결</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profile-scene-list.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 Build Profiles Scene List ↗</strong></a><span>열린 Scene을 build 목록에 추가하고 포함 여부 확인</span></li>
           <li><a href="https://git-scm.com/docs/git-diff" target="_blank" rel="noopener noreferrer"><strong>Git diff 공식 문서 ↗</strong></a><span>working tree 변경과 파일별 patch 검토</span></li>
         </ul>
       </section>

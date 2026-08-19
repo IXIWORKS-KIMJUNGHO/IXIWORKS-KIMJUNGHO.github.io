@@ -51,6 +51,23 @@
     }
   };
 
+  const setTextIfChanged = (element, nextText) => {
+    if (!element || element.textContent === nextText) return false;
+    element.textContent = nextText;
+    return true;
+  };
+
+  const calculateTimeBonus = ({ state, currentValue, bonusValue, cap }) => {
+    if (!Number.isFinite(currentValue) || !Number.isFinite(bonusValue)) {
+      return { valid: false };
+    }
+
+    const current = Math.min(Math.max(currentValue, 0), cap);
+    const accepted = state === "Playing" && bonusValue > 0;
+    const result = accepted ? Math.min(current + bonusValue, cap) : current;
+    return { valid: true, current, accepted, result };
+  };
+
   const armReset = (
     button,
     { status, confirmMessage, cancelMessage, completeMessage, onConfirm },
@@ -96,7 +113,7 @@
 
     const renderBuildProgress = () => {
       const completed = checks.filter((check) => check.checked).length;
-      buildProgressLabel.textContent = `${completed} / ${checks.length} 완료`;
+      setTextIfChanged(buildProgressLabel, `${completed} / ${checks.length} 완료`);
       buildChecklist.dataset.complete = String(completed === checks.length);
 
       for (const check of checks) {
@@ -196,12 +213,16 @@
         else delete row.dataset.result;
       }
 
-      testProgressLabel.textContent = `${passed} / ${requiredRows.length} PASS`;
+      setTextIfChanged(testProgressLabel, `${passed} / ${requiredRows.length} PASS`);
       testProgress.dataset.complete = String(passed === requiredRows.length);
     };
 
-    const saveTests = () => {
+    const persistTests = () => {
       writeStorage(testStorageKey, serializeTests());
+    };
+
+    const saveTestResult = () => {
+      persistTests();
       renderTestProgress();
     };
 
@@ -209,9 +230,12 @@
       writeSessionStorage(testIdentityKey, serializeIdentity());
     };
 
-    for (const control of testTable.querySelectorAll("select, input")) {
-      control.addEventListener("change", saveTests);
-      control.addEventListener("input", saveTests);
+    for (const control of testTable.querySelectorAll("[data-test-status]")) {
+      control.addEventListener("change", saveTestResult);
+    }
+
+    for (const note of testTable.querySelectorAll("[data-test-note]")) {
+      note.addEventListener("input", persistTests);
     }
 
     studentId?.addEventListener("input", saveIdentity);
@@ -362,31 +386,30 @@
       const state = stateInput?.value ?? "Ready";
       const currentValue = Number(currentInput?.value);
       const bonusValue = Number(bonusInput?.value);
+      const calculation = calculateTimeBonus({ state, currentValue, bonusValue, cap });
 
-      if (!Number.isFinite(currentValue) || !Number.isFinite(bonusValue)) {
-        if (resultOutput) resultOutput.textContent = "값 확인";
-        if (explanation) explanation.textContent = "현재 시간과 보너스에는 숫자를 입력합니다.";
+      if (!calculation.valid) {
+        setTextIfChanged(resultOutput, "값 확인");
+        setTextIfChanged(explanation, "현재 시간과 보너스에는 숫자를 입력합니다.");
         if (resultPanel) resultPanel.dataset.accepted = "false";
         return;
       }
 
-      const current = Math.min(Math.max(currentValue, 0), cap);
-      const accepted = state === "Playing" && bonusValue > 0;
-      const result = accepted ? Math.min(current + bonusValue, cap) : current;
+      const { current, accepted, result } = calculation;
 
-      if (resultOutput) resultOutput.textContent = `${formatSeconds(result)}초`;
+      setTextIfChanged(resultOutput, `${formatSeconds(result)}초`);
       if (resultPanel) resultPanel.dataset.accepted = String(accepted);
-      if (explanation) {
-        explanation.textContent = accepted
+      setTextIfChanged(
+        explanation,
+        accepted
           ? `Playing이므로 ${formatSeconds(current)} + ${formatSeconds(bonusValue)}을 허용하고 ${formatSeconds(cap)}에서 제한합니다.`
-          : `${state} 또는 0 이하 보너스에서는 요청을 거부하고 ${formatSeconds(current)}을 유지합니다.`;
-      }
+          : `${state} 또는 0 이하 보너스에서는 요청을 거부하고 ${formatSeconds(current)}을 유지합니다.`,
+      );
     };
 
-    for (const control of [stateInput, currentInput, bonusInput]) {
-      control?.addEventListener("input", renderTimeContract);
-      control?.addEventListener("change", renderTimeContract);
-    }
+    stateInput?.addEventListener("change", renderTimeContract);
+    currentInput?.addEventListener("input", renderTimeContract);
+    bonusInput?.addEventListener("input", renderTimeContract);
 
     renderTimeContract();
   }

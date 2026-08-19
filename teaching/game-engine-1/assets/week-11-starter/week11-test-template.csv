@@ -1,9 +1,9 @@
 ID,필수,조작 조건,기대 결과,판정,관찰 및 수정 기록
 T01,필수,"변경 전 Start→Won→Restart→Start→Lost→Restart","기존 루프 PASS, Ready, 0/3, 30.0 복원, Console Error 0, checkpoint 존재",미실행,
 T02,필수,"Ask 응답을 실제 Script와 대조","실제 이름 4개 일치, 프로젝트 변경 0, 추측 표시",미실행,
-T03,필수,"Plan과 Agent 권한을 실행 전 확인","두 파일, 금지 대상, 수동 작업, 위험, T01-T08, 중단 조건, script-only",미실행,
-T04,필수,"실행 뒤 changed files, diff와 Console 확인","Agent 변경 두 Script만, 상태, 상한, bool, once, 기존 이름 보존, Error 0",미실행,
+T03,필수,"Plan과 선택 경로를 실행 전 확인","공통: 구현 코드 2개, 지원 산출물, 수동 작업, 위험, T01-T08, 중단 조건 / Route A: Write scripts only / Route B: 승인한 직접 작성 범위",미실행,
+T04,필수,"Agent 또는 직접 작성 뒤 파일 분류, 두 Script diff와 Console 확인","구현 코드는 두 C# 파일, Plan·Unity 생성 meta·수동 Scene은 별도 분류, 상태, 상한, bool, once, 기존 이름 보존, Error 0",미실행,
 T05,필수,"Playing 20.0에서 첫 접촉 후 재접촉","25.0, 보너스 비활성화, 추가 지급 없음, 점수 변화 없음",미실행,
-T06,필수,"Playing 28.0과 Ready, Won, Lost 조건 확인","30.0 cap, Playing 밖에서 시간과 오브젝트 변화 없음",미실행,
+T06,필수,"실행 증거: Playing 28.0 접촉 / 코드 경로 증거: Ready·Won·Lost 상태 문부터 두 Script 추적","실행 30.0 cap / 코드에서 return false가 시간·HUD보다 앞서고 true 뒤에만 collected와 SetActive 실행",미실행,
 T07,필수,"TimeBonus 뒤 Won→Restart→Start→Lost→Restart","기존 루프 정상, 두 Restart 뒤 TimeBonus 복원, Missing Reference 0",미실행,
 T08,필수,"Build, 영상, 제출 파일과 90초 구술 확인","build 동일 결과, log, diff와 CSV 열림, owner, event, reject와 proof 설명",미실행,
