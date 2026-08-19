@@ -7,15 +7,9 @@ html.game-engine-week-fourteen-root {
 
 
 body.course-game-engine-1.game-engine-week-fourteen {
-  --w14-violet: #a55c43;
-  --w14-violet-dark: #733d2f;
-  --w14-violet-soft: #f2e3dc;
-  --w14-cyan: #a55c43;
-  --w14-cyan-dark: #733d2f;
-  --w14-cyan-soft: #f2e3dc;
-  --w14-lime: #a55c43;
-  --w14-lime-dark: #733d2f;
-  --w14-lime-soft: #f2e3dc;
+  --w14-accent: #a55c43;
+  --w14-accent-strong: #733d2f;
+  --w14-accent-soft: #f2e3dc;
   --w14-black: #161a1a;
   --w14-code: #171d1e;
   --w14-code-ink: #eaf0ec;
@@ -29,7 +23,7 @@ body.course-game-engine-1.game-engine-week-fourteen [id] {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen :is(a, button, input, select, summary, [tabindex="0"]):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--w14-violet) 62%, transparent);
+  outline: 3px solid color-mix(in srgb, var(--w14-accent) 62%, transparent);
   outline-offset: 3px;
 }
 
@@ -38,8 +32,8 @@ body.course-game-engine-1.game-engine-week-fourteen .lesson-header {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .lesson-sequence a {
-  border-color: color-mix(in srgb, var(--w14-violet) 38%, var(--line));
-  color: var(--w14-violet-dark);
+  border-color: color-mix(in srgb, var(--w14-accent) 38%, var(--line));
+  color: var(--w14-accent-strong);
 }
 
 /* Hero */
@@ -62,7 +56,7 @@ body.course-game-engine-1.game-engine-week-fourteen .week-fourteen-hero-copy {
 
 body.course-game-engine-1.game-engine-week-fourteen .week-fourteen-hero .eyebrow {
   margin-bottom: 17px;
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   letter-spacing: 0.075em;
 }
 
@@ -83,7 +77,7 @@ body.course-game-engine-1.game-engine-week-fourteen .week-fourteen-hero .lead {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .week-fourteen-hero .lead code {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 0.88em;
   font-weight: 600;
@@ -112,8 +106,8 @@ body.course-game-engine-1.game-engine-week-fourteen .hero-action {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .hero-action-primary {
-  border-color: var(--w14-violet-dark);
-  background: var(--w14-violet-dark);
+  border-color: var(--w14-accent-strong);
+  background: var(--w14-accent-strong);
   color: #fffaf7;
 }
 
@@ -121,7 +115,7 @@ body.course-game-engine-1.game-engine-week-fourteen .week-fourteen-hero-visual {
   position: relative;
   min-width: 0;
   margin: 0;
-  border: 1px solid color-mix(in srgb, var(--w14-cyan) 42%, var(--line));
+  border: 1px solid color-mix(in srgb, var(--w14-accent) 42%, var(--line));
   border-radius: 6px;
   overflow: hidden;
   background: var(--w14-code);
@@ -202,7 +196,7 @@ body.course-game-engine-1.game-engine-week-fourteen .section-heading {
 
 body.course-game-engine-1.game-engine-week-fourteen .section-index {
   margin: 0 0 12px;
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 600;
@@ -210,12 +204,12 @@ body.course-game-engine-1.game-engine-week-fourteen .section-index {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen.week-fourteen-period-two .section-index {
-  color: var(--w14-cyan-dark);
+  color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen.week-fourteen-period-three .section-index,
 body.course-game-engine-1.game-engine-week-fourteen.week-fourteen-period-three .arrival-list li > span {
-  color: var(--w14-lime-dark);
+  color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .section-heading h2,
@@ -287,7 +281,7 @@ body.course-game-engine-1.game-engine-week-fourteen .arrival-list li:first-child
 
 body.course-game-engine-1.game-engine-week-fourteen .arrival-list li > span {
   padding-top: 3px;
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 10px;
   font-weight: 600;
@@ -307,14 +301,14 @@ body.course-game-engine-1.game-engine-week-fourteen .arrival-list strong {
 
 body.course-game-engine-1.game-engine-week-fourteen .scope-line {
   padding: 25px 27px;
-  border: 1px solid color-mix(in srgb, var(--w14-violet) 38%, var(--line));
-  border-left: 5px solid var(--w14-violet);
+  border: 1px solid color-mix(in srgb, var(--w14-accent) 38%, var(--line));
+  border-left: 5px solid var(--w14-accent);
   border-radius: 4px;
   display: grid;
   grid-template-columns: minmax(220px, 0.72fr) minmax(0, 1.28fr);
   gap: 28px;
   align-items: center;
-  background: color-mix(in srgb, var(--w14-violet-soft) 62%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 62%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .scope-line span,
@@ -323,7 +317,7 @@ body.course-game-engine-1.game-engine-week-fourteen .scope-line strong {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .scope-line span {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 9.5px;
   font-weight: 600;
@@ -345,13 +339,13 @@ body.course-game-engine-1.game-engine-week-fourteen .scope-line p {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen.week-fourteen-period-three .scope-line {
-  border-color: color-mix(in srgb, var(--w14-lime) 44%, var(--line));
-  border-left-color: var(--w14-lime);
-  background: color-mix(in srgb, var(--w14-lime-soft) 62%, var(--paper));
+  border-color: color-mix(in srgb, var(--w14-accent) 44%, var(--line));
+  border-left-color: var(--w14-accent);
+  background: color-mix(in srgb, var(--w14-accent-soft) 62%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen.week-fourteen-period-three .scope-line span {
-  color: var(--w14-lime-dark);
+  color: var(--w14-accent-strong);
 }
 
 /* Agenda */
@@ -378,11 +372,11 @@ body.course-game-engine-1.game-engine-week-fourteen .agenda-phase > header > p {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .agenda-phase > header > span {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .agenda-phase-build > header > span {
-  color: var(--w14-cyan-dark);
+  color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .agenda-phase > header h3 {
@@ -499,7 +493,7 @@ body.course-game-engine-1.game-engine-week-fourteen .setup-notice strong {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .setup-notice span {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 9px;
   font-weight: 600;
@@ -553,13 +547,13 @@ body.course-game-engine-1.game-engine-week-fourteen .teacher-check,
 body.course-game-engine-1.game-engine-week-fourteen .test-contract {
   margin-top: 20px;
   padding: 20px 23px;
-  border-left: 4px solid var(--w14-lime);
-  background: color-mix(in srgb, var(--w14-lime-soft) 60%, var(--paper));
+  border-left: 4px solid var(--w14-accent);
+  background: color-mix(in srgb, var(--w14-accent-soft) 60%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen :is(.teacher-check, .test-contract) > span {
   display: block;
-  color: var(--w14-lime-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 9.5px;
   font-weight: 600;
@@ -576,17 +570,17 @@ body.course-game-engine-1.game-engine-week-fourteen :is(.teacher-check, .test-co
 body.course-game-engine-1.game-engine-week-fourteen .rule-banner {
   margin-top: 16px;
   padding: 22px 24px;
-  border: 1px solid color-mix(in srgb, var(--w14-cyan) 36%, var(--line));
+  border: 1px solid color-mix(in srgb, var(--w14-accent) 36%, var(--line));
   border-radius: 4px;
   display: grid;
   grid-template-columns: 145px minmax(0, 1fr);
   gap: 24px;
   align-items: center;
-  background: color-mix(in srgb, var(--w14-cyan-soft) 58%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 58%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .rule-banner span {
-  color: var(--w14-cyan-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 9.5px;
   font-weight: 600;
@@ -617,7 +611,7 @@ body.course-game-engine-1.game-engine-week-fourteen .trouble-grid summary {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .trouble-grid summary:hover {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .trouble-grid summary code {
@@ -638,7 +632,7 @@ body.course-game-engine-1.game-engine-week-fourteen .trouble-grid .details-motio
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .truth-table td:first-child {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-weight: 600;
 }
@@ -675,17 +669,17 @@ body.course-game-engine-1.game-engine-week-fourteen .test-table thead th {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-table tbody th {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 10px;
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-table tr[data-result="pass"] {
-  background: color-mix(in srgb, var(--w14-lime-soft) 42%, transparent);
+  background: color-mix(in srgb, var(--w14-accent-soft) 42%, transparent);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-table tr[data-result="fail"] {
-  background: color-mix(in srgb, var(--w14-violet-soft) 42%, transparent);
+  background: color-mix(in srgb, var(--w14-accent-soft) 42%, transparent);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-table select {
@@ -697,7 +691,7 @@ body.course-game-engine-1.game-engine-week-fourteen .test-table input {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-contract {
-  border-left-color: var(--w14-lime);
+  border-left-color: var(--w14-accent);
 }
 
 /* Debug */
@@ -804,12 +798,12 @@ body.course-game-engine-1.game-engine-week-fourteen .reference-list li {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .reference-list a {
-  color: var(--w14-cyan-dark);
+  color: var(--w14-accent-strong);
   font-size: 13px;
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .reference-list a:hover {
-  color: var(--w14-cyan);
+  color: var(--w14-accent);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .reference-list span {
@@ -827,21 +821,21 @@ body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid {
 body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid article {
   padding: 22px;
   border: 1px solid var(--w14-rule);
-  border-top: 4px solid var(--w14-cyan);
+  border-top: 4px solid var(--w14-accent);
   border-radius: 4px;
   background: var(--paper);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid article:nth-child(2) {
-  border-top-color: var(--w14-violet);
+  border-top-color: var(--w14-accent);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid article:nth-child(3) {
-  border-top-color: var(--w14-lime);
+  border-top-color: var(--w14-accent);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid article:nth-child(4) {
-  border-top-color: var(--w14-cyan-dark);
+  border-top-color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid span,
@@ -872,14 +866,14 @@ body.course-game-engine-1.game-engine-week-fourteen .asset-pack-grid p {
 body.course-game-engine-1.game-engine-week-fourteen .starter-download {
   margin-top: 26px;
   padding: 23px 25px;
-  border: 1px solid color-mix(in srgb, var(--w14-lime) 46%, var(--line));
-  border-left: 5px solid var(--w14-lime);
+  border: 1px solid color-mix(in srgb, var(--w14-accent) 46%, var(--line));
+  border-left: 5px solid var(--w14-accent);
   border-radius: 4px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 20px;
   align-items: center;
-  background: color-mix(in srgb, var(--w14-lime-soft) 56%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 56%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .starter-download :is(h3, p) {
@@ -901,12 +895,12 @@ body.course-game-engine-1.game-engine-week-fourteen .starter-download p {
 body.course-game-engine-1.game-engine-week-fourteen .starter-download a {
   min-height: 44px;
   padding: 10px 14px;
-  border: 1px solid var(--w14-lime-dark);
+  border: 1px solid var(--w14-accent-strong);
   border-radius: 3px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--w14-lime-dark);
+  background: var(--w14-accent-strong);
   color: #f7f9fc;
   font-size: 12px;
   font-weight: 720;
@@ -1076,15 +1070,9 @@ body.course-game-engine-1.game-engine-week-fourteen .starter-download a {
 
 @media (prefers-color-scheme: dark) {
   body.course-game-engine-1.game-engine-week-fourteen {
-    --w14-violet: #d9957e;
-    --w14-violet-dark: #efb39f;
-    --w14-violet-soft: #4a3029;
-    --w14-cyan: #d9957e;
-    --w14-cyan-dark: #efb39f;
-    --w14-cyan-soft: #4a3029;
-    --w14-lime: #d9957e;
-    --w14-lime-dark: #efb39f;
-    --w14-lime-soft: #4a3029;
+    --w14-accent: #d9957e;
+    --w14-accent-strong: #efb39f;
+    --w14-accent-soft: #4a3029;
   }
 
   body.course-game-engine-1.game-engine-week-fourteen .week-fourteen-hero-visual img {
@@ -1179,7 +1167,7 @@ body.course-game-engine-1.game-engine-week-fourteen .studio-loop li > span,
 body.course-game-engine-1.game-engine-week-fourteen .route-grid article > span,
 body.course-game-engine-1.game-engine-week-fourteen .change-contract-grid article > span,
 body.course-game-engine-1.game-engine-week-fourteen .checkpoint-summary div > span {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 9.5px;
   font-weight: 700;
@@ -1259,7 +1247,7 @@ body.course-game-engine-1.game-engine-week-fourteen .architecture-map article {
 body.course-game-engine-1.game-engine-week-fourteen .architecture-map article:nth-child(2),
 body.course-game-engine-1.game-engine-week-fourteen .architecture-map article:nth-child(3) {
   grid-column: span 5;
-  background: color-mix(in srgb, var(--w14-violet-soft) 48%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 48%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .architecture-map h3,
@@ -1340,7 +1328,7 @@ body.course-game-engine-1.game-engine-week-fourteen .decision-board article {
 
 body.course-game-engine-1.game-engine-week-fourteen .decision-board article:nth-child(2),
 body.course-game-engine-1.game-engine-week-fourteen .decision-board article:nth-child(3) {
-  background: color-mix(in srgb, var(--w14-violet-soft) 46%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 46%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .setup-notice-wide {
@@ -1375,8 +1363,8 @@ body.course-game-engine-1.game-engine-week-fourteen .studio-interview h3 {
   color: #d9957e;
 }
 
-body.course-game-engine-1.game-engine-week-fourteen .studio-production {
-  background: color-mix(in srgb, var(--w14-violet-soft) 48%, var(--paper));
+body.course-game-engine-1.game-engine-week-fourteen .studio-observation {
+  background: color-mix(in srgb, var(--w14-accent-soft) 48%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .studio-layout p,
@@ -1495,7 +1483,7 @@ body.course-game-engine-1.game-engine-week-fourteen .interview-timeline li {
 
 body.course-game-engine-1.game-engine-week-fourteen .interview-timeline time {
   padding: 22px 18px 22px 0;
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 700;
@@ -1507,7 +1495,7 @@ body.course-game-engine-1.game-engine-week-fourteen .interview-timeline li > div
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .interview-timeline li span {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-family: var(--mono);
   font-size: 9px;
   font-weight: 700;
@@ -1542,7 +1530,7 @@ body.course-game-engine-1.game-engine-week-fourteen .question-bank details {
 
 body.course-game-engine-1.game-engine-week-fourteen .question-bank details:first-child {
   grid-column: 1 / -1;
-  background: color-mix(in srgb, var(--w14-violet-soft) 48%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 48%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .question-bank summary {
@@ -1620,7 +1608,7 @@ body.course-game-engine-1.game-engine-week-fourteen .studio-loop li {
 
 body.course-game-engine-1.game-engine-week-fourteen .studio-loop li:last-child {
   border-right: 0;
-  background: color-mix(in srgb, var(--w14-violet-soft) 54%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 54%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .studio-loop strong {
@@ -1655,7 +1643,7 @@ body.course-game-engine-1.game-engine-week-fourteen .fairness-grid article {
 
 body.course-game-engine-1.game-engine-week-fourteen .fairness-grid article:nth-child(2),
 body.course-game-engine-1.game-engine-week-fourteen .fairness-grid article:nth-child(3) {
-  background: color-mix(in srgb, var(--w14-violet-soft) 46%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 46%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .fairness-grid h3 {
@@ -1689,7 +1677,7 @@ body.course-game-engine-1.game-engine-week-fourteen .route-grid article {
 
 body.course-game-engine-1.game-engine-week-fourteen .route-grid article:first-child {
   grid-column: span 7;
-  background: color-mix(in srgb, var(--w14-violet-soft) 52%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 52%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .route-grid article:last-child {
@@ -1714,7 +1702,7 @@ body.course-game-engine-1.game-engine-week-fourteen .change-contract-grid articl
 
 body.course-game-engine-1.game-engine-week-fourteen .change-contract-grid article:nth-child(2),
 body.course-game-engine-1.game-engine-week-fourteen .change-contract-grid article:nth-child(5) {
-  background: color-mix(in srgb, var(--w14-violet-soft) 48%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 48%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .checkpoint-summary {
@@ -1766,7 +1754,7 @@ body.course-game-engine-1.game-engine-week-fourteen .test-toolbar {
   grid-template-columns: minmax(0, 1fr) auto auto;
   gap: 9px;
   align-items: center;
-  background: color-mix(in srgb, var(--w14-violet-soft) 42%, var(--paper));
+  background: color-mix(in srgb, var(--w14-accent-soft) 42%, var(--paper));
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-toolbar > div {
@@ -1789,7 +1777,7 @@ body.course-game-engine-1.game-engine-week-fourteen .test-toolbar span {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-toolbar span b {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
   font-weight: 760;
 }
 
@@ -1799,7 +1787,7 @@ body.course-game-engine-1.game-engine-week-fourteen .test-toolbar strong {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-toolbar strong[data-complete="true"] {
-  color: var(--w14-violet-dark);
+  color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-toolbar button,
@@ -1819,8 +1807,8 @@ body.course-game-engine-1.game-engine-week-fourteen .build-checklist > button {
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .test-toolbar button:first-of-type {
-  border-color: var(--w14-violet-dark);
-  background: var(--w14-violet-dark);
+  border-color: var(--w14-accent-strong);
+  background: var(--w14-accent-strong);
   color: #fffaf7;
 }
 
@@ -1832,7 +1820,7 @@ body.course-game-engine-1.game-engine-week-fourteen .test-table select {
 body.course-game-engine-1.game-engine-week-fourteen .privacy-note {
   margin: 11px 0 0;
   padding-left: 13px;
-  border-left: 3px solid var(--w14-violet);
+  border-left: 3px solid var(--w14-accent);
   color: var(--muted);
   font-size: 11px;
   line-height: 1.62;
@@ -1918,7 +1906,7 @@ body.course-game-engine-1.game-engine-week-fourteen .build-checklist input {
   height: 20px;
   margin: 0;
   flex: 0 0 auto;
-  accent-color: var(--w14-violet-dark);
+  accent-color: var(--w14-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-fourteen .build-checklist > button {
@@ -1934,21 +1922,21 @@ body.course-game-engine-1.game-engine-week-fourteen .build-checklist > button:ac
 
 @media (hover: hover) and (pointer: fine) {
   body.course-game-engine-1.game-engine-week-fourteen .hero-action:hover {
-    border-color: var(--w14-violet);
+    border-color: var(--w14-accent);
     text-decoration: none;
   }
 
   body.course-game-engine-1.game-engine-week-fourteen .hero-action-primary:hover,
   body.course-game-engine-1.game-engine-week-fourteen .starter-download a:hover,
   body.course-game-engine-1.game-engine-week-fourteen .test-toolbar button:first-of-type:hover {
-    border-color: var(--w14-violet);
-    background: var(--w14-violet);
+    border-color: var(--w14-accent);
+    background: var(--w14-accent);
     text-decoration: none;
   }
 
   body.course-game-engine-1.game-engine-week-fourteen .test-toolbar button:hover,
   body.course-game-engine-1.game-engine-week-fourteen .build-checklist > button:hover {
-    border-color: var(--w14-violet);
+    border-color: var(--w14-accent);
     transform: translateY(-1px);
   }
 }

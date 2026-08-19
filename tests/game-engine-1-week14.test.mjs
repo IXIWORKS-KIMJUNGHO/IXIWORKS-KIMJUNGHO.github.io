@@ -115,6 +115,9 @@ test("week 14 keeps periods 1 and 2 instructor-led and period 3 goal-directed", 
   assert.match(period2, /학생은 프로젝트를 제작하지 않습니다/);
   assert.match(period2, /교수자 설명과 공개 면담 시연/);
   assert.match(period2, /학생 제작 없음/);
+  assert.match(period1, /3교시 실습 전에는 일곱 가지 증거만 준비합니다/);
+  assert.doesNotMatch(period1, /2교시 자리에는 일곱 가지 증거/);
+  assert.doesNotMatch(period2, /경로를 학생이 보여 줍니다|학생이 직접 실행합니다/);
   assert.doesNotMatch(period2, /data-queue-lab|개인 제작과 순차 1:1 면담|15분 개인 순환/);
 
   assert.match(period3, /목표지향 개인 실습/);
@@ -257,7 +260,7 @@ test("period 3 completes one approved issue through three safe routes and eight 
   }
 });
 
-test("period 3 changes T05 with the selected route and clears a stale verdict", async () => {
+test("period 3 changes T05 with the selected route and clears stale route-dependent verdicts", async () => {
   const script = await readFile(resolve(assetDirectory, "week-14.js"), "utf8");
   const storage = new Map();
 
@@ -336,7 +339,10 @@ test("period 3 changes T05 with the selected route and clears a stale verdict", 
   const testTable = {
     dataset: {},
     querySelector(selector) {
-      return selector === '[data-test-id="T05"]' ? rows[4] : null;
+      return new Map([
+        ['[data-test-id="T04"]', rows[3]],
+        ['[data-test-id="T05"]', rows[4]],
+      ]).get(selector) ?? null;
     },
     querySelectorAll(selector) {
       return selector === "[data-test-id]" ? rows : [];
@@ -378,8 +384,10 @@ test("period 3 changes T05 with the selected route and clears a stale verdict", 
   assert.equal(route.textContent, "FIX / 제한 수정");
   assert.equal(rows[4].action.textContent, "수정 전과 같은 정상 조건 재검사");
 
+  rows[3].result.value = "PASS";
+  rows[3].note.value = "old FIX action";
   rows[4].result.value = "PASS";
-  rows[4].note.value = "old FIX evidence";
+  rows[4].note.value = "old FIX retest";
   rows[4].result.dispatchEvent(new MockEvent("input"));
   risk.value = "high";
   risk.dispatchEvent(new MockEvent("input"));
@@ -388,6 +396,8 @@ test("period 3 changes T05 with the selected route and clears a stale verdict", 
   assert.equal(routeLabel.textContent, "DIAGNOSE 경로");
   assert.equal(rows[4].action.textContent, "재현 조건에서 최초로 다른 상태 확인");
   assert.equal(rows[4].expected.textContent, "원인 가설, 확인 결과와 다음 진단 행동이 기록됨");
+  assert.equal(rows[3].result.value, "");
+  assert.equal(rows[3].note.value, "");
   assert.equal(rows[4].result.value, "");
   assert.equal(rows[4].note.value, "");
 
@@ -427,9 +437,10 @@ test("week 14 visual system stays responsive, printable, reduced-motion aware, a
   const [, period1, period2, period3, stylesheet, script] = await readWeekFourteen();
 
   assert.match(stylesheet, /one restrained burnt-orange accent/);
-  assert.match(stylesheet, /--w14-violet:\s*#a55c43/);
-  assert.match(stylesheet, /--w14-cyan:\s*#a55c43/);
-  assert.match(stylesheet, /--w14-lime:\s*#a55c43/);
+  assert.match(stylesheet, /--w14-accent:\s*#a55c43/);
+  assert.match(stylesheet, /--w14-accent-strong:\s*#733d2f/);
+  assert.match(stylesheet, /--w14-accent-soft:\s*#f2e3dc/);
+  assert.doesNotMatch(stylesheet, /--w14-(?:violet|cyan|lime)/);
   assert.match(stylesheet, /@media \(max-width: 720px\)/);
   assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)/);
   assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);
@@ -447,6 +458,9 @@ test("week 14 visual system stays responsive, printable, reduced-motion aware, a
   assert.match(script, /IntersectionObserver/);
   assert.match(period1, /<h1>면담 전에 프로젝트<br>경계를 잠급니다<\/h1>/);
   assert.match(period2, /<h1>구조와 판단을<br>함께 진단합니다<\/h1>/);
+  assert.match(period2, /class="studio-observation"/);
+  assert.doesNotMatch(period2, /class="studio-production"/);
+  assert.match(period3, /<strong data-test-count role="status" aria-live="polite" aria-atomic="true">/);
 
   const documentClasses = new Set(
     [...`${period1}\n${period2}\n${period3}`.matchAll(/class="([^"]+)"/g)].flatMap((match) => match[1].split(/\s+/)),
@@ -484,6 +498,7 @@ test("week 14 generated visuals have a reproducible built-in generation log", as
   assert.match(log, /week-14-period3-checkpoint-route\.webp/);
   assert.match(log, /Use case: style-transfer/);
   assert.match(log, /no students producing work in the background/);
-  assert.match(log, /Exactly two people appear at the central review table/);
+  assert.match(log, /Exactly two figurines total appear at the central review table/);
+  assert.match(log, /game module contains only platform geometry and no character-like object/);
   assert.match(log, /single orange issue token travels through one narrow gate/);
 });

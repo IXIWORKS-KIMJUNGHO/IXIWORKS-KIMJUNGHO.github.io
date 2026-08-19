@@ -93,7 +93,6 @@
 
     const previousRoute = table.dataset.route;
     const row = table.querySelector('[data-test-id="T05"]');
-    const result = row?.querySelector("[data-test-result]");
     const note = row?.querySelector("[data-test-note]");
 
     row?.querySelector("[data-route-test-action]")?.replaceChildren(copy.action);
@@ -105,9 +104,17 @@
 
     table.dataset.route = routeKey;
     if (previousRoute && previousRoute !== routeKey) {
-      if (result) result.value = "";
-      if (note) note.value = "";
-      result?.dispatchEvent(new Event("input", { bubbles: true }));
+      const routeDependentRows = ["T04", "T05"]
+        .map((testId) => table.querySelector(`[data-test-id="${testId}"]`))
+        .filter(Boolean);
+
+      for (const routeRow of routeDependentRows) {
+        routeRow.querySelector("[data-test-result]").value = "";
+        routeRow.querySelector("[data-test-note]").value = "";
+      }
+
+      routeDependentRows.at(-1)?.querySelector("[data-test-result]")
+        .dispatchEvent(new Event("input", { bubbles: true }));
     }
   };
 

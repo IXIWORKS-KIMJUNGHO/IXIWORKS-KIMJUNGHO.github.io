@@ -3,7 +3,7 @@
 - Date: 2026-08-19
 - Mode: OpenAI built-in image generation
 - Source format: 1536 x 1024 PNG
-- Published format: 1536 x 1024 WebP, `cwebp -m 6`; Period 1 and 3 use `-q 84`, revised Period 2 uses `-q 88`
+- Published format: 1536 x 1024 WebP, `cwebp -m 6`; Period 1 and 3 use `-q 84`, revised Period 2 uses `-q 90`
 - Shared direction: premium editorial 3D diorama, tactile paper and machined materials, graphite and cool off-white base, one restrained burnt-orange accent, no readable text, logos, watermark, neon, fake dashboard or decorative clutter
 
 The original generated PNG files remain in the built-in generation directory. The course publishes optimized WebP copies from `teaching/game-engine-1/assets/`.
@@ -34,7 +34,7 @@ Inspection: accepted. The image contains a compact game layer, a reusable-object
 ## Period 2, revised after curriculum review
 
 - Published asset: `week-14-period2-mentoring-studio-v2.webp`
-- Built-in source: `exec-814e7b16-674a-4e4e-b002-f5bcc2071322.png`
+- Built-in source: `exec-8385b6bc-75da-4ca8-bea6-44e290693ebe.png`
 - Purpose: show a professor-led public interview demonstration with no student production, while matching the tactile miniature language of Period 1 and Period 3.
 - Input roles: the original Period 2 image was the edit target and composition reference; Period 1 and Period 3 images were style references.
 
@@ -52,10 +52,16 @@ Composition/framing: preserve Image 1's wide three-quarter top-down central hier
 Lighting/mood: calm focused studio light, diagnostic and instructional, soft controlled shadows.
 Color palette: charcoal, cool off-white, muted steel, exactly one restrained burnt-orange accent family.
 Materials/textures: paper grain, matte anodized metal, miniature resin figures, acrylic inspection lens.
-Constraints: exactly two human figurines in the entire image; exactly four logic tokens; exactly one magnified issue; no students producing work in the background; preserve the central game-review concept; no readable text, letters, numbers, arrows, logos, watermark, neon, glowing gradients, fake software interface, decorative clutter, realistic skin, realistic hair, photographic faces, or full-scale furniture.
+Constraints: exactly two figurines total in the entire image, including every person, game character, avatar, mascot, animal, face or humanoid silhouette; exactly four logic tokens; exactly one magnified issue; no students producing work in the background; preserve the central game-review concept; no readable text, letters, numbers, arrows, logos, watermark, neon, glowing gradients, fake software interface, decorative clutter, realistic skin, realistic hair, photographic faces, or full-scale furniture.
 ```
 
-Inspection: accepted. Exactly two people appear at the central review table as handcrafted miniature figures. The two surrounding observation bays are empty, the logic chain has exactly four unlabeled tokens, and one issue sits under the inspection lens. The composition, material scale and restrained palette now match Period 1 and Period 3. No readable text appears.
+Correction pass prompt:
+
+```text
+Edit this existing 3:2 landscape premium tactile miniature diorama with one precise correction. Remove the tiny black character/avatar figurine standing inside the central 2D platform game module, and replace that spot with simple unambiguous non-character platform geometry matching the surrounding graphite blocks. The entire finished image must contain exactly two figurines total: only the two seated handcrafted people at the review table. Preserve both seated people, their poses, the central review table, the platform module, exactly four circular unlabeled mechanical tokens, exactly one isolated burnt-orange issue under the acrylic inspection lens, the two empty observation bays, camera angle, lighting, materials, restrained charcoal/off-white/burnt-orange palette, composition, and all other details. Do not introduce any other person, avatar, mascot, face, humanoid silhouette, animal, readable text, letters, numbers, arrows, logos, or watermark. Keep the edit seamless and object-like, never photorealistic.
+```
+
+Inspection: accepted after the correction pass. Exactly two figurines total appear at the central review table; the game module contains only platform geometry and no character-like object. The two surrounding observation bays are empty, the logic chain has exactly four unlabeled tokens, and one issue sits under the inspection lens. The composition, material scale and restrained palette match Period 1 and Period 3. No readable text appears.
 
 ## Period 3
 
