@@ -219,7 +219,7 @@
 
     const spreadsheetSafe = (value) => {
       const text = String(value ?? "");
-      return /^[=+\-@\t\r\n]/.test(text) ? `'${text}` : text;
+      return /^[=+\-@\t\r\n\0＝＋－＠]/.test(text) ? `'${text}` : text;
     };
 
     const csvCell = (value) => `"${spreadsheetSafe(value).replaceAll('"', '""')}"`;

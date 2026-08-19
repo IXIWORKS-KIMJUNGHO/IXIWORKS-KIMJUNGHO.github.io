@@ -319,7 +319,20 @@ test("week 7 CSV export neutralizes spreadsheet formula prefixes", async () => {
   const spreadsheetSafe = Function(
     `return (value) => {${helperSource[1]}};`,
   )();
-  for (const dangerous of ["=1+1", "+1", "-1", "@SUM(A1)", "\t=1", "\r=1", "\n=1"]) {
+  for (const dangerous of [
+    "=1+1",
+    "+1",
+    "-1",
+    "@SUM(A1)",
+    "\t=1",
+    "\r=1",
+    "\n=1",
+    "\0=1",
+    "＝1+1",
+    "＋1",
+    "－1",
+    "＠SUM(A1)",
+  ]) {
     assert.equal(spreadsheetSafe(dangerous), `'${dangerous}`);
   }
   assert.equal(spreadsheetSafe("관찰 기록"), "관찰 기록");
@@ -360,6 +373,7 @@ test("week 7 action colors stay readable while success and danger remain semanti
 
   const lightMode = stylesheet.slice(0, darkModeStart);
   const darkMode = stylesheet.slice(darkModeStart, darkModeEnd);
+  const codeSurface = readHexToken(lightMode, "--w7-code");
   const teachingDarkModeStart = teachingStyles.indexOf("@media (prefers-color-scheme: dark)");
   const lightPaper = readHexToken(
     teachingStyles.slice(0, teachingDarkModeStart),
@@ -393,6 +407,10 @@ test("week 7 action colors stay readable while success and danger remain semanti
       contrastRatio(focusRing, paper) >= 3,
       `${focusRing} focus ring on ${paper} must meet non-text contrast`,
     );
+    assert.ok(
+      contrastRatio(focusRing, codeSurface) >= 3,
+      `${focusRing} focus ring on ${codeSurface} must meet non-text contrast`,
+    );
   }
 
   assert.match(
@@ -418,6 +436,14 @@ test("week 7 action colors stay readable while success and danger remain semanti
 
 test("week 7 keeps student-facing copy and controls readable", async () => {
   const stylesheet = await readFixture("stylesheet");
+  const identityRule = stylesheet.match(/\.test-identity\s*\{([^}]*)\}/);
+
+  assert.ok(identityRule, "test identity layout must exist");
+  assert.match(
+    identityRule[1],
+    /grid-template-columns:\s*repeat\(2, minmax\(0, 1fr\)\);/,
+    "the two identity fields should occupy two balanced desktop columns",
+  );
 
   assert.doesNotMatch(
     stylesheet,

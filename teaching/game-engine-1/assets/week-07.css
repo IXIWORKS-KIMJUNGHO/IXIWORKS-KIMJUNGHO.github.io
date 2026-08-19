@@ -11,7 +11,7 @@ body.course-game-engine-1.game-engine-week-seven {
   --w7-accent-soft: #d8e9eb;
   --w7-action-bg: #0b4a59;
   --w7-action-text: #f7fbf9;
-  --w7-focus-ring: #0b4a59;
+  --w7-focus-ring: #1d788c;
   --w7-success: #93a33c;
   --w7-success-strong: #5d6918;
   --w7-success-soft: #e9edcf;
@@ -1310,7 +1310,7 @@ body.course-game-engine-1.game-engine-week-seven .test-identity {
   border: 1px solid var(--w7-rule-strong);
   border-radius: 5px 5px 0 0;
   display: grid;
-  grid-template-columns: minmax(150px, 0.7fr) minmax(150px, 0.7fr) minmax(180px, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
   align-items: end;
   background: var(--paper);
