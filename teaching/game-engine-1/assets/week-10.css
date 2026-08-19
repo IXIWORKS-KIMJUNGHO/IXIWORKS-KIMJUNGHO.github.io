@@ -13,12 +13,12 @@ body.course-game-engine-1.game-engine-week-ten {
   --w10-cyan-dark: #0b5668;
   --w10-cyan-soft: #d9edf1;
   --w10-lime: #a9bd35;
-  --w10-lime-dark: #6e7e16;
+  --w10-lime-dark: #667512;
   --w10-lime-soft: #edf2cf;
-  --w10-black: #161a1a;
   --w10-code: #171d1e;
   --w10-code-ink: #eaf0ec;
-  --w10-on-accent: #fffaf7;
+  --w10-on-violet: #fffaf7;
+  --w10-on-lime: #fffaf7;
   --w10-rule: color-mix(in srgb, var(--ink-strong) 17%, transparent);
   --w10-rule-strong: color-mix(in srgb, var(--ink-strong) 31%, transparent);
   background: var(--bg);
@@ -103,6 +103,7 @@ body.course-game-engine-1.game-engine-week-ten .week-ten-hero-copy {
 body.course-game-engine-1.game-engine-week-ten .week-ten-hero .eyebrow {
   margin-bottom: 17px;
   color: var(--w10-violet-dark);
+  font-size: 11px;
   letter-spacing: 0.075em;
 }
 
@@ -154,7 +155,7 @@ body.course-game-engine-1.game-engine-week-ten .hero-action {
 body.course-game-engine-1.game-engine-week-ten .hero-action-primary {
   border-color: var(--w10-violet-dark);
   background: var(--w10-violet-dark);
-  color: var(--w10-on-accent);
+  color: var(--w10-on-violet);
 }
 
 body.course-game-engine-1.game-engine-week-ten .week-ten-hero-visual {
@@ -1155,17 +1156,6 @@ body.course-game-engine-1.game-engine-week-ten .test-table input {
   min-width: 175px;
 }
 
-body.course-game-engine-1.game-engine-week-ten .optional-label {
-  margin-left: 5px;
-  padding: 2px 4px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  color: var(--quiet);
-  font-family: var(--mono);
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
 body.course-game-engine-1.game-engine-week-ten .test-actions {
   margin-top: 14px;
   display: flex;
@@ -1191,7 +1181,7 @@ body.course-game-engine-1.game-engine-week-ten .completion-panel button {
 body.course-game-engine-1.game-engine-week-ten .test-action-primary {
   border-color: var(--w10-lime-dark);
   background: var(--w10-lime-dark);
-  color: var(--w10-on-accent);
+  color: var(--w10-on-lime);
 }
 
 body.course-game-engine-1.game-engine-week-ten .test-actions > p {
@@ -1522,6 +1512,7 @@ body.course-game-engine-1.game-engine-week-ten .toc-toggle {
 body.course-game-engine-1.game-engine-week-ten .week-ten-toc .toc-title {
   margin: 0 0 10px;
   color: var(--w10-violet-dark);
+  font-size: 11px;
   letter-spacing: 0.04em;
 }
 
@@ -1837,7 +1828,7 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
   align-items: center;
   justify-content: center;
   background: var(--w10-lime-dark);
-  color: var(--w10-on-accent);
+  color: var(--w10-on-lime);
   font-size: 12px;
   font-weight: 720;
 }
@@ -1879,7 +1870,7 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
   body.course-game-engine-1.game-engine-week-ten .hero-action-primary:hover {
     border-color: var(--w10-violet);
     background: var(--w10-violet);
-    color: var(--w10-on-accent);
+    color: var(--w10-on-violet);
   }
 
   body.course-game-engine-1.game-engine-week-ten :is(.mistake-list, .trouble-grid) summary:hover {
@@ -1902,11 +1893,20 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
 
   body.course-game-engine-1.game-engine-week-ten .starter-download a:hover {
     background: var(--w10-lime);
+    color: #161a1a;
     text-decoration: none;
   }
 }
 
 @media (hover: none), (pointer: coarse) {
+  body.course-game-engine-1.game-engine-week-ten a:hover {
+    text-decoration: none;
+  }
+
+  body.course-game-engine-1.game-engine-week-ten .week-ten-toc a:not([aria-current="location"]):hover {
+    background: transparent;
+  }
+
   body.course-game-engine-1.game-engine-week-ten .lesson-breadcrumb a:hover {
     color: var(--muted);
     text-decoration: none;
@@ -2258,7 +2258,8 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
     --w10-lime: #b0c45a;
     --w10-lime-dark: #c2d775;
     --w10-lime-soft: #333b20;
-    --w10-on-accent: #161a1a;
+    --w10-on-violet: #161a1a;
+    --w10-on-lime: #161a1a;
   }
 
   body.course-game-engine-1.game-engine-week-ten .week-ten-hero-visual img {
@@ -2297,7 +2298,21 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
   ) {
     transform: none !important;
     transition-property: border-color, background-color, color, opacity;
-    transition-duration: 120ms;
+  }
+
+  body.course-game-engine-1.game-engine-week-ten :is(
+    .hero-action,
+    .lesson-header a,
+    .code-panel-bar button,
+    summary,
+    .test-action,
+    .completion-panel button,
+    .reference-list a,
+    .starter-download a,
+    .week-ten-toc a,
+    .toc-toggle
+  ):active:not(:disabled) {
+    opacity: 0.82;
   }
 
   body.course-game-engine-1.game-engine-week-ten .toc-toggle i {

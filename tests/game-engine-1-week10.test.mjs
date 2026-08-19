@@ -88,7 +88,7 @@ test("Game Engine I week 10 is published as three connected periods", async () =
   assert.match(period2, /href="week-10-period1\.html" rel="prev"/);
   assert.match(period2, /href="week-10-period3\.html" rel="next"/);
   assert.match(period3, /href="week-10-period2\.html" rel="prev"/);
-  assert.doesNotMatch(period3, /href="week-11-period1\.html" rel="next"/);
+  assert.doesNotMatch(period3, /week-11-period1\.html/);
 });
 
 test("week 10 documents have balanced HTML, unique IDs, and valid local fragments", async () => {
@@ -266,11 +266,29 @@ test("week 10 passes the editorial design and interaction preflight", async () =
   assert.ok(stylesheet.indexOf("@media (hover: hover) and (pointer: fine)") < stylesheet.indexOf(":hover"));
   assert.match(stylesheet, /:active/);
   assert.doesNotMatch(stylesheet, /transition-duration:\s*0\.01ms/);
-  assert.match(stylesheet, /--w10-on-accent:\s*#161a1a/);
+  assert.match(stylesheet, /--w10-on-violet:\s*#fffaf7/);
+  assert.match(stylesheet, /--w10-lime-dark:\s*#667512/);
+  assert.match(stylesheet, /--w10-on-lime:\s*#fffaf7/);
+  assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)[\s\S]*?--w10-on-violet:\s*#161a1a/);
+  assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)[\s\S]*?--w10-on-lime:\s*#161a1a/);
   assert.match(stylesheet, /\.lesson-breadcrumb,[\s\S]*?\.lesson-sequence a\s*\{\s*font-size:\s*11px/);
+  assert.match(stylesheet, /\.week-ten-hero \.eyebrow\s*\{[^}]*font-size:\s*11px/);
+  assert.match(stylesheet, /\.week-ten-toc \.toc-title\s*\{[^}]*font-size:\s*11px/);
+  assert.match(stylesheet, /\.hero-action-primary\s*\{[^}]*color:\s*var\(--w10-on-violet\)/);
+  assert.match(stylesheet, /\.test-action-primary\s*\{[^}]*color:\s*var\(--w10-on-lime\)/);
+  assert.match(stylesheet, /\.starter-download a\s*\{[^}]*color:\s*var\(--w10-on-lime\)/);
+  assert.match(stylesheet, /\.starter-download a:hover\s*\{[^}]*color:\s*#161a1a/);
+  assert.match(
+    stylesheet,
+    /@media \(hover: none\), \(pointer: coarse\) \{[\s\S]*?game-engine-week-ten a:hover\s*\{[^}]*text-decoration:\s*none/,
+  );
+  assert.match(
+    stylesheet,
+    /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?:active:not\(:disabled\)\s*\{[^}]*opacity:\s*0\.\d+/,
+  );
   assert.doesNotMatch(
     stylesheet,
-    /clock-compare|collision-note|code-anatomy|line-reasons|wire-steps|state-(?:loop|lab|controls|readout)/,
+    /--w10-black|optional-label|clock-compare|collision-note|code-anatomy|line-reasons|wire-steps|state-(?:loop|lab|controls|readout)/,
   );
 
   for (const source of [...pages, script, starterReadme]) {
