@@ -251,7 +251,7 @@ test("week 10 passes the editorial design and interaction preflight", async () =
     assert.doesNotMatch(page, /class="hero-facts"/, `period ${index + 1}: hero should stay within four content groups`);
     assert.match(page, /data-toc-toggle/);
     assert.match(page, /aria-controls="week-ten-toc-list"/);
-    assert.match(page, /assets\/week-10\.css\?v=ge1w10-4/);
+    assert.match(page, /assets\/week-10\.css\?v=ge1w10-5/);
 
     const lead = page.match(/<p class="lead">([^<]+)<\/p>/)?.[1] ?? "";
     assert.ok(lead.split(/\s+/).filter(Boolean).length <= 20, `period ${index + 1}: hero lead should be concise`);
@@ -288,6 +288,10 @@ test("week 10 passes the editorial design and interaction preflight", async () =
   assert.match(
     stylesheet,
     /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?:active:not\(:disabled\)\s*\{[^}]*outline:\s*2px solid var\(--w10-press-ring\)/,
+  );
+  assert.match(
+    stylesheet,
+    /\.code-panel-bar button:active:not\(:disabled\)\s*\{[^}]*outline-color:\s*#fffaf7/,
   );
   assert.doesNotMatch(stylesheet, /transition-property:\s*border-color, background-color, color, opacity/);
   assert.doesNotMatch(

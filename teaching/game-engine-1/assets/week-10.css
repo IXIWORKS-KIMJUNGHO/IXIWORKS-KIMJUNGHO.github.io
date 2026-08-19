@@ -2318,6 +2318,10 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
     outline-offset: 2px;
   }
 
+  body.course-game-engine-1.game-engine-week-ten .code-panel-bar button:active:not(:disabled) {
+    outline-color: #fffaf7;
+  }
+
   body.course-game-engine-1.game-engine-week-ten .toc-toggle i {
     transition: none;
   }
