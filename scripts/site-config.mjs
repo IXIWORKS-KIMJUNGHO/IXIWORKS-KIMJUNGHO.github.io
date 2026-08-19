@@ -26,6 +26,10 @@ export const TEACHING_SHARE_IMAGES = Object.freeze({
 });
 
 const PAGE_SHARE_IMAGES = Object.freeze({
+  "teaching/game-engine-1/week-01-ot.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-01-blockout-to-game.webp",
+    alt: "동일한 탑다운 2D 게임 장면이 회색 블록아웃에서 완성된 픽셀 아트 장면으로 발전하는 비교 이미지",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

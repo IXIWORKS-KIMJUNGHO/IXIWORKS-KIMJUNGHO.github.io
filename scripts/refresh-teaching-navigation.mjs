@@ -46,6 +46,14 @@ const courses = {
   },
   "game-engine-1": {
     label: "Game Engine I",
+    navigationOverrides: {
+      "week-01-ot.html": {
+        next: {
+          href: "./#week-02",
+          title: "2주차 강의 자료",
+        },
+      },
+    },
   },
   "media-art-programming": {
     label: "Media Art Programming",
@@ -160,11 +168,17 @@ function lessonHeader(course, current, previous, next, titles) {
       ? title.replace(/[—–]/g, "-")
       : title;
   };
-  const previousLink = previous
-    ? `<a href="${previous}" rel="prev" aria-label="이전 자료: ${escapeAttribute(titleFor(previous))}">← <span class="sequence-label">${copy.previousText}</span></a>`
+  const linkTarget = (target) =>
+    typeof target === "string"
+      ? { href: target, title: titleFor(target) }
+      : target;
+  const previousTarget = linkTarget(previous);
+  const nextTarget = linkTarget(next);
+  const previousLink = previousTarget
+    ? `<a href="${escapeAttribute(previousTarget.href)}" rel="prev" aria-label="이전 자료: ${escapeAttribute(previousTarget.title)}">← <span class="sequence-label">${copy.previousText}</span></a>`
     : "";
-  const nextLink = next
-    ? `<a href="${next}" rel="next" aria-label="다음 자료: ${escapeAttribute(titleFor(next))}"><span class="sequence-label">${copy.nextText}</span> →</a>`
+  const nextLink = nextTarget
+    ? `<a href="${escapeAttribute(nextTarget.href)}" rel="next" aria-label="다음 자료: ${escapeAttribute(nextTarget.title)}"><span class="sequence-label">${copy.nextText}</span> →</a>`
     : "";
 
   return `  <header class="lesson-header" data-teaching-shell="v1">
@@ -227,11 +241,16 @@ async function refreshDocuments(
     after = withSharedStylesheet(after);
     after = withTeachingDetailsMotion(after);
 
+    const navigationOverride = config.navigationOverrides?.[name] ?? {};
+    const navigationTarget = (direction, fallback) =>
+      Object.hasOwn(navigationOverride, direction)
+        ? navigationOverride[direction]
+        : fallback;
     const header = lessonHeader(
       course,
       name,
-      documents[index - 1],
-      documents[index + 1],
+      navigationTarget("previous", documents[index - 1]),
+      navigationTarget("next", documents[index + 1]),
       titles,
     );
     const skipLink = /<a\b[^>]*class="[^"]*\bskip-link\b[^"]*"[^>]*>[\s\S]*?<\/a>/i;
