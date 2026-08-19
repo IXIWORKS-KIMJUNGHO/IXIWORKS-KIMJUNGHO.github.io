@@ -146,6 +146,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-13-period3-alpha-mission.webp",
     alt: "숲 게임 알파 빌드 주위의 세 독립 테스터 기록, 한 가지 UI 수정 전후, 정확히 여덟 개의 통과 표시와 최종 제출 묶음",
   }),
+  "teaching/game-engine-1/week-14-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-14-period1-scope-architecture.webp",
+    alt: "작은 2D 게임이 플레이 화면, 재사용 오브젝트와 동작 구조의 세 층으로 정리되고 남은 기능은 별도 보관함으로 분리된 기술 작업대",
+  }),
+  "teaching/game-engine-1/week-14-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-14-period2-mentoring-studio-v2.webp",
+    alt: "교수자와 시연자 두 사람이 작은 게임 모형, 네 단계 동작 흐름과 확대된 문제 하나를 확인하고 주변 관찰석이 분리된 미니어처 면담 교실",
+  }),
+  "teaching/game-engine-1/week-14-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-14-period3-checkpoint-route.webp",
+    alt: "작은 2D 게임의 문제 토큰 하나가 제한된 변경 관문을 지나 같은 게임에서 재검사되고 구조도, 실행 build와 면담 기록이 담긴 증거 보관함으로 이어지는 작업대",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

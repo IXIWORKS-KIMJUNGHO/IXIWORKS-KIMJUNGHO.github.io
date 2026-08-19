@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-fourteen-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14주차 3교시: 결정한 문제 하나를 증거로 닫습니다 | Game Engine I</title>
+  <meta name="description" content="교수자가 확인한 blocking issue 하나를 학생이 Fix, Diagnose 또는 Defer 경로로 처리하고, 경로별 완료 증거와 회귀 build, 면담 체크포인트로 검증하는 14주차 목표지향 개인 실습 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-14-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="14주차 3교시: 결정한 문제 하나를 증거로 닫습니다 | Game Engine I">
+  <meta property="og:description" content="승인된 한 문제를 작은 변경, 같은 재검사와 지속 가능한 기록으로 닫습니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-14-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-14-period3-checkpoint-route.webp">
+  <meta property="og:image:alt" content="작은 2D 게임의 문제 토큰 하나가 제한된 변경 관문을 지나 같은 게임에서 재검사되고 구조도, 실행 build와 면담 기록이 담긴 증거 보관함으로 이어지는 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="14주차 3교시: 결정한 문제 하나를 증거로 닫습니다">
+  <meta name="twitter:description" content="새 기능 없이 한 문제의 선택, 수정, 재검사와 15주차 인계까지 완료합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-14-period3-checkpoint-route.webp">
+  <link rel="preload" as="image" href="assets/week-14-period3-checkpoint-route.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-14.css?v=ge1w14-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-fourteen week-fourteen-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-14-period2.html" rel="prev" aria-label="이전 자료: 14주차 2교시: 구조와 판단을 함께 진단합니다 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+
+      </div>
+    </nav>
+  </header>
+<header class="hero week-fourteen-hero">
+    <div class="hero-inner">
+      <div class="week-fourteen-hero-copy">
+        <p class="eyebrow">Week 14 / Period 03 / Individual Checkpoint</p>
+        <h1>결정한 문제 하나를 증거로 닫습니다</h1>
+        <p class="lead">승인된 범위만 바꾸고, 같은 조건의 재검사와 독립 build로 15주차 준비를 증명합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#mission">미션 시작</a>
+          <a class="hero-action" href="#tests">필수 테스트 보기</a>
+        </div>
+      </div>
+      <figure class="week-fourteen-hero-visual">
+        <img src="assets/week-14-period3-checkpoint-route.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="작은 2D 게임의 문제 토큰 하나가 제한된 변경 관문을 지나 같은 게임에서 재검사되고 구조도, 실행 build와 면담 기록이 담긴 증거 보관함으로 이어지는 작업대">
+        <figcaption><span>ONE ISSUE, ONE BOUNDED ROUTE</span> 문제를 완전히 해결하지 못해도 괜찮습니다. 확인된 원인, 안전한 현재 상태와 검증 가능한 다음 행동을 남기면 거짓 완료보다 강한 체크포인트가 됩니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">60분 뒤 남아야 할 체크포인트</h2>
+          <p>모든 학생이 교수자에게 확인받은 한 가지 목표를 각자의 project copy에서 수행합니다. 작업 속도와 기능 수는 평가하지 않습니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>결정</span><p>면담에서 승인받은 <strong>blocking issue 하나와 완료 조건</strong>이 기록됩니다.</p></li>
+          <li><span>변경</span><p>승인 범위 안의 <strong>작고 되돌릴 수 있는 수정</strong>만 project copy에 적용합니다.</p></li>
+          <li><span>증거</span><p>같은 재현 조건과 핵심 loop 회귀 검사로 <strong>8 / 8 PASS</strong>를 남깁니다.</p></li>
+          <li><span>인계</span><p>build, 구조도, 면담 기록과 15주차 할 일을 <strong>하나의 체크포인트 묶음</strong>으로 저장합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="3교시 운영 범위">
+        <div><span>CLASS MODE</span><strong>목표지향 개인 실습</strong></div>
+        <p><strong>목표는 고정하고 해결 경로는 선택합니다.</strong> 교수자는 시작 목표와 중간 체크포인트를 확인하고 클릭 순서는 지시하지 않습니다. 학생은 자신의 project copy에서 독립적으로 개인 제작, 재검사, build와 제출 판정을 수행합니다.</p>
+      </aside>
+
+      <section class="week-fourteen-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <p class="section-index">미션 계약</p>
+          <h2 id="mission-title">면담 결정을 작동하는 체크포인트로 바꿉니다</h2>
+          <p>아래 네 문장이 모두 참이면 완료입니다. 해결이 위험하거나 20분을 넘으면 기능을 억지로 고치지 않고 진단 경로로 전환합니다.</p>
+        </header>
+        <div class="asset-pack-grid checkpoint-contract">
+          <article><span>APPROVE</span><h3>한 문제</h3><p>문제, 재현 조건, 변경 범위와 완료 조건이 면담 기록에 있습니다.</p></article>
+          <article><span>BOUND</span><h3>작은 변경</h3><p>허용된 Scene, Prefab, Script 또는 값만 바꾸고 새 기능은 추가하지 않습니다.</p></article>
+          <article><span>RETEST</span><h3>같은 조건</h3><p>수정 전과 같은 입력, 상태와 실행 환경에서 기대 결과를 다시 확인합니다.</p></article>
+          <article><span>HANDOFF</span><h3>15주차 준비</h3><p>독립 build, 구조도, 기록과 다음 검증 목록을 한 폴더에 남깁니다.</p></article>
+        </div>
+        <div class="starter-download">
+          <div><h3>14주차 면담 checkpoint starter</h3><p><code>MENTORING_CHECKPOINT-template.md</code>, 면담 CSV와 구조도 템플릿을 자신의 제출 폴더에 복사합니다.</p></div>
+          <a href="assets/week-14-mentoring-starter.zip" download>starter ZIP 받기 <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="starting-line" aria-labelledby="starting-line-title">
+        <header class="section-heading">
+          <h2 id="starting-line-title">최근 작동 상태를 복사한 뒤 시작합니다</h2>
+          <p>면담 결정이 있어도 원본에 바로 수정하지 않습니다. 먼저 Alpha v1을 실행하고 작업 copy와 증거 폴더를 만듭니다.</p>
+        </header>
+        <div class="setup-notice setup-notice-wide">
+          <div><span>BASELINE</span><strong><code>Alpha_v1</code></strong><p>13주차 핵심 한 판과 회귀 테스트가 통과한 build입니다.</p></div>
+          <div><span>PROJECT COPY</span><strong><code>Week14_학번_이름</code></strong><p>원본을 보존하고 이번 수정은 복사본에서만 수행합니다.</p></div>
+          <div><span>EVIDENCE</span><strong><code>Evidence/Week14</code></strong><p>before, after, Console, build와 면담 기록을 분리해 저장합니다.</p></div>
+          <div><span>INTERVIEW</span><strong>승인 문장 한 줄</strong><p>문제, 범위, 기대 결과와 회귀 검사를 시작 전에 읽습니다.</p></div>
+        </div>
+        <div class="table-wrap" role="region" aria-label="14주차 개인 실습 출발선" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">확인</th><th scope="col">출발 조건</th><th scope="col">실패하면</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Independent run</th><td>Alpha v1이 다른 폴더에서 열리고 한 판이 끝남</td><td>수정하지 말고 Build Profile과 최근 작동 copy를 먼저 복구</td></tr>
+              <tr><th scope="row">Console</th><td>핵심 loop 동안 error 0</td><td>기존 error를 면담 문제와 분리하고 P0 여부를 다시 판정</td></tr>
+              <tr><th scope="row">Approval</th><td>문제와 완료 조건을 한 문장으로 읽을 수 있음</td><td>교수자 또는 면담 기록에서 범위를 다시 확인</td></tr>
+              <tr><th scope="row">Rollback</th><td>수정 전 project copy와 before 증거가 있음</td><td>복사와 화면 저장이 끝나기 전 변경 금지</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="triage" aria-labelledby="triage-title">
+        <header class="section-heading">
+          <p class="section-index">경로 선택</p>
+          <h2 id="triage-title">문제의 영향과 위험에 따라 세 경로 중 하나를 고릅니다</h2>
+          <p>가장 높은 우선순위라도 지금 안전하게 고칠 수 없는 문제는 진단해야 합니다. 낮은 우선순위는 새 기능 없이 보류합니다.</p>
+        </header>
+        <form class="triage-lab" data-triage-lab>
+          <div class="triage-fields">
+            <label><span>경험 영향</span><select data-triage-priority><option value="p0">P0 / 실행 또는 제출 불가</option><option value="p1" selected>P1 / 핵심 진행 불가</option><option value="p2">P2 / 의미와 피드백 불명확</option><option value="p3">P3 / 작은 polish</option></select><small>면담에서 승인한 등급을 선택합니다.</small></label>
+            <label><span>예상 수정 시간</span><input type="number" min="1" max="120" value="15" inputmode="numeric" data-triage-minutes><small>build와 재검사 시간을 포함합니다.</small></label>
+            <label><span>변경 위험</span><select data-triage-risk><option value="low" selected>낮음 / 되돌리기 쉬움</option><option value="medium">중간 / 여러 연결 확인 필요</option><option value="high">높음 / 핵심 구조 변경</option></select><small>Scene, Prefab과 Script의 영향 범위를 기준으로 선택합니다.</small></label>
+          </div>
+          <div class="triage-output" data-triage-output aria-live="polite">
+            <span>권장 경로</span><output data-triage-route>FIX / 제한 수정</output><p data-triage-message>승인 범위 안에서 수정한 뒤 같은 조건과 회귀 테스트를 실행합니다.</p>
+          </div>
+        </form>
+        <div class="route-grid">
+          <article><span>FIX</span><h3>20분 안의 제한 수정</h3><p>P0 또는 P1이고 영향 범위가 작습니다. 한 변경 뒤 즉시 같은 조건을 재검사합니다.</p></article>
+          <article><span>DIAGNOSE / 원인 확정</span><h3>원인과 다음 검사를 확정</h3><p>구조 변경이 크거나 20분을 넘습니다. 로그, 참조와 최소 재현으로 원인을 좁히고 안전한 현재 build를 보존합니다.</p></article>
+          <article><span>DEFER / 범위 밖 보류</span><h3>현재 범위 밖으로 보류</h3><p>P2 또는 P3이거나 핵심 한 판을 바꾸지 않습니다. 15주차 검증표에 넣거나 삭제하고 새 기능을 시작하지 않습니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="workflow" aria-labelledby="workflow-title">
+        <header class="section-heading">
+          <h2 id="workflow-title">일곱 개 제작 구간으로 한 문제를 끝까지 닫습니다</h2>
+          <p>각 구간에는 눈에 보이는 중간 도착점이 있습니다. 교수자는 18분과 48분에 목표 이탈과 증거 누락만 확인하고, 구현 순서와 해결 방법은 학생이 선택합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="checkpoint-run-title">
+            <header><span>00-60 min</span><h3 id="checkpoint-run-title">Mentoring checkpoint sprint</h3><p>Individual goal-directed production</p></header>
+            <ol>
+              <li><time>00-06</time><div><strong>baseline과 copy</strong><p>Alpha v1을 실행하고 project copy, before 화면, Console과 증거 폴더를 준비합니다.</p></div></li>
+              <li><time>06-12</time><div><strong>승인 문장 고정</strong><p>문제, 재현 조건, 허용 변경, 기대 결과와 회귀 범위를 체크포인트에 옮깁니다.</p></div></li>
+              <li><time>12-18</time><div><strong>경로 판정</strong><p>영향, 예상 시간과 위험으로 Fix, Diagnose 또는 Defer 중 하나를 선택합니다.</p></div></li>
+              <li><time>18-38</time><div><strong>한 가지 행동</strong><p>Fix는 제한 수정, Diagnose는 최소 재현과 원인 확인, Defer는 안전한 제거와 범위 정리를 수행합니다.</p></div></li>
+              <li><time>38-48</time><div><strong>같은 재검사</strong><p>수정 전과 같은 조건에서 결과를 확인하고 정상, 경계와 거부 조건을 기록합니다.</p></div></li>
+              <li><time>48-55</time><div><strong>회귀 build</strong><p>시작, 핵심 행동, 성공 또는 실패, 재시작과 독립 실행을 다시 검사합니다.</p></div></li>
+              <li><time>55-60</time><div><strong>체크포인트 봉인</strong><p>8 / 8 PASS, CSV, Markdown, 구조도와 build를 저장하고 15주차 첫 행동을 한 줄로 씁니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="change" aria-labelledby="change-title">
+        <header class="section-heading">
+          <h2 id="change-title">수정 전에 여섯 칸 변경 계약을 씁니다</h2>
+          <p>구현 도구와 관계없이 같은 계약을 사용합니다. AI Assistant를 사용할 때에도 먼저 읽기와 계획으로 범위를 확인하고 승인 전에는 변경하지 않습니다.</p>
+        </header>
+        <div class="change-contract-grid">
+          <article><span>OBSERVED</span><h3>현재 결과</h3><p>입력, 상태와 화면에서 반복 가능한 사실을 씁니다.</p></article>
+          <article><span>EXPECTED</span><h3>기대 결과</h3><p>누가 보아도 PASS와 FAIL을 나눌 수 있게 씁니다.</p></article>
+          <article><span>ALLOW</span><h3>허용 변경</h3><p>면담에서 승인된 Scene, Prefab, Script 또는 값만 적습니다.</p></article>
+          <article><span>FORBID</span><h3>변경 금지</h3><p>새 패키지, 핵심 구조, 다른 기능과 Project Settings를 잠급니다.</p></article>
+          <article><span>RETEST</span><h3>같은 검사</h3><p>수정 전후에 같은 시작 상태, 입력과 관찰 결과를 사용합니다.</p></article>
+          <article><span>REGRESSION</span><h3>기존 한 판</h3><p>이번 문제와 무관해도 시작부터 재시작까지 다시 확인합니다.</p></article>
+        </div>
+        <div class="test-contract"><span>AI PERMISSION</span><p>Ask는 원인과 실제 구조를 읽는 데 사용합니다. Plan은 예상 변경 파일과 테스트를 먼저 보여 주게 합니다. Agent를 사용한다면 면담에서 승인된 Script 범위만 허용하고 Scene, Prefab 연결과 build 판정은 학생이 직접 수행합니다.</p></div>
+      </section>
+
+      <section class="week-fourteen-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading">
+          <p class="section-index">완료 증거</p>
+          <h2 id="tests-title">여덟 테스트가 모두 PASS일 때 체크포인트를 제출합니다</h2>
+          <p>각 테스트는 상태와 메모를 이 기기에 저장합니다. 이름이나 학번을 입력하지 않고, 완료 뒤 CSV를 내려받아 제출 폴더에 보관합니다.</p>
+        </header>
+        <div class="test-toolbar">
+          <div><span>필수 통과 · <b data-test-route-label>FIX 경로</b></span><strong data-test-count>0 / 8 PASS</strong></div>
+          <button type="button" data-export-tests>테스트 CSV 내보내기</button>
+          <button type="button" data-reset-tests>기록 초기화</button>
+        </div>
+        <div class="table-wrap" role="region" aria-label="14주차 필수 테스트 기록표" tabindex="0">
+          <table class="test-table" data-test-table>
+            <thead><tr><th scope="col">ID</th><th scope="col">실행</th><th scope="col">기대 결과</th><th scope="col">판정</th><th scope="col">실제 증거</th></tr></thead>
+            <tbody>
+              <tr data-test-id="T01"><th scope="row">T01</th><td>수정 전 Alpha v1을 다른 폴더에서 실행</td><td>시작부터 재시작까지 한 판 완료, error 0</td><td><select aria-label="T01 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T01 실제 증거" data-test-note placeholder="build 경로, 실행 결과"></td></tr>
+              <tr data-test-id="T02"><th scope="row">T02</th><td>면담 승인 문장과 실제 구조 비교</td><td>문제, 허용 범위와 실제 이름이 일치</td><td><select aria-label="T02 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T02 실제 증거" data-test-note placeholder="Scene, Prefab, Script"></td></tr>
+              <tr data-test-id="T03"><th scope="row">T03</th><td>변경 전 계약과 rollback 확인</td><td>before, project copy와 변경 금지 범위 존재</td><td><select aria-label="T03 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T03 실제 증거" data-test-note placeholder="copy와 before 위치"></td></tr>
+              <tr data-test-id="T04"><th scope="row">T04</th><td>선택한 Fix, Diagnose 또는 Defer 행동 수행</td><td>승인 범위 밖 변경 없이 경로별 산출물이 기록됨</td><td><select aria-label="T04 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T04 실제 증거" data-test-note placeholder="변경 파일, 진단 로그 또는 보류 기록"></td></tr>
+              <tr data-test-id="T05"><th scope="row">T05</th><td data-route-test-action>수정 전과 같은 정상 조건 재검사</td><td data-route-test-expected>기대 결과가 실제 화면과 상태에 나타남</td><td><select aria-label="T05 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T05 실제 증거" data-test-note placeholder="입력, 전후 결과"></td></tr>
+              <tr data-test-id="T06"><th scope="row">T06</th><td>경계 또는 거부 조건 실행</td><td>중복, 잘못된 상태와 경계값에서 규칙 유지</td><td><select aria-label="T06 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T06 실제 증거" data-test-note placeholder="경계값과 관찰"></td></tr>
+              <tr data-test-id="T07"><th scope="row">T07</th><td>핵심 loop 전체 회귀 build</td><td>시작, 행동, 결과, 재시작과 독립 실행 통과</td><td><select aria-label="T07 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T07 실제 증거" data-test-note placeholder="build와 회귀 결과"></td></tr>
+              <tr data-test-id="T08"><th scope="row">T08</th><td>90초 설명과 체크포인트 묶음 확인</td><td>구조, 결정, 증거, 다음 행동을 설명하고 파일 완비</td><td><select aria-label="T08 판정" data-test-result><option value="">미검사</option><option>PASS</option><option>FAIL</option></select></td><td><input aria-label="T08 실제 증거" data-test-note placeholder="영상 또는 확인자, 파일"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="privacy-note">이 표는 현재 브라우저의 localStorage에만 저장됩니다. 공용 기기에서는 CSV를 저장한 뒤 기록 초기화를 누릅니다.</p>
+      </section>
+
+      <section class="week-fourteen-section" id="repair" aria-labelledby="repair-title">
+        <header class="section-heading">
+          <h2 id="repair-title">FAIL은 더 큰 수정이 아니라 더 가까운 증거로 좁힙니다</h2>
+          <p>한 번에 한 조건만 확인합니다. 원래 문제와 무관한 실패가 생기면 즉시 baseline copy로 돌아갑니다.</p>
+        </header>
+        <div class="debug-ladder" aria-label="실패 수정 순서"><span>재현 조건</span><b aria-hidden="true">→</b><span>최초 다른 상태</span><b aria-hidden="true">→</b><span>실제 소유자</span><b aria-hidden="true">→</b><span>한 변경</span><b aria-hidden="true">→</b><span>같은 테스트</span></div>
+        <div class="trouble-grid">
+          <details><summary>20분이 지나도 원인을 찾지 못했습니다</summary><div class="details-motion-content"><p>Fix에서 Diagnose로 전환합니다. 재현 순서, Console 또는 상태 값, 확인한 Script와 아직 모르는 사실을 저장합니다. 최근 작동 build를 유지하고 다음 진단 행동을 15주차 첫 항목으로 넘깁니다.</p></div></details>
+          <details><summary>수정 뒤 다른 기능이 깨졌습니다</summary><div class="details-motion-content"><p>추가 수정을 쌓지 않습니다. project copy를 복구한 뒤 원래 변경을 더 작게 나눕니다. 같은 회귀 실패가 반복되면 이번 수정은 채택하지 않고 기록만 남깁니다.</p></div></details>
+          <details><summary>면담 문제가 P3 polish였습니다</summary><div class="details-motion-content"><p>교수자에게 우선순위를 다시 확인합니다. 핵심 loop와 제출 준비가 통과했다면 10분 이내 수정만 허용하고, 아니면 Defer로 이동합니다.</p></div></details>
+          <details><summary>AI가 승인 범위 밖 파일을 바꿨습니다</summary><div class="details-motion-content"><p>변경을 적용하지 않거나 project copy로 복구합니다. Plan에 허용 파일과 금지 항목을 다시 적고, 필요한 한 파일만 수동으로 비교해 반영합니다.</p></div></details>
+          <details><summary>Editor에서는 되지만 build에서 실패합니다</summary><div class="details-motion-content"><p>Build Profile의 Scene 목록, 저장되지 않은 변경, 파일명 대소문자와 외부 절대 경로를 확인합니다. 새 폴더에서 실행해 project 밖 의존성을 찾습니다.</p></div></details>
+          <details><summary>체크포인트에 해결하지 못한 문제가 남았습니다</summary><div class="details-motion-content"><p>숨기지 않습니다. 현재 영향, 재현 조건, 시도한 검사, 안전한 build와 15주차 첫 행동을 기록하면 유효한 진단 결과입니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="oral" aria-labelledby="oral-title">
+        <header class="section-heading">
+          <h2 id="oral-title">90초 인계 설명으로 자신의 결정을 복원합니다</h2>
+          <p>코드를 보지 않는 상태에서도 구조와 증거를 연결할 수 있어야 합니다. 아래 네 문장을 자신의 프로젝트 이름으로 바꿔 말합니다.</p>
+        </header>
+        <div class="oral-grid">
+          <article><span>0-20 sec</span><h3>CORE</h3><p>플레이어의 핵심 행동, 상태 변화와 한 판의 목표를 말합니다.</p></article>
+          <article><span>20-45 sec</span><h3>STRUCTURE</h3><p>Scene, Prefab, 핵심 Script와 피드백이 사건을 처리하는 순서를 설명합니다.</p></article>
+          <article><span>45-70 sec</span><h3>DECISION</h3><p>면담에서 선택한 문제, 변경 범위와 채택하거나 보류한 이유를 말합니다.</p></article>
+          <article><span>70-90 sec</span><h3>PROOF</h3><p>같은 재검사, 회귀 build, 남은 위험과 15주차 첫 행동을 제시합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="finish" aria-labelledby="finish-title">
+        <header class="section-heading">
+          <h2 id="finish-title">여덟 항목을 확인하고 15주차로 이동합니다</h2>
+          <p>체크 상태는 이 기기에 저장됩니다. 모든 항목이 완료되어도 실제 파일과 build가 없으면 제출 완료가 아닙니다.</p>
+        </header>
+        <div class="build-checklist" data-build-checklist>
+          <div class="build-meter"><span>체크포인트 완성도</span><strong data-build-count>0 / 8</strong><output data-build-status>아직 제출할 수 없습니다</output></div>
+          <ol>
+            <li><label><input type="checkbox" data-check-id="interview"><span>교수자에게 목표를 확인받고 승인된 문제와 완료 조건을 기록했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="baseline"><span>Alpha v1, Week14 project copy와 before 증거를 보존했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="map"><span>구조도에 실제 Scene, Prefab과 핵심 Script 이름을 사용했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="decision"><span>Fix, Diagnose 또는 Defer 경로와 선택 근거를 적었습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="change"><span>승인 범위 밖 변경 없이 결과 또는 진단 증거를 남겼습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="tests"><span>선택 경로에 맞는 T01-T08이 8 / 8 PASS이고 CSV를 저장했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="build"><span>최종 build를 새 폴더에서 실행하고 Console error 0을 확인했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="handoff"><span>MENTORING_CHECKPOINT.md와 15주차 첫 행동을 저장하고 90초 설명을 완료했습니다.</span></label></li>
+          </ol>
+          <button type="button" data-build-reset>체크 초기화</button>
+        </div>
+        <div class="checkpoint-summary">
+          <div><span>PROJECT</span><strong><code>Week14_학번_이름/</code></strong><p>이번 주에 사용한 Unity project copy</p></div>
+          <div><span>BUILD</span><strong><code>Week14_Checkpoint/</code></strong><p>독립 실행 가능한 최신 결과</p></div>
+          <div><span>EVIDENCE</span><strong><code>Evidence/Week14/</code></strong><p>before, after, Console과 구조도</p></div>
+          <div><span>RECORD</span><strong><code>MENTORING_CHECKPOINT.md</code></strong><p>면담 결정, 테스트와 다음 행동</p></div>
+        </div>
+        <aside class="next-week"><span>WEEK 15 / PROJECT MENTORING II</span><div><h3>새 기능을 멈추고 Release Candidate를 검증합니다</h3><p>UX, 시청각 일관성, 생성 에셋 권리, 독립 build와 최종 제출물을 점검합니다. 14주차 체크포인트의 첫 행동부터 시작합니다.</p><a href="./#week-15">15주차 커리큘럼 보기 →</a></div></aside>
+      </section>
+
+      <section class="week-fourteen-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">실습 중 확인할 공식 자료</h2>
+          <p>도구의 답과 수업 예시보다 실제 프로젝트 상태와 Unity 6.3 LTS 문서를 우선합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Prefabs.html" target="_blank" rel="noreferrer"><span>Unity Manual</span><strong>Prefabs</strong><small>Asset, Instance와 Override 범위를 확인합니다.</small></a></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.html" target="_blank" rel="noreferrer"><span>Unity Scripting API</span><strong>MonoBehaviour</strong><small>핵심 Script의 사건과 활성 상태를 확인합니다.</small></a></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles-reference.html" target="_blank" rel="noreferrer"><span>Unity Manual</span><strong>Build Profiles window reference</strong><small>최종 체크포인트 build의 설정과 실행을 확인합니다.</small></a></li>
+          <li><a href="https://unity.com/blog/unity-ai-assistant-ask-plan-agent-mode-explained" target="_blank" rel="noreferrer"><span>Unity Blog</span><strong>Ask, Plan and Agent modes</strong><small>계획 승인, 변경 권한과 활동 기록을 확인합니다. beta 기능은 현재 Editor 상태를 다시 확인합니다.</small></a></li>
+        </ul>
+      </section>
+    </article>
+
+    <aside class="toc" aria-label="이 페이지의 목차">
+      <strong>On this page</strong>
+      <a href="#arrival" data-toc-link>체크포인트</a>
+      <a href="#mission" data-toc-link>미션 계약</a>
+      <a href="#starting-line" data-toc-link>출발선</a>
+      <a href="#triage" data-toc-link>경로 선택</a>
+      <a href="#workflow" data-toc-link>60분 순환</a>
+      <a href="#change" data-toc-link>변경 계약</a>
+      <a href="#tests" data-toc-link>필수 테스트</a>
+      <a href="#repair" data-toc-link>FAIL 대응</a>
+      <a href="#oral" data-toc-link>90초 설명</a>
+      <a href="#finish" data-toc-link>제출 관문</a>
+    </aside>
+  </main>
+
+  <footer class="lesson-footer">
+    <div><span>Game Engine I</span><strong>14주차 3교시 / Project Mentoring I</strong></div>
+    <a href="./#week-15">15주차 2차 면담 보기 →</a>
+  </footer>
+  <script src="assets/week-14.js?v=ge1w14-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

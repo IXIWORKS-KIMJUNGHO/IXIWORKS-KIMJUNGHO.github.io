@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="ko" class="game-engine-week-fourteen-root">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>14주차 1교시: 면담 전에 프로젝트 경계를 잠급니다 | Game Engine I</title>
+  <meta name="description" content="기말 프로젝트 1차 면담 전에 핵심 mechanic, Scene·Prefab·Script 구조, 제작 범위, AI 사용 내역과 완료 증거를 정리하는 14주차 공통 브리핑 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-14-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="14주차 1교시: 면담 전에 프로젝트 경계를 잠급니다 | Game Engine I">
+  <meta property="og:description" content="작은 게임의 핵심 행동, 실제 구조와 남은 범위를 면담 가능한 증거로 정리합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-14-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-14-period1-scope-architecture.webp">
+  <meta property="og:image:alt" content="작은 2D 게임이 플레이 화면, 재사용 오브젝트와 동작 구조의 세 층으로 정리되고 남은 기능은 별도 보관함으로 분리된 기술 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="14주차 1교시: 면담 전에 프로젝트 경계를 잠급니다">
+  <meta name="twitter:description" content="기말 프로젝트의 핵심, 구조, 범위와 설명 책임을 1차 면담 전에 정리합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-14-period1-scope-architecture.webp">
+  <link rel="preload" as="image" href="assets/week-14-period1-scope-architecture.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-14.css?v=ge1w14-1">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-fourteen week-fourteen-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-13-period3.html" rel="prev" aria-label="이전 자료: 13주차 3교시: 세 번의 관찰로 알파를 개선하라 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-14-period2.html" rel="next" aria-label="다음 자료: 14주차 2교시: 구조와 판단을 함께 진단합니다 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-fourteen-hero">
+    <div class="hero-inner">
+      <div class="week-fourteen-hero-copy">
+        <p class="eyebrow">Week 14 / Period 01 / Common Briefing</p>
+        <h1>면담 전에 프로젝트<br>경계를 잠급니다</h1>
+        <p class="lead">핵심 행동, 실제 구조와 남은 범위를 한 장의 설명 가능한 계약으로 정리합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#scope">범위 계약 보기</a>
+          <a class="hero-action" href="#prepare">면담 준비물 확인</a>
+        </div>
+      </div>
+      <figure class="week-fourteen-hero-visual">
+        <img src="assets/week-14-period1-scope-architecture.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="작은 2D 게임이 플레이 화면, 재사용 오브젝트와 동작 구조의 세 층으로 정리되고 남은 기능은 별도 보관함으로 분리된 기술 작업대">
+        <figcaption><span>ONE GAME, ONE EXPLAINABLE STRUCTURE</span> 면담은 기능 수를 세지 않습니다. 무엇이 핵심이고, 어디에서 작동하며, 어떤 증거로 확인했는지를 연결합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>학생은 프로젝트를 제작하지 않습니다. 교수자의 예시를 판정하고, 자신의 Alpha 자료에서 면담에 필요한 사실만 찾아 표시합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>60분</span><p><strong>교수자 공통 브리핑</strong>으로 모든 학생에게 같은 면담 기준을 제공합니다.</p></li>
+          <li><span>핵심</span><p>게임을 <strong>행동, 구조, 증거, 남은 범위</strong>의 네 질문으로 설명합니다.</p></li>
+          <li><span>입력</span><p>13주차 <strong>Alpha v1 build, 플레이테스트 기록과 backlog</strong>를 사용합니다.</p></li>
+          <li><span>출력</span><p>2교시 면담에 가져갈 <strong>구조도, 핵심 Script와 한 가지 blocking issue</strong>를 정합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 범위">
+        <div><span>CLASS MODE</span><strong>교수자 설명과 판정 연습</strong></div>
+        <p>Unity를 함께 조작하거나 새 기능을 만들지 않습니다. 교수자는 같은 프로젝트를 잘 설명한 사례와 기능은 많지만 설명할 수 없는 사례를 비교합니다. 학생은 어느 쪽이 더 완성에 가까운지 근거를 말하고, 자신의 면담 자료에 빠진 증거를 표시합니다.</p>
+      </aside>
+
+      <section class="week-fourteen-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <p class="section-index">수업 운영</p>
+          <h2 id="run-title">60분 동안 범위를 줄이고 설명을 선명하게 만듭니다</h2>
+          <p>처음 10분에는 기말의 크기를 다시 확인하고, 마지막 10분에는 실제 면담 순서로 학생의 설명을 회수합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase" aria-labelledby="briefing-run-title">
+            <header><span>00-60 min</span><h3 id="briefing-run-title">Project mentoring briefing</h3><p>Professor-led / no production</p></header>
+            <ol>
+              <li><time>00-08</time><div><strong>기말 계약 회수</strong><p>3-5분 안에 한 판이 끝나는 작은 개인 2D 게임이라는 범위와 16주차 제출물을 다시 확인합니다.</p></div></li>
+              <li><time>08-18</time><div><strong>핵심 mechanic 문장</strong><p>플레이어의 행동, 대상, 상태 변화와 목표를 한 문장으로 연결하고 기능 목록과 구분합니다.</p></div></li>
+              <li><time>18-31</time><div><strong>구조 지도 읽기</strong><p>Scene, Prefab, GameObject, Component와 Script의 실제 이름을 따라 사건의 소유자를 찾습니다.</p></div></li>
+              <li><time>31-42</time><div><strong>범위 네 칸 분류</strong><p>완료에 필수인 항목, 있으면 좋은 항목, 15주차 이후 항목과 삭제할 항목을 나눕니다.</p></div></li>
+              <li><time>42-50</time><div><strong>AI 설명 책임</strong><p>도구 이름보다 제안, 학생의 선택, 실제 변경과 검증 증거를 서로 연결합니다.</p></div></li>
+              <li><time>50-60</time><div><strong>모의 면담 회수</strong><p>90초 구조 설명과 한 가지 blocking issue를 말한 뒤, 확인 가능한 완료 조건으로 바꿉니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="bridge" aria-labelledby="bridge-title">
+        <header class="section-heading">
+          <h2 id="bridge-title">13주차의 관찰을 15주차의 Release Candidate로 연결합니다</h2>
+          <p>14주차는 중간에 놓인 면담입니다. 이미 고친 문제를 다시 칭찬하는 시간이 아니라, 아직 완성을 막는 문제를 증거로 선택하는 시간입니다.</p>
+        </header>
+        <div class="bridge-ledger mentoring-bridge">
+          <article><span>13주차에서 가져옴</span><h3>Alpha v1과 실제 관찰</h3><p>세 명의 첫 시도, 수정 전후 화면, 회귀 검사와 고치지 않은 backlog를 가져옵니다.</p></article>
+          <article><span>14주차에서 결정</span><h3>구조와 우선순위 한 가지</h3><p>핵심 mechanic의 소유 구조를 설명하고, 완성을 막는 문제 하나의 범위와 테스트를 승인받습니다.</p></article>
+          <article><span>15주차로 전달</span><h3>검증 가능한 후보 build</h3><p>새 기능보다 UX, 시청각 일관성, 에셋 권리와 독립 실행을 점검할 수 있는 상태로 넘깁니다.</p></article>
+        </div>
+        <div class="rule-banner"><span>WEEK 14 RULE</span><strong>면담 뒤 추가할 기능보다 삭제하거나 끝낼 기능이 더 명확해야 합니다.</strong></div>
+      </section>
+
+      <section class="week-fourteen-section" id="scope" aria-labelledby="scope-title">
+        <header class="section-heading">
+          <p class="section-index">기말 범위</p>
+          <h2 id="scope-title">작지만 완결된 한 판을 기준으로 판단합니다</h2>
+          <p>큰 세계, 많은 레벨과 복잡한 시스템은 평가 기준이 아닙니다. 아래 여섯 문장이 실제 build에서 모두 관찰되어야 합니다.</p>
+        </header>
+        <div class="mentoring-contract">
+          <div class="contract-core"><span>CORE</span><strong>한 가지 핵심 행동</strong><p>플레이어가 반복하는 행동과 그 행동이 목표를 향해 만드는 변화를 한 문장으로 설명합니다.</p></div>
+          <ol>
+            <li><strong>한 개의 작은 플레이 공간</strong><span>또는 짧고 필요한 Scene만 사용합니다.</span></li>
+            <li><strong>시작과 플레이</strong><span>설명 없이 조작을 시작할 수 있습니다.</span></li>
+            <li><strong>성공 또는 실패</strong><span>상태와 이유가 화면에서 구분됩니다.</span></li>
+            <li><strong>재시작</strong><span>새 실행 없이 같은 한 판을 다시 시작합니다.</span></li>
+            <li><strong>UI와 효과음</strong><span>핵심 사건을 최소 두 감각으로 전달합니다.</span></li>
+            <li><strong>외부 검사 증거</strong><span>세 번 이상의 플레이테스트와 수정 근거가 남습니다.</span></li>
+          </ol>
+        </div>
+        <aside class="teacher-check"><span>범위 질문</span><p>“이 기능을 빼면 한 판의 목표가 사라지는가?”에 아니라고 답하면 필수 기능이 아닐 가능성이 큽니다. 먼저 Later 또는 Drop으로 옮긴 뒤 핵심 루프를 다시 실행합니다.</p></aside>
+      </section>
+
+      <section class="week-fourteen-section" id="mechanic" aria-labelledby="mechanic-title">
+        <header class="section-heading">
+          <h2 id="mechanic-title">핵심 mechanic은 기능 이름이 아니라 변화의 문장입니다</h2>
+          <p>“플랫포머입니다”나 “수집 게임입니다”는 장르 이름입니다. 면담에서는 플레이어가 무엇을 하고, 무엇이 바뀌며, 왜 반복하는지를 말해야 합니다.</p>
+        </header>
+        <div class="equation-strip" aria-label="핵심 mechanic 문장 구조"><span>플레이어 행동</span><b aria-hidden="true">+</b><span>대상과 조건</span><b aria-hidden="true">→</b><strong>상태 변화</strong><b aria-hidden="true">→</b><strong>목표 진전</strong></div>
+        <div class="comparison-grid">
+          <article><span>약한 설명</span><h3>코인을 먹는 게임입니다</h3><p>대상은 있지만 입력, 변화, 목표와 실패 조건을 확인할 수 없습니다.</p></article>
+          <article><span>면담 가능한 설명</span><h3>이동해 세 신호를 모으면 출구가 열립니다</h3><p>행동, 수량 조건, 상태 변화와 목표가 있어 build에서 바로 검사할 수 있습니다.</p></article>
+        </div>
+        <div class="test-contract"><span>ACCEPTANCE EXAMPLE</span><p><strong>세 번째 신호를 수집하면 0.2초 안에 출구가 활성화되고 HUD가 3/3으로 바뀝니다.</strong> 출구에 들어가면 Won 상태가 되고 재시작 버튼이 표시됩니다.</p></div>
+      </section>
+
+      <section class="week-fourteen-section" id="architecture" aria-labelledby="architecture-title">
+        <header class="section-heading">
+          <p class="section-index">구조 설명</p>
+          <h2 id="architecture-title">화면의 결과에서 실제 소유자까지 거슬러 올라갑니다</h2>
+          <p>폴더를 모두 소개할 필요는 없습니다. 핵심 mechanic 한 번이 지나가는 Scene, Prefab, GameObject와 Script만 실제 이름으로 연결합니다.</p>
+        </header>
+        <div class="architecture-map" aria-label="핵심 mechanic 구조 지도">
+          <article><span>SCENE</span><h3>어디에서 한 판이 열리는가</h3><p><code>MainGame</code>처럼 시작, 플레이와 결과가 함께 존재하는 Scene 이름을 말합니다.</p></article>
+          <article><span>PREFAB</span><h3>무엇이 반복되는가</h3><p><code>SignalPickup</code>처럼 동일한 구성과 행동으로 재사용하는 오브젝트를 찾습니다.</p></article>
+          <article><span>SCRIPT OWNER</span><h3>누가 상태를 소유하는가</h3><p><code>GameManager</code>가 수집 수, 게임 상태와 결과 전환을 소유하는지 실제 코드를 확인합니다.</p></article>
+          <article><span>FEEDBACK</span><h3>변화를 어떻게 알리는가</h3><p>HUD Text, 출구 GameObject와 AudioSource가 상태 직후 같은 결과를 보여 주는지 연결합니다.</p></article>
+        </div>
+        <div class="table-wrap" role="region" aria-label="구조 설명과 확인 증거 표" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">학생 설명</th><th scope="col">교수자 확인</th><th scope="col">불일치하면</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">“이 Script가 출구를 엽니다”</th><td>메서드 호출, 참조 필드와 실제 연결된 오브젝트</td><td>추측한 이름을 지우고 Inspector와 참조 흐름부터 다시 찾음</td></tr>
+              <tr><th scope="row">“Prefab이라 모두 같이 바뀝니다”</th><td>Prefab Asset, Instance와 Override 상태</td><td>Scene 복사본인지 Prefab Instance인지 Project와 Inspector에서 구분</td></tr>
+              <tr><th scope="row">“GameManager가 모두 처리합니다”</th><td>보유 상태, 변경 메서드와 UI 알림의 실제 책임</td><td>입력, 규칙, 표현을 나누고 핵심 mechanic 경로만 남김</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="explain" aria-labelledby="explain-title">
+        <header class="section-heading">
+          <h2 id="explain-title">핵심 Script는 여섯 질문으로 설명합니다</h2>
+          <p>코드를 줄마다 번역하지 않습니다. 사건 하나가 들어와 상태를 바꾸고 화면에 증거를 남기는 경로를 자신의 말로 복원합니다.</p>
+        </header>
+        <ol class="oral-sequence">
+          <li><span>OWNER</span><strong>이 상태를 누가 소유하는가</strong><p>수집 수, 남은 시간 또는 게임 상태가 선언된 Script와 인스턴스를 가리킵니다.</p></li>
+          <li><span>EVENT</span><strong>무엇이 실행을 시작하는가</strong><p>입력, Trigger, 충돌, 타이머 또는 버튼 사건 중 실제 시작점을 말합니다.</p></li>
+          <li><span>CONDITION</span><strong>언제 거부하거나 통과하는가</strong><p>tag, 현재 상태, 중복 실행과 경계값을 검사하는 조건을 설명합니다.</p></li>
+          <li><span>STATE</span><strong>어떤 데이터가 어떻게 바뀌는가</strong><p>변경 전 값과 변경 후 값을 실제 예로 들고 상한과 하한을 확인합니다.</p></li>
+          <li><span>FEEDBACK</span><strong>플레이어는 무엇을 보고 듣는가</strong><p>UI, 애니메이션, 오브젝트 활성 상태와 효과음이 언제 갱신되는지 연결합니다.</p></li>
+          <li><span>PROOF</span><strong>어떤 테스트가 설명을 증명하는가</strong><p>정상, 경계, 거부와 회귀 테스트에서 관찰할 결과를 말합니다.</p></li>
+        </ol>
+      </section>
+
+      <section class="week-fourteen-section" id="scope-board" aria-labelledby="scope-board-title">
+        <header class="section-heading">
+          <h2 id="scope-board-title">남은 일은 네 칸에만 놓습니다</h2>
+          <p>우선순위를 모두 높음으로 적으면 결정이 아닙니다. 15주차 검증에 필요한 항목만 Must에 남기고 새 기능은 기본적으로 Later에 둡니다.</p>
+        </header>
+        <div class="decision-board">
+          <article><span>MUST FINISH</span><h3>한 판을 막는 일</h3><p>실행 실패, 진행 불가, 성공·실패·재시작 단절, 핵심 상태 오류와 제출 불가능 문제입니다.</p></article>
+          <article><span>SHOULD CLARIFY</span><h3>한 판을 오해하게 하는 일</h3><p>목표, 조작, 위험과 결과가 보이지 않거나 시청각 신호가 서로 다른 의미를 전달하는 문제입니다.</p></article>
+          <article><span>LATER</span><h3>완료 뒤 검토할 일</h3><p>핵심 루프를 바꾸지 않는 작은 연출, 추가 레벨, 보조 설정과 선택 기능입니다.</p></article>
+          <article><span>DROP</span><h3>이번 기말에서 제거할 일</h3><p>새 시스템, 불안정한 패키지, 설명할 수 없는 생성 코드와 테스트 시간이 없는 기능입니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section" id="ai" aria-labelledby="ai-title">
+        <header class="section-heading">
+          <h2 id="ai-title">AI 사용량이 아니라 학생의 판단 연결을 확인합니다</h2>
+          <p>사용하지 않아도 불이익이 없습니다. 사용했다면 도구의 답을 그대로 제출하지 말고 무엇을 받아들이고 바꾸고 검증했는지 설명합니다.</p>
+        </header>
+        <div class="evidence-chain">
+          <article><span>REQUEST</span><h3>무엇을 요청했는가</h3><p>문제, 제약, 변경 금지 범위와 완료 조건을 기록합니다.</p></article>
+          <article><span>DECISION</span><h3>무엇을 선택했는가</h3><p>제안 중 채택, 거부와 보류한 항목을 이유와 함께 구분합니다.</p></article>
+          <article><span>CHANGE</span><h3>학생이 무엇을 바꿨는가</h3><p>실제 파일, Scene 연결, 수치와 에셋 수정 범위를 표시합니다.</p></article>
+          <article><span>VERIFY</span><h3>어떻게 사실을 확인했는가</h3><p>diff, Console, Inspector, Play Mode, build와 회귀 테스트를 제시합니다.</p></article>
+        </div>
+        <div class="warning-box"><strong>설명할 수 없는 결과는 핵심 기능에 남기지 않습니다.</strong><p>먼저 읽기 전용 설명을 요청하고 실제 프로젝트와 비교합니다. 이해되지 않으면 최근 작동 copy로 복구하거나 더 작은 직접 구현으로 교체합니다. 계정, API key, 개인정보와 권리가 불분명한 에셋은 면담 자료에 넣지 않습니다.</p></div>
+      </section>
+
+      <section class="week-fourteen-section" id="prepare" aria-labelledby="prepare-title">
+        <header class="section-heading">
+          <h2 id="prepare-title">2교시 자리에는 일곱 가지 증거만 가져갑니다</h2>
+          <p>면담 중 파일을 찾는 시간을 줄이기 위해 아래 자료를 한 폴더와 한 화면 배치로 준비합니다.</p>
+        </header>
+        <div class="setup-notice setup-notice-wide">
+          <div><span>RUN</span><strong>Alpha v1 build</strong><p>다른 폴더에서 실행하고 3-5분 안에 한 판이 끝납니다.</p></div>
+          <div><span>OPEN</span><strong>Unity project</strong><p>핵심 Scene, Prefab과 Inspector 참조를 바로 보여 줄 수 있습니다.</p></div>
+          <div><span>READ</span><strong>핵심 Script 1-2개</strong><p>owner, event, condition, state, feedback과 proof를 설명합니다.</p></div>
+          <div><span>MAP</span><strong>구조도 한 장</strong><p>실제 이름으로 Scene에서 결과까지의 경로를 연결합니다.</p></div>
+          <div><span>EVIDENCE</span><strong>13주차 기록</strong><p>세 명의 관찰과 Alpha v0에서 v1로 바꾼 근거를 제시합니다.</p></div>
+          <div><span>BACKLOG</span><strong>문제 최대 세 개</strong><p>가장 큰 blocking issue 하나를 맨 위에 둡니다.</p></div>
+          <div><span>AI LOG</span><strong>사용 또는 미사용 기록</strong><p>제안, 선택, 학생 수정과 검증의 연결을 보여 줍니다.</p></div>
+        </div>
+        <div class="rule-banner"><span>READY SIGNAL</span><strong>build를 실행하고, 90초 안에 구조를 설명하고, 가장 큰 문제 하나의 기대 결과를 말할 수 있으면 준비가 끝납니다.</strong></div>
+      </section>
+
+      <section class="week-fourteen-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">설명으로 끝나는 6문항</h2>
+          <p>노트를 덮고 답합니다. 답하지 못한 문항은 2교시 면담 전 준비 목록으로 옮깁니다.</p>
+        </header>
+        <div class="retrieval-grid">
+          <details><summary>핵심 mechanic과 기능 목록은 어떻게 다른가요?</summary><div class="details-motion-content"><p>핵심 mechanic은 반복 행동이 상태와 목표를 바꾸는 관계입니다. 기능 목록은 카메라, 인벤토리, 효과처럼 프로젝트에 들어 있는 요소의 나열일 뿐입니다.</p></div></details>
+          <details><summary>구조도에 모든 Script를 넣지 않는 이유는 무엇인가요?</summary><div class="details-motion-content"><p>면담의 목적은 핵심 mechanic의 실제 책임과 흐름을 확인하는 것입니다. 관련 없는 파일을 늘리면 소유자와 상태 변화가 흐려집니다.</p></div></details>
+          <details><summary>blocking issue는 불편한 점과 어떻게 다른가요?</summary><div class="details-motion-content"><p>완료, 실행, 핵심 진행 또는 검증을 막는 문제입니다. 작은 정렬이나 장식보다 먼저 해결해야 합니다.</p></div></details>
+          <details><summary>AI를 사용한 학생은 무엇을 설명해야 하나요?</summary><div class="details-motion-content"><p>어떤 문제로 요청했고, 무엇을 채택하거나 거부했으며, 실제로 무엇을 바꾸고 어떤 테스트로 확인했는지를 연결해야 합니다.</p></div></details>
+          <details><summary>면담에서 코드를 줄마다 읽으면 왜 부족한가요?</summary><div class="details-motion-content"><p>구문을 읽는 것만으로는 사건, 조건, 상태와 플레이 결과의 관계를 이해했는지 확인할 수 없기 때문입니다.</p></div></details>
+          <details><summary>14주차가 끝날 때 기능 수보다 중요한 것은 무엇인가요?</summary><div class="details-motion-content"><p>15주차까지 유지할 범위, 가장 큰 문제 하나, 수정 완료 조건과 재검증 방법이 명확한 상태입니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-fourteen-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">수업 기준과 공식 자료</h2>
+          <p>프로젝트마다 이름과 구조는 달라질 수 있습니다. 아래 Unity 6.3 LTS 문서에서 역할을 확인하고 실제 프로젝트 상태를 최종 근거로 사용합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Prefabs.html" target="_blank" rel="noreferrer"><span>Unity Manual</span><strong>Prefabs</strong><small>GameObject와 Component 구성을 재사용 가능한 Asset과 Instance로 설명합니다.</small></a></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.html" target="_blank" rel="noreferrer"><span>Unity Scripting API</span><strong>MonoBehaviour</strong><small>GameObject에 연결되는 Script와 메시지 함수의 기준을 확인합니다.</small></a></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles-reference.html" target="_blank" rel="noreferrer"><span>Unity Manual</span><strong>Build Profiles window reference</strong><small>면담용 독립 실행 build의 설정과 실행 경로를 확인합니다.</small></a></li>
+          <li><a href="https://unity.com/blog/unity-ai-assistant-ask-plan-agent-mode-explained" target="_blank" rel="noreferrer"><span>Unity Blog</span><strong>Ask, Plan and Agent modes</strong><small>변경 전 계획 승인과 권한 범위를 확인합니다. AI 기능은 beta이므로 실제 Editor 상태를 다시 확인합니다.</small></a></li>
+        </ul>
+      </section>
+    </article>
+
+    <aside class="toc" aria-label="이 페이지의 목차">
+      <strong>On this page</strong>
+      <a href="#arrival" data-toc-link>도착점</a>
+      <a href="#run" data-toc-link>60분 운영</a>
+      <a href="#bridge" data-toc-link>13-15주 연결</a>
+      <a href="#scope" data-toc-link>기말 범위</a>
+      <a href="#mechanic" data-toc-link>핵심 mechanic</a>
+      <a href="#architecture" data-toc-link>구조 지도</a>
+      <a href="#explain" data-toc-link>Script 설명</a>
+      <a href="#scope-board" data-toc-link>범위 네 칸</a>
+      <a href="#ai" data-toc-link>AI 설명 책임</a>
+      <a href="#prepare" data-toc-link>면담 준비물</a>
+      <a href="#check" data-toc-link>회수 질문</a>
+    </aside>
+  </main>
+
+  <footer class="lesson-footer">
+    <div><span>Game Engine I</span><strong>14주차 1교시 / Project Mentoring I</strong></div>
+    <a href="week-14-period2.html">2교시 면담 운영으로 이동 →</a>
+  </footer>
+  <script src="assets/week-14.js?v=ge1w14-1" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>
