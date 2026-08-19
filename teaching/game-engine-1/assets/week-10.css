@@ -2312,7 +2312,8 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
     .week-ten-toc a,
     .toc-toggle
   ):active:not(:disabled) {
-    opacity: 0.82;
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
   }
 
   body.course-game-engine-1.game-engine-week-ten .toc-toggle i {
