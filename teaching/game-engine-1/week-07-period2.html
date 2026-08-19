@@ -139,11 +139,11 @@
         <ol class="build-steps">
           <li><span class="step-number">01</span><div><h3>Canvas와 세 레이어</h3><p>최상위 Canvas 안에 <code>HUD</code>, <code>StartPanel</code>, <code>ResultPanel</code>을 만듭니다. HUD에는 TextMeshPro UI Text인 ScoreText와 TimerText를, 각 Panel에는 한 개의 UI Button을 둡니다. 처음 TMP 가져오기 창이 보이면 Essential Resources를 한 번 가져옵니다.</p><p class="step-check"><strong>확인</strong> Game View 비율을 바꿔도 HUD가 화면 모서리, Panel이 중앙 기준을 유지합니다.</p></div></li>
           <li><span class="step-number">02</span><div><h3>GameManager와 AudioSource</h3><p>빈 GameObject에 <code>GameManager</code> Script와 AudioSource를 추가합니다. Play On Awake와 Loop는 끄고 수업용 효과음의 Volume을 먼저 낮게 맞춥니다.</p><p class="step-check"><strong>확인</strong> AudioSource가 하나이며 Audio Listener는 Main Camera에 하나만 있습니다.</p></div></li>
-          <li><span class="step-number">03</span><div><h3>UI와 Audio 참조 할당</h3><p>GameManager Inspector의 Text, Panel, AudioSource와 AudioClip 필드에 Hierarchy와 Project의 실제 대상을 끌어 놓습니다.</p><p class="step-check"><strong>확인</strong> Play 전에 모든 필드가 None이 아니고 Console Error가 0개입니다.</p></div></li>
+          <li><span class="step-number">03</span><div><h3>GameManager와 Collectible 참조 할당</h3><p>GameManager Inspector의 Text, Panel, AudioSource와 AudioClip 필드에 실제 대상을 끌어 놓습니다. 이어 세 Collectible을 함께 선택하고 각 <code>gameManager</code> 필드에 Scene의 GameManager를 할당합니다.</p><p class="step-check"><strong>확인</strong> GameManager와 세 Collectible의 필드가 모두 None이 아니고 Console Error가 0개입니다.</p></div></li>
           <li><span class="step-number">04</span><div><h3>Scene 저장과 Scene List에 등록</h3><p><code>Assets/Scenes/Week07_Preflight.unity</code>로 저장한 뒤 <code>File → Build Profiles → Platforms → Scene List</code>에서 Add Open Scenes를 누릅니다. <code>RestartScene</code>이 사용하는 buildIndex는 이 목록에서 정해집니다.</p><p class="step-check"><strong>확인</strong> Scene 옆 체크가 켜져 있고 목록에 한 번만 들어 있습니다.</p></div></li>
           <li><span class="step-number">05</span><div><h3>Button On Click 연결</h3><p>StartButton에는 <code>GameManager.StartRound</code>, RestartButton에는 <code>GameManager.RestartScene</code>을 연결합니다.</p><p class="step-check"><strong>확인</strong> Button의 On Click 목록에서 Scene의 GameManager 오브젝트와 올바른 public 함수가 보입니다.</p></div></li>
         </ol>
-        <div class="table-wrap" role="region" aria-label="GameManager Inspector 참조 계약" tabindex="0">
+        <div class="table-wrap" role="region" aria-label="GameManager와 Collectible Inspector 참조 계약" tabindex="0">
           <table class="binding-table">
             <thead><tr><th scope="col">필드</th><th scope="col">연결 대상</th><th scope="col">없을 때 보이는 증상</th></tr></thead>
             <tbody>
@@ -153,6 +153,7 @@
               <tr><th scope="row"><code>startPanel</code></th><td>Canvas / StartPanel</td><td>Ready 화면을 켜거나 숨길 때 오류</td></tr>
               <tr><th scope="row"><code>resultPanel</code></th><td>Canvas / ResultPanel</td><td>종료 화면을 표시할 때 오류</td></tr>
               <tr><th scope="row"><code>sfxSource</code></th><td>GameManager의 AudioSource</td><td>효과음 재생 시 오류 또는 무음</td></tr>
+              <tr><th scope="row"><code>Collectible.gameManager</code></th><td>세 수집물 각각 / Scene의 GameManager</td><td>첫 수집 접촉에서 NullReferenceException</td></tr>
             </tbody>
           </table>
         </div>
@@ -442,7 +443,7 @@ public class Collectible : MonoBehaviour
           <li><span class="step-number">02</span><div><h3>Scene List 재확인</h3><p><code>File → Build Profiles → Platforms → Scene List</code>에서 앞서 등록한 Scene과 체크 상태를 다시 확인합니다. 빠져 있다면 Add Open Scenes로 추가합니다.</p><p class="step-check"><strong>확인</strong> Scene 옆 체크가 켜져 있고 목록에 한 번만 들어 있습니다.</p></div></li>
           <li><span class="step-number">03</span><div><h3>활성 프로파일 확인</h3><p>수업 컴퓨터에 설치된 데스크톱 플랫폼을 선택합니다. 별도 프로파일을 쓴다면 Active 표시와 Scene List를 다시 확인합니다.</p><p class="step-check"><strong>확인</strong> Build와 Build and Run 버튼이 활성 프로파일에 보입니다.</p></div></li>
           <li><span class="step-number">04</span><div><h3>Build and Run</h3><p>프로젝트 밖의 <code>Builds/Week07</code> 폴더를 선택해 빌드하고 실행합니다. 첫 빌드는 이후 증분 빌드보다 오래 걸릴 수 있습니다.</p><p class="step-check"><strong>확인</strong> 실행 파일이 열리고 Start 화면부터 시작합니다.</p></div></li>
-          <li><span class="step-number">05</span><div><h3>빌드 회귀 테스트</h3><p>성공, 재시작, 실패를 한 번씩 재현합니다. Editor에서만 작동하고 빌드에서 실패하면 Scene List와 Inspector 참조부터 확인합니다.</p><p class="step-check"><strong>확인</strong> 세 흐름을 연속 실행해도 점수와 수집물이 모두 초기화됩니다.</p></div></li>
+          <li><span class="step-number">05</span><div><h3>빌드 회귀 테스트</h3><p><code>Start → Won → Restart → Start → Lost → Restart</code> 순서로 실행합니다. Restart 뒤에는 Ready이므로, 실패 라운드를 시작하려면 Start를 다시 눌러야 합니다. Editor에서만 작동하고 빌드에서 실패하면 Scene List와 Inspector 참조부터 확인합니다.</p><p class="step-check"><strong>확인</strong> 두 라운드를 연속 실행해도 점수와 수집물이 모두 초기화되고 마지막에는 Ready로 돌아옵니다.</p></div></li>
         </ol>
         <ol class="wire-steps" aria-label="빌드 전 최소 확인">
           <li><span>SCENE</span><p>저장 완료</p></li>

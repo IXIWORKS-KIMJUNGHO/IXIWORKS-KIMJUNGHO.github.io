@@ -241,6 +241,10 @@ test("period 2 provides a coherent state implementation and Unity 6 build path",
   assert.match(script, /data-state-action/);
   assert.match(script, /model\.state = "won"/);
   assert.match(script, /model\.state = "lost"/);
+  assert.match(period2, /GameManager와 Collectible 참조 할당/);
+  assert.match(period2, /세 Collectible[^<]*<code>gameManager<\/code>/);
+  assert.match(period2, /aria-label="GameManager와 Collectible Inspector 참조 계약"/);
+  assert.match(period2, /Start → Won → Restart → Start → Lost → Restart/);
   assert.match(period2, /assets\/week-07-period2-feedback-system\.webp/);
 });
 
@@ -269,7 +273,8 @@ test("period 3 has eight measurable gates, persistent records, and build evidenc
 
   for (const pattern of [
     /role="region" aria-label="7주차 UI, Audio, 상태와 빌드 테스트표" tabindex="0"/,
-    /Start → Won → Restart → Lost → Restart/,
+    /Start → Won → Restart → Start → Lost → Restart/,
+    /세 Collectible[^<]*<code>gameManager<\/code>/,
     /week07_학번_이름_test\.csv/,
     /week07_play\.png/,
     /week07_result\.png/,

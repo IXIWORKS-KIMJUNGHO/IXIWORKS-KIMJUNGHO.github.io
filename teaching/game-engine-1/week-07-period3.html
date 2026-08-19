@@ -98,7 +98,7 @@
         </div>
         <div class="rule-banner">
           <span>완료의 정의</span>
-          <strong>“한 번 성공 화면이 나왔다”가 아니라, 처음부터 성공 → 재시작 → 실패 → 재시작을 반복해도 8개 결과가 모두 PASS이면 완료입니다.</strong>
+          <strong>“한 번 성공 화면이 나왔다”가 아니라, 시작 → 성공 → 재시작 → 다시 시작 → 실패 → 재시작을 거쳐도 8개 결과가 모두 PASS이면 완료입니다.</strong>
         </div>
       </section>
 
@@ -135,7 +135,7 @@
           <article><code>Build Profiles → Scene List</code><p>저장 직후 Add Open Scenes로 새 Scene을 Scene List에 등록하고 체크를 켭니다. 그래야 이후 <code>RestartScene()</code>의 buildIndex 테스트가 유효합니다.</p></article>
           <article><code>Play → Move → Collect</code><p>새 기능을 붙이기 전에 이동, 벽 충돌, Camera와 기존 Trigger가 여전히 작동하는지 확인합니다.</p></article>
           <article><code>Console → Clear</code><p>기존 빨간 오류를 먼저 해결합니다. 이전 오류와 새 UI 오류가 섞이면 원인을 판단하기 어렵습니다.</p></article>
-          <article><code>Period 02 reference</code><p>기준 코드가 필요하면 <a href="week-07-period2.html#manager">2교시 GameManager</a>와 <a href="week-07-period2.html#collectible">Collectible</a>을 읽고 현재 Scene 이름과 참조에 맞게 적용합니다.</p></article>
+          <article><code>Period 02 reference</code><p>기준 코드가 필요하면 <a href="week-07-period2.html#manager">2교시 GameManager</a>와 <a href="week-07-period2.html#collectible">Collectible</a>을 읽고 현재 Scene에 맞게 적용합니다. 세 Collectible을 함께 선택해 <code>gameManager</code>가 모두 Scene의 GameManager를 가리키는지도 확인합니다.</p></article>
         </div>
       </section>
 
@@ -150,7 +150,7 @@
             <header><span>권장 시간 · 순서 변경 가능</span><h3 id="student-route-title">여섯 개의 중간 도착점</h3><p>Individual work</p></header>
             <ol>
               <li><time>00-05</time><div><strong>계약과 Scene 등록</strong><p>Scene을 복제해 저장하고 Scene List에 등록한 뒤, 고정 목표와 제출 증거를 확인합니다.</p></div></li>
-              <li><time>05-16</time><div><strong>UI와 참조 준비</strong><p>HUD, StartPanel, ResultPanel, AudioSource와 GameManager의 Inspector 참조가 모두 존재하게 합니다.</p></div></li>
+              <li><time>05-16</time><div><strong>UI와 참조 준비</strong><p>HUD, StartPanel, ResultPanel, AudioSource와 GameManager의 참조를 연결하고, 세 Collectible의 <code>gameManager</code>도 할당합니다.</p></div></li>
               <li><time>16-31</time><div><strong>상태와 사건 연결</strong><p>Start, 타이머, 수집 점수, Won과 Lost가 한 상태 흐름 안에서 동작하게 합니다.</p></div></li>
               <li><time>31-41</time><div><strong>피드백과 재시작</strong><p>세 효과음, 결과 문구와 Restart를 연결하고 두 종료 상태에서 다시 시작해 봅니다.</p></div></li>
               <li><time>41-52</time><div><strong>Editor 검증</strong><p>T01부터 T07까지 실행하며 한 번에 한 원인만 수정하고 관찰 내용을 기록합니다.</p></div></li>
@@ -220,7 +220,7 @@
               <tr data-test-row data-test-id="T05" data-required="true"><th scope="row">T05</th><td data-label="조작·조건">목표 전에 시간이 0이 되도록 기다림</td><td data-label="기대 결과">시간 <code>0.0</code>, 실패 Panel과 Lose 음 1회, 타이머와 수집 정지</td><td data-label="결과"><select data-test-status aria-label="T05 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T05 관찰 기록" placeholder="Lost 전환 시점"></td></tr>
               <tr data-test-row data-test-id="T06" data-required="true"><th scope="row">T06</th><td data-label="조작·조건">Won과 Lost에서 각각 Restart 클릭</td><td data-label="기대 결과">두 경우 모두 Ready, <code>0 / 3</code>, <code>30.0</code>, 수집물 3개와 StartPanel 복원</td><td data-label="결과"><select data-test-status aria-label="T06 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T06 관찰 기록" placeholder="두 결과의 초기화"></td></tr>
               <tr data-test-row data-test-id="T07" data-required="true"><th scope="row">T07</th><td data-label="조작·조건">Game View 16:9와 4:3에서 실행, Console 확인</td><td data-label="기대 결과">HUD와 Button이 겹치거나 잘리지 않고 Console Error 0</td><td data-label="결과"><select data-test-status aria-label="T07 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T07 관찰 기록" placeholder="비율·Anchor·Console"></td></tr>
-              <tr data-test-row data-test-id="T08" data-required="true"><th scope="row">T08</th><td data-label="조작·조건">Build and Run 후 Start → Won → Restart → Lost → Restart</td><td data-label="기대 결과">실행 파일에서 전체 순서가 끊김 없이 재현되고 마지막 Ready가 정상</td><td data-label="결과"><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T08 관찰 기록" placeholder="빌드 파일에서의 결과"></td></tr>
+              <tr data-test-row data-test-id="T08" data-required="true"><th scope="row">T08</th><td data-label="조작·조건">Build and Run 후 Start → Won → Restart → Start → Lost → Restart</td><td data-label="기대 결과">실행 파일에서 두 라운드가 끊김 없이 재현되고 각 Restart 뒤 Ready가 정상</td><td data-label="결과"><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T08 관찰 기록" placeholder="빌드 파일에서의 결과"></td></tr>
               <tr data-test-id="T09" data-required="false"><th scope="row">T09 <span class="optional-label">선택</span></th><td data-label="조작·조건">연속으로 두 수집물을 빠르게 획득</td><td data-label="기대 결과">두 Collect 음을 들을 수 있고 점수가 정확히 2 증가</td><td data-label="결과"><select data-test-status aria-label="T09 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td data-label="관찰 기록"><input data-test-note aria-label="T09 관찰 기록" placeholder="빠른 연속 사건"></td></tr>
             </tbody>
           </table>
