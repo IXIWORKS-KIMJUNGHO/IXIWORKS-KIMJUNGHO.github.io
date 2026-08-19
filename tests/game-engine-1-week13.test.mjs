@@ -89,9 +89,8 @@ test("Game Engine I week 13 is published as three connected periods", async () =
   assert.match(period2, /href="week-13-period1\.html" rel="prev"/);
   assert.match(period2, /href="week-13-period3\.html" rel="next"/);
   assert.match(period3, /href="week-13-period2\.html" rel="prev"/);
-  assert.doesNotMatch(period3, /rel="next"/);
+  assert.match(period3, /href="week-14-period1\.html" rel="next"/);
   assert.match(period3, /href="index\.html#week-14">14주차 개요 보기/);
-  assert.doesNotMatch(period3, /href="week-14-period1\.html"/);
 });
 
 test("period 3 keeps identity ephemeral and reports storage failures", async () => {
