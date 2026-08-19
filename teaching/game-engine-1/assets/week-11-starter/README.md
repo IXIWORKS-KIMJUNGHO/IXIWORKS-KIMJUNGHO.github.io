@@ -45,7 +45,7 @@ Agent는 `.meta`를 직접 편집하지 않습니다. Unity가 만든 `.meta`는
 2. `AI_CHANGE_LOG-template.md`를 `AI_CHANGE_LOG.md`로 바꿉니다.
 3. 변경 전 전체 게임 루프와 Console Error 0을 확인합니다.
 4. Ask 원문과 실제 파일 대조 결과를 기록합니다.
-5. 새 Scene을 `File → Build Profiles → Scene List → Add Open Scenes`로 등록하고 체크와 중복 여부를 확인합니다.
+5. 새 Scene을 `File → Build Profiles → Scene List → Add Open Scenes`로 등록합니다. `Week11_TimeBonus`를 첫 번째 활성 Scene으로 옮기거나 이전 Scene을 비활성화하고, 체크와 중복 여부를 확인합니다.
 6. Plan을 검토하고 구현 코드 두 파일, 지원 산출물, 금지 대상, 수동 작업, 위험과 테스트를 승인합니다.
 7. Route A는 Write scripts only Agent를 실행하고, Route B는 승인한 직접 작성 범위 안에서 두 Script를 작성합니다.
 8. 새 파일도 diff에 포함되도록 `git add -N -- Assets/Scripts/TimeBonus.cs`를 실행합니다. 이는 내용을 stage하지 않고 intent-to-add만 표시합니다.

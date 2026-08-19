@@ -134,7 +134,7 @@ Agent가 아니라 학생이 Unity Editor에서 직접 수행한 변경만 적�
 - Bonus Seconds 값:
 - 시각 또는 소리 선택:
 - 각 선택의 이유:
-- Build Profiles Scene List 등록, 체크와 중복 확인:
+- Build Profiles Scene List 등록, `Week11_TimeBonus`의 첫 번째 활성 Scene 위치, 체크와 중복 확인:
 
 ## 8. 테스트 증거
 

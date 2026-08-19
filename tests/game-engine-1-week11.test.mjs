@@ -266,6 +266,7 @@ test("period 2 demonstrates the complete bounded Time Bonus change", async () =>
     /다른 파일을 생성, 수정, 이동 또는 삭제하지 마세요/,
     /Collider2D[\s\S]*Is Trigger[\s\S]*GameManager 참조/,
     /Player 또는 TimeBonus[\s\S]*Rigidbody2D/,
+    /Week11_TimeBonus[\s\S]*첫 번째 활성 Scene[\s\S]*이전 Scene을 비활성화/,
     /20\.0초[\s\S]*25\.0초/,
     /28\.0초[\s\S]*30\.0초/,
     /assets\/week-11-period2-bounded-change\.webp/,
@@ -314,6 +315,7 @@ test("period 3 fixes the goal while preserving implementation choice and equal a
     /data-export-tests/,
     /assets\/week-11-change-control-starter\.zip/,
     /File → Build Profiles → Scene List → Add Open Scenes/,
+    /Week11_TimeBonus[\s\S]*첫 번째 활성 Scene[\s\S]*이전 Scene을 비활성화/,
     /git add -N -- Assets\/Scripts\/TimeBonus\.cs[\s\S]*git diff -- Assets\/Scripts\/GameManager\.cs Assets\/Scripts\/TimeBonus\.cs/,
     /AI_CHANGE_LOG\.md/,
     /week11_학번_이름_diff\.txt/,
@@ -365,6 +367,7 @@ test("week 11 starter pack contains reusable logs without shipping solution code
   assert.match(readme, /구현 코드[\s\S]*두 C# 파일/);
   assert.match(readme, /Assets\/Plans[\s\S]*\.meta[\s\S]*Scene/);
   assert.match(readme, /git add -N -- Assets\/Scripts\/TimeBonus\.cs/);
+  assert.match(readme, /Week11_TimeBonus[\s\S]*첫 번째 활성 Scene[\s\S]*이전 Scene을 비활성화/);
   assert.match(changeLog, /변경 전 기준 증거/);
   assert.match(changeLog, /예상 diff와 실제 diff/);
   assert.match(changeLog, /수동 Unity 변경/);
@@ -375,6 +378,7 @@ test("week 11 starter pack contains reusable logs without shipping solution code
   assert.match(testTemplate, /T07[\s\S]*Won→Restart→Start→Lost→Restart/);
   assert.match(testTemplate, /T03[\s\S]*Route A[\s\S]*Route B/);
   assert.match(testTemplate, /T06[\s\S]*실행 증거[\s\S]*코드 경로 증거/);
+  assert.match(testTemplate, /T08[\s\S]*Week11_TimeBonus[\s\S]*첫 번째 활성 Scene/);
 
   const expectedNames = [
     "README.md",
