@@ -308,7 +308,7 @@ test("mobile handouts keep code and test controls readable and discoverable", as
   );
   assert.match(
     stylesheet,
-    /@media \(hover: none\), \(pointer: coarse\) \{[\s\S]*?\.lesson-sequence a:hover[\s\S]*?\.week-four-toc a\[aria-current="location"\]:hover \{[\s\S]*?background: color-mix\(in srgb, var\(--w4-accent-soft\) 67%, transparent\);/,
+    /@media \(hover: none\), \(pointer: coarse\) \{[\s\S]*?\.lesson-sequence a:hover[\s\S]*?\.week-four-toc a\[aria-current="location"\]:hover \{[\s\S]*?background: color-mix\(in srgb, var\(--w4-accent-soft\) 67%, var\(--paper\)\);/,
   );
   assert.match(
     stylesheet,

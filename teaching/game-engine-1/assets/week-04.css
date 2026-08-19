@@ -1971,7 +1971,7 @@ body.course-game-engine-1.game-engine-week-four > .footer-note {
   }
 
   body.course-game-engine-1.game-engine-week-four .week-four-toc a[aria-current="location"]:hover {
-    background: color-mix(in srgb, var(--w4-accent-soft) 67%, transparent);
+    background: color-mix(in srgb, var(--w4-accent-soft) 67%, var(--paper));
     color: var(--ink-strong);
   }
 }
