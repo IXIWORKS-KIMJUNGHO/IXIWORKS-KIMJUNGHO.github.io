@@ -1,0 +1,504 @@
+/* Week 12: task-first text analysis lessons for first-time coders. */
+
+html.week-12-page {
+  scroll-behavior: auto;
+}
+
+body.week-12.teaching-document .skip-link {
+  transition: none;
+}
+
+body.week-12.teaching-document .article h2[id],
+body.week-12.teaching-document .article h3[id] {
+  scroll-margin-top: 86px;
+}
+
+body.week-12.teaching-document .article h2 {
+  display: block;
+  counter-increment: none;
+}
+
+body.week-12.teaching-document .article h2::before {
+  content: none;
+  display: none;
+}
+
+body.week-12.teaching-document summary:active {
+  transform: none;
+}
+
+/* Frequent concept checks read as disclosures instead of stacked cards. */
+body.week-12.teaching-document details.callout-question {
+  margin: 18px 0 28px;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.week-12.teaching-document details.callout-question > summary {
+  margin: 0;
+  padding: 15px 44px 15px 0;
+  color: var(--ink-strong);
+}
+
+body.week-12.teaching-document details.callout-question > .details-motion-content {
+  padding: 0 36px 16px 0;
+}
+
+body.week-12.teaching-document details.callout-question > .details-motion-content p {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+/* Desktop keeps the table of contents visible. Mobile collapses it. */
+body.week-12.teaching-document .lesson-toc > summary {
+  display: none;
+}
+
+body.week-12.teaching-document .toc-links {
+  display: grid;
+  gap: 2px;
+}
+
+body.week-12.teaching-document .toc a[aria-current="location"] {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-weight: 720;
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+body.week-12.teaching-document .toc-current {
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 680;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+/* The first useful action comes before supporting explanation. */
+body.week-12.teaching-document .quick-start {
+  margin: 0 0 30px;
+  padding: 22px;
+  border: 1px solid var(--line-strong);
+  border-left: 5px solid var(--accent);
+  border-radius: 6px;
+  background: var(--surface);
+}
+
+body.week-12.teaching-document .quick-start-kicker {
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+body.week-12.teaching-document .quick-start h2 {
+  margin: 7px 0 9px;
+  padding: 0;
+  border: 0;
+  font-size: 22px;
+}
+
+body.week-12.teaching-document .quick-start p {
+  max-width: 68ch;
+  color: var(--muted);
+}
+
+body.week-12.teaching-document .quick-start-actions {
+  margin-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+body.week-12.teaching-document .quick-start-actions a {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  color: var(--ink-strong);
+  font-size: 12.5px;
+  font-weight: 720;
+  line-height: 1;
+  white-space: nowrap;
+  transition:
+    transform 120ms var(--ease-out),
+    border-color 160ms ease;
+}
+
+body.week-12.teaching-document .quick-start-actions a:first-child {
+  border-color: var(--accent-strong);
+  background: var(--accent-strong);
+  color: var(--paper);
+}
+
+body.week-12.teaching-document .quick-start-actions a:active {
+  transform: scale(0.98);
+}
+
+body.week-12.teaching-document .quick-start-support {
+  margin: 15px 0 0;
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+
+body.week-12.teaching-document .quick-start-support a {
+  color: var(--accent-strong);
+  font-weight: 680;
+}
+
+body.week-12.teaching-document .goal-contract {
+  border-bottom: 1px solid var(--line-strong);
+  border-radius: 6px;
+}
+
+body.week-12.teaching-document .goal-contract + .quick-start {
+  margin-top: 18px;
+}
+
+body.week-12.teaching-document .mission-route {
+  border-radius: 6px;
+}
+
+/* One real result anchors the long code walkthrough. */
+body.week-12.teaching-document .outcome-preview {
+  margin: 22px 0 34px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  display: grid;
+  grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.15fr);
+  overflow: hidden;
+  background: var(--paper);
+}
+
+body.week-12.teaching-document .outcome-preview > a {
+  min-height: 520px;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  background: var(--surface);
+}
+
+body.week-12.teaching-document .outcome-preview img {
+  width: 100%;
+  max-height: 620px;
+  border: 0;
+  border-radius: 4px;
+  display: block;
+  object-fit: contain;
+}
+
+body.week-12.teaching-document .outcome-preview figcaption {
+  margin: 0;
+  padding: 28px;
+  display: grid;
+  align-content: center;
+  gap: 10px;
+  text-align: left;
+}
+
+body.week-12.teaching-document .outcome-preview figcaption strong {
+  color: var(--ink-strong);
+  font-size: 20px;
+  line-height: 1.45;
+}
+
+body.week-12.teaching-document .outcome-preview figcaption span {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.75;
+}
+
+/* Four meaningful phases replace one undifferentiated code wall. */
+body.week-12.teaching-document .phase-map {
+  margin: 22px 0 34px;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+}
+
+body.week-12.teaching-document .phase-map li {
+  min-width: 0;
+  margin: 0;
+  padding: 17px 16px;
+  border-left: 1px solid var(--line);
+}
+
+body.week-12.teaching-document .phase-map li:first-child {
+  border-left: 0;
+}
+
+body.week-12.teaching-document .phase-map a {
+  display: grid;
+  gap: 6px;
+  color: var(--ink);
+}
+
+body.week-12.teaching-document .phase-map a:hover {
+  text-decoration: none;
+}
+
+body.week-12.teaching-document .phase-map strong {
+  color: var(--accent-strong);
+  font-size: 13px;
+}
+
+body.week-12.teaching-document .phase-map span {
+  color: var(--muted);
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+body.week-12.teaching-document .lesson-phase {
+  margin-inline: -12px 0;
+  padding-left: 24px;
+  border-left: 2px solid var(--line);
+}
+
+body.week-12.teaching-document .lesson-phase + .lesson-phase {
+  margin-top: 58px;
+}
+
+/* Dense reference lists stay available without dominating the first scan. */
+body.week-12.teaching-document .criteria-disclosure,
+body.week-12.teaching-document .time-disclosure,
+body.week-12.teaching-document .learning-goals-disclosure {
+  margin: 16px 0 30px;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
+}
+
+body.week-12.teaching-document .criteria-disclosure > summary,
+body.week-12.teaching-document .time-disclosure > summary,
+body.week-12.teaching-document .learning-goals-disclosure > summary {
+  min-height: 56px;
+  padding: 15px 44px 15px 0;
+  color: var(--ink-strong);
+  font-size: 14px;
+  font-weight: 720;
+  line-height: 1.55;
+}
+
+body.week-12.teaching-document .criteria-disclosure > .details-motion-content,
+body.week-12.teaching-document .time-disclosure > .details-motion-content,
+body.week-12.teaching-document .learning-goals-disclosure > .details-motion-content {
+  padding-bottom: 4px;
+}
+
+body.week-12.teaching-document .criteria-disclosure .completion-criteria,
+body.week-12.teaching-document .time-disclosure .table-wrap {
+  margin-top: 0;
+}
+
+body.week-12.teaching-document .learning-goals-disclosure {
+  margin-top: 0;
+}
+
+body.week-12.teaching-document .learning-goals-disclosure ul {
+  margin-bottom: 14px;
+}
+
+body.week-12.teaching-document .check-output {
+  padding: 22px;
+}
+
+body.week-12.teaching-document .pass-check-list {
+  margin: 14px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 24px;
+  list-style: none;
+}
+
+body.week-12.teaching-document .pass-check-list li {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+
+body.week-12.teaching-document .pass-check-list li::before {
+  content: "통과";
+  color: var(--success-ink);
+  font-size: 10px;
+  font-weight: 750;
+}
+
+body.week-12.teaching-document .pass-complete {
+  margin: 18px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--success-ink);
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 750;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.week-12.teaching-document .quick-start-actions a:not(:active):hover {
+    border-color: var(--accent);
+    text-decoration: none;
+  }
+
+  body.week-12.teaching-document .phase-map a:hover strong {
+    color: var(--accent);
+  }
+}
+
+@media (max-width: 980px) {
+  body.week-12.teaching-document .lesson-toc {
+    max-height: none;
+    padding: 0;
+    overflow: visible;
+  }
+
+  body.week-12.teaching-document .lesson-toc > summary {
+    min-height: 48px;
+    margin: 0;
+    padding: 13px 44px 13px 16px;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    align-items: center;
+    color: var(--accent);
+  }
+
+  body.week-12.teaching-document .lesson-toc > .toc-links {
+    max-height: min(54vh, 320px);
+    padding: 3px 8px 9px;
+    overflow: auto;
+  }
+
+  body.week-12.teaching-document .outcome-preview {
+    grid-template-columns: minmax(220px, 0.75fr) minmax(0, 1.25fr);
+  }
+}
+
+@media (max-width: 760px) {
+  body.week-12.teaching-document details.callout-question > .details-motion-content {
+    padding-right: 0;
+  }
+
+  body.week-12.teaching-document .quick-start-actions,
+  body.week-12.teaching-document .outcome-preview,
+  body.week-12.teaching-document .phase-map,
+  body.week-12.teaching-document .pass-check-list {
+    grid-template-columns: 1fr;
+  }
+
+  body.week-12.teaching-document .quick-start-actions {
+    display: grid;
+  }
+
+  body.week-12.teaching-document .quick-start-actions a {
+    width: 100%;
+  }
+
+  body.week-12.teaching-document .outcome-preview > a {
+    min-height: 0;
+    padding: 18px;
+  }
+
+  body.week-12.teaching-document .outcome-preview img {
+    max-height: 560px;
+  }
+
+  body.week-12.teaching-document .outcome-preview figcaption {
+    padding: 22px;
+  }
+
+  body.week-12.teaching-document .phase-map li,
+  body.week-12.teaching-document .phase-map li:first-child {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
+  body.week-12.teaching-document .phase-map li:first-child {
+    border-top: 0;
+  }
+
+  body.week-12.teaching-document .lesson-phase {
+    margin-left: 0;
+    padding-left: 16px;
+  }
+
+  body.week-12.teaching-document .toc-current {
+    max-width: 48%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  body.week-12.teaching-document .toc a[aria-current="location"]:not(:active):hover {
+    background: var(--accent-soft) !important;
+    color: var(--accent-strong) !important;
+  }
+
+}
+
+@media (prefers-color-scheme: dark) {
+  body.week-12.teaching-document .outcome-preview > a {
+    background: var(--surface);
+  }
+
+  body.week-12.teaching-document .outcome-preview img,
+  body.week-12.teaching-document .lesson-visual img {
+    filter: brightness(0.9) contrast(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.week-12.teaching-document .quick-start-actions a {
+    transition: none;
+  }
+
+  body.week-12.teaching-document .quick-start-actions a:active {
+    transform: none;
+  }
+}
+
+@media print {
+  body.week-12.teaching-document .quick-start-actions {
+    display: none;
+  }
+
+  body.week-12.teaching-document details:not([open]) > .details-motion-content,
+  body.week-12.teaching-document details[open] > .details-motion-content {
+    display: block !important;
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  body.week-12.teaching-document details > summary::after {
+    display: none;
+  }
+
+  body.week-12.teaching-document .quick-start,
+  body.week-12.teaching-document .outcome-preview,
+  body.week-12.teaching-document .check-output {
+    break-inside: avoid;
+  }
+}

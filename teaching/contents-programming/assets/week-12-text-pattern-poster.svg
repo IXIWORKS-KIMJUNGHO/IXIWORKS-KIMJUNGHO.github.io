@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1375" role="img" aria-labelledby="title desc">
+  <title id="title">밤의 도서관 텍스트 패턴 포스터 완성 예시</title>
+  <desc id="desc">상위 열 개 단어의 가로 막대그래프와 열두 문장의 토큰 수 흐름 그래프, 관찰과 분석 한계를 함께 배치한 세로형 포스터</desc>
+  <style>
+    .bg { fill: #f4f0e7; }
+    .ink { fill: #152626; }
+    .muted { fill: #5c6967; }
+    .accent { fill: #25696f; }
+    .accent-soft { fill: #cfe1dd; }
+    .coral { fill: #d95f4d; }
+    .grid { stroke: #cbd3d0; stroke-width: 1.5; }
+    .axis { stroke: #314240; stroke-width: 2; }
+    .line { fill: none; stroke: #d95f4d; stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+    .point { fill: #f4f0e7; stroke: #d95f4d; stroke-width: 4; }
+    .kicker { font: 700 18px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 2px; }
+    .title-text { font: 800 44px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .body { font: 500 18px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .section { font: 750 25px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .label { font: 600 17px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .small { font: 500 15px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .count { font: 700 16px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .note-title { font: 750 17px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .note { font: 500 16px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+  </style>
+
+  <rect class="bg" width="1000" height="1375"/>
+  <rect class="accent" x="0" y="0" width="22" height="1375"/>
+
+  <text class="kicker accent" x="78" y="72">TEXT AS DATA · WEEK 12</text>
+  <text class="title-text ink" x="78" y="132">어떤 단어가 반복되고,</text>
+  <text class="title-text ink" x="78" y="187">문장의 리듬은 어디에서 달라지는가?</text>
+  <text class="body muted" x="78" y="229">수업 창작 텍스트 「밤의 도서관」 · 12문장 · 공백 기준 토큰화</text>
+
+  <text class="section ink" x="78" y="294">01 · 상위 10개 토큰 빈도</text>
+  <line class="axis" x1="238" y1="332" x2="238" y2="699"/>
+  <line class="axis" x1="238" y1="699" x2="820" y2="699"/>
+  <line class="grid" x1="408" y1="332" x2="408" y2="699"/>
+  <line class="grid" x1="578" y1="332" x2="578" y2="699"/>
+  <line class="grid" x1="748" y1="332" x2="748" y2="699"/>
+  <text class="small muted" x="234" y="724">0</text>
+  <text class="small muted" x="404" y="724">1</text>
+  <text class="small muted" x="574" y="724">2</text>
+  <text class="small muted" x="744" y="724">3</text>
+  <text class="small muted" x="830" y="724">빈도(회)</text>
+
+  <g>
+    <text class="label ink" x="216" y="359" text-anchor="end">빛</text><rect class="accent" x="240" y="339" width="510" height="25" rx="4"/><text class="count ink" x="765" y="358">3</text>
+    <text class="label ink" x="216" y="394" text-anchor="end">학생은</text><rect class="accent" x="240" y="374" width="510" height="25" rx="4"/><text class="count ink" x="765" y="393">3</text>
+    <text class="label ink" x="216" y="429" text-anchor="end">도서관은</text><rect class="accent-soft" x="240" y="409" width="340" height="25" rx="4"/><text class="count ink" x="595" y="428">2</text>
+    <text class="label ink" x="216" y="464" text-anchor="end">문을</text><rect class="accent-soft" x="240" y="444" width="340" height="25" rx="4"/><text class="count ink" x="595" y="463">2</text>
+    <text class="label ink" x="216" y="499" text-anchor="end">연다</text><rect class="accent-soft" x="240" y="479" width="340" height="25" rx="4"/><text class="count ink" x="595" y="498">2</text>
+    <text class="label ink" x="216" y="534" text-anchor="end">작은</text><rect class="accent-soft" x="240" y="514" width="340" height="25" rx="4"/><text class="count ink" x="595" y="533">2</text>
+    <text class="label ink" x="216" y="569" text-anchor="end">지도를</text><rect class="accent-soft" x="240" y="549" width="340" height="25" rx="4"/><text class="count ink" x="595" y="568">2</text>
+    <text class="label ink" x="216" y="604" text-anchor="end">질문은</text><rect class="accent-soft" x="240" y="584" width="340" height="25" rx="4"/><text class="count ink" x="595" y="603">2</text>
+    <text class="label ink" x="216" y="639" text-anchor="end">이야기를</text><rect class="accent-soft" x="240" y="619" width="340" height="25" rx="4"/><text class="count ink" x="595" y="638">2</text>
+    <text class="label ink" x="216" y="674" text-anchor="end">밤의</text><rect class="accent-soft" x="240" y="654" width="170" height="25" rx="4"/><text class="count ink" x="425" y="673">1</text>
+  </g>
+
+  <text class="section ink" x="78" y="796">02 · 문장 순서에 따른 길이</text>
+  <line class="axis" x1="116" y1="840" x2="116" y2="1040"/>
+  <line class="axis" x1="116" y1="1040" x2="890" y2="1040"/>
+  <line class="grid" x1="116" y1="1000" x2="890" y2="1000"/>
+  <line class="grid" x1="116" y1="960" x2="890" y2="960"/>
+  <line class="grid" x1="116" y1="920" x2="890" y2="920"/>
+  <line class="grid" x1="116" y1="880" x2="890" y2="880"/>
+  <line class="grid" x1="116" y1="840" x2="890" y2="840"/>
+  <text class="small muted" x="88" y="1045">2</text>
+  <text class="small muted" x="88" y="1005">3</text>
+  <text class="small muted" x="88" y="965">4</text>
+  <text class="small muted" x="88" y="925">5</text>
+  <text class="small muted" x="88" y="885">6</text>
+  <text class="small muted" x="88" y="845">7</text>
+  <text class="small muted" x="46" y="952" transform="rotate(-90 46 952)">토큰 수</text>
+
+  <polyline class="line" points="130,920 196,840 262,880 328,840 394,880 460,840 526,840 592,880 658,880 724,880 790,880 856,840"/>
+  <g>
+    <circle class="point" cx="130" cy="920" r="8"/><circle class="point" cx="196" cy="840" r="8"/><circle class="point" cx="262" cy="880" r="8"/>
+    <circle class="point" cx="328" cy="840" r="8"/><circle class="point" cx="394" cy="880" r="8"/><circle class="point" cx="460" cy="840" r="8"/>
+    <circle class="point" cx="526" cy="840" r="8"/><circle class="point" cx="592" cy="880" r="8"/><circle class="point" cx="658" cy="880" r="8"/>
+    <circle class="point" cx="724" cy="880" r="8"/><circle class="point" cx="790" cy="880" r="8"/><circle class="point" cx="856" cy="840" r="8"/>
+  </g>
+  <g class="small muted" text-anchor="middle">
+    <text x="130" y="1066">1</text><text x="196" y="1066">2</text><text x="262" y="1066">3</text><text x="328" y="1066">4</text>
+    <text x="394" y="1066">5</text><text x="460" y="1066">6</text><text x="526" y="1066">7</text><text x="592" y="1066">8</text>
+    <text x="658" y="1066">9</text><text x="724" y="1066">10</text><text x="790" y="1066">11</text><text x="856" y="1066">12</text>
+  </g>
+  <text class="small muted" x="754" y="1098">문장 순서</text>
+
+  <rect x="78" y="1140" width="844" height="173" rx="18" fill="#fffdf8" stroke="#cbd3d0" stroke-width="2"/>
+  <text class="note-title accent" x="104" y="1176">OBSERVATION</text>
+  <text class="note ink" x="104" y="1206">‘빛’과 ‘학생은’은 각각 3회이며, 가장 긴 문장은 2·4·6·7·12번이다.</text>
+  <text class="note-title coral" x="104" y="1240">LIMIT</text>
+  <text class="note ink" x="104" y="1270">공백 기준 토큰화는 ‘빛’, ‘빛은’, ‘빛을’을 서로 다른 토큰으로 센다.</text>
+  <text class="small muted" x="104" y="1300">자료: 수업 창작 텍스트 · 지정어 4개 제외 · 빈도는 중요도나 감정을 증명하지 않음</text>
+</svg>

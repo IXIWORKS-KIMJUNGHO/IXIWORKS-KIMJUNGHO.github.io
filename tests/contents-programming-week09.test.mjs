@@ -449,7 +449,7 @@ test("Contents Programming week 9 presentation is localized, responsive, and act
 
   assert.match(
     shellGenerator,
-    /course === "contents-programming"[\s\S]*?current\.startsWith\("week-09-"\)/,
+    /usesKoreanCopy\s*=\s*course === "contents-programming"/,
   );
   assert.match(shellGenerator, /navigationLabel:\s*"강의 이동"/);
   assert.match(shellGenerator, /previousText:\s*"이전"/);

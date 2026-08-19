@@ -1,0 +1,696 @@
+/* Week 01 orientation. The shared course tokens remain the source of truth. */
+/* Shape rule: 6px for content surfaces, 4px for compact navigation controls. */
+
+html.orientation-document {
+  scroll-behavior: auto;
+}
+
+body.course-contents-programming.orientation-page {
+  --orientation-rule: color-mix(in srgb, var(--accent) 28%, var(--line));
+  --orientation-wash: color-mix(in srgb, var(--accent-soft) 58%, var(--paper));
+  background: var(--bg);
+}
+
+body.course-contents-programming.orientation-page [id] {
+  scroll-margin-top: 96px;
+}
+
+body.course-contents-programming.orientation-page .lesson-header {
+  background: color-mix(in srgb, var(--paper) 96%, transparent);
+}
+
+body.course-contents-programming.orientation-page .lesson-sequence a,
+body.course-contents-programming.orientation-page .inline-resource-card,
+body.course-contents-programming.orientation-page .figure-links a {
+  transition: transform 160ms var(--ease-out), border-color 160ms ease, color 160ms ease;
+}
+
+body.course-contents-programming.orientation-page .lesson-sequence a:active,
+body.course-contents-programming.orientation-page .inline-resource-card:active,
+body.course-contents-programming.orientation-page .figure-links a:active {
+  transform: scale(0.97);
+}
+
+body.course-contents-programming.orientation-page .orientation-hero {
+  background: var(--paper);
+}
+
+body.course-contents-programming.orientation-page .orientation-hero .hero-inner {
+  min-height: min(680px, calc(100dvh - 58px));
+  padding: clamp(52px, 8vh, 82px) 0;
+  grid-template-columns: minmax(0, 1.06fr) minmax(360px, 0.94fr);
+  gap: clamp(48px, 7vw, 88px);
+  align-items: center;
+}
+
+body.course-contents-programming.orientation-page .orientation-hero-copy {
+  min-width: 0;
+}
+
+body.course-contents-programming.orientation-page .orientation-hero .eyebrow {
+  margin-bottom: 18px;
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+body.course-contents-programming.orientation-page .orientation-hero h1 {
+  max-width: 650px;
+  font-size: clamp(40px, 4.4vw, 56px);
+  font-weight: 780;
+  letter-spacing: -0.055em;
+  line-height: 1.07;
+  text-wrap: balance;
+}
+
+body.course-contents-programming.orientation-page .orientation-hero .lead {
+  max-width: 470px;
+  margin-top: 22px;
+  color: var(--muted);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+body.course-contents-programming.orientation-page .orientation-hero-visual {
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--orientation-rule);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--accent-soft);
+  box-shadow: 0 28px 68px color-mix(in srgb, var(--accent-strong) 13%, transparent);
+}
+
+body.course-contents-programming.orientation-page .orientation-hero-visual img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+body.course-contents-programming.orientation-page .layout,
+body.course-contents-programming.orientation-page main.layout {
+  padding: 76px 0 124px;
+  grid-template-columns: minmax(0, 820px) minmax(210px, 240px);
+  gap: clamp(52px, 7vw, 86px);
+}
+
+body.course-contents-programming.orientation-page .article {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+body.course-contents-programming.orientation-page .article > p {
+  max-width: 68ch;
+}
+
+body.course-contents-programming.orientation-page .article h2 {
+  display: block;
+  counter-increment: none;
+}
+
+body.course-contents-programming.orientation-page .article h2::before {
+  content: none;
+}
+
+body.course-contents-programming.orientation-page .article > h2 {
+  margin: 96px 0 24px;
+  padding-top: 30px;
+  border-top: 1px solid var(--orientation-rule);
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 760;
+  letter-spacing: -0.04em;
+  line-height: 1.18;
+  text-wrap: balance;
+}
+
+body.course-contents-programming.orientation-page .article h3 {
+  margin-top: 42px;
+  font-size: 21px;
+  font-weight: 730;
+  letter-spacing: -0.025em;
+}
+
+body.course-contents-programming.orientation-page .article h4 {
+  font-weight: 700;
+}
+
+body.course-contents-programming.orientation-page .orientation-opening {
+  margin-bottom: 68px;
+  padding-bottom: 68px;
+  border-bottom: 1px solid var(--orientation-rule);
+  display: grid;
+  grid-template-columns: minmax(190px, 0.7fr) minmax(0, 1.3fr);
+  gap: clamp(36px, 6vw, 68px);
+  align-items: start;
+}
+
+body.course-contents-programming.orientation-page .orientation-opening h2,
+body.course-contents-programming.orientation-page .orientation-agenda-section > h2 {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: clamp(27px, 3vw, 36px);
+  font-weight: 760;
+  letter-spacing: -0.04em;
+  line-height: 1.16;
+}
+
+body.course-contents-programming.orientation-page .orientation-opening-copy p {
+  margin-top: 17px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+body.course-contents-programming.orientation-page .orientation-goals {
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  list-style-position: inside;
+}
+
+body.course-contents-programming.orientation-page .orientation-goals li {
+  margin: 0;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+body.course-contents-programming.orientation-page .orientation-goals strong {
+  color: var(--ink-strong);
+}
+
+body.course-contents-programming.orientation-page .orientation-agenda-section {
+  margin-bottom: 82px;
+}
+
+body.course-contents-programming.orientation-page .orientation-agenda {
+  margin: 28px 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line-strong);
+  list-style: none;
+}
+
+body.course-contents-programming.orientation-page .orientation-agenda li {
+  margin: 0;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 94px minmax(180px, 0.82fr) minmax(0, 1.18fr);
+  gap: 18px;
+  align-items: baseline;
+}
+
+body.course-contents-programming.orientation-page .orientation-agenda-time {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+body.course-contents-programming.orientation-page .orientation-agenda strong {
+  color: var(--ink-strong);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+body.course-contents-programming.orientation-page .orientation-agenda p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+body.course-contents-programming.orientation-page .orientation-pace-note {
+  margin-top: 24px;
+}
+
+body.course-contents-programming.orientation-page .callout {
+  margin: 24px 0 32px;
+  padding: 19px 0 19px 22px;
+  border: 0;
+  border-left: 2px solid var(--accent);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.orientation-page .callout-question,
+body.course-contents-programming.orientation-page .callout-warning,
+body.course-contents-programming.orientation-page .callout-success,
+body.course-contents-programming.orientation-page .callout-tip {
+  border-left-color: var(--accent);
+}
+
+body.course-contents-programming.orientation-page .callout-title {
+  color: var(--accent);
+  font-size: 13px;
+}
+
+body.course-contents-programming.orientation-page .worksheet {
+  margin: 24px 0 34px;
+  padding: 24px;
+  border: 1px solid var(--orientation-rule);
+  border-radius: 6px;
+  background: var(--orientation-wash);
+}
+
+body.course-contents-programming.orientation-page .worksheet-label,
+body.course-contents-programming.orientation-page .pipeline-label,
+body.course-contents-programming.orientation-page .case-kicker,
+body.course-contents-programming.orientation-page .inline-resource-card > span {
+  color: var(--accent);
+}
+
+body.course-contents-programming.orientation-page .pipeline {
+  margin-block: 26px 34px;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  gap: 12px;
+}
+
+body.course-contents-programming.orientation-page .pipeline-step {
+  padding: 20px;
+  border-color: var(--orientation-rule);
+  background: var(--paper);
+}
+
+body.course-contents-programming.orientation-page .lecture-figure {
+  margin-block: 30px 40px;
+}
+
+body.course-contents-programming.orientation-page .lecture-figure img,
+body.course-contents-programming.orientation-page .article img {
+  border: 1px solid var(--orientation-rule);
+}
+
+body.course-contents-programming.orientation-page .case-figure {
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+body.course-contents-programming.orientation-page .visual-link {
+  overflow: hidden;
+}
+
+body.course-contents-programming.orientation-page .visual-link img {
+  transition: transform 220ms var(--ease-out), border-color 160ms ease;
+}
+
+body.course-contents-programming.orientation-page .table-wrap {
+  margin-block: 24px 38px;
+  border-top: 1px solid var(--line-strong);
+}
+
+body.course-contents-programming.orientation-page table {
+  min-width: 610px;
+  border-collapse: collapse;
+}
+
+body.course-contents-programming.orientation-page th,
+body.course-contents-programming.orientation-page td {
+  padding: 13px 12px;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+}
+
+body.course-contents-programming.orientation-page thead th {
+  background: transparent;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 650;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-contents-programming.orientation-page tbody th[scope="row"],
+body.course-contents-programming.orientation-page tr:nth-child(even) td {
+  background: transparent;
+}
+
+body.course-contents-programming.orientation-page tbody th[scope="row"] {
+  color: var(--ink-strong);
+}
+
+body.course-contents-programming.orientation-page .official-case-grid {
+  margin-block: 28px 38px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+body.course-contents-programming.orientation-page .official-case-card {
+  border-color: var(--orientation-rule);
+  background: var(--paper);
+}
+
+body.course-contents-programming.orientation-page .official-case-card:first-child {
+  grid-column: 1 / -1;
+  grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+}
+
+body.course-contents-programming.orientation-page .official-case-card:first-child .official-case-figure {
+  border-right: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+body.course-contents-programming.orientation-page .official-case-figure {
+  background: var(--orientation-wash);
+}
+
+body.course-contents-programming.orientation-page .case-data-map {
+  gap: 10px;
+}
+
+body.course-contents-programming.orientation-page .concept-check-list summary {
+  transition: color 160ms ease;
+}
+
+body.course-contents-programming.orientation-page .inline-resource-card {
+  border-color: var(--orientation-rule);
+  background: var(--orientation-wash);
+}
+
+body.course-contents-programming.orientation-page .reference-list {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 32px;
+}
+
+body.course-contents-programming.orientation-page .reference-list li,
+body.course-contents-programming.orientation-page .reference-list li:last-child {
+  margin: 0;
+  padding: 15px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 0;
+}
+
+body.course-contents-programming.orientation-page .orientation-toc {
+  top: 86px;
+  max-height: calc(100dvh - 116px);
+  padding: 2px 0 2px 20px;
+  border: 0;
+  border-left: 1px solid var(--orientation-rule);
+  border-radius: 0;
+  background: transparent;
+}
+
+body.course-contents-programming.orientation-page .orientation-toc .toc-title {
+  margin: 0 0 12px;
+  color: var(--ink-strong);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 720;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+body.course-contents-programming.orientation-page .orientation-toc ol {
+  gap: 2px;
+}
+
+body.course-contents-programming.orientation-page .orientation-toc a {
+  padding: 7px 0 7px 12px;
+  border-left: 2px solid transparent;
+  border-radius: 0;
+  color: var(--quiet);
+  font-size: 11.5px;
+  line-height: 1.45;
+  transition: color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out);
+}
+
+body.course-contents-programming.orientation-page .orientation-toc a:hover,
+body.course-contents-programming.orientation-page .orientation-toc a[aria-current="location"] {
+  background: transparent;
+  color: var(--accent);
+  text-decoration: none;
+}
+
+body.course-contents-programming.orientation-page .orientation-toc a[aria-current="location"] {
+  border-left-color: var(--accent);
+  font-weight: 680;
+}
+
+body.course-contents-programming.orientation-page .orientation-toc a:active {
+  transform: translateY(1px);
+}
+
+body.course-contents-programming.orientation-page > .footer-note {
+  margin-top: -58px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.course-contents-programming.orientation-page .visual-link:hover img {
+    transform: scale(1.01);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  body.course-contents-programming.orientation-page .orientation-hero-copy > *,
+  body.course-contents-programming.orientation-page .orientation-hero-visual {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition-property: opacity, transform;
+    transition-duration: 460ms;
+    transition-timing-function: var(--ease-out);
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero-copy > :nth-child(2) {
+    transition-delay: 45ms;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero-copy > :nth-child(3) {
+    transition-delay: 90ms;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero-visual {
+    transition-delay: 120ms;
+    transition-duration: 560ms;
+  }
+
+  @starting-style {
+    body.course-contents-programming.orientation-page .orientation-hero-copy > * {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+
+    body.course-contents-programming.orientation-page .orientation-hero-visual {
+      opacity: 0;
+      transform: translateY(12px) scale(0.985);
+    }
+  }
+}
+
+@media (max-width: 980px) {
+  body.course-contents-programming.orientation-page .orientation-hero .hero-inner {
+    min-height: 0;
+    padding-block: 48px;
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero h1 {
+    max-width: 720px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero-visual {
+    width: min(100%, 600px, 54dvh);
+  }
+
+  body.course-contents-programming.orientation-page .layout,
+  body.course-contents-programming.orientation-page main.layout {
+    padding-top: 0;
+    grid-template-columns: 1fr;
+    gap: 52px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc {
+    position: sticky;
+    top: 68px;
+    z-index: 30;
+    order: -1;
+    max-height: none;
+    padding: 10px 0;
+    border: 0;
+    border-bottom: 1px solid var(--orientation-rule);
+    background: color-mix(in srgb, var(--bg) 95%, transparent);
+    backdrop-filter: blur(14px);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc .toc-title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc ol {
+    display: flex;
+    gap: 4px;
+    scroll-snap-type: x proximity;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc li {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc a {
+    padding: 8px 11px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-toc a[aria-current="location"] {
+    border-color: var(--orientation-rule);
+    background: var(--orientation-wash);
+  }
+}
+
+@media (max-width: 760px) {
+  body.course-contents-programming.orientation-page .orientation-hero .hero-inner {
+    padding-block: 42px;
+    gap: 32px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero h1 {
+    font-size: clamp(36px, 11vw, 46px);
+    line-height: 1.08;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero .lead {
+    margin-top: 18px;
+    font-size: 15px;
+  }
+
+  body.course-contents-programming.orientation-page .layout,
+  body.course-contents-programming.orientation-page main.layout {
+    padding-bottom: 92px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-opening {
+    margin-bottom: 54px;
+    padding-bottom: 54px;
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-agenda-section {
+    margin-bottom: 68px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-agenda li {
+    padding-block: 16px;
+    grid-template-columns: 82px minmax(0, 1fr);
+    gap: 5px 14px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-agenda p {
+    grid-column: 2;
+  }
+
+  body.course-contents-programming.orientation-page .article > h2 {
+    margin-top: 76px;
+    padding-top: 24px;
+    font-size: 29px;
+  }
+
+  body.course-contents-programming.orientation-page .article h3 {
+    margin-top: 36px;
+    font-size: 19px;
+  }
+
+  body.course-contents-programming.orientation-page .worksheet {
+    padding: 20px;
+  }
+
+  body.course-contents-programming.orientation-page .official-case-grid,
+  body.course-contents-programming.orientation-page .official-case-card:first-child,
+  body.course-contents-programming.orientation-page .reference-list {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-contents-programming.orientation-page .official-case-card:first-child {
+    grid-column: auto;
+  }
+
+  body.course-contents-programming.orientation-page .official-case-card:first-child .official-case-figure {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  body.course-contents-programming.orientation-page .pipeline {
+    grid-template-columns: 1fr;
+  }
+
+  body.course-contents-programming.orientation-page .pipeline-arrow {
+    display: none;
+  }
+
+  body.course-contents-programming.orientation-page > .footer-note {
+    margin-top: -42px;
+  }
+}
+
+@media (max-width: 480px) {
+  body.course-contents-programming.orientation-page .orientation-agenda li {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-agenda p {
+    grid-column: auto;
+  }
+
+  body.course-contents-programming.orientation-page .callout {
+    padding-left: 18px;
+  }
+
+  body.course-contents-programming.orientation-page table {
+    min-width: 560px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.course-contents-programming.orientation-page .lesson-sequence a,
+  body.course-contents-programming.orientation-page .inline-resource-card,
+  body.course-contents-programming.orientation-page .figure-links a,
+  body.course-contents-programming.orientation-page .visual-link img,
+  body.course-contents-programming.orientation-page .concept-check-list summary,
+  body.course-contents-programming.orientation-page .orientation-toc a {
+    transition: none;
+  }
+}
+
+@media print {
+  body.course-contents-programming.orientation-page .orientation-hero .hero-inner {
+    min-height: 0;
+    padding-block: 24px;
+  }
+
+  body.course-contents-programming.orientation-page .orientation-hero-visual {
+    box-shadow: none;
+  }
+
+  body.course-contents-programming.orientation-page .layout,
+  body.course-contents-programming.orientation-page main.layout {
+    padding-top: 32px;
+  }
+}

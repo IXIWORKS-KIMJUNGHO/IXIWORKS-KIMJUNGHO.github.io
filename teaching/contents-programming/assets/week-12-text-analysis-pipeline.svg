@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="title desc">
+  <title id="title">원문을 빈도와 문장 흐름으로 바꾸는 여섯 단계</title>
+  <desc id="desc">원문 보존, 문장 분리, 정규화, 공백 기준 토큰화, 지정어 제외, 빈도와 문장 길이 시각화로 이어지는 분석 흐름을 보여 주는 도식</desc>
+  <style>
+    .bg { fill: #f5f1e9; }
+    .panel { fill: #fffdf8; stroke: #1e2c2c; stroke-width: 2; }
+    .panel-accent { fill: #e1eeeb; stroke: #25696f; stroke-width: 3; }
+    .step { fill: #25696f; font: 700 15px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: 1.2px; }
+    .heading { fill: #142323; font: 700 25px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .copy { fill: #405050; font: 500 17px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .number { fill: #b74d3e; font: 800 28px ui-monospace, SFMono-Regular, Menlo, monospace; }
+    .arrow { fill: #7b8987; font: 700 34px system-ui, sans-serif; }
+    .title { fill: #142323; font: 800 36px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .subtitle { fill: #526260; font: 500 18px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .rule { fill: #fffdf8; font: 700 20px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+    .rule-copy { fill: #d9e5e2; font: 500 16px system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; }
+  </style>
+
+  <rect class="bg" width="1200" height="720" rx="24"/>
+  <text class="title" x="64" y="70">TEXT → DATA → VIEW</text>
+  <text class="subtitle" x="64" y="104">원본은 보존하고, 분석 규칙과 중간 결과는 새 이름으로 남깁니다.</text>
+
+  <g transform="translate(64 150)">
+    <rect class="panel-accent" width="300" height="178" rx="18"/>
+    <text class="step" x="24" y="36">STEP 01 · RAW</text>
+    <text class="heading" x="24" y="76">원문 보존</text>
+    <text class="number" x="24" y="122">291자 · 12문장</text>
+    <text class="copy" x="24" y="153">raw_text를 덮어쓰지 않습니다.</text>
+  </g>
+  <text class="arrow" x="382" y="247">→</text>
+  <g transform="translate(430 150)">
+    <rect class="panel" width="300" height="178" rx="18"/>
+    <text class="step" x="24" y="36">STEP 02 · SENTENCE</text>
+    <text class="heading" x="24" y="76">문장 분리</text>
+    <text class="number" x="24" y="122">12개</text>
+    <text class="copy" x="24" y="153">마침표·물음표·느낌표를 기준으로</text>
+  </g>
+  <text class="arrow" x="748" y="247">→</text>
+  <g transform="translate(796 150)">
+    <rect class="panel" width="340" height="178" rx="18"/>
+    <text class="step" x="24" y="36">STEP 03 · NORMALIZE</text>
+    <text class="heading" x="24" y="76">분석용 사본 정리</text>
+    <text class="number" x="24" y="122">문장부호 → 공백</text>
+    <text class="copy" x="24" y="153">한글·영문·숫자와 공백을 남깁니다.</text>
+  </g>
+
+  <g transform="translate(64 382)">
+    <rect class="panel" width="300" height="178" rx="18"/>
+    <text class="step" x="24" y="36">STEP 04 · TOKEN</text>
+    <text class="heading" x="24" y="76">공백 기준 토큰화</text>
+    <text class="number" x="24" y="122">76토큰 · 65종</text>
+    <text class="copy" x="24" y="153">split() 결과를 목록으로 저장합니다.</text>
+  </g>
+  <text class="arrow" x="382" y="479">→</text>
+  <g transform="translate(430 382)">
+    <rect class="panel" width="300" height="178" rx="18"/>
+    <text class="step" x="24" y="36">STEP 05 · RULE</text>
+    <text class="heading" x="24" y="76">지정어 제외</text>
+    <text class="number" x="24" y="122">72토큰 · 61종</text>
+    <text class="copy" x="24" y="153">목록과 제외 이유를 함께 기록합니다.</text>
+  </g>
+  <text class="arrow" x="748" y="479">→</text>
+  <g transform="translate(796 382)">
+    <rect class="panel-accent" width="340" height="178" rx="18"/>
+    <text class="step" x="24" y="36">STEP 06 · VIEW</text>
+    <text class="heading" x="24" y="76">세고 시각화</text>
+    <text class="number" x="24" y="122">막대 10개 · 점 12개</text>
+    <text class="copy" x="24" y="153">빈도 비교와 문장 순서를 나눠 봅니다.</text>
+  </g>
+
+  <g transform="translate(64 610)">
+    <rect x="0" y="0" width="1072" height="70" rx="16" fill="#142323"/>
+    <text class="rule" x="24" y="30" fill="#fffdf8">핵심 원칙</text>
+    <text class="rule-copy" x="24" y="54" fill="#d9e5e2">그래프는 원문을 대신하지 않습니다. 숫자로 보이는 패턴과 숫자로 사라진 문맥을 함께 설명합니다.</text>
+  </g>
+</svg>
