@@ -122,6 +122,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-12-period3-readiness-mission.webp",
     alt: "연결, CLI와 오프라인 세 경로가 기준 상태, Console, Component, 권한 계약, 단일 변경, 복구 증거와 여덟 검증 표시등으로 모이는 개인 미션 보드",
   }),
+  "teaching/game-engine-1/week-13-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-13-period1-feedback-orchestra.webp",
+    alt: "수집·피해·목표 사건이 각각 UI 변화와 효과음 신호로 짝을 이루고, 음소거 상태에서도 핵심 정보가 남는 숲 게임 피드백 작업대",
+  }),
+  "teaching/game-engine-1/week-13-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-13-period2-playtest-evidence.webp",
+    alt: "동일한 숲 게임을 실행한 세 개의 독립 테스트가 관찰표와 우선순위 보드를 거쳐 한 가지 수정과 초록색 회귀 검사로 이어지는 작업대",
+  }),
+  "teaching/game-engine-1/week-13-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-13-period3-alpha-mission.webp",
+    alt: "숲 게임 알파 빌드 주위의 세 독립 테스터 기록, 한 가지 UI 수정 전후, 정확히 여덟 개의 통과 표시와 최종 제출 묶음",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",
