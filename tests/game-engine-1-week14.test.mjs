@@ -260,7 +260,7 @@ test("period 3 completes one approved issue through three safe routes and eight 
   }
 });
 
-test("period 3 changes T05 with the selected route and clears stale route-dependent verdicts", async () => {
+test("period 3 changes T05 with the selected route and invalidates downstream completion", async () => {
   const script = await readFile(resolve(assetDirectory, "week-14.js"), "utf8");
   const storage = new Map();
 
@@ -339,10 +339,7 @@ test("period 3 changes T05 with the selected route and clears stale route-depend
   const testTable = {
     dataset: {},
     querySelector(selector) {
-      return new Map([
-        ['[data-test-id="T04"]', rows[3]],
-        ['[data-test-id="T05"]', rows[4]],
-      ]).get(selector) ?? null;
+      return rows.find((row) => selector === `[data-test-id="${row.dataset.testId}"]`) ?? null;
     },
     querySelectorAll(selector) {
       return selector === "[data-test-id]" ? rows : [];
@@ -350,6 +347,24 @@ test("period 3 changes T05 with the selected route and clears stale route-depend
   };
   const testCount = { textContent: "", dataset: {} };
   const routeLabel = { textContent: "" };
+  const checkpointChecks = ["interview", "baseline", "map", "decision", "change", "tests", "build", "handoff"]
+    .map((checkId) => ({ ...control(""), dataset: { checkId } }));
+  const buildCount = { textContent: "" };
+  const buildStatus = { textContent: "", dataset: {} };
+  const buildReset = control("");
+  const checklist = {
+    querySelector(selector) {
+      return new Map([
+        ["[data-build-count]", buildCount],
+        ["[data-build-status]", buildStatus],
+        ["[data-build-reset]", buildReset],
+        ...checkpointChecks.map((check) => [`[data-check-id="${check.dataset.checkId}"]`, check]),
+      ]).get(selector) ?? null;
+    },
+    querySelectorAll(selector) {
+      return selector === "[data-check-id]" ? checkpointChecks : [];
+    },
+  };
   const document = {
     querySelector(selector) {
       return new Map([
@@ -357,6 +372,7 @@ test("period 3 changes T05 with the selected route and clears stale route-depend
         ["[data-test-table]", testTable],
         ["[data-test-count]", testCount],
         ["[data-test-route-label]", routeLabel],
+        ["[data-build-checklist]", checklist],
       ]).get(selector) ?? null;
     },
     querySelectorAll() {
@@ -384,11 +400,17 @@ test("period 3 changes T05 with the selected route and clears stale route-depend
   assert.equal(route.textContent, "FIX / 제한 수정");
   assert.equal(rows[4].action.textContent, "수정 전과 같은 정상 조건 재검사");
 
-  rows[3].result.value = "PASS";
-  rows[3].note.value = "old FIX action";
-  rows[4].result.value = "PASS";
-  rows[4].note.value = "old FIX retest";
-  rows[4].result.dispatchEvent(new MockEvent("input"));
+  for (const row of rows.slice(3)) {
+    row.result.value = "PASS";
+    row.note.value = "old FIX evidence";
+  }
+  rows.at(-1).result.dispatchEvent(new MockEvent("input"));
+  for (const check of checkpointChecks) check.checked = true;
+  checkpointChecks.at(-1).dispatchEvent(new MockEvent("change"));
+  assert.equal(testCount.textContent, "5 / 8 PASS");
+  assert.equal(buildCount.textContent, "8 / 8");
+  assert.equal(buildStatus.textContent, "체크포인트 제출 준비가 끝났습니다");
+
   risk.value = "high";
   risk.dispatchEvent(new MockEvent("input"));
 
@@ -396,10 +418,16 @@ test("period 3 changes T05 with the selected route and clears stale route-depend
   assert.equal(routeLabel.textContent, "DIAGNOSE 경로");
   assert.equal(rows[4].action.textContent, "재현 조건에서 최초로 다른 상태 확인");
   assert.equal(rows[4].expected.textContent, "원인 가설, 확인 결과와 다음 진단 행동이 기록됨");
-  assert.equal(rows[3].result.value, "");
-  assert.equal(rows[3].note.value, "");
-  assert.equal(rows[4].result.value, "");
-  assert.equal(rows[4].note.value, "");
+  for (const row of rows.slice(3)) {
+    assert.equal(row.result.value, "");
+    assert.equal(row.note.value, "");
+  }
+  assert.equal(testCount.textContent, "0 / 8 PASS");
+  for (const checkId of ["decision", "change", "tests", "build", "handoff"]) {
+    assert.equal(checkpointChecks.find((check) => check.dataset.checkId === checkId).checked, false);
+  }
+  assert.equal(buildCount.textContent, "3 / 8");
+  assert.equal(buildStatus.textContent, "아직 제출할 수 없습니다");
 
   priority.value = "p3";
   minutes.value = "10";

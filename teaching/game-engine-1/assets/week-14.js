@@ -28,6 +28,9 @@
     }),
   });
 
+  const routeDependentTestIds = Object.freeze(["T04", "T05", "T06", "T07", "T08"]);
+  const routeDependentCheckIds = Object.freeze(["decision", "change", "tests", "build", "handoff"]);
+
   const readStorage = (key, fallback) => {
     try {
       const value = window.localStorage.getItem(key);
@@ -104,7 +107,7 @@
 
     table.dataset.route = routeKey;
     if (previousRoute && previousRoute !== routeKey) {
-      const routeDependentRows = ["T04", "T05"]
+      const routeDependentRows = routeDependentTestIds
         .map((testId) => table.querySelector(`[data-test-id="${testId}"]`))
         .filter(Boolean);
 
@@ -115,6 +118,14 @@
 
       routeDependentRows.at(-1)?.querySelector("[data-test-result]")
         .dispatchEvent(new Event("input", { bubbles: true }));
+
+      const checklist = document.querySelector("[data-build-checklist]");
+      const routeDependentChecks = routeDependentCheckIds
+        .map((checkId) => checklist?.querySelector(`[data-check-id="${checkId}"]`))
+        .filter(Boolean);
+
+      for (const check of routeDependentChecks) check.checked = false;
+      routeDependentChecks.at(-1)?.dispatchEvent(new Event("change", { bubbles: true }));
     }
   };
 
