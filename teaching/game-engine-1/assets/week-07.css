@@ -11,15 +11,18 @@ body.course-game-engine-1.game-engine-week-seven {
   --w7-accent-soft: #d8e9eb;
   --w7-action-bg: #0b4a59;
   --w7-action-text: #f7fbf9;
+  --w7-focus-ring: #0b4a59;
   --w7-success: #93a33c;
-  --w7-success-strong: #65721f;
+  --w7-success-strong: #5d6918;
   --w7-success-soft: #e9edcf;
   --w7-danger: #d85e43;
   --w7-danger-strong: #9e3f2d;
   --w7-danger-soft: #f6dfd7;
-  --w7-black: #161a1a;
   --w7-code: #171d1e;
   --w7-code-ink: #eaf0ec;
+  --w7-code-success: #d7e59c;
+  --w7-code-danger: #ffb09c;
+  --w7-placeholder: #586461;
   --w7-rule: color-mix(in srgb, var(--ink-strong) 17%, transparent);
   --w7-rule-strong: color-mix(in srgb, var(--ink-strong) 31%, transparent);
   background: var(--bg);
@@ -30,7 +33,7 @@ body.course-game-engine-1.game-engine-week-seven [id] {
 }
 
 body.course-game-engine-1.game-engine-week-seven :is(a, button, input, select, summary, [tabindex="0"]):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--w7-accent) 62%, transparent);
+  outline: 3px solid var(--w7-focus-ring);
   outline-offset: 3px;
 }
 
@@ -373,10 +376,6 @@ body.course-game-engine-1.game-engine-week-seven .agenda-phase > header > span {
   color: var(--w7-accent-strong);
 }
 
-body.course-game-engine-1.game-engine-week-seven .agenda-phase-build > header > span {
-  color: var(--w7-accent-strong);
-}
-
 body.course-game-engine-1.game-engine-week-seven .agenda-phase > header h3 {
   margin: 10px 0 0;
   font-size: 21px;
@@ -468,10 +467,6 @@ body.course-game-engine-1.game-engine-week-seven .signal-chain li:not(:last-chil
   transform: rotate(45deg);
 }
 
-body.course-game-engine-1.game-engine-week-seven .signal-chain li:nth-child(n + 4):not(:last-child)::after {
-  border-color: var(--w7-accent);
-}
-
 body.course-game-engine-1.game-engine-week-seven .signal-chain li > span {
   display: block;
   margin-bottom: 17px;
@@ -479,10 +474,6 @@ body.course-game-engine-1.game-engine-week-seven .signal-chain li > span {
   font-family: var(--mono);
   font-size: 12px;
   font-weight: 600;
-}
-
-body.course-game-engine-1.game-engine-week-seven .signal-chain li:nth-child(n + 4) > span {
-  color: var(--w7-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-seven .signal-chain strong {
@@ -549,10 +540,6 @@ body.course-game-engine-1.game-engine-week-seven .concept-grid article {
   background: var(--paper);
 }
 
-body.course-game-engine-1.game-engine-week-seven .concept-grid article:last-child {
-  border-top-color: var(--w7-accent);
-}
-
 body.course-game-engine-1.game-engine-week-seven .concept-grid span {
   color: var(--w7-accent-strong);
   font-family: var(--mono);
@@ -560,10 +547,6 @@ body.course-game-engine-1.game-engine-week-seven .concept-grid span {
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-body.course-game-engine-1.game-engine-week-seven .concept-grid article:last-child span {
-  color: var(--w7-accent-strong);
 }
 
 body.course-game-engine-1.game-engine-week-seven .concept-grid h3 {
@@ -889,10 +872,6 @@ body.course-game-engine-1.game-engine-week-seven .settings-grid article > span {
   font-weight: 600;
 }
 
-body.course-game-engine-1.game-engine-week-seven .settings-grid article:last-child > span {
-  color: var(--w7-accent-strong);
-}
-
 body.course-game-engine-1.game-engine-week-seven .settings-grid dl {
   margin: 0;
   padding: 6px 18px;
@@ -1031,7 +1010,7 @@ body.course-game-engine-1.game-engine-week-seven .copy-status {
   min-height: 0;
   margin: 0;
   padding: 0 18px;
-  color: #b4ca74;
+  color: var(--w7-code-ink);
   font-family: var(--mono);
   font-size: 12px;
 }
@@ -1040,6 +1019,14 @@ body.course-game-engine-1.game-engine-week-seven .copy-status:not(:empty) {
   min-height: 38px;
   padding-block: 9px;
   border-top: 1px solid rgba(234, 240, 236, 0.1);
+}
+
+body.course-game-engine-1.game-engine-week-seven .copy-status[data-kind="success"] {
+  color: var(--w7-code-success);
+}
+
+body.course-game-engine-1.game-engine-week-seven .copy-status[data-kind="error"] {
+  color: var(--w7-code-danger);
 }
 
 body.course-game-engine-1.game-engine-week-seven .line-reasons {
@@ -1355,8 +1342,8 @@ body.course-game-engine-1.game-engine-week-seven .test-table select {
 
 body.course-game-engine-1.game-engine-week-seven .test-identity input::placeholder,
 body.course-game-engine-1.game-engine-week-seven .test-table input::placeholder {
-  color: var(--quiet);
-  opacity: 0.72;
+  color: var(--w7-placeholder);
+  opacity: 1;
 }
 
 body.course-game-engine-1.game-engine-week-seven .test-progress {
@@ -2345,12 +2332,14 @@ body.course-game-engine-1.game-engine-week-seven :is(
     --w7-accent-soft: #213b3f;
     --w7-action-bg: #245f6d;
     --w7-action-text: #f7fbf9;
+    --w7-focus-ring: #88cad7;
     --w7-success: #b0c45a;
     --w7-success-strong: #c2d775;
     --w7-success-soft: #333b20;
     --w7-danger: #f07d60;
     --w7-danger-strong: #f39a82;
     --w7-danger-soft: #452d28;
+    --w7-placeholder: #b8c3c0;
   }
 
   body.course-game-engine-1.game-engine-week-seven .week-seven-hero-visual img {

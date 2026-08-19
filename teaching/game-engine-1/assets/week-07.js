@@ -51,7 +51,10 @@
     }
   };
 
-  const armReset = (button, { status, confirmMessage, completeMessage, onConfirm }) => {
+  const armReset = (
+    button,
+    { status, confirmMessage, cancelMessage, completeMessage, onConfirm },
+  ) => {
     if (!button) return;
 
     const defaultLabel = button.textContent;
@@ -61,13 +64,17 @@
       delete button.dataset.confirming;
       button.textContent = defaultLabel;
     };
+    const cancelReset = () => {
+      disarm();
+      if (status) status.textContent = cancelMessage;
+    };
 
     button.addEventListener("click", () => {
       if (button.dataset.confirming !== "true") {
         button.dataset.confirming = "true";
         button.textContent = button.dataset.confirmLabel ?? "한 번 더 눌러 초기화";
         if (status) status.textContent = confirmMessage;
-        resetTimer = window.setTimeout(disarm, 5000);
+        resetTimer = window.setTimeout(cancelReset, 5000);
         return;
       }
 
@@ -117,6 +124,7 @@
     armReset(buildReset, {
       status: buildStatusMessage,
       confirmMessage: "체크 8개를 모두 지우려면 버튼을 한 번 더 누르세요.",
+      cancelMessage: "초기화 요청을 취소했습니다. 현재 체크는 그대로 남아 있습니다.",
       completeMessage: "이 브라우저의 제출 체크를 초기화했습니다.",
       onConfirm: () => {
         for (const check of checks) check.checked = false;
@@ -211,7 +219,7 @@
 
     const spreadsheetSafe = (value) => {
       const text = String(value ?? "");
-      return /^[=+\-@]/.test(text) ? `'${text}` : text;
+      return /^[=+\-@\t\r\n]/.test(text) ? `'${text}` : text;
     };
 
     const csvCell = (value) => `"${spreadsheetSafe(value).replaceAll('"', '""')}"`;
@@ -277,6 +285,7 @@
     armReset(resetTests, {
       status: testStatusMessage,
       confirmMessage: "학번, 이름과 테스트 기록을 모두 지우려면 버튼을 한 번 더 누르세요.",
+      cancelMessage: "초기화 요청을 취소했습니다. 현재 테스트 기록은 그대로 남아 있습니다.",
       completeMessage: "이 탭의 학생 정보와 이 브라우저의 테스트 기록을 초기화했습니다.",
       onConfirm: () => {
         if (studentId) studentId.value = "";
@@ -302,6 +311,7 @@
   if (stateLab) {
     const stateScreen = stateLab.querySelector("[data-state-screen]");
     const stateValue = stateLab.querySelector("[data-state-value]");
+    const stateReadoutValue = stateLab.querySelector("[data-state-readout-value]");
     const scoreValue = stateLab.querySelector("[data-score-value]");
     const timeValue = stateLab.querySelector("[data-time-value]");
     const stateMessage = stateLab.querySelector("[data-state-message]");
@@ -323,6 +333,7 @@
       const current = labels[model.state];
       if (stateScreen) stateScreen.dataset.state = model.state;
       if (stateValue) stateValue.textContent = current.name;
+      if (stateReadoutValue) stateReadoutValue.textContent = current.name;
       if (scoreValue) scoreValue.textContent = `${model.score} / 3`;
       if (timeValue) timeValue.textContent = `${model.time.toFixed(1)}초`;
       if (stateMessage) stateMessage.textContent = current.message;
@@ -371,8 +382,6 @@
     renderState();
   }
 
-  const copyStatus = document.querySelector("[data-copy-status]");
-
   const fallbackCopy = (text) => {
     const textarea = document.createElement("textarea");
     textarea.value = text;
@@ -388,6 +397,9 @@
 
   for (const button of document.querySelectorAll("[data-copy-code]")) {
     button.addEventListener("click", async () => {
+      const copyStatus = button
+        .closest(".code-panel")
+        ?.querySelector("[data-copy-status]");
       const code = document.getElementById(button.dataset.copyCode)?.textContent ?? "";
       let copied = false;
 
@@ -399,6 +411,7 @@
       }
 
       if (copyStatus) {
+        copyStatus.dataset.kind = copied ? "success" : "error";
         copyStatus.textContent = copied
           ? "코드를 복사했습니다. 수업에서는 각 줄의 역할을 확인하며 직접 입력하세요."
           : "복사하지 못했습니다. 코드 영역을 직접 선택해 복사하세요.";

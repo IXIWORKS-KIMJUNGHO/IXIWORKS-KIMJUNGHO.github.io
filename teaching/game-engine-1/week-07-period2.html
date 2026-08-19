@@ -140,7 +140,8 @@
           <li><span class="step-number">01</span><div><h3>Canvas와 세 레이어</h3><p>최상위 Canvas 안에 <code>HUD</code>, <code>StartPanel</code>, <code>ResultPanel</code>을 만듭니다. HUD에는 TextMeshPro UI Text인 ScoreText와 TimerText를, 각 Panel에는 한 개의 UI Button을 둡니다. 처음 TMP 가져오기 창이 보이면 Essential Resources를 한 번 가져옵니다.</p><p class="step-check"><strong>확인</strong> Game View 비율을 바꿔도 HUD가 화면 모서리, Panel이 중앙 기준을 유지합니다.</p></div></li>
           <li><span class="step-number">02</span><div><h3>GameManager와 AudioSource</h3><p>빈 GameObject에 <code>GameManager</code> Script와 AudioSource를 추가합니다. Play On Awake와 Loop는 끄고 수업용 효과음의 Volume을 먼저 낮게 맞춥니다.</p><p class="step-check"><strong>확인</strong> AudioSource가 하나이며 Audio Listener는 Main Camera에 하나만 있습니다.</p></div></li>
           <li><span class="step-number">03</span><div><h3>UI와 Audio 참조 할당</h3><p>GameManager Inspector의 Text, Panel, AudioSource와 AudioClip 필드에 Hierarchy와 Project의 실제 대상을 끌어 놓습니다.</p><p class="step-check"><strong>확인</strong> Play 전에 모든 필드가 None이 아니고 Console Error가 0개입니다.</p></div></li>
-          <li><span class="step-number">04</span><div><h3>Button On Click 연결</h3><p>StartButton에는 <code>GameManager.StartRound</code>, RestartButton에는 <code>GameManager.RestartScene</code>을 연결합니다.</p><p class="step-check"><strong>확인</strong> Button의 On Click 목록에서 Scene의 GameManager 오브젝트와 올바른 public 함수가 보입니다.</p></div></li>
+          <li><span class="step-number">04</span><div><h3>Scene 저장과 Scene List에 등록</h3><p><code>Assets/Scenes/Week07_Preflight.unity</code>로 저장한 뒤 <code>File → Build Profiles → Platforms → Scene List</code>에서 Add Open Scenes를 누릅니다. <code>RestartScene</code>이 사용하는 buildIndex는 이 목록에서 정해집니다.</p><p class="step-check"><strong>확인</strong> Scene 옆 체크가 켜져 있고 목록에 한 번만 들어 있습니다.</p></div></li>
+          <li><span class="step-number">05</span><div><h3>Button On Click 연결</h3><p>StartButton에는 <code>GameManager.StartRound</code>, RestartButton에는 <code>GameManager.RestartScene</code>을 연결합니다.</p><p class="step-check"><strong>확인</strong> Button의 On Click 목록에서 Scene의 GameManager 오브젝트와 올바른 public 함수가 보입니다.</p></div></li>
         </ol>
         <div class="table-wrap" role="region" aria-label="GameManager Inspector 참조 계약" tabindex="0">
           <table class="binding-table">
@@ -181,12 +182,12 @@
               <strong data-state-value>Ready</strong>
               <p data-state-message>시작 화면을 보여 주고 게임 시간은 멈춰 있습니다.</p>
             </div>
-            <dl class="state-readout">
+            <dl class="state-readout" data-state-readout role="status" aria-live="polite" aria-atomic="true">
               <div><dt>score</dt><dd data-score-value>0 / 3</dd></div>
               <div><dt>time</dt><dd data-time-value>30.0초</dd></div>
-              <div><dt>allowed</dt><dd>상태로 결정</dd></div>
+              <div><dt>state</dt><dd data-state-readout-value>Ready</dd></div>
             </dl>
-            <p class="state-lab-log" data-state-log role="status" aria-live="polite">현재 Ready입니다. 다음에 허용될 사건을 예측하세요.</p>
+            <p class="state-lab-log" data-state-log>현재 Ready입니다. 다음에 허용될 사건을 예측하세요.</p>
           </div>
         </div>
       </section>
@@ -346,8 +347,8 @@ public class GameManager : MonoBehaviour
         }
     }
 }</code></pre>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite" aria-atomic="true"></p>
         </div>
-        <p class="copy-status" data-copy-status role="status" aria-live="polite"></p>
         <div class="line-reasons">
           <article><code>CurrentState != Playing</code><p>종료 뒤 추가 수집과 중복 종료를 막는 가장 앞쪽의 문입니다.</p></article>
           <article><code>Mathf.Max(0f, ...)</code><p>남은 시간이 음수로 표시되지 않게 0에서 고정합니다.</p></article>
@@ -394,6 +395,7 @@ public class Collectible : MonoBehaviour
         gameObject.SetActive(false);
     }
 }</code></pre>
+          <p class="copy-status" data-copy-status role="status" aria-live="polite" aria-atomic="true"></p>
         </div>
         <div class="table-wrap" role="region" aria-label="수집 Trigger 실행 조건" tabindex="0">
           <table class="binding-table">
@@ -436,8 +438,8 @@ public class Collectible : MonoBehaviour
           <p>Play Mode는 개발 환경 안의 확인입니다. 중간고사 전 사전 점검에서는 실제 빌드를 열어 Scene, 입력, UI, Audio와 재시작을 다시 확인합니다.</p>
         </header>
         <ol class="build-steps">
-          <li><span class="step-number">01</span><div><h3>Scene 저장</h3><p><code>Assets/Scenes/Week07_Preflight.unity</code>로 저장하고 Play Mode를 종료합니다. 저장하지 않은 변경 표시가 없는지 확인합니다.</p><p class="step-check"><strong>확인</strong> Project 창에서 Scene 파일을 다시 선택할 수 있습니다.</p></div></li>
-          <li><span class="step-number">02</span><div><h3>Scene List에 포함</h3><p><code>File → Build Profiles → Platforms → Scene List</code>를 열고 Add Open Scenes로 현재 Scene을 추가합니다.</p><p class="step-check"><strong>확인</strong> Scene 옆 체크가 켜져 있고 목록에 한 번만 들어 있습니다.</p></div></li>
+          <li><span class="step-number">01</span><div><h3>Scene 저장</h3><p><code>Assets/Scenes/Week07_Preflight.unity</code>의 최신 변경을 저장하고 Play Mode를 종료합니다. 저장하지 않은 변경 표시가 없는지 확인합니다.</p><p class="step-check"><strong>확인</strong> Project 창에서 Scene 파일을 다시 선택할 수 있습니다.</p></div></li>
+          <li><span class="step-number">02</span><div><h3>Scene List 재확인</h3><p><code>File → Build Profiles → Platforms → Scene List</code>에서 앞서 등록한 Scene과 체크 상태를 다시 확인합니다. 빠져 있다면 Add Open Scenes로 추가합니다.</p><p class="step-check"><strong>확인</strong> Scene 옆 체크가 켜져 있고 목록에 한 번만 들어 있습니다.</p></div></li>
           <li><span class="step-number">03</span><div><h3>활성 프로파일 확인</h3><p>수업 컴퓨터에 설치된 데스크톱 플랫폼을 선택합니다. 별도 프로파일을 쓴다면 Active 표시와 Scene List를 다시 확인합니다.</p><p class="step-check"><strong>확인</strong> Build와 Build and Run 버튼이 활성 프로파일에 보입니다.</p></div></li>
           <li><span class="step-number">04</span><div><h3>Build and Run</h3><p>프로젝트 밖의 <code>Builds/Week07</code> 폴더를 선택해 빌드하고 실행합니다. 첫 빌드는 이후 증분 빌드보다 오래 걸릴 수 있습니다.</p><p class="step-check"><strong>확인</strong> 실행 파일이 열리고 Start 화면부터 시작합니다.</p></div></li>
           <li><span class="step-number">05</span><div><h3>빌드 회귀 테스트</h3><p>성공, 재시작, 실패를 한 번씩 재현합니다. Editor에서만 작동하고 빌드에서 실패하면 Scene List와 Inspector 참조부터 확인합니다.</p><p class="step-check"><strong>확인</strong> 세 흐름을 연속 실행해도 점수와 수집물이 모두 초기화됩니다.</p></div></li>
@@ -481,11 +483,11 @@ public class Collectible : MonoBehaviour
           <p>Audio 재생, 시간 정지, Scene 재로드와 Unity 6 Build Profiles 절차를 공식 문서로 다시 확인할 수 있습니다.</p>
         </header>
         <ul class="reference-list">
-          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/AudioSource.PlayOneShot.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource.PlayOneShot ↗</strong></a><span>AudioClip을 한 번 재생하고 이미 재생 중인 One Shot을 취소하지 않는 동작</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/Manual/time-scale.html" target="_blank" rel="noopener noreferrer"><strong>게임 내 시간 및 실시간 ↗</strong></a><span>Time.timeScale 0의 의미와 UI가 계속 상호작용할 수 있는 이유</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/SceneManagement.SceneManager.LoadScene.html" target="_blank" rel="noopener noreferrer"><strong>SceneManager.LoadScene ↗</strong></a><span>Scene 이름 또는 buildIndex로 Scene을 로드하는 함수</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/Manual/build-profiles.html" target="_blank" rel="noopener noreferrer"><strong>빌드 프로파일 소개 ↗</strong></a><span>Unity 6에서 플랫폼별 Build Profiles를 관리하는 방식</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/Manual/build-profile-scene-list.html" target="_blank" rel="noopener noreferrer"><strong>빌드의 씬 관리 ↗</strong></a><span>Scene List에 Scene을 추가, 제외, 제거하고 순서를 바꾸는 절차</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AudioSource.PlayOneShot.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource.PlayOneShot ↗</strong></a><span>Unity 6.3 LTS에서 AudioClip을 한 번 재생하고 기존 One Shot을 유지하는 동작</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/time-scale.html" target="_blank" rel="noopener noreferrer"><strong>게임 내 시간 및 실시간 ↗</strong></a><span>Time.timeScale 0의 의미와 UI가 계속 상호작용할 수 있는 이유</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html" target="_blank" rel="noopener noreferrer"><strong>SceneManager.LoadScene ↗</strong></a><span>Scene 이름 또는 buildIndex로 Scene을 로드하는 함수</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles.html" target="_blank" rel="noopener noreferrer"><strong>빌드 프로파일 소개 ↗</strong></a><span>Unity 6.3 LTS에서 플랫폼별 Build Profiles를 관리하는 방식</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profile-scene-list.html" target="_blank" rel="noopener noreferrer"><strong>빌드의 씬 관리 ↗</strong></a><span>Scene List에 Scene을 추가, 제외, 제거하고 순서를 바꾸는 절차</span></li>
         </ul>
       </section>
     </article>

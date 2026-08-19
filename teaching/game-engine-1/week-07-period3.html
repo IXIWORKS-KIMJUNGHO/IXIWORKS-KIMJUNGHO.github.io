@@ -132,6 +132,7 @@
         </div>
         <div class="line-reasons">
           <article><code>File → Save As</code><p>이전 주차 Scene을 덮어쓰지 않고 <code>Assets/Scenes/Week07_Preflight.unity</code>로 저장합니다.</p></article>
+          <article><code>Build Profiles → Scene List</code><p>저장 직후 Add Open Scenes로 새 Scene을 Scene List에 등록하고 체크를 켭니다. 그래야 이후 <code>RestartScene()</code>의 buildIndex 테스트가 유효합니다.</p></article>
           <article><code>Play → Move → Collect</code><p>새 기능을 붙이기 전에 이동, 벽 충돌, Camera와 기존 Trigger가 여전히 작동하는지 확인합니다.</p></article>
           <article><code>Console → Clear</code><p>기존 빨간 오류를 먼저 해결합니다. 이전 오류와 새 UI 오류가 섞이면 원인을 판단하기 어렵습니다.</p></article>
           <article><code>Period 02 reference</code><p>기준 코드가 필요하면 <a href="week-07-period2.html#manager">2교시 GameManager</a>와 <a href="week-07-period2.html#collectible">Collectible</a>을 읽고 현재 Scene 이름과 참조에 맞게 적용합니다.</p></article>
@@ -148,12 +149,12 @@
           <section class="agenda-phase agenda-phase-build" aria-labelledby="student-route-title">
             <header><span>권장 시간 · 순서 변경 가능</span><h3 id="student-route-title">여섯 개의 중간 도착점</h3><p>Individual work</p></header>
             <ol>
-              <li><time>00-05</time><div><strong>계약과 시작 상태</strong><p>Scene을 복제하고 고정 목표, 제출 증거와 자신이 먼저 해결할 두 항목을 표시합니다.</p></div></li>
+              <li><time>00-05</time><div><strong>계약과 Scene 등록</strong><p>Scene을 복제해 저장하고 Scene List에 등록한 뒤, 고정 목표와 제출 증거를 확인합니다.</p></div></li>
               <li><time>05-16</time><div><strong>UI와 참조 준비</strong><p>HUD, StartPanel, ResultPanel, AudioSource와 GameManager의 Inspector 참조가 모두 존재하게 합니다.</p></div></li>
               <li><time>16-31</time><div><strong>상태와 사건 연결</strong><p>Start, 타이머, 수집 점수, Won과 Lost가 한 상태 흐름 안에서 동작하게 합니다.</p></div></li>
               <li><time>31-41</time><div><strong>피드백과 재시작</strong><p>세 효과음, 결과 문구와 Restart를 연결하고 두 종료 상태에서 다시 시작해 봅니다.</p></div></li>
               <li><time>41-52</time><div><strong>Editor 검증</strong><p>T01부터 T07까지 실행하며 한 번에 한 원인만 수정하고 관찰 내용을 기록합니다.</p></div></li>
-              <li><time>52-60</time><div><strong>Build와 증거</strong><p>Scene List, Build and Run, T08 전체 루프, CSV와 화면 증거 파일명을 확인합니다.</p></div></li>
+              <li><time>52-60</time><div><strong>Build와 증거</strong><p>Scene List 등록 상태를 재확인하고 Build and Run, T08 전체 루프, CSV와 화면 증거 파일명을 확인합니다.</p></div></li>
             </ol>
           </section>
         </div>
@@ -205,7 +206,7 @@
         </aside>
         <div class="test-identity">
           <label>학번<input type="text" inputmode="numeric" autocomplete="off" placeholder="20260000" data-student-id></label>
-          <label>이름<input type="text" autocomplete="name" placeholder="이름" data-student-name></label>
+          <label>이름<input type="text" autocomplete="off" placeholder="이름" data-student-name></label>
         </div>
         <div class="test-progress" data-test-progress role="status" aria-live="polite" aria-atomic="true"><span>필수 테스트 진행</span><strong data-test-progress-label>0 / 8 PASS</strong></div>
         <div class="table-wrap test-table-wrap" role="region" aria-label="7주차 UI, Audio, 상태와 빌드 테스트표" tabindex="0">
@@ -308,11 +309,11 @@
           <p>검색 결과보다 현재 사용하는 Unity 버전의 공식 문서를 먼저 확인합니다.</p>
         </header>
         <ul class="reference-list">
-          <li><a href="https://docs.unity3d.com/kr/current/Manual/class-Canvas.html" target="_blank" rel="noopener noreferrer"><strong>Canvas ↗</strong></a><span>화면 공간 UI와 Render Mode의 공식 설명</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/AudioSource.PlayOneShot.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource.PlayOneShot ↗</strong></a><span>짧은 효과음을 한 번 재생하는 함수</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/ScriptReference/SceneManagement.SceneManager.LoadScene.html" target="_blank" rel="noopener noreferrer"><strong>SceneManager.LoadScene ↗</strong></a><span>현재 Scene을 이름 또는 buildIndex로 다시 불러오는 방법</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/Manual/build-profile-scene-list.html" target="_blank" rel="noopener noreferrer"><strong>빌드의 씬 관리 ↗</strong></a><span>Build Profiles의 Scene List에 현재 Scene을 포함하는 절차</span></li>
-          <li><a href="https://docs.unity3d.com/kr/current/Manual/build-profiles-reference.html" target="_blank" rel="noopener noreferrer"><strong>빌드 프로파일 창 레퍼런스 ↗</strong></a><span>Build, Build and Run과 Development Build 설정</span></li>
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/UICanvas.html" target="_blank" rel="noopener noreferrer"><strong>Canvas ↗</strong></a><span>Unity UI 2.0의 화면 공간 UI와 Render Mode</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AudioSource.PlayOneShot.html" target="_blank" rel="noopener noreferrer"><strong>AudioSource.PlayOneShot ↗</strong></a><span>Unity 6.3 LTS에서 짧은 효과음을 한 번 재생하는 함수</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html" target="_blank" rel="noopener noreferrer"><strong>SceneManager.LoadScene ↗</strong></a><span>현재 Scene을 이름 또는 buildIndex로 다시 불러오는 방법</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profile-scene-list.html" target="_blank" rel="noopener noreferrer"><strong>빌드의 씬 관리 ↗</strong></a><span>Build Profiles의 Scene List에 현재 Scene을 포함하는 절차</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles-reference.html" target="_blank" rel="noopener noreferrer"><strong>빌드 프로파일 창 레퍼런스 ↗</strong></a><span>Build, Build and Run과 Development Build 설정</span></li>
         </ul>
       </section>
     </article>

@@ -85,19 +85,28 @@ const validateStructure = (html, label) => {
   }
 };
 
-const readWeekSeven = async () =>
-  Promise.all([
-    readFile(resolve(courseDirectory, "index.html"), "utf8"),
-    readFile(resolve(courseDirectory, "week-05-period3.html"), "utf8"),
-    readFile(resolve(courseDirectory, "week-07-period1.html"), "utf8"),
-    readFile(resolve(courseDirectory, "week-07-period2.html"), "utf8"),
-    readFile(resolve(courseDirectory, "week-07-period3.html"), "utf8"),
-    readFile(resolve(assetDirectory, "week-07.css"), "utf8"),
-    readFile(resolve(assetDirectory, "week-07.js"), "utf8"),
-  ]);
+const fixturePaths = {
+  courseIndex: resolve(courseDirectory, "index.html"),
+  previousLesson: resolve(courseDirectory, "week-05-period3.html"),
+  period1: resolve(courseDirectory, "week-07-period1.html"),
+  period2: resolve(courseDirectory, "week-07-period2.html"),
+  period3: resolve(courseDirectory, "week-07-period3.html"),
+  stylesheet: resolve(assetDirectory, "week-07.css"),
+  script: resolve(assetDirectory, "week-07.js"),
+};
+
+const readFixture = (name) => readFile(fixturePaths[name], "utf8");
+const readWeekSevenPages = () =>
+  Promise.all([readFixture("period1"), readFixture("period2"), readFixture("period3")]);
 
 test("Game Engine I week 7 is published as three connected periods", async () => {
-  const [courseIndex, previousLesson, period1, period2, period3] = await readWeekSeven();
+  const [courseIndex, previousLesson, period1, period2, period3] = await Promise.all([
+    readFixture("courseIndex"),
+    readFixture("previousLesson"),
+    readFixture("period1"),
+    readFixture("period2"),
+    readFixture("period3"),
+  ]);
   const siteConfig = await readFile(resolve(root, "scripts", "site-config.mjs"), "utf8");
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
 
@@ -129,14 +138,14 @@ test("Game Engine I week 7 is published as three connected periods", async () =>
 });
 
 test("week 7 documents have balanced HTML, unique IDs, and valid local fragments", async () => {
-  const [, , period1, period2, period3] = await readWeekSeven();
+  const [period1, period2, period3] = await readWeekSevenPages();
   validateStructure(period1, "period 1");
   validateStructure(period2, "period 2");
   validateStructure(period3, "period 3");
 });
 
 test("periods 1 and 2 are professor-led while period 3 is goal-directed individual work", async () => {
-  const [, , period1, period2, period3] = await readWeekSeven();
+  const [period1, period2, period3] = await readWeekSevenPages();
 
   for (const period of [period1, period2]) {
     assert.ok(period.includes("교수자"));
@@ -159,7 +168,7 @@ test("periods 1 and 2 are professor-led while period 3 is goal-directed individu
 });
 
 test("period 1 explains state, data, HUD, and feedback as separate responsibilities", async () => {
-  const [, , period1] = await readWeekSeven();
+  const period1 = await readFixture("period1");
 
   for (const sectionId of [
     "arrival",
@@ -194,7 +203,10 @@ test("period 1 explains state, data, HUD, and feedback as separate responsibilit
 });
 
 test("period 2 provides a coherent state implementation and Unity 6 build path", async () => {
-  const [, , , period2, , , script] = await readWeekSeven();
+  const [period2, script] = await Promise.all([
+    readFixture("period2"),
+    readFixture("script"),
+  ]);
 
   for (const pattern of [
     /public enum GameState/,
@@ -233,7 +245,11 @@ test("period 2 provides a coherent state implementation and Unity 6 build path",
 });
 
 test("period 3 has eight measurable gates, persistent records, and build evidence", async () => {
-  const [, , , , period3, stylesheet, script] = await readWeekSeven();
+  const [period3, stylesheet, script] = await Promise.all([
+    readFixture("period3"),
+    readFixture("stylesheet"),
+    readFixture("script"),
+  ]);
 
   assert.equal(
     [...period3.matchAll(/data-test-id=/g)].length,
@@ -293,28 +309,48 @@ test("period 3 has eight measurable gates, persistent records, and build evidenc
   }
 });
 
-test("week 7 uses generated raster visuals and current Unity primary sources", async () => {
-  const [, , period1, period2, period3] = await readWeekSeven();
+test("week 7 CSV export neutralizes spreadsheet formula prefixes", async () => {
+  const script = await readFixture("script");
+  const helperSource = script.match(
+    /const spreadsheetSafe = \(value\) => \{([\s\S]*?)\n    \};/,
+  );
+  assert.ok(helperSource, "spreadsheetSafe helper must remain inspectable");
+
+  const spreadsheetSafe = Function(
+    `return (value) => {${helperSource[1]}};`,
+  )();
+  for (const dangerous of ["=1+1", "+1", "-1", "@SUM(A1)", "\t=1", "\r=1", "\n=1"]) {
+    assert.equal(spreadsheetSafe(dangerous), `'${dangerous}`);
+  }
+  assert.equal(spreadsheetSafe("관찰 기록"), "관찰 기록");
+});
+
+test("week 7 uses generated raster visuals and version-pinned Unity primary sources", async () => {
+  const [period1, period2, period3] = await readWeekSevenPages();
   const combined = `${period1}\n${period2}\n${period3}`;
 
   assert.doesNotMatch(combined, /week-07[^"']*\.svg/);
   assert.doesNotMatch(combined, /[—–]/);
+  assert.doesNotMatch(combined, /docs\.unity3d\.com\/(?:kr\/)?current\//);
 
   for (const officialUrl of [
-    "https://docs.unity3d.com/kr/current/Manual/class-Canvas.html",
-    "https://docs.unity3d.com/kr/current/Manual/script-CanvasScaler.html",
-    "https://docs.unity3d.com/kr/current/ScriptReference/AudioSource.PlayOneShot.html",
-    "https://docs.unity3d.com/kr/current/Manual/time-scale.html",
-    "https://docs.unity3d.com/kr/current/ScriptReference/SceneManagement.SceneManager.LoadScene.html",
-    "https://docs.unity3d.com/kr/current/Manual/build-profiles.html",
-    "https://docs.unity3d.com/kr/current/Manual/build-profile-scene-list.html",
+    "https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/UICanvas.html",
+    "https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/script-CanvasScaler.html",
+    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AudioSource.html",
+    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AudioSource.PlayOneShot.html",
+    "https://docs.unity3d.com/6000.3/Documentation/Manual/time-scale.html",
+    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html",
+    "https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles.html",
+    "https://docs.unity3d.com/6000.3/Documentation/Manual/build-profile-scene-list.html",
+    "https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles-reference.html",
   ]) {
     assert.ok(combined.includes(officialUrl), `missing official Unity source: ${officialUrl}`);
   }
 });
 
 test("week 7 action colors stay readable while success and danger remain semantic", async () => {
-  const [, , , , , stylesheet] = await readWeekSeven();
+  const stylesheet = await readFixture("stylesheet");
+  const teachingStyles = await readFile(resolve(root, "assets", "teaching.css"), "utf8");
   const darkModeStart = stylesheet.indexOf("@media (prefers-color-scheme: dark)");
   const darkModeEnd = stylesheet.indexOf(
     "@media (prefers-reduced-transparency: reduce)",
@@ -324,13 +360,38 @@ test("week 7 action colors stay readable while success and danger remain semanti
 
   const lightMode = stylesheet.slice(0, darkModeStart);
   const darkMode = stylesheet.slice(darkModeStart, darkModeEnd);
+  const teachingDarkModeStart = teachingStyles.indexOf("@media (prefers-color-scheme: dark)");
+  const lightPaper = readHexToken(
+    teachingStyles.slice(0, teachingDarkModeStart),
+    "--paper",
+  );
+  const darkPaper = readHexToken(
+    teachingStyles.slice(teachingDarkModeStart),
+    "--paper",
+  );
 
-  for (const theme of [lightMode, darkMode]) {
+  for (const [theme, paper] of [[lightMode, lightPaper], [darkMode, darkPaper]]) {
     const actionBackground = readHexToken(theme, "--w7-action-bg");
     const actionText = readHexToken(theme, "--w7-action-text");
     assert.ok(
       contrastRatio(actionText, actionBackground) >= 4.5,
       `${actionText} on ${actionBackground} must meet WCAG AA`,
+    );
+    for (const [foregroundToken, backgroundToken] of [
+      ["--w7-success-strong", "--w7-success-soft"],
+      ["--w7-danger-strong", "--w7-danger-soft"],
+    ]) {
+      const foreground = readHexToken(theme, foregroundToken);
+      const background = readHexToken(theme, backgroundToken);
+      assert.ok(
+        contrastRatio(foreground, background) >= 4.5,
+        `${foregroundToken} on ${backgroundToken} must meet WCAG AA`,
+      );
+    }
+    const focusRing = readHexToken(theme, "--w7-focus-ring");
+    assert.ok(
+      contrastRatio(focusRing, paper) >= 3,
+      `${focusRing} focus ring on ${paper} must meet non-text contrast`,
     );
   }
 
@@ -349,10 +410,14 @@ test("week 7 action colors stay readable while success and danger remain semanti
   );
   assert.ok(primaryActionRule, "primary test action rule must exist");
   assert.doesNotMatch(primaryActionRule[1], /--w7-success(?:-strong)?/);
+  assert.match(stylesheet, /:focus-visible\s*\{[\s\S]*?outline:\s*3px solid var\(--w7-focus-ring\);/);
+  const focusRule = stylesheet.match(/:focus-visible\s*\{([^}]*)\}/);
+  assert.ok(focusRule, "focus-visible rule must exist");
+  assert.doesNotMatch(focusRule[1], /transparent|color-mix/);
 });
 
 test("week 7 keeps student-facing copy and controls readable", async () => {
-  const [, , , , , stylesheet] = await readWeekSeven();
+  const stylesheet = await readFixture("stylesheet");
 
   assert.doesNotMatch(
     stylesheet,
@@ -385,7 +450,10 @@ test("week 7 keeps student-facing copy and controls readable", async () => {
 });
 
 test("week 7 keeps anchored sections and the test sheet usable on mobile", async () => {
-  const [, , , , periodThree, stylesheet] = await readWeekSeven();
+  const [periodThree, stylesheet] = await Promise.all([
+    readFixture("period3"),
+    readFixture("stylesheet"),
+  ]);
 
   assert.match(
     stylesheet,
@@ -425,7 +493,11 @@ test("week 7 keeps anchored sections and the test sheet usable on mobile", async
 });
 
 test("week 7 protects student identity and makes destructive resets recoverable", async () => {
-  const [, , , , periodThree, stylesheet, script] = await readWeekSeven();
+  const [periodThree, stylesheet, script] = await Promise.all([
+    readFixture("period3"),
+    readFixture("stylesheet"),
+    readFixture("script"),
+  ]);
 
   assert.match(script, /const testIdentityKey = "game-engine-1-week-07-identity-v1";/);
   assert.match(script, /sessionStorage\.getItem\(key\)/);
@@ -438,10 +510,17 @@ test("week 7 protects student identity and makes destructive resets recoverable"
   );
   assert.ok(testSerializer, "test and identity serializers must stay separate");
   assert.doesNotMatch(testSerializer[0], /identity|student(?:Id|Name)/);
+  assert.match(periodThree, /data-student-name[^>]*autocomplete="off"|autocomplete="off"[^>]*data-student-name/);
+  assert.doesNotMatch(periodThree, /data-student-name[^>]*autocomplete="name"|autocomplete="name"[^>]*data-student-name/);
 
   assert.match(script, /const armReset = \(/);
   assert.match(script, /button\.dataset\.confirming = "true";/);
   assert.match(script, /if \(button\.dataset\.confirming !== "true"\)/);
+  assert.match(
+    script,
+    /const cancelReset = \(\) => \{[\s\S]*?disarm\(\);[\s\S]*?status\.textContent = cancelMessage;/,
+  );
+  assert.equal((script.match(/cancelMessage:/g) ?? []).length, 2);
   assert.match(periodThree, /data-reset-tests[^>]*>기록 초기화<\/button>/);
   assert.match(periodThree, /data-build-reset[^>]*>체크 초기화<\/button>/);
   assert.match(
@@ -459,8 +538,83 @@ test("week 7 protects student identity and makes destructive resets recoverable"
   );
 });
 
+test("week 7 keeps copy, simulator, and placeholder feedback local and perceivable", async () => {
+  const [periodTwo, stylesheet, script] = await Promise.all([
+    readFixture("period2"),
+    readFixture("stylesheet"),
+    readFixture("script"),
+  ]);
+
+  assert.equal((periodTwo.match(/data-copy-status/g) ?? []).length, 2);
+  for (const codeId of ["game-manager-code", "collectible-code"]) {
+    assert.match(
+      periodTwo,
+      new RegExp(
+        `data-copy-code="${codeId}"[\\s\\S]*?<pre>[\\s\\S]*?<p class="copy-status" data-copy-status role="status" aria-live="polite" aria-atomic="true">`,
+      ),
+    );
+  }
+  assert.match(
+    script,
+    /button\s*\.closest\("\.code-panel"\)\s*\?\.querySelector\("\[data-copy-status\]"\)/,
+  );
+  assert.match(script, /copyStatus\.dataset\.kind = copied \? "success" : "error";/);
+  assert.match(stylesheet, /\.copy-status\[data-kind="success"\][\s\S]*?--w7-code-success/);
+  assert.match(stylesheet, /\.copy-status\[data-kind="error"\][\s\S]*?--w7-code-danger/);
+
+  assert.match(
+    periodTwo,
+    /data-state-readout[^>]*role="status"[^>]*aria-live="polite"[^>]*aria-atomic="true"/,
+  );
+  assert.match(periodTwo, /data-state-readout-value>Ready</);
+  assert.match(script, /stateReadoutValue\.textContent = current\.name;/);
+
+  assert.match(
+    stylesheet,
+    /input::placeholder\s*\{[\s\S]*?color:\s*var\(--w7-placeholder\);[\s\S]*?opacity:\s*1;/,
+  );
+  assert.doesNotMatch(stylesheet, /input::placeholder\s*\{[\s\S]*?opacity:\s*0\./);
+});
+
+test("week 7 registers the saved scene before restart testing", async () => {
+  const [periodTwo, periodThree] = await Promise.all([
+    readFixture("period2"),
+    readFixture("period3"),
+  ]);
+  const teacherSceneSetup = periodTwo.slice(
+    periodTwo.indexOf('id="scene"'),
+    periodTwo.indexOf('id="simulation"'),
+  );
+  const studentRoute = periodThree.slice(
+    periodThree.indexOf('id="route"'),
+    periodThree.indexOf('id="tests"'),
+  );
+  const teacherRegistration = teacherSceneSetup.indexOf("Scene List에 등록");
+  const teacherRestart = teacherSceneSetup.indexOf("Button On Click 연결");
+  const studentRegistration = studentRoute.indexOf("Scene List에 등록");
+  const studentRestart = studentRoute.indexOf("피드백과 재시작");
+
+  assert.ok(teacherRegistration >= 0, "teacher flow must include Scene List registration");
+  assert.ok(teacherRestart >= 0, "teacher flow must include Restart button wiring");
+  assert.ok(
+    teacherRegistration < teacherRestart,
+    "teacher flow must register the scene before wiring and testing Restart",
+  );
+  assert.ok(studentRegistration >= 0, "student flow must include Scene List registration");
+  assert.ok(studentRestart >= 0, "student flow must include Restart testing");
+  assert.ok(
+    studentRegistration < studentRestart,
+    "student flow must register the scene before testing Restart",
+  );
+});
+
 test("week 7 uses a calm learning hierarchy instead of repeated dashboard chrome", async () => {
-  const [, , periodOne, periodTwo, periodThree, stylesheet] = await readWeekSeven();
+  const [periodOne, periodTwo, periodThree, stylesheet] = await Promise.all([
+    readFixture("period1"),
+    readFixture("period2"),
+    readFixture("period3"),
+    readFixture("stylesheet"),
+  ]);
 
   for (const page of [periodOne, periodTwo, periodThree]) {
     assert.doesNotMatch(page, /hero-facts|toc-legend/);
@@ -486,7 +640,7 @@ test("week 7 uses a calm learning hierarchy instead of repeated dashboard chrome
 });
 
 test("week 7 reserves semantic colors and motion for meaningful feedback", async () => {
-  const [, , , , , stylesheet] = await readWeekSeven();
+  const stylesheet = await readFixture("stylesheet");
 
   assert.doesNotMatch(stylesheet, /--w7-(?:coral|cyan|lime)(?:-dark|-soft)?:/);
   assert.doesNotMatch(stylesheet, /var\(--w7-(?:coral|cyan|lime)(?:-dark|-soft)?\)/);
