@@ -98,6 +98,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-09-period3-selection-mission.webp",
     alt: "같은 숲의 배달부 후보 세 장 중 한 장을 연두색 틀로 선택하고 다섯 색 팔레트와 여덟 검증 표식을 배치한 개인 작업대",
   }),
+  "teaching/game-engine-1/week-10-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-10-period1-asset-readiness.webp",
+    alt: "여러 캐릭터 후보가 픽셀 격자와 피벗, 투명 경계, 다섯 개 검증 관문을 갖춘 하나의 게임 에셋으로 정리되는 작업대",
+  }),
+  "teaching/game-engine-1/week-10-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-10-period2-integration-pipeline.webp",
+    alt: "배경이 남은 캐릭터 후보가 투명 배경의 정리된 Sprite, 같은 기준선의 네 프레임, 게임과 UI에 통합된 결과로 이어지는 작업대",
+  }),
+  "teaching/game-engine-1/week-10-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-10-period3-asset-kit-mission.webp",
+    alt: "네 캐릭터 프레임, 수집물, 위험, 목표 아이콘, UI 패널이 여덟 검증등과 함께 실제 숲 게임 장면에서 작동하는 개인 미션 보드",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",

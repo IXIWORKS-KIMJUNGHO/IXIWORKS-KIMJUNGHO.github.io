@@ -30,8 +30,15 @@
 
   const announceStorageFailure = (statusMessage) => {
     if (!statusMessage) return;
+    statusMessage.dataset.storageError = "true";
     statusMessage.textContent =
       "브라우저 저장을 사용할 수 없습니다. 현재 화면은 계속 사용할 수 있지만 새로 고치면 기록이 사라질 수 있습니다.";
+  };
+
+  const announceStorageRecovery = (statusMessage, message) => {
+    if (statusMessage?.dataset.storageError !== "true") return;
+    delete statusMessage.dataset.storageError;
+    statusMessage.textContent = message;
   };
 
   const attachConfirmingReset = ({ button, statusMessage, onConfirm }) => {
@@ -68,7 +75,7 @@
       onConfirm();
     });
 
-    button.addEventListener("keydown", (event) => {
+    document.addEventListener("keydown", (event) => {
       if (event.key === "Escape" && button.dataset.confirming === "true") {
         cancelConfirmation("초기화가 취소되었습니다.");
       }
@@ -104,6 +111,7 @@
           .map((check) => check.dataset.checkId),
       );
       if (!stored) announceStorageFailure(buildStatusMessage);
+      else announceStorageRecovery(buildStatusMessage, "브라우저 저장을 다시 사용할 수 있습니다. 체크 결과를 저장했습니다.");
     };
 
     for (const check of checks) {
@@ -122,6 +130,7 @@
         const removed = removeStorage(buildStorageKey);
         renderBuildProgress();
         if (removed && buildStatusMessage) {
+          delete buildStatusMessage.dataset.storageError;
           buildStatusMessage.textContent = "체크 기록을 초기화했습니다.";
         } else if (!removed) {
           announceStorageFailure(buildStatusMessage);
@@ -197,6 +206,7 @@
     const saveTests = () => {
       const stored = writeStorage(testStorageKey, serializeTests());
       if (!stored) announceStorageFailure(testStatusMessage);
+      else announceStorageRecovery(testStatusMessage, "브라우저 저장을 다시 사용할 수 있습니다. 테스트 기록을 저장했습니다.");
       renderTestProgress();
     };
 
@@ -288,6 +298,7 @@
         const removed = removeStorage(testStorageKey);
         renderTestProgress();
         if (removed && testStatusMessage) {
+          delete testStatusMessage.dataset.storageError;
           testStatusMessage.textContent = "이 브라우저의 테스트 기록을 초기화했습니다.";
         } else if (!removed) {
           announceStorageFailure(testStatusMessage);
@@ -424,6 +435,16 @@
   for (const entry of entries) {
     entry.link.addEventListener("click", () => {
       setCurrent(entry.id);
+      if (matchMedia("(max-width: 980px)").matches) {
+        const hadTabindex = entry.target.hasAttribute("tabindex");
+        entry.target.setAttribute("tabindex", "-1");
+        entry.target.focus({ preventScroll: true });
+        if (!hadTabindex) {
+          entry.target.addEventListener("blur", () => entry.target.removeAttribute("tabindex"), {
+            once: true,
+          });
+        }
+      }
       setTocOpen(false);
     });
   }
