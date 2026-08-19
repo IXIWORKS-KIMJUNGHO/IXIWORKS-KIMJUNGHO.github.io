@@ -75,6 +75,12 @@ const courses = {
           title: "2주차 3교시: 작은 Playground 완성 미션 | Game Engine I",
         },
       },
+      "week-15-period3.html": {
+        next: {
+          href: "./#week-16",
+          title: "16주차 기말 제출",
+        },
+      },
     },
   },
   "media-art-programming": {

@@ -1,11 +1,15 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { readFile, stat } from "node:fs/promises";
 import { resolve } from "node:path";
 import test from "node:test";
+import { promisify } from "node:util";
+import { runInNewContext } from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
 const courseDirectory = resolve(root, "teaching", "game-engine-1");
 const assetDirectory = resolve(courseDirectory, "assets");
+const execFileAsync = promisify(execFile);
 
 const validateStructure = (html, label) => {
   const voidElements = new Set([
@@ -94,6 +98,10 @@ const readWeekFifteen = async () =>
 test("Game Engine I week 15 is published as three connected release-review periods", async () => {
   const [courseIndex, period1, period2, period3] = await readWeekFifteen();
   const siteConfig = await readFile(resolve(root, "scripts", "site-config.mjs"), "utf8");
+  const navigationScript = await readFile(
+    resolve(root, "scripts", "refresh-teaching-navigation.mjs"),
+    "utf8",
+  );
   const sitemap = await readFile(resolve(root, "sitemap.xml"), "utf8");
   const imageNames = [
     "week-15-period1-release-gates.webp",
@@ -114,7 +122,14 @@ test("Game Engine I week 15 is published as three connected release-review perio
   assert.match(period2, /href="week-15-period1\.html" rel="prev"/);
   assert.match(period2, /href="week-15-period3\.html" rel="next"/);
   assert.match(period3, /href="week-15-period2\.html" rel="prev"/);
-  assert.match(period3, /href="\.\/#week-16"/);
+  assert.match(
+    period3,
+    /class="lesson-sequence"[\s\S]*href="\.\/#week-16" rel="next"/,
+  );
+  assert.match(
+    navigationScript,
+    /"week-15-period3\.html"[\s\S]*next:[\s\S]*href: "\.\/#week-16"/,
+  );
 });
 
 test("week 15 keeps two professor-led periods and one goal-directed individual mission", async () => {
@@ -146,11 +161,13 @@ test("week 15 keeps two professor-led periods and one goal-directed individual m
   for (const [index, html] of [period1, period2, period3].entries()) {
     validateStructure(html, `period ${index + 1}`);
     assert.doesNotMatch(visibleText(html), /[—–]/, `period ${index + 1} contains a forbidden dash glyph`);
+    assert.doesNotMatch(visibleText(html), /\s,/, `period ${index + 1} contains a space before a comma`);
     assert.ok(
       [...html.matchAll(/class="section-index"/g)].length <= 4,
       `period ${index + 1} overuses section index labels`,
     );
     assert.doesNotMatch(html, /class="hero-facts"/);
+    assert.doesNotMatch(html, /data-toc-link/, `period ${index + 1} contains an unused TOC hook`);
 
     const lead = html.match(/<p class="lead">([\s\S]*?)<\/p>/)?.[1]
       .replace(/<[^>]+>/g, " ")
@@ -279,7 +296,7 @@ test("period 3 closes one release risk through a bounded mission and eight publi
 });
 
 test("week 15 interaction stores only release evidence and exports spreadsheet-safe CSV", async () => {
-  const [, , , , , script] = await readWeekFifteen();
+  const [, , , period3, , script] = await readWeekFifteen();
 
   for (const pattern of [
     /game-engine-1-week-15-tests-v1/,
@@ -298,6 +315,115 @@ test("week 15 interaction stores only release evidence and exports spreadsheet-s
 
   assert.doesNotMatch(script, /studentName|studentId|학번|이름|innerHTML/);
   assert.doesNotMatch(script, /addEventListener\(["']scroll["']/);
+  assert.match(period3, /role="region" aria-label="15주차 릴리스 테스트 기록표" tabindex="0"/);
+  assert.match(period3, /<strong data-test-count role="status" aria-live="polite" aria-atomic="true">/);
+  assert.equal([...period3.matchAll(/<th scope="col">/g)].length, 5);
+  assert.equal([...period3.matchAll(/<th scope="row">T0[1-8]<\/th>/g)].length, 8);
+});
+
+test("week 15 CSV export neutralizes spreadsheet formula prefixes", async () => {
+  const script = await readFile(resolve(assetDirectory, "week-15.js"), "utf8");
+  const helperSource = script.match(
+    /const spreadsheetSafe = \(value\) => \{([\s\S]*?)\n  \};/,
+  );
+  assert.ok(helperSource, "spreadsheetSafe helper must remain behavior-testable");
+  const spreadsheetSafe = Function(
+    `return (value) => {${helperSource[1]}};`,
+  )();
+
+  for (const dangerous of [
+    "=1+1",
+    "+1",
+    "-1",
+    "@SUM(A1)",
+    "\t=1",
+    "\r=1",
+    "\n=1",
+    "\0=1",
+    "＝1+1",
+    "＋1",
+    "－1",
+    "＠SUM(A1)",
+  ]) {
+    assert.match(spreadsheetSafe(dangerous), /^'/, `unsafe CSV value: ${dangerous}`);
+  }
+  assert.equal(spreadsheetSafe("관찰 기록"), "관찰 기록");
+});
+
+test("week 15 requires evidence for every PASS before marking release tests complete", async () => {
+  const script = await readFile(resolve(assetDirectory, "week-15.js"), "utf8");
+  const storage = new Map();
+
+  const control = (value = "") => {
+    const listeners = new Map();
+    return {
+      value,
+      addEventListener(type, listener) {
+        const callbacks = listeners.get(type) ?? [];
+        callbacks.push(listener);
+        listeners.set(type, callbacks);
+      },
+      dispatch(type) {
+        for (const listener of listeners.get(type) ?? []) listener({ type });
+      },
+    };
+  };
+
+  const rows = Array.from({ length: 8 }, (_, index) => {
+    const result = control();
+    const note = control();
+    return {
+      dataset: { testId: `T0${index + 1}` },
+      result,
+      note,
+      querySelector(selector) {
+        return selector === "[data-test-result]" ? result : note;
+      },
+    };
+  });
+  const counter = { textContent: "" };
+  const progress = { dataset: {} };
+  const table = {
+    querySelectorAll(selector) {
+      return selector === "[data-test-id]" ? rows : [];
+    },
+  };
+  const document = {
+    querySelector(selector) {
+      return new Map([
+        ["[data-test-table]", table],
+        ["[data-test-count]", counter],
+        ["[data-test-progress]", progress],
+      ]).get(selector) ?? null;
+    },
+    querySelectorAll() {
+      return [];
+    },
+  };
+  const window = {
+    localStorage: {
+      getItem(key) {
+        return storage.get(key) ?? null;
+      },
+      setItem(key, value) {
+        storage.set(key, value);
+      },
+      removeItem(key) {
+        storage.delete(key);
+      },
+    },
+  };
+
+  runInNewContext(script, { document, window, console });
+  for (const row of rows) row.result.value = "PASS";
+  rows.at(-1).result.dispatch("input");
+  assert.equal(counter.textContent, "0 / 8 검증 완료");
+  assert.equal(progress.dataset.complete, "false");
+
+  for (const row of rows) row.note.value = "Evidence/Week15/proof.txt";
+  rows.at(-1).note.dispatch("input");
+  assert.equal(counter.textContent, "8 / 8 검증 완료");
+  assert.equal(progress.dataset.complete, "true");
 });
 
 test("week 15 starter pack records release evidence without shipping solution code or identity fields", async () => {
@@ -309,14 +435,33 @@ test("week 15 starter pack records release evidence without shipping solution co
     "submission-map-template.md",
   ];
   const starterDirectory = resolve(assetDirectory, "week-15-starter");
+  const archivePath = resolve(assetDirectory, "week-15-release-starter.zip");
 
-  assert.ok((await stat(resolve(assetDirectory, "week-15-release-starter.zip"))).size > 2_000);
+  assert.ok((await stat(archivePath)).size > 2_000);
+
+  const { stdout: archivedEntries } = await execFileAsync("unzip", ["-Z1", archivePath], {
+    encoding: "utf8",
+  });
+  assert.deepEqual(
+    archivedEntries.trim().split("\n").sort(),
+    [
+      "week-15-starter/",
+      ...starterFiles.map((file) => `week-15-starter/${file}`),
+    ].sort(),
+  );
 
   const contents = [];
   for (const file of starterFiles) {
     const path = resolve(starterDirectory, file);
     assert.ok((await stat(path)).size > 150, `${file} should be substantial`);
-    contents.push(await readFile(path, "utf8"));
+    const source = await readFile(path, "utf8");
+    contents.push(source);
+    const { stdout: archived } = await execFileAsync(
+      "unzip",
+      ["-p", archivePath, `week-15-starter/${file}`],
+      { encoding: "utf8" },
+    );
+    assert.equal(archived, source, `${file} in the ZIP should match the source`);
   }
 
   const joined = contents.join("\n");
@@ -355,15 +500,27 @@ test("week 15 controls keep contrast, touch targets, focus, and pointer feedback
   assert.ok(contrastRatio(focusRings[0], "#fcfcf9") >= 3);
   assert.ok(contrastRatio(focusRings[1], "#1c211e") >= 3);
 
+  const codeLinks = extractHexValues(stylesheet, "--w15-code-link");
+  const codeFocusRings = extractHexValues(stylesheet, "--w15-code-focus");
+  assert.equal(codeLinks.length, 2, "--w15-code-link needs light and dark values");
+  assert.equal(codeFocusRings.length, 2, "--w15-code-focus needs light and dark values");
+  for (const mode of [0, 1]) {
+    assert.ok(contrastRatio(codeLinks[mode], "#181b24") >= 4.5);
+    assert.ok(contrastRatio(codeFocusRings[mode], "#181b24") >= 3);
+  }
+
   assert.match(stylesheet, /outline:\s*3px solid var\(--w15-focus-ring\)/);
   assert.match(stylesheet, /@media \(hover: hover\) and \(pointer: fine\)/);
   assert.match(stylesheet, /\.hero-action:active/);
   assert.match(stylesheet, /\.test-action:active/);
   assert.match(stylesheet, /\.starter-download a:active/);
+  assert.match(stylesheet, /\.next-week a:active/);
   assert.match(stylesheet, /\.lesson-sequence a\s*\{[\s\S]*?min-height:\s*44px/);
   assert.match(stylesheet, /\.week-fifteen-toc a\s*\{[\s\S]*?min-height:\s*44px/);
   assert.match(stylesheet, /\.test-action,[\s\S]*?\.completion-panel button\s*\{[\s\S]*?min-height:\s*44px/);
   assert.match(stylesheet, /\.starter-download a\s*\{[\s\S]*?min-height:\s*44px/);
+  assert.match(stylesheet, /\.next-week a\s*\{[\s\S]*?min-height:\s*44px/);
+  assert.match(stylesheet, /\.next-week a:focus-visible\s*\{[\s\S]*?--w15-code-focus/);
 });
 
 test("week 15 stylesheet contains no stale component families outside the three public pages", async () => {
@@ -376,8 +533,28 @@ test("week 15 stylesheet contains no stale component families outside the three 
     [...stylesheet.matchAll(/\.([a-z][a-z0-9-]*)/gi)].map((match) => match[1]),
   );
   const stale = [...cssClasses].filter((className) => !htmlClasses.has(className)).sort();
+  const customProperties = [...stylesheet.matchAll(/--w15-[a-z-]+/g)].map((match) => match[0]);
+  const propertyUseCounts = customProperties.reduce(
+    (counts, property) => counts.set(property, (counts.get(property) ?? 0) + 1),
+    new Map(),
+  );
+  const singleUseProperties = [...propertyUseCounts]
+    .filter(([, count]) => count === 1)
+    .map(([property]) => property)
+    .sort();
 
   assert.deepEqual(stale, []);
+  assert.deepEqual(singleUseProperties, []);
+  for (const unusedSelector of [
+    /\.build-steps code/,
+    /\.step-check code/,
+    /\.trouble-grid summary code/,
+    /\.exit-ticket code/,
+    /\.slot-table td:first-child/,
+    /\.week-fifteen-hero h1 br/,
+  ]) {
+    assert.doesNotMatch(stylesheet, unusedSelector);
+  }
   assert.match(stylesheet, /@media \(max-width: 760px\)/);
   assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)/);
   assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);

@@ -18,9 +18,8 @@
   const writeStorage = (key, value) => {
     try {
       window.localStorage.setItem(key, JSON.stringify(value));
-      return true;
     } catch {
-      return false;
+      // The activity remains usable when browser storage is unavailable.
     }
   };
 
@@ -66,7 +65,7 @@
 
   const spreadsheetSafe = (value) => {
     const normalized = String(value ?? "").replace(/\r?\n/g, " ").trim();
-    return /^[=+\-@]/.test(normalized) ? `'${normalized}` : normalized;
+    return /^[=+\-@\0＝＋－＠]/.test(normalized) ? `'${normalized}` : normalized;
   };
 
   const csvCell = (value) => `"${spreadsheetSafe(value).replace(/"/g, '""')}"`;
@@ -95,7 +94,9 @@
 
     const update = () => {
       const state = serialize();
-      const passed = Object.values(state).filter((item) => item.result === "PASS").length;
+      const verified = Object.values(state).filter(
+        (item) => item.result === "PASS" && String(item.note ?? "").trim().length > 0,
+      ).length;
 
       for (const row of rows) {
         const result = state[row.dataset.testId].result.toLowerCase();
@@ -103,8 +104,8 @@
         else delete row.dataset.result;
       }
 
-      if (counter) counter.textContent = `${passed} / ${rows.length} PASS`;
-      if (progress) progress.dataset.complete = String(passed === rows.length);
+      if (counter) counter.textContent = `${verified} / ${rows.length} 검증 완료`;
+      if (progress) progress.dataset.complete = String(verified === rows.length);
       writeStorage(storageKeys.tests, state);
     };
 
