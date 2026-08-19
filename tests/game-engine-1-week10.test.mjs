@@ -251,7 +251,7 @@ test("week 10 passes the editorial design and interaction preflight", async () =
     assert.doesNotMatch(page, /class="hero-facts"/, `period ${index + 1}: hero should stay within four content groups`);
     assert.match(page, /data-toc-toggle/);
     assert.match(page, /aria-controls="week-ten-toc-list"/);
-    assert.match(page, /assets\/week-10\.css\?v=ge1w10-3/);
+    assert.match(page, /assets\/week-10\.css\?v=ge1w10-4/);
 
     const lead = page.match(/<p class="lead">([^<]+)<\/p>/)?.[1] ?? "";
     assert.ok(lead.split(/\s+/).filter(Boolean).length <= 20, `period ${index + 1}: hero lead should be concise`);
@@ -270,8 +270,10 @@ test("week 10 passes the editorial design and interaction preflight", async () =
   assert.match(stylesheet, /--w10-on-violet:\s*#fffaf7/);
   assert.match(stylesheet, /--w10-lime-dark:\s*#667512/);
   assert.match(stylesheet, /--w10-on-lime:\s*#fffaf7/);
+  assert.match(stylesheet, /--w10-press-ring:\s*#161a1a/);
   assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)[\s\S]*?--w10-on-violet:\s*#161a1a/);
   assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)[\s\S]*?--w10-on-lime:\s*#161a1a/);
+  assert.match(stylesheet, /@media \(prefers-color-scheme: dark\)[\s\S]*?--w10-press-ring:\s*#fffaf7/);
   assert.match(stylesheet, /\.lesson-breadcrumb,[\s\S]*?\.lesson-sequence a\s*\{\s*font-size:\s*11px/);
   assert.match(stylesheet, /\.week-ten-hero \.eyebrow\s*\{[^}]*font-size:\s*11px/);
   assert.match(stylesheet, /\.week-ten-toc \.toc-title\s*\{[^}]*font-size:\s*11px/);
@@ -285,8 +287,9 @@ test("week 10 passes the editorial design and interaction preflight", async () =
   );
   assert.match(
     stylesheet,
-    /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?:active:not\(:disabled\)\s*\{[^}]*outline:\s*2px solid currentColor/,
+    /@media \(prefers-reduced-motion: reduce\) \{[\s\S]*?:active:not\(:disabled\)\s*\{[^}]*outline:\s*2px solid var\(--w10-press-ring\)/,
   );
+  assert.doesNotMatch(stylesheet, /transition-property:\s*border-color, background-color, color, opacity/);
   assert.doesNotMatch(
     stylesheet,
     /--w10-black|optional-label|clock-compare|collision-note|code-anatomy|line-reasons|wire-steps|state-(?:loop|lab|controls|readout)/,

@@ -19,6 +19,7 @@ body.course-game-engine-1.game-engine-week-ten {
   --w10-code-ink: #eaf0ec;
   --w10-on-violet: #fffaf7;
   --w10-on-lime: #fffaf7;
+  --w10-press-ring: #161a1a;
   --w10-rule: color-mix(in srgb, var(--ink-strong) 17%, transparent);
   --w10-rule-strong: color-mix(in srgb, var(--ink-strong) 31%, transparent);
   background: var(--bg);
@@ -2260,6 +2261,7 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
     --w10-lime-soft: #333b20;
     --w10-on-violet: #161a1a;
     --w10-on-lime: #161a1a;
+    --w10-press-ring: #fffaf7;
   }
 
   body.course-game-engine-1.game-engine-week-ten .week-ten-hero-visual img {
@@ -2297,7 +2299,7 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
     .toc-toggle
   ) {
     transform: none !important;
-    transition-property: border-color, background-color, color, opacity;
+    transition-property: border-color, background-color, color;
   }
 
   body.course-game-engine-1.game-engine-week-ten :is(
@@ -2312,7 +2314,7 @@ body.course-game-engine-1.game-engine-week-ten .starter-download a {
     .week-ten-toc a,
     .toc-toggle
   ):active:not(:disabled) {
-    outline: 2px solid currentColor;
+    outline: 2px solid var(--w10-press-ring);
     outline-offset: 2px;
   }
 
