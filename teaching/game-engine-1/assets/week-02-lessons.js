@@ -40,33 +40,21 @@
   const checklistSaveState = document.querySelector("[data-check-save-state]");
   const lessonKey = document.body.dataset.lessonKey || "game-engine-1-week-02";
   const checklistKey = `${lessonKey}:checks`;
-
-  const readStorage = (key, fallback) => {
-    try {
-      const stored = window.localStorage.getItem(key);
-      return stored === null ? fallback : (JSON.parse(stored) ?? fallback);
-    } catch {
-      return fallback;
-    }
-  };
-
-  const writeStorage = (key, value) => {
-    try {
-      window.localStorage.setItem(key, JSON.stringify(value));
-      return true;
-    } catch {
+  const storageApi = globalThis.GameEngineWeek2Storage;
+  const browserStorage = storageApi?.getBrowserStorage(globalThis) ?? null;
+  const persistJsonWithStatus =
+    storageApi?.persistJsonWithStatus ??
+    (({ status, errorMessage }) => {
+      if (status) {
+        status.dataset.state = "error";
+        status.textContent = errorMessage;
+      }
       return false;
-    }
-  };
-
-  const showStorageResult = (element, saved, successMessage, errorMessage) => {
-    if (!element) return;
-    element.dataset.state = saved ? "saved" : "error";
-    element.textContent = saved ? successMessage : errorMessage;
-  };
+    });
 
   if (missionChecks.length) {
-    const savedChecks = readStorage(checklistKey, {});
+    const savedChecks =
+      storageApi?.readJsonStorage(browserStorage, checklistKey, {}) ?? {};
 
     missionChecks.forEach((check) => {
       check.checked = Boolean(savedChecks[check.dataset.missionCheck]);
@@ -86,13 +74,14 @@
         const snapshot = Object.fromEntries(
           missionChecks.map((check) => [check.dataset.missionCheck, check.checked]),
         );
-        const saved = writeStorage(checklistKey, snapshot);
-        showStorageResult(
-          checklistSaveState,
-          saved,
-          "통과 확인을 이 기기에 저장했습니다. Unity 프로젝트 파일과는 별개입니다.",
-          "이 브라우저에서는 저장할 수 없습니다. 제출 전 통과 화면을 캡처하세요.",
-        );
+        persistJsonWithStatus({
+          storage: browserStorage,
+          key: checklistKey,
+          value: snapshot,
+          status: checklistSaveState,
+          successMessage: "통과 확인을 이 기기에 저장했습니다. Unity 프로젝트 파일과는 별개입니다.",
+          errorMessage: "이 브라우저에서는 저장할 수 없습니다. 제출 전 통과 화면을 캡처하세요.",
+        });
       }
     };
 
@@ -115,16 +104,17 @@
 
   if (missionNote) {
     const noteKey = `${lessonKey}:note`;
-    missionNote.value = readStorage(noteKey, "");
+    missionNote.value = storageApi?.readJsonStorage(browserStorage, noteKey, "") ?? "";
 
     missionNote.addEventListener("input", () => {
-      const saved = writeStorage(noteKey, missionNote.value);
-      showStorageResult(
-        saveState,
-        saved,
-        "이 기기에 저장됨",
-        "이 브라우저에서는 저장할 수 없습니다. 제출 전에 문장을 복사하세요.",
-      );
+      persistJsonWithStatus({
+        storage: browserStorage,
+        key: noteKey,
+        value: missionNote.value,
+        status: saveState,
+        successMessage: "이 기기에 저장됨",
+        errorMessage: "이 브라우저에서는 저장할 수 없습니다. 제출 전에 문장을 복사하세요.",
+      });
     });
   }
 })();

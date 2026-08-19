@@ -387,167 +387,85 @@ body.course-game-engine-1.game-engine-foundations .mission-section {
   position: relative;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress {
-  position: sticky;
-  top: 70px;
-  z-index: 4;
-  margin-top: 28px;
-  padding: 15px 17px;
-  border: 1px solid var(--ot-rule-strong);
-  border-radius: 6px;
+body.course-game-engine-1.game-engine-foundations .mission-handoff {
+  margin: 24px 0 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: 180px minmax(0, 1fr) auto;
-  gap: 18px;
-  align-items: center;
-  background: color-mix(in srgb, var(--paper) 96%, transparent);
-  box-shadow: 0 12px 28px color-mix(in srgb, var(--accent) 7%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 1px solid var(--line-strong);
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress > div > span,
-body.course-game-engine-1.game-engine-foundations .lab-progress > div > strong {
-  display: block;
+body.course-game-engine-1.game-engine-foundations .mission-handoff article {
+  min-width: 0;
+  padding: 24px 22px;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress > div > span {
-  color: var(--muted);
+body.course-game-engine-1.game-engine-foundations .mission-handoff article:nth-child(even) {
+  border-left: 1px solid var(--line);
+}
+
+body.course-game-engine-1.game-engine-foundations .mission-handoff article:nth-child(n + 3) {
+  border-top: 1px solid var(--line);
+}
+
+body.course-game-engine-1.game-engine-foundations .mission-handoff span {
+  color: var(--accent);
   font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 11px;
+  font-weight: 760;
+  letter-spacing: 0.04em;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress > div > strong {
-  margin-top: 3px;
+body.course-game-engine-1.game-engine-foundations .mission-handoff h3 {
+  margin: 8px 0 7px;
   color: var(--ink-strong);
   font-size: 16px;
+  line-height: 1.35;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress > p {
+body.course-game-engine-1.game-engine-foundations .mission-handoff p {
   margin: 0;
   color: var(--muted);
   font-size: 13px;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress[data-complete="true"] {
-  border-color: color-mix(in srgb, var(--ot-success) 55%, var(--line));
-  background: color-mix(in srgb, var(--ot-success) 8%, var(--paper));
+body.course-game-engine-1.game-engine-foundations .mission-handoff-footer {
+  padding: 20px 0 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  justify-content: space-between;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-progress[data-complete="true"] > div > strong {
-  color: var(--ot-success);
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-progress button {
-  min-height: 38px;
-  padding: 8px 12px;
-  border: 1px solid var(--line-strong);
-  border-radius: 4px;
-  background: var(--paper);
-  color: var(--ink-strong);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: border-color 160ms ease, transform 160ms ease;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-progress button:hover {
-  border-color: var(--accent);
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-progress button:active {
-  transform: translateY(1px);
-}
-
-body.course-game-engine-1.game-engine-foundations .progress-note {
-  margin: 11px 0 0;
+body.course-game-engine-1.game-engine-foundations .mission-handoff-footer p {
+  max-width: 660px;
+  margin: 0;
   color: var(--muted);
-  font-size: 12px;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-checklist {
-  margin: 24px 0 0;
-  padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  list-style: none;
-  overflow: hidden;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-checklist > li {
-  padding: 24px;
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 16px;
-  background: var(--paper);
-  transition: background 160ms ease;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-checklist > li + li {
-  border-top: 1px solid var(--line);
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-checklist > li:nth-child(even) {
-  background: var(--ot-tint-soft);
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-checklist > li[data-checked="true"] {
-  background: color-mix(in srgb, var(--ot-success) 7%, var(--paper));
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-check {
-  width: 24px;
-  height: 24px;
-  margin: 3px 0 0;
-  accent-color: var(--accent);
-  cursor: pointer;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-step-body > label {
-  display: grid;
-  grid-template-columns: 72px minmax(0, 1fr);
-  gap: 16px;
-  align-items: baseline;
-  cursor: pointer;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-step-body > label > span {
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 11px;
-  font-weight: 760;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-step-body > label > strong {
-  color: var(--ink-strong);
-  font-size: 17px;
-  line-height: 1.35;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-step-body > p {
-  margin: 9px 0 0 88px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-step-body > ul {
-  margin: 13px 0 0 88px;
-  padding-left: 18px;
-}
-
-body.course-game-engine-1.game-engine-foundations .lab-step-body > ul li {
-  color: var(--ink);
   font-size: 13px;
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-step-body > ul li + li {
-  margin-top: 6px;
+body.course-game-engine-1.game-engine-foundations .mission-handoff-footer strong {
+  color: var(--ink-strong);
 }
 
-body.course-game-engine-1.game-engine-foundations .lab-checklist > li[data-checked="true"] .lab-step-body > label > strong {
-  color: var(--ot-success);
+body.course-game-engine-1.game-engine-foundations .mission-handoff-footer a {
+  min-height: 44px;
+  padding: 11px 15px;
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 730;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease, transform 160ms ease;
+}
+
+body.course-game-engine-1.game-engine-foundations .mission-handoff-footer a:active {
+  transform: scale(0.97);
 }
 
 body.course-game-engine-1.game-engine-foundations .hierarchy-layout {
@@ -1084,8 +1002,9 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  body.course-game-engine-1.game-engine-foundations .lab-checklist label:hover strong {
-    color: var(--accent);
+  body.course-game-engine-1.game-engine-foundations .mission-handoff-footer a:hover {
+    background: var(--accent);
+    color: #fff;
   }
 }
 
@@ -1112,7 +1031,7 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  body.course-game-engine-1.game-engine-foundations .lab-progress {
+  body.course-game-engine-1.game-engine-foundations .lesson-header {
     background: var(--paper);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -1120,12 +1039,11 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  body.course-game-engine-1.game-engine-foundations .lab-progress button,
-  body.course-game-engine-1.game-engine-foundations .lab-checklist > li {
+  body.course-game-engine-1.game-engine-foundations .mission-handoff-footer a {
     transition: none;
   }
 
-  body.course-game-engine-1.game-engine-foundations .lab-progress button:active {
+  body.course-game-engine-1.game-engine-foundations .mission-handoff-footer a:active {
     transform: none;
   }
 }
@@ -1151,10 +1069,6 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
 }
 
 @media (max-width: 980px) {
-  body.course-game-engine-1.game-engine-foundations .lab-progress {
-    top: 112px;
-  }
-
   body.course-game-engine-1.game-engine-foundations .window-map .window-scene,
   body.course-game-engine-1.game-engine-foundations .window-map .window-game,
   body.course-game-engine-1.game-engine-foundations .window-map article {
@@ -1234,36 +1148,21 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
     grid-template-columns: 90px minmax(0, 1fr);
   }
 
-  body.course-game-engine-1.game-engine-foundations .lab-progress {
-    position: static;
-    grid-template-columns: 1fr auto;
-    gap: 10px 16px;
-  }
-
-  body.course-game-engine-1.game-engine-foundations .lab-progress > p {
-    grid-column: 1 / -1;
-    grid-row: 2;
-  }
-
-  body.course-game-engine-1.game-engine-foundations .lab-progress button {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  body.course-game-engine-1.game-engine-foundations .lab-checklist > li {
-    padding: 21px 18px;
-    grid-template-columns: 34px minmax(0, 1fr);
-    gap: 11px;
-  }
-
-  body.course-game-engine-1.game-engine-foundations .lab-step-body > label {
+  body.course-game-engine-1.game-engine-foundations .mission-handoff {
     grid-template-columns: 1fr;
-    gap: 4px;
   }
 
-  body.course-game-engine-1.game-engine-foundations .lab-step-body > p,
-  body.course-game-engine-1.game-engine-foundations .lab-step-body > ul {
-    margin-left: 0;
+  body.course-game-engine-1.game-engine-foundations .mission-handoff article:nth-child(even) {
+    border-left: 0;
+  }
+
+  body.course-game-engine-1.game-engine-foundations .mission-handoff article + article {
+    border-top: 1px solid var(--line);
+  }
+
+  body.course-game-engine-1.game-engine-foundations .mission-handoff-footer {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   body.course-game-engine-1.game-engine-foundations .hierarchy-rules {
@@ -1320,14 +1219,8 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
     gap: 6px;
   }
 
-  body.course-game-engine-1.game-engine-foundations .lab-progress {
-    grid-template-columns: 1fr;
-  }
-
-  body.course-game-engine-1.game-engine-foundations .lab-progress button,
-  body.course-game-engine-1.game-engine-foundations .lab-progress > p {
-    grid-column: 1;
-    grid-row: auto;
+  body.course-game-engine-1.game-engine-foundations .mission-handoff article {
+    padding: 20px 0;
   }
 
   body.course-game-engine-1.game-engine-foundations .sorting-plane {
@@ -1351,17 +1244,11 @@ body.course-game-engine-1.game-engine-foundations .lab-toc {
 }
 
 @media print {
-  body.course-game-engine-1.game-engine-foundations .lab-progress {
-    position: static;
-    box-shadow: none;
-  }
-
-  body.course-game-engine-1.game-engine-foundations .lab-progress button,
   body.course-game-engine-1.game-engine-foundations .hero-actions {
     display: none;
   }
 
-  body.course-game-engine-1.game-engine-foundations .lab-checklist > li,
+  body.course-game-engine-1.game-engine-foundations .mission-handoff article,
   body.course-game-engine-1.game-engine-foundations .knowledge-check details,
   body.course-game-engine-1.game-engine-foundations .prefab-proof article,
   body.course-game-engine-1.game-engine-foundations .play-mode-sequence article {

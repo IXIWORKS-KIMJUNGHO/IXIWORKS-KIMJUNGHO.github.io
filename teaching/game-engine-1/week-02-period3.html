@@ -20,7 +20,7 @@
   <link rel="preload" as="image" href="assets/week-02-period3-playground-goal.webp" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
-  <link rel="stylesheet" href="assets/week-02-lessons.css?v=ge1w2p2">
+  <link rel="stylesheet" href="assets/week-02-lessons.css?v=ge1w2p3">
 </head>
 <body class="teaching-document course-game-engine-1 game-engine-week-two week-two-period3" data-lesson-key="game-engine-1-week-02-period3">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
@@ -260,7 +260,7 @@ Player
             </label>
           </div>
           <div class="pass-board-footer">
-            <p data-check-save-state aria-live="polite">체크 상태는 이 기기에만 저장됩니다. Unity 프로젝트 파일과는 별개입니다.</p>
+            <p data-check-save-state role="status" aria-live="polite">체크 상태는 이 기기에만 저장됩니다. Unity 프로젝트 파일과는 별개입니다.</p>
             <button class="reset-checks" type="button" data-reset-checks>통과 확인 초기화</button>
           </div>
         </div>
@@ -268,7 +268,7 @@ Player
         <div class="mission-note">
           <label for="mission-explanation">내 장면의 구조를 설명하는 한 문장</label>
           <textarea id="mission-explanation" data-mission-note placeholder="예: Player의 자식으로 DirectionMarker를 두어 함께 움직이게 했고, 세 Collectible은 하나의 Prefab 원본을 사용합니다."></textarea>
-          <span class="save-state" data-save-state>입력한 문장은 이 기기에 자동 저장됩니다.</span>
+          <span class="save-state" data-save-state role="status" aria-live="polite">입력한 문장은 이 기기에 자동 저장됩니다.</span>
         </div>
       </section>
 
@@ -422,7 +422,8 @@ Player
       </div>
     </aside>
   </main>
-<script src="assets/week-02-lessons.js?v=ge1w2p2" defer></script>
+<script src="assets/week-02-storage.js?v=ge1w2p3" defer></script>
+<script src="assets/week-02-lessons.js?v=ge1w2p3" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

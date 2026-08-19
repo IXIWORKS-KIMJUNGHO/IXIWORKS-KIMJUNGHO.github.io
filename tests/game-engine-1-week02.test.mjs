@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { stat, readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import test from "node:test";
+import vm from "node:vm";
 
 const root = resolve(import.meta.dirname, "..");
 const courseDirectory = resolve(root, "teaching", "game-engine-1");
@@ -38,10 +39,14 @@ test("Game Engine I week 2 builds and verifies the first reusable 2D scene", asy
     assert.ok(lesson.includes(requiredText), `missing week 2 text: ${requiredText}`);
   }
 
-  assert.equal(
-    [...lesson.matchAll(/data-lab-check-id=/g)].length,
-    8,
-    "the playground mission should have eight completion checks",
+  assert.match(lesson, /여섯 창을 한 문장으로 구분합니다/);
+  assert.match(lesson, /Editor의 여섯 창/);
+  assert.match(lesson, /3교시 학생 미션이 목표와 통과 기준의 단일 기준입니다/);
+  assert.match(lesson, /href="week-02-period3\.html"/);
+  assert.doesNotMatch(
+    lesson,
+    /data-lab-check-id=/,
+    "the instructor guide should not duplicate the student mission checklist",
   );
 
   for (const officialUrl of [
@@ -62,7 +67,11 @@ test("Game Engine I week 2 builds and verifies the first reusable 2D scene", asy
   assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(stylesheet, /@media \(prefers-reduced-transparency: reduce\)/);
   assert.match(script, /IntersectionObserver/);
-  assert.match(script, /localStorage/);
+  assert.doesNotMatch(
+    script,
+    /localStorage/,
+    "the instructor guide should not maintain a second progress store",
+  );
   assert.doesNotMatch(script, /addEventListener\(["']scroll["']/);
 
   for (const source of [lesson, stylesheet, script]) {
@@ -81,11 +90,12 @@ test("Game Engine I week 2 separates teacher-led periods from the student missio
     "week-02-period2.html",
     "week-02-period3.html",
   ];
-  const [courseIndex, period1, period2, period3, stylesheet, script] = await Promise.all([
+  const [courseIndex, period1, period2, period3, stylesheet, script, storageHelper] = await Promise.all([
     readFile(resolve(courseDirectory, "index.html"), "utf8"),
     ...pageNames.map((name) => readFile(resolve(courseDirectory, name), "utf8")),
     readFile(resolve(courseDirectory, "assets", "week-02-lessons.css"), "utf8"),
     readFile(resolve(courseDirectory, "assets", "week-02-lessons.js"), "utf8"),
+    readFile(resolve(courseDirectory, "assets", "week-02-storage.js"), "utf8"),
   ]);
 
   for (const pageName of pageNames) {
@@ -168,7 +178,7 @@ test("Game Engine I week 2 separates teacher-led periods from the student missio
   assert.match(stylesheet, /@media \(prefers-reduced-motion: reduce\)/);
   assert.match(stylesheet, /@media \(prefers-reduced-transparency: reduce\)/);
   assert.match(script, /IntersectionObserver/);
-  assert.match(script, /localStorage/);
+  assert.match(storageHelper, /localStorage/);
   assert.match(script, /이 브라우저에서는 저장할 수 없습니다/);
   assert.doesNotMatch(script, /addEventListener\(["']scroll["']/);
   assert.match(stylesheet, /\.mobile-section-nav/);
@@ -179,12 +189,39 @@ test("Game Engine I week 2 separates teacher-led periods from the student missio
     "student-facing labels should remain at least 11px",
   );
   assert.doesNotMatch(stylesheet, /\[data-reveal\]/);
+  assert.match(
+    period3,
+    /data-save-state role="status" aria-live="polite"/,
+    "the note save result should be announced to assistive technology",
+  );
+  assert.match(
+    period3,
+    /data-check-save-state role="status" aria-live="polite"/,
+    "the checklist save result should be announced to assistive technology",
+  );
+  assert.match(
+    stylesheet,
+    /@media \(hover: hover\) and \(pointer: fine\) \{[\s\S]*?\.week-two-toc a:hover/,
+    "TOC hover feedback should only run for fine pointers",
+  );
+  assert.doesNotMatch(
+    stylesheet,
+    /^\.week-two-toc a:hover/m,
+    "TOC hover feedback should not have an unconditional top-level rule",
+  );
+  assert.ok(
+    stylesheet.lastIndexOf("@media (prefers-reduced-motion: reduce)") >
+      stylesheet.lastIndexOf("transition: transform 160ms var(--ease-out)"),
+    "the final reduced-motion override should win the mobile navigation cascade",
+  );
 
   for (const page of [period1, period2, period3]) {
     assert.doesNotMatch(page, /data-reveal/, "long lesson sections should render immediately");
   }
 
-  for (const source of [period1, period2, period3, stylesheet, script]) {
+  assert.match(period3, /week-02-storage\.js\?v=ge1w2p3/);
+
+  for (const source of [period1, period2, period3, stylesheet, script, storageHelper]) {
     assert.doesNotMatch(source, /[—–]/, "week 2 period files should not contain em or en dashes");
   }
 
@@ -198,4 +235,56 @@ test("Game Engine I week 2 separates teacher-led periods from the student missio
     const image = await stat(resolve(courseDirectory, "assets", imageName));
     assert.ok(image.size > 90_000, `generated image is unexpectedly small: ${imageName}`);
   }
+});
+
+test("Game Engine I week 2 reports browser storage success and failure", async () => {
+  const helper = await readFile(
+    resolve(courseDirectory, "assets", "week-02-storage.js"),
+    "utf8",
+  );
+  const context = {};
+  vm.runInNewContext(helper, context);
+
+  const { persistJsonWithStatus } = context.GameEngineWeek2Storage;
+  const values = new Map();
+  const workingStorage = {
+    setItem(key, value) {
+      values.set(key, value);
+    },
+  };
+  const successStatus = { dataset: {}, textContent: "" };
+
+  assert.equal(
+    persistJsonWithStatus({
+      storage: workingStorage,
+      key: "week-02:test",
+      value: { complete: true },
+      status: successStatus,
+      successMessage: "저장 완료",
+      errorMessage: "저장 실패",
+    }),
+    true,
+  );
+  assert.equal(values.get("week-02:test"), '{"complete":true}');
+  assert.equal(successStatus.dataset.state, "saved");
+  assert.equal(successStatus.textContent, "저장 완료");
+
+  const failureStatus = { dataset: {}, textContent: "" };
+  assert.equal(
+    persistJsonWithStatus({
+      storage: {
+        setItem() {
+          throw new Error("storage unavailable");
+        },
+      },
+      key: "week-02:test",
+      value: { complete: false },
+      status: failureStatus,
+      successMessage: "저장 완료",
+      errorMessage: "저장 실패",
+    }),
+    false,
+  );
+  assert.equal(failureStatus.dataset.state, "error");
+  assert.equal(failureStatus.textContent, "저장 실패");
 });

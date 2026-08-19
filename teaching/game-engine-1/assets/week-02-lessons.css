@@ -977,6 +977,11 @@ body.game-engine-week-two .article {
     color: #fff;
     text-decoration: none;
   }
+
+  .week-two-toc a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
 }
 
 .mobile-section-nav {
@@ -1017,7 +1022,6 @@ body.game-engine-week-two .article {
   line-height: 1.45;
 }
 
-.week-two-toc a:hover,
 .week-two-toc a[aria-current="true"] {
   color: var(--accent);
   text-decoration: none;
@@ -1552,26 +1556,6 @@ body.game-engine-week-two .article {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .week-two-hero-visual,
-  .week-two-period2 .week-two-hero-visual {
-    transform: none;
-  }
-
-  .period-bridge a,
-  .mission-action,
-  .reset-checks,
-  .mobile-section-nav summary::after {
-    transition: none;
-  }
-
-  .period-bridge a:active,
-  .mission-action:active,
-  .reset-checks:active {
-    transform: none;
-  }
-}
-
 @media (max-width: 980px) {
   body.game-engine-week-two .week-two-hero .hero-inner {
     min-height: 0;
@@ -1847,6 +1831,26 @@ body.game-engine-week-two .article {
 
   .table-scroll {
     overflow-x: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .week-two-hero-visual,
+  .week-two-period2 .week-two-hero-visual {
+    transform: none;
+  }
+
+  .period-bridge a,
+  .mission-action,
+  .reset-checks,
+  .mobile-section-nav summary::after {
+    transition: none;
+  }
+
+  .period-bridge a:active,
+  .mission-action:active,
+  .reset-checks:active {
+    transform: none;
   }
 }
 
