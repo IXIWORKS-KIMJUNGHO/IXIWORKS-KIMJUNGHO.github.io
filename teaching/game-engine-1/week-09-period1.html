@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 1교시: 먼저 방향을 정하고, 그다음 생성합니다 | Game Engine I</title>
+  <meta name="description" content="제작 단계 AI와 runtime AI를 구분하고, Ask·Plan·Agent의 자율성, 게임 아트 디렉션, 권리·개인정보·provenance의 최소 원칙을 배우는 9주차 1교시 교수자 설명 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-09-period1.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="9주차 1교시: 먼저 방향을 정하고, 그다음 생성합니다 | Game Engine I">
+  <meta property="og:description" content="AI가 그림을 결정하게 두지 않고, 사람이 먼저 세계의 시각 규칙과 사용 경계를 정합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-09-period1.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-09-period1-ai-direction.webp">
+  <meta property="og:image:alt" content="확대경, 계획 카드, 권한 문 뒤의 도구 팔, 개인정보 방패와 색상표로 책임 있는 AI 제작 순서를 보여 주는 입체 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="9주차 1교시: 먼저 방향을 정하고, 그다음 생성합니다">
+  <meta name="twitter:description" content="Ask·Plan·Agent와 생성 도구를 자율성, 권리, 기록의 관점에서 구분합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-09-period1-ai-direction.webp">
+  <link rel="preload" as="image" href="assets/week-09-period1-ai-direction.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-09.css?v=ge1w9-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-nine week-nine-period-one">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-07-period3.html" rel="prev" aria-label="이전 자료: 7주차 3교시: 30초 게임 루프를 완성하라 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-09-period2.html" rel="next" aria-label="다음 자료: 9주차 2교시: 한 문장을 시각 규칙으로 번역합니다 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-nine-hero">
+    <div class="hero-inner">
+      <div class="week-nine-hero-copy">
+        <p class="eyebrow">Game Engine I / Week 09 / 1교시</p>
+        <h1>먼저 방향을 정하고,<br>그다음 생성합니다</h1>
+        <p class="lead">생성형 AI는 결정을 대신하는 미술 감독이 아닙니다. 사람의 콘셉트와 시각 규칙 안에서 후보를 빠르게 보여 주는 제작 도구입니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#autonomy">Ask·Plan·Agent 구분하기</a>
+          <a class="hero-action" href="#responsibility">안전한 생성 원칙 보기</a>
+        </div>
+      </div>
+      <figure class="week-nine-hero-visual">
+        <img src="assets/week-09-period1-ai-direction.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="확대경, 계획 카드, 권한 문 뒤의 도구 팔, 개인정보 방패와 색상표로 책임 있는 AI 제작 순서를 보여 주는 입체 작업대">
+        <figcaption><span>UNDERSTAND → PLAN → ACT</span> 자율성이 커질수록 확인할 범위와 남겨야 할 기록도 함께 커집니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">1교시의 도착점</h2>
+          <p>도구 이름을 외우기보다 어떤 결정은 사람이 해야 하고, 어떤 작업만 AI에 맡길 수 있는지 설명할 수 있게 합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>제작 단계 AI</strong>와 <strong>runtime AI</strong>를 사용 시점과 책임으로 구분합니다.</p></li>
+          <li><span>02</span><p><strong>Ask, Plan, Agent, Generator</strong>가 프로젝트에 미치는 변경 범위를 비교합니다.</p></li>
+          <li><span>03</span><p>게임 아트 디렉션을 <strong>취향이 아니라 반복 가능한 시각 규칙</strong>으로 설명합니다.</p></li>
+          <li><span>04</span><p>참조 이미지의 <strong>권리·개인정보·출처 기록</strong>을 생성 전에 확인합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="1교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 01</span><strong>교수자 이론과 설명</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자의 사례와 생성 과정을 관찰하고, 어떤 규칙과 권한이 먼저 필요한지 예측합니다. 이미지 후보 제작은 2교시 시연 뒤 3교시 개인 실습에서 수행합니다.</p>
+      </aside>
+
+      <section class="week-nine-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <h2 id="run-title">60분의 설명 흐름</h2>
+          <p>중간평가에서 완성한 작은 게임을 출발점으로 삼아, 후반부 제작에 필요한 시각 언어와 AI 사용 경계를 세웁니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase" aria-labelledby="period1-run-title">
+            <header><span>00-60 min</span><h3 id="period1-run-title">그림을 만들기 전에 결정 구조 만들기</h3><p>Lecture / professor-led</p></header>
+            <ol>
+              <li><time>00-07</time><div><strong>중간평가 장면 다시 보기</strong><p>기능은 같지만 캐릭터, 색, 카메라가 제각각인 세 화면을 보고 왜 하나의 세계처럼 느껴지지 않는지 묻습니다.</p></div></li>
+              <li><time>07-17</time><div><strong>두 종류의 AI 구분</strong><p>제작 중 후보를 만드는 AI와 게임 실행 중 판단하는 runtime AI를 사용 시점으로 나눕니다.</p></div></li>
+              <li><time>17-29</time><div><strong>자율성 네 단계</strong><p>Ask, Plan, Agent와 Generator가 읽고 계획하고 변경하고 생성하는 범위를 비교합니다.</p></div></li>
+              <li><time>29-40</time><div><strong>아트 디렉션의 일곱 결정</strong><p>주제, 실루엣, 시점, 팔레트, 재질, 빛과 금지 요소를 하나의 규칙 묶음으로 정의합니다.</p></div></li>
+              <li><time>40-52</time><div><strong>권리·개인정보·출처</strong><p>참조 이미지를 넣기 전에 허락과 이용 조건을 확인하고, 생성 뒤에도 과정 기록을 보존합니다.</p></div></li>
+              <li><time>52-60</time><div><strong>생성 전 네 질문</strong><p>목적, 고정 규칙, 변경 변수, 검증 기준을 학생의 말로 복원합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="boundary" aria-labelledby="boundary-title">
+        <header class="section-heading">
+          <h2 id="boundary-title">AI는 언제 작동하느냐에 따라 책임이 달라집니다</h2>
+          <p>둘 다 인공지능이라고 부르지만, 제작 중 사용하는 도구와 플레이어의 기기에서 실행되는 시스템은 설계 질문이 다릅니다.</p>
+        </header>
+        <div class="concept-grid">
+          <article><span>PRODUCTION-STAGE AI</span><h3>게임을 만드는 동안 사용합니다</h3><p>콘셉트 후보, 정적 Sprite, UI와 사운드 초안을 만들거나 설명과 계획을 얻습니다. 결과는 사람이 선택·수정·검증한 뒤 프로젝트에 들어갑니다.</p></article>
+          <article><span>RUNTIME AI</span><h3>게임이 실행되는 동안 작동합니다</h3><p>NPC 판단, 절차적 대화나 동적 난이도처럼 플레이 중 입력에 반응합니다. 성능, 지연, 안전, 네트워크와 예측 가능성까지 설계해야 합니다.</p></article>
+        </div>
+        <div class="equation-strip" aria-label="9주차의 수업 범위">
+          <span>한 문장 콘셉트</span><b aria-hidden="true">+</b><span>시각 규칙</span><b aria-hidden="true">→</b><strong>제작 단계의 정적 후보</strong>
+        </div>
+        <aside class="teacher-check">
+          <span>이번 주의 경계</span>
+          <p>9주차에는 runtime AI를 게임에 넣지 않습니다. 생성한 이미지도 완성 에셋이 아니라 방향을 비교하기 위한 후보입니다. 배경 제거, 해상도 조정, 픽셀화와 Unity 연결은 10주차에서 다룹니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-nine-section" id="autonomy" aria-labelledby="autonomy-title">
+        <header class="section-heading">
+          <h2 id="autonomy-title">같은 문장도 모드에 따라 결과의 범위가 달라집니다</h2>
+          <p>좋은 AI 활용은 가장 강한 모드를 고르는 일이 아닙니다. 지금 필요한 만큼만 읽고, 계획하고, 생성하거나 변경하게 하는 일입니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="Ask, Plan, Agent와 Generator 비교" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">방식</th><th scope="col">주된 역할</th><th scope="col">프로젝트 변경</th><th scope="col">사람이 먼저 확인할 것</th><th scope="col">9주차 사용</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Ask</th><td>질문, 설명, 비평</td><td>없음</td><td>무엇을 이해하거나 비교할지</td><td>허용</td></tr>
+              <tr><th scope="row">Plan</th><td>단계와 완료 조건 정리</td><td>승인 전 없음</td><td>예상 순서, 범위, 검증 기준</td><td>허용</td></tr>
+              <tr><th scope="row">Agent</th><td>파일·Scene·Asset 직접 변경</td><td>있음</td><td>권한, 대상, 되돌리기 지점</td><td>개념만 설명</td></tr>
+              <tr><th scope="row">Generator</th><td>이미지 후보 생성</td><td>새 이미지 파일 생성</td><td>목적, 시각 규칙, 참조 권리, 저장 위치</td><td>정적 후보만 허용</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ol class="signal-chain" aria-label="자율성을 높이는 안전한 순서">
+          <li><span>01 / ASK</span><strong>이해합니다</strong><p>현재 장면과 목표의 차이를 읽고 질문합니다.</p></li>
+          <li><span>02 / PLAN</span><strong>예측합니다</strong><p>고정할 규칙, 바꿀 변수와 판정 방법을 적습니다.</p></li>
+          <li><span>03 / GENERATE</span><strong>후보를 만듭니다</strong><p>정해진 범위 안에서 비교 가능한 결과를 만듭니다.</p></li>
+          <li><span>04 / REVIEW</span><strong>사람이 선택합니다</strong><p>기준표로 채택과 거절 이유를 남깁니다.</p></li>
+          <li><span>05 / RECORD</span><strong>과정을 보존합니다</strong><p>도구, 프롬프트, 참조와 직접 수정을 기록합니다.</p></li>
+        </ol>
+        <div class="rule-banner">
+          <span>수업 원칙</span>
+          <strong>9주차 개인 실습에서는 Ask·Plan·Generator를 사용할 수 있지만 Agent는 Unity 프로젝트를 변경하지 않습니다. 최종 선택과 제출 판정은 학생이 직접 수행합니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="direction" aria-labelledby="direction-title">
+        <header class="section-heading">
+          <h2 id="direction-title">스타일은 한 단어가 아니라 서로 맞물린 규칙입니다</h2>
+          <p>“귀엽게”, “멋진 판타지”처럼 넓은 말만 주면 후보마다 다른 세계가 나옵니다. 반복해서 확인할 수 있는 결정으로 바꿔야 합니다.</p>
+        </header>
+        <div class="component-stack" aria-label="게임 아트 디렉션의 일곱 결정">
+          <div class="component-object"><span>01 / FANTASY</span><strong>누가 무엇을 하며 어떤 감정을 만드는가</strong><small>플레이어 역할과 게임의 정서</small></div>
+          <div><span>02 / SUBJECT</span><strong>기능이 읽히는 대상과 대표 소품</strong><small>배달부라면 가방, 탐험가라면 등불처럼 역할을 보여 주는 단서</small></div>
+          <div><span>03 / SHAPE</span><strong>실루엣과 형태 언어</strong><small>둥근 안전함, 뾰족한 위험처럼 반복할 형태 규칙</small></div>
+          <div><span>04 / VIEW</span><strong>카메라 시점과 화면 크기</strong><small>정면, 측면, top-down 3/4 중 하나와 64px 확인 크기</small></div>
+          <div><span>05 / COLOR</span><strong>다섯 색 팔레트와 대비</strong><small>배경, 몸통, 그림자, 강조와 검증 색의 역할</small></div>
+          <div><span>06 / MATERIAL · LIGHT</span><strong>표면과 빛의 규칙</strong><small>종이, 픽셀, 점토, 평면 음영 중 하나와 빛의 방향</small></div>
+          <div><span>07 / AVOID</span><strong>나오면 안 되는 요소</strong><small>텍스트, 복잡한 배경, 사실적 피부, 과도한 장식처럼 세 가지 이상</small></div>
+        </div>
+        <div class="concept-grid">
+          <article><span>WEAK</span><h3>“예쁜 판타지 캐릭터”</h3><p>대상과 분위기만 있고 시점, 기능, 형태, 색, 크기와 금지 요소가 없습니다. 결과를 비교해도 무엇이 더 맞는지 설명하기 어렵습니다.</p></article>
+          <article><span>DIRECTED</span><h3>“64px에서 가방이 읽히는 숲의 배달부”</h3><p>top-down 3/4, 둥근 실루엣, 짙은 청록 몸통, 산호색 강조, 왼쪽 위의 부드러운 빛, 배경과 글자 없음까지 확인할 수 있습니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="responsibility" aria-labelledby="responsibility-title">
+        <header class="section-heading">
+          <p class="section-index">안전한 생성</p>
+          <h2 id="responsibility-title">입력할 수 있는 이미지와 사용할 수 있는 결과를 따로 확인합니다</h2>
+          <p>다음 내용은 법률 자문이 아니라 수업에서 지켜야 할 최소 안전선입니다. 서비스 약관과 라이선스, 학교 규정과 실제 배포 지역의 기준은 프로젝트마다 다시 확인합니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="참조 이미지 사용 전 확인표" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">참조 후보</th><th scope="col">먼저 확인할 것</th><th scope="col">수업 판단</th><th scope="col">기록</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">직접 그린 그림·직접 찍은 사물</th><td>사진 속 다른 사람과 개인정보 유무</td><td>확인 뒤 사용 가능</td><td>직접 제작, 날짜</td></tr>
+              <tr><th scope="row">공공저작물·CC 자료</th><td>출처, 정확한 라이선스, 변경·상업 이용 조건</td><td>조건을 지킬 수 있을 때 사용</td><td>URL, 제작자, 라이선스</td></tr>
+              <tr><th scope="row">구매 에셋·스톡 이미지</th><td>생성 도구의 입력·참조 사용을 허용하는지</td><td>라이선스가 분명할 때만 사용</td><td>구매처, 항목, 허용 범위</td></tr>
+              <tr><th scope="row">타인의 캐릭터·로고·작품</th><td>권리자 허락과 이용 조건</td><td>허락이 없으면 사용하지 않음</td><td>허락 증거 또는 제외 이유</td></tr>
+              <tr><th scope="row">얼굴·학번·연락처가 보이는 이미지</th><td>정보주체 동의, 업로드 필요성, 서비스 처리 조건</td><td>수업에서는 업로드하지 않음</td><td>사용하지 않음</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="settings-grid">
+          <article><span>COPYRIGHT / 저작권</span><dl><div><dt>입력</dt><dd>타인의 저작물을 허락 없이 복제하도록 지시하지 않습니다.</dd></div><div><dt>출력</dt><dd>생성 결과가 기존 캐릭터·로고·작품과 지나치게 닮지 않았는지 확인합니다.</dd></div><div><dt>인간의 기여</dt><dd>선택, 재구성, 수정과 편집 과정을 구체적으로 남깁니다.</dd></div></dl></article>
+          <article><span>PRIVACY / 개인정보</span><dl><div><dt>최소화</dt><dd>생성에 필요하지 않은 얼굴, 이름, 학번, 위치와 연락처를 입력하지 않습니다.</dd></div><div><dt>동의</dt><dd>타인의 초상과 음성은 본인이 명확히 허락한 범위에서만 다룹니다.</dd></div><div><dt>서비스 확인</dt><dd>업로드 자료의 저장·학습·삭제 조건을 사용 전에 확인합니다.</dd></div></dl></article>
+        </div>
+        <aside class="teacher-check">
+          <span>스타일을 말하는 더 안전한 방법</span>
+          <p>수업 프롬프트에는 생존 작가의 이름을 스타일 지름길로 사용하지 않습니다. “굵은 외곽선, 제한된 다섯 색, 종이 질감, 낮은 명도 배경”처럼 관찰 가능한 시각 속성으로 설명합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-nine-section" id="provenance" aria-labelledby="provenance-title">
+        <header class="section-heading">
+          <h2 id="provenance-title">Provenance는 이미지가 여기까지 온 경로입니다</h2>
+          <p>완성 파일만 보면 어떤 참조와 판단이 들어갔는지 알 수 없습니다. 출처 기록은 결과를 설명하고, 다시 만들고, 문제가 생겼을 때 되짚는 제작 증거입니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="출처와 제작 과정 기록 항목">
+          <li><span>01 / PURPOSE</span><strong>생성 목적</strong><p>캐릭터 후보, UI 아이콘 등 어디에 쓸 시안인지 적습니다.</p></li>
+          <li><span>02 / TOOL</span><strong>도구와 날짜</strong><p>서비스, 모델 또는 기능 이름과 생성 날짜를 남깁니다.</p></li>
+          <li><span>03 / INPUT</span><strong>프롬프트와 참조</strong><p>원문, 출처, 허락·라이선스와 참조 역할을 기록합니다.</p></li>
+          <li><span>04 / DECISION</span><strong>선택과 거절</strong><p>어떤 기준으로 하나를 남기고 둘을 버렸는지 적습니다.</p></li>
+          <li><span>05 / HUMAN EDIT</span><strong>사람의 수정</strong><p>재배치, 재채색, 덧그림과 후처리를 구체적으로 기록합니다.</p></li>
+        </ol>
+        <div class="rule-banner">
+          <span>CONTENT CREDENTIALS</span>
+          <strong>C2PA의 Content Credentials는 파일의 생성·수정 이력을 검증 가능한 형태로 연결하는 표준입니다. 다만 메타데이터가 있다고 판단이 자동으로 옳아지는 것은 아니므로, 수업에서는 별도의 제작 로그도 함께 보존합니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <p class="section-index">회수 질문</p>
+          <h2 id="check-title">생성 버튼을 누르기 전 네 질문</h2>
+          <p>먼저 자신의 말로 답한 뒤 펼쳐 확인합니다. 네 문장에 답하지 못하면 프롬프트를 길게 쓰기보다 방향을 먼저 정리합니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. 이 이미지는 게임 제작의 어느 단계에서 무엇을 결정하기 위한 후보인가?</summary><div class="details-motion-content"><p>예: “10주차에 정적 캐릭터 Sprite로 후처리할 방향 후보이며, 이번 주에는 실루엣과 팔레트만 결정한다.”처럼 사용 시점과 결정 항목을 함께 말합니다.</p></div></details>
+          <details><summary>Q2. 결과가 달라도 반드시 유지되어야 할 규칙은 무엇인가?</summary><div class="details-motion-content"><p>같은 대상, 기능, 시점, 형태 언어, 다섯 색 팔레트, 빛과 금지 요소를 고정 목록으로 적습니다.</p></div></details>
+          <details><summary>Q3. 이번 한 번의 생성에서 바꿀 변수는 정확히 무엇인가?</summary><div class="details-motion-content"><p>모자 모양, 가방 재질, 강조색처럼 하나만 정합니다. 여러 요소를 동시에 바꾸면 어떤 변화가 결과를 개선했는지 설명할 수 없습니다.</p></div></details>
+          <details><summary>Q4. 어떤 기준과 기록으로 하나를 선택할 것인가?</summary><div class="details-motion-content"><p>64px 실루엣, 게임 기능, 스타일 보드 일치, 수정 가능성, 권리·출처 기록을 기준으로 비교하고 선택·거절 이유를 남깁니다.</p></div></details>
+        </div>
+        <div class="exit-ticket">
+          <article><span>01</span><p>Ask는 설명과 분석을 제공하지만 프로젝트를 ______하지 않습니다.</p></article>
+          <article><span>02</span><p>생성 전에는 목적, 고정 규칙, 변경 변수와 ______ 기준을 먼저 정합니다.</p></article>
+          <article><span>03</span><p>참조 이미지에는 출처, 이용 조건과 참조의 ______을 기록합니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-nine-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">설명에 사용한 공식 자료</h2>
+          <p>AI 기능과 정책은 바뀔 수 있습니다. 수업 직전에도 공식 문서의 버전과 학교 계정의 실제 기능을 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.ai.assistant@2.10/manual/about/assistant-modes.html" target="_blank" rel="noopener noreferrer"><strong>Unity Assistant의 Ask·Plan·Agent 모드 ↗</strong></a><span>읽기, 계획, 직접 변경 범위의 공식 비교</span></li>
+          <li><a href="https://unity.com/blog/unity-ai-how-to-get-started" target="_blank" rel="noopener noreferrer"><strong>Unity AI tools beta 개요 ↗</strong></a><span>Assistant, Gateway, MCP와 Generator의 현재 구성</span></li>
+          <li><a href="https://www.copyright.or.kr/notify/notice/view.do?brdctsno=55402" target="_blank" rel="noopener noreferrer"><strong>한국저작권위원회 AI-저작권 안내서 모음 ↗</strong></a><span>등록, 분쟁 예방과 공정이용 안내서 4종</span></li>
+          <li><a href="https://m.pipc.go.kr/np/cop/bbs/selectBoardArticle.do?bbsId=BS217&amp;mCode=G010030000&amp;nttId=11439" target="_blank" rel="noopener noreferrer"><strong>개인정보보호위원회 생성형 AI 개인정보 안내서 ↗</strong></a><span>생성형 AI 수명주기의 개인정보 처리·보호 기준</span></li>
+          <li><a href="https://spec.c2pa.org/specifications/specifications/2.4/specs/C2PA_Specification.html" target="_blank" rel="noopener noreferrer"><strong>C2PA Content Credentials 2.4 ↗</strong></a><span>디지털 콘텐츠의 출처와 수정 이력을 연결하는 표준</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-nine-toc" aria-label="1교시 목차" data-week-nine-toc>
+      <p class="toc-title">Week 09 / Period 01</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#boundary"><span>02</span>두 종류의 AI</a></li>
+        <li><a href="#autonomy"><span>03</span>자율성 단계</a></li>
+        <li><a href="#direction"><span>04</span>아트 디렉션</a></li>
+        <li><a href="#responsibility"><span>05</span>권리와 개인정보</a></li>
+        <li><a href="#provenance"><span>06</span>제작 경로</a></li>
+        <li><a href="#check"><span>07</span>회수 질문</a></li>
+        <li><a href="#references"><span>08</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>방향</span><i></i><span>비교</span><i></i><span>검증</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 09 / Period 01 / Professor-led lecture</p>
+  <script src="assets/week-09.js?v=ge1w9-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

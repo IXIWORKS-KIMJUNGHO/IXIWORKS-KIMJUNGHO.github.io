@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>9주차 2교시: 한 문장을 시각 규칙으로 번역합니다 | Game Engine I</title>
+  <meta name="description" content="한 문장 게임 콘셉트를 스타일 보드, 프롬프트 구조, 참조 이미지 역할, 통제된 반복과 선택 기준으로 번역하는 9주차 2교시 교수자 설명·시연 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-09-period2.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="9주차 2교시: 한 문장을 시각 규칙으로 번역합니다 | Game Engine I">
+  <meta property="og:description" content="같은 대상과 규칙을 고정하고 한 번에 한 변수만 바꾸어 비교 가능한 Sprite 후보를 만듭니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-09-period2.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-09-period2-style-system.webp">
+  <meta property="og:image:alt" content="같은 숲의 배달부 캐릭터 후보 세 장, 다섯 색 팔레트, 실루엣과 재질 표본을 정렬한 입체 아트 디렉션 작업대">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="9주차 2교시: 한 문장을 시각 규칙으로 번역합니다">
+  <meta name="twitter:description" content="프롬프트를 길게 쓰기보다 고정 규칙과 변경 변수를 분리합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-09-period2-style-system.webp">
+  <link rel="preload" as="image" href="assets/week-09-period2-style-system.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-09.css?v=ge1w9-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-nine week-nine-period-two">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-09-period1.html" rel="prev" aria-label="이전 자료: 9주차 1교시: 먼저 방향을 정하고, 그다음 생성합니다 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-09-period3.html" rel="next" aria-label="다음 자료: 9주차 3교시: 하나의 세계를 세 장으로 증명하라 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-nine-hero">
+    <div class="hero-inner">
+      <div class="week-nine-hero-copy">
+        <p class="eyebrow">Game Engine I / Week 09 / 2교시</p>
+        <h1>한 문장을<br>시각 규칙으로 번역합니다</h1>
+        <p class="lead">좋은 프롬프트는 수식어가 많은 문장이 아닙니다. 무엇을 고정하고 무엇을 이번에만 바꿀지 분명한 실험 설계입니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#system">스타일 보드 구조 보기</a>
+          <a class="hero-action" href="#iteration">한 변수 반복 보기</a>
+        </div>
+      </div>
+      <figure class="week-nine-hero-visual">
+        <img src="assets/week-09-period2-style-system.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="같은 숲의 배달부 캐릭터 후보 세 장, 다섯 색 팔레트, 실루엣과 재질 표본을 정렬한 입체 아트 디렉션 작업대">
+        <figcaption><span>LOCK THE SYSTEM</span> 대상·시점·팔레트를 고정하면 후보의 차이를 이유와 함께 읽을 수 있습니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">2교시의 도착점</h2>
+          <p>교수자의 한 번의 완결된 시연을 보며, 콘셉트가 후보 생성과 선택 기준으로 이어지는 구조를 설명합니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p><strong>한 문장 게임 콘셉트</strong>에서 플레이어 역할, 장소, 핵심 행동과 목표 감정을 찾습니다.</p></li>
+          <li><span>02</span><p>스타일 보드의 요소를 <strong>대상·형태·시점·팔레트·재질·빛·금지</strong>로 나눕니다.</p></li>
+          <li><span>03</span><p>프롬프트의 고정 규칙과 <strong>한 번에 하나의 변경 변수</strong>를 분리합니다.</p></li>
+          <li><span>04</span><p>세 후보를 <strong>64px 가독성·기능·일관성·수정 가능성·출처</strong>으로 비교합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="2교시 운영 범위">
+        <div><span>CLASS MODE / PERIOD 02</span><strong>교수자 설명과 화면 시연</strong></div>
+        <p>학생은 프로젝트를 제작하지 않습니다. 교수자가 콘셉트 문장 작성부터 후보 세 장의 비교 기록까지 한 번 완주하고, 학생은 각 단계에서 다음 결정과 탈락 이유를 예측합니다. 개인 제작은 3교시에 시작합니다.</p>
+      </aside>
+
+      <section class="week-nine-section" id="run" aria-labelledby="run-title">
+        <header class="section-heading">
+          <h2 id="run-title">60분의 설명과 시연 흐름</h2>
+          <p>결과가 우연히 좋아 보이는지 묻지 않고, 같은 방향을 다음 생성에서도 재현할 수 있는지 확인합니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="period2-run-title">
+            <header><span>00-60 min</span><h3 id="period2-run-title">콘셉트에서 선택 기록까지 한 번 완주하기</h3><p>Lecture &amp; demonstration / professor-led</p></header>
+            <ol>
+              <li><time>00-06</time><div><strong>1교시 기준 회수</strong><p>생성 목적, 고정 규칙, 변경 변수, 검증 기준의 네 질문을 다시 말합니다.</p></div></li>
+              <li><time>06-15</time><div><strong>한 문장 콘셉트</strong><p>넓은 아이디어를 역할, 장소, 행동과 목표 감정이 있는 한 문장으로 좁힙니다.</p></div></li>
+              <li><time>15-26</time><div><strong>스타일 보드 뼈대</strong><p>일곱 시각 결정을 한 화면에 배치하고 참조 이미지마다 맡길 역할을 붙입니다.</p></div></li>
+              <li><time>26-37</time><div><strong>프롬프트 조립</strong><p>용도, 대상, 구도, 시각 규칙, 제약 순서로 쓰고 변경 가능한 한 줄을 분리합니다.</p></div></li>
+              <li><time>37-48</time><div><strong>세 버전 생성</strong><p>고정 목록을 유지한 채 모자 형태와 강조색처럼 한 번에 한 변수만 바꿉니다.</p></div></li>
+              <li><time>48-56</time><div><strong>작게 보고 선택</strong><p>64px, 회색조와 다섯 기준표로 하나를 선택하고 두 장의 거절 이유를 기록합니다.</p></div></li>
+              <li><time>56-60</time><div><strong>10주차로 넘기기</strong><p>선택 결과를 완성 에셋이 아니라 후처리할 prototype candidate로 표시합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="sentence" aria-labelledby="sentence-title">
+        <header class="section-heading">
+          <h2 id="sentence-title">그림 설명보다 플레이 경험을 먼저 한 문장으로 씁니다</h2>
+          <p>캐릭터의 옷부터 정하면 게임의 행동과 감정이 빠집니다. 플레이어가 누구이며, 어디서 무엇을 하고, 어떤 결과를 만드는지 먼저 적습니다.</p>
+        </header>
+        <div class="equation-strip" aria-label="한 문장 게임 콘셉트 공식">
+          <span>플레이어 역할</span><b aria-hidden="true">+</b><span>장소</span><b aria-hidden="true">+</b><span>핵심 행동</span><b aria-hidden="true">+</b><strong>목표·감정</strong>
+        </div>
+        <div class="concept-grid">
+          <article><span>ROUGH IDEA</span><h3>“숲 배경의 귀여운 게임”</h3><p>배경과 분위기는 보이지만 누가 무엇을 하는지 없습니다. 캐릭터와 소품의 기능을 결정할 기준이 생기지 않습니다.</p></article>
+          <article><span>ONE-SENTENCE CONCEPT</span><h3>“작은 숲의 배달부는 빛을 잃은 길에서 씨앗 등불을 되살려 안전한 귀환을 만든다.”</h3><p>배달부, 어두운 숲길, 등불을 되살리는 행동과 안전한 귀환이라는 목표가 한 문장 안에 있습니다.</p></article>
+        </div>
+        <aside class="teacher-check">
+          <span>문장을 검사하는 질문</span>
+          <p>이 문장을 읽은 사람이 플레이어의 대표 소품 하나와 화면의 가장 중요한 색 하나를 추측할 수 있습니까? 그렇지 않다면 형용사를 늘리기보다 역할과 행동을 더 분명하게 씁니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-nine-section" id="system" aria-labelledby="system-title">
+        <header class="section-heading">
+          <p class="section-index">방향을 잠그기</p>
+          <h2 id="system-title">스타일 보드는 예쁜 이미지 모음이 아니라 결정판입니다</h2>
+          <p>각 이미지와 색에는 이유와 역할이 있어야 합니다. 보드만 본 다른 사람이 다음 후보를 같은 방향으로 만들 수 있어야 합니다.</p>
+        </header>
+        <div class="component-stack" aria-label="스타일 보드의 필수 구성">
+          <div class="component-object"><span>CONCEPT</span><strong>한 문장 게임 콘셉트</strong><small>모든 시각 결정이 되돌아갈 기준 문장</small></div>
+          <div><span>KEYWORDS</span><strong>정확히 세 개의 시각 키워드</strong><small>예: 둥근, 조용한, 손으로 만든</small></div>
+          <div><span>SHAPE · FUNCTION</span><strong>실루엣과 대표 소품</strong><small>64px에서도 배달부의 가방과 등불이 분리되어 보이도록 설정</small></div>
+          <div><span>VIEW · SCALE</span><strong>하나의 시점과 확인 크기</strong><small>top-down 3/4, 전신 중앙, 64×64 preview</small></div>
+          <div><span>PALETTE</span><strong>정확히 다섯 색과 HEX</strong><small>배경, 몸통, 그림자, 따뜻한 강조, 빛의 역할을 고정</small></div>
+          <div><span>MATERIAL · LIGHT</span><strong>표면 한 가지와 빛 한 방향</strong><small>무광 종이 질감, 왼쪽 위의 부드러운 빛</small></div>
+          <div><span>AVOID</span><strong>정확히 세 가지 금지 요소</strong><small>복잡한 배경, 글자, 사실적인 피부와 같이 결과에서 바로 확인할 항목</small></div>
+        </div>
+        <div class="rule-banner">
+          <span>BOARD TEST</span>
+          <strong>보드에 넣은 모든 요소 옆에 “이것이 무엇을 통제하는가?”라고 물을 수 있어야 합니다. 역할을 답할 수 없는 이미지는 장식이므로 뺍니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="prompt" aria-labelledby="prompt-title">
+        <header class="section-heading">
+          <h2 id="prompt-title">프롬프트는 장면을 조립하는 순서로 씁니다</h2>
+          <p>핵심 대상이 묻히지 않도록 사용 목적과 대상을 먼저 쓰고, 구도와 시각 규칙을 붙인 뒤 기술 제약과 제외 요소로 닫습니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="이미지 프롬프트의 다섯 층">
+          <li><span>01 / USE</span><strong>용도</strong><p>게임용 정적 캐릭터 Sprite 방향 후보라고 밝힙니다.</p></li>
+          <li><span>02 / SUBJECT</span><strong>대상과 기능</strong><p>숲의 배달부, 큰 가방과 씨앗 등불처럼 기능 단서를 씁니다.</p></li>
+          <li><span>03 / COMPOSITION</span><strong>시점과 구도</strong><p>전신, 중앙, top-down 3/4와 화면 여백을 고정합니다.</p></li>
+          <li><span>04 / VISUAL RULES</span><strong>형태·색·재질·빛</strong><p>스타일 보드에서 선택한 관찰 가능한 규칙을 적습니다.</p></li>
+          <li><span>05 / CONSTRAINTS</span><strong>기술 제약과 제외</strong><p>단순 배경, 글자 없음, 잘린 신체 없음처럼 검사할 조건을 씁니다.</p></li>
+        </ol>
+        <div class="code-panel">
+          <div class="code-panel-bar"><span>week09_prompt_v01.txt</span><button type="button" data-copy-code="prompt-template">프롬프트 복사</button></div>
+          <pre><code id="prompt-template">[용도] 게임용 정적 캐릭터 Sprite의 아트 디렉션 후보.
+[대상] 작은 숲의 배달부 한 명. 큰 둥근 가방과 씨앗 등불이 역할을 보여 준다.
+[구도] 전신이 모두 보이는 중앙 구도, top-down 3/4 시점, 캐릭터 주변에 충분한 여백.
+[시각 규칙] 둥근 실루엣, 제한된 다섯 색, 짙은 청록 몸통과 산호색 강조, 무광 종이 질감, 왼쪽 위의 부드러운 빛.
+[기술 제약] 64×64로 줄였을 때 머리·몸·가방·등불이 분리되어야 한다.
+[제외] 글자, 로고, 복잡한 배경, 잘린 신체, 사실적인 피부, 과도한 장식 없음.
+[이번 변경 변수] 기준 버전이므로 없음.</code></pre>
+        </div>
+        <p class="copy-status" data-copy-status role="status" aria-live="polite">프롬프트는 보드와 함께 읽어야 합니다.</p>
+        <aside class="teacher-check">
+          <span>Negative prompt의 역할</span>
+          <p>Negative prompt는 “싫은 느낌”이 아니라 관찰 가능한 제외 조건을 적는 곳입니다. “나쁘게 만들지 말 것” 대신 “글자 없음, 배경 소품 없음, 손에 추가 물체 없음”처럼 판정 가능한 말로 씁니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-nine-section" id="reference" aria-labelledby="reference-title">
+        <header class="section-heading">
+          <h2 id="reference-title">참조 이미지는 각각 한 가지 역할만 맡깁니다</h2>
+          <p>여러 이미지를 설명 없이 넣으면 무엇을 따라야 하는지 충돌합니다. 출처와 권리를 확인한 뒤, 참조마다 가져올 속성을 이름 붙입니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="Unity Sprite Generator의 참조 이미지 역할" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">참조 방식</th><th scope="col">통제하는 것</th><th scope="col">수업 예시</th><th scope="col">주의</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Image Reference</th><td>직접 수정할 출발 이미지</td><td>직접 그린 배달부 스케치</td><td>입력 이미지 권리를 먼저 확인</td></tr>
+              <tr><th scope="row">Style Reference</th><td>팔레트·렌더링·전체 미감</td><td>직접 만든 종이 질감 보드</td><td>내용까지 복제하는 지시로 쓰지 않음</td></tr>
+              <tr><th scope="row">Composition Reference</th><td>배치·프레이밍·자세</td><td>전신 중앙과 충분한 여백</td><td>대상의 정체성과 분리해 기록</td></tr>
+              <tr><th scope="row">Depth Reference</th><td>앞뒤 거리와 깊이</td><td>가방이 몸 뒤에 읽히는 층</td><td>2D Sprite에 불필요하면 사용하지 않음</td></tr>
+              <tr><th scope="row">Line Art Reference</th><td>선의 모양과 밀도</td><td>굵고 단순한 직접 제작 외곽선</td><td>작가 이름 대신 선의 속성을 설명</td></tr>
+              <tr><th scope="row">Feature Reference</th><td>특정 색 패턴·형태 특징</td><td>잎 모양 버클과 산호색 매듭</td><td>기존 캐릭터의 고유 표지를 모방하지 않음</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="equation-strip" aria-label="좋은 참조 이미지 기록 공식">
+          <span>출처·허락</span><b aria-hidden="true">+</b><span>참조 역할 하나</span><b aria-hidden="true">+</b><span>영향 강도</span><b aria-hidden="true">=</b><strong>설명 가능한 입력</strong>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="iteration" aria-labelledby="iteration-title">
+        <header class="section-heading">
+          <p class="section-index">변수를 통제하기</p>
+          <h2 id="iteration-title">한 번에 하나만 바꾸면 결과에서 원인을 읽을 수 있습니다</h2>
+          <p>세 결과가 모두 다르면 선택은 취향 투표가 됩니다. 공통 규칙을 잠그고 인접한 버전 사이에서 변경 변수 하나만 움직입니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="세 후보의 통제된 반복 예시" tabindex="0">
+          <table class="truth-table">
+            <thead><tr><th scope="col">버전</th><th scope="col">잠근 항목</th><th scope="col">이번 변경 한 가지</th><th scope="col">관찰 질문</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">V01 / BASE</th><td>대상, 시점, 실루엣, 다섯 색, 재질, 빛, 제외</td><td>없음</td><td>기본 규칙이 모두 보이는가?</td></tr>
+              <tr><th scope="row">V02 / SHAPE</th><td>V01의 모든 규칙</td><td>모자 챙을 더 짧고 둥글게</td><td>64px에서 얼굴과 가방이 더 잘 분리되는가?</td></tr>
+              <tr><th scope="row">V03 / ACCENT</th><td>V02의 모든 규칙</td><td>목 매듭만 산호색으로</td><td>핵심 행동보다 강조색이 앞서지 않는가?</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="settings-grid">
+          <article><span>LOCK / 계속 고정</span><dl><div><dt>Subject</dt><dd>같은 숲의 배달부와 같은 대표 소품</dd></div><div><dt>View</dt><dd>같은 top-down 3/4와 전신 중앙 구도</dd></div><div><dt>System</dt><dd>같은 형태 언어, 팔레트, 재질, 빛과 제외 목록</dd></div></dl></article>
+          <article><span>CHANGE / 이번 한 줄</span><dl><div><dt>Shape</dt><dd>모자 챙, 가방 폭처럼 실루엣 항목 하나</dd></div><div><dt>Color</dt><dd>다섯 색 안에서 강조 역할 하나</dd></div><div><dt>Seed</dt><dd>도구가 지원하면 같은 seed로 작은 변경의 영향을 비교</dd></div></dl></article>
+        </div>
+        <aside class="teacher-check">
+          <span>두 종류의 비교</span>
+          <p>같은 프롬프트에서 여러 장을 뽑는 것은 모델의 변동 폭을 보는 선택 batch입니다. 프롬프트 한 줄을 바꾸어 전후를 보는 것은 방향을 검증하는 iteration입니다. 3교시 기록에는 어떤 비교를 했는지 구분해 적습니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-nine-section" id="readability" aria-labelledby="readability-title">
+        <header class="section-heading">
+          <h2 id="readability-title">큰 원본보다 게임 화면 크기에서 먼저 판단합니다</h2>
+          <p>1024px 이미지의 털, 주름과 장식은 게임에서 64px가 되면 사라집니다. 작게 만들었을 때 남는 외곽과 명암이 Sprite의 실제 정보입니다.</p>
+        </header>
+        <ol class="signal-chain" aria-label="Sprite 후보의 가독성 확인 순서">
+          <li><span>01 / 64PX</span><strong>실제 크기로 축소</strong><p>보간이 있더라도 먼저 64×64 preview를 따로 만듭니다.</p></li>
+          <li><span>02 / SILHOUETTE</span><strong>검은 외곽만 보기</strong><p>머리, 몸, 가방과 등불의 큰 덩어리가 겹치지 않는지 봅니다.</p></li>
+          <li><span>03 / GRAYSCALE</span><strong>색을 제거하기</strong><p>몸과 소품의 명도 차이가 남아 있는지 확인합니다.</p></li>
+          <li><span>04 / CONTEXT</span><strong>게임 배경 위에 놓기</strong><p>실제 배경과 비슷한 밝기에서 캐릭터가 묻히지 않는지 봅니다.</p></li>
+          <li><span>05 / DISTANCE</span><strong>한 걸음 물러나기</strong><p>세부를 읽지 않아도 역할과 방향이 보이는지 확인합니다.</p></li>
+        </ol>
+        <div class="rule-banner">
+          <span>DETAIL BUDGET</span>
+          <strong>작게 보이지 않는 장식은 기능 정보가 아닙니다. 먼저 큰 덩어리와 명암을 고치고, 세부 묘사는 10주차 후처리에서 필요한 만큼만 남깁니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="selection" aria-labelledby="selection-title">
+        <header class="section-heading">
+          <p class="section-index">후보를 선택하기</p>
+          <h2 id="selection-title">가장 화려한 장이 아니라 다음 단계로 갈 장을 선택합니다</h2>
+          <p>각 기준을 0, 1, 2점으로 판정하되 총점만 따르지 않습니다. 낮은 점수의 이유와 사람이 고칠 수 있는 범위를 함께 봅니다.</p>
+        </header>
+        <div class="table-wrap" role="region" aria-label="Sprite 후보 선택 기준표" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">기준</th><th scope="col">0점</th><th scope="col">1점</th><th scope="col">2점</th><th scope="col">확인 질문</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">64px 실루엣</th><td>대상 구분 불가</td><td>몸은 보이나 소품이 겹침</td><td>역할과 소품이 분리됨</td><td>가방과 등불이 보이는가?</td></tr>
+              <tr><th scope="row">게임 기능</th><td>행동 단서 없음</td><td>단서가 약함</td><td>행동과 목표가 읽힘</td><td>무엇을 하는 캐릭터인가?</td></tr>
+              <tr><th scope="row">보드 일치</th><td>세 규칙 이상 이탈</td><td>한두 규칙 이탈</td><td>모든 고정 규칙 충족</td><td>팔레트·시점·재질이 같은가?</td></tr>
+              <tr><th scope="row">반복 가능성</th><td>우연한 세부에 의존</td><td>일부 규칙만 재현 가능</td><td>다음 대상에도 규칙 적용 가능</td><td>같은 세계의 상자를 만들 수 있는가?</td></tr>
+              <tr><th scope="row">수정·출처</th><td>큰 재작업 또는 권리 불명</td><td>수정 가능하나 기록 부족</td><td>수정 범위와 출처가 명확</td><td>10주차에 어디를 고칠지 아는가?</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="concept-grid">
+          <article><span>SELECTED / V02</span><h3>선택 이유는 기준 세 개로 씁니다</h3><p>“64px에서 가방과 등불이 분리되고, 둥근 실루엣과 다섯 색을 지키며, 배경 제거 뒤 손과 등불만 수정하면 된다.”처럼 관찰과 다음 작업을 연결합니다.</p></article>
+          <article><span>REJECTED / V01 · V03</span><h3>탈락도 한 문장으로 기록합니다</h3><p>V01은 긴 모자 챙이 얼굴을 가립니다. V03은 산호색 매듭이 등불보다 먼저 보여 핵심 행동의 시선 순서를 흐립니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="handoff" aria-labelledby="handoff-title">
+        <header class="section-heading">
+          <h2 id="handoff-title">선택한 후보를 완성 에셋이라고 부르지 않습니다</h2>
+          <p>9주차의 완료는 방향 결정입니다. 게임에 들어갈 품질, 크기, 투명 배경, 색 일관성과 애니메이션 가능성은 아직 검증하지 않았습니다.</p>
+        </header>
+        <div class="debug-ladder" aria-label="9주차 후보에서 10주차 에셋까지의 흐름">
+          <span>DIRECTION</span><b aria-hidden="true">→</b><span>SELECTED CANDIDATE</span><b aria-hidden="true">→</b><span>EDIT</span><b aria-hidden="true">→</b><span>IMPORT</span><b aria-hidden="true">→</b><span>PLAY TEST</span>
+        </div>
+        <div class="settings-grid">
+          <article><span>WEEK 09 / 결정</span><dl><div><dt>고정</dt><dd>콘셉트, 형태, 시점, 다섯 색과 재질</dd></div><div><dt>비교</dt><dd>세 후보, 64px와 회색조 결과</dd></div><div><dt>기록</dt><dd>선택·거절 이유, 프롬프트와 참조 출처</dd></div></dl></article>
+          <article><span>WEEK 10 / 제작</span><dl><div><dt>후처리</dt><dd>Remove Background, Upscale, Pixelate, Recolor, Inpaint</dd></div><div><dt>Unity</dt><dd>Texture2D import, Sprite 분할과 UI·Animator 연결</dd></div><div><dt>검증</dt><dd>픽셀 밀도, 배경 대비, 프레임 일관성과 실제 Play Mode</dd></div></dl></article>
+        </div>
+      </section>
+
+      <section class="week-nine-section" id="check" aria-labelledby="check-title">
+        <header class="section-heading">
+          <h2 id="check-title">다음 결과를 만들기 전에 설계를 복원합니다</h2>
+          <p>메뉴 이름보다 고정과 변경, 관찰과 선택의 관계를 설명합니다.</p>
+        </header>
+        <div class="trouble-grid">
+          <details><summary>Q1. 스타일 보드가 mood board와 다른 점은?</summary><div class="details-motion-content"><p>mood board는 분위기 탐색에 가깝습니다. 이 수업의 style board는 각 이미지, 색과 단어가 실루엣·시점·팔레트·재질 같은 생성 규칙을 직접 통제하는 결정 문서입니다.</p></div></details>
+          <details><summary>Q2. 세 후보에서 한 번에 하나만 바꾸는 이유는?</summary><div class="details-motion-content"><p>변화의 원인을 읽기 위해서입니다. 모양, 색, 시점과 재질을 동시에 바꾸면 무엇이 가독성을 개선하거나 방향을 흐렸는지 설명할 수 없습니다.</p></div></details>
+          <details><summary>Q3. 큰 원본보다 64px와 회색조를 먼저 보는 이유는?</summary><div class="details-motion-content"><p>게임 화면에서 사라질 세부를 제외하고 실루엣과 명도 구조를 확인하기 위해서입니다. 색이 없어도 역할과 핵심 소품이 분리되어야 합니다.</p></div></details>
+          <details><summary>Q4. 선택한 결과가 아직 완성 에셋이 아닌 이유는?</summary><div class="details-motion-content"><p>투명 배경, 실제 픽셀 밀도, 색과 프레임 일관성, Pivot, import 설정과 Play Mode 가독성을 아직 검증하지 않았기 때문입니다.</p></div></details>
+        </div>
+      </section>
+
+      <section class="week-nine-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">시연에 사용한 공식 자료</h2>
+          <p>기능 이름과 지원 범위는 beta 버전에 따라 달라질 수 있습니다. 실제 수업 환경의 package version을 함께 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://unity.com/blog/unity-ai-sprite-generator" target="_blank" rel="noopener noreferrer"><strong>Unity Sprite Generator 공식 안내 ↗</strong></a><span>prompt, negative prompt, custom seed, 참조 역할과 후처리 흐름</span></li>
+          <li><a href="https://docs.unity3d.com/Packages/com.unity.ai.assistant@2.10/manual/about/assistant-modes.html" target="_blank" rel="noopener noreferrer"><strong>Unity Assistant modes ↗</strong></a><span>Ask·Plan·Agent의 변경 범위와 승인 관계</span></li>
+          <li><a href="https://developers.openai.com/cookbook/examples/multimodal/image-gen-models-prompting-guide" target="_blank" rel="noopener noreferrer"><strong>OpenAI 이미지 생성 prompting guide ↗</strong></a><span>깨끗한 기본 prompt에서 작은 한 가지 변경으로 반복하는 방법</span></li>
+          <li><a href="https://www.copyright.or.kr/notify/notice/view.do?brdctsno=55402" target="_blank" rel="noopener noreferrer"><strong>한국저작권위원회 AI-저작권 안내서 ↗</strong></a><span>참조·산출물 사용과 인간의 창작 기여를 확인할 기준</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-nine-toc" aria-label="2교시 목차" data-week-nine-toc>
+      <p class="toc-title">Week 09 / Period 02</p>
+      <ol>
+        <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+        <li><a href="#run"><span>01</span>60분 흐름</a></li>
+        <li><a href="#sentence"><span>02</span>한 문장 콘셉트</a></li>
+        <li><a href="#system"><span>03</span>스타일 보드</a></li>
+        <li><a href="#prompt"><span>04</span>프롬프트 구조</a></li>
+        <li><a href="#reference"><span>05</span>참조 역할</a></li>
+        <li><a href="#iteration"><span>06</span>통제된 반복</a></li>
+        <li><a href="#readability"><span>07</span>작게 보기</a></li>
+        <li><a href="#selection"><span>08</span>선택 기준</a></li>
+        <li><a href="#handoff"><span>09</span>10주차 연결</a></li>
+        <li><a href="#check"><span>10</span>회수 질문</a></li>
+        <li><a href="#references"><span>11</span>공식 자료</a></li>
+      </ol>
+      <div class="toc-legend"><i></i><span>방향</span><i></i><span>비교</span><i></i><span>검증</span></div>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / Week 09 / Period 02 / Professor-led demonstration</p>
+  <script src="assets/week-09.js?v=ge1w9-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

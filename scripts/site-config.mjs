@@ -86,6 +86,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-07-period3-preflight-mission.webp",
     alt: "플레이어가 제한 시간 안에 세 개의 수집물을 모으는 작은 경기장과 점수 슬롯, 결과 패널, 실패 경광등, 재시작 버튼을 보여 주는 입체 모형",
   }),
+  "teaching/game-engine-1/week-09-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-09-period1-ai-direction.webp",
+    alt: "확대경, 계획 카드, 권한 문 뒤의 도구 팔, 개인정보 방패와 색상표로 책임 있는 AI 제작 순서를 보여 주는 입체 작업대",
+  }),
+  "teaching/game-engine-1/week-09-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-09-period2-style-system.webp",
+    alt: "같은 숲의 배달부 캐릭터 후보 세 장, 다섯 색 팔레트, 실루엣과 재질 표본을 정렬한 입체 아트 디렉션 작업대",
+  }),
+  "teaching/game-engine-1/week-09-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-09-period3-selection-mission.webp",
+    alt: "같은 숲의 배달부 후보 세 장 중 한 장을 연두색 틀로 선택하고 다섯 색 팔레트와 여덟 검증 표식을 배치한 개인 작업대",
+  }),
   "teaching/game-engine-1/week-03-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-03-period1-script-component.webp",
     alt: "코드 패널과 컴포넌트 설정이 2D 오브젝트의 위치 변화로 이어지는 생성형 교육 이미지",
