@@ -18,6 +18,8 @@ test("Game Engine I week 2 builds and verifies the first reusable 2D scene", asy
 
   assert.match(courseIndex, /href="week-02-foundations\.html"/);
   assert.match(courseIndex, /교수자용 전체 운영안/);
+  assert.match(lesson, /week-02-foundations\.css\?v=ge1w2f3/);
+  assert.match(lesson, /week-02-foundations\.js\?v=ge1w2f3/);
   assert.doesNotMatch(
     lesson,
     /rel="(?:prev|next)"/,
@@ -115,6 +117,8 @@ test("Game Engine I week 2 separates teacher-led periods from the student missio
       /<details class="mobile-section-nav"/,
       "each period should keep its section navigation available on small screens",
     );
+    assert.match(page, /week-02-lessons\.css\?v=ge1w2p4/);
+    assert.match(page, /week-02-lessons\.js\?v=ge1w2p4/);
   }
 
   assert.match(
@@ -226,7 +230,7 @@ test("Game Engine I week 2 separates teacher-led periods from the student missio
     assert.doesNotMatch(page, /data-reveal/, "long lesson sections should render immediately");
   }
 
-  assert.match(period3, /week-02-storage\.js\?v=ge1w2p3/);
+  assert.match(period3, /week-02-storage\.js\?v=ge1w2p4/);
 
   for (const source of [period1, period2, period3, stylesheet, script, storageHelper]) {
     assert.doesNotMatch(source, /[—–]/, "week 2 period files should not contain em or en dashes");
