@@ -89,8 +89,8 @@ body.course-contents-programming.orientation-page .orientation-hero-visual img {
 body.course-contents-programming.orientation-page .layout,
 body.course-contents-programming.orientation-page main.layout {
   padding: 76px 0 124px;
-  grid-template-columns: minmax(0, 820px) minmax(210px, 240px);
-  gap: clamp(52px, 7vw, 86px);
+  grid-template-columns: minmax(0, 1fr) minmax(210px, 240px);
+  gap: 34px;
 }
 
 body.course-contents-programming.orientation-page .article {
@@ -102,7 +102,15 @@ body.course-contents-programming.orientation-page .article {
 }
 
 body.course-contents-programming.orientation-page .article > p {
-  max-width: 68ch;
+  max-width: none;
+}
+
+body.course-contents-programming.orientation-page mark {
+  background: #ffe34a;
+  color: #0d110e;
+  padding: 0.05em 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 body.course-contents-programming.orientation-page .article h2 {
@@ -133,7 +141,10 @@ body.course-contents-programming.orientation-page .article h3 {
 }
 
 body.course-contents-programming.orientation-page .article h4 {
+  margin-top: 28px;
+  font-size: 18px;
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 body.course-contents-programming.orientation-page .orientation-opening {
@@ -267,6 +278,144 @@ body.course-contents-programming.orientation-page .pipeline-step {
   padding: 20px;
   border-color: var(--orientation-rule);
   background: var(--paper);
+}
+
+body.course-contents-programming.orientation-page .official-work-panel {
+  margin: 8px 0 28px;
+  padding: 20px 0 20px 22px;
+  border-left: 2px solid var(--accent);
+}
+
+body.course-contents-programming.orientation-page .official-work-panel p {
+  margin: 0;
+  max-width: none;
+}
+
+body.course-contents-programming.orientation-page .official-work-panel .figure-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 28px;
+  margin-top: 14px;
+}
+
+body.course-contents-programming.orientation-page .process-rule {
+  margin: 18px 0 28px;
+  padding: 20px 22px;
+  border: 1px solid var(--orientation-rule);
+  background: var(--paper);
+}
+
+body.course-contents-programming.orientation-page .process-rule p,
+body.course-contents-programming.orientation-page .process-rule li {
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+body.course-contents-programming.orientation-page .process-rule p {
+  margin: 0 0 10px;
+}
+
+body.course-contents-programming.orientation-page .process-rule ol {
+  margin: 0;
+  padding-left: 22px;
+}
+
+body.course-contents-programming.orientation-page .process-walk {
+  margin: 12px 0 28px;
+  padding-left: 22px;
+}
+
+body.course-contents-programming.orientation-page .process-walk li {
+  margin: 10px 0;
+  line-height: 1.7;
+}
+
+body.course-contents-programming.orientation-page .case-studio {
+  margin: 22px 0 36px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--orientation-rule);
+  background: var(--paper);
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-interruptions-studio] {
+  aspect-ratio: 1 / 1;
+  min-height: 280px;
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-datamatics-studio],
+body.course-contents-programming.orientation-page .case-studio canvas[data-flight-studio],
+body.course-contents-programming.orientation-page .case-studio canvas[data-pulse-studio] {
+  aspect-ratio: 16 / 9;
+  background: #050607;
+  border-color: #1b2428;
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-flight-studio] {
+  background: #07080a;
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-wind-studio] {
+  aspect-ratio: 16 / 9;
+  background: #fcfcf9;
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-pulse-studio] {
+  background: #0b0c0b;
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-morellet-studio] {
+  aspect-ratio: 3 / 2;
+  min-height: 220px;
+  background: #fcfcf9;
+}
+
+body.course-contents-programming.orientation-page .case-studio canvas[data-listening-studio] {
+  aspect-ratio: 16 / 9;
+  background: #050607;
+  border-color: #1b2428;
+}
+
+body.course-contents-programming.orientation-page .case-studio-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  margin-top: 12px;
+}
+
+body.course-contents-programming.orientation-page .case-studio-bar p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+body.course-contents-programming.orientation-page .case-studio-bar button {
+  padding: 8px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink-strong);
+  font: 650 13px/1.2 var(--sans);
+  cursor: pointer;
+}
+
+body.course-contents-programming.orientation-page .case-studio-bar button:active {
+  transform: scale(0.98);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body.course-contents-programming.orientation-page .case-studio-bar button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
 }
 
 body.course-contents-programming.orientation-page .lecture-figure {
@@ -667,6 +816,11 @@ body.course-contents-programming.orientation-page > .footer-note {
 }
 
 @media print {
+  body.course-contents-programming.orientation-page mark {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
   body.course-contents-programming.orientation-page .orientation-hero .hero-inner {
     min-height: 0;
     padding-block: 24px;

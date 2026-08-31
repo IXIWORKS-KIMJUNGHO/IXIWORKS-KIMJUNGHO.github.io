@@ -368,15 +368,18 @@ test("the Contents Programming course publishes its syllabus structure", async (
   ]) {
     assert.doesNotMatch(orientation, new RegExp(timeRange.replaceAll("·", "·")));
   }
-  assert.match(orientation, /same-data-three-outputs\.svg/);
-  assert.match(orientation, /https:\/\/reas\.com\/process/);
-  assert.match(orientation, /https:\/\/www\.dear-data\.com\/theproject/);
-  for (const [assetName, officialUrl] of [
-    ["flight-patterns-system.svg", "https://www.aaronkoblin.com/work/flightpatterns/"],
-    ["wind-map-system.svg", "https://www.moma.org/collection/works/163892"],
-    ["pulse-room-system.svg", "https://www.lozano-hemmer.com/pulse_room.php"],
+  assert.match(orientation, /same-data-three-outputs\.webp/);
+  assert.match(orientation, /https:\/\/www\.themorgan\.org\/drawings\/item\/405692/);
+  assert.match(orientation, /https:\/\/www\.ryojiikeda\.com\/project\/datamatics\//);
+  for (const [marker, officialUrl] of [
+    ["data-flight-studio", "https://www.aaronkoblin.com/work/flightpatterns/"],
+    ["data-wind-studio", "https://www.moma.org/collection/works/163892"],
+    ["data-pulse-studio", "https://www.lozano-hemmer.com/pulse_room.php"],
+    ["data-morellet-studio", "https://www.centrepompidou.fr/en/ressources/oeuvre/ckn5BR"],
+    ["minard-1812.jpg", "https://gallica.bnf.fr/ark:/12148/btv1b52504201x"],
+    ["data-listening-studio", "https://www.earstudio.com/projects/project-page/listening-post"],
   ]) {
-    assert.ok(orientation.includes(assetName));
+    assert.ok(orientation.includes(marker));
     assert.ok(orientation.includes(officialUrl));
   }
   assert.doesNotMatch(orientation, /짝 활동|짝과|조별 활동/);
@@ -537,6 +540,469 @@ test("Contents Programming week 2 period 3 is a goal-based individual mission", 
     [...period3.matchAll(/<details\b/gi)].length >= 4,
     "the goal-based practice should include at least four on-demand help panels",
   );
+});
+
+test("Contents Programming week 3 connects pixels and coordinates to RGB drawing", async () => {
+  const courseDirectory = resolve(root, "teaching", "contents-programming");
+  const courseIndex = await readFile(resolve(courseDirectory, "index.html"), "utf8");
+  const previousPeriod = await readFile(
+    resolve(courseDirectory, "week-02-period3.html"),
+    "utf8",
+  );
+  const period1 = await readFile(
+    resolve(courseDirectory, "week-03-period1.html"),
+    "utf8",
+  );
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-03-period2.html"),
+    "utf8",
+  );
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-03-period3.html"),
+    "utf8",
+  );
+  const notebook = JSON.parse(
+    await readFile(
+      resolve(
+        courseDirectory,
+        "assets",
+        "week-03-geometric-image-mission.ipynb",
+      ),
+      "utf8",
+    ),
+  );
+  const notebookCode = notebook.cells
+    .filter((cell) => cell.cell_type === "code")
+    .flatMap((cell) => cell.source)
+    .join("");
+
+  assert.match(courseIndex, /href="week-03-period1\.html"/);
+  assert.match(courseIndex, /href="week-03-period2\.html"/);
+  assert.match(courseIndex, /href="week-03-period3\.html"/);
+  assert.match(previousPeriod, /href="week-03-period1\.html" rel="next"/);
+  assert.match(period1, /href="week-02-period3\.html" rel="prev"/);
+  assert.match(period1, /href="week-03-period2\.html" rel="next"/);
+  assert.match(period2, /href="week-03-period1\.html" rel="prev"/);
+  assert.match(period2, /href="week-03-period3\.html" rel="next"/);
+  assert.match(period3, /href="week-03-period2\.html" rel="prev"/);
+
+  for (const [html, timeRanges] of [
+    [
+      period1,
+      ["0-5분", "5-18분", "18-29분", "29-39분", "39-47분", "47-50분", "50-60분"],
+    ],
+    [
+      period2,
+      ["0-5분", "5-15분", "15-23분", "23-31분", "31-42분", "42-50분", "50-60분"],
+    ],
+  ]) {
+    for (const timeRange of timeRanges) {
+      assert.match(html, new RegExp(timeRange));
+    }
+    assert.doesNotMatch(html, /짝 활동|짝과|조별 활동/);
+    assert.ok(
+      [...html.matchAll(/<details\b/gi)].length >= 4,
+      "each week 3 theory lesson should include individual answer checks",
+    );
+    assert.match(html, /\+ 10 MIN EXTENSION/);
+    assert.match(html, /기본 50분 \/ 확장 60분/);
+  }
+
+  for (const pattern of [
+    /픽셀의 격자/,
+    /코드를 처음 보는 학생을 위한 진행 원칙/,
+    /오른쪽 값을.*왼쪽 이름/s,
+    /왼쪽 위.*\(0, 0\)/s,
+    /width - 1.*height - 1/s,
+    /Python의 곱셈 기호는 ×가 아니라 \*/,
+    /2주차에 배운 정수 데이터/,
+    /Image\.new/,
+    /점.*소수점이 아닙니다/s,
+    /좌표로 화면 구성 설계하기/,
+    /수업 후 개별 복습/,
+  ]) {
+    assert.match(period1, pattern);
+  }
+
+  for (const pattern of [
+    /Red, Green, Blue/,
+    /코딩 경험이 없어도 따라가는 세 단계/,
+    /0.*255/s,
+    /ImageDraw\.Draw/,
+    /Pillow를 설치하지만 코드에서는 PIL/,
+    /draw\.rectangle.*draw\.ellipse.*draw\.polygon/s,
+    /fill=.*outline=.*width=/s,
+    /대입문의 =과 괄호 안의 fill=/,
+    /그리기 순서/,
+    /image\.save/,
+    /처음에는 바꿀 곳과 그대로 둘 곳/,
+    /오류가 나면 마지막 줄부터 네 단계/,
+    /같은 형태에 두 팔레트 적용하기/,
+    /형태 변화와 색상 변화의 영향을 분리/,
+    /3교시 연결: 기하학적 이미지의 도착점/,
+  ]) {
+    assert.match(period2, pattern);
+  }
+
+  for (const pattern of [
+    /목표 달성형 개인 실습/,
+    /자동 검사 통과 \+ 두 파일 제출 확인 = 즉시 귀가/,
+    /week-03-geometric-image-mission\.ipynb/,
+    /week03_학번_이름\.ipynb/,
+    /week03_학번_이름\.png/,
+    /색상 역할을 최소 두 개/,
+    /도형 좌표 묶음을 최소 두 개/,
+    /WEEK 03 IMAGE MISSION COMPLETE/,
+    /작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다/,
+  ]) {
+    assert.match(period3, pattern);
+  }
+
+  assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
+  assert.ok(
+    [...period3.matchAll(/<details\b/gi)].length >= 6,
+    "the week 3 image mission should include on-demand beginner help",
+  );
+  assert.equal(
+    notebook.cells.filter((cell) => cell.cell_type === "code").length,
+    6,
+  );
+
+  for (const pattern of [
+    /STARTER_BACKGROUND_COLOR/,
+    /background_color.*primary_color.*secondary_color.*accent_color.*outline_color/s,
+    /rectangle_box.*ellipse_box.*triangle_points/s,
+    /changed_palette_count.*>= 2/s,
+    /changed_geometry_count.*>= 2/s,
+    /draw\.rectangle.*draw\.ellipse.*draw\.polygon/s,
+    /image\.save\(output_filename\)/,
+    /checked_file\.tobytes\(\) == image\.tobytes\(\)/,
+    /== \(1, 2, 3, 4, 5, 6\)/,
+    /WEEK 03 IMAGE MISSION COMPLETE/,
+  ]) {
+    assert.match(notebookCode, pattern);
+  }
+});
+
+test("Contents Programming week 5 turns random choices into reproducible visual rules", async () => {
+  const courseDirectory = resolve(root, "teaching", "contents-programming");
+  const courseIndex = await readFile(resolve(courseDirectory, "index.html"), "utf8");
+  const period1 = await readFile(
+    resolve(courseDirectory, "week-05-period1.html"),
+    "utf8",
+  );
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-05-period2.html"),
+    "utf8",
+  );
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-05-period3.html"),
+    "utf8",
+  );
+  const missionNotebook = JSON.parse(
+    await readFile(
+      resolve(
+        courseDirectory,
+        "assets",
+        "week-05-controlled-chance-mission.ipynb",
+      ),
+      "utf8",
+    ),
+  );
+  const missionNotebookCode = missionNotebook.cells
+    .filter((cell) => cell.cell_type === "code")
+    .map((cell) => cell.source.join(""))
+    .join("\n");
+
+  assert.match(courseIndex, /href="week-05-period1\.html"/);
+  assert.match(courseIndex, /href="week-05-period2\.html"/);
+  assert.match(courseIndex, /href="week-05-period3\.html"/);
+  assert.match(period1, /href="week-04-period3\.html" rel="prev"/);
+  assert.match(period1, /href="week-05-period2\.html" rel="next"/);
+  assert.match(period2, /href="week-05-period1\.html" rel="prev"/);
+  assert.match(period2, /href="week-05-period3\.html" rel="next"/);
+  assert.match(period3, /href="week-05-period2\.html" rel="prev"/);
+
+  for (const [html, timeRanges] of [
+    [
+      period1,
+      ["0-5분", "5-15분", "15-26분", "26-36분", "36-44분", "44-50분", "50-60분"],
+    ],
+    [
+      period2,
+      ["0-5분", "5-16분", "16-27분", "27-38분", "38-46분", "46-50분", "50-60분"],
+    ],
+  ]) {
+    for (const timeRange of timeRanges) {
+      assert.match(html, new RegExp(timeRange));
+    }
+    assert.doesNotMatch(html, /짝 활동|짝과|조별 활동/);
+    assert.ok(
+      [...html.matchAll(/<details\b/gi)].length >= 5,
+      "each week 5 theory lesson should include individual answer checks",
+    );
+    assert.match(html, /\+ 10 MIN EXTENSION/);
+    assert.match(html, /기본 50분 \/ 확장 60분/);
+  }
+
+  for (const pattern of [
+    /4주차.*리스트.*반복문/s,
+    /고정 반복.*제약이 약한 우연.*통제된 우연/s,
+    /import random/,
+    /random\.randint\(20, 80\)/,
+    /random\.choice\(palette\)/,
+    /randint.*끝값.*포함/s,
+    /choice.*리스트.*항목/s,
+    /seed.*같은.*호출 순서/s,
+    /크기를 먼저.*안전한 좌표/s,
+    /week-05-chance-spectrum\.png/,
+    /week-05-seed-variations\.png/,
+    /https:\/\/www\.moma\.org\/collection\/works\/35484/,
+    /https:\/\/whitney\.org\/exhibitions\/programmed/,
+    /https:\/\/docs\.python\.org\/3\/library\/random\.html/,
+  ]) {
+    assert.match(period1, pattern);
+  }
+
+  for (const pattern of [
+    /True.*False.*bool/s,
+    /=는 저장이고 ==는 질문/,
+    /if size &gt;= 60:/,
+    /elif size &gt;= 40:/,
+    /처음 참이 된 한 분기만 실행/,
+    /난수는 한 번 뽑고 같은 값을/s,
+    /week-05-condition-branches\.png/,
+    /반복.*난수.*조건.*Pillow/s,
+    /3교시 연결: 통제된 우연 포스터/,
+    /목표 달성형 개인 실습/,
+    /random\.random\(\)/,
+    /약 20%.*정확.*보장/s,
+    /https:\/\/docs\.python\.org\/3\/tutorial\/controlflow\.html#if-statements/,
+    /https:\/\/pillow\.readthedocs\.io\/en\/stable\/reference\/ImageDraw\.html/,
+  ]) {
+    assert.match(period2, pattern);
+  }
+
+  for (const pattern of [
+    /목표 달성형 개인 실습/,
+    /자동 검사 통과 \+ 두 파일 제출 확인 = 즉시 귀가/,
+    /아홉 가지 확인/,
+    /0-7분.*7-14분.*14-23분.*23-34분.*34-40분.*40-45분.*45-50분/s,
+    /week-05-controlled-chance-mission\.ipynb/,
+    /randint.*choice.*네 줄/s,
+    /if \/ elif \/ else/,
+    /40픽셀 안전 여백/,
+    /WEEK 05 GENERATIVE MISSION COMPLETE/,
+    /week05_학번_이름\.ipynb/,
+    /week05_학번_이름_seed시드번호\.png/,
+    /추가 점수도 없습니다/,
+  ]) {
+    assert.match(period3, pattern);
+  }
+  assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
+  assert.ok(
+    [...period3.matchAll(/<details\b/gi)].length >= 8,
+    "the week 5 mission should include novice-friendly troubleshooting",
+  );
+
+  assert.equal(
+    missionNotebook.cells.filter((cell) => cell.cell_type === "code").length,
+    6,
+  );
+  for (const pattern of [
+    /STARTER_SEED_NUMBER/,
+    /random\.seed\(seed_number\)/,
+    /size = min_size/,
+    /checker_random = random\.Random\(seed_number\)/,
+    /expected_size = checker_random\.randint\(min_size, max_size\)/,
+    /expected_color = checker_random\.choice\(palette\)/,
+    /generation_records == expected_records/,
+    /branch_counts == expected_branch_counts/,
+    /checked_file\.tobytes\(\) == image\.tobytes\(\)/,
+    /== \(1, 2, 3, 4, 5, 6\)/,
+    /WEEK 05 GENERATIVE MISSION COMPLETE/,
+  ]) {
+    assert.match(missionNotebookCode, pattern);
+  }
+});
+
+test("Contents Programming week 6 turns the week 5 poster into a reusable generator", async () => {
+  const courseDirectory = resolve(root, "teaching", "contents-programming");
+  const courseIndex = await readFile(resolve(courseDirectory, "index.html"), "utf8");
+  const week5Period3 = await readFile(
+    resolve(courseDirectory, "week-05-period3.html"),
+    "utf8",
+  );
+  const period1 = await readFile(
+    resolve(courseDirectory, "week-06-period1.html"),
+    "utf8",
+  );
+  const period2 = await readFile(
+    resolve(courseDirectory, "week-06-period2.html"),
+    "utf8",
+  );
+  const period3 = await readFile(
+    resolve(courseDirectory, "week-06-period3.html"),
+    "utf8",
+  );
+  const missionNotebook = JSON.parse(
+    await readFile(
+      resolve(
+        courseDirectory,
+        "assets",
+        "week-06-parameter-generator-mission.ipynb",
+      ),
+      "utf8",
+    ),
+  );
+  const missionNotebookCode = missionNotebook.cells
+    .filter((cell) => cell.cell_type === "code")
+    .map((cell) => cell.source.join(""))
+    .join("\n");
+
+  for (const pattern of [
+    /id="week-06"/,
+    /Functions and parameters/,
+    /6주차 1교시: 함수의 정의와 호출/,
+    /6주차 2교시: 매개변수와 반환값으로 생성기 조절하기/,
+    /6주차 3교시: 매개변수형 이미지 생성기 미션/,
+  ]) {
+    assert.match(courseIndex, pattern);
+  }
+  assert.match(courseIndex, /href="week-06-period1\.html"/);
+  assert.match(courseIndex, /href="week-06-period2\.html"/);
+  assert.match(courseIndex, /href="week-06-period3\.html"/);
+  assert.match(period1, /href="week-05-period3\.html" rel="prev"/);
+  assert.match(period1, /href="week-06-period2\.html" rel="next"/);
+  assert.match(period2, /href="week-06-period1\.html" rel="prev"/);
+  assert.match(period2, /href="week-06-period3\.html" rel="next"/);
+  assert.match(period3, /href="week-06-period2\.html" rel="prev"/);
+  assert.match(period3, /href="week-07-period1\.html" rel="next"/);
+
+  for (const pattern of [
+    /id="week-six-bridge"/,
+    /6주차 연결: 한 장의 코드에서 다시 쓰는 생성기로/,
+    /def create_poster\(seed_number, shape_count, medium_threshold, large_threshold, palette\):/,
+    /poster_a = create_poster\(73, 56, 42, 64, palette\)/,
+    /poster_b = create_poster\(91, 72, 48, 68, palette\)/,
+    /함수로 묶는 방법.*값을 전달하는 방법.*함수 밖으로 돌려받는 방법/s,
+    /href="#week-six-bridge"/,
+  ]) {
+    assert.match(week5Period3, pattern);
+  }
+
+  for (const [html, timeRanges] of [
+    [
+      period1,
+      ["0-6분", "6-15분", "15-27분", "27-37분", "37-45분", "45-50분", "50-60분"],
+    ],
+    [
+      period2,
+      ["0-5분", "5-16분", "16-27분", "27-38분", "38-47분", "47-50분", "50-60분"],
+    ],
+  ]) {
+    for (const timeRange of timeRanges) {
+      assert.match(html, new RegExp(timeRange));
+    }
+    assert.doesNotMatch(html, /짝 활동|짝과|조별 활동/);
+    assert.ok(
+      [...html.matchAll(/<details\b/gi)].length >= 6,
+      "each week 6 theory lesson should include individual answer checks",
+    );
+    assert.match(html, /\+ 10 MIN EXTENSION/);
+    assert.match(html, /기본 50분 \/ 확장 60분/);
+  }
+
+  for (const pattern of [
+    /5주차.*난수.*반복.*조건.*함수/s,
+    /print.*len.*randint/s,
+    /def announce_rule\(\):/,
+    /함수 정의는 실행 준비.*함수 호출은 본문 실행/s,
+    /def.*함수 이름.*괄호.*콜론.*들여쓰기/s,
+    /draw_fixed_motif\(\)/,
+    /같은 위치.*포개/s,
+    /SyntaxError.*IndentationError.*NameError.*RecursionError/s,
+    /Colab.*정의 셀.*호출 셀/s,
+    /함수 정의는 코드 묶음에 이름.*함수 호출.*실제로 실행/s,
+    /https:\/\/docs\.python\.org\/3\/tutorial\/controlflow\.html#defining-functions/,
+    /https:\/\/peps\.python\.org\/pep-0008\/.*function-and-variable-names/,
+  ]) {
+    assert.match(period1, pattern);
+  }
+
+  for (const pattern of [
+    /매개변수는 입력 자리.*인자는 실제 값/,
+    /def draw_circle\(x, y, size, color\):/,
+    /위치 인자.*키워드 인자/s,
+    /return.*print.*display.*save/s,
+    /지역 변수.*return/s,
+    /함수가.*return.*없이 끝나면.*None/s,
+    /def create_poster\(\s*seed_number,\s*shape_count,\s*medium_threshold,\s*large_threshold,\s*palette,?\s*\):/s,
+    /random\.seed\(seed_number\)/,
+    /return image/,
+    /week-06-function-variations\.png/,
+    /poster_a\.tobytes\(\) == poster_a_again\.tobytes\(\)/,
+    /3교시 고정 미션 계약/,
+    /자동 검사 PASS.*\.ipynb \+ \.png/s,
+    /기본값 매개변수.*\*args.*\*\*kwargs.*람다.*재귀.*클래스/s,
+    /https:\/\/docs\.python\.org\/3\/reference\/simple_stmts\.html#the-return-statement/,
+    /https:\/\/pillow\.readthedocs\.io\/en\/stable\/reference\/Image\.html#PIL\.Image\.Image/,
+  ]) {
+    assert.match(period2, pattern);
+  }
+
+  for (const pattern of [
+    /목표 달성형 개인 실습/,
+    /자동 검사 통과 \+ 두 파일 제출 확인 = 즉시 귀가/,
+    /열 가지 확인/,
+    /0-7분.*7-13분.*13-20분.*20-30분.*30-39분.*39-43분.*43-47분.*47-50분/s,
+    /week-06-parameter-generator-mission\.ipynb/,
+    /random\.seed\(seed_number\)/,
+    /range\(shape_count\)/,
+    /return image/,
+    /A·B·C 입력 조합과 팔레트/,
+    /1800 × 680/,
+    /WEEK 06 PARAMETER GENERATOR COMPLETE/,
+    /week06_학번_이름\.ipynb/,
+    /week06_학번_이름_generator\.png/,
+    /추가 점수도 없습니다/,
+    /7주차 연결.*반환된 이미지를 다시 사용할 시각 재료/s,
+  ]) {
+    assert.match(period3, pattern);
+  }
+  assert.doesNotMatch(period3, /짝 활동|짝과|조별 활동/);
+  assert.ok(
+    [...period3.matchAll(/<details\b/gi)].length >= 10,
+    "the week 6 mission should include novice-friendly troubleshooting",
+  );
+
+  assert.equal(
+    missionNotebook.cells.filter((cell) => cell.cell_type === "code").length,
+    7,
+  );
+  assert.ok(
+    missionNotebook.cells
+      .filter((cell) => cell.cell_type === "code")
+      .every((cell) => cell.execution_count === null && cell.outputs.length === 0),
+    "the starter notebook should open without stale execution state",
+  );
+  for (const pattern of [
+    /def create_poster\(/,
+    /random\.seed\(0\)/,
+    /range\(1\)/,
+    /return Image\.new\("RGB", \(canvas_width, canvas_height\), background_color\)/,
+    /inspect\.signature\(create_poster\)/,
+    /def build_expected_poster/,
+    /checker_random = random\.Random\(seed_number\)/,
+    /poster\.tobytes\(\) == expected_poster\.tobytes\(\)/,
+    /poster_a_again = create_poster\(\*variant_a\)/,
+    /comparison_sheet\.crop\(\(1200, 80, 1800, 680\)\)/,
+    /checked_file\.tobytes\(\) == comparison_sheet\.tobytes\(\)/,
+    /== \(1, 2, 3, 4, 5, 6, 7\)/,
+    /WEEK 06 PARAMETER GENERATOR COMPLETE/,
+  ]) {
+    assert.match(missionNotebookCode, pattern);
+  }
 });
 
 test("the Game Engine I course publishes its Unity 2D and generative AI curriculum", async () => {

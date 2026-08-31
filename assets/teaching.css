@@ -769,16 +769,22 @@ body.course-contents-programming .material-card-pending .material-title {
   font-size: 13px;
 }
 
-.course-prose > p {
-  max-width: 960px;
+.course-prose > p,
+.course-disclosure-content > p {
+  max-width: none;
   margin: 0;
   color: var(--ink);
   font-size: 16px;
   line-height: 1.9;
-  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
-.course-prose > p + p {
+p[data-pretext-laid-out] {
+  white-space: nowrap;
+}
+
+.course-prose > p + p,
+.course-disclosure-content > p + p {
   margin-top: 18px;
 }
 
@@ -846,19 +852,6 @@ body.course-contents-programming .material-card-pending .material-title {
 
 .course-disclosure-content {
   padding: 18px 0 8px;
-}
-
-.course-disclosure-content > p {
-  max-width: 960px;
-  margin: 0;
-  color: var(--ink);
-  font-size: 16px;
-  line-height: 1.9;
-  word-break: keep-all;
-}
-
-.course-disclosure-content > p + p {
-  margin-top: 18px;
 }
 
 .syllabus-card {

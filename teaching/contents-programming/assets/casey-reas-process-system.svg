@@ -1,55 +1,85 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-labelledby="title desc">
-  <title id="title">Casey Reas Process conceptual diagram</title>
-  <desc id="desc">A teaching diagram showing simple forms combined with behaviors to create elements and a complex generative output.</desc>
+  <title id="title">Process 4를 네 단계로 따라가는 수업용 개념도</title>
+  <desc id="desc">원이 놓이고, 움직이고, 닿으면 중심을 잇고, 그 선이 쌓여 그림이 되는 과정.</desc>
   <rect width="1200" height="680" fill="#fcfcf9"/>
   <g fill="none" stroke="#d0d8d3" stroke-width="2">
-    <path d="M64 110H1136M64 570H1136"/>
-    <path d="M365 80V600M815 80V600"/>
+    <path d="M40 88H1160M40 592H1160"/>
+    <path d="M330 64V616M630 64V616M930 64V616"/>
   </g>
-  <g fill="#24424e" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" font-weight="600" letter-spacing="2">
-    <text x="72" y="76">01 / FORM</text>
-    <text x="405" y="76">02 / BEHAVIOR</text>
-    <text x="855" y="76">03 / PROCESS</text>
+  <g fill="#24424e" font-family="IBM Plex Mono, ui-monospace, monospace" font-size="15" font-weight="600" letter-spacing="1.4">
+    <text x="56" y="56">01 / PLACE</text>
+    <text x="350" y="56">02 / MOVE</text>
+    <text x="650" y="56">03 / TOUCH</text>
+    <text x="950" y="56">04 / ACCUMULATE</text>
   </g>
-  <g fill="none" stroke="#132c36" stroke-width="6">
-    <circle cx="210" cy="245" r="64"/>
-    <path d="M130 410H290"/>
-    <rect x="163" y="472" width="94" height="66"/>
+  <g fill="none" stroke="#132c36" stroke-width="4">
+    <circle cx="120" cy="230" r="42"/>
+    <circle cx="230" cy="320" r="26"/>
+    <circle cx="155" cy="430" r="58"/>
+    <circle cx="255" cy="470" r="18"/>
   </g>
-  <g fill="#616960" font-family="Inter, Apple SD Gothic Neo, sans-serif" font-size="20">
-    <text x="174" y="342">circle</text>
-    <text x="189" y="448">line</text>
+  <g fill="none" stroke="#132c36" stroke-width="4">
+    <circle cx="430" cy="250" r="36"/>
+    <circle cx="545" cy="250" r="28"/>
+    <circle cx="430" cy="430" r="48"/>
+    <circle cx="555" cy="455" r="22"/>
   </g>
-  <g fill="none" stroke="#24424e" stroke-linecap="round">
-    <path d="M455 210C520 136 650 136 716 210" stroke-width="5"/>
-    <path d="M699 188L720 211 691 220" stroke-width="5"/>
-    <path d="M457 330C522 405 650 405 716 330" stroke-width="5"/>
-    <path d="M692 321L719 329 705 354" stroke-width="5"/>
-    <path d="M478 476L696 476" stroke-width="5" stroke-dasharray="16 14"/>
-    <path d="M670 458L700 476 670 494" stroke-width="5"/>
+  <g fill="none" stroke="#24424e" stroke-width="3" stroke-linecap="round">
+    <path d="M466 250H509"/>
+    <path d="M498 238L518 250 498 262"/>
+    <path d="M478 430H525"/>
+    <path d="M513 418L533 430 513 442"/>
   </g>
-  <g fill="#132c36">
-    <circle cx="458" cy="210" r="16"/><circle cx="718" cy="330" r="16"/>
-    <circle cx="478" cy="476" r="16"/><circle cx="698" cy="476" r="16"/>
+  <g fill="none" stroke="#132c36" stroke-width="4">
+    <circle cx="745" cy="250" r="40"/>
+    <circle cx="848" cy="278" r="32"/>
+    <circle cx="760" cy="430" r="50"/>
+    <circle cx="858" cy="448" r="24"/>
   </g>
-  <g fill="#616960" font-family="Inter, Apple SD Gothic Neo, sans-serif" font-size="20">
-    <text x="515" y="265">move · turn</text>
-    <text x="493" y="440">avoid · repeat</text>
-  </g>
-  <g fill="none" stroke="#132c36" stroke-width="3" opacity=".9">
-    <path d="M862 186C943 120 1096 173 1061 257S883 326 874 414 1010 560 1104 477"/>
-    <path d="M846 257C910 204 1009 245 1001 318S860 385 906 476 1062 485 1110 405"/>
-    <path d="M895 142C1002 113 1114 229 1058 356S889 503 850 438"/>
-    <path d="M872 505C935 424 1093 430 1120 292"/>
+  <g stroke-linecap="round">
+    <path d="M745 250L848 278" stroke="#132c36" stroke-width="6"/>
+    <path d="M760 430L858 448" stroke="#687068" stroke-width="3"/>
   </g>
   <g fill="#24424e">
-    <circle cx="862" cy="186" r="12"/><circle cx="1061" cy="257" r="19"/><circle cx="874" cy="414" r="14"/>
-    <circle cx="1104" cy="477" r="11"/><circle cx="846" cy="257" r="16"/><circle cx="1001" cy="318" r="10"/>
-    <circle cx="906" cy="476" r="18"/><circle cx="895" cy="142" r="9"/><circle cx="1058" cy="356" r="15"/>
-    <circle cx="850" cy="438" r="10"/><circle cx="1120" cy="292" r="13"/>
+    <circle cx="745" cy="250" r="5"/>
+    <circle cx="848" cy="278" r="5"/>
+    <circle cx="760" cy="430" r="5"/>
+    <circle cx="858" cy="448" r="5"/>
   </g>
-  <g fill="#132c36" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="18">
-    <text x="72" y="632">FORM + BEHAVIOR = ELEMENT</text>
-    <text x="852" y="632">REPEAT → VARIABLE OUTPUT</text>
+  <g fill="none" stroke="#132c36">
+    <circle cx="1005" cy="210" r="22" stroke-width="3"/>
+    <circle cx="1088" cy="248" r="34" stroke-width="3"/>
+    <circle cx="1028" cy="318" r="40" stroke-width="3"/>
+    <circle cx="1124" cy="330" r="18" stroke-width="3"/>
+    <circle cx="990" cy="410" r="30" stroke-width="3"/>
+    <circle cx="1078" cy="438" r="46" stroke-width="3"/>
+    <circle cx="1140" cy="470" r="16" stroke-width="3"/>
+    <circle cx="1018" cy="500" r="20" stroke-width="3"/>
+  </g>
+  <g stroke-linecap="round">
+    <path d="M1005 210L1088 248" stroke="#132c36" stroke-width="5"/>
+    <path d="M1088 248L1028 318" stroke="#24424e" stroke-width="4"/>
+    <path d="M1028 318L1124 330" stroke="#687068" stroke-width="2.5"/>
+    <path d="M1028 318L990 410" stroke="#132c36" stroke-width="4"/>
+    <path d="M990 410L1078 438" stroke="#24424e" stroke-width="5"/>
+    <path d="M1078 438L1140 470" stroke="#91aeb4" stroke-width="2"/>
+    <path d="M1078 438L1018 500" stroke="#687068" stroke-width="3"/>
+    <path d="M1005 210L1028 318" stroke="#91aeb4" stroke-width="1.8"/>
+  </g>
+  <g fill="#24424e">
+    <circle cx="1005" cy="210" r="4"/>
+    <circle cx="1088" cy="248" r="4"/>
+    <circle cx="1028" cy="318" r="4"/>
+    <circle cx="1124" cy="330" r="4"/>
+    <circle cx="990" cy="410" r="4"/>
+    <circle cx="1078" cy="438" r="4"/>
+    <circle cx="1140" cy="470" r="4"/>
+    <circle cx="1018" cy="500" r="4"/>
+  </g>
+  <g fill="#616960" font-family="Apple SD Gothic Neo, Noto Sans KR, sans-serif" font-size="18">
+    <text x="56" y="636">크기가 다른 원을 놓는다</text>
+    <text x="350" y="636">각 원이 직진한다</text>
+    <text x="650" y="636">닿으면 중심을 잇는다</text>
+    <text x="950" y="636">짧은 선은 검게, 긴 선은 옅게</text>
   </g>
 </svg>
