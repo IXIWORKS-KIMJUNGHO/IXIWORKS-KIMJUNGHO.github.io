@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>6주차 3교시: 움직임이 읽히는 화면을 완성하라 | Game Engine I</title>
+  <meta name="description" content="학생이 Idle과 Move Sprite Animation, 방향 표현, Cinemachine 2D 추적, Dead Zone, Damping과 화면 경계를 스스로 구현하고 필수 테스트 8개로 검증하는 6주차 개인 목표지향 실습 자료입니다.">
+  <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-06-period3.html">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+  <meta property="og:title" content="6주차 3교시: 움직임이 읽히는 화면을 완성하라 | Game Engine I">
+  <meta property="og:description" content="방법은 스스로 선택하고, 애니메이션과 2D 카메라의 필수 조건을 8개 테스트로 증명합니다.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-06-period3.html">
+  <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-06-period3-hero.webp">
+  <meta property="og:image:alt" content="애니메이션 캐릭터와 카메라 프레임이 레벨 안에서 정확히 여덟 개의 연두색 검증 지점을 통과하는 입체 테스트 장면">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="6주차 3교시: 움직임이 읽히는 화면을 완성하라">
+  <meta name="twitter:description" content="Idle과 Move, Cinemachine Camera를 스스로 완성하고 8개 테스트로 검증합니다.">
+  <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-06-period3-hero.webp">
+  <link rel="preload" as="image" href="assets/week-06-period3-hero.webp" type="image/webp" fetchpriority="high">
+  <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
+  <link rel="stylesheet" href="/assets/accessibility.css">
+  <link rel="stylesheet" href="assets/week-06.css?v=ge1w6-2">
+</head>
+<body class="teaching-document course-game-engine-1 game-engine-week-six week-six-period-three">
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
+  <header class="lesson-header" data-teaching-shell="v1">
+    <nav class="lesson-header-inner" aria-label="Course">
+      <div class="lesson-breadcrumb">
+        <a class="lesson-home" href="/">Kim Jungho</a>
+        <span aria-hidden="true">/</span>
+        <a href="/teaching/">Teaching</a>
+        <span aria-hidden="true">/</span>
+        <a class="lesson-course" href="./">Game Engine I</a>
+      </div>
+      <div class="lesson-sequence">
+        <a href="week-06-period2.html" rel="prev" aria-label="이전 자료: 6주차 2교시: 상태는 Animator가, 시선은 Camera가 | Game Engine I">← <span class="sequence-label">Previous</span></a>
+        <a href="week-07-period1.html" rel="next" aria-label="다음 자료: 7주차 1교시: 게임은 상태를 기억해야 합니다 | Game Engine I"><span class="sequence-label">Next</span> →</a>
+      </div>
+    </nav>
+  </header>
+<header class="hero week-six-hero">
+    <div class="hero-inner">
+      <div class="week-six-hero-copy">
+        <p class="eyebrow">6주차 3교시 / 개인 목표 실습</p>
+        <h1>움직임이 읽히는<br>화면을 완성하라</h1>
+        <p class="lead">Idle, Move, 방향, 카메라 추적과 화면 경계를 스스로 구성하고 여덟 테스트로 완료를 증명합니다.</p>
+        <div class="hero-actions" aria-label="주요 위치로 이동">
+          <a class="hero-action hero-action-primary" href="#mission">미션 계약 읽기</a>
+          <a class="hero-action" href="#tests">8개 테스트 보기</a>
+        </div>
+      </div>
+      <figure class="week-six-hero-visual">
+        <img src="assets/week-06-period3-hero.webp" width="1536" height="1024" loading="eager" decoding="async" fetchpriority="high" alt="주황색 애니메이션 캐릭터와 청록색 추적 카메라가 불규칙한 레벨 안에서 정확히 여덟 개의 연두색 검증 지점을 확인하는 모습">
+        <figcaption><span>GOAL</span>은 고정되어 있습니다. 구현 순서는 선택하고, <span>8 TESTS</span>로 완료를 증명합니다.</figcaption>
+      </figure>
+    </div>
+  </header>
+
+  <main id="main-content" class="layout">
+    <article class="article">
+      <section class="arrival" id="arrival" aria-labelledby="arrival-title">
+        <div class="arrival-heading">
+          <h2 id="arrival-title">3교시의 도착점</h2>
+          <p>교수자의 화면을 재현하는 것이 아니라, 자신의 장면에서 같은 품질 조건을 만족하고 재현 가능한 증거를 남깁니다.</p>
+        </div>
+        <ul class="arrival-list">
+          <li><span>01</span><p>Player가 멈췄을 때 <strong>Idle</strong>, 움직일 때 <strong>Move</strong>가 체감 지연 없이 전환됩니다.</p></li>
+          <li><span>02</span><p>왼쪽·오른쪽 진행 방향이 맞고, 애니메이션이 바뀌어도 <strong>몸체와 Collider가 흔들리지 않습니다.</strong></p></li>
+          <li><span>03</span><p>Cinemachine Camera가 <strong>Dead Zone과 Damping</strong>을 가진 채 Player를 부드럽게 추적합니다.</p></li>
+          <li><span>04</span><p>레벨의 네 끝에서 화면 밖이 보이지 않으며 <strong>필수 테스트 8개를 모두 PASS</strong>합니다.</p></li>
+        </ul>
+      </section>
+
+      <aside class="scope-line" aria-label="3교시 운영 방식">
+        <div><span>수업 방식</span><strong>학생 개인 실습</strong></div>
+        <p>교수자는 목표 확인, 질문 되묻기와 오류 범위 좁히기만 지원합니다. 학생은 작업 순서, 수치와 수정 방법을 선택하고 구현, 테스트와 기록을 직접 수행합니다.</p>
+      </aside>
+
+      <section class="week-six-section" id="mission" aria-labelledby="mission-title">
+        <header class="section-heading">
+          <h2 id="mission-title">목표는 고정하고 방법은 선택합니다</h2>
+          <p>아래 결과는 모두 필요합니다. Sprite부터 정리할지, Animator부터 만들지, Camera부터 추적하게 할지는 스스로 결정합니다.</p>
+        </header>
+        <div class="test-contract">
+          <span>실습 계약</span>
+          <p><strong>60분 안에</strong> 기존 2D Player에 반복되는 Idle과 Move, 좌우 방향 표현을 연결하고 Dead Zone, Damping과 Confiner 2D를 갖춘 Cinemachine Camera를 구성합니다. 완료는 Console Error 0과 필수 테스트 8개의 PASS로 판단합니다.</p>
+        </div>
+        <div class="submission-grid">
+          <article><span>에셋</span><h3>흔들리지 않는 Sprite</h3><p>시트를 Multiple로 나누고 모든 프레임의 크기, PPU와 Pivot 기준을 일관되게 맞춥니다.</p></article>
+          <article><span>클립</span><h3>두 개의 반복 Clip</h3><p><code>Player_Idle.anim</code>과 <code>Player_Move.anim</code>이 적절한 Samples로 자연스럽게 반복됩니다.</p></article>
+          <article><span>상태</span><h3>입력에 반응하는 Animator</h3><p><code>Speed</code> Parameter와 양방향 Transition으로 Idle과 Move가 체감 지연 없이 바뀝니다.</p></article>
+          <article><span>방향</span><h3>일치하는 진행 방향</h3><p>왼쪽과 오른쪽 입력에서 Sprite가 이동 방향을 향하고 Collider2D 형태는 유지됩니다.</p></article>
+          <article><span>카메라</span><h3>의도가 있는 추적 감각</h3><p>작은 이동을 허용하는 Dead Zone과 부드러운 Damping이 있으며 카메라는 Player의 자식이 아닙니다.</p></article>
+          <article><span>경계</span><h3>노출되지 않는 화면 밖</h3><p>Confiner 2D가 레벨의 왼쪽, 오른쪽, 위와 아래 끝에서 화면 전체를 경계 안에 둡니다.</p></article>
+        </div>
+        <div class="rule-banner">
+          <span>완료의 정의</span>
+          <strong>“보기 좋아졌다”가 아니라, 다른 사람이 같은 조작으로 T01-T08을 다시 실행해 모두 같은 결과를 얻으면 완료입니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-six-section" id="starting-line" aria-labelledby="starting-line-title">
+        <header class="section-heading">
+          <h2 id="starting-line-title">기존 동작을 보존한 복사본에서 시작합니다</h2>
+          <p>애니메이션을 붙이기 전에 이동과 충돌이 정상인지 확인합니다. 새 기능 때문에 이전 기능이 망가졌는지 구분할 기준을 남깁니다.</p>
+        </header>
+        <div class="setup-notice">
+          <div><span>Source</span><strong>5주차 완성 Scene</strong></div>
+          <div><span>New Scene</span><strong>Week06_AnimationCamera</strong></div>
+          <div><span>Unity</span><strong>6.3 LTS</strong></div>
+          <div><span>Start Gate</span><strong>이동 정상 · Error 0</strong></div>
+        </div>
+        <div class="line-reasons">
+          <article><code>File → Save As</code><p>5주차 Scene을 <code>Week06_AnimationCamera</code>로 저장합니다. 5주차 Scene이 없다면 작동하는 <code>Week04_InputPhysics</code> 복사본에서 시작합니다.</p></article>
+          <article><code>Console → Clear</code><p>Play 후 WASD와 방향키 이동, 벽 충돌이 정상이고 빨간 오류가 0개인지 먼저 확인합니다.</p></article>
+          <article><code>Package Manager</code><p>Cinemachine이 없다면 <code>Window → Package Management → Package Manager</code>에서 설치합니다. 설치가 끝난 뒤 메뉴가 나타나는지 확인합니다.</p></article>
+          <article><code>Assets/Week06</code><p><code>Sprites</code>, <code>Animations</code>, <code>Controllers</code> 폴더로 결과를 구분합니다. 기존 에셋을 이동해 참조를 끊지 않습니다.</p></article>
+        </div>
+      </section>
+
+      <section class="week-six-section" id="route" aria-labelledby="route-title">
+        <header class="section-heading">
+          <h2 id="route-title">작업 순서를 스스로 고릅니다</h2>
+          <p>아래는 클릭 순서가 아니라 중간 도착점입니다. 자신에게 가장 큰 불확실성부터 해결해도 됩니다.</p>
+        </header>
+        <div class="agenda-track">
+          <section class="agenda-phase agenda-phase-build" aria-labelledby="student-route-title">
+            <header><span>권장 시간 / 순서 변경 가능</span><h3 id="student-route-title">여섯 개의 중간 도착점</h3><p>개인 실습</p></header>
+            <ol>
+              <li><time>00-05</time><div><strong>계약과 시작 상태 확인</strong><p>Scene 이름, 기존 이동, 제출 증거와 자신이 먼저 해결할 두 항목을 정합니다.</p></div></li>
+              <li><time>05-16</time><div><strong>프레임 기반 준비</strong><p>Import, Slicing과 Pivot을 확인하고 Idle과 Move Clip이 Preview에서 반복되게 합니다.</p></div></li>
+              <li><time>16-28</time><div><strong>상태와 방향 연결</strong><p>Animator와 Speed를 연결하고 왼쪽과 오른쪽에서 그림 방향이 맞는지 확인합니다.</p></div></li>
+              <li><time>28-41</time><div><strong>카메라 감각 구성</strong><p>Tracking Target, Position Composer, Dead Zone과 Damping을 한 값씩 조절합니다.</p></div></li>
+              <li><time>41-53</time><div><strong>경계와 필수 테스트</strong><p>Confiner 2D를 연결하고 T01부터 실패한 항목의 첫 원인을 좁힙니다.</p></div></li>
+              <li><time>53-60</time><div><strong>증거와 종료 확인</strong><p>8 / 8 PASS, Error 0, 영상과 CSV 파일명을 확인합니다.</p></div></li>
+            </ol>
+          </section>
+        </div>
+        <ol class="wire-steps" aria-label="중간 도착점별 최소 확인">
+          <li><span>FRAME</span><p>Preview에서 두 Clip 반복</p></li>
+          <li><span>STATE</span><p>Speed로 Idle ↔ Move</p></li>
+          <li><span>FACE</span><p>좌우 방향 일치</p></li>
+          <li><span>FOLLOW</span><p>Dead Zone 뒤 부드러운 추적</p></li>
+          <li><span>EDGE</span><p>네 끝에서 화면 밖 0</p></li>
+        </ol>
+      </section>
+
+      <section class="week-six-section" id="spec" aria-labelledby="spec-title">
+        <header class="section-heading">
+          <h2 id="spec-title">구현 전에 필수 인터페이스를 확인합니다</h2>
+          <p>에셋 이름과 세부 수치는 달라도 괜찮지만, 아래 입력, 상태와 출력의 역할 분리는 유지합니다.</p>
+        </header>
+        <div class="code-anatomy">
+          <div><span>INPUT</span><strong>moveInput</strong><p>기존 이동 의도, 정지면 0입니다.</p></div>
+          <div><span>PARAMETER</span><strong>Speed / Float</strong><p>입력 크기를 Animator에 전달합니다.</p></div>
+          <div><span>STATE</span><strong>Idle · Move</strong><p>조건에 따라 반복 Clip을 선택합니다.</p></div>
+          <div><span>VIEW</span><strong>Cinemachine Camera</strong><p>Player root를 추적하고 외곽 안에 머뭅니다.</p></div>
+        </div>
+        <div class="table-wrap" role="region" aria-label="6주차 최소 구현 사양" tabindex="0">
+          <table class="binding-table">
+            <thead><tr><th scope="col">영역</th><th scope="col">필수 사양</th><th scope="col">통과 기준</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Hierarchy</th><td>Player root에 물리, Visual 자식에 SpriteRenderer·Animator</td><td>Clip 전환 중 Collider와 root 위치가 흔들리지 않음</td></tr>
+              <tr><th scope="row">Clips</th><td>Idle·Move 각각 Loop Time On, Sprite Keyframe만 사용</td><td>Preview와 Play Mode에서 끊김 없이 반복</td></tr>
+              <tr><th scope="row">Animator</th><td>Speed Float, 양방향 Transition, Has Exit Time Off</td><td>입력 시작·종료 후 0.2초 안에 상태 변경</td></tr>
+              <tr><th scope="row">Facing</th><td>수평 입력이 0이 아닐 때만 마지막 좌우 방향 갱신</td><td>멈춰도 마지막 방향 유지, Collider 변화 없음</td></tr>
+              <tr><th scope="row">Follow</th><td>Player root Tracking Target, Position Composer 사용</td><td>작은 이동은 허용하고 범위를 벗어나면 부드럽게 추적</td></tr>
+              <tr><th scope="row">Boundary</th><td>PolygonCollider2D와 Confiner 2D 연결</td><td>Game View의 네 화면 가장자리가 레벨 밖을 보이지 않음</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="teacher-check">
+          <span>필요할 때 참고</span>
+          <p>구조가 막히면 <a href="week-06-period1.html#slicing">1교시 Slice·Pivot</a> 또는 <a href="week-06-period2.html#animator">2교시 Animator 전환표</a>의 현재 문제에 해당하는 한 섹션만 다시 확인합니다.</p>
+        </aside>
+      </section>
+
+      <section class="week-six-section" id="tests" aria-labelledby="tests-title">
+        <header class="section-heading">
+          <h2 id="tests-title">필수 테스트 8개로 완료를 증명합니다</h2>
+          <p>각 테스트는 한 조건만 바꿉니다. 기대 결과와 실제 결과를 비교하고, FAIL이면 처음 보인 현상과 바꾼 한 가지를 기록합니다.</p>
+        </header>
+        <aside class="test-contract">
+          <span>PASS RULE</span>
+          <p>필수 T01-T08이 모두 PASS이고 Play 전후 Console Error가 0개여야 완료입니다. “대체로 괜찮음”은 PASS가 아닙니다. 아래 기대 결과를 눈으로 확인할 수 있어야 합니다.</p>
+        </aside>
+        <div class="test-identity">
+          <label>학번<input type="text" inputmode="numeric" autocomplete="off" placeholder="20260000" data-student-id></label>
+          <label>이름<input type="text" autocomplete="name" placeholder="이름" data-student-name></label>
+          <div class="test-progress" data-test-progress><span>Required tests</span><strong data-test-progress-label>0 / 8 PASS</strong></div>
+        </div>
+        <div class="table-wrap test-table-wrap" role="region" aria-label="6주차 애니메이션과 카메라 테스트표" tabindex="0">
+          <table class="test-table" data-test-table>
+            <thead><tr><th scope="col">ID</th><th scope="col">조작과 조건</th><th scope="col">기대 결과</th><th scope="col">판정</th><th scope="col">관찰과 수정 기록</th></tr></thead>
+            <tbody>
+              <tr data-test-id="T01" data-required="true"><th scope="row">T01</th><td>Play 후 2초 동안 입력하지 않음</td><td>Idle Clip이 반복되고 Player·Visual 위치가 흔들리지 않음</td><td><select data-test-status aria-label="T01 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T01 관찰 기록" placeholder="Idle 반복과 떨림 여부"></td></tr>
+              <tr data-test-id="T02" data-required="true"><th scope="row">T02</th><td>D 또는 오른쪽 방향키를 누름</td><td>0.2초 안에 Move로 전환되고 이동 중 반복 재생</td><td><select data-test-status aria-label="T02 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T02 관찰 기록" placeholder="반응 지연과 상태"></td></tr>
+              <tr data-test-id="T03" data-required="true"><th scope="row">T03</th><td>Move 중 모든 이동키를 놓음</td><td>0.2초 안에 Idle로 돌아오고 마지막 방향을 유지</td><td><select data-test-status aria-label="T03 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T03 관찰 기록" placeholder="Idle 복귀 시점"></td></tr>
+              <tr data-test-id="T04" data-required="true"><th scope="row">T04</th><td>A와 D를 번갈아 입력</td><td>Sprite가 매번 진행 방향을 향하고 Collider2D 모양은 유지</td><td><select data-test-status aria-label="T04 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T04 관찰 기록" placeholder="방향과 Collider"></td></tr>
+              <tr data-test-id="T05" data-required="true"><th scope="row">T05</th><td>상하좌우와 대각선 이동, 벽 충돌을 반복</td><td>Animation 전환 중에도 Visual이 튀지 않고 이동과 충돌이 이전과 같음</td><td><select data-test-status aria-label="T05 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T05 관찰 기록" placeholder="떨림, 속도와 충돌"></td></tr>
+              <tr data-test-id="T06" data-required="true"><th scope="row">T06</th><td>화면 중앙에서 Dead Zone 안만큼 짧게 이동</td><td>Player는 움직이지만 카메라 프레임은 움직이지 않음</td><td><select data-test-status aria-label="T06 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T06 관찰 기록" placeholder="허용된 화면 안 이동"></td></tr>
+              <tr data-test-id="T07" data-required="true"><th scope="row">T07</th><td>한 방향으로 계속 이동해 Dead Zone을 벗어남</td><td>카메라가 갑자기 붙거나 떨리지 않고 일정한 Damping으로 추적</td><td><select data-test-status aria-label="T07 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T07 관찰 기록" placeholder="Damping 값과 느낌"></td></tr>
+              <tr data-test-id="T08" data-required="true"><th scope="row">T08</th><td>레벨의 왼쪽, 오른쪽, 위와 아래 끝에 차례로 도달</td><td>네 위치 모두 Game View에 레벨 밖 배경이 한 줄도 드러나지 않음</td><td><select data-test-status aria-label="T08 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T08 관찰 기록" placeholder="네 끝의 화면 경계"></td></tr>
+              <tr data-test-id="T09" data-required="false"><th scope="row">T09 <span class="optional-label">선택</span></th><td>Game View를 16:9와 4:3으로 바꿔 네 끝 확인</td><td>두 화면 비율에서도 카메라 경계가 안정적으로 유지됨</td><td><select data-test-status aria-label="T09 판정"><option value="">미실행</option><option value="pass">PASS</option><option value="fail">FAIL</option></select></td><td><input data-test-note aria-label="T09 관찰 기록" placeholder="비율별 차이"></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="test-actions">
+          <button class="test-action test-action-primary" type="button" data-export-tests>CSV 저장</button>
+          <button class="test-action" type="button" data-reset-tests>기록 초기화</button>
+          <p data-test-status-message role="status" aria-live="polite">입력한 결과는 이 브라우저에 자동 저장됩니다.</p>
+        </div>
+      </section>
+
+      <section class="week-six-section" id="debug" aria-labelledby="debug-title">
+        <header class="section-heading">
+          <h2 id="debug-title">FAIL은 보이는 신호를 따라 좁힙니다</h2>
+          <p>코드와 Inspector를 동시에 바꾸지 않습니다. 왼쪽부터 확인해 처음 끊긴 단계에서 한 가지만 수정합니다.</p>
+        </header>
+        <div class="debug-ladder" aria-label="Sprite에서 화면 경계까지의 디버깅 순서">
+          <span>SPRITES</span><b>→</b><span>CLIPS</span><b>→</b><span>SPEED</span><b>→</b><span>STATE</span><b>→</b><span>FOLLOW</span><b>→</b><span>BOUNDARY</span>
+        </div>
+        <div class="trouble-grid">
+          <details><summary>Clip Preview부터 흔들립니다</summary><div class="details-motion-content"><p><strong>관찰:</strong> 각 Sprite의 Rect와 Pivot 표시를 비교합니다. <strong>한 가지 수정:</strong> 모든 프레임의 Pivot을 같은 발 중심으로 맞춘 뒤 Apply합니다. Rigidbody2D나 Camera 값은 아직 바꾸지 않습니다.</p></div></details>
+          <details><summary>두 Clip은 정상인데 상태가 바뀌지 않습니다</summary><div class="details-motion-content"><p>Play 중 Animator 창의 Speed 값을 봅니다. 0에서 변하지 않으면 Animator 참조와 SetFloat를, 값이 변하면 Condition, Parameter 철자와 Transition 방향을 확인합니다.</p></div></details>
+          <details><summary>상태 전환이 늦습니다</summary><div class="details-motion-content"><p>Has Exit Time을 끄고 Transition Duration을 0에 가깝게 낮춥니다. 두 값을 동시에 바꾸었다면 하나를 되돌리고 어떤 설정이 지연을 만들었는지 기록합니다.</p></div></details>
+          <details><summary>왼쪽에서 Player 전체가 뒤집힙니다</summary><div class="details-motion-content"><p>Player root의 Scale X를 확인합니다. 음수로 바꾸지 말고 Visual의 SpriteRenderer에 <code>flipX</code>를 적용합니다. Scene View에서 Collider Gizmo가 변하지 않는지 봅니다.</p></div></details>
+          <details><summary>Camera가 너무 붙거나 늦게 따라옵니다</summary><div class="details-motion-content"><p>먼저 Dead Zone만 조절해 “언제 움직일지”를 맞춥니다. 그다음 Damping만 조절해 “얼마나 빨리 따라갈지”를 맞춥니다. Camera가 Player 자식이면 먼저 분리합니다.</p></div></details>
+          <details><summary>한쪽 끝에서만 화면 밖이 보입니다</summary><div class="details-motion-content"><p>Game View를 유지한 채 PolygonCollider2D의 해당 쪽 꼭짓점과 Orthographic Size를 비교합니다. Bounding Shape 연결이 맞다면 경계가 화면 반쪽 크기만큼 안쪽에서 멈추는 것이 정상입니다.</p></div></details>
+          <details><summary>코드가 컴파일되지 않습니다</summary><div class="details-motion-content"><p>Console의 가장 위 첫 빨간 오류 하나만 읽습니다. 오류 파일과 줄, 괄호, <code>animator</code>와 <code>spriteRenderer</code> 필드 선언, Parameter ID 철자를 순서대로 확인합니다.</p></div></details>
+        </div>
+        <aside class="ask-template">
+          <span>Ask 요청문 / 설명만 요청</span>
+          <p><code>[Unity 6.3 LTS / Week 06] 실패 테스트: T__ / Console 원문: ___ / 기대 결과: ___ / 실제 현상: ___ / 확인한 단계: ___. 코드를 대신 작성하거나 수정하지 말고, 어느 단계가 끊겼는지와 다음에 확인할 한 항목만 설명해 주세요.</code></p>
+        </aside>
+        <div class="rule-banner">
+          <span>AI 사용 범위</span>
+          <strong>Ask로 오류 문구, 기존 코드와 Inspector 속성의 의미를 설명받을 수 있습니다. 코드 생성·자동 수정, Agent 실행, Generator 사용은 이번 실습에서 허용하지 않습니다.</strong>
+        </div>
+      </section>
+
+      <section class="week-six-section" id="evidence" aria-labelledby="evidence-title">
+        <header class="section-heading">
+          <h2 id="evidence-title">정지 화면이 아닌 동작 증거를 남깁니다</h2>
+          <p>Animation과 Camera는 시간에 따른 변화이므로 영상이 필요합니다. 에셋 구조와 테스트 기록을 함께 제출해 다시 확인할 수 있게 합니다.</p>
+        </header>
+        <div class="submission-grid">
+          <article><span>Scene</span><h3><code>Week06_AnimationCamera.unity</code></h3><p>Player, Visual, Cinemachine Camera와 CameraBounds가 연결된 재실행 가능한 Scene입니다.</p></article>
+          <article><span>Animation</span><h3><code>Player_Idle.anim</code>, <code>Player_Move.anim</code></h3><p>두 Clip과 이를 연결한 Animator Controller를 함께 제출합니다.</p></article>
+          <article><span>Video</span><h3><code>week06_학번_이름_demo.mp4</code></h3><p>15-25초 안에 Idle → Move → Idle, 좌우 방향, Camera follow와 한 경계 도달을 끊지 않고 보여 줍니다.</p></article>
+          <article><span>Test log</span><h3><code>week06_학번_이름_test.csv</code></h3><p>이 페이지에서 저장한 T01-T08 판정, 관찰과 수정 기록입니다.</p></article>
+        </div>
+        <div class="completion-panel" data-build-checklist>
+          <header><div><span>최종 확인</span><h3>종료 전 8개 확인</h3></div><strong data-build-progress-label>0 / 8 완료</strong></header>
+          <ol>
+            <li><label><input type="checkbox" data-check-id="scene"> <span>별도 Scene <code>Week06_AnimationCamera</code>를 저장했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="console"> <span>Play 전후 Console Error가 0개입니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="frames"> <span>Sprite의 PPU, Rect와 Pivot 기준이 일관됩니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="states"> <span>Idle과 Move가 빠르게 전환되고 두 Clip이 반복됩니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="facing"> <span>좌우 방향이 맞고 Collider2D는 변하지 않습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="camera"> <span>Dead Zone, Damping과 네 화면 경계를 확인했습니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="tests"> <span>필수 T01-T08이 모두 PASS입니다.</span></label></li>
+            <li><label><input type="checkbox" data-check-id="files"> <span>Scene, Animation, 영상과 CSV 파일명을 확인했습니다.</span></label></li>
+          </ol>
+          <p class="storage-status" data-build-storage-status role="status" aria-live="polite">체크 결과는 이 브라우저에 저장됩니다.</p>
+          <button type="button" data-build-reset>체크 초기화</button>
+        </div>
+      </section>
+
+      <section class="week-six-section" id="exit" aria-labelledby="exit-title">
+        <header class="section-heading">
+          <h2 id="exit-title">자신의 선택을 세 문장으로 설명합니다</h2>
+          <p>수치 자체보다 그 수치가 만든 결과를 말합니다. 자신의 Game View를 가리키며 빈칸을 채웁니다.</p>
+        </header>
+        <div class="exit-ticket">
+          <article><span>상태</span><p>내 Animator는 <code>Speed</code>가 ______일 때 Idle, ______일 때 Move를 재생합니다.</p></article>
+          <article><span>추적 감각</span><p>Dead Zone은 ______만큼의 작은 이동을 허용하고, Damping ______은 카메라를 ______하게 느끼게 합니다.</p></article>
+          <article><span>화면 경계</span><p>CameraBounds는 ______ 모양이며, 네 끝에서 화면의 ______가 레벨 밖으로 나가지 않습니다.</p></article>
+        </div>
+        <aside class="next-week">
+          <span>다음 주차</span>
+          <div><h3>보이는 반응에 UI와 소리를 더합니다</h3><p>다음 주에는 HUD, AudioSource와 점수, 시간, 성공과 실패 상태를 연결해 플레이 흐름을 완성합니다.</p></div>
+        </aside>
+      </section>
+
+      <section class="week-six-section references-section" id="references" aria-labelledby="references-title">
+        <header class="section-heading">
+          <h2 id="references-title">실습 중 확인할 공식 자료</h2>
+          <p>메뉴나 속성이 다르게 보일 때에는 검색 결과보다 현재 버전의 Unity와 Cinemachine 공식 문서를 먼저 확인합니다.</p>
+        </header>
+        <ul class="reference-list">
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/texture-type-sprite.html" target="_blank" rel="noopener noreferrer"><strong>Sprite texture Import Settings ↗</strong></a><span>Multiple, PPU, Pivot과 Filter Mode</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/class-Transition.html" target="_blank" rel="noopener noreferrer"><strong>Animation transitions ↗</strong></a><span>Transition Condition과 Has Exit Time</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Animator.SetFloat.html" target="_blank" rel="noopener noreferrer"><strong>Animator.SetFloat ↗</strong></a><span>Speed Float Parameter 갱신</span></li>
+          <li><a href="https://docs.unity.cn/Packages/com.unity.cinemachine@3.1/manual/CinemachinePositionComposer.html" target="_blank" rel="noopener noreferrer"><strong>Position Composer ↗</strong></a><span>2D Camera의 Dead Zone과 Damping</span></li>
+          <li><a href="https://docs.unity.cn/Packages/com.unity.cinemachine@3.1/manual/CinemachineConfiner2D.html" target="_blank" rel="noopener noreferrer"><strong>Cinemachine Confiner 2D ↗</strong></a><span>화면 가장자리를 Polygon 경계 안에 두는 방법</span></li>
+        </ul>
+      </section>
+    </article>
+
+    <nav class="toc week-six-toc" aria-label="3교시 목차" data-week-six-toc>
+      <details class="week-six-toc-disclosure" data-week-six-toc-disclosure open>
+        <summary><span>6주차 3교시</span><strong>섹션 이동</strong></summary>
+        <p class="toc-title">6주차 3교시 / 목차</p>
+        <ol>
+          <li><a href="#arrival" aria-current="location"><span>00</span>도착점</a></li>
+          <li><a href="#mission"><span>01</span>미션 계약</a></li>
+          <li><a href="#starting-line"><span>02</span>시작 상태</a></li>
+          <li><a href="#route"><span>03</span>자율 경로</a></li>
+          <li><a href="#spec"><span>04</span>최소 사양</a></li>
+          <li><a href="#tests"><span>05</span>8개 테스트</a></li>
+          <li><a href="#debug"><span>06</span>디버깅</a></li>
+          <li><a href="#evidence"><span>07</span>완료 증거</a></li>
+          <li><a href="#exit"><span>08</span>종료 설명</a></li>
+          <li><a href="#references"><span>09</span>공식 자료</a></li>
+        </ol>
+      </details>
+    </nav>
+  </main>
+
+  <p class="footer-note">Game Engine I / 6주차 3교시 / 개인 목표지향 실습</p>
+  <script src="assets/week-06-storage.js?v=ge1w6-2" defer></script>
+  <script src="assets/week-06.js?v=ge1w6-2" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+</body>
+</html>

@@ -87,7 +87,7 @@ const validateStructure = (html, label) => {
 
 const fixturePaths = {
   courseIndex: resolve(courseDirectory, "index.html"),
-  previousLesson: resolve(courseDirectory, "week-05-period3.html"),
+  previousLesson: resolve(courseDirectory, "week-06-period3.html"),
   period1: resolve(courseDirectory, "week-07-period1.html"),
   period2: resolve(courseDirectory, "week-07-period2.html"),
   period3: resolve(courseDirectory, "week-07-period3.html"),
@@ -129,7 +129,7 @@ test("Game Engine I week 7 is published as three connected periods", async () =>
   }
 
   assert.match(previousLesson, /href="week-07-period1\.html" rel="next"/);
-  assert.match(period1, /href="week-05-period3\.html" rel="prev"/);
+  assert.match(period1, /href="week-06-period3\.html" rel="prev"/);
   assert.match(period1, /href="week-07-period2\.html" rel="next"/);
   assert.match(period2, /href="week-07-period1\.html" rel="prev"/);
   assert.match(period2, /href="week-07-period3\.html" rel="next"/);

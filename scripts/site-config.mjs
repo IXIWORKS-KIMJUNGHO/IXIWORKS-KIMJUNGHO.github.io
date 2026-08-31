@@ -74,6 +74,18 @@ const PAGE_SHARE_IMAGES = Object.freeze({
     path: "/teaching/game-engine-1/assets/week-05-period3-interaction-mission.webp",
     alt: "주황색 플레이어가 수집물 세 개와 위험 구역 두 개를 지나 목표 문과 여덟 검증 지점으로 향하는 입체 미션 장면",
   }),
+  "teaching/game-engine-1/week-06-period1.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-06-period1-hero.webp",
+    alt: "여섯 개의 캐릭터 프레임과 같은 위치의 Pivot, 타임라인이 하나의 걷기 움직임으로 이어지는 입체 도해",
+  }),
+  "teaching/game-engine-1/week-06-period2.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-06-period2-hero.webp",
+    alt: "Idle과 Move 상태가 양방향 화살표로 연결되고, 캐릭터를 Dead Zone 안에 둔 카메라 프레임이 레벨 경계 안에서 추적하는 입체 도해",
+  }),
+  "teaching/game-engine-1/week-06-period3.html": Object.freeze({
+    path: "/teaching/game-engine-1/assets/week-06-period3-hero.webp",
+    alt: "애니메이션 캐릭터와 카메라 프레임이 레벨 안에서 정확히 여덟 개의 연두색 검증 지점을 통과하는 입체 테스트 장면",
+  }),
   "teaching/game-engine-1/week-07-period1.html": Object.freeze({
     path: "/teaching/game-engine-1/assets/week-07-period1-state-loop.webp",
     alt: "플레이어 말이 준비, 플레이, 성공, 실패 지점을 순환하고 중앙의 점수 계수기와 시간 다이얼이 상태를 보여 주는 입체 모형",
