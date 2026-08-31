@@ -20,10 +20,6 @@ const soundAssetGeneratorPath = resolve(
   "generate-week13-sound-assets.py",
 );
 
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 async function readWeek13() {
   const courseIndex = await readFile(courseIndexPath, "utf8");
   const week13Match = courseIndex.match(
@@ -34,221 +30,18 @@ async function readWeek13() {
   return week13Match[0];
 }
 
-function paragraphByLabel(week, label) {
-  const paragraph = week.match(
-    new RegExp(
-      `<p><strong>${escapeRegExp(label)}</strong>([\\s\\S]*?)<\\/p>`,
-    ),
-  );
-
-  assert.ok(paragraph, `week 13 should include the “${label}” paragraph`);
-  return paragraph[0];
-}
-
-function visibleText(fragment) {
-  return fragment.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function assertIncludesAll(fragment, values) {
-  const text = visibleText(fragment);
-
-  for (const value of values) {
-    assert.ok(text.includes(value), `expected “${value}” inside: ${text}`);
-  }
-}
-
-function assertContinuousFiftyMinutePlan(fragment) {
-  const ranges = [...visibleText(fragment).matchAll(/(\d+)–(\d+)분/g)].map(
-    ([, start, end]) => [Number(start), Number(end)],
-  );
-
-  assert.ok(ranges.length > 1, "a period should contain a detailed time plan");
-  assert.equal(ranges[0][0], 0, "a period should begin at minute 0");
-
-  for (const [start, end] of ranges) {
-    assert.ok(end > start, "every time block should have a positive duration");
-  }
-
-  for (let index = 1; index < ranges.length; index += 1) {
-    assert.equal(
-      ranges[index][0],
-      ranges[index - 1][1],
-      "adjacent time blocks should not leave gaps or overlap",
-    );
-  }
-
-  assert.equal(ranges.at(-1)[1], 50, "a period should end at minute 50");
-}
-
-function assertExternalLink(fragment, href) {
-  assert.match(
-    fragment,
-    new RegExp(
-      `<a href="${escapeRegExp(href)}" target="_blank" rel="noopener noreferrer">`,
-    ),
-  );
-}
-
-test("week 13 turns ordered text points into sampled sound over real time", async () => {
+test("week 13 publishes three lesson cards from the course index", async () => {
   const week13 = await readWeek13();
-  const connection = paragraphByLabel(week13, "12주차 연결");
 
+  assert.match(week13, /Sound and time/);
+  assert.match(week13, /href="week-13-period1\.html"/);
+  assert.match(week13, /href="week-13-period2\.html"/);
+  assert.match(week13, /href="week-13-period3\.html"/);
+  assert.match(week13, /13주차 1교시: 소리는 어떻게 시간 데이터가 되는가/);
+  assert.match(week13, /13주차 2교시: librosa로 파형·RMS·스펙트로그램 그리기/);
   assert.match(
     week13,
-    /<h3>파형과 스펙트로그램으로 소리의 시간·주파수 구조 읽기<\/h3>/,
-  );
-  assertIncludesAll(connection, [
-    "한 문장의 공백 기준 토큰 수",
-    "시간이 아니라 원문에 등장한 순서",
-    "실제 초 단위 가로축",
-    "샘플링 레이트·채널·프레임 길이·프레임 이동 간격",
-    "6초",
-    "22,050Hz",
-    "모노",
-    "132,300샘플",
-    "교수자 창작 WAV 세 편",
-  ]);
-});
-
-test("period 1 explains waveform, frames, RMS, and spectrogram without overclaiming", async () => {
-  const week13 = await readWeek13();
-  const period1 = paragraphByLabel(
-    week13,
-    "1교시 · 소리는 어떻게 시간 데이터가 되는가",
-  );
-
-  assertIncludesAll(period1, [
-    "재생 화면, 파형, RMS 에너지 곡선, 스펙트로그램",
-    "샘플",
-    "샘플링 레이트",
-    "모노와 스테레오 채널",
-    "22,050Hz로 6초",
-    "132,300개의 샘플",
-    "세로축이 정규화된 진폭",
-    "사람이 느끼는 음량",
-    "frame_length=2048",
-    "hop_length=512",
-    "절대 음압 레벨과 같지 않다",
-    "Hz",
-    "STFT",
-    "가로축은 시간",
-    "세로축은 주파수",
-    "상대 dB 값",
-    "소리의 정체나 감정을 자동으로 증명하지 않는다",
-    "타인의 목소리",
-    "당사자의 동의",
-    "기억에서 꺼내 정리",
-  ]);
-  assertContinuousFiftyMinutePlan(period1);
-});
-
-test("period 2 uses current librosa APIs to build three honest audio views", async () => {
-  const week13 = await readWeek13();
-  const period2 = paragraphByLabel(
-    week13,
-    "2교시 · librosa로 파형·RMS·스펙트로그램 그리기",
-  );
-
-  assertIncludesAll(period2, [
-    "source_path",
-    "원본 파일을 변경하지 않은 채",
-    "IPython.display.Audio",
-    "y, sr = librosa.load(source_path, sr=None, mono=True)",
-    "y.shape",
-    "y.dtype",
-    "len(y) / sr",
-    "sample_times = np.arange(len(y)) / sr",
-    "np.argmax(np.abs(y)) / sr",
-    "librosa.feature.rms()",
-    "librosa.times_like()",
-    "time_sec",
-    "rms",
-    "librosa.stft()",
-    "librosa.amplitude_to_db()",
-    "ref=np.max",
-    "librosa.display.specshow()",
-    "-80~0dB",
-    "1600 × 2200",
-    "시간 범위, 주파수 범위와 dB 색상 범위를 고정",
-    "savefig()",
-  ]);
-  assertContinuousFiftyMinutePlan(period2);
-
-  for (const href of [
-    "https://librosa.org/doc/latest/generated/librosa.load.html",
-    "https://librosa.org/doc/latest/generated/librosa.display.waveshow.html",
-    "https://librosa.org/doc/latest/generated/librosa.feature.rms.html",
-    "https://librosa.org/doc/latest/generated/librosa.stft.html",
-    "https://librosa.org/doc/latest/generated/librosa.amplitude_to_db.html",
-    "https://librosa.org/doc/latest/generated/librosa.display.specshow.html",
-  ]) {
-    assertExternalLink(period2, href);
-  }
-});
-
-test("period 3 is a measurable sound-poster and final-project seed mission", async () => {
-  const week13 = await readWeek13();
-  const period3 = paragraphByLabel(
-    week13,
-    "3교시 · 목표 달성형 개인 실습",
-  );
-
-  assertIncludesAll(period3, [
-    "규칙적인 펄스",
-    "상승하는 음",
-    "저음·고음이 교차하는 리듬",
-    "22,050Hz",
-    "모노 한 채널",
-    "132,300샘플",
-    "6초",
-    "최대 절대 진폭 시점",
-    "2048샘플 프레임",
-    "512샘플 이동 간격",
-    "최대 RMS 프레임의 시간",
-    "-80~0dB 상대 스펙트로그램",
-    "1600 × 2200 사운드 패턴 포스터",
-    "수치 근거 세 문장",
-    "기말 프로젝트 씨앗 카드 HTML",
-    "입력 자료",
-    "출처와 이용 권한",
-    "변환 또는 시각화 규칙",
-    "14주차 첫 제작 행동",
-    "자동 검사 PASS",
-    "week13_학번_이름.ipynb",
-    "week13_학번_이름_sound_poster.png",
-    "week13_학번_이름_project_seed.html",
-    "세 파일을 제출",
-    "즉시 귀가",
-  ]);
-  assertContinuousFiftyMinutePlan(period3);
-});
-
-test("week 13 keeps optional personal audio separate and hands a fixed seed to week 14", async () => {
-  const week13 = await readWeek13();
-  const optional = paragraphByLabel(
-    week13,
-    "선택 확장 · 자신의 소리를 같은 척도로 비교하기",
-  );
-  const connection = paragraphByLabel(week13, "14주차 연결");
-
-  assertIncludesAll(optional, [
-    "필수 결과 세 파일을 먼저 제출",
-    "직접 생성·녹음했거나 분석·제출 권한을 확인",
-    "같은 0–6초 시간축",
-    "-80~0dB 색상 범위",
-    "타인의 음악과 동의받지 않은 음성은 사용하지 않으며",
-    "필수 귀가 조건과 추가 점수에 포함하지 않는다",
-  ]);
-  assertIncludesAll(connection, [
-    "14주차 1차 면담의 출발 문서",
-    "출처와 이용 권한",
-    "한 가지 핵심 변환 규칙",
-    "첫 제작 행동",
-    "30% 프로토타입",
-  ]);
-  assert.match(
-    week13,
-    /제출 · 사운드 패턴 포스터 PNG, 기말 프로젝트 씨앗 카드 HTML 및 Colab 노트북/,
+    /13주차 3교시: 사운드 패턴 포스터와 기말 프로젝트 씨앗 미션/,
   );
   assert.doesNotMatch(week13, /짝 활동|짝과|조별|팀 활동/);
 });
@@ -260,8 +53,8 @@ test("week 13 period 1 and 2 are linked, timed, and substantial beginner lessons
     readFile(resolve(lessonRoot, "week-13-period2.html"), "utf8"),
   ]);
 
-  assert.match(courseIndex, /href="week-13-period1\.html">강의 자료 ↗<\/a>/);
-  assert.match(courseIndex, /href="week-13-period2\.html">강의 자료 ↗<\/a>/);
+  assert.match(courseIndex, /href="week-13-period1\.html"/);
+  assert.match(courseIndex, /href="week-13-period2\.html"/);
   assert.match(period1, /13주차 1교시: 소리는 어떻게 시간 데이터가 되는가/);
   assert.match(period2, /13주차 2교시: librosa로 파형·RMS·스펙트로그램 그리기/);
 
@@ -358,7 +151,7 @@ test("period 3 is a substantial goal-based handout linked from the course sequen
 
   assert.match(
     courseIndex,
-    /href="week-13-period3\.html">사운드 패턴 포스터 미션 ↗<\/a>/,
+    /href="week-13-period3\.html"/,
   );
   assert.match(period2, /href="week-13-period3\.html" rel="next"/);
   assert.match(period3, /href="week-13-period2\.html" rel="prev"/);

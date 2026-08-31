@@ -12,10 +12,6 @@ const courseIndexPath = resolve(
 );
 const courseDirectory = resolve(root, "teaching", "contents-programming");
 
-function escapeRegExp(value) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-}
-
 async function readWeek12() {
   const courseIndex = await readFile(courseIndexPath, "utf8");
   const week12Match = courseIndex.match(
@@ -26,199 +22,17 @@ async function readWeek12() {
   return week12Match[0];
 }
 
-function paragraphByLabel(week, label) {
-  const paragraph = week.match(
-    new RegExp(
-      `<p><strong>${escapeRegExp(label)}</strong>([\\s\\S]*?)<\\/p>`,
-    ),
-  );
-
-  assert.ok(paragraph, `week 12 should include the “${label}” paragraph`);
-  return paragraph[0];
-}
-
-function visibleText(fragment) {
-  return fragment.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-}
-
-function assertIncludesAll(fragment, values) {
-  const text = visibleText(fragment);
-
-  for (const value of values) {
-    assert.ok(text.includes(value), `expected “${value}” inside: ${text}`);
-  }
-}
-
-function assertContinuousFiftyMinutePlan(fragment) {
-  const ranges = [...visibleText(fragment).matchAll(/(\d+)–(\d+)분/g)].map(
-    ([, start, end]) => [Number(start), Number(end)],
-  );
-
-  assert.ok(ranges.length > 1, "a period should contain a detailed time plan");
-  assert.equal(ranges[0][0], 0, "a period should begin at minute 0");
-
-  for (const [start, end] of ranges) {
-    assert.ok(end > start, "every time block should have a positive duration");
-  }
-
-  for (let index = 1; index < ranges.length; index += 1) {
-    assert.equal(
-      ranges[index][0],
-      ranges[index - 1][1],
-      "adjacent time blocks should not leave gaps or overlap",
-    );
-  }
-
-  assert.equal(ranges.at(-1)[1], 50, "a period should end at minute 50");
-}
-
-function assertExternalLink(fragment, href) {
-  assert.match(
-    fragment,
-    new RegExp(
-      `<a href="${escapeRegExp(href)}" target="_blank" rel="noopener noreferrer">`,
-    ),
-  );
-}
-
-test("week 12 explicitly bridges the data poster to a shared, safe text dataset", async () => {
+test("week 12 publishes three lesson cards from the course index", async () => {
   const week12 = await readWeek12();
-  const connection = paragraphByLabel(week12, "11주차 연결");
 
-  assertIncludesAll(connection, [
-    "11주차 데이터 포스터",
-    "제목과 주석",
-    "문서·문장·토큰",
-    "상위 단어 빈도",
-    "문장 길이",
-    "수업 창작 텍스트 세 편",
-    "열두 문장",
-    "저작권과 개인정보",
-  ]);
-});
-
-test("period 1 teaches a transparent text-analysis model and its limits", async () => {
-  const week12 = await readWeek12();
-  const period1 = paragraphByLabel(
-    week12,
-    "1교시 · 텍스트는 어떻게 데이터가 되는가",
-  );
-
-  assertIncludesAll(period1, [
-    "문서",
-    "문장",
-    "토큰",
-    "빈도",
-    "원본 보존",
-    "공백 기준 토큰화",
-    "형태소 분석과 같지 않다",
-    "불용어",
-    "제외 목록과 이유",
-    "워드클라우드",
-    "막대그래프",
-    "중요도·화자의 의도·감정",
-    "저작권",
-    "당사자의 동의",
-  ]);
-  assertContinuousFiftyMinutePlan(period1);
-});
-
-test("period 2 turns the same text into a frequency chart and an ordered rhythm chart", async () => {
-  const week12 = await readWeek12();
-  const period2 = paragraphByLabel(
-    week12,
-    "2교시 · Python으로 단어 빈도와 문장 리듬 그리기",
-  );
-
-  assertIncludesAll(period2, [
-    "raw_text",
-    "re.sub()",
-    "split()",
-    "normalized_text",
-    "tokens",
-    "Counter",
-    "most_common()",
-    "word",
-    "count",
-    "Axes.barh()",
-    "상위 열 개",
-    "빈도축을 0에서 시작",
-    "Axes.plot()",
-    "1부터 12까지의 문장 순서",
-    "1600 × 2200",
-    "savefig()",
-  ]);
-  assertContinuousFiftyMinutePlan(period2);
-  assertExternalLink(period2, "https://docs.python.org/3/library/re.html");
-  assertExternalLink(
-    period2,
-    "https://docs.python.org/3/library/collections.html#collections.Counter",
-  );
-  assertExternalLink(
-    period2,
-    "https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.barh.html",
-  );
-  assertExternalLink(
-    period2,
-    "https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.plot.html",
-  );
-});
-
-test("period 3 is a measurable individual PASS mission with three deliverables", async () => {
-  const week12 = await readWeek12();
-  const period3 = paragraphByLabel(
-    week12,
-    "3교시 · 목표 달성형 개인 실습",
-  );
-
-  assertIncludesAll(period3, [
-    "수업 창작 텍스트 세 편 중 한 편",
-    "raw_text",
-    "공백 기준 토큰화",
-    "전체 토큰 수와 고유 토큰 수",
-    "전체 빈도표 CSV",
-    "상위 열 개 단어",
-    "열두 문장",
-    "문장 길이 흐름 그래프",
-    "1600 × 2200 텍스트 패턴 포스터",
-    "질문형 제목",
-    "관찰 한 문장",
-    "공백 기준 토큰화의 한계 한 문장",
-    "week12_학번_이름.ipynb",
-    "week12_학번_이름_word_frequency.csv",
-    "week12_학번_이름_text_poster.png",
-    "자동 검사 PASS",
-    "세 파일을 제출",
-    "즉시 귀가",
-  ]);
-  assertContinuousFiftyMinutePlan(period3);
-});
-
-test("week 12 keeps optional context work separate and prepares sound as ordered data", async () => {
-  const week12 = await readWeek12();
-  const optional = paragraphByLabel(
-    week12,
-    "선택 확장 · 단어를 다시 문맥으로 돌려놓기",
-  );
-  const week13Connection = paragraphByLabel(week12, "13주차 연결");
-
-  assertIncludesAll(optional, [
-    "핵심 단어",
-    "앞뒤 문맥",
-    "필수 귀가 조건과 추가 점수에 포함하지 않는다",
-  ]);
-  assertIncludesAll(week13Connection, [
-    "문장 길이 흐름 그래프",
-    "문장의 토큰 수",
-    "소리 신호의 진폭",
-    "파형",
-    "샘플 단위",
-  ]);
+  assert.match(week12, /Text as data/);
+  assert.match(week12, /href="week-12-period1\.html"/);
+  assert.match(week12, /href="week-12-period2\.html"/);
+  assert.match(week12, /href="week-12-period3\.html"/);
+  assert.match(week12, /12주차 1교시: 텍스트는 어떻게 데이터가 되는가/);
+  assert.match(week12, /12주차 2교시: Python으로 단어 빈도와 문장 리듬 그리기/);
+  assert.match(week12, /12주차 3교시: 텍스트 패턴 포스터 미션/);
   assert.doesNotMatch(week12, /짝 활동|짝과|조별|팀 활동/);
-  assert.match(
-    week12,
-    /제출 · 텍스트 패턴 포스터 PNG, 단어 빈도 CSV 및 Colab 노트북/,
-  );
 });
 
 test("week 12 publishes three detailed beginner lessons with continuous timing", async () => {

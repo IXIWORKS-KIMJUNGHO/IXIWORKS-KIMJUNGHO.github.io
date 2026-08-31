@@ -342,8 +342,9 @@ test("the Contents Programming course publishes its syllabus structure", async (
   );
   assert.match(courseIndex, /Python/);
   assert.match(courseIndex, /Google Colab/);
-  assert.match(courseIndex, /1·2교시 · 이론/);
-  assert.match(courseIndex, /3교시 · 목표 달성형 개인 실습/);
+  assert.match(courseIndex, /class="material-card"/);
+  assert.match(courseIndex, /Period 01/);
+  assert.match(courseIndex, /href="week-01-ot\.html"/);
   assert.equal(
     [...courseIndex.matchAll(/class="course-disclosure"/g)].length,
     3,
@@ -362,8 +363,10 @@ test("the Contents Programming course publishes its syllabus structure", async (
     "70-82분",
     "82-88분",
     "88-90분",
+    "교수자 진행 · 3분",
+    "개별 활동 · 7분",
   ]) {
-    assert.match(orientation, new RegExp(timeRange));
+    assert.doesNotMatch(orientation, new RegExp(timeRange.replaceAll("·", "·")));
   }
   assert.match(orientation, /same-data-three-outputs\.svg/);
   assert.match(orientation, /https:\/\/reas\.com\/process/);

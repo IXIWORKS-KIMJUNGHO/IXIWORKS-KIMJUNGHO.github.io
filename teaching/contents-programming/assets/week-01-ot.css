@@ -199,18 +199,9 @@ body.course-contents-programming.orientation-page .orientation-agenda li {
   padding: 17px 0;
   border-bottom: 1px solid var(--line);
   display: grid;
-  grid-template-columns: 94px minmax(180px, 0.82fr) minmax(0, 1.18fr);
+  grid-template-columns: minmax(180px, 0.82fr) minmax(0, 1.18fr);
   gap: 18px;
   align-items: baseline;
-}
-
-body.course-contents-programming.orientation-page .orientation-agenda-time {
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 10px;
-  font-weight: 650;
-  letter-spacing: 0.03em;
-  white-space: nowrap;
 }
 
 body.course-contents-programming.orientation-page .orientation-agenda strong {
@@ -598,12 +589,8 @@ body.course-contents-programming.orientation-page > .footer-note {
 
   body.course-contents-programming.orientation-page .orientation-agenda li {
     padding-block: 16px;
-    grid-template-columns: 82px minmax(0, 1fr);
+    grid-template-columns: minmax(160px, 0.7fr) minmax(0, 1fr);
     gap: 5px 14px;
-  }
-
-  body.course-contents-programming.orientation-page .orientation-agenda p {
-    grid-column: 2;
   }
 
   body.course-contents-programming.orientation-page .article > h2 {

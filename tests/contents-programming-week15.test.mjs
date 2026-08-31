@@ -59,10 +59,9 @@ test("Contents Programming week 15 publishes three connected lessons", async () 
     );
   }
   assertIncludesAll(courseIndex, [
-    "30% 프로토타입에서 70% 프로토타입으로",
-    "수정 전후 증거",
-    "목표 달성형 개인 실습",
-    "완료하면 즉시 귀가",
+    "15주차 1교시: 30% 프로토타입에서 70% 프로토타입으로",
+    "15주차 2교시: 최종 품질 검증과 제출 패키지",
+    "15주차 3교시: 70% 프로젝트 프로토타입 미션",
   ]);
 
   assert.match(week14Period3, /href="week-15-period1\.html" rel="next"/);

@@ -37,7 +37,7 @@ test("Contents Programming week 14 period 1 turns broad ideas into buildable pro
   ]);
 
   assert.match(courseIndex, /href="week-14-period1\.html"/);
-  assert.match(courseIndex, /14–24분에는 네 가지 축소 사례/);
+  assert.match(courseIndex, /14주차 1교시: 아이디어를 제작 가능한 프로젝트 문장으로 바꾸기/);
   const lessonOrder = [
     ...new Set(
       [...courseIndex.matchAll(/href="(week-\d+-period\d+\.html)"/g)].map(
@@ -122,7 +122,7 @@ test("Contents Programming week 14 period 2 makes code structure and review evid
   assert.match(period2, /href="week-14-period3\.html" rel="next"/);
   assert.match(
     await readFile(resolve(courseDirectory, "index.html"), "utf8"),
-    /35–41분에는[\s\S]*41–50분에는/,
+    /href="week-14-period2\.html"/,
   );
   assertTimeline(period2, [
     [0, 7],

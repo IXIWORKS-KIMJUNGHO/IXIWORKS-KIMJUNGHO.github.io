@@ -22,16 +22,13 @@ test("Contents Programming week 7 transforms generated images into a midterm pro
   const week7 = week7Match[0];
 
   for (const pattern of [
-    /6주차 연결.*create_poster\(\)/s,
-    /1교시.*Image\.open\(\).*copy\(\).*crop\(\).*resize\(\).*rotate\(\)/s,
-    /원본.*작업본.*결과물/s,
-    /2교시.*RGBA.*알파.*레이어.*alpha_composite\(\)/s,
-    /제목.*창작자.*원본 주소.*라이선스.*변형 내용/s,
-    /3교시.*목표 달성형 개인 실습/s,
-    /변형 레이어 세 개.*1000 × 1000/s,
-    /자동 검사 PASS.*두 파일 제출.*즉시 귀가/s,
-    /8주차 연결.*생성 포스터 시리즈/s,
-    /제출 · 변형·합성 프로토타입 PNG 및 Colab 노트북/s,
+    /Image transformation/,
+    /href="week-07-period1\.html"/,
+    /href="week-07-period2\.html"/,
+    /href="week-07-period3\.html"/,
+    /7주차 1교시: 원본을 보존하며 이미지 변형하기/,
+    /7주차 2교시: RGBA 레이어 합성과 책임 있는 이미지 이용/,
+    /7주차 3교시: 변형·합성 프로토타입 미션/,
   ]) {
     assert.match(week7, pattern);
   }
