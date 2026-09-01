@@ -50,11 +50,14 @@ test("Selected Work and Work System Map keep every project visible", async () =>
   assert.doesNotMatch(html, /\shidden(|=)|display:\s*none/);
 });
 
-test("redesigned surfaces use rust instead of teal as the accent", async () => {
+test("redesigned surfaces use mustard accent and cool neutrals", async () => {
   const css = await readFile(resolve(root, "src", "styles.css"), "utf8");
-  assert.match(css, /--accent:\s*#b64e35/);
+  assert.match(css, /--accent:\s*#fed766/);
+  assert.match(css, /--ink-strong:\s*#272727/);
+  assert.match(css, /--paper:\s*#eff1f3/);
   assert.doesNotMatch(css, /--accent:\s*#24424e/);
   assert.doesNotMatch(css, /--accent:\s*#9bc1cb/);
+  assert.doesNotMatch(css, /--accent:\s*#b64e35/);
 });
 
 test("First Screen headline is not squeezed to a narrow character measure", async () => {

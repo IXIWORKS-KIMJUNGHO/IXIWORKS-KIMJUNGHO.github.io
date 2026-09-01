@@ -1,22 +1,22 @@
-/* Archive Lab token overlay for Student Handouts that still carry local skins. */
+/* Cool graphic overlay for Student Handouts that still carry local skins. */
 body.teaching-document,
 body.course-media-art-programming,
 body.course-agentic-ai {
-  --page: #f1f2ef;
-  --paper: #fcfcf9;
-  --ink: #242923;
-  --ink-strong: #0d110e;
-  --soft-ink: #242923;
-  --muted: #616960;
-  --line: #d5dbd6;
-  --slate: #0d110e;
-  --slate-2: #242923;
-  --accent: #b64e35;
-  --accent-soft: #f3e4df;
-  --link: #9a4230;
-  --bg: #f1f2ef;
-  --surface: #e8ece9;
-  --text: #242923;
+  --page: #e8eaed;
+  --paper: #eff1f3;
+  --ink: #272727;
+  --ink-strong: #272727;
+  --soft-ink: #272727;
+  --muted: #696773;
+  --line: #d5d8dd;
+  --slate: #272727;
+  --slate-2: #272727;
+  --accent: #fed766;
+  --accent-soft: #fff3c2;
+  --link: #006b7c;
+  --bg: #e8eaed;
+  --surface: #e2e4e8;
+  --text: #272727;
 }
 
 body.teaching-document .hero {
@@ -27,17 +27,17 @@ body.teaching-document .hero {
   body.teaching-document,
   body.course-media-art-programming,
   body.course-agentic-ai {
-    --page: #151917;
-    --paper: #1c211e;
-    --ink: #dce2dc;
-    --ink-strong: #f3f6f2;
-    --soft-ink: #dce2dc;
-    --muted: #a9b2a9;
-    --line: #2b332e;
-    --slate: #f3f6f2;
-    --accent: #e08a72;
-    --link: #e08a72;
-    --bg: #151917;
-    --text: #dce2dc;
+    --page: #272727;
+    --paper: #2f2f2f;
+    --ink: #eff1f3;
+    --ink-strong: #eff1f3;
+    --soft-ink: #eff1f3;
+    --muted: #a8a6b0;
+    --line: #3d3d3d;
+    --slate: #eff1f3;
+    --accent: #fed766;
+    --link: #4ec8d9;
+    --bg: #272727;
+    --text: #eff1f3;
   }
 }
