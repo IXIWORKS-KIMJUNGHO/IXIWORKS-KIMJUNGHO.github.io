@@ -1,0 +1,104 @@
+import assert from "node:assert/strict";
+import { readFile, stat } from "node:fs/promises";
+import { resolve } from "node:path";
+import test from "node:test";
+import { applyTeachingChrome } from "../scripts/apply-teaching-chrome.ts";
+import { buildSitesStatic } from "../scripts/build-sites-static.mjs";
+import { renderPublicPages } from "../scripts/render-public-pages.ts";
+
+const root = resolve(import.meta.dirname, "..");
+
+await renderPublicPages(root);
+
+function hero(html) {
+  const match = html.match(/<section class="hero"[\s\S]*?<\/section>/);
+  assert.ok(match, "expected a First Screen hero");
+  return match[0];
+}
+
+test("First Screen is a Professional Landing Page", async () => {
+  const html = await readFile(resolve(root, "index.html"), "utf8");
+  const firstScreen = hero(html);
+
+  assert.match(firstScreen, /Creative Engineer \/ Researcher/);
+  assert.match(
+    firstScreen,
+    /I build production systems across generative AI, real-time 3D, and immersive media/,
+  );
+  assert.match(firstScreen, />Selected Work</);
+  assert.doesNotMatch(firstScreen, /Download CV/);
+  assert.doesNotMatch(html, /aria-label="CV highlights"|highlight-list/);
+  assert.match(html, /class="identity-artwork"/);
+  assert.match(html, /profile-email-address/);
+  assert.match(html, /href="\/assets\/kim-jungho-cv\.pdf"[^>]*download/);
+  assert.match(html, /class="skip-link"/);
+});
+
+test("Selected Work and Work System Map keep every project visible", async () => {
+  const html = await readFile(resolve(root, "index.html"), "utf8");
+
+  assert.match(html, /id="work"/);
+  assert.match(html, /data-work-system-map/);
+  assert.match(html, /data-axis="generative-ai"/);
+  assert.match(html, /data-axis="real-time-engine"/);
+  assert.match(html, /data-axis="digital-twin"/);
+  assert.match(html, /data-axis="exhibition-system"/);
+  assert.match(html, /VIVE AI Kiosk Experience Design/);
+  assert.match(html, /Hyundai Mobis Connect/);
+  assert.match(html, /All case studies/);
+  assert.doesNotMatch(html, /View portfolio archive/);
+  assert.doesNotMatch(html, /\shidden(|=)|display:\s*none/);
+});
+
+test("homepage gates include research, teaching, background, and news", async () => {
+  const html = await readFile(resolve(root, "index.html"), "utf8");
+  const work = html.indexOf('id="work"');
+  const research = html.indexOf('id="research"');
+  const teaching = html.indexOf('id="teaching"');
+  const background = html.indexOf('id="cv-archive"');
+  const news = html.indexOf('id="news"');
+
+  assert.ok(work < research);
+  assert.ok(research < teaching);
+  assert.ok(teaching < background);
+  assert.ok(background < news);
+  assert.match(html, /teaching\/contents-programming\//);
+  assert.match(html, /Open teaching archive/);
+  assert.match(html, />All news</);
+  assert.doesNotMatch(html, /research-number/);
+});
+
+test("News and Portfolio pages share the public chrome", async () => {
+  const news = await readFile(resolve(root, "news.html"), "utf8");
+  const portfolio = await readFile(resolve(root, "portfolio.html"), "utf8");
+
+  for (const html of [news, portfolio]) {
+    assert.match(html, /class="nav"/);
+    assert.match(html, /assets\/generated\/site\.css/);
+    assert.doesNotMatch(html, /fonts\.googleapis\.com/);
+  }
+  assert.match(news, /News Index/);
+  assert.equal([...portfolio.matchAll(/class="case-thumb"/g)].length, 5);
+});
+
+test("unified build keeps teaching URLs and stamps the lesson shell", async () => {
+  await buildSitesStatic(root);
+  await applyTeachingChrome(resolve(root, "dist/client/teaching"));
+
+  const week = resolve(
+    root,
+    "dist/client/teaching/contents-programming/week-03-period1.html",
+  );
+  const html = await readFile(week, "utf8");
+  assert.ok((await stat(week)).size > 0);
+  assert.match(html, /data-lesson-shell="react-v1"/);
+  assert.match(html, /픽셀과 좌표로 이미지 읽기/);
+  assert.match(html, /week-three-lesson-facts/);
+  assert.match(html, /class="skip-link"/);
+
+  const day1 = await readFile(
+    resolve(root, "dist/client/teaching/agentic-ai/day-1.html"),
+    "utf8",
+  );
+  assert.doesNotMatch(day1, /data-lesson-shell="react-v1"/);
+});

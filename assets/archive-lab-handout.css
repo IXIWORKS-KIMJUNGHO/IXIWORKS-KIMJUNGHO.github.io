@@ -1,0 +1,42 @@
+/* Archive Lab token overlay for Student Handouts that still carry local skins. */
+body.teaching-document,
+body.course-media-art-programming,
+body.course-agentic-ai {
+  --page: #f1f2ef;
+  --paper: #fcfcf9;
+  --ink: #242923;
+  --ink-strong: #0d110e;
+  --soft-ink: #242923;
+  --muted: #616960;
+  --line: #d5dbd6;
+  --slate: #0d110e;
+  --slate-2: #242923;
+  --accent: #24424e;
+  --accent-soft: #dce6e7;
+  --link: #1f3f4c;
+  --bg: #f1f2ef;
+  --surface: #e8ece9;
+  --text: #242923;
+}
+
+body.teaching-document .hero {
+  color: inherit;
+}
+
+@media (prefers-color-scheme: dark) {
+  body.teaching-document,
+  body.course-media-art-programming,
+  body.course-agentic-ai {
+    --page: #151917;
+    --paper: #1c211e;
+    --ink: #dce2dc;
+    --ink-strong: #f3f6f2;
+    --soft-ink: #dce2dc;
+    --muted: #a9b2a9;
+    --line: #2b332e;
+    --slate: #f3f6f2;
+    --accent: #9bc1cb;
+    --bg: #151917;
+    --text: #dce2dc;
+  }
+}

@@ -169,12 +169,12 @@ test("prominent link cards provide shared press feedback", async () => {
     /prefers-reduced-motion:\s*reduce[\s\S]*?featured-project[\s\S]*?transition:\s*opacity 100ms linear !important[\s\S]*?:active[\s\S]*?opacity:\s*0\.86[\s\S]*?transform:\s*none/,
   );
 
-  const homepageCss = await readFile(resolve(root, "assets", "cv.css"), "utf8");
+  const homepageCss = await readFile(resolve(root, "src", "styles.css"), "utf8");
   for (const selector of ["featured-project", "project-row", "teaching-row"]) {
     assert.match(
       homepageCss,
       new RegExp(
-        `\\.${selector}[^}]*\\{[^}]*transition:[^}]*transform 120ms var\\(--ease-out\\)`,
+        `\\.${selector}[^}]*transition:[^}]*transform 120ms var\\(--ease-out\\)`,
       ),
     );
   }
@@ -202,23 +202,26 @@ test("lift interactions are reserved for actionable cards", async () => {
   assert.doesNotMatch(news, /\.news-item:hover/);
 });
 
-test("the homepage presents an evidence-first, printable CV", async () => {
+test("the homepage presents an evidence-first Professional Landing Page", async () => {
   const homepage = await readFile(resolve(root, "index.html"), "utf8");
-  const homepageCss = await readFile(resolve(root, "assets", "cv.css"), "utf8");
+  const homepageCss = await readFile(
+    resolve(root, "src", "styles.css"),
+    "utf8",
+  );
 
   const workIndex = homepage.indexOf('id="work"');
   const researchIndex = homepage.indexOf('id="research"');
-  const backgroundIndex = homepage.indexOf('id="cv-archive"');
   const teachingIndex = homepage.indexOf('id="teaching"');
+  const backgroundIndex = homepage.indexOf('id="cv-archive"');
   const newsIndex = homepage.indexOf('id="news"');
 
   assert.ok(workIndex > -1, "the selected work section should exist");
   assert.ok(workIndex < researchIndex, "selected work should precede research");
-  assert.ok(researchIndex < backgroundIndex, "research should precede background");
-  assert.ok(backgroundIndex < teachingIndex, "background should precede teaching");
-  assert.ok(teachingIndex < newsIndex, "news should close the CV narrative");
+  assert.ok(researchIndex < teachingIndex, "research should precede teaching");
+  assert.ok(teachingIndex < backgroundIndex, "teaching should precede background");
+  assert.ok(backgroundIndex < newsIndex, "news should close the landing page");
 
-  assert.match(homepage, /aria-label="CV highlights"/);
+  assert.doesNotMatch(homepage, /aria-label="CV highlights"/);
   assert.match(
     homepage,
     /href="\/assets\/kim-jungho-cv\.pdf"[^>]*\bdownload\b/,
@@ -226,22 +229,17 @@ test("the homepage presents an evidence-first, printable CV", async () => {
   assert.match(homepage, /class="featured-project"/);
   assert.match(homepage, /class="project-row"/);
   assert.match(homepage, /https:\/\/doi\.org\/10\.1007\/978-981-97-8093-8_6/);
-  assert.doesNotMatch(homepage, /data-work-system-map|data-axis=/);
+  assert.match(homepage, /data-work-system-map/);
   assert.doesNotMatch(homepage, /<article class="(?:featured-project|project-row)"/);
   assert.doesNotMatch(homepage, /fonts\.googleapis\.com/);
 
-  assert.doesNotMatch(homepageCss, /linear-gradient\(/);
-  assert.match(homepageCss, /fonts\/inter-latin-variable\.woff2/);
-  assert.match(
-    homepageCss,
-    /@media\s+\(hover:\s*hover\)\s+and\s+\(pointer:\s*fine\)[\s\S]*?\.project-row:hover/,
-  );
+  assert.match(homepageCss, /Space Grotesk/);
   assert.match(homepageCss, /\.work-tail\s*\{\s*break-inside:\s*avoid;/);
-  assert.match(homepageCss, /@media\s+print/);
+  assert.match(homepageCss, /@media print/);
   assert.match(homepageCss, /prefers-color-scheme:\s*dark/);
 });
 
-test("the work index and case studies share the CV design system", async () => {
+test("the work index and case studies keep public URLs and case thumbs", async () => {
   const workPages = [
     "portfolio.html",
     "projects/digital-twin-pipeline.html",
@@ -253,27 +251,21 @@ test("the work index and case studies share the CV design system", async () => {
 
   for (const relativePath of workPages) {
     const html = await readFile(resolve(root, relativePath), "utf8");
-    assert.match(html, /portfolio\.css\?v=evidence2/);
     assert.doesNotMatch(html, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
   }
 
   const workIndex = await readFile(resolve(root, "portfolio.html"), "utf8");
-  const workCss = await readFile(resolve(root, "assets", "portfolio.css"), "utf8");
   assert.equal([...workIndex.matchAll(/class="case-thumb"/g)].length, 5);
-  assert.match(workCss, /fonts\/inter-latin-variable\.woff2/);
-  assert.match(workCss, /prefers-color-scheme:\s*dark/);
-  assert.doesNotMatch(workCss, /(?:linear|radial|repeating-linear)-gradient\(/);
+  assert.match(workIndex, /assets\/generated\/site\.css/);
 });
 
-test("the news index uses the shared CV design system", async () => {
+test("the news index uses the shared public design system", async () => {
   const news = await readFile(resolve(root, "news.html"), "utf8");
-  const newsCss = await readFile(resolve(root, "assets", "news.css"), "utf8");
+  const newsCss = await readFile(resolve(root, "src", "styles.css"), "utf8");
 
-  assert.match(news, /portfolio\.css\?v=evidence2/);
-  assert.match(news, /news\.css\?v=evidence2/);
+  assert.match(news, /assets\/generated\/site\.css/);
   assert.doesNotMatch(news, /fonts\.googleapis\.com|fonts\.gstatic\.com/);
   assert.match(newsCss, /\.news-item\s*\{[\s\S]*?border-bottom:/);
-  assert.doesNotMatch(newsCss, /(?:linear|radial|repeating-linear)-gradient\(/);
 });
 
 test("the teaching archive has a shared, course-first design system", async () => {

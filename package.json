@@ -3,7 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "npm run build:day1 && npm run build:teaching && npm run build:sitemap && node scripts/build-sites-static.mjs",
+    "dev": "npm run render:pages && npm run build:css && node scripts/build-sites-static.mjs && npm run build:chrome && npx --yes serve dist/client -p 4173",
+    "render:pages": "tsx scripts/render-public-pages.ts",
+    "build:css": "vite build",
+    "build:chrome": "tsx scripts/apply-teaching-chrome.ts dist/client/teaching",
+    "typecheck": "tsc --noEmit",
+    "build": "npm run build:day1 && npm run build:teaching && npm run render:pages && npm run build:css && npm run build:sitemap && node scripts/build-sites-static.mjs && npm run build:chrome",
     "build:day1": "node scripts/finalize-day1-static.mjs",
     "build:teaching": "node scripts/refresh-teaching-navigation.mjs",
     "build:sitemap": "node scripts/generate-sitemap.mjs",
@@ -24,6 +29,26 @@
     "generate:week15-assets": "python3 scripts/generate-week15-project-assets.py",
     "setup:week15-assets": "python3 -m pip install -r requirements-week15-assets.txt",
     "test:week15-assets": "WEEK15_STRICT_ASSET_TEST=1 WEEK15_STRICT_NOTEBOOK_TEST=1 node --test tests/contents-programming-week15.test.mjs",
-    "test": "node --test tests/*.test.mjs"
+    "test": "npm run render:pages && npm run build:css && node --import tsx --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/space-grotesk": "^5.3.0",
+    "@phosphor-icons/react": "^2.1.10",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "@vitejs/plugin-react": "^6.1.1",
+    "tailwindcss": "^4.3.3",
+    "tsx": "^4.23.13",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.2"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true
   }
 }
