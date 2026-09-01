@@ -50,6 +50,34 @@ test("Selected Work and Work System Map keep every project visible", async () =>
   assert.doesNotMatch(html, /\shidden(|=)|display:\s*none/);
 });
 
+test("First Screen headline is not squeezed to a narrow character measure", async () => {
+  const css = await readFile(resolve(root, "src", "styles.css"), "utf8");
+  assert.doesNotMatch(css, /h1\s*\{[^}]*max-width:\s*18ch/);
+});
+
+test("featured work keeps kind and year as separate flex items", async () => {
+  const css = await readFile(resolve(root, "src", "styles.css"), "utf8");
+  assert.match(
+    css,
+    /\.featured-meta[\s\S]{0,80}display:\s*flex/,
+  );
+});
+
+test("homepage teaching links Game Engine I and Game Engine II separately", async () => {
+  const html = await readFile(resolve(root, "index.html"), "utf8");
+  assert.match(html, /href="teaching\/game-engine-1\/"/);
+  assert.match(html, /href="teaching\/game-engine\/"/);
+  assert.doesNotMatch(html, /Game Engine I \/ II/);
+});
+
+test("profile links do not double-mark icons", async () => {
+  const html = await readFile(resolve(root, "index.html"), "utf8");
+  const css = await readFile(resolve(root, "src", "styles.css"), "utf8");
+  const links = html.match(/<ul class="profile-links"[\s\S]*?<\/ul>/)[0];
+  assert.doesNotMatch(links, /<svg\b/);
+  assert.match(css, /\.profile-links a::after/);
+});
+
 test("homepage gates include research, teaching, background, and news", async () => {
   const html = await readFile(resolve(root, "index.html"), "utf8");
   const work = html.indexOf('id="work"');

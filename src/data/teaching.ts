@@ -6,7 +6,13 @@ export type TeachingCourse = {
 
 export const TEACHING_COURSES: TeachingCourse[] = [
   {
-    title: "Game Engine I / II",
+    title: "Game Engine I",
+    href: "teaching/game-engine-1/",
+    description:
+      "Unity 2D, generative images, AI-assisted coding, and project-based prototyping.",
+  },
+  {
+    title: "Game Engine II",
     href: "teaching/game-engine/",
     description:
       "Unreal Engine, real-time production, interactive systems, and project-based prototyping.",

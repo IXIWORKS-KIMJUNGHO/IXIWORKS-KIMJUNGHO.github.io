@@ -1,5 +1,3 @@
-import { DownloadSimple, GithubLogo } from "@phosphor-icons/react";
-
 export function ProfileRail() {
   return (
     <aside className="sidebar" aria-label="Profile">
@@ -49,14 +47,10 @@ export function ProfileRail() {
           </a>
         </li>
         <li>
-          <a href="https://github.com/IXIWORKS-KIMJUNGHO">
-            <GithubLogo size={16} weight="regular" aria-hidden="true" />
-            GitHub
-          </a>
+          <a href="https://github.com/IXIWORKS-KIMJUNGHO">GitHub</a>
         </li>
         <li>
           <a href="/assets/kim-jungho-cv.pdf" download>
-            <DownloadSimple size={16} weight="regular" aria-hidden="true" />
             Download CV
           </a>
         </li>

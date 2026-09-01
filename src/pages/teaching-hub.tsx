@@ -110,21 +110,11 @@ export function TeachingHubPage() {
           <header className="archive-heading">
             <h2 id="teaching-areas">Teaching areas</h2>
             <p>
-              Additional subjects taught through technical demonstrations, small
-              production systems, and student-led projects.
+              Subjects taught through demonstrations and student-led projects
+              that do not yet have a public course archive.
             </p>
           </header>
           <div className="teaching-areas">
-            <article className="teaching-area">
-              <div>
-                <span className="area-label">Programming practice</span>
-                <h3>Contents Programming Practice</h3>
-              </div>
-              <p>
-                Creative coding, production pipelines, and practical software
-                prototyping for media content.
-              </p>
-            </article>
             <article className="teaching-area">
               <div>
                 <span className="area-label">Cultural data</span>
