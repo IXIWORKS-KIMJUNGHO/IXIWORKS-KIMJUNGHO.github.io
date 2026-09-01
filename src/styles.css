@@ -30,8 +30,8 @@
   --color-bg: #f1f2ef;
   --color-ink: #242923;
   --color-ink-strong: #0d110e;
-  --color-accent: #24424e;
-  --color-mist: #dce6e7;
+  --color-accent: #b64e35;
+  --color-mist: #ead8d2;
   --color-rust: #b64e35;
   --font-sans: "Space Grotesk Variable", "Space Grotesk", "Avenir Next", Avenir,
     "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
@@ -50,10 +50,10 @@
   --quiet: #687068;
   --line: rgba(13, 17, 14, 0.15);
   --line-strong: rgba(13, 17, 14, 0.28);
-  --accent: #24424e;
-  --accent-strong: #132c36;
-  --accent-soft: #dce6e7;
-  --link: #1f3f4c;
+  --accent: #b64e35;
+  --accent-strong: #8f3c28;
+  --accent-soft: #f3e4df;
+  --link: #9a4230;
   --rust: #b64e35;
   --shadow: 0 18px 48px rgba(18, 31, 25, 0.08);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
@@ -345,7 +345,7 @@ h1 {
 .button.primary {
   border-color: var(--accent);
   background: var(--accent);
-  color: #fff;
+  color: #fcfcf9;
 }
 
 .button:active,
@@ -811,15 +811,16 @@ h1 {
     --quiet: #818c82;
     --line: rgba(231, 239, 231, 0.14);
     --line-strong: rgba(231, 239, 231, 0.27);
-    --accent: #9bc1cb;
-    --accent-strong: #c2dce3;
-    --accent-soft: #26393d;
-    --link: #aed0d8;
+    --accent: #e08a72;
+    --accent-strong: #f0b09c;
+    --accent-soft: #3a2622;
+    --link: #e08a72;
+    --rust: #e08a72;
     --shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
   }
 
   .button.primary {
-    color: #102126;
+    color: #fcfcf9;
   }
 
   .identity-artwork {

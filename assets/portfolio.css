@@ -45,11 +45,11 @@
   --quiet: #687068;
   --line: rgba(13, 17, 14, 0.15);
   --line-strong: rgba(13, 17, 14, 0.28);
-  --accent: #24424e;
-  --accent-strong: #132c36;
-  --accent-soft: #dce6e7;
-  --accent-line: rgba(36, 66, 78, 0.42);
-  --link: #1f3f4c;
+  --accent: #b64e35;
+  --accent-strong: #8f3c28;
+  --accent-soft: #f3e4df;
+  --accent-line: rgba(182, 78, 53, 0.42);
+  --link: #9a4230;
   --shadow: 0 18px 48px rgba(18, 31, 25, 0.08);
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -1896,20 +1896,20 @@ h1 {
     --quiet: #818c82;
     --line: rgba(231, 239, 231, 0.14);
     --line-strong: rgba(231, 239, 231, 0.27);
-    --accent: #9bc1cb;
-    --accent-strong: #c2dce3;
-    --accent-soft: #26393d;
-    --accent-line: rgba(155, 193, 203, 0.52);
-    --link: #aed0d8;
+    --accent: #e08a72;
+    --accent-strong: #f0b09c;
+    --accent-soft: #3a2622;
+    --accent-line: rgba(224, 138, 114, 0.52);
+    --link: #e08a72;
     --shadow: 0 20px 52px rgba(0, 0, 0, 0.24);
   }
 
   .button.primary {
-    color: #102126;
+    color: #fcfcf9;
   }
 
   .button.primary:hover {
-    color: #102126;
+    color: #fcfcf9;
   }
 
   .identity-artwork {
