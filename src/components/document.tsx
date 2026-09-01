@@ -12,6 +12,7 @@ export type DocumentProps = {
   stylesheetHref: string;
   extraStylesheets?: string[];
   extraScripts?: string[];
+  extraModuleScripts?: string[];
   children?: ReactNode;
 };
 
@@ -27,6 +28,7 @@ export function Document({
   stylesheetHref,
   extraStylesheets = [],
   extraScripts = [],
+  extraModuleScripts = [],
   children,
 }: DocumentProps) {
   return (
@@ -55,6 +57,9 @@ export function Document({
         <link rel="stylesheet" href="/assets/accessibility.css" />
         {extraScripts.map((src) => (
           <script key={src} src={src} defer />
+        ))}
+        {extraModuleScripts.map((src) => (
+          <script key={src} type="module" src={src} />
         ))}
       </head>
       <body className={bodyClass}>{children}</body>

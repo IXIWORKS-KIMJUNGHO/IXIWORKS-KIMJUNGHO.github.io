@@ -106,6 +106,18 @@ test("homepage gates include research, teaching, background, and news", async ()
   assert.doesNotMatch(html, /research-number/);
 });
 
+test("public pages load Pretext for body copy", async () => {
+  const homepage = await readFile(resolve(root, "index.html"), "utf8");
+  const prose = await readFile(resolve(root, "assets", "course-prose.js"), "utf8");
+  const css = await readFile(resolve(root, "src", "styles.css"), "utf8");
+
+  assert.match(homepage, /type="module" src="\/assets\/course-prose\.js"/);
+  assert.match(prose, /p\.hero-support/);
+  assert.match(prose, /p\.section-intro/);
+  assert.match(prose, /article\.article > p/);
+  assert.match(css, /p\[data-pretext-laid-out\]\s*\{[^}]*white-space:\s*nowrap/);
+});
+
 test("News and Portfolio pages share the public chrome", async () => {
   const news = await readFile(resolve(root, "news.html"), "utf8");
   const portfolio = await readFile(resolve(root, "portfolio.html"), "utf8");
@@ -133,6 +145,7 @@ test("unified build keeps teaching URLs and stamps the lesson shell", async () =
   assert.match(html, /픽셀과 좌표로 이미지 읽기/);
   assert.match(html, /week-three-lesson-facts/);
   assert.match(html, /class="skip-link"/);
+  assert.match(html, /src="\/assets\/course-prose\.js"/);
 
   const day1 = await readFile(
     resolve(root, "dist/client/teaching/agentic-ai/day-1.html"),

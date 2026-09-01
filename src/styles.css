@@ -309,6 +309,12 @@ h1 {
   color: var(--muted);
   font-size: 16px;
   line-height: 1.6;
+  overflow-wrap: anywhere;
+  word-break: normal;
+}
+
+p[data-pretext-laid-out] {
+  white-space: nowrap;
 }
 
 .print-contact {

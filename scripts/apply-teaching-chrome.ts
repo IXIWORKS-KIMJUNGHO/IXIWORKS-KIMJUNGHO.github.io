@@ -21,6 +21,8 @@ const HANDOUT_CSS =
 const TEACHING_CSS =
   '<link rel="stylesheet" href="/assets/teaching.css?v=teaching1">';
 const A11Y_CSS = '<link rel="stylesheet" href="/assets/accessibility.css">';
+const PRETEXT_SCRIPT =
+  '<script type="module" src="/assets/course-prose.js"></script>';
 
 async function listHtml(directory: string): Promise<string[]> {
   const entries = await readdir(directory, { withFileTypes: true });
@@ -62,6 +64,14 @@ function ensureHeadLink(html: string, snippet: string) {
   return html.replace("</head>", `  ${snippet}\n</head>`);
 }
 
+function ensureModuleScript(html: string, snippet: string) {
+  if (html.includes("/assets/course-prose.js")) return html;
+  if (html.includes("</body>")) {
+    return html.replace("</body>", `  ${snippet}\n</body>`);
+  }
+  return html.replace("</head>", `  ${snippet}\n</head>`);
+}
+
 function markLessonHeader(html: string) {
   if (html.includes('data-lesson-shell="react-v1"')) return html;
   return html.replace(
@@ -100,6 +110,7 @@ export async function applyTeachingChrome(teachingRoot: string) {
     if (isDay1) continue;
 
     html = ensureHeadLink(html, SITE_CSS);
+    html = ensureModuleScript(html, PRETEXT_SCRIPT);
     if (!isIndex) {
       html = ensureHeadLink(html, HANDOUT_CSS);
       html = ensureHeadLink(html, TEACHING_CSS);
