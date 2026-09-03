@@ -73,6 +73,18 @@ test("featured work keeps kind and year as separate flex items", async () => {
   );
 });
 
+test("homepage teaching rows keep title, description, and arrow in separate columns", async () => {
+  const css = await readFile(resolve(root, "src", "styles.css"), "utf8");
+  assert.match(
+    css,
+    /\.teaching-row\s*\{[\s\S]*?grid-template-columns:\s*minmax\(180px, 0\.72fr\) minmax\(0, 1\.28fr\) 1\.25rem/,
+  );
+  assert.match(
+    css,
+    /@media \(max-width: 767px\) \{[\s\S]*?\.teaching-description\s*\{[\s\S]*?grid-column:\s*1 \/ -1/,
+  );
+});
+
 test("homepage teaching links Game Engine I and Game Engine II separately", async () => {
   const html = await readFile(resolve(root, "index.html"), "utf8");
   assert.match(html, /href="teaching\/game-engine-1\/"/);
@@ -106,6 +118,18 @@ test("homepage gates include research, teaching, background, and news", async ()
   assert.doesNotMatch(html, /research-number/);
 });
 
+test("handout overlay keeps dark surfaces and accent wash", async () => {
+  const css = await readFile(resolve(root, "assets", "archive-lab-handout.css"), "utf8");
+  const dark = css.match(
+    /@media \(prefers-color-scheme: dark\) \{([\s\S]*?)\n\}/,
+  );
+  assert.ok(dark, "handout overlay should define a dark palette");
+  assert.match(dark[1], /--surface:\s*#353535/);
+  assert.match(dark[1], /--accent-soft:\s*#3d3620/);
+  assert.match(dark[1], /--ink-strong:\s*#eff1f3/);
+  assert.match(dark[1], /--slate-2:\s*#eff1f3/);
+});
+
 test("public pages load Pretext for body copy", async () => {
   const homepage = await readFile(resolve(root, "index.html"), "utf8");
   const prose = await readFile(resolve(root, "assets", "course-prose.js"), "utf8");
@@ -116,6 +140,35 @@ test("public pages load Pretext for body copy", async () => {
   assert.match(prose, /p\.section-intro/);
   assert.match(prose, /article\.article > p/);
   assert.match(css, /p\[data-pretext-laid-out\]\s*\{[^}]*white-space:\s*nowrap/);
+});
+
+test("News Index lists recent IP filings in chronological order", async () => {
+  const news = await readFile(resolve(root, "news.html"), "utf8");
+  const homepage = await readFile(resolve(root, "index.html"), "utf8");
+  const firstNews = news.match(
+    /<ol class="news-list news-index-list">([\s\S]*?)<\/li>/,
+  );
+  assert.ok(firstNews, "expected the first News Index item");
+  assert.match(firstNews[1], /datetime="2026-08"/);
+  assert.match(firstNews[1], />2026\.08</);
+  assert.match(
+    firstNews[1],
+    /Registered MOVIOLA as software copyright for generative AI pre-production storyboarding/,
+  );
+  assert.match(firstNews[1], /Generative AI/);
+  assert.doesNotMatch(news, /datetime="\d{4}-\d{2}-\d{2}"/);
+  assert.doesNotMatch(news, />\d{4}\.\d{2}\.\d{2}</);
+  assert.match(homepage, /datetime="2026-08"/);
+  assert.match(homepage, /C-2026-042388/);
+  assert.match(homepage, /10-2026-0162969/);
+  assert.match(
+    homepage,
+    /MOVIOLA: Generative AI-Based Pre-Production Storyboard/,
+  );
+  assert.match(
+    homepage,
+    /Multi-Cut Storyboard Generation Using Shot-Size-Based Reference Selection/,
+  );
 });
 
 test("News and Portfolio pages share the public chrome", async () => {

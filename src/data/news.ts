@@ -7,8 +7,22 @@ export type NewsItem = {
 
 export const NEWS_ITEMS: NewsItem[] = [
   {
-    date: "2026.03.26",
-    dateTime: "2026-03-26",
+    date: "2026.08",
+    dateTime: "2026-08",
+    title:
+      "Registered MOVIOLA as software copyright for generative AI pre-production storyboarding.",
+    axis: "Generative AI",
+  },
+  {
+    date: "2026.08",
+    dateTime: "2026-08",
+    title:
+      "Patent application filed for multi-cut storyboard generation that weights a master shot by shot size to keep cuts visually consistent.",
+    axis: "Generative AI",
+  },
+  {
+    date: "2026.03",
+    dateTime: "2026-03",
     title:
       "Patent application filed for Agile Vibe Pre-Production Storyboard Patent.",
     axis: "Generative AI",

@@ -32,7 +32,7 @@ export function NewsPage() {
           </ol>
         </section>
       </main>
-      <SiteFooter note="News Index · Updated 2026.09.01" />
+      <SiteFooter note="News Index · Updated 2026.09.03" />
     </>
   );
 }

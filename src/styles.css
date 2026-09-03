@@ -547,7 +547,8 @@ p[data-pretext-laid-out] {
 }
 
 .teaching-row {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(180px, 0.72fr) minmax(0, 1.28fr) 1.25rem;
+  align-items: baseline;
 }
 
 .project-thumb {
@@ -570,6 +571,16 @@ p[data-pretext-laid-out] {
 .teaching-description {
   margin: 5px 0 0;
   font-size: 13px;
+}
+
+.teaching-description {
+  margin: 0;
+}
+
+.teaching-arrow {
+  color: var(--quiet);
+  justify-self: end;
+  line-height: 1;
 }
 
 .archive-note {
@@ -782,6 +793,27 @@ p[data-pretext-laid-out] {
   .case-thumb {
     width: 100%;
     height: auto;
+  }
+
+  .teaching-row {
+    grid-template-columns: minmax(0, 1fr) 1.25rem;
+    gap: 8px 12px;
+    align-items: start;
+  }
+
+  .teaching-title {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .teaching-arrow {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .teaching-description {
+    grid-column: 1 / -1;
+    grid-row: 2;
   }
 }
 

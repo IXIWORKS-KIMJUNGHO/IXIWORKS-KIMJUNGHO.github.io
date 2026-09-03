@@ -5,6 +5,7 @@ import { resolve } from "node:path";
 export default defineConfig({
   plugins: [tailwindcss()],
   publicDir: false,
+  base: "/assets/generated/",
   build: {
     emptyOutDir: true,
     outDir: "assets/generated",

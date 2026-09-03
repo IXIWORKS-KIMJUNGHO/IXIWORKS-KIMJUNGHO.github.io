@@ -33,11 +33,18 @@ body.teaching-document .hero {
     --ink-strong: #eff1f3;
     --soft-ink: #eff1f3;
     --muted: #a8a6b0;
+    --quiet: #8e8c96;
     --line: #3d3d3d;
+    --line-strong: rgba(239, 241, 243, 0.28);
     --slate: #eff1f3;
+    --slate-2: #eff1f3;
     --accent: #fed766;
+    --accent-strong: #ffe28a;
+    --accent-soft: #3d3620;
     --link: #4ec8d9;
     --bg: #272727;
+    --surface: #353535;
+    --surface-strong: #3d3d3d;
     --text: #eff1f3;
   }
 }

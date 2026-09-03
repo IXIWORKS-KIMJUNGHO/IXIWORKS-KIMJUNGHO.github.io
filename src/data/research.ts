@@ -9,6 +9,21 @@ export type ResearchItem = {
 
 export const FEATURED_RESEARCH: ResearchItem[] = [
   {
+    title: "MOVIOLA: Generative AI-Based Pre-Production Storyboard",
+    note: "Registration no. C-2026-042388 · Chung-Ang University Industry-Academic Cooperation Foundation",
+    venue: "Software registration",
+    year: "2026",
+    yearDateTime: "2026",
+  },
+  {
+    title:
+      "Multi-Cut Storyboard Generation Using Shot-Size-Based Reference Selection",
+    note: "Application no. 10-2026-0162969 · Tae-Kyung Yoo, Jungho Kim",
+    venue: "Patent application",
+    year: "2026",
+    yearDateTime: "2026",
+  },
+  {
     title: "Agile Vibe Pre-Production Storyboard Patent",
     href: "projects/generative-ai-storyboard.html",
     note: "Application no. 10-2026-0054962 · Tae-Kyung Yoo, Jungho Kim",

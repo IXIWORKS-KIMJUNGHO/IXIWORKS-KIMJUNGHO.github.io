@@ -315,7 +315,7 @@ export function HomePage() {
           </section>
         </main>
       </div>
-      <SiteFooter note="Updated 2026.09.01" />
+      <SiteFooter note="Updated 2026.09.03" />
     </>
   );
 }
