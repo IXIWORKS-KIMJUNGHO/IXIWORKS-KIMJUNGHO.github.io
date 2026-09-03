@@ -40,7 +40,6 @@
         <h1>Game Engine I</h1>
         <p class="course-lead">Unity 2D 게임의 구조를 직접 만들고 이해한 뒤, 생성형 AI로 이미지와 사운드를 제작하고 코딩을 보조받으며 결과를 스스로 검증하는 프로젝트 기반 수업입니다.</p>
         <div class="course-meta" aria-label="Course information">
-          <span class="course-kind">Unity 2D course</span>
           <time class="course-term" datetime="2026">Fall 2026</time>
         </div>
       </div>
@@ -51,44 +50,71 @@
   </header>
 
   <div class="course-jump-wrap">
-    <nav class="course-jump" aria-label="Course sections">
-      <a href="#course-overview">Overview</a>
-      <a href="#course-goals">Goals</a>
-      <a href="#learning-outcomes">Outcomes</a>
-      <a href="#ai-workflow">AI workflow</a>
-      <a href="#image-generation">Image generation</a>
-      <a href="#curriculum">Curriculum</a>
-      <a href="#assessment">Assessment</a>
-      <a href="#project-rules">Project rules</a>
+    <nav class="course-jump" data-course-jump aria-label="Course sections">
+      <span class="course-jump-cluster">
+        <a href="#course-overview">Overview</a>
+        <a href="#course-goals">Goals</a>
+        <a href="#learning-outcomes">Outcomes</a>
+      </span>
+      <span class="course-jump-weeks">
+        <a href="#week-01">Week 01</a>
+        <a href="#week-02">Week 02</a>
+        <a href="#week-03">Week 03</a>
+        <a href="#week-04">Week 04</a>
+        <a href="#week-05">Week 05</a>
+        <a href="#week-06">Week 06</a>
+        <a href="#week-07">Week 07</a>
+        <a href="#week-08">Week 08</a>
+        <a href="#week-09">Week 09</a>
+        <a href="#week-10">Week 10</a>
+        <a href="#week-11">Week 11</a>
+        <a href="#week-12">Week 12</a>
+        <a href="#week-13">Week 13</a>
+        <a href="#week-14">Week 14</a>
+        <a href="#week-15">Week 15</a>
+        <a href="#week-16">Week 16</a>
+      </span>
     </nav>
   </div>
 
   <main id="main-content" class="course-content">
     <section class="course-section course-prose" aria-labelledby="course-overview">
-      <header class="course-section-heading">
-        <h2 class="course-section-title" id="course-overview">강의 개요</h2>
-        <p class="course-section-note">Unity fundamentals first, AI as a controlled production tool.</p>
-      </header>
-      <p>본 강의는 Unity 6.3 LTS를 활용하여 2D 게임의 기획부터 구현, 테스트, 빌드까지의 전체 제작 과정을 학습하는 이론·실습 중심의 교과목이다. 게임 개발이나 프로그래밍 경험이 없는 학생도 참여할 수 있도록 Unity Editor의 기본 사용법과 Scene, GameObject, Component, Transform, Prefab 등의 핵심 개념부터 단계적으로 다룬다. 이후 C# Script, Input System, Rigidbody2D, Collider2D, Trigger, Tilemap, Sprite Animation, UI, Audio 및 게임 상태 관리 등을 학습하며, 캐릭터 이동과 충돌, 수집물, 점수, 성공과 실패, 재시작 기능이 포함된 작은 2D 게임을 제작한다. 매주 수업은 교수자의 이론·설명과 학생의 목표지향 실습을 결합하며, 교시별 운영과 비중은 각 주차의 수업 계획에 따른다.</p>
-      <p>수업의 후반부에는 Unity의 Sprite Generator와 Texture2D 및 Sound Generator를 활용하여 캐릭터, 오브젝트, UI와 효과음 등의 임시 에셋을 제작하고 실제 게임에 적용한다. 또한 Unity Assistant의 Ask, Plan, Agent 기능을 이용하여 코드를 설명받고 작업 계획을 검토하며 제한된 범위에서 기능 구현을 보조받는 방법을 학습한다. MCP, AI Gateway, Unity CLI와 Pipeline 등 최근 Unity 제작 환경에서 활용되는 AI 연동 및 자동화 방식도 기초 수준에서 살펴본다. 생성형 AI는 게임을 대신 제작하는 도구가 아니라 아이디어를 시각화하고 여러 대안을 비교하며 반복 작업과 오류 해결을 보조하는 제작 도구로 활용한다. 학생은 AI가 생성한 결과를 그대로 사용하는 데 그치지 않고 생성 목적과 프롬프트, 참조 자료, 선택 이유, 직접 수정한 부분 및 테스트 결과를 기록해야 한다. 최종적으로 자신의 전공이나 관심 분야를 반영한 짧고 완결된 2D 게임을 기획하고 제작함으로써 게임 엔진의 기술적 구조와 시각적·청각적 표현, 생성형 AI 기반 제작 방법을 종합적으로 경험한다.</p>
+      <details class="course-disclosure">
+        <summary class="course-section-heading">
+          <h2 class="course-section-title" id="course-overview">강의 개요</h2>
+          <p class="course-section-note">Course overview</p>
+        </summary>
+        <div class="course-disclosure-content details-motion-content">
+          <p>본 강의는 Unity 6.3 LTS를 활용하여 2D 게임의 기획부터 구현, 테스트, 빌드까지의 전체 제작 과정을 학습하는 이론·실습 중심의 교과목이다. 게임 개발이나 프로그래밍 경험이 없는 학생도 참여할 수 있도록 Unity Editor의 기본 사용법과 Scene, GameObject, Component, Transform, Prefab 등의 핵심 개념부터 단계적으로 다룬다. 이후 C# Script, Input System, Rigidbody2D, Collider2D, Trigger, Tilemap, Sprite Animation, UI, Audio 및 게임 상태 관리 등을 학습하며, 캐릭터 이동과 충돌, 수집물, 점수, 성공과 실패, 재시작 기능이 포함된 작은 2D 게임을 제작한다. 매주 수업은 교수자의 이론·설명과 학생의 목표지향 실습을 결합하며, 교시별 운영과 비중은 각 주차의 수업 계획에 따른다.</p>
+          <p>수업의 후반부에는 Unity의 Sprite Generator와 Texture2D 및 Sound Generator를 활용하여 캐릭터, 오브젝트, UI와 효과음 등의 임시 에셋을 제작하고 실제 게임에 적용한다. 또한 Unity Assistant의 Ask, Plan, Agent 기능을 이용하여 코드를 설명받고 작업 계획을 검토하며 제한된 범위에서 기능 구현을 보조받는 방법을 학습한다. MCP, AI Gateway, Unity CLI와 Pipeline 등 최근 Unity 제작 환경에서 활용되는 AI 연동 및 자동화 방식도 기초 수준에서 살펴본다. 생성형 AI는 게임을 대신 제작하는 도구가 아니라 아이디어를 시각화하고 여러 대안을 비교하며 반복 작업과 오류 해결을 보조하는 제작 도구로 활용한다. 학생은 AI가 생성한 결과를 그대로 사용하는 데 그치지 않고 생성 목적과 프롬프트, 참조 자료, 선택 이유, 직접 수정한 부분 및 테스트 결과를 기록해야 한다. 최종적으로 자신의 전공이나 관심 분야를 반영한 짧고 완결된 2D 게임을 기획하고 제작함으로써 게임 엔진의 기술적 구조와 시각적·청각적 표현, 생성형 AI 기반 제작 방법을 종합적으로 경험한다.</p>
+        </div>
+      </details>
     </section>
 
     <section class="course-section course-prose" aria-labelledby="course-goals">
-      <header class="course-section-heading">
-        <h2 class="course-section-title" id="course-goals">강의 목표</h2>
-        <p class="course-section-note">Course goals</p>
-      </header>
-      <p>본 강의는 학생들이 Unity의 기본 구조와 2D 게임 제작 원리를 이해하고 자신의 아이디어를 실제로 플레이할 수 있는 디지털 콘텐츠로 구현할 수 있도록 하는 것을 목표로 한다. 학생들은 Scene, GameObject, Component, Prefab과 Script 사이의 관계를 이해하고 복잡한 게임 기능을 입력, 조건, 상태 변화와 결과의 작은 단위로 나누어 설계하는 능력을 기른다. C#의 변수, 자료형, 조건문, 함수와 MonoBehaviour의 기본 구조를 학습하고 이를 캐릭터 이동, 충돌, 수집, 점수, 게임 상태와 같은 구체적인 기능에 적용한다. Rigidbody2D와 Collider2D를 활용한 물리적 상호작용, Tilemap을 활용한 레벨 구성, Sprite Animation과 Animator를 활용한 움직임, UI와 Audio를 활용한 시청각 피드백을 하나의 게임 시스템 안에 통합하는 것을 목표로 한다. 또한 게임의 기능을 구현하는 것에서 나아가 사용자가 목표와 상태 변화를 명확하게 이해할 수 있도록 시각적 요소와 인터랙션을 설계하는 능력을 기른다.</p>
-      <p>수업 후반부에는 생성형 AI를 활용하여 캐릭터와 오브젝트, UI, 효과음 등의 제작 방향을 탐색하고 여러 결과 중 프로젝트에 적합한 결과를 선택하고 수정하는 방법을 학습한다. Ask, Plan, Agent의 차이를 이해하고 AI가 제안한 코드와 프로젝트 변경 사항을 실행 전에 검토하며 최소한의 권한과 범위 안에서 활용하는 습관을 형성한다. Console, Inspector와 Play Mode를 이용하여 AI가 만든 결과를 직접 확인하고 오류와 예상하지 못한 동작을 수정하는 검증 능력도 함께 기른다. 생성 콘텐츠의 출처와 저작권, 개인정보, API key 보안 및 AI 사용 기록의 필요성을 이해하고 책임 있는 제작 태도를 갖추는 것도 중요한 목표이다. 최종적으로 학생이 자신의 전공적 배경과 관심사를 게임의 주제, 시각 스타일, 사운드 및 상호작용 방식에 반영하고 제작 과정과 기술적 구조를 다른 사람에게 논리적으로 설명할 수 있도록 한다.</p>
+      <details class="course-disclosure">
+        <summary class="course-section-heading">
+          <h2 class="course-section-title" id="course-goals">강의 목표</h2>
+          <p class="course-section-note">Course goals</p>
+        </summary>
+        <div class="course-disclosure-content details-motion-content">
+          <p>본 강의는 학생들이 Unity의 기본 구조와 2D 게임 제작 원리를 이해하고 자신의 아이디어를 실제로 플레이할 수 있는 디지털 콘텐츠로 구현할 수 있도록 하는 것을 목표로 한다. 학생들은 Scene, GameObject, Component, Prefab과 Script 사이의 관계를 이해하고 복잡한 게임 기능을 입력, 조건, 상태 변화와 결과의 작은 단위로 나누어 설계하는 능력을 기른다. C#의 변수, 자료형, 조건문, 함수와 MonoBehaviour의 기본 구조를 학습하고 이를 캐릭터 이동, 충돌, 수집, 점수, 게임 상태와 같은 구체적인 기능에 적용한다. Rigidbody2D와 Collider2D를 활용한 물리적 상호작용, Tilemap을 활용한 레벨 구성, Sprite Animation과 Animator를 활용한 움직임, UI와 Audio를 활용한 시청각 피드백을 하나의 게임 시스템 안에 통합하는 것을 목표로 한다. 또한 게임의 기능을 구현하는 것에서 나아가 사용자가 목표와 상태 변화를 명확하게 이해할 수 있도록 시각적 요소와 인터랙션을 설계하는 능력을 기른다.</p>
+          <p>수업 후반부에는 생성형 AI를 활용하여 캐릭터와 오브젝트, UI, 효과음 등의 제작 방향을 탐색하고 여러 결과 중 프로젝트에 적합한 결과를 선택하고 수정하는 방법을 학습한다. Ask, Plan, Agent의 차이를 이해하고 AI가 제안한 코드와 프로젝트 변경 사항을 실행 전에 검토하며 최소한의 권한과 범위 안에서 활용하는 습관을 형성한다. Console, Inspector와 Play Mode를 이용하여 AI가 만든 결과를 직접 확인하고 오류와 예상하지 못한 동작을 수정하는 검증 능력도 함께 기른다. 생성 콘텐츠의 출처와 저작권, 개인정보, API key 보안 및 AI 사용 기록의 필요성을 이해하고 책임 있는 제작 태도를 갖추는 것도 중요한 목표이다. 최종적으로 학생이 자신의 전공적 배경과 관심사를 게임의 주제, 시각 스타일, 사운드 및 상호작용 방식에 반영하고 제작 과정과 기술적 구조를 다른 사람에게 논리적으로 설명할 수 있도록 한다.</p>
+        </div>
+      </details>
     </section>
 
     <section class="course-section course-prose" aria-labelledby="learning-outcomes">
-      <header class="course-section-heading">
-        <h2 class="course-section-title" id="learning-outcomes">학습 성과</h2>
-        <p class="course-section-note">Learning outcomes</p>
-      </header>
-      <p>본 강의를 이수한 학생은 Unity 6.3 LTS의 2D 프로젝트를 생성하고 Scene과 Project 구조를 정리하며 GameObject, Component, Transform과 Prefab을 목적에 맞게 구성할 수 있다. C#의 기본 문법과 MonoBehaviour의 작동 방식을 이해하고 Inspector에 노출되는 변수를 활용하여 간단한 게임 기능을 작성하고 수정할 수 있다. Input System을 이용하여 플레이어의 입력을 처리하고 Rigidbody2D와 Collider2D를 활용하여 이동, 충돌 및 물리적 상호작용을 구현할 수 있다. Collision과 Trigger, Layer와 Prefab을 이용하여 수집물, 장애물과 목표 지점을 제작하고 Tilemap을 활용하여 짧은 2D 레벨을 구성할 수 있다. Sprite를 불러오고 분할하여 Animation Clip과 Animator Controller를 제작하며 캐릭터의 상태와 애니메이션을 게임 로직에 연결할 수 있다. UI와 AudioSource를 활용하여 점수, 시간, 성공과 실패, 효과음과 재시작 기능을 구현하고 시작부터 종료까지 완결된 게임 상태를 구성할 수 있다.</p>
-      <p>Sprite Generator와 Texture2D 기반 이미지 제작 기능을 이용하여 캐릭터, 오브젝트와 UI 후보를 생성하고 배경 제거, 업스케일, 픽셀화, 재채색 및 인페인팅 등의 후처리를 수행할 수 있다. 생성된 스프라이트시트를 직접 수정하고 분할하여 Animation과 Animator에 연결하며, 생성 이미지의 일관성과 게임 화면에서의 가독성을 판단할 수 있다. Unity Assistant의 Ask, Plan과 Agent를 작업 목적에 따라 구분하여 사용하고 AI가 제안한 코드와 변경 사항을 검토한 뒤 Console, Inspector와 Play Mode에서 결과를 검증할 수 있다. MCP와 Unity CLI 기반 자동화의 기본 개념을 이해하고 제한된 명령을 실행한 뒤 예상한 변경 범위와 실제 결과를 비교할 수 있다. 또한 프롬프트, 참조 자료, 생성 결과, 선택 이유, 직접 수정한 부분과 테스트 결과를 제작 기록으로 정리하고 생성 콘텐츠의 출처와 권리를 확인할 수 있다. 최종적으로 하나의 핵심 행동과 명확한 목표, 시각적·청각적 피드백을 갖춘 짧은 2D 게임을 독립적으로 기획하고 제작하며 실행 가능한 build와 Unity project, 영상 및 작품설명서의 형태로 제출하고 발표할 수 있다.</p>
+      <details class="course-disclosure">
+        <summary class="course-section-heading">
+          <h2 class="course-section-title" id="learning-outcomes">학습 성과</h2>
+          <p class="course-section-note">Learning outcomes</p>
+        </summary>
+        <div class="course-disclosure-content details-motion-content">
+          <p>본 강의를 이수한 학생은 Unity 6.3 LTS의 2D 프로젝트를 생성하고 Scene과 Project 구조를 정리하며 GameObject, Component, Transform과 Prefab을 목적에 맞게 구성할 수 있다. C#의 기본 문법과 MonoBehaviour의 작동 방식을 이해하고 Inspector에 노출되는 변수를 활용하여 간단한 게임 기능을 작성하고 수정할 수 있다. Input System을 이용하여 플레이어의 입력을 처리하고 Rigidbody2D와 Collider2D를 활용하여 이동, 충돌 및 물리적 상호작용을 구현할 수 있다. Collision과 Trigger, Layer와 Prefab을 이용하여 수집물, 장애물과 목표 지점을 제작하고 Tilemap을 활용하여 짧은 2D 레벨을 구성할 수 있다. Sprite를 불러오고 분할하여 Animation Clip과 Animator Controller를 제작하며 캐릭터의 상태와 애니메이션을 게임 로직에 연결할 수 있다. UI와 AudioSource를 활용하여 점수, 시간, 성공과 실패, 효과음과 재시작 기능을 구현하고 시작부터 종료까지 완결된 게임 상태를 구성할 수 있다.</p>
+          <p>Sprite Generator와 Texture2D 기반 이미지 제작 기능을 이용하여 캐릭터, 오브젝트와 UI 후보를 생성하고 배경 제거, 업스케일, 픽셀화, 재채색 및 인페인팅 등의 후처리를 수행할 수 있다. 생성된 스프라이트시트를 직접 수정하고 분할하여 Animation과 Animator에 연결하며, 생성 이미지의 일관성과 게임 화면에서의 가독성을 판단할 수 있다. Unity Assistant의 Ask, Plan과 Agent를 작업 목적에 따라 구분하여 사용하고 AI가 제안한 코드와 변경 사항을 검토한 뒤 Console, Inspector와 Play Mode에서 결과를 검증할 수 있다. MCP와 Unity CLI 기반 자동화의 기본 개념을 이해하고 제한된 명령을 실행한 뒤 예상한 변경 범위와 실제 결과를 비교할 수 있다. 또한 프롬프트, 참조 자료, 생성 결과, 선택 이유, 직접 수정한 부분과 테스트 결과를 제작 기록으로 정리하고 생성 콘텐츠의 출처와 권리를 확인할 수 있다. 최종적으로 하나의 핵심 행동과 명확한 목표, 시각적·청각적 피드백을 갖춘 짧은 2D 게임을 독립적으로 기획하고 제작하며 실행 가능한 build와 Unity project, 영상 및 작품설명서의 형태로 제출하고 발표할 수 있다.</p>
+        </div>
+      </details>
     </section>
 
     <section class="course-section" aria-labelledby="ai-workflow">
@@ -144,73 +170,132 @@
 
     <section class="course-section" aria-labelledby="curriculum">
       <header class="course-section-heading">
-        <h2 class="course-section-title" id="curriculum">16주 수업 계획</h2>
+        <h2 class="course-section-title" id="curriculum">Fall 2026</h2>
         <p class="course-section-note">주 3시간: 교수자 설명 + 목표지향 제작 실습</p>
       </header>
-      <div class="material-list syllabus-list">
+      <div class="material-list">
         <section class="week-group" id="week-01" aria-labelledby="week-01-label">
           <div class="week-heading"><span class="week-heading-label" id="week-01-label">Week 01</span><span class="week-heading-topic">Orientation</span></div>
-          <article class="syllabus-card"><h3>OT: Game Engine I와 Unity 설치</h3><p><strong>이론(1시간)</strong> 수업 목표, 평가, 2D 게임 제작 흐름, AI 사용 정책과 저작권</p><p><strong>실습(2시간)</strong> Unity Hub 설치, 로그인과 라이선스 확인, 지정된 Unity 6.3 LTS 설치 및 버전 검증</p><p><a href="week-01-ot.html"><strong>1주차 OT 자료 열기 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-01-ot.html"><span class="week">OT</span><span><span class="material-title">1주차 OT: Game Engine I와 Unity 설치</span><span class="material-meta">구독형 AI 현황 파악, 수업 목표·평가·운영 · Unity Hub 설치, Unity CLI 별도 설치, 로그인과 라이선스 확인, 지정된 Unity 6.3 LTS 검증. 프로젝트는 만들지 않음</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-02" aria-labelledby="week-02-label">
           <div class="week-heading"><span class="week-heading-label" id="week-02-label">Week 02</span><span class="week-heading-topic">Unity foundations</span></div>
-          <article class="syllabus-card"><h3>첫 2D 프로젝트와 Unity의 기본 구조</h3><p><strong>1교시 설명</strong> Unity Editor의 창과 Project, Scene, GameObject, Component의 관계</p><p><strong>2교시 설명과 시연</strong> Transform, 부모·자식, Sprite 정렬과 Prefab 재사용</p><p><strong>3교시 목표 실습</strong> 통과 기준을 보고 Week02_Playground를 스스로 완성하고 검증</p><p><a href="week-02-period1.html"><strong>1교시 · Editor 구조 ↗</strong></a> · <a href="week-02-period2.html"><strong>2교시 · 장면 조립 원리 ↗</strong></a> · <a href="week-02-period3.html"><strong>3교시 · Playground 미션 ↗</strong></a> · <a href="week-02-foundations.html"><strong>교수자용 전체 운영안 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-02-period1.html"><span class="week">Period 01</span><span><span class="material-title">2주차 1교시: Unity Editor를 읽는 법</span><span class="material-meta">1교시 설명 · Unity Editor의 창과 Project, Scene, GameObject, Component의 관계</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-02-period2.html"><span class="week">Period 02</span><span><span class="material-title">2주차 2교시: 장면을 조립하고 재사용하는 법</span><span class="material-meta">2교시 설명과 시연 · Transform, 부모·자식, Sprite 정렬과 Prefab 재사용</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-02-period3.html"><span class="week">Period 03</span><span><span class="material-title">2주차 3교시: 작은 Playground 완성 미션</span><span class="material-meta">3교시 목표 실습 · 통과 기준을 보고 Week02_Playground를 스스로 완성하고 검증</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-02-foundations.html"><span class="week">Guide</span><span><span class="material-title">2주차 교수자 운영안: 첫 2D 프로젝트와 Unity 기본 구조</span><span class="material-meta">교수자용 전체 운영안</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-03" aria-labelledby="week-03-label">
           <div class="week-heading"><span class="week-heading-label" id="week-03-label">Week 03</span><span class="week-heading-topic">C# and MonoBehaviour</span></div>
-          <article class="syllabus-card"><h3>C#으로 오브젝트 움직이기</h3><p><strong>1교시 · 이론과 설명</strong> Script와 Component, 변수·자료형·함수·조건문을 역할 중심으로 읽기</p><p><strong>2교시 · 이론과 설명</strong> MonoBehaviour 생명주기, Inspector 직렬화, 시간 기반 이동·회전 코드 해설</p><p><strong>3교시 · 목표지향 개인 실습</strong> 하나의 Script와 Prefab으로 세 가지 움직임을 구현하고 필수 기준 8개로 검증</p><p><a href="week-03-period1.html"><strong>1교시 · C# 코드를 읽는 법 ↗</strong></a> · <a href="week-03-period2.html"><strong>2교시 · 실행 순서와 시간 ↗</strong></a> · <a href="week-03-period3.html"><strong>3교시 · 세 가지 움직임 미션 ↗</strong></a></p><span class="assignment-label">과제 1 · Unity 기초 장면과 C# Script</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-03-period1.html"><span class="week">Period 01</span><span><span class="material-title">3주차 1교시: C# 코드를 읽는 법</span><span class="material-meta">1교시 · 이론과 설명 · Script와 Component, 변수·자료형·함수·조건문을 역할 중심으로 읽기</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-03-period2.html"><span class="week">Period 02</span><span><span class="material-title">3주차 2교시: 실행 순서와 시간 기반 움직임</span><span class="material-meta">2교시 · 이론과 설명 · MonoBehaviour 생명주기, Inspector 직렬화, 시간 기반 이동·회전 코드 해설</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-03-period3.html"><span class="week">Period 03</span><span><span class="material-title">3주차 3교시: 하나의 스크립트, 세 가지 움직임</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 하나의 Script와 Prefab으로 세 가지 움직임을 구현하고 필수 기준 8개로 검증</span><span class="assignment-label">과제 1 · Unity 기초 장면과 C# Script</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-04" aria-labelledby="week-04-label">
           <div class="week-heading"><span class="week-heading-label" id="week-04-label">Week 04</span><span class="week-heading-topic">Input and physics</span></div>
-          <article class="syllabus-card"><h3>입력, Rigidbody2D와 Collider2D</h3><p><strong>1교시 · 이론과 설명</strong> Input System, Action, Binding과 Vector2 입력 의도</p><p><strong>2교시 · 이론과 설명</strong> Update와 FixedUpdate, Rigidbody2D·Collider2D, Controller 코드 해설</p><p><strong>3교시 · 목표지향 개인 실습</strong> 충돌 가능한 4방향 Player를 구현하고 필수 테스트 8개로 검증</p><p><a href="week-04-period1.html"><strong>1교시 · 입력은 키가 아니라 의도 ↗</strong></a> · <a href="week-04-period2.html"><strong>2교시 · 물리의 시계 ↗</strong></a> · <a href="week-04-period3.html"><strong>3교시 · 8개 테스트 미션 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-04-period1.html"><span class="week">Period 01</span><span><span class="material-title">4주차 1교시: 입력은 키가 아니라 의도입니다</span><span class="material-meta">1교시 · 이론과 설명 · Input System, Action, Binding과 Vector2 입력 의도</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-04-period2.html"><span class="week">Period 02</span><span><span class="material-title">4주차 2교시: 물리의 시계로 움직이기</span><span class="material-meta">2교시 · 이론과 설명 · Update와 FixedUpdate, Rigidbody2D·Collider2D, Controller 코드 해설</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-04-period3.html"><span class="week">Period 03</span><span><span class="material-title">4주차 3교시: 여덟 가지 테스트를 통과하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 충돌 가능한 4방향 Player를 구현하고 필수 테스트 8개로 검증</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-05" aria-labelledby="week-05-label">
           <div class="week-heading"><span class="week-heading-label" id="week-05-label">Week 05</span><span class="week-heading-topic">Interaction and level</span></div>
-          <article class="syllabus-card"><h3>Trigger, Layer와 작은 Tilemap 레벨</h3><p><strong>1교시 · 이론과 설명</strong> Collision과 Trigger, OnTriggerEnter2D의 성립 조건, Layer와 Tag의 역할</p><p><strong>2교시 · 이론과 설명</strong> Grid·Tilemap·Tile Palette·Tilemap Collider 2D, Prefab과 네 Script의 상태 흐름</p><p><strong>3교시 · 목표지향 개인 실습</strong> 수집물 3개·위험 구역 2개·조건부 목표 1개를 가진 짧은 레벨을 만들고 필수 테스트 8개로 검증</p><p><a href="week-05-period1.html"><strong>1교시 · 막는 충돌, 감지하는 Trigger ↗</strong></a> · <a href="week-05-period2.html"><strong>2교시 · Tilemap 위의 시스템 ↗</strong></a> · <a href="week-05-period3.html"><strong>3교시 · 1분 레벨 미션 ↗</strong></a></p><span class="assignment-label">과제 2 · 상호작용이 가능한 1분 2D prototype</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-05-period1.html"><span class="week">Period 01</span><span><span class="material-title">5주차 1교시: 막는 충돌, 감지하는 Trigger</span><span class="material-meta">1교시 · 이론과 설명 · Collision과 Trigger, OnTriggerEnter2D의 성립 조건, Layer와 Tag의 역할</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-05-period2.html"><span class="week">Period 02</span><span><span class="material-title">5주차 2교시: Tilemap 위에 상호작용 시스템 세우기</span><span class="material-meta">2교시 · 이론과 설명 · Grid·Tilemap·Tile Palette·Tilemap Collider 2D, Prefab과 네 Script의 상태 흐름</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-05-period3.html"><span class="week">Period 03</span><span><span class="material-title">5주차 3교시: 상호작용 가능한 1분 레벨</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 수집물 3개·위험 구역 2개·조건부 목표 1개를 가진 짧은 레벨을 만들고 필수 테스트 8개로 검증</span><span class="assignment-label">과제 2 · 상호작용이 가능한 1분 2D prototype</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-06" aria-labelledby="week-06-label">
           <div class="week-heading"><span class="week-heading-label" id="week-06-label">Week 06</span><span class="week-heading-topic">Animation and camera</span></div>
-          <article class="syllabus-card"><h3>Sprite Animation과 2D 카메라</h3><p><strong>1교시 · 이론과 설명</strong> Sprite import·slicing·Pivot, Animation Clip의 프레임·Samples·Loop</p><p><strong>2교시 · 이론과 설명</strong> Animator의 Idle·Move 상태 전환, Cinemachine의 Dead Zone·Damping·Confiner 2D</p><p><strong>3교시 · 목표지향 개인 실습</strong> 움직임이 읽히는 Player와 경계 안에서 추적하는 카메라를 완성하고 필수 테스트 8개로 검증</p><p><a href="week-06-period1.html"><strong>1교시 · 그림이 움직임이 되는 법 ↗</strong></a> · <a href="week-06-period2.html"><strong>2교시 · 상태와 시선 ↗</strong></a> · <a href="week-06-period3.html"><strong>3교시 · 8개 테스트 미션 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-06-period1.html"><span class="week">Period 01</span><span><span class="material-title">6주차 1교시: 한 장의 그림이 움직임이 되는 법</span><span class="material-meta">1교시 · 이론과 설명 · Sprite import·slicing·Pivot, Animation Clip의 프레임·Samples·Loop</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-06-period2.html"><span class="week">Period 02</span><span><span class="material-title">6주차 2교시: 상태는 Animator가, 시선은 Camera가</span><span class="material-meta">2교시 · 이론과 설명 · Animator의 Idle·Move 상태 전환, Cinemachine의 Dead Zone·Damping·Confiner 2D</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-06-period3.html"><span class="week">Period 03</span><span><span class="material-title">6주차 3교시: 움직임이 읽히는 화면을 완성하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 움직임이 읽히는 Player와 경계 안에서 추적하는 카메라를 완성하고 필수 테스트 8개로 검증</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-07" aria-labelledby="week-07-label">
           <div class="week-heading"><span class="week-heading-label" id="week-07-label">Week 07</span><span class="week-heading-topic">Game state and build</span></div>
-          <article class="syllabus-card"><h3>UI, Audio와 게임 상태</h3><p><strong>1교시 · 이론과 설명</strong> 게임 데이터와 UI 출력, Ready·Playing·Won·Lost, HUD와 결과 화면의 상태 흐름</p><p><strong>2교시 · 이론과 설명</strong> Canvas·GameManager·AudioSource·Button·Scene 재시작과 Unity 6 Build Profiles 완성 시연</p><p><strong>3교시 · 목표지향 개인 실습</strong> 3개 수집물과 30초 제한의 시작·성공·실패·재시작 루프를 만들고 실제 빌드까지 필수 테스트 8개로 검증</p><p><a href="week-07-period1.html"><strong>1교시 · 게임은 상태를 기억한다 ↗</strong></a> · <a href="week-07-period2.html"><strong>2교시 · UI·소리·상태 연결 ↗</strong></a> · <a href="week-07-period3.html"><strong>3교시 · 30초 게임 루프 미션 ↗</strong></a></p><span class="assignment-label">중간고사 사전 점검 · Week07_Preflight build</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-07-period1.html"><span class="week">Period 01</span><span><span class="material-title">7주차 1교시: 게임은 상태를 기억해야 합니다</span><span class="material-meta">1교시 · 이론과 설명 · 게임 데이터와 UI 출력, Ready·Playing·Won·Lost, HUD와 결과 화면의 상태 흐름</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-07-period2.html"><span class="week">Period 02</span><span><span class="material-title">7주차 2교시: UI, 소리, 상태를 하나의 흐름으로 묶기</span><span class="material-meta">2교시 · 이론과 설명 · Canvas·GameManager·AudioSource·Button·Scene 재시작과 Unity 6 Build Profiles 완성 시연</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-07-period3.html"><span class="week">Period 03</span><span><span class="material-title">7주차 3교시: 30초 게임 루프를 완성하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 3개 수집물과 30초 제한의 시작·성공·실패·재시작 루프를 만들고 실제 빌드까지 필수 테스트 8개로 검증</span><span class="assignment-label">중간고사 사전 점검 · Week07_Preflight build</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-08" aria-labelledby="week-08-label">
           <div class="week-heading"><span class="week-heading-label" id="week-08-label">Week 08</span><span class="week-heading-topic">Midterm exam</span></div>
-          <article class="syllabus-card"><h3>중간고사</h3><p><strong>중간평가(3시간)</strong> 세부 시험 방식과 평가 기준은 추후 결정하여 공지</p></article>
+          <div class="week-cards">
+            <div class="material-card material-card-pending"><span class="week">Exam</span><span><span class="material-title">중간고사</span><span class="material-meta">자료 준비 중 · 중간평가(3시간) 세부 시험 방식과 평가 기준은 추후 결정하여 공지</span></span></div>
+          </div>
         </section>
         <section class="week-group" id="week-09" aria-labelledby="week-09-label">
           <div class="week-heading"><span class="week-heading-label" id="week-09-label">Week 09</span><span class="week-heading-topic">AI art direction</span></div>
-          <article class="syllabus-card"><h3>생성형 AI와 게임 아트 디렉션</h3><p><strong>1교시 · 이론과 설명</strong> 제작 단계 AI와 runtime AI, Ask·Plan·Agent·Generator의 자율성, 시각 규칙과 권리·개인정보·provenance</p><p><strong>2교시 · 이론과 설명</strong> 한 문장 콘셉트, style board, prompt·참조 역할, 한 변수 반복, 64px·회색조와 후보 선택 기준 시연</p><p><strong>3교시 · 목표지향 개인 실습</strong> 같은 정적 Sprite 후보 3장을 만들고 한 장을 근거로 선택하여 필수 테스트 8개와 제작 로그로 검증</p><p><a href="week-09-period1.html"><strong>1교시 · 먼저 방향을 정하고 생성하기 ↗</strong></a> · <a href="week-09-period2.html"><strong>2교시 · 한 문장을 시각 규칙으로 번역하기 ↗</strong></a> · <a href="week-09-period3.html"><strong>3교시 · 세 후보 선택 미션 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-09-period1.html"><span class="week">Period 01</span><span><span class="material-title">9주차 1교시: 먼저 방향을 정하고, 그다음 생성합니다</span><span class="material-meta">1교시 · 이론과 설명 · 제작 단계 AI와 runtime AI, Ask·Plan·Agent·Generator의 자율성, 시각 규칙과 권리·개인정보·provenance</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-09-period2.html"><span class="week">Period 02</span><span><span class="material-title">9주차 2교시: 한 문장을 시각 규칙으로 번역합니다</span><span class="material-meta">2교시 · 이론과 설명 · 한 문장 콘셉트, style board, prompt·참조 역할, 한 변수 반복, 64px·회색조와 후보 선택 기준 시연</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-09-period3.html"><span class="week">Period 03</span><span><span class="material-title">9주차 3교시: 하나의 세계를 세 장으로 증명하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 같은 정적 Sprite 후보 3장을 만들고 한 장을 근거로 선택하여 필수 테스트 8개와 제작 로그로 검증</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-10" aria-labelledby="week-10-label">
           <div class="week-heading"><span class="week-heading-label" id="week-10-label">Week 10</span><span class="week-heading-topic">AI sprite generation</span></div>
-          <article class="syllabus-card"><h3>생성 이미지를 게임 에셋으로 완성하기</h3><p><strong>1교시, 이론과 설명</strong> 이미지 후보와 게임 에셋의 차이, 픽셀, PPU, 프레임 일관성, 다섯 준비 관문과 사람의 수정</p><p><strong>2교시, 이론과 설명</strong> Remove Background, Inpaint, Recolor, Pixelate, Upscale 판단, 4×1 Sprite sheet, Unity 6.3 import, slicing, Animator, UI 통합 시연</p><p><strong>3교시, 목표지향 개인 실습</strong> 4프레임 Player, 3개 상호작용 Sprite, 1개 UI 패널을 기존 게임에 통합하고 필수 테스트 8개와 제작 로그로 검증</p><p><a href="week-10-period1.html"><strong>1교시, 생성된 그림은 아직 게임 에셋이 아니다 ↗</strong></a>, <a href="week-10-period2.html"><strong>2교시, 후처리에서 Unity 통합까지 ↗</strong></a>, <a href="week-10-period3.html"><strong>3교시, 하나의 에셋 키트 미션 ↗</strong></a></p><span class="assignment-label">과제 3, AI Sprite, UI asset kit와 제작 로그</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-10-period1.html"><span class="week">Period 01</span><span><span class="material-title">10주차 1교시: 생성된 그림은 아직 게임 에셋이 아닙니다</span><span class="material-meta">1교시 · 이론과 설명 · 이미지 후보와 게임 에셋의 차이, 픽셀, PPU, 프레임 일관성, 다섯 준비 관문과 사람의 수정</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-10-period2.html"><span class="week">Period 02</span><span><span class="material-title">10주차 2교시: 후처리에서 Unity 통합까지</span><span class="material-meta">2교시 · 이론과 설명 · Remove Background, Inpaint, Recolor, Pixelate, Upscale 판단, 4×1 Sprite sheet, Unity 6.3 import, slicing, Animator, UI 통합 시연</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-10-period3.html"><span class="week">Period 03</span><span><span class="material-title">10주차 3교시: 하나의 에셋 키트를 게임 안에서 증명하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 4프레임 Player, 3개 상호작용 Sprite, 1개 UI 패널을 기존 게임에 통합하고 필수 테스트 8개와 제작 로그로 검증</span><span class="assignment-label">과제 3 · AI Sprite, UI asset kit와 제작 로그</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-11" aria-labelledby="week-11-label">
           <div class="week-heading"><span class="week-heading-label" id="week-11-label">Week 11</span><span class="week-heading-topic">AI-assisted coding</span></div>
-          <article class="syllabus-card"><h3>Ask·Plan·Agent로 기능을 제한적으로 수정하기</h3><p><strong>1교시 · 이론과 설명</strong> Ask·Plan·Agent의 자율성, 문제 분해, hallucination, 최소 권한, 변경 계약, diff와 완료 증거</p><p><strong>2교시 · 이론과 설명</strong> Ask → Plan → script-only Agent → diff → 수동 Unity 연결 → 회귀 테스트로 +5초 Time Bonus 완성 시연</p><p><strong>3교시 · 목표지향 개인 실습</strong> 두 C# 파일만 허용해 같은 Time Bonus를 구현하고 필수 테스트 8개, build, 변경 로그와 90초 코드 구술로 검증</p><p><a href="week-11-period1.html"><strong>1교시 · AI의 답보다 변경 계약을 먼저 읽기 ↗</strong></a> · <a href="week-11-period2.html"><strong>2교시 · 두 파일만 바꾸는 통제된 시연 ↗</strong></a> · <a href="week-11-period3.html"><strong>3교시 · 5초 Time Bonus 미션 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-11-period1.html"><span class="week">Period 01</span><span><span class="material-title">11주차 1교시: AI의 답보다 변경 계약을 먼저 읽습니다</span><span class="material-meta">1교시 · 이론과 설명 · Ask·Plan·Agent의 자율성, 문제 분해, hallucination, 최소 권한, 변경 계약, diff와 완료 증거</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-11-period2.html"><span class="week">Period 02</span><span><span class="material-title">11주차 2교시: 두 코드 파일로 제한하는 통제된 시연</span><span class="material-meta">2교시 · 이론과 설명 · Ask → Plan → script-only Agent → diff → 수동 Unity 연결 → 회귀 테스트로 +5초 Time Bonus 완성 시연</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-11-period3.html"><span class="week">Period 03</span><span><span class="material-title">11주차 3교시: 5초를 더하되 구현 코드는 두 파일로 제한하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 두 C# 파일만 허용해 같은 Time Bonus를 구현하고 필수 테스트 8개, build, 변경 로그와 90초 코드 구술로 검증</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-12" aria-labelledby="week-12-label">
           <div class="week-heading"><span class="week-heading-label" id="week-12-label">Week 12</span><span class="week-heading-topic">MCP and CLI</span></div>
-          <article class="syllabus-card"><h3>MCP, AI Gateway와 Unity CLI 자동화</h3><p><strong>1교시 · 이론과 설명</strong> Gateway·MCP·CLI·Pipeline의 역할, 최소 권한, 자격 증명 보안과 검증 가능한 자동화 계약</p><p><strong>2교시 · 이론과 설명·시연</strong> 수동 baseline → MCP 읽기 → 단일 Transform 변경 → rollback, Unity CLI status·Pipeline과 구조화된 출력 판독</p><p><strong>3교시 · 목표지향 개인 실습</strong> 연결·부분 연결·오프라인 경로 중 하나를 선택해 같은 읽기 증거, 권한 계약, 단일 변경·복구와 필수 테스트 8개 완성</p><p><a href="week-12-period1.html"><strong>1교시 · 자동화는 연결보다 경계가 먼저 ↗</strong></a> · <a href="week-12-period2.html"><strong>2교시 · 읽고 예측하고 한 번만 실행 ↗</strong></a> · <a href="week-12-period3.html"><strong>3교시 · 읽기 자동화 보고서 증명 ↗</strong></a></p></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-12-period1.html"><span class="week">Period 01</span><span><span class="material-title">12주차 1교시: 자동화는 연결보다 경계가 먼저입니다</span><span class="material-meta">1교시 · 이론과 설명 · Gateway·MCP·CLI·Pipeline의 역할, 최소 권한, 자격 증명 보안과 검증 가능한 자동화 계약</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-12-period2.html"><span class="week">Period 02</span><span><span class="material-title">12주차 2교시: 읽고 예측하고 한 번만 실행합니다</span><span class="material-meta">2교시 · 이론과 설명·시연 · 수동 baseline → MCP 읽기 → 단일 Transform 변경 → rollback, Unity CLI status·Pipeline과 구조화된 출력 판독</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-12-period3.html"><span class="week">Period 03</span><span><span class="material-title">12주차 3교시: 읽기 자동화 보고서를 증명하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 연결·부분 연결·오프라인 경로 중 하나를 선택해 같은 읽기 증거, 권한 계약, 단일 변경·복구와 필수 테스트 8개 완성</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-13" aria-labelledby="week-13-label">
           <div class="week-heading"><span class="week-heading-label" id="week-13-label">Week 13</span><span class="week-heading-topic">Sound, UI and playtest</span></div>
-          <article class="syllabus-card"><h3>생성 사운드·UI 피드백과 3인 플레이테스트</h3><p><strong>1교시 · 이론과 설명</strong> 사건→상태→시각·청각 신호의 피드백 계약, AudioClip·AudioSource·Audio Mixer, Sound Generator의 범위, UI 정보 위계와 음소거·회색조 중복 표현</p><p><strong>2교시 · 이론과 설명·시연</strong> debugging·acceptance·playtest 구분, 같은 build·과제·질문의 3인 blind run, 관찰·해석·해결 분리, 영향·빈도에 따른 문제 하나의 최소 수정과 target build 회귀 검사</p><p><strong>3교시 · 목표지향 개인 실습</strong> 개인 Alpha v0를 A·B·C 세 명이 같은 조건으로 플레이하고, 실제 관찰에서 문제 하나를 선택해 수정한 뒤 원 테스터 재검사·Alpha v1 build·필수 테스트 8개로 검증</p><p><a href="week-13-period1.html"><strong>1교시 · 피드백은 상태의 번역 ↗</strong></a> · <a href="week-13-period2.html"><strong>2교시 · 플레이테스트는 관찰 실험 ↗</strong></a> · <a href="week-13-period3.html"><strong>3교시 · 세 번의 관찰로 알파 개선 ↗</strong></a></p><span class="assignment-label">과제 4 · Alpha build와 3인 플레이테스트 기록</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-13-period1.html"><span class="week">Period 01</span><span><span class="material-title">13주차 1교시: 피드백은 상태의 번역입니다</span><span class="material-meta">1교시 · 이론과 설명 · 사건→상태→시각·청각 신호의 피드백 계약, AudioClip·AudioSource·Audio Mixer, Sound Generator의 범위, UI 정보 위계와 음소거·회색조 중복 표현</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-13-period2.html"><span class="week">Period 02</span><span><span class="material-title">13주차 2교시: 플레이테스트는 관찰 실험입니다</span><span class="material-meta">2교시 · 이론과 설명·시연 · debugging·acceptance·playtest 구분, 같은 build·과제·질문의 3인 blind run, 관찰·해석·해결 분리, 영향·빈도에 따른 문제 하나의 최소 수정과 target build 회귀 검사</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-13-period3.html"><span class="week">Period 03</span><span><span class="material-title">13주차 3교시: 세 번의 관찰로 알파를 개선하라</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 개인 Alpha v0를 A·B·C 세 명이 같은 조건으로 플레이하고, 실제 관찰에서 문제 하나를 선택해 수정한 뒤 원 테스터 재검사·Alpha v1 build·필수 테스트 8개로 검증</span><span class="assignment-label">과제 4 · Alpha build와 3인 플레이테스트 기록</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-14" aria-labelledby="week-14-label">
           <div class="week-heading"><span class="week-heading-label" id="week-14-label">Week 14</span><span class="week-heading-topic">Project mentoring I</span></div>
-          <article class="syllabus-card"><h3>기말 프로젝트 제작 및 1차 면담</h3><p><strong>1교시 · 이론과 설명</strong> 3-5분 개인 게임의 범위, 핵심 mechanic 문장, Scene·Prefab·Script 구조도, Script 구술과 AI 설명 책임을 공통 사례로 이해</p><p><strong>2교시 · 이론과 설명</strong> 교수자의 공개 면담 시연을 보며 build 실행, 구조 추적, 핵심 Script 설명, 증거 판정과 blocking issue 승인 기준을 함께 해석</p><p><strong>3교시 · 목표지향 개인 실습</strong> 승인된 문제 하나를 Fix·Diagnose·Defer 경로로 처리하고, 경로에 맞는 재검사와 회귀 build, 필수 테스트 8개, 90초 인계 설명으로 체크포인트 완성</p><p><a href="week-14-period1.html"><strong>1교시 · 면담 전에 프로젝트 경계 잠그기 ↗</strong></a> · <a href="week-14-period2.html"><strong>2교시 · 구조와 판단을 함께 진단하기 ↗</strong></a> · <a href="week-14-period3.html"><strong>3교시 · 결정한 문제 하나 닫기 ↗</strong></a></p><span class="assignment-label">면담 체크포인트 · build, 구조도, 면담 CSV, MENTORING_CHECKPOINT.md</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-14-period1.html"><span class="week">Period 01</span><span><span class="material-title">14주차 1교시: 면담 전에 프로젝트 경계를 잠급니다</span><span class="material-meta">1교시 · 이론과 설명 · 3-5분 개인 게임의 범위, 핵심 mechanic 문장, Scene·Prefab·Script 구조도, Script 구술과 AI 설명 책임을 공통 사례로 이해</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-14-period2.html"><span class="week">Period 02</span><span><span class="material-title">14주차 2교시: 구조와 판단을 함께 진단합니다</span><span class="material-meta">2교시 · 이론과 설명 · 교수자의 공개 면담 시연을 보며 build 실행, 구조 추적, 핵심 Script 설명, 증거 판정과 blocking issue 승인 기준을 함께 해석</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-14-period3.html"><span class="week">Period 03</span><span><span class="material-title">14주차 3교시: 결정한 문제 하나를 증거로 닫습니다</span><span class="material-meta">3교시 · 목표지향 개인 실습 · 승인된 문제 하나를 Fix·Diagnose·Defer 경로로 처리하고, 경로에 맞는 재검사와 회귀 build, 필수 테스트 8개, 90초 인계 설명으로 체크포인트 완성</span><span class="assignment-label">면담 체크포인트 · build, 구조도, 면담 CSV, MENTORING_CHECKPOINT.md</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-15" aria-labelledby="week-15-label">
           <div class="week-heading"><span class="week-heading-label" id="week-15-label">Week 15</span><span class="week-heading-topic">Project mentoring II</span></div>
-          <article class="syllabus-card"><h3>Release Candidate 검증 및 2차 면담</h3><p><strong>1교시 · 이론과 설명</strong> Release Candidate, 범위 동결, 여덟 릴리스 관문과 P0-P3 우선순위를 공통 사례로 이해</p><p><strong>2교시 · 이론과 설명</strong> 교수자의 공개 면담 시연을 보며 독립 실행, 핵심 경험, 로그, 생성 에셋 권리와 제출 묶음의 판정 근거를 해석</p><p><strong>3교시 · 목표지향 개인 실습</strong> RC0의 첫 실패 관문 하나를 수정·삭제·보류하고 같은 조건의 재검사, RC1 build와 제출 리허설로 증거 묶음 완성</p><p><a href="week-15-period1.html"><strong>1교시 · 완성은 위험을 닫는 일 ↗</strong></a> · <a href="week-15-period2.html"><strong>2교시 · 같은 질문으로 릴리스 판정 ↗</strong></a> · <a href="week-15-period3.html"><strong>3교시 · 위험 하나 닫기 ↗</strong></a></p><span class="assignment-label">릴리스 체크포인트 · RC1 build, 테스트 CSV, 권리 기록, RELEASE_RECORD.md</span></article>
+          <div class="week-cards">
+            <a class="material-card" href="week-15-period1.html"><span class="week">Period 01</span><span><span class="material-title">15주차 1교시: 완성은 더하는 일이 아니라 위험을 닫는 일입니다</span><span class="material-meta">1교시 · 이론과 설명 · Release Candidate, 범위 동결, 여덟 릴리스 관문과 P0-P3 우선순위를 공통 사례로 이해</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card" href="week-15-period2.html"><span class="week">Period 02</span><span><span class="material-title">15주차 2교시: 같은 질문으로 릴리스 준비를 판정합니다</span><span class="material-meta">2교시 · 이론과 설명 · 교수자의 공개 면담 시연을 보며 독립 실행, 핵심 경험, 로그, 생성 에셋 권리와 제출 묶음의 판정 근거를 해석</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+            <a class="material-card material-card-mission" href="week-15-period3.html"><span class="week">Period 03</span><span><span class="material-title">15주차 3교시: 릴리스 후보의 위험 하나를 닫습니다</span><span class="material-meta">3교시 · 목표지향 개인 실습 · RC0의 첫 실패 관문 하나를 수정·삭제·보류하고 같은 조건의 재검사, RC1 build와 제출 리허설로 증거 묶음 완성</span><span class="assignment-label">릴리스 체크포인트 · RC1 build, 테스트 CSV, 권리 기록, RELEASE_RECORD.md</span></span><span class="open-label" aria-hidden="true">↗</span></a>
+          </div>
         </section>
         <section class="week-group" id="week-16" aria-labelledby="week-16-label">
           <div class="week-heading"><span class="week-heading-label" id="week-16-label">Week 16</span><span class="week-heading-topic">Final submission</span></div>
-          <article class="syllabus-card"><h3>기말 프로젝트 제출 및 플레이</h3><p><strong>기말평가(3시간)</strong> 3~5분 안에 완결되는 개인 2D 게임 상영·플레이와 제작 과정 회고</p><span class="assignment-label">기말평가 제출 · 실행 build, Unity project, 1~2분 영상, 작품설명서 및 AI 제작 로그</span></article>
+          <div class="week-cards">
+            <div class="material-card material-card-pending"><span class="week">Final</span><span><span class="material-title">기말 프로젝트 제출 및 플레이</span><span class="material-meta">자료 준비 중 · 기말평가(3시간) 3~5분 안에 완결되는 개인 2D 게임 상영·플레이와 제작 과정 회고</span><span class="assignment-label">기말평가 제출 · 끝까지 되는 짧은 2D 한 판</span></span></div>
+          </div>
         </section>
       </div>
     </section>
@@ -275,5 +360,8 @@
       <span>Kim Jungho / 2026</span>
     </footer>
   </main>
+  <script src="/assets/course-jump.js" defer></script>
+  <script src="/assets/details-motion.js" defer></script>
+  <script type="module" src="/assets/course-prose.js"></script>
 </body>
 </html>

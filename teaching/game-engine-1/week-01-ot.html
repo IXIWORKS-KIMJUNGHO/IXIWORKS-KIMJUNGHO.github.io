@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>1주차 OT: Game Engine I와 Unity 설치 | Game Engine I</title>
-  <meta name="description" content="Game Engine I의 목표와 운영 원칙을 이해하고, Unity Hub와 Unity 6.3 LTS의 설치 및 라이선스 확인까지 완료하는 180분 오리엔테이션 자료입니다.">
+  <meta name="description" content="Game Engine I의 목표와 운영 원칙을 이해하고, 구독형 AI 현황을 파악한 뒤 Unity CLI로 로그인, 지정 버전, 라이선스를 확인하는 180분 오리엔테이션 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-01-ot.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="1주차 OT: Game Engine I와 Unity 설치">
-  <meta property="og:description" content="한 학기의 Unity 2D 제작 방향을 확인하고 Unity 6.3 LTS 설치를 완료하는 Game Engine I 오리엔테이션입니다.">
+  <meta property="og:description" content="한 학기의 Unity 2D 제작 방향을 확인하고, Unity CLI로 6.3 LTS 설치를 완료하는 Game Engine I 오리엔테이션입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/week-01-ot.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-01-blockout-to-game.webp">
   <meta property="og:image:alt" content="동일한 탑다운 2D 게임 장면이 회색 블록아웃에서 완성된 픽셀 아트 장면으로 발전하는 비교 이미지">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="1주차 OT: Game Engine I와 Unity 설치">
-  <meta name="twitter:description" content="한 학기의 Unity 2D 제작 방향을 확인하고 Unity 6.3 LTS 설치를 완료하는 Game Engine I 오리엔테이션입니다.">
+  <meta name="twitter:description" content="한 학기의 Unity 2D 제작 방향을 확인하고, Unity CLI로 6.3 LTS 설치를 완료하는 Game Engine I 오리엔테이션입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/game-engine-1/assets/week-01-blockout-to-game.webp">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
-  <link rel="stylesheet" href="assets/week-01-ot.css?v=ge1ot2">
+  <link rel="stylesheet" href="assets/week-01-ot.css?v=ge1ot21">
 </head>
 <body class="teaching-document course-game-engine-1 game-engine-ot">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
@@ -43,10 +43,10 @@
       <div class="ot-hero-copy">
         <p class="eyebrow">Week 01 / Orientation / 180 min</p>
         <h1>Game Engine I와 Unity 설치</h1>
-        <p class="lead">작은 2D 게임을 만드는 한 학기의 규칙을 확인하고, 제작 환경 설치까지 마칩니다.</p>
+        <p class="lead">작은 2D 게임을 만드는 한 학기의 규칙을 확인하고, Unity CLI로 제작 환경을 맞춥니다.</p>
         <div class="hero-actions" aria-label="주요 위치로 이동">
-          <a class="hero-action hero-action-primary" href="#agenda">오늘의 흐름</a>
-          <a class="hero-action" href="#install">설치 시작</a>
+          <a class="hero-action hero-action-primary" href="#install">설치 시작</a>
+          <a class="hero-action" href="#diagnostic">지금 쓰는 AI</a>
         </div>
       </div>
       <figure class="ot-hero-visual">
@@ -63,10 +63,10 @@
           <p>프로젝트를 만들기 전에 수업의 방향과 공통 제작 환경을 맞춥니다.</p>
         </div>
         <ul class="arrival-list">
-          <li><strong>게임 엔진의 역할</strong>을 입력, 규칙, 상태, 피드백의 관계로 설명할 수 있습니다.</li>
+          <li><strong>게임 엔진의 역할</strong>을 입력, 규칙, 상태, 피드백의 관계로 설명하고, <mark>파이썬·HTML 바이브코딩과 무엇이 다른지</mark> 말할 수 있습니다.</li>
           <li><strong>16주 제작 경로</strong>와 최종 결과물의 범위를 이해합니다.</li>
-          <li><strong>AI 사용 원칙</strong>과 직접 설명하고 검증해야 하는 책임을 확인합니다.</li>
-          <li><strong>Unity Hub와 Unity 6.3 LTS</strong>를 설치하고 버전과 라이선스를 확인합니다.</li>
+          <li>지금 쓰는 <mark>구독형 AI</mark>를 표시하고, 유료 여부는 성적과 무관함을 확인합니다.</li>
+          <li><mark>Unity CLI</mark>로 로그인, 지정 버전, 라이선스를 확인합니다. 프로젝트는 만들지 않습니다.</li>
         </ul>
       </section>
 
@@ -75,61 +75,16 @@
           <span>오늘의 종료선</span>
           <strong>Unity 6.3 LTS 설치 완료</strong>
         </div>
-        <p><strong>프로젝트 생성, Scene 저장, Play Mode는 오늘 진행하지 않습니다.</strong> Hub의 <code>Projects</code> 화면에서 <code>New project</code>를 누르지 않고 종료합니다.</p>
+        <p><mark>프로젝트 생성, Scene 저장, Play Mode는 오늘 진행하지 않습니다.</mark> <code>unity open</code>과 Hub의 <code>New project</code>를 누르지 않고 종료합니다.</p>
       </aside>
-
-      <section class="ot-section" id="agenda" aria-labelledby="agenda-title">
-        <header class="section-heading">
-          <h2 id="agenda-title">180분의 흐름</h2>
-          <p>수업 이해 60분 이후 Unity 설치를 시작하고, 다운로드 대기 시간에는 AI 정책을 함께 확인합니다.</p>
-        </header>
-        <div class="agenda-bands">
-          <section class="agenda-band" aria-labelledby="agenda-understand">
-            <div class="agenda-band-heading">
-              <span>0-60분</span>
-              <h3 id="agenda-understand">수업을 이해합니다</h3>
-            </div>
-            <ol>
-              <li><time>0-10분</time><div><strong>출발점 확인</strong><p>게임과 프로그래밍 경험, 관심 분야를 개별 기록합니다.</p></div></li>
-              <li><time>10-30분</time><div><strong>게임 엔진의 역할</strong><p>게임, 엔진, Unity Editor의 차이를 핵심 구조로 구분합니다.</p></div></li>
-              <li><time>30-50분</time><div><strong>한 학기의 결과</strong><p>16주 로드맵과 작고 완결된 2D 게임의 범위를 확인합니다.</p></div></li>
-              <li><time>50-60분</time><div><strong>수업 운영</strong><p>매주 작업 방식, 과제 증거와 평가의 중심을 확인합니다.</p></div></li>
-            </ol>
-          </section>
-          <section class="agenda-band" aria-labelledby="agenda-contract">
-            <div class="agenda-band-heading">
-              <span>60-125분</span>
-              <h3 id="agenda-contract">설치를 준비합니다</h3>
-            </div>
-            <ol>
-              <li><time>60-70분</time><div><strong>휴식</strong><p>설치에 사용할 계정과 기기 상태를 준비합니다.</p></div></li>
-              <li><time>70-85분</time><div><strong>설치 전 점검</strong><p>운영체제, 저장 공간, 네트워크와 Unity ID를 확인합니다.</p></div></li>
-              <li><time>85-100분</time><div><strong>Unity Hub 설치</strong><p>공식 설치 파일로 Hub 안정 버전을 설치합니다.</p></div></li>
-              <li><time>100-115분</time><div><strong>로그인과 라이선스</strong><p>Unity ID와 활성 라이선스를 확인합니다.</p></div></li>
-              <li><time>115-125분</time><div><strong>Editor 선택</strong><p>공지된 정확한 Unity 6.3 LTS와 최소 구성을 선택합니다.</p></div></li>
-            </ol>
-          </section>
-          <section class="agenda-band agenda-band-accent" aria-labelledby="agenda-install">
-            <div class="agenda-band-heading">
-              <span>125-180분</span>
-              <h3 id="agenda-install">설치를 완료합니다</h3>
-            </div>
-            <ol>
-              <li><time>125-165분</time><div><strong>Editor 다운로드</strong><p>다운로드를 진행하며 AI 허용 시기, 기록, 권리와 검증 책임을 확인합니다.</p></div></li>
-              <li><time>165-175분</time><div><strong>설치 검증</strong><p>버전 번호와 설치 완료 상태를 확인하고 문제를 기록합니다.</p></div></li>
-              <li><time>175-180분</time><div><strong>종료 확인</strong><p>체크리스트를 제출하고 다음 주 준비 사항을 확인합니다.</p></div></li>
-            </ol>
-          </section>
-        </div>
-      </section>
 
       <section class="ot-section" id="diagnostic" aria-labelledby="diagnostic-title">
         <header class="section-heading">
           <h2 id="diagnostic-title">출발점 확인</h2>
-          <p>경험의 차이는 성취도의 차이가 아닙니다. 설명의 속도와 실습 지원 방식을 정하기 위한 정보입니다.</p>
+          <p>경험의 차이는 성취도의 차이가 아니라 <mark>출발점의 차이</mark>입니다. 설명의 속도와 실습 지원 방식을 정하기 위한 정보입니다.</p>
         </header>
         <div class="worksheet">
-          <span class="worksheet-label">개별 기록 / 7분</span>
+          <span class="worksheet-label">개별 기록</span>
           <h3>나의 제작 경험</h3>
           <div class="experience-scale" aria-label="게임 엔진 경험 수준">
             <div><span>0</span><strong>처음 접함</strong><p>게임 엔진과 코딩이 모두 처음입니다.</p></div>
@@ -144,19 +99,39 @@
             <li>설치 과정에서 걱정되는 점 또는 현재 기기 문제를 한 가지 적습니다.</li>
           </ol>
         </div>
+        <div class="worksheet">
+          <span class="worksheet-label">개별 기록 · 성적과 무관</span>
+          <h3>지금 쓰는 구독형 AI</h3>
+          <p>유료 구독이 있으면 표시합니다. <mark>구독 여부는 점수가 아닙니다.</mark> 계정, 결제 수단, API key는 적지 않습니다. 종이에만 기록하고 교수자가 수업 운영을 맞추기 위해 회수합니다.</p>
+          <div class="subscription-scale" aria-label="현재 사용하는 AI 도구">
+            <div><strong>없음</strong><p>챗봇·코딩 도우미를 쓰지 않습니다.</p></div>
+            <div><strong>ChatGPT</strong><p>무료 또는 Plus / Pro</p></div>
+            <div><strong>Claude</strong><p>무료 또는 Pro</p></div>
+            <div><strong>GitHub Copilot</strong><p>에디터 안의 구독 완성</p></div>
+            <div><strong>Cursor</strong><p>에이전트형 코딩 구독</p></div>
+            <div><strong>Gemini</strong><p>무료 또는 Advanced</p></div>
+            <div><strong>Unity AI</strong><p>Editor Assistant·Generator 체험</p></div>
+            <div><strong>기타</strong><p>도구 이름만 적습니다</p></div>
+          </div>
+          <ol class="prompt-list">
+            <li>위에서 쓰는 칸을 모두 표시하고, 유료면 <mark>구독 중</mark>이라고 적습니다.</li>
+            <li>터미널에 명령을 입력해 본 적이 있는지 적습니다. 예: 없음 / 수업에서만 / 자주.</li>
+            <li>오늘 이후 이 수업에 가져올 수 있는 도구와, 가져올 수 없는 도구를 구분합니다.</li>
+          </ol>
+        </div>
       </section>
 
       <section class="ot-section" id="engine" aria-labelledby="engine-title">
         <header class="section-heading">
           <h2 id="engine-title">게임과 게임 엔진은 다릅니다</h2>
-          <p>게임은 플레이어가 경험하는 규칙과 피드백의 체계입니다. 게임 엔진은 그 체계를 만들고 실행하는 공통 도구입니다.</p>
+          <p>게임은 플레이어가 경험하는 규칙과 피드백의 체계입니다. 게임 엔진은 그 체계를 만들고 실행하는 <mark>공통 도구</mark>입니다.</p>
         </header>
 
         <div class="definition-split">
           <article>
             <h3>게임</h3>
             <p>플레이어의 행동, 목표, 규칙, 상태 변화와 피드백이 연결된 경험입니다.</p>
-            <small>예: 이동한다 → 수집한다 → 점수가 오른다 → 목표를 달성한다</small>
+            <small>예: 이동한다 → 수집한다 → 점수가 오른다<br>→ 목표를 달성한다</small>
           </article>
           <article>
             <h3>게임 엔진</h3>
@@ -165,23 +140,23 @@
           </article>
         </div>
 
-        <h3>게임은 작은 반복으로 작동합니다</h3>
+        <h3>게임은 <mark>입력·판단·피드백의 반복</mark>으로 작동합니다</h3>
         <div class="game-loop" aria-label="입력, 규칙과 상태, 피드백이 반복되는 게임의 기본 구조">
           <div class="loop-node">
             <span>Input</span>
-            <strong>플레이어가 행동</strong>
+            <strong>플레이어의 행동</strong>
             <p>키보드, 마우스, 터치, 게임패드</p>
           </div>
           <span class="loop-arrow" aria-hidden="true">→</span>
           <div class="loop-node">
             <span>Rule + State</span>
-            <strong>게임이 판단</strong>
+            <strong>게임의 판단</strong>
             <p>이동, 충돌, 점수, 시간, 성공과 실패</p>
           </div>
           <span class="loop-arrow" aria-hidden="true">→</span>
           <div class="loop-node">
             <span>Feedback</span>
-            <strong>결과를 전달</strong>
+            <strong>결과 전달</strong>
             <p>화면 변화, 애니메이션, UI, 소리</p>
           </div>
           <span class="loop-return" aria-hidden="true">다시 입력으로 돌아가 반복</span>
@@ -199,36 +174,190 @@
           <div><strong>Physics 2D</strong><span>충돌과 움직임</span></div>
           <div><strong>Rendering</strong><span>Sprite와 화면</span></div>
           <div><strong>Audio + UI</strong><span>피드백과 정보</span></div>
-          <div><strong>Build</strong><span>실행 파일</span></div>
+          <div><strong>Build</strong><span>플랫폼별 실행 파일</span></div>
         </div>
+
+        <h3>파이썬이나 HTML로도 게임을 만들 수 있습니다</h3>
+        <p>구독형 AI에게 파이썬이나 HTML canvas로 짧은 게임을 만들어 달라고 하면, 입력과 점수가 있는 화면이 나옵니다. <mark>그러면 게임 엔진을 왜 배워야 하는지 의문이 들 수 있습니다.</mark> 타당한 질문입니다.</p>
+        <p>그 파일이 게임처럼 보여도 충돌, 중력, 입력, 화면, 소리는 그 코드가 처음부터 다시 만든 기능입니다. Unity에서는 같은 기능이 <mark>이미 Component로 들어 있습니다.</mark> 캐릭터 GameObject에 물리와 그림을 붙이면 벽 충돌과 화면 표시를 다시 짤 필요가 없습니다.</p>
+
+        <div class="vibe-split" aria-label="바이브코딩과 게임 엔진이 맡는 일">
+          <article>
+            <h3>바이브코딩이 잘하는 일</h3>
+            <p>아이디어를 실행 가능한 한 파일로 빠르게 확인합니다. 키 입력, 좌표 이동, 충돌 비교, 점수 그리기를 그 파일이 모두 담당합니다.</p>
+            <small>대화형 AI가 만든 코드는 기능을 추가하거나 수정할 때 기존 연결이 깨지기 쉽습니다.</small>
+          </article>
+          <article>
+            <h3>게임 엔진이 맡는 일</h3>
+            <p>Physics 2D, Sprite, Audio, UI, Build가 이미 구현되어 있습니다. GameObject에 Component를 붙이면 충돌, 움직임, 그림, 소리가 <mark>한 프로젝트</mark> 안에서 같이 돌아갑니다.</p>
+            <small>AI가 만든 후보를 적용한 뒤, 무엇이 바뀌었는지 엔진 안에서 검증합니다.</small>
+          </article>
+        </div>
+
+        <div class="already-built" aria-label="한 파일에서 직접 짜는 일과 엔진이 이미 가진 기능">
+          <div class="already-built-head">
+            <span>파이썬·HTML에서 직접 짜는 일</span>
+            <span>Unity가 이미 가진 것</span>
+          </div>
+          <div class="already-built-row">
+            <p>키를 눌러 캐릭터 좌표를 직접 바꿉니다</p>
+            <strong>입력</strong>
+          </div>
+          <div class="already-built-row">
+            <p>벽과 겹쳤는지 숫자로 비교하고 낙하를 직접 계산합니다</p>
+            <strong>Physics 2D · Collider</strong>
+          </div>
+          <div class="already-built-row">
+            <p>매 프레임 canvas에 그림을 다시 그립니다</p>
+            <strong>Sprite 표시</strong>
+          </div>
+          <div class="already-built-row">
+            <p>점수 글자와 버튼을 직접 그립니다</p>
+            <strong>UI · Audio</strong>
+          </div>
+          <div class="already-built-row">
+            <p>브라우저나 터미널에서만 실행합니다</p>
+            <strong>Build Profiles</strong>
+          </div>
+        </div>
+
+        <p>엔진을 배우는 이유는 코드를 더 많이 외우기 위해서가 아닙니다. 이미 있는 물리와 Component를 연결해 <mark>게임의 반복 구조를 안정적으로 유지</mark>하기 위해서입니다. 충돌 판정과 재시작이 매번 같은 방식으로 작동합니다. 같은 빌드를 다른 기기에서도 실행할 수 있어야 합니다.</p>
+
+        <h3>2026년에 Unity를 쓰는 이유</h3>
+        <p>Unity 2026 개발 보고서에 따르면, 많은 스튜디오가 <mark>더 작은 프로젝트를 우선하고, 프로토타입도 짧은 기간 안에 제작</mark>합니다. 이 수업에서 만드는 3-5분짜리 2D 게임도 같은 방향입니다.</p>
+
+        <div class="trend-grid" aria-label="이 수업에서 Unity를 쓰는 이유">
+          <article>
+            <span>규모</span>
+            <h3>작은 프로젝트에 집중합니다</h3>
+            <p>Unity 2026 개발 보고서에서 응답자의 52%가 더 작은 프로젝트를 우선합니다. 67%가 프로토타입에 3개월 이하를 씁니다. 기능을 많이 쌓는 학기가 아닙니다.</p>
+          </article>
+          <article>
+            <span>2D</span>
+            <h3>2D 도구를 한 환경에서 제공합니다</h3>
+            <p>Sprite, Tilemap, Physics 2D, 애니메이션, UI를 하나의 Editor에서 함께 사용할 수 있습니다. 화면과 기능을 HTML canvas에 매번 다시 구현할 필요가 없습니다.</p>
+          </article>
+          <article>
+            <span>플랫폼</span>
+            <h3>한 프로젝트에서 여러 기기로 빌드합니다</h3>
+            <p>파이썬이나 HTML 파일은 그 환경에서만 실행됩니다. Unity는 같은 프로젝트에서 Build Profile을 바꿉니다. Windows, macOS, Android, iOS, Web용 빌드를 만듭니다. 게임을 플랫폼마다 다시 짜지 않습니다. 이 학기는 데스크톱 빌드까지입니다.</p>
+          </article>
+          <article>
+            <span>인디</span>
+            <h3>작은 팀이 쓰는 엔진입니다</h3>
+            <p>Unity 2026 개발 보고서는 소규모 팀의 짧은 게임이 <span class="phrase">성과를 낸다고 적습니다</span>. 취미와 소규모 인디 팀은 Unity Personal을 <span class="phrase">무료로 쓸 수 있습니다</span>. 조건은 최근 12개월 매출과 자금이 20만 달러 미만입니다. 이 학기가 만드는 짧은 2D도 그 규모입니다.</p>
+          </article>
+          <article>
+            <span>AI</span>
+            <h3>AI는 엔진을 대신하지 않습니다</h3>
+            <p>구독형 AI와 Unity Assistant는 코드와 에셋 후보를 제안합니다. 학생은 후보를 검토해 Unity 프로젝트에 적용하고, CLI로 프로젝트 상태와 빌드를 확인합니다. 이 수업에서는 먼저 회색 기능을 만들어 동작을 검증합니다.</p>
+          </article>
+        </div>
+        <h3>Made with Unity</h3>
+        <p>Unity 공식 채널이 엔진으로 만든 게임을 보여 줍니다. 학기의 3-5분 한 판과 규모는 다릅니다.</p>
+        <div class="mwu-videos" data-mwu-videos aria-label="Made with Unity 공식 영상">
+          <article>
+            <button type="button" class="mwu-poster" data-youtube-id="2K9kFr6UJYw" aria-label="Korean games showcase | Made with Unity 재생">
+              <img src="https://i.ytimg.com/vi/2K9kFr6UJYw/hqdefault.jpg" alt="" width="480" height="360">
+            </button>
+            <a href="https://www.youtube.com/watch?v=2K9kFr6UJYw" target="_blank" rel="noopener noreferrer">
+              <strong>Korean games showcase</strong>
+              <span>Unity 공식 채널</span>
+            </a>
+          </article>
+          <article>
+            <button type="button" class="mwu-poster" data-youtube-id="KiJP3JhEjTM" aria-label="Made with Unity | Summer 2026 Showcase 재생">
+              <img src="https://i.ytimg.com/vi/KiJP3JhEjTM/hqdefault.jpg" alt="" width="480" height="360">
+            </button>
+            <a href="https://www.youtube.com/watch?v=KiJP3JhEjTM" target="_blank" rel="noopener noreferrer">
+              <strong>Summer 2026 Showcase</strong>
+              <span>Unity 공식 채널</span>
+            </a>
+          </article>
+          <article>
+            <button type="button" class="mwu-poster" data-youtube-id="LlgHCeLV92Y" aria-label="Made with Unity Games sizzle 2025 재생">
+              <img src="https://i.ytimg.com/vi/LlgHCeLV92Y/hqdefault.jpg" alt="" width="480" height="360">
+            </button>
+            <a href="https://www.youtube.com/watch?v=LlgHCeLV92Y" target="_blank" rel="noopener noreferrer">
+              <strong>Games sizzle 2025</strong>
+              <span>Unity 공식 채널</span>
+            </a>
+          </article>
+        </div>
+
+        <p class="source-note">규모 수치는 <a href="https://unity.com/blog/2026-unity-game-development-report-trends" target="_blank" rel="noopener noreferrer">2026 Unity Game Development Report ↗</a>를 따릅니다. 2D 도구는 <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Unity2D.html" target="_blank" rel="noopener noreferrer">Unity 6.3 2D 매뉴얼 ↗</a>을 기준으로 합니다. 플랫폼 빌드는 <a href="https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles.html" target="_blank" rel="noopener noreferrer"><span class="phrase">Unity 6.3 Build Profiles</span> ↗</a>를 기준으로 합니다. Personal 요금제는 <a href="https://unity.com/products/unity-personal" target="_blank" rel="noopener noreferrer">Unity Personal ↗</a>을 기준으로 합니다. 영상은 <a href="https://www.youtube.com/@unity" target="_blank" rel="noopener noreferrer">Unity 공식 채널 ↗</a>입니다.</p>
 
         <aside class="callout callout-key">
           <p class="callout-title">이번 학기의 핵심 질문</p>
-          <p>“Unity 메뉴를 얼마나 많이 아는가?”보다 <strong>“내가 만든 입력, 규칙, 상태와 피드백이 어떻게 연결되어 있는가?”</strong>를 설명할 수 있는지가 중요합니다.</p>
+          <p>파이썬 파일이 한 번 실행되는지보다 <mark>입력, 규칙, 상태, 피드백이 한 Unity 프로젝트 안에서 어떻게 연결되는지</mark>를 설명할 수 있어야 합니다.</p>
         </aside>
       </section>
 
       <section class="ot-section" id="semester" aria-labelledby="semester-title">
         <header class="section-heading">
           <h2 id="semester-title">16주의 제작 경로</h2>
-          <p>기초 구조를 직접 만든 뒤, 생성형 AI를 통제 가능한 제작 도구로 사용하고, 짧은 개인 게임을 완성합니다.</p>
+          <p>우리는 <mark>AI를 활용해 작은 2D 게임을 만듭니다</mark>. 2-7주는 회색 기능, 9주부터 그림과 소리를 붙입니다. <mark>Unity CLI는 1주차부터</mark> 설치, 버전, 프로젝트를 확인하는 손입니다.</p>
         </header>
+
+        <div class="semester-trail" aria-label="한 학기 동안 커지는 같은 2D 게임">
+          <article>
+            <span>01</span>
+            <h3>환경을 명령으로 맞춘다</h3>
+            <p><code>unity auth</code>, <code>license</code>, <code>install</code>, <code>editors</code></p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>회색 Playground</h3>
+            <p><code>unity open</code>으로 첫 장면을 연다</p>
+          </article>
+          <article>
+            <span>05</span>
+            <h3>1분 레벨</h3>
+            <p>수집 3, 위험 2, 조건부 목표 1</p>
+          </article>
+          <article>
+            <span>07</span>
+            <h3>플레이 가능한 회색 게임</h3>
+            <p>30초 루프와 <code>unity build</code></p>
+          </article>
+          <article>
+            <span>09</span>
+            <h3>생성 그림이 에셋이 된다</h3>
+            <p>후보 3장 중 1장, 사람이 고른다</p>
+          </article>
+          <article>
+            <span>11-16</span>
+            <h3>완성된 한 판</h3>
+            <p>Time Bonus, 플레이테스트, 3-5분 게임</p>
+          </article>
+        </div>
+
+        <div class="cli-split" aria-label="CLI가 하는 일과 하지 않는 일">
+          <article>
+            <h3>CLI가 하는 일</h3>
+            <p>설치, 로그인, 지정 버전, 프로젝트 열기, 상태 확인, 빌드. <mark>1주차부터 같은 명령을 반복</mark>합니다.</p>
+          </article>
+          <article>
+            <h3>CLI가 하지 않는 일</h3>
+            <p>게임을 대신 만들지 않습니다. CLI는 손이고, 구독형 AI와 Unity AI는 후보를 만듭니다. 결과는 학생이 <mark>선택하고 검증</mark>합니다.</p>
+          </article>
+        </div>
 
         <div class="semester-route">
           <article class="route-foundation">
             <span>2-7주</span>
-            <h3>기초를 직접 만듭니다</h3>
-            <p>Scene, GameObject, Component, C#, 입력, 2D 물리, Tilemap, 애니메이션, UI와 Audio를 연결합니다.</p>
+            <h3>회색 게임을 만듭니다</h3>
+            <p>Scene, GameObject, Component, C#, 입력, 2D 물리, Tilemap, 애니메이션, UI와 Audio를 <mark>직접 연결</mark>합니다. <code>unity open</code>으로 프로젝트를 엽니다. 구독형 AI는 설명과 초안에 쓸 수 있고, 동작은 학생이 검증합니다.</p>
           </article>
           <article>
             <span>8주</span>
             <h3>기초 이해를 확인합니다</h3>
-            <p>중간고사를 통해 AI Agent 없이 Unity 구조와 핵심 기능을 이해했는지 확인합니다.</p>
+            <p>중간고사로 Unity 구조와 핵심 기능, 회색 게임이 <mark>어떻게 작동하는지</mark> 확인합니다.</p>
           </article>
           <article class="route-ai">
             <span>9-13주</span>
-            <h3>AI를 제한적으로 씁니다</h3>
-            <p>Sprite와 사운드 후보, Ask, Plan, Agent, MCP와 CLI를 선택, 검토, 검증의 순서로 사용합니다.</p>
+            <h3>그림과 소리를 붙입니다</h3>
+            <p>Sprite와 사운드 후보, Ask, Plan, Agent와 MCP를 <mark>선택, 검토, 검증</mark>의 순서로 사용합니다. CLI는 1주차부터 쓰던 명령을 이어 갑니다.</p>
           </article>
           <article>
             <span>14-16주</span>
@@ -240,8 +369,8 @@
         <div class="final-contract">
           <div class="final-contract-copy">
             <span>Final direction</span>
-            <h3>3-5분 안에 완결되는 2D 게임</h3>
-            <p>큰 세계보다 작고 설명 가능한 시스템을 만듭니다. 하나의 핵심 행동이 시작, 플레이, 성공 또는 실패, 재시작으로 이어져야 합니다.</p>
+            <h3>Unity with AI로 제작하는 2D 게임</h3>
+            <p><mark>Unity와 AI를 함께 사용해</mark> 작고 설명 가능한 시스템을 만듭니다. 하나의 핵심 행동이 시작, 플레이, 성공 또는 실패, 재시작으로 이어져야 합니다.</p>
           </div>
           <ul>
             <li>하나의 명확한 핵심 행동과 목표</li>
@@ -256,26 +385,51 @@
 
       <section class="ot-section" id="operation" aria-labelledby="operation-title">
         <header class="section-heading">
-          <h2 id="operation-title">수업은 이해, 제작, 확인으로 진행합니다</h2>
-          <p>매주 새 기능을 많이 보는 것보다, 작은 기능을 직접 만들고 결과를 확인하는 리듬을 유지합니다.</p>
+          <h2 id="operation-title">수업 운영</h2>
+          <p>매주 <mark>3시간, 3교시</mark>로 운영합니다. <mark>1·2교시는 이론</mark>, <mark>3교시는 실습</mark>입니다.</p>
         </header>
+
+        <p>1교시와 2교시는 각각 <mark>45분 이론 강의 뒤 15분 휴식</mark>입니다. 3교시는 목표지향 개인 실습입니다. 매주 새 기능을 많이 보는 것보다, 작은 기능을 직접 만들고 결과를 확인하는 리듬을 유지합니다.</p>
 
         <div class="class-rhythm">
           <div>
-            <span>이론 1시간</span>
-            <strong>구조를 이해합니다</strong>
+            <span>1교시 · 이론</span>
+            <strong>45분 강의, 15분 휴식</strong>
             <p>새 개념, 게임 디자인 원리와 이번 주의 완료 기준을 확인합니다.</p>
           </div>
           <div>
-            <span>실습 2시간</span>
-            <strong>직접 만들고 바꿉니다</strong>
-            <p>공통 예제를 완성한 뒤 값, 규칙, 화면 구성을 자신의 방식으로 수정합니다.</p>
+            <span>2교시 · 이론</span>
+            <strong>45분 강의, 15분 휴식</strong>
+            <p>시연을 보고 구조를 따라 읽습니다. <mark>이 교시에는 프로젝트를 따라 만들지 않습니다.</mark></p>
           </div>
           <div>
-            <span>수업 종료 전</span>
-            <strong>작동 근거를 남깁니다</strong>
-            <p>Console, Inspector, Play Mode, build 또는 화면 기록으로 완료 상태를 확인합니다.</p>
+            <span>3교시 · 실습</span>
+            <strong>목표지향 개인 실습</strong>
+            <p>통과 기준을 보고 직접 만들고, Console·Inspector·Play Mode에서 검증합니다. <mark>작업 속도는 평가하지 않습니다.</mark></p>
           </div>
+        </div>
+      </section>
+
+      <section class="ot-section" id="assessment" aria-labelledby="assessment-title">
+        <header class="section-heading">
+          <h2 id="assessment-title">학습 평가</h2>
+          <p>평가 비율은 강의계획서와 같습니다. 이 수업에서 중간시험과 기말시험은 <mark>지필 시험이 아니라 프로젝트</mark>로 진행합니다. 출결 세부 기준과 제출기한은 LMS 공지를 따릅니다.</p>
+        </header>
+
+        <div class="ai-stage-table" role="region" aria-label="학습 평가 방법" tabindex="0">
+          <table>
+            <caption>학습 평가 방법</caption>
+            <thead>
+              <tr><th scope="col">평가 항목</th><th scope="col">비율</th><th scope="col">이 수업에서의 내용</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">출결</th><td><mark>10%</mark></td><td>출석. 세부 기준은 LMS 공지</td></tr>
+              <tr><th scope="row">참여도 / 태도</th><td><mark>10%</mark></td><td>수업 중 기록, 질문, 실습 태도</td></tr>
+              <tr><th scope="row">중간시험</th><td><mark>20%</mark></td><td>8주차. 세부 방식과 기준은 수업 진행 후 공지</td></tr>
+              <tr><th scope="row">과제</th><td><mark>20%</mark></td><td>과제 1~4. Unity 기초 장면, 1분 prototype, AI Sprite kit, Alpha build와 플레이테스트 기록</td></tr>
+              <tr><th scope="row">기말시험</th><td><mark>40%</mark></td><td>16주차 개인 2D 한 판. 끝까지 플레이되면 됩니다. 실행 파일과 짧은 제작 기록을 함께 제출합니다</td></tr>
+            </tbody>
+          </table>
         </div>
 
         <h3>한 학기의 주요 확인점</h3>
@@ -302,31 +456,31 @@
           </section>
           <section>
             <h4>기말 프로젝트</h4>
-            <p>실행 build, project, 영상, 설명서와 AI 로그</p>
+            <p>끝까지 되는 짧은 2D 한 판</p>
           </section>
         </div>
 
         <aside class="callout">
           <p class="callout-title">평가의 중심</p>
-          <p>표면적인 화려함보다 <strong>기술 이해, 플레이 가능성, 반복 수정의 증거, 선택의 이유</strong>를 봅니다. 기말 프로젝트의 세부 기준은 <a href="./#assessment">강의계획 페이지의 평가 기준</a>에서 확인할 수 있습니다.</p>
+          <p>표면적인 화려함보다 <mark>기술 이해, 플레이 가능성, 반복 수정의 증거, 선택의 이유</mark>를 봅니다. 기말 프로젝트의 세부 기준은 <a href="./#assessment">강의계획 페이지의 평가 기준</a>에서 확인할 수 있습니다.</p>
         </aside>
       </section>
 
       <section class="ot-section install-section" id="install" aria-labelledby="install-title">
         <header class="section-heading">
           <h2 id="install-title">Unity 6.3 LTS 설치</h2>
-          <p>화면에 공지된 정확한 6000.3.x 패치 버전을 모든 학생이 동일하게 설치합니다.</p>
+          <p>화면에 공지된 <mark>정확한 6000.3.x 패치 버전</mark>을 모든 학생이 동일하게 설치합니다.</p>
         </header>
 
         <div class="install-principle">
           <div>
-            <span>Hub</span>
-            <strong>버전과 라이선스를 관리</strong>
+            <span>CLI</span>
+            <strong>설치·로그인·버전을 명령으로 확인</strong>
           </div>
           <span aria-hidden="true">→</span>
           <div>
             <span>Editor</span>
-            <strong>게임을 실제로 제작</strong>
+            <strong>지정된 6.3 LTS만 설치</strong>
           </div>
           <span aria-hidden="true">→</span>
           <div>
@@ -335,9 +489,14 @@
           </div>
         </div>
 
+        <aside class="callout">
+          <p class="callout-title">Unity CLI는 experimental 도구입니다</p>
+          <p>Unity CLI는 Hub와 별도로 설치하는 독립 실행 파일입니다. Editor와 모듈을 터미널에서 관리합니다. Hub를 설치해도 <code>unity</code> 명령이 생기지 않습니다. 설치 방법과 명령은 <a href="https://docs.unity.com/en-us/unity-cli/unity-cli" target="_blank" rel="noopener noreferrer">Unity CLI 공식 소개 ↗</a>와 <a href="https://docs.unity.com/en-us/unity-cli/use-unity-cli" target="_blank" rel="noopener noreferrer">공식 사용 안내 ↗</a>를 따릅니다. 오늘은 설치, 로그인, 라이선스, 지정 버전 확인까지만 합니다. Editor를 제어하는 Unity Pipeline package, MCP, 프로젝트 생성은 다루지 않습니다.</p>
+        </aside>
+
         <aside class="callout callout-warning">
           <p class="callout-title">버전 원칙</p>
-          <p><strong>“Unity 6” 또는 “최신 버전”만 보고 설치하지 않습니다.</strong> 반드시 교수자가 공지한 전체 버전 번호가 <code>6000.3.xf1</code> 형식으로 일치해야 합니다. 학기 중 임의 업그레이드도 하지 않습니다.</p>
+          <p><mark>“Unity 6” 또는 “최신 버전”만 보고 설치하지 않습니다.</mark> 반드시 교수자가 공지한 전체 버전 번호가 <code>6000.3.xf1</code> 형식으로 일치해야 합니다. 학기 중 임의 업그레이드도 하지 않습니다. 명령의 정확한 플래그는 수업 당일 <code>unity --help</code>가 기준입니다.</p>
         </aside>
 
         <section class="preflight" aria-labelledby="preflight-title">
@@ -346,17 +505,17 @@
             <p>하나라도 준비되지 않았다면 다운로드를 시작하기 전에 교수자에게 알립니다.</p>
           </div>
           <ul>
-            <li><strong>지원 운영체제</strong><span>Windows 10 21H1 이상 또는 Windows 11, macOS 12 이상</span></li>
+            <li><strong>지원 운영체제</strong><span>Windows 10 21H1 이상 또는 Windows 11, macOS 14 이상(Unity CLI 기준)</span></li>
             <li><strong>메모리</strong><span>Unity 공식 권장 최소 8GB RAM</span></li>
             <li><strong>저장 공간</strong><span>Editor를 설치할 로컬 디스크에 충분한 여유 공간</span></li>
             <li><strong>네트워크</strong><span>대용량 파일을 받을 수 있는 안정적인 연결</span></li>
             <li><strong>계정과 권한</strong><span>Unity ID 로그인과 앱 설치 권한</span></li>
           </ul>
-          <p class="source-note">운영체제와 메모리 기준은 <a href="https://docs.unity3d.com/kr/current/Manual/system-requirements.html" target="_blank" rel="noopener noreferrer">Unity 6 시스템 요구 사항 ↗</a>과 <a href="https://docs.unity.com/en-us/hub/install-hub-win-mac" target="_blank" rel="noopener noreferrer">Unity Hub 설치 안내 ↗</a>를 기준으로 합니다.</p>
+          <p class="source-note">운영체제와 메모리 기준은 <a href="https://docs.unity3d.com/kr/current/Manual/system-requirements.html" target="_blank" rel="noopener noreferrer">Unity 6 시스템 요구 사항 ↗</a>, <a href="https://docs.unity.com/en-us/hub/install-hub-win-mac" target="_blank" rel="noopener noreferrer">Unity Hub 설치 안내 ↗</a>, <a href="https://docs.unity.com/en-us/unity-cli/use-unity-cli#compatibility" target="_blank" rel="noopener noreferrer">Unity CLI 호환성 안내 ↗</a>를 기준으로 합니다.</p>
         </section>
 
         <div class="install-progress" data-install-progress>
-          <p><span>설치 완료 상태</span><strong data-progress-label aria-live="polite">0 / 6 완료</strong></p>
+          <p><span>설치 완료 상태</span><strong data-progress-label aria-live="polite">0 / 7 완료</strong></p>
           <button type="button" data-progress-reset>체크 초기화</button>
         </div>
         <p class="progress-note">체크 상태는 이 브라우저에만 저장됩니다. 계정 정보나 기기 정보는 저장하지 않습니다.</p>
@@ -366,32 +525,57 @@
           <li>
             <input class="install-check" type="checkbox" id="install-check-hub" data-check-id="hub">
             <div class="install-step-body">
-              <label for="install-check-hub"><span class="install-step-time">85-100분</span><strong>Unity Hub 안정 버전을 설치합니다</strong></label>
-              <p><a href="https://unity.com/download" target="_blank" rel="noopener noreferrer">Unity 다운로드 페이지 ↗</a>에서 자신의 운영체제용 Hub를 내려받아 설치합니다. Windows는 <code>.exe</code>, macOS는 <code>.dmg</code> 설치 파일을 사용합니다.</p>
+              <label for="install-check-hub"><strong>Unity Hub 안정 버전을 설치합니다</strong></label>
+              <p><a href="https://unity.com/download" target="_blank" rel="noopener noreferrer">Unity 다운로드 페이지 ↗</a>에서 자신의 운영체제용 Hub 안정 버전을 설치합니다. Windows는 <code>.exe</code>, macOS는 <code>.dmg</code> 파일을 사용합니다. Hub는 라이선스와 Editor 화면의 입구입니다. <mark>CLI는 다음 단계에서 따로 설치합니다.</mark></p>
               <ul>
                 <li>공식 Unity 도메인에서 받은 설치 파일인지 확인합니다.</li>
                 <li>Beta 채널이 아닌 일반 안정 버전 Hub를 사용합니다.</li>
-                <li>방화벽 또는 파일 접근 권한 요청은 내용을 확인한 뒤 허용합니다.</li>
               </ul>
+            </div>
+          </li>
+          <li>
+            <input class="install-check" type="checkbox" id="install-check-cli" data-check-id="cli">
+            <div class="install-step-body">
+              <label for="install-check-cli"><strong>Unity CLI를 따로 설치합니다</strong></label>
+              <p>Unity CLI는 Hub와 다른 독립 실행 파일입니다. 터미널에서 공식 설치 스크립트를 실행합니다. 현재 스크립트는 <code>UNITY_CLI_CHANNEL=beta</code> 채널을 사용합니다.</p>
+              <div class="cli-install-grid cli-install-scripts">
+                <div><span>macOS · Linux</span><code>curl -fsSL https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.sh | UNITY_CLI_CHANNEL=beta bash</code></div>
+                <div><span>Windows · PowerShell</span><code>$env:UNITY_CLI_CHANNEL='beta'; irm https://public-cdn.cloud.unity3d.com/hub/prod/cli/install.ps1 | iex</code></div>
+              </div>
+              <ul>
+                <li>설치 후 터미널을 완전히 닫았다가 다시 엽니다.</li>
+                <li><code>unity --version</code>으로 CLI 버전을 확인합니다.</li>
+                <li><code>unity --help</code>에서 명령 목록을 확인합니다. 이 출력이 플래그의 최종 기준입니다.</li>
+                <li><code>unity doctor</code>로 실행 환경을 확인합니다.</li>
+              </ul>
+              <div class="branch-note cli-install-note">
+                <strong>패키지 관리자로 설치할 때</strong>
+                <p>공식 문서가 허용하는 다른 경로입니다. 스크립트 대신 사용할 수 있습니다.</p>
+                <div class="cli-install-grid">
+                  <div><span>Windows · winget</span><code>winget install Unity.CLI</code></div>
+                  <div><span>macOS · Homebrew</span><code>brew install --cask unity-cli</code></div>
+                </div>
+                <p>Linux 패키지와 자세한 절차는 <a href="https://docs.unity.com/en-us/unity-cli/use-unity-cli#install-the-unity-cli" target="_blank" rel="noopener noreferrer">공식 설치 절차 ↗</a>에서 확인합니다.</p>
+              </div>
             </div>
           </li>
           <li>
             <input class="install-check" type="checkbox" id="install-check-signin" data-check-id="signin">
             <div class="install-step-body">
-              <label for="install-check-signin"><span class="install-step-time">100-108분</span><strong>Unity ID로 로그인합니다</strong></label>
-              <p>Hub를 열고 브라우저 로그인 절차를 완료합니다. 계정이 없다면 개인이 계속 사용할 이메일로 Unity ID를 만듭니다.</p>
+              <label for="install-check-signin"><strong>Unity ID로 로그인합니다</strong></label>
+              <p>Hub 로그인과 터미널의 <code>unity auth login</code>을 모두 완료합니다. 계정이 없다면 개인이 계속 사용할 이메일로 Unity ID를 만듭니다.</p>
               <ul>
                 <li>공용 PC에서는 비밀번호 자동 저장을 선택하지 않습니다.</li>
                 <li>다른 학생의 계정이나 인증 코드를 공유하지 않습니다.</li>
-                <li>Hub 우측 상단에서 자신의 계정으로 로그인됐는지 확인합니다.</li>
+                <li><code>unity auth status</code>에 자신의 계정이 보이는지 확인합니다.</li>
               </ul>
             </div>
           </li>
           <li>
             <input class="install-check" type="checkbox" id="install-check-license" data-check-id="license">
             <div class="install-step-body">
-              <label for="install-check-license"><span class="install-step-time">108-115분</span><strong>라이선스가 활성 상태인지 확인합니다</strong></label>
-              <p>Hub 왼쪽의 <code>Licenses</code>를 열어 활성 라이선스를 확인합니다. Unity Personal은 로그인하면 일반적으로 자동 활성화됩니다.</p>
+              <label for="install-check-license"><strong>라이선스가 활성 상태인지 확인합니다</strong></label>
+              <p>Hub의 <code>Licenses</code>와 터미널의 <code>unity license</code>를 함께 확인합니다. Unity Personal은 로그인하면 일반적으로 자동 활성화됩니다.</p>
               <div class="branch-note">
                 <strong>라이선스가 보이지 않을 때</strong>
                 <p><code>Licenses → Add license → Get a free personal license</code>를 선택하고 약관을 확인합니다. 학교에서 별도 seat를 제공한 경우에는 교수자의 안내를 따릅니다.</p>
@@ -401,21 +585,22 @@
           <li>
             <input class="install-check" type="checkbox" id="install-check-version" data-check-id="version">
             <div class="install-step-body">
-              <label for="install-check-version"><span class="install-step-time">115-122분</span><strong>지정된 Unity 6.3 LTS를 선택합니다</strong></label>
-              <p><code>Installs → Install Editor → Official releases</code>에서 Unity 6.3 LTS를 찾고, 화면에 공지된 전체 버전 번호와 일치하는지 확인합니다.</p>
+              <label for="install-check-version"><strong>지정된 Unity 6.3 LTS를 선택합니다</strong></label>
+              <p>터미널에서 <code>unity install &lt;공지된 전체 버전&gt;</code>을 실행합니다. 설치가 끝나면 Hub의 Official releases 및 Installs 목록과 교차 확인합니다. <code>latest</code>나 <code>lts</code> 별칭은 공지 버전과 달라질 수 있으므로 사용하지 않습니다.</p>
               <div class="branch-note">
                 <strong>목록에 정확한 버전이 없을 때</strong>
-                <p><a href="https://unity.com/releases/editor/archive" target="_blank" rel="noopener noreferrer">Unity download archive ↗</a>에서 해당 버전의 <code>Install</code> 링크를 눌러 Hub로 엽니다. 비슷한 버전을 대신 설치하지 않습니다.</p>
+                <p><a href="https://unity.com/releases/editor/archive" target="_blank" rel="noopener noreferrer">Unity download archive ↗</a>에서 해당 버전의 Hub installation 링크를 사용합니다. 비슷한 버전을 대신 설치하지 않습니다.</p>
               </div>
             </div>
           </li>
           <li>
             <input class="install-check" type="checkbox" id="install-check-modules" data-check-id="modules">
             <div class="install-step-body">
-              <label for="install-check-modules"><span class="install-step-time">122-125분</span><strong>필요한 구성만 선택하고 다운로드를 시작합니다</strong></label>
-              <p><strong>Editor 본체는 필수</strong>입니다. 플랫폼 Build Support, 언어 팩과 추가 개발 도구는 교수자가 별도로 지정하지 않았다면 오늘 설치하지 않아도 됩니다. 선택을 확인한 뒤 <code>Install</code>을 눌러 Editor 다운로드를 시작합니다.</p>
+              <label for="install-check-modules"><strong>필요한 구성만 선택하고 다운로드를 시작합니다</strong></label>
+              <p><mark>Editor 본체는 필수</mark>입니다. 플랫폼 Build Support, 언어 팩과 추가 개발 도구는 교수자가 별도로 지정하지 않았다면 오늘 설치하지 않아도 됩니다. 선택을 확인한 뒤 <code>Install</code>을 눌러 Editor 다운로드를 시작합니다.</p>
               <ul>
                 <li>선택 모듈은 나중에 <code>Installs → Manage → Add modules</code>에서 추가할 수 있습니다.</li>
+                <li>CLI에서는 <code>unity install-modules -e &lt;버전&gt; -m &lt;모듈 ID&gt;</code>로 모듈을 추가할 수 있지만, 오늘은 교수자가 지정한 모듈만 설치합니다.</li>
                 <li>강의 화면과 메뉴 이름을 맞추기 위해 Editor 기본 언어는 영어 사용을 권장합니다.</li>
                 <li>모듈을 많이 선택해 설치 시간을 불필요하게 늘리지 않습니다.</li>
               </ul>
@@ -426,17 +611,17 @@
         <section class="download-lesson" id="ai-policy" aria-labelledby="ai-policy-title">
           <header class="download-lesson-heading">
             <div>
-              <span>125-165분 / Editor 다운로드 중</span>
+              <span>Editor 다운로드 중</span>
               <h3 id="ai-policy-title">다운로드를 기다리며 AI 사용 원칙을 확인합니다</h3>
             </div>
             <p>Hub의 <code>Downloads</code>에서 진행 상태를 확인한 다음, 다운로드가 이어지는 동안 아래 내용을 함께 살펴봅니다.</p>
           </header>
 
-          <p class="download-lesson-lead">AI 사용량은 점수가 아닙니다. 필요한 순간에 좁게 사용하고, 학생이 결과를 선택, 수정, 검증하고 설명해야 합니다.</p>
+          <p class="download-lesson-lead"><mark>AI 사용량은 점수가 아닙니다.</mark> 구독형 AI와 Unity AI를 사용하되, 학생이 결과를 <mark>선택, 수정, 검증하고 설명</mark>해야 합니다.</p>
 
           <figure class="ai-flow-figure">
             <img src="assets/week-01-ai-selection-to-verification.webp" width="1536" height="1024" loading="lazy" decoding="async" alt="여러 픽셀 아트 캐릭터 후보 중 하나를 사람이 선택하고 색을 수정한 뒤, 작은 2D 게임 장면에서 직접 플레이하며 검증하는 과정">
-            <figcaption>AI 출력은 후보입니다. 사람이 선택하고 수정한 뒤 실제 게임 화면에서 검증해야 제작 결과가 됩니다.</figcaption>
+            <figcaption>AI 출력은 <mark>후보</mark>입니다. 사람이 선택하고 수정한 뒤 실제 게임 화면에서 검증해야 제작 결과가 됩니다.</figcaption>
           </figure>
 
           <div class="ai-stage-table" role="region" aria-label="주차 구간별 AI 사용 범위" tabindex="0">
@@ -446,10 +631,10 @@
                 <tr><th scope="col">구간</th><th scope="col">허용 범위</th><th scope="col">학생이 해야 할 일</th></tr>
               </thead>
               <tbody>
-                <tr><th scope="row">1주차</th><td>AI 도구 사용 없음</td><td>수업 정책을 확인하고 Unity 설치만 완료합니다.</td></tr>
-                <tr><th scope="row">2-7주</th><td>개념 설명과 오류 해석을 위한 읽기 중심 질문</td><td>핵심 구조와 기능은 직접 만들고 설명합니다. Agent는 사용하지 않습니다.</td></tr>
+                <tr><th scope="row">1주차</th><td>생성형 AI로 제작하지 않음. <mark>종이로 구독형 AI 현황만 파악</mark></td><td>수업 정책을 확인하고 Unity CLI로 설치만 완료합니다.</td></tr>
+                <tr><th scope="row">2-7주</th><td>구독형 AI로 설명, 오류 해석, 코드 초안. CLI로 프로젝트 열고 상태 확인</td><td>핵심 구조와 기능을 이해하고 설명합니다. Play Mode에서 <mark>직접 검증</mark>합니다.</td></tr>
                 <tr><th scope="row">9-10주</th><td>아이디어와 Sprite, UI, Sound 후보 탐색</td><td>출처, prompt, 선택 이유와 직접 수정한 부분을 기록합니다.</td></tr>
-                <tr><th scope="row">11-13주</th><td>Ask → Plan → 제한된 Agent 또는 MCP</td><td>변경 범위를 먼저 정하고 Console, Inspector와 Play Mode에서 검증합니다.</td></tr>
+                <tr><th scope="row">11-13주</th><td>Ask → Plan → Agent 또는 MCP</td><td>변경 범위를 먼저 정하고 Console, Inspector와 Play Mode에서 검증합니다.</td></tr>
                 <tr><th scope="row">14-16주</th><td>프로젝트 목적에 필요한 범위</td><td>핵심 Script와 Scene 구조, 생성 에셋의 권리와 선택을 구술 설명합니다.</td></tr>
               </tbody>
             </table>
@@ -458,34 +643,34 @@
           <div class="policy-rules">
             <article>
               <h4>개인정보를 넣지 않습니다</h4>
-              <p>이름, 연락처, 얼굴, 음성, 학생 명단과 평가 자료를 AI prompt나 reference로 업로드하지 않습니다.</p>
+              <p><mark>이름, 연락처, 얼굴, 음성</mark>, 학생 명단과 평가 자료를 AI prompt나 reference로 업로드하지 않습니다.</p>
             </article>
             <article>
               <h4>권리를 먼저 확인합니다</h4>
-              <p>직접 만든 자료 또는 AI 입력이 허용된 자료만 사용합니다. Asset Store 에셋을 외부 생성 AI에 업로드하지 않습니다.</p>
+              <p>직접 만든 자료 또는 AI 입력이 허용된 자료만 사용합니다. <mark>Asset Store 에셋을 외부 생성 AI에 업로드하지 않습니다.</mark></p>
             </article>
             <article>
               <h4>비밀값을 저장하지 않습니다</h4>
-              <p>API key, access token, 계정 정보는 Script, Scene, Prefab, 제작 로그와 저장소에 넣지 않습니다.</p>
+              <p><mark>API key, access token, 계정 정보</mark>는 Script, Scene, Prefab, 제작 로그와 저장소에 넣지 않습니다.</p>
             </article>
             <article>
               <h4>모든 결과를 검증합니다</h4>
-              <p>AI가 만든 코드와 에셋은 오류 가능성이 있습니다. 작동과 권리를 확인하지 않은 결과는 제출물로 인정하지 않습니다.</p>
+              <p>AI가 만든 코드와 에셋은 오류 가능성이 있습니다. <mark>작동과 권리를 확인하지 않은 결과는 제출물로 인정하지 않습니다.</mark></p>
             </article>
           </div>
 
           <aside class="callout callout-info">
             <p class="callout-title">접근성 원칙</p>
-            <p>Unity의 AI 기능은 베타이며 계정, Cloud 연결, 패키지와 이용 조건이 필요합니다. 특정 유료 기능은 필수가 아니며, AI를 사용하지 않아도 같은 학습 성과와 제작 증거를 제시하면 동일하게 평가합니다.</p>
+            <p>Unity의 AI 기능은 베타이며 계정, Cloud 연결, 패키지와 이용 조건이 필요합니다. 특정 유료 기능은 필수가 아니며, <mark>AI를 사용하지 않아도 같은 학습 성과와 제작 증거를 제시하면 동일하게 평가합니다.</mark></p>
           </aside>
         </section>
 
-        <ol class="install-steps install-steps-resume" start="6">
+        <ol class="install-steps install-steps-resume" start="7">
           <li>
             <input class="install-check" type="checkbox" id="install-check-complete" data-check-id="complete">
             <div class="install-step-body">
-              <label for="install-check-complete"><span class="install-step-time">165-175분</span><strong>다운로드 완료와 전체 버전을 검증합니다</strong></label>
-              <p>Hub 상단의 Downloads에서 작업이 <code>Completed</code>인지 확인한 뒤, <code>Installs</code> 카드에 표시된 전체 버전 번호를 공지 화면과 비교합니다.</p>
+              <label for="install-check-complete"><strong>다운로드 완료와 전체 버전을 검증합니다</strong></label>
+              <p>Hub Downloads가 <code>Completed</code>인지 확인한 뒤, <code>unity editors -i --format json</code>과 Hub Installs 카드의 전체 버전 번호를 공지 화면과 비교합니다.</p>
               <div class="verification-card">
                 <span>설치 완료 기준</span>
                 <ol>
@@ -494,6 +679,11 @@
                   <li><code>Licenses</code>에 활성 라이선스가 보입니다.</li>
                   <li><code>Installs</code>에 지정된 <code>6000.3.xf1</code>이 보입니다.</li>
                   <li>Downloads에 진행 중이거나 실패한 항목이 없습니다.</li>
+                  <li><code>unity --version</code>이 설치된 CLI 버전을 출력합니다.</li>
+                  <li>터미널에서 <code>unity --help</code>가 열립니다.</li>
+                  <li><code>unity doctor</code>가 진단 결과를 출력합니다.</li>
+                  <li><code>unity auth status</code>에 자신의 계정이 보입니다.</li>
+                  <li><code>unity editors -i --format json</code>에 지정 버전이 있습니다.</li>
                 </ol>
               </div>
             </div>
@@ -504,7 +694,7 @@
         <aside class="stop-line stop-line-final">
           <div>
             <span>여기에서 멈춥니다</span>
-            <strong>Projects → New project를 누르지 않습니다</strong>
+            <strong><mark>Projects → New project를 누르지 않습니다</mark></strong>
           </div>
           <p>설치가 끝나면 Hub의 <code>Installs</code> 화면과 전체 버전 번호를 교수자에게 확인받습니다. 첫 프로젝트는 다음 수업에서 같은 절차로 함께 만듭니다.</p>
         </aside>
@@ -517,6 +707,12 @@
         </header>
 
         <div class="trouble-grid">
+          <details>
+            <summary>터미널에서 unity 명령을 찾지 못합니다</summary>
+            <div class="details-motion-content">
+              <p>CLI 설치 스크립트를 다시 실행하고 터미널을 완전히 닫았다가 다시 엽니다. 그래도 찾지 못하면 설치 디렉터리가 <code>PATH</code>에 포함됐는지 확인합니다. Linux 설치 스크립트의 기본 위치는 <code>~/.local/bin/unity</code>입니다.</p>
+            </div>
+          </details>
           <details>
             <summary>Hub 설치 파일이 열리지 않습니다</summary>
             <div class="details-motion-content">
@@ -565,19 +761,24 @@
       <section class="ot-section" id="wrap-up" aria-labelledby="wrap-up-title">
         <header class="section-heading">
           <h2 id="wrap-up-title">종료 확인</h2>
-          <p>오늘은 제작 결과물이 아니라 공통 환경과 수업 원칙을 맞추는 날입니다.</p>
+          <p>오늘은 제작 결과물이 아니라 <mark>공통 환경과 수업 원칙</mark>을 맞추는 날입니다.</p>
         </header>
 
         <div class="exit-ticket">
           <div>
             <span>설치 확인</span>
             <strong>Hub / Login / License / 6000.3.xf1</strong>
-            <p>네 항목이 모두 확인되면 오늘의 실습을 완료했습니다.</p>
+            <p><mark>네 항목이 모두 확인되면</mark> 오늘의 실습을 완료했습니다.</p>
+          </div>
+          <div>
+            <span>CLI 확인</span>
+            <strong>unity --version / auth status / editors -i</strong>
+            <p>CLI 버전, 로그인 계정, 지정 Editor가 모두 확인되면 <mark>1주차 CLI 설정이 완료된 것</mark>입니다. 프로젝트는 열지 않습니다.</p>
           </div>
           <div>
             <span>한 문장 정리</span>
             <strong>게임 엔진은 ______을 연결하는 도구다.</strong>
-            <p>입력, 규칙, 상태, 화면, 소리 중 자신의 문장에 필요한 말을 사용합니다.</p>
+            <p><mark>입력, 규칙, 상태, 화면, 소리</mark> 중 자신의 문장에 필요한 말을 사용합니다.</p>
           </div>
           <div>
             <span>남은 질문</span>
@@ -590,7 +791,7 @@
           <span>다음 주</span>
           <div>
             <h3>첫 2D 프로젝트와 Unity Editor</h3>
-            <p>지정된 2D 프로젝트를 만들고 Scene을 저장한 뒤, Scene, Game, Hierarchy, Inspector와 Project 창의 관계를 익힙니다. GameObject에 Component를 붙여 기능이 구성되는 방식을 처음 확인합니다.</p>
+            <p>지정된 2D 프로젝트를 만들고 <code>unity open</code>으로 같은 프로젝트를 연 뒤 Scene을 저장합니다. Scene, Game, Hierarchy, Inspector와 Project 창의 관계를 익히고, GameObject에 Component를 붙여 기능이 구성되는 방식을 처음 확인합니다.</p>
           </div>
         </aside>
       </section>
@@ -601,6 +802,10 @@
           <p>설치 화면이나 정책이 달라졌을 때에는 아래 Unity 공식 문서를 우선 확인합니다.</p>
         </header>
         <ul class="reference-list">
+          <li><a href="https://unity.com/blog/2026-unity-game-development-report-trends" target="_blank" rel="noopener noreferrer"><strong>2026 Unity Game Development Report ↗</strong></a><span>작은 프로젝트와 짧은 프로토타입으로 가는 스튜디오 동향</span></li>
+          <li><a href="https://docs.unity3d.com/6000.3/Documentation/Manual/Unity2D.html" target="_blank" rel="noopener noreferrer"><strong>Unity 6.3 2D game development ↗</strong></a><span>Sprite, Tilemap, 2D 물리와 URP 2D가 한 Editor에 있는 이유</span></li>
+          <li><a href="https://docs.unity.com/en-us/unity-cli/unity-cli" target="_blank" rel="noopener noreferrer"><strong>Unity CLI 소개 ↗</strong></a><span>experimental 상태와 Hub 자동 설치, 독립 실행 파일의 역할</span></li>
+          <li><a href="https://docs.unity.com/en-us/unity-cli/use-unity-cli" target="_blank" rel="noopener noreferrer"><strong>Use the Unity CLI ↗</strong></a><span>운영체제별 설치, <code>unity --version</code>, 로그인과 Editor 설치 절차</span></li>
           <li><a href="https://docs.unity.com/en-us/hub/install-hub" target="_blank" rel="noopener noreferrer"><strong>Install the Unity Hub ↗</strong></a><span>Windows, macOS, Linux용 Hub 공식 설치 안내</span></li>
           <li><a href="https://docs.unity.com/en-us/hub/add-editor" target="_blank" rel="noopener noreferrer"><strong>Download and install the Unity Editor ↗</strong></a><span>Hub에서 Editor 버전과 모듈을 설치하는 절차</span></li>
           <li><a href="https://docs.unity.com/en-us/hub/manage-license" target="_blank" rel="noopener noreferrer"><strong>Managing licenses ↗</strong></a><span>Unity Personal, 학교 seat와 기타 라이선스 확인 방법</span></li>
@@ -617,9 +822,11 @@
       <p class="toc-title">강의 흐름</p>
       <ol>
         <li><a href="#goals" aria-current="location">오늘의 도착점</a></li>
-        <li><a href="#agenda">180분의 흐름</a></li>
+        <li><a href="#diagnostic">출발점 확인</a></li>
         <li><a href="#engine">게임 엔진의 역할</a></li>
-        <li><a href="#semester">16주 수업 운영</a></li>
+        <li><a href="#semester">16주 제작 경로</a></li>
+        <li><a href="#operation">수업 운영</a></li>
+        <li><a href="#assessment">학습 평가</a></li>
         <li><a href="#install">Unity 설치</a></li>
         <li><a href="#ai-policy">다운로드 중 AI 원칙</a></li>
         <li><a href="#troubleshooting">설치 문제 해결</a></li>
@@ -629,7 +836,7 @@
   </main>
 
   <p class="footer-note">Game Engine I / Week 01 / Orientation</p>
-  <script src="assets/week-01-ot.js" defer></script>
+  <script src="assets/week-01-ot.js?v=ge1ot18" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

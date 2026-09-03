@@ -701,43 +701,57 @@ body.teaching-document a {
   line-height: 1;
 }
 
-body.course-contents-programming .course-hero .course-term {
+body.course-contents-programming .course-hero .course-term,
+body.course-game-engine-1.teaching-index .course-hero .course-term {
   margin-left: 0;
 }
 
-body.course-contents-programming.teaching-index .course-content {
+body.course-contents-programming.teaching-index .course-content,
+body.course-game-engine-1.teaching-index .course-content {
   padding-bottom: min(42vh, 380px);
 }
 
 body.course-contents-programming .course-section-heading,
-body.course-contents-programming .course-disclosure > summary.course-section-heading {
+body.course-contents-programming .course-disclosure > summary.course-section-heading,
+body.course-game-engine-1.teaching-index .course-section-heading,
+body.course-game-engine-1.teaching-index .course-disclosure > summary.course-section-heading {
   display: grid;
   justify-content: stretch;
   align-items: start;
   gap: 6px;
 }
 
-body.course-contents-programming .course-disclosure .course-section-title {
+body.course-contents-programming .course-disclosure .course-section-title,
+body.course-game-engine-1.teaching-index .course-disclosure .course-section-title {
   scroll-margin-top: 126px;
 }
 
-body.course-contents-programming .course-section-note {
+body.course-contents-programming .course-section-note,
+body.course-game-engine-1.teaching-index .course-section-note {
   text-align: left;
   max-width: 65ch;
 }
 
-body.course-contents-programming a.material-card-mission .week {
+body.course-contents-programming a.material-card-mission .week,
+body.course-game-engine-1.teaching-index a.material-card-mission .week {
   color: var(--accent);
 }
 
-body.course-contents-programming .material-card-pending {
+body.course-contents-programming .material-card-pending,
+body.course-game-engine-1.teaching-index .material-card-pending {
   opacity: 0.72;
   cursor: default;
 }
 
-body.course-contents-programming .material-card-pending .material-title {
+body.course-contents-programming .material-card-pending .material-title,
+body.course-game-engine-1.teaching-index .material-card-pending .material-title {
   color: var(--muted);
   font-weight: 640;
+}
+
+.material-card .assignment-label {
+  display: block;
+  width: fit-content;
 }
 
 .course-feature-link {

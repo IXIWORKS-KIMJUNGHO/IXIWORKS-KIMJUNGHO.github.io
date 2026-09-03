@@ -64,6 +64,30 @@
     renderProgress();
   }
 
+  const videoGrid = document.querySelector("[data-mwu-videos]");
+  if (videoGrid) {
+    videoGrid.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-youtube-id]");
+      if (!trigger || !videoGrid.contains(trigger)) return;
+
+      event.preventDefault();
+      const id = trigger.dataset.youtubeId;
+      if (!/^[A-Za-z0-9_-]{11}$/.test(id)) return;
+
+      const shell = document.createElement("div");
+      shell.className = "mwu-frame";
+      const frame = document.createElement("iframe");
+      frame.src = `https://www.youtube-nocookie.com/embed/${id}?autoplay=1`;
+      frame.title = trigger.getAttribute("aria-label") ?? "YouTube";
+      frame.allow =
+        "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.allowFullscreen = true;
+      frame.referrerPolicy = "strict-origin-when-cross-origin";
+      shell.append(frame);
+      trigger.replaceWith(shell);
+    });
+  }
+
   const navigation = document.querySelector("[data-orientation-toc]");
   if (!navigation) return;
 

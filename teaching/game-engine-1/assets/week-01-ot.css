@@ -142,6 +142,8 @@ body.course-game-engine-1.game-engine-ot .article {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 body.course-game-engine-1.game-engine-ot .article p,
@@ -150,6 +152,14 @@ body.course-game-engine-1.game-engine-ot .article td,
 body.course-game-engine-1.game-engine-ot .article th {
   word-break: keep-all;
   overflow-wrap: break-word;
+}
+
+body.course-game-engine-1.game-engine-ot mark {
+  background: #ffe34a;
+  color: #0d110e;
+  padding: 0.05em 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 body.course-game-engine-1.game-engine-ot .article > .ot-section,
@@ -162,8 +172,12 @@ body.course-game-engine-1.game-engine-ot .article > .arrival {
 }
 
 body.course-game-engine-1.game-engine-ot .section-heading {
-  max-width: 720px;
+  max-width: none;
   margin-bottom: 30px;
+}
+
+body.course-game-engine-1.game-engine-ot .section-heading mark {
+  white-space: nowrap;
 }
 
 body.course-game-engine-1.game-engine-ot .section-heading h2,
@@ -192,6 +206,10 @@ body.course-game-engine-1.game-engine-ot .arrival-heading > p {
   color: var(--muted);
   font-size: 15px;
   line-height: 1.74;
+}
+
+body.course-game-engine-1.game-engine-ot .section-heading > p {
+  max-width: none;
 }
 
 body.course-game-engine-1.game-engine-ot .article h3 {
@@ -376,6 +394,10 @@ body.course-game-engine-1.game-engine-ot .worksheet {
   background: var(--ot-tint);
 }
 
+body.course-game-engine-1.game-engine-ot .worksheet + .worksheet {
+  margin-top: 18px;
+}
+
 body.course-game-engine-1.game-engine-ot .worksheet-label {
   color: var(--accent);
   font-family: var(--mono);
@@ -386,6 +408,13 @@ body.course-game-engine-1.game-engine-ot .worksheet-label {
 
 body.course-game-engine-1.game-engine-ot .worksheet h3 {
   margin: 8px 0 20px;
+}
+
+body.course-game-engine-1.game-engine-ot .worksheet > p {
+  margin: 0 0 16px;
+  color: var(--muted);
+  font-size: var(--ot-small-text-size);
+  line-height: 1.68;
 }
 
 body.course-game-engine-1.game-engine-ot .experience-scale {
@@ -432,6 +461,35 @@ body.course-game-engine-1.game-engine-ot .experience-scale p {
   line-height: 1.58;
 }
 
+body.course-game-engine-1.game-engine-ot .subscription-scale {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--line);
+}
+
+body.course-game-engine-1.game-engine-ot .subscription-scale > div {
+  min-width: 0;
+  padding: 16px 18px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-ot .subscription-scale strong {
+  display: block;
+  color: var(--ink-strong);
+  font-size: 14px;
+}
+
+body.course-game-engine-1.game-engine-ot .subscription-scale p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.58;
+}
+
 body.course-game-engine-1.game-engine-ot .prompt-list {
   margin: 23px 0 0;
   padding-left: 23px;
@@ -444,7 +502,8 @@ body.course-game-engine-1.game-engine-ot .prompt-list li {
   line-height: 1.66;
 }
 
-body.course-game-engine-1.game-engine-ot .definition-split {
+body.course-game-engine-1.game-engine-ot .definition-split,
+body.course-game-engine-1.game-engine-ot .vibe-split {
   display: grid;
   grid-template-columns: minmax(0, 0.84fr) minmax(0, 1.16fr);
   gap: 1px;
@@ -454,28 +513,37 @@ body.course-game-engine-1.game-engine-ot .definition-split {
   background: var(--line);
 }
 
-body.course-game-engine-1.game-engine-ot .definition-split article {
+body.course-game-engine-1.game-engine-ot .vibe-split {
+  margin-top: 32px;
+}
+
+body.course-game-engine-1.game-engine-ot .definition-split article,
+body.course-game-engine-1.game-engine-ot .vibe-split article {
   min-width: 0;
   padding: 25px;
   background: var(--paper);
 }
 
-body.course-game-engine-1.game-engine-ot .definition-split article:last-child {
+body.course-game-engine-1.game-engine-ot .definition-split article:last-child,
+body.course-game-engine-1.game-engine-ot .vibe-split article:last-child {
   background: var(--ot-tint-soft);
 }
 
-body.course-game-engine-1.game-engine-ot .definition-split h3 {
+body.course-game-engine-1.game-engine-ot .definition-split h3,
+body.course-game-engine-1.game-engine-ot .vibe-split h3 {
   margin: 0 0 11px;
   font-size: 19px;
 }
 
-body.course-game-engine-1.game-engine-ot .definition-split p {
+body.course-game-engine-1.game-engine-ot .definition-split p,
+body.course-game-engine-1.game-engine-ot .vibe-split p {
   margin: 0;
   color: var(--ink);
   line-height: 1.7;
 }
 
-body.course-game-engine-1.game-engine-ot .definition-split small {
+body.course-game-engine-1.game-engine-ot .definition-split small,
+body.course-game-engine-1.game-engine-ot .vibe-split small {
   margin-top: 14px;
   padding-top: 13px;
   border-top: 1px solid var(--line);
@@ -483,6 +551,182 @@ body.course-game-engine-1.game-engine-ot .definition-split small {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.6;
+}
+
+body.course-game-engine-1.game-engine-ot .already-built {
+  margin: 28px 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+body.course-game-engine-1.game-engine-ot .already-built + p {
+  margin-top: 32px;
+}
+
+body.course-game-engine-1.game-engine-ot .already-built-head,
+body.course-game-engine-1.game-engine-ot .already-built-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 1px;
+}
+
+body.course-game-engine-1.game-engine-ot .already-built-head span,
+body.course-game-engine-1.game-engine-ot .already-built-row p,
+body.course-game-engine-1.game-engine-ot .already-built-row strong {
+  min-width: 0;
+  margin: 0;
+  padding: 13px 16px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-ot .already-built-head span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: var(--ot-label-size);
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+body.course-game-engine-1.game-engine-ot .already-built-row p {
+  color: var(--ink);
+  font-size: var(--ot-small-text-size);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+body.course-game-engine-1.game-engine-ot .already-built-row strong {
+  display: flex;
+  align-items: center;
+  background: var(--ot-tint-soft);
+  color: var(--ink-strong);
+  font-size: 14px;
+  font-weight: 650;
+}
+
+body.course-game-engine-1.game-engine-ot .trend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--line);
+}
+
+body.course-game-engine-1.game-engine-ot .trend-grid article {
+  min-width: 0;
+  min-height: 188px;
+  padding: 22px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-ot .trend-grid article:last-child {
+  grid-column: 1 / -1;
+  min-height: 0;
+}
+
+body.course-game-engine-1.game-engine-ot .trend-grid span {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: var(--ot-label-size);
+  font-weight: 650;
+}
+
+body.course-game-engine-1.game-engine-ot .trend-grid h3 {
+  margin: 14px 0 10px;
+  font-size: 16px;
+  font-weight: 720;
+  letter-spacing: -0.02em;
+}
+
+body.course-game-engine-1.game-engine-ot .trend-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--ot-small-text-size);
+  line-height: 1.62;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-videos {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  overflow: hidden;
+  margin: 18px 0 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--line);
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-videos article {
+  min-width: 0;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-poster,
+body.course-game-engine-1.game-engine-ot .mwu-frame {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  padding: 0;
+  border: 0;
+  position: relative;
+  background: #111;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-poster {
+  cursor: pointer;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-poster img,
+body.course-game-engine-1.game-engine-ot .mwu-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-frame iframe {
+  border: 0;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-poster::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent #fff;
+  filter: drop-shadow(0 1px 4px rgb(0 0 0 / 0.45));
+  pointer-events: none;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-videos a {
+  display: block;
+  padding: 12px 14px 14px;
+  color: var(--ink-strong);
+  text-decoration: none;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-videos strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+body.course-game-engine-1.game-engine-ot .mwu-videos a span {
+  display: block;
+  margin-top: 5px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: var(--ot-label-size);
+  font-weight: 650;
 }
 
 body.course-game-engine-1.game-engine-ot .game-loop {
@@ -614,7 +858,67 @@ body.course-game-engine-1.game-engine-ot .callout p strong {
   color: var(--ink-strong);
 }
 
+body.course-game-engine-1.game-engine-ot .semester-trail,
+body.course-game-engine-1.game-engine-ot .cli-split {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--line);
+}
+
+body.course-game-engine-1.game-engine-ot .semester-trail {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+body.course-game-engine-1.game-engine-ot .cli-split {
+  margin-top: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+body.course-game-engine-1.game-engine-ot .semester-trail article,
+body.course-game-engine-1.game-engine-ot .cli-split article {
+  min-width: 0;
+  padding: 20px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-ot .semester-trail span,
+body.course-game-engine-1.game-engine-ot .cli-split h3 {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: var(--ot-label-size);
+  font-weight: 650;
+}
+
+body.course-game-engine-1.game-engine-ot .semester-trail h3,
+body.course-game-engine-1.game-engine-ot .cli-split h3 {
+  margin: 12px 0 8px;
+  color: var(--ink-strong);
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 720;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-split h3 {
+  margin-top: 0;
+  font-family: var(--mono);
+  font-size: var(--ot-label-size);
+  font-weight: 650;
+  color: var(--accent);
+}
+
+body.course-game-engine-1.game-engine-ot .semester-trail p,
+body.course-game-engine-1.game-engine-ot .cli-split p {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--ot-small-text-size);
+  line-height: 1.62;
+}
+
 body.course-game-engine-1.game-engine-ot .semester-route {
+  margin-top: 18px;
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
   gap: 1px;
@@ -770,7 +1074,7 @@ body.course-game-engine-1.game-engine-ot .final-contract li {
 
 body.course-game-engine-1.game-engine-ot .class-rhythm {
   display: grid;
-  grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1px;
   border: 1px solid var(--line-strong);
   border-radius: 6px;
@@ -785,17 +1089,8 @@ body.course-game-engine-1.game-engine-ot .class-rhythm > div {
   background: var(--paper);
 }
 
-body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(2) {
-  background: var(--ot-tint-soft);
-}
-
 body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(3) {
-  grid-column: 1 / -1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 160px minmax(190px, 0.7fr) minmax(0, 1.3fr);
-  gap: 20px;
-  align-items: baseline;
+  background: var(--ot-tint-soft);
 }
 
 body.course-game-engine-1.game-engine-ot .class-rhythm span,
@@ -816,19 +1111,11 @@ body.course-game-engine-1.game-engine-ot .class-rhythm strong {
   font-size: 16px;
 }
 
-body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(3) strong {
-  margin-top: 0;
-}
-
 body.course-game-engine-1.game-engine-ot .class-rhythm p {
   margin: 9px 0 0;
   color: var(--muted);
   font-size: var(--ot-small-text-size);
   line-height: 1.68;
-}
-
-body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(3) p {
-  margin: 0;
 }
 
 body.course-game-engine-1.game-engine-ot .checkpoint-grid {
@@ -1070,6 +1357,10 @@ body.course-game-engine-1.game-engine-ot .source-note {
   line-height: 1.65;
 }
 
+body.course-game-engine-1.game-engine-ot .phrase {
+  white-space: nowrap;
+}
+
 body.course-game-engine-1.game-engine-ot .install-progress {
   position: sticky;
   top: 72px;
@@ -1168,19 +1459,8 @@ body.course-game-engine-1.game-engine-ot .install-check {
 }
 
 body.course-game-engine-1.game-engine-ot .install-step-body > label {
-  display: grid;
-  grid-template-columns: 94px minmax(0, 1fr);
-  gap: 16px;
-  align-items: baseline;
+  display: block;
   cursor: pointer;
-}
-
-body.course-game-engine-1.game-engine-ot .install-step-time {
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: var(--ot-label-size);
-  font-weight: 650;
-  white-space: nowrap;
 }
 
 body.course-game-engine-1.game-engine-ot .install-step-body > label > strong {
@@ -1191,7 +1471,7 @@ body.course-game-engine-1.game-engine-ot .install-step-body > label > strong {
 
 body.course-game-engine-1.game-engine-ot .install-step-body > p {
   max-width: 68ch;
-  margin: 14px 0 0 110px;
+  margin: 14px 0 0;
   color: var(--muted);
   font-size: 14.5px;
   line-height: 1.75;
@@ -1199,7 +1479,7 @@ body.course-game-engine-1.game-engine-ot .install-step-body > p {
 
 body.course-game-engine-1.game-engine-ot .install-step-body > ul {
   max-width: 68ch;
-  margin: 14px 0 0 110px;
+  margin: 14px 0 0;
   padding-left: 20px;
 }
 
@@ -1217,7 +1497,7 @@ body.course-game-engine-1.game-engine-ot .install-steps > li[data-checked="true"
 body.course-game-engine-1.game-engine-ot .branch-note,
 body.course-game-engine-1.game-engine-ot .verification-card {
   max-width: 68ch;
-  margin: 17px 0 0 110px;
+  margin: 17px 0 0;
   padding: 17px 18px;
   border: 1px solid var(--line);
   border-radius: 6px;
@@ -1236,6 +1516,50 @@ body.course-game-engine-1.game-engine-ot .branch-note p {
   color: var(--muted);
   font-size: var(--ot-small-text-size);
   line-height: 1.66;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-scripts {
+  grid-template-columns: 1fr;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-scripts code {
+  white-space: pre;
+  overflow-x: auto;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-grid > div {
+  min-width: 0;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--paper);
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-grid span,
+body.course-game-engine-1.game-engine-ot .cli-install-grid code {
+  display: block;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-grid span {
+  margin-bottom: 7px;
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: var(--ot-label-size);
+  font-weight: 650;
+}
+
+body.course-game-engine-1.game-engine-ot .cli-install-grid code {
+  overflow-wrap: anywhere;
+  color: var(--ink-strong);
+  font-size: 12.5px;
+  line-height: 1.55;
 }
 
 body.course-game-engine-1.game-engine-ot .verification-card > span {
@@ -1322,7 +1646,7 @@ body.course-game-engine-1.game-engine-ot .error-record p strong {
 
 body.course-game-engine-1.game-engine-ot .exit-ticket {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1px;
   border: 1px solid var(--line-strong);
   border-radius: 6px;
@@ -1337,17 +1661,9 @@ body.course-game-engine-1.game-engine-ot .exit-ticket > div {
   background: var(--paper);
 }
 
-body.course-game-engine-1.game-engine-ot .exit-ticket > div:first-child {
+body.course-game-engine-1.game-engine-ot .exit-ticket > div:first-child,
+body.course-game-engine-1.game-engine-ot .exit-ticket > div:nth-child(2) {
   background: var(--ot-tint);
-}
-
-body.course-game-engine-1.game-engine-ot .exit-ticket > div:last-child {
-  grid-column: 1 / -1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 120px minmax(230px, 0.85fr) minmax(0, 1.15fr);
-  gap: 18px;
-  align-items: baseline;
 }
 
 body.course-game-engine-1.game-engine-ot .exit-ticket span,
@@ -1374,11 +1690,6 @@ body.course-game-engine-1.game-engine-ot .exit-ticket p {
   color: var(--muted);
   font-size: var(--ot-small-text-size);
   line-height: 1.65;
-}
-
-body.course-game-engine-1.game-engine-ot .exit-ticket > div:last-child strong,
-body.course-game-engine-1.game-engine-ot .exit-ticket > div:last-child p {
-  margin-top: 0;
 }
 
 body.course-game-engine-1.game-engine-ot .next-week {
@@ -1572,7 +1883,7 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
 
 @media (max-width: 980px) {
   body.course-game-engine-1.game-engine-ot .ot-hero .hero-inner {
-    grid-template-columns: minmax(0, 0.78fr) minmax(360px, 1.22fr);
+    grid-template-columns: 1fr;
     gap: 30px;
   }
 
@@ -1583,6 +1894,7 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
   body.course-game-engine-1.game-engine-ot .layout,
   body.course-game-engine-1.game-engine-ot main.layout {
     padding-top: 0;
+    grid-template-columns: 1fr;
     gap: 58px;
   }
 
@@ -1636,6 +1948,11 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
 
   body.course-game-engine-1.game-engine-ot [id] {
     scroll-margin-top: 138px;
+  }
+
+  body.course-game-engine-1.game-engine-ot .subscription-scale,
+  body.course-game-engine-1.game-engine-ot .semester-trail {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -1711,7 +2028,13 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
   }
 
   body.course-game-engine-1.game-engine-ot .experience-scale,
+  body.course-game-engine-1.game-engine-ot .subscription-scale,
   body.course-game-engine-1.game-engine-ot .definition-split,
+  body.course-game-engine-1.game-engine-ot .vibe-split,
+  body.course-game-engine-1.game-engine-ot .trend-grid,
+  body.course-game-engine-1.game-engine-ot .mwu-videos,
+  body.course-game-engine-1.game-engine-ot .semester-trail,
+  body.course-game-engine-1.game-engine-ot .cli-split,
   body.course-game-engine-1.game-engine-ot .semester-route,
   body.course-game-engine-1.game-engine-ot .class-rhythm,
   body.course-game-engine-1.game-engine-ot .checkpoint-grid,
@@ -1745,6 +2068,12 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
     grid-column: auto;
   }
 
+  body.course-game-engine-1.game-engine-ot .already-built-head span,
+  body.course-game-engine-1.game-engine-ot .already-built-row p,
+  body.course-game-engine-1.game-engine-ot .already-built-row strong {
+    padding: 12px 14px;
+  }
+
   body.course-game-engine-1.game-engine-ot .engine-map {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -1756,23 +2085,6 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
   body.course-game-engine-1.game-engine-ot .final-contract {
     grid-template-columns: 1fr;
     gap: 26px;
-  }
-
-  body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(3),
-  body.course-game-engine-1.game-engine-ot .exit-ticket > div:last-child {
-    grid-column: auto;
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(3) strong,
-  body.course-game-engine-1.game-engine-ot .exit-ticket > div:last-child strong {
-    margin-top: 20px;
-  }
-
-  body.course-game-engine-1.game-engine-ot .class-rhythm > div:nth-child(3) p,
-  body.course-game-engine-1.game-engine-ot .exit-ticket > div:last-child p {
-    margin-top: 7px;
   }
 
   body.course-game-engine-1.game-engine-ot .preflight li,
@@ -1792,6 +2104,10 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
   body.course-game-engine-1.game-engine-ot .branch-note,
   body.course-game-engine-1.game-engine-ot .verification-card {
     margin-left: 0;
+  }
+
+  body.course-game-engine-1.game-engine-ot .cli-install-grid {
+    grid-template-columns: 1fr;
   }
 
   body.course-game-engine-1.game-engine-ot .reference-list li,
@@ -1859,6 +2175,11 @@ body.course-game-engine-1.game-engine-ot > .footer-note {
 }
 
 @media print {
+  body.course-game-engine-1.game-engine-ot mark {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
   body.course-game-engine-1.game-engine-ot .hero-actions,
   body.course-game-engine-1.game-engine-ot .install-progress,
   body.course-game-engine-1.game-engine-ot .progress-note {
