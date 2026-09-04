@@ -4,22 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>2주차 3교시: 자기소개 데이터 미션 | Contents Programming Practice</title>
-  <meta name="description" content="변수, 자료형, 기본 연산과 출력을 활용해 자기소개 Colab 노트북을 완성하고 자동 검사 통과 후 제출하는 목표 달성형 개인 실습입니다.">
+  <meta name="description" content="값, 계산식, 출력문을 직접 작성해 자기소개 Colab 노트북을 완성하고, 자동 검사 통과와 화면 확인 후 퇴실하는 목표 달성형 개인 실습입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period3.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
   <meta property="og:title" content="2주차 3교시: 자기소개 데이터 미션 | Contents Programming Practice">
-  <meta property="og:description" content="정해진 완료 조건을 달성하면 즉시 제출하고 퇴실할 수 있는 Python 기초 개인 실습입니다.">
+  <meta property="og:description" content="빈칸을 채우고 계산과 출력을 직접 작성한 뒤, 자동 검사와 화면 확인이 끝나면 퇴실할 수 있는 Python 기초 개인 실습입니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period3.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-02-mission-preview.png">
   <meta property="og:image:alt" content="변수와 계산 결과를 보여주는 2주차 자기소개 데이터 미션 미리보기">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="2주차 3교시: 자기소개 데이터 미션 | Contents Programming Practice">
-  <meta name="twitter:description" content="Colab에서 변수와 자료형을 사용해 결과물을 완성하는 목표 달성형 개인 실습입니다.">
+  <meta name="twitter:description" content="Colab에서 값, 계산식, 출력문을 직접 작성해 결과물을 완성하는 목표 달성형 개인 실습입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/week-02-mission-preview.png">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
-  <link rel="stylesheet" href="assets/week-02.css?v=week2-1">
+  <link rel="stylesheet" href="assets/week-02.css?v=week2-16">
 </head>
 <body class="teaching-document course-contents-programming week-two-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
@@ -33,7 +33,7 @@
         <a class="lesson-course" href="./">Contents Programming Practice</a>
       </div>
       <div class="lesson-sequence">
-        <a href="week-02-period2.html" rel="prev" aria-label="이전 자료: 2주차 2교시: 변수와 자료형 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
+        <a href="week-02-period2.html" rel="prev" aria-label="이전 자료: 2주차 2교시: 변수와 대입 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
         <a href="week-03-period1.html" rel="next" aria-label="다음 자료: 3주차 1교시: 디지털 이미지의 픽셀과 좌표 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
       </div>
     </nav>
@@ -43,16 +43,16 @@
       <div class="week-two-hero-copy">
         <p class="eyebrow">Python / Colab / Individual mission</p>
         <h1>2주차 3교시: 자기소개 데이터 미션</h1>
-        <p class="lead">자신의 콘텐츠 생활을 변수에 저장하고 계산과 출력으로 연결합니다. 정해진 조건을 모두 충족하면 완료 즉시 제출 후 퇴실할 수 있습니다.</p>
+        <p class="lead">템플릿을 실행만 해서는 통과하지 않습니다. 값, 계산식, 출력문을 직접 작성하고 자동 검사를 통과한 뒤, 화면을 보여 주면 퇴실할 수 있습니다. 오늘 실습은 성적에 반영하지 않습니다.</p>
         <div class="week-two-hero-actions" aria-label="실습 시작">
           <a class="week-two-primary-action" href="https://colab.research.google.com/github/IXIWORKS-KIMJUNGHO/IXIWORKS-KIMJUNGHO.github.io/blob/main/teaching/contents-programming/assets/week-02-profile-mission.ipynb" target="_blank" rel="noopener noreferrer">Colab에서 열기 <span aria-hidden="true">↗</span></a>
           <a class="week-two-secondary-action" href="assets/week-02-profile-mission.ipynb" download>파일 받기 <span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <figure class="week-two-hero-visual week-two-mission-preview" aria-labelledby="mission-preview-caption">
-        <figcaption id="mission-preview-caption">실제 미션 코드와 출력</figcaption>
-        <pre><code>weekly_hours = 7
-monthly_hours = weekly_hours * 4
+        <figcaption id="mission-preview-caption">빈칸을 채운 뒤의 결과 예시</figcaption>
+        <pre><code>weekly_hours = ___
+monthly_hours = ___
 print("한 달 예상:", monthly_hours)</code></pre>
         <samp><span>한 달 예상: 28</span><strong>WEEK 02 MISSION COMPLETE</strong></samp>
       </figure>
@@ -66,57 +66,58 @@ print("한 달 예상:", monthly_hours)</code></pre>
       <dl class="week-two-lesson-facts" aria-label="3교시 수업 정보">
         <div><dt>형식</dt><dd>목표 달성형 개인 실습</dd></div>
         <div><dt>최대 시간</dt><dd>50분</dd></div>
-        <div><dt>완료 판정</dt><dd>자동 검사 PASS</dd></div>
-        <div><dt>제출물</dt><dd>실행 결과가 저장된 .ipynb</dd></div>
+        <div><dt>완료 판정</dt><dd>화면 PASS + 확인</dd></div>
+        <div><dt>성적</dt><dd>반영하지 않음</dd></div>
       </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 실습 목표</p>
-        <ul>
-          <li>Google Colab 노트북을 만들고 이름을 바꾸고 저장할 수 있습니다.</li>
-          <li><code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code> 값을 변수에 저장할 수 있습니다.</li>
-          <li>저장한 값으로 새로운 값을 계산하고 <code>print()</code>로 읽을 수 있게 출력할 수 있습니다.</li>
-          <li>값을 바꾼 뒤 필요한 셀을 다시 실행하고, 전체 노트북을 오류 없이 재실행할 수 있습니다.</li>
-        </ul>
+        <ol>
+          <li><span>Google Colab 노트북을 열고 이름을 바꾼 뒤 저장할 수 있습니다.</span></li>
+          <li><span><code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code> 값을 변수에 직접 대입하고 <code>type()</code>으로 확인할 수 있습니다.</span></li>
+          <li><span>저장한 변수로 월간·연간 시간을 계산하고, 설명과 값을 함께 출력하는 줄을 직접 작성할 수 있습니다.</span></li>
+          <li><span>값을 바꾼 뒤 계산을 다시 작성하고, 전체 노트북을 오류 없이 재실행할 수 있습니다.</span></li>
+        </ol>
       </div>
+
+      <p class="session-outline-title">오늘 할 일</p>
+      <ol class="mission-route" aria-label="오늘 할 일">
+        <li><span>01</span><strong>준비</strong><small>노트북을 열고 파일명을 바꿉니다.</small></li>
+        <li><span>02</span><strong>STEP 1 저장</strong><small>여섯 값을 대입하고 자료형을 확인합니다.</small></li>
+        <li><span>03</span><strong>STEP 2 계산</strong><small>월간·연간 계산식을 직접 작성합니다.</small></li>
+        <li><span>04</span><strong>STEP 3 출력</strong><small>설명과 변수를 짝 지은 print를 채웁니다.</small></li>
+        <li><span>05</span><strong>STEP 4 변경</strong><small>값을 바꾸고 계산식을 다시 작성합니다.</small></li>
+        <li><span>06</span><strong>STEP 5·6 퇴실</strong><small>PASS 화면을 보여 주고 종료합니다.</small></li>
+      </ol>
 
       <div class="goal-contract" role="group" aria-labelledby="goal-contract-title">
         <div>
           <span class="visual-label">오늘의 운영 원칙</span>
-          <h2 id="goal-contract-title">시간을 채우는 수업이 아니라 목표를 증명하는 수업</h2>
-          <p>처음 0-7분의 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 아래 퇴실 조건을 모두 충족한 학생은 남은 시간과 관계없이 제출하고 퇴실할 수 있습니다.</p>
+          <p class="goal-contract-lead" id="goal-contract-title">시간을 채우는 수업이 아니라 목표를 증명하는 수업</p>
+          <p>처음 공통 안내가 끝나면 각자 자신의 속도로 진행합니다. 빈칸을 채우지 않고 실행만 하면 오류가 나고 통과하지 않습니다. 아래 퇴실 조건을 모두 충족한 학생은 남은 시간과 관계없이 화면을 보여 주고 퇴실할 수 있습니다.</p>
         </div>
-        <p class="goal-contract-note"><strong>속도는 평가하지 않습니다.</strong> 빠르게 끝내는 것과 천천히 완성하는 것 모두 같은 기준으로 판정합니다.</p>
+        <p class="goal-contract-note"><strong>오늘 실습은 성적에 넣지 않습니다.</strong> 빠르게 끝내는 것과 천천히 완성하는 것 모두 같은 완료 기준으로 판정합니다.</p>
       </div>
-
-      <ol class="mission-route" aria-label="실습 완료 경로">
-        <li><span>01</span><strong>준비</strong><small>노트북 열기와 파일명 변경</small></li>
-        <li><span>02</span><strong>저장</strong><small>네 가지 자료형을 변수에 대입</small></li>
-        <li><span>03</span><strong>계산</strong><small>주간 값으로 월간 값 만들기</small></li>
-        <li><span>04</span><strong>출력</strong><small>자기소개 결과 확인</small></li>
-        <li><span>05</span><strong>검증</strong><small>재실행과 자동 검사 PASS</small></li>
-        <li><span>06</span><strong>퇴실</strong><small>.ipynb 제출 확인 후 종료</small></li>
-      </ol>
 
       <div class="exit-gate" role="group" aria-labelledby="exit-gate-title">
         <div class="exit-pass" aria-hidden="true">PASS</div>
         <div>
           <p class="exit-gate-label">EXIT GATE</p>
-          <h2 id="exit-gate-title">자동 검사 통과 + 파일 제출 확인 = 퇴실 가능</h2>
-          <p>추가 문제는 의무가 아닙니다. 필수 목표를 완료했다면 별도의 대기나 전체 마무리 시간을 기다리지 않고 퇴실합니다.</p>
+          <p class="exit-gate-lead" id="exit-gate-title">자동 검사 통과 + 화면 확인 = 퇴실 가능</p>
+          <p>파일을 올리는 제출함은 없습니다. 완료 문구가 보이면 교수자에게 화면을 보여 주고 바로 퇴실합니다.</p>
         </div>
       </div>
 
-      <h2 id="completion-criteria">퇴실 조건: 제출 전에 일곱 가지 확인</h2>
+      <h2 id="completion-criteria">퇴실 조건: 화면을 보여 주기 전에 일곱 가지 확인</h2>
 
       <ol class="completion-criteria">
         <li><strong>파일명</strong><span><code>week02_학번_이름.ipynb</code> 형식으로 변경했습니다.</span></li>
-        <li><strong>필수 변수</strong><span>자기소개와 콘텐츠 생활을 설명하는 변수 6개를 작성했습니다.</span></li>
-        <li><strong>네 자료형</strong><span><code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code>을 모두 사용했습니다.</span></li>
-        <li><strong>계산 결과</strong><span>주간 감상 시간으로 월간 예상 시간을 계산했습니다.</span></li>
-        <li><strong>읽을 수 있는 출력</strong><span>설명과 값을 함께 출력해 결과만 보아도 의미를 알 수 있습니다.</span></li>
-        <li><strong>전체 재실행</strong><span>런타임을 다시 시작한 뒤 모두 실행해도 오류가 없습니다.</span></li>
-        <li><strong>자동 검사와 제출</strong><span>마지막 셀에서 완료 문구를 확인하고 실행 결과가 포함된 파일을 제출했습니다.</span></li>
+        <li><strong>값과 자료형</strong><span>여섯 변수를 직접 대입하고 <code>str</code>, <code>int</code>, <code>float</code>, <code>bool</code>을 모두 사용했습니다.</span></li>
+        <li><strong>자료형 확인</strong><span><code>type()</code>으로 문자열, 정수, 실수, 불리언을 출력해 확인했습니다.</span></li>
+        <li><strong>계산식 작성</strong><span>숫자를 다시 적지 않고 <code>weekly_hours</code>로 월간·연간 시간을 계산했습니다.</span></li>
+        <li><strong>출력문 작성</strong><span>설명과 변수 이름을 짝 지은 <code>print()</code>를 채워 여덟 줄이 보이게 했습니다.</span></li>
+        <li><strong>변경과 재계산</strong><span>두 값을 바꾼 뒤 계산식을 다시 작성하고, 새 런타임에서 모두 실행했습니다.</span></li>
+        <li><strong>자동 검사와 확인</strong><span>마지막 셀의 완료 문구를 교수자에게 보여 주었습니다.</span></li>
       </ol>
 
       <div class="callout callout-warning">
@@ -124,9 +125,9 @@ print("한 달 예상:", monthly_hours)</code></pre>
         <p>주소, 전화번호, 생년월일, 계정 비밀번호는 작성하지 않습니다. 이름 대신 별명, 실제 정보 대신 공개해도 괜찮은 값을 사용할 수 있습니다.</p>
       </div>
 
-      <h2 id="setup">STEP 0: 실습 노트북 준비</h2>
+      <h2 id="setup">준비: 실습 노트북</h2>
 
-      <p>위의 시작 버튼으로 Colab 템플릿을 바로 열거나 파일을 내려받습니다. 단계와 자동 검사 셀은 이미 준비되어 있습니다.</p>
+      <p>위의 시작 버튼으로 Colab 템플릿을 바로 열거나 파일을 내려받습니다. 단계와 자동 검사 셀은 준비되어 있지만, <mark>값·계산식·출력문의 빈칸은 비어 있습니다.</mark> <code>___</code>를 바꾸지 않고 실행하면 2교시에서 본 <code>NameError</code>가 납니다.</p>
 
       <ol>
         <li>내려받은 파일을 사용할 때는 <a href="https://colab.research.google.com/" target="_blank" rel="noopener noreferrer">Google Colab</a>에서 <strong>파일 → 노트 업로드</strong>를 선택합니다.</li>
@@ -143,18 +144,25 @@ print("한 달 예상:", monthly_hours)</code></pre>
 
       <h2 id="variables">STEP 1: 여섯 개의 값을 변수에 저장</h2>
 
-      <p>변수 이름은 자동 검사와 연결되어 있으므로 바꾸지 않습니다. 처음 여섯 줄에서는 <code>=</code> 오른쪽의 임시 값만 자신의 정보로 수정합니다. 마지막 두 줄은 새 런타임의 실행 순서를 확인하기 위한 표시이므로 수정하지 않습니다.</p>
+      <p>변수 이름은 자동 검사와 연결되어 있으므로 바꾸지 않습니다. <code>=</code> 오른쪽의 <code>___</code>만 자신의 정보로 바꿉니다. 마지막 두 줄은 새 런타임의 실행 순서를 확인하기 위한 표시이므로 수정하지 않습니다.</p>
 
-      <pre><code>student_name = "여기에 작성"
-major = "여기에 작성"
-favorite_content = "여기에 작성"
-weekly_hours = -1
-average_rating = -1.0
-wants_to_create = "True 또는 False로 바꾸세요"
+      <ol class="write-spec" aria-label="STEP 1에서 직접 작성할 것">
+        <li><span>작성</span><span>여섯 변수의 오른쪽 값</span></li>
+        <li><span>작성</span><span><code>type()</code> 안의 변수 이름 세 곳</span></li>
+        <li><span>그대로</span><span>변수 이름과 맨 아래 실행 검사용 두 줄</span></li>
+      </ol>
 
-# 아래 실행 검사용 코드는 수정하지 마세요.
-mission_step1_execution = get_ipython().execution_count
-mission_stage = 1</code></pre>
+      <pre><code>student_name = ___
+major = ___
+favorite_content = ___
+weekly_hours = ___
+average_rating = ___
+wants_to_create = ___
+
+print("이름 자료형:", type(student_name))
+print("일주일 자료형:", type(___))
+print("평점 자료형:", type(___))
+print("만들고 싶은가 자료형:", type(___))</code></pre>
 
       <div class="table-wrap">
         <table>
@@ -171,130 +179,155 @@ mission_stage = 1</code></pre>
         </table>
       </div>
 
+      <h3 id="predict">실행하기 전에 세 가지 예측</h3>
+      <p>값을 채우기 전에 아래 세 줄을 먼저 판단합니다. 1교시에서 본 자료형 구분을 그대로 사용합니다. 답을 바로 열지 말고 자신의 예측을 먼저 정합니다.</p>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 예측</span>
+        <h3>어느 줄이 원하는 결과가 아닌가</h3>
+        <ol>
+          <li><code>"7" * 4</code>의 결과는 <code>28</code>인가, <code>7777</code>인가?</li>
+          <li><code>average_rating = 4</code>의 자료형은 <code>int</code>인가, <code>float</code>인가?</li>
+          <li><code>wants_to_create = "True"</code>의 자료형은 <code>bool</code>인가, <code>str</code>인가?</li>
+        </ol>
+      </div>
+
+      <div class="concept-check-list">
+        <details>
+          <summary>1. "7" * 4의 결과는?</summary>
+          <div class="details-motion-content"><p><code>7777</code>입니다. 따옴표 안의 <code>"7"</code>은 글자이므로 곱하면 글자가 네 번 이어 붙습니다. 한 달 시간 28을 얻으려면 <code>weekly_hours</code>를 따옴표 없는 정수로 작성해야 합니다.</p></div>
+        </details>
+        <details>
+          <summary>2. average_rating = 4의 자료형은?</summary>
+          <div class="details-motion-content"><p><code>int</code>입니다. 실수로 저장하려면 <code>4.0</code>처럼 소수점을 함께 작성합니다. 자동 검사는 STEP 1의 평점이 <code>float</code>인지도 확인합니다.</p></div>
+        </details>
+        <details>
+          <summary>3. wants_to_create = "True"의 자료형은?</summary>
+          <div class="details-motion-content"><p><code>str</code>입니다. 따옴표가 있으면 글자입니다. 불리언으로 저장하려면 따옴표 없는 <code>True</code> 또는 <code>False</code>를 작성합니다.</p></div>
+        </details>
+      </div>
+
       <div class="checkpoint">
         <span class="checkpoint-number">CHECK 01</span>
-        <p>STEP 1 셀을 실행했을 때 빨간 오류 메시지가 없으면 다음 단계로 이동합니다. 아직 화면에 출력이 없어도 정상입니다.</p>
+        <p>STEP 1을 실행했을 때 자료형 네 줄이 보입니다. 정수·실수·불리언 줄에 <code>str</code>이 보이면 해당 값의 따옴표와 소수점을 고치고 다시 실행합니다.</p>
       </div>
 
       <h2 id="calculation">STEP 2: 저장한 값으로 새로운 값 계산</h2>
 
-      <p>일주일 감상 시간에 4를 곱해 한 달의 예상 감상 시간을 계산합니다. 숫자를 다시 직접 적지 않고 앞에서 만든 <code>weekly_hours</code> 변수를 사용합니다.</p>
+      <p>일주일 감상 시간을 다시 숫자로 적지 않습니다. 앞에서 만든 <code>weekly_hours</code>를 사용해 한 달(4주)과 일 년(52주) 예상 시간을 계산합니다. <code>assert</code>와 <code>mission_stage</code>는 실행 순서를 검사하기 위해 템플릿이 제공하는 코드이므로 작성하거나 외울 필요가 없습니다.</p>
 
-      <pre><code>assert mission_stage == 1, "STEP 1부터 다시 실행하세요."
-mission_step2_execution = get_ipython().execution_count
-monthly_hours = weekly_hours * 4
-mission_stage = 2</code></pre>
+      <ol class="write-spec" aria-label="STEP 2에서 직접 작성할 것">
+        <li><span>작성</span><span><code>monthly_hours</code>의 계산식</span></li>
+        <li><span>작성</span><span><code>yearly_hours</code>의 계산식</span></li>
+        <li><span>그대로</span><span>아래쪽 두 <code>print()</code>와 실행 검사용 줄</span></li>
+      </ol>
 
-      <p><code>assert</code>와 <code>mission_stage</code>는 실행 순서를 검사하기 위해 템플릿이 제공하는 코드입니다. 이번 주에는 직접 작성하거나 외울 필요가 없습니다.</p>
+      <pre><code>monthly_hours = ___
+yearly_hours = ___
+
+print("한 달 예상 감상 시간:", monthly_hours, "시간")
+print("일 년 예상 감상 시간:", yearly_hours, "시간")</code></pre>
 
       <figure class="lesson-visual" aria-labelledby="calculation-caption">
-        <div class="calculation-map" role="group" aria-label="주간 값으로 월간 값을 계산하는 과정">
+        <div class="calculation-map" role="group" aria-label="주간 값으로 월간 값과 연간 값을 계산하는 과정">
           <div><span class="visual-label">저장된 값</span><code>weekly_hours → 7</code></div>
-          <span aria-hidden="true">× 4</span>
-          <div><span class="visual-label">계산 결과</span><code>monthly_hours → 28</code></div>
+          <span aria-hidden="true">× 4 / × 52</span>
+          <div><span class="visual-label">계산 결과</span><code>28시간 / 364시간</code></div>
         </div>
-        <figcaption id="calculation-caption"><code>weekly_hours</code>를 바꾸고 이 셀을 다시 실행하면 <code>monthly_hours</code>도 새로 계산됩니다.</figcaption>
+        <figcaption id="calculation-caption">오른쪽 숫자는 확인용입니다. 코드에는 <code>28</code>이나 <code>364</code>를 직접 적지 않고 변수 이름과 곱셈을 작성합니다.</figcaption>
       </figure>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 02</span>
+        <p>한 달 값이 주간 값의 네 배, 일 년 값이 주간 값의 쉰두 배인지 실행 전에 계산해 보고, 출력과 맞는지 확인합니다. 주간 값을 바꿨을 때도 두 결과가 따라와야 합니다.</p>
+      </div>
+
+      <details class="callout callout-question">
+        <summary class="callout-title">한 달이 28이 아니라 7777로 나올 때</summary>
+        <div class="details-motion-content">
+          <p><code>weekly_hours</code>가 정수인지 확인합니다. <code>"7"</code>처럼 따옴표가 있으면 글자를 네 번 이어 붙인 결과가 나옵니다. STEP 1의 값을 고친 뒤 STEP 2를 다시 실행합니다.</p>
+        </div>
+      </details>
 
       <h2 id="output">STEP 3: 결과를 읽을 수 있게 출력</h2>
 
-      <p>설명과 변수 이름을 쉼표로 나누어 <code>print()</code>에 넣습니다. 따옴표 안에는 화면에 보일 설명을, 따옴표 밖에는 저장된 값을 찾을 변수 이름을 작성합니다.</p>
+      <p>첫 줄은 형식 예시입니다. 나머지 일곱 줄의 <code>___</code>를 변수 이름으로 바꿉니다. 따옴표 안에는 화면에 보일 설명을, 따옴표 밖에는 저장된 값을 찾을 변수 이름을 둡니다.</p>
 
-      <pre><code>assert mission_stage == 2, "STEP 2 계산 셀을 먼저 실행하세요."
-mission_step3_execution = get_ipython().execution_count
-print("이름 또는 별명:", student_name)
-print("전공:", major)
-print("좋아하는 콘텐츠:", favorite_content)
-print("일주일 감상 시간:", weekly_hours, "시간")
-print("콘텐츠 평점:", average_rating)
-print("직접 만들고 싶은가:", wants_to_create)
-print("한 달 예상 감상 시간:", monthly_hours, "시간")
+      <ol class="write-spec" aria-label="STEP 3에서 직접 작성할 것">
+        <li><span>작성</span><span>일곱 줄의 <code>___</code>를 해당 변수 이름으로 교체</span></li>
+        <li><span>그대로</span><span>첫 줄 예시와 맨 아래 실행 검사용 줄</span></li>
+      </ol>
 
-initial_output_snapshot = (student_name, major, favorite_content, weekly_hours, average_rating, wants_to_create, monthly_hours)
-mission_stage = 3</code></pre>
-
-      <p><code>initial_output_snapshot</code>은 첫 출력 시점의 값들을 보관합니다. 학생이 직접 작성할 문법은 아니며, STEP 4의 변경 결과와 비교할 때 사용합니다.</p>
+      <pre><code>print("이름 또는 별명:", student_name)
+print("전공:", ___)
+print("좋아하는 콘텐츠:", ___)
+print("일주일 감상 시간:", ___, "시간")
+print("콘텐츠 평점:", ___)
+print("직접 만들고 싶은가:", ___)
+print("한 달 예상 감상 시간:", ___, "시간")
+print("일 년 예상 감상 시간:", ___, "시간")</code></pre>
 
       <div class="output-preview" role="group" aria-labelledby="output-preview-title">
         <span class="visual-label">실행 결과 예시</span>
         <p id="output-preview-title">MY CONTENT DATA</p>
-        <samp>이름 또는 별명: 민지<br>전공: 시각디자인<br>좋아하는 콘텐츠: 영화<br>일주일 감상 시간: 7 시간<br>콘텐츠 평점: 4.5<br>직접 만들고 싶은가: True<br>한 달 예상 감상 시간: 28 시간</samp>
+        <samp>이름 또는 별명: 민지<br>전공: 시각디자인<br>좋아하는 콘텐츠: 영화<br>일주일 감상 시간: 7 시간<br>콘텐츠 평점: 4.5<br>직접 만들고 싶은가: True<br>한 달 예상 감상 시간: 28 시간<br>일 년 예상 감상 시간: 364 시간</samp>
       </div>
 
       <div class="checkpoint">
-        <span class="checkpoint-number">CHECK 02</span>
-        <p>일곱 줄이 모두 보이고, 마지막 월간 시간이 주간 시간의 네 배인지 눈으로 확인합니다.</p>
+        <span class="checkpoint-number">CHECK 03</span>
+        <p>여덟 줄이 모두 보이고, 월간·연간 시간이 CHECK 02에서 예측한 값과 같은지 확인합니다. 설명 글자만 나오고 값이 비어 있으면 <code>___</code>를 변수 이름으로 바꿨는지 봅니다.</p>
       </div>
 
       <h2 id="change-test">STEP 4: 같은 변수에 다른 값 다시 대입</h2>
 
-      <p>STEP 1부터 STEP 3까지 실행해 첫 결과를 확인합니다. 그다음 STEP 4 셀의 <code>weekly_hours</code>와 <code>average_rating</code> 오른쪽에 처음과 다른 값을 작성합니다. 이 셀을 실행하면 같은 변수 이름에 새 값이 대입되고 변경 전후가 함께 출력됩니다.</p>
+      <p>STEP 1부터 STEP 3까지 실행해 첫 결과를 확인합니다. 그다음 STEP 4에서 <code>weekly_hours</code>와 <code>average_rating</code>에 처음과 다른 값을 넣고, 월간·연간 계산식을 <mark>다시 작성</mark>합니다. 값을 바꾸기만 하고 계산을 다시 쓰지 않으면 한 달 시간이 이전 값에 머물 수 있습니다.</p>
 
       <div class="change-sequence" role="group" aria-label="변경 실험과 전체 재실행 순서">
         <div><span>1</span><strong>첫 출력 확인</strong><small>STEP 1부터 STEP 3까지 실행</small></div>
         <div><span>2</span><strong>두 값 작성</strong><small>처음과 다른 정수와 실수 입력</small></div>
-        <div><span>3</span><strong>변경 출력 확인</strong><small>STEP 4 실행 후 전후 비교</small></div>
+        <div><span>3</span><strong>계산 다시 작성</strong><small>월간·연간 식을 새 값으로 재계산</small></div>
         <div><span>4</span><strong>새 런타임 검증</strong><small>세션 다시 시작 후 모두 실행</small></div>
       </div>
 
-      <pre><code># STEP 4: 오른쪽의 두 임시 값을 처음과 다른 값으로 바꾸세요.
-assert mission_stage == 3, "STEP 3 출력 셀을 먼저 실행하세요."
-mission_step4_execution = get_ipython().execution_count
-initial_weekly_hours = weekly_hours
-initial_average_rating = average_rating
-weekly_hours = -2
-average_rating = -2.0
-monthly_hours = weekly_hours * 4
+      <ol class="write-spec" aria-label="STEP 4에서 직접 작성할 것">
+        <li><span>작성</span><span>처음과 다른 <code>weekly_hours</code>, <code>average_rating</code></span></li>
+        <li><span>작성</span><span><code>monthly_hours</code>, <code>yearly_hours</code> 계산식</span></li>
+        <li><span>그대로</span><span>변경 전후를 보여 주는 <code>print()</code></span></li>
+      </ol>
 
-print("변경 전 일주일 감상 시간:", initial_weekly_hours, "시간")
-print("변경 후 일주일 감상 시간:", weekly_hours, "시간")
-print("변경 전 콘텐츠 평점:", initial_average_rating)
-print("변경 후 콘텐츠 평점:", average_rating)
-print("변경 후 한 달 예상 감상 시간:", monthly_hours, "시간")
-
-changed_output_snapshot = (initial_weekly_hours, weekly_hours, initial_average_rating, average_rating, monthly_hours)
-mission_stage = 4</code></pre>
+      <pre><code>weekly_hours = ___
+average_rating = ___
+monthly_hours = ___
+yearly_hours = ___</code></pre>
 
       <p>변경 결과까지 확인했다면 <strong>런타임 → 세션 다시 시작</strong>을 선택한 뒤 <strong>런타임 → 모두 실행</strong>을 선택합니다. 자동 검사는 다섯 코드 셀의 실행 번호가 새 런타임에서 <code>1, 2, 3, 4, 5</code>로 이어지는지도 확인합니다.</p>
+
+      <div class="checkpoint">
+        <span class="checkpoint-number">CHECK 04</span>
+        <p>변경 전후 일주일 시간이 서로 다르고, 변경 후 한 달이 새 주간 값의 네 배인지 확인합니다. 전후가 같으면 STEP 4의 값을 바꾸지 않은 것입니다.</p>
+      </div>
 
       <details class="callout callout-question">
         <summary class="callout-title">NameError가 나오거나 이전 값이 계속 보일 때</summary>
         <div class="details-motion-content">
-          <p>오류에 표시된 변수의 철자와 대소문자를 먼저 확인합니다. 철자가 맞다면 그 변수를 만드는 위쪽 셀부터 차례로 다시 실행합니다. 가장 확실한 확인 방법은 세션을 다시 시작하고 모두 실행하는 것입니다.</p>
+          <p>오류에 표시된 이름이 <code>___</code>이면 그 칸을 아직 자신의 코드로 바꾸지 않은 것입니다. 변수 이름의 철자와 대소문자를 확인한 뒤, 그 변수를 만드는 위쪽 셀부터 다시 실행합니다. 가장 확실한 확인 방법은 세션을 다시 시작하고 모두 실행하는 것입니다.</p>
         </div>
       </details>
 
       <h2 id="auto-check">STEP 5: 자동 검사 셀로 완료 증명</h2>
 
-      <p>노트북 마지막의 <strong>FINAL CHECK</strong> 셀은 수정하지 않습니다. 이 셀은 필수 변수의 자료형과 입력 범위, 처음과 나중 값의 차이, 두 출력 결과, 새 런타임의 전체 실행 순서까지 검사합니다. 아래 문법은 검사를 위한 도구이며 이번 주 학습 범위가 아닙니다.</p>
+      <p>노트북 마지막의 <strong>FINAL CHECK</strong> 셀은 수정하지 않습니다. 필수 변수의 자료형과 입력 범위, 처음과 나중 값의 차이, 월간·연간 계산, 두 출력 결과, 새 런타임의 전체 실행 순서를 검사합니다. 아래 문법은 검사를 위한 도구이며 이번 주 학습 범위가 아닙니다.</p>
 
-      <pre><code># FINAL CHECK: 이 셀의 코드는 수정하지 마세요.
-mission_final_execution = get_ipython().execution_count
-assert type(student_name) is str and student_name not in ("", "여기에 작성"), "student_name을 문자열로 작성하세요."
-assert type(major) is str and major not in ("", "여기에 작성"), "major를 문자열로 작성하세요."
-assert type(favorite_content) is str and favorite_content not in ("", "여기에 작성"), "favorite_content를 문자열로 작성하세요."
-assert type(initial_weekly_hours) is int and initial_weekly_hours &gt;= 0, "STEP 1의 weekly_hours를 0 이상의 정수로 작성하세요."
-assert type(initial_average_rating) is float and 0.0 &lt;= initial_average_rating &lt;= 5.0, "STEP 1의 average_rating을 0.0부터 5.0 사이의 실수로 작성하세요."
-assert type(weekly_hours) is int and weekly_hours &gt;= 0, "weekly_hours를 0 이상의 정수로 작성하세요."
-assert type(average_rating) is float and 0.0 &lt;= average_rating &lt;= 5.0, "average_rating을 0.0부터 5.0 사이의 실수로 작성하세요."
-assert type(wants_to_create) is bool, "wants_to_create를 따옴표 없는 True 또는 False로 작성하세요."
-assert initial_weekly_hours != weekly_hours, "STEP 4의 weekly_hours를 처음과 다른 값으로 작성하세요."
-assert initial_average_rating != average_rating, "STEP 4의 average_rating을 처음과 다른 값으로 작성하세요."
-assert monthly_hours == weekly_hours * 4, "STEP 4의 월간 계산 결과를 확인하세요."
-assert mission_stage == 4, "STEP 1부터 STEP 4까지 순서대로 실행하세요."
-assert initial_output_snapshot == (student_name, major, favorite_content, initial_weekly_hours, initial_average_rating, wants_to_create, initial_weekly_hours * 4), "STEP 3의 첫 출력을 다시 실행하세요."
-assert changed_output_snapshot == (initial_weekly_hours, weekly_hours, initial_average_rating, average_rating, monthly_hours), "STEP 4의 변경 출력을 다시 실행하세요."
-assert (mission_step1_execution, mission_step2_execution, mission_step3_execution, mission_step4_execution, mission_final_execution) == (1, 2, 3, 4, 5), "런타임을 다시 시작한 뒤 모두 실행하세요."
-
-print("✅ 문자열, 정수, 실수, 불리언 검사 통과")
-print("✅ 변경 전후 값과 계산 결과 검사 통과")
-print("✅ 두 출력 셀 검사 통과")
-print("✅ 새 런타임 전체 실행 검사 통과")
-print("🎉 WEEK 02 MISSION COMPLETE")</code></pre>
+      <details class="callout callout-question">
+        <summary class="callout-title">자동 검사가 확인하는 항목</summary>
+        <div class="details-motion-content">
+          <p>이름·전공·콘텐츠는 비어 있지 않은 문자열이어야 합니다. STEP 1의 주간 시간은 0 이상의 정수, 평점은 0.0부터 5.0 사이의 실수, <code>wants_to_create</code>는 따옴표 없는 불리언이어야 합니다. STEP 4의 두 값은 처음과 달라야 하고, 월간 시간은 주간 시간의 4배, 연간 시간은 52배여야 합니다. 다섯 코드 셀은 새 런타임에서 1부터 5까지 순서대로 실행되어야 합니다.</p>
+        </div>
+      </details>
 
       <div class="check-output" role="group" aria-label="자동 검사 완료 예시">
         <span class="visual-label">PASS OUTPUT</span>
-        <p id="check-output-title">✅ 문자열, 정수, 실수, 불리언 검사 통과<br>✅ 변경 전후 값과 계산 결과 검사 통과<br>✅ 두 출력 셀 검사 통과<br>✅ 새 런타임 전체 실행 검사 통과<br><strong>🎉 WEEK 02 MISSION COMPLETE</strong></p>
+        <p id="check-output-title">✅ 문자열, 정수, 실수, 불리언 검사 통과<br>✅ 변경 전후 값과 월간·연간 계산 검사 통과<br>✅ 두 출력 셀 검사 통과<br>✅ 새 런타임 전체 실행 검사 통과<br><strong>🎉 WEEK 02 MISSION COMPLETE</strong></p>
       </div>
 
       <details class="callout callout-question">
@@ -314,30 +347,31 @@ print("🎉 WEEK 02 MISSION COMPLETE")</code></pre>
       <details class="callout callout-question">
         <summary class="callout-title">TypeError 또는 자료형 검사 실패가 나올 때</summary>
         <div class="details-motion-content">
-          <p><code>weekly_hours</code>는 따옴표 없는 정수, <code>average_rating</code>은 소수점이 있는 실수, <code>wants_to_create</code>는 따옴표 없는 <code>True</code> 또는 <code>False</code>인지 확인합니다. 필요하면 <code>print(type(변수명))</code>으로 직접 확인합니다.</p>
+          <p><code>weekly_hours</code>는 따옴표 없는 정수, <code>average_rating</code>은 소수점이 있는 실수, <code>wants_to_create</code>는 따옴표 없는 <code>True</code> 또는 <code>False</code>인지 확인합니다. STEP 1의 <code>type()</code> 출력과 비교하면 원인을 빨리 찾을 수 있습니다.</p>
         </div>
       </details>
 
-      <h2 id="submission">STEP 6: 파일 제출 후 퇴실</h2>
+      <h2 id="submission">STEP 6: 화면 확인 후 퇴실</h2>
+
+      <p>오늘 실습은 성적에 반영하지 않습니다. 파일을 올리는 제출함도 없습니다. 완료 문구가 보이면 교수자에게 노트북 화면을 보여 주고 바로 퇴실합니다.</p>
 
       <ol>
         <li>마지막 자동 검사 셀에 <strong>WEEK 02 MISSION COMPLETE</strong>가 보이는지 확인합니다.</li>
-        <li><strong>파일 → 다운로드 → .ipynb 다운로드</strong>를 선택합니다.</li>
-        <li>파일명이 <code>week02_학번_이름.ipynb</code>인지 확인합니다.</li>
-        <li>수업에서 사용하는 제출함에 파일을 업로드합니다.</li>
-        <li>제출 완료 상태를 확인하면 바로 퇴실합니다. 별도의 전체 마무리를 기다리지 않습니다.</li>
+        <li>출력에 자신의 값과 월간·연간 계산 결과가 함께 보이는지 확인합니다.</li>
+        <li>교수자에게 그 화면을 보여 줍니다.</li>
+        <li>확인을 받으면 바로 퇴실합니다. 별도의 전체 마무리를 기다리지 않습니다.</li>
       </ol>
 
       <div class="submission-strip" role="group" aria-label="최종 퇴실 순서">
         <span><strong>01</strong> 모두 실행</span>
         <span><strong>02</strong> PASS 확인</span>
-        <span><strong>03</strong> .ipynb 제출</span>
-        <span><strong>04</strong> 제출 확인 후 퇴실</span>
+        <span><strong>03</strong> 화면 보여 주기</span>
+        <span><strong>04</strong> 확인 후 퇴실</span>
       </div>
 
       <div class="callout callout-success">
         <p class="callout-title">완료 판정</p>
-        <p>자동 검사 PASS가 보이고 제출함에 올바른 파일이 등록되었다면 오늘의 필수 학습 목표를 달성했습니다. 작업 속도와 남은 수업 시간은 평가에 반영하지 않습니다.</p>
+        <p>자동 검사 PASS가 보이고 교수자가 화면을 확인했다면 오늘의 실습 목표를 달성했습니다. 파일 제출과 작업 속도, 남은 수업 시간은 성적에 넣지 않습니다.</p>
       </div>
 
       <h2 id="optional">선택 확장: 남아서 더 해보고 싶은 경우만</h2>
@@ -345,10 +379,13 @@ print("🎉 WEEK 02 MISSION COMPLETE")</code></pre>
       <p>아래 활동은 퇴실 조건이 아니며 추가 점수도 없습니다. 필수 목표를 완료한 뒤 더 실험하고 싶은 학생만 진행합니다.</p>
 
       <ul>
-        <li><code>yearly_hours = weekly_hours * 52</code>를 추가하고 일 년 예상 시간을 출력합니다.</li>
-        <li><code>favorite_creator</code>처럼 자신의 관심사를 설명하는 문자열 변수 하나를 추가합니다.</li>
+        <li><code>favorite_creator</code>처럼 자신의 관심사를 설명하는 문자열 변수 하나를 추가하고 출력합니다.</li>
         <li>출력 순서와 설명 문구를 바꾸어 자신만의 데이터 프로필로 정리합니다.</li>
+        <li>STEP 4에서 바꾼 주간 시간으로 한 달·일 년 값이 함께 바뀌는지를 한 번 더 확인합니다.</li>
       </ul>
+
+      <h2 id="next-period">3주차 예고</h2>
+      <p>3주차에는 디지털 이미지의 <strong>픽셀과 좌표</strong>를 배웁니다. 오늘 변수에 담은 숫자가, 다음 주에는 화면 위 위치와 크기로 연결됩니다.</p>
 
       <h2 id="references">공식 도움말</h2>
       <ul class="reference-list">
@@ -361,23 +398,24 @@ print("🎉 WEEK 02 MISSION COMPLETE")</code></pre>
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>
-        <li class="toc-level-2"><a href="#goal-contract-title">목표 달성형 운영</a></li>
         <li class="toc-level-2"><a href="#completion-criteria">퇴실 조건</a></li>
-        <li class="toc-level-2"><a href="#setup">STEP 0 · 노트북 준비</a></li>
+        <li class="toc-level-2"><a href="#setup">준비</a></li>
         <li class="toc-level-2"><a href="#variables">STEP 1 · 변수 저장</a></li>
-        <li class="toc-level-2"><a href="#calculation">STEP 2 · 값 계산</a></li>
-        <li class="toc-level-2"><a href="#output">STEP 3 · 결과 출력</a></li>
-        <li class="toc-level-2"><a href="#change-test">STEP 4 · 값 변경과 재실행</a></li>
+        <li class="toc-level-3"><a href="#predict">실행 전 예측</a></li>
+        <li class="toc-level-2"><a href="#calculation">STEP 2 · 계산식 작성</a></li>
+        <li class="toc-level-2"><a href="#output">STEP 3 · 출력문 작성</a></li>
+        <li class="toc-level-2"><a href="#change-test">STEP 4 · 값 변경</a></li>
         <li class="toc-level-2"><a href="#auto-check">STEP 5 · 자동 검사</a></li>
-        <li class="toc-level-2"><a href="#submission">STEP 6 · 제출과 퇴실</a></li>
+        <li class="toc-level-2"><a href="#submission">STEP 6 · 확인과 퇴실</a></li>
         <li class="toc-level-2"><a href="#optional">선택 확장</a></li>
+        <li class="toc-level-2"><a href="#next-period">3주차 예고</a></li>
         <li class="toc-level-2"><a href="#references">공식 도움말</a></li>
       </ol>
     </nav>
   </main>
 
   <p class="footer-note">Contents Programming Practice / Week 02 / Period 03</p>
-<script src="assets/week-02.js?v=week2-1" defer></script>
+<script src="assets/week-02.js?v=week2-2" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

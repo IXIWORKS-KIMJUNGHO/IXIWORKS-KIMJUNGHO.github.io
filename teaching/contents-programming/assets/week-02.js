@@ -68,3 +68,67 @@
 
   for (const entry of entries) observer.observe(entry.target);
 })();
+
+(() => {
+  const copyIcon =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+  const checkIcon =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"></path></svg>';
+
+  const writeText = async (text) => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+
+    const field = document.createElement("textarea");
+    field.value = text;
+    field.setAttribute("readonly", "");
+    field.style.position = "fixed";
+    field.style.opacity = "0";
+    document.body.append(field);
+    field.select();
+    const copied = document.execCommand("copy");
+    field.remove();
+    if (!copied) throw new Error("copy failed");
+  };
+
+  for (const pre of document.querySelectorAll(".week-two-page pre")) {
+    if (pre.parentElement?.classList.contains("code-copy-wrap")) continue;
+    const code = pre.querySelector("code") ?? pre;
+    const text = (code.textContent ?? "").replace(/^\n+|\n+$/g, "");
+    if (!text) continue;
+
+    const wrap = document.createElement("div");
+    wrap.className = "code-copy-wrap";
+    pre.replaceWith(wrap);
+    wrap.append(pre);
+
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "code-copy-button";
+    button.setAttribute("aria-label", "코드 복사");
+    button.setAttribute("title", "복사");
+    button.innerHTML = copyIcon;
+    wrap.append(button);
+
+    button.addEventListener("click", async () => {
+      try {
+        await writeText((code.textContent ?? "").replace(/^\n+|\n+$/g, ""));
+        button.dataset.copied = "true";
+        button.setAttribute("aria-label", "복사됨");
+        button.setAttribute("title", "복사됨");
+        button.innerHTML = checkIcon;
+        window.setTimeout(() => {
+          button.dataset.copied = "false";
+          button.setAttribute("aria-label", "코드 복사");
+          button.setAttribute("title", "복사");
+          button.innerHTML = copyIcon;
+        }, 1600);
+      } catch {
+        button.setAttribute("aria-label", "복사에 실패했습니다. 코드를 직접 선택하세요");
+        button.setAttribute("title", "직접 선택");
+      }
+    });
+  }
+})();

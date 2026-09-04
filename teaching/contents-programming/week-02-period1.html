@@ -3,23 +3,23 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>2주차 1교시: 컴퓨터는 어떻게 코드를 실행하는가 | Contents Programming Practice</title>
-  <meta name="description" content="데이터, 명령, 프로그램, 출력의 관계를 이해하고 간단한 Python 코드를 실행 순서에 따라 읽는 2주차 1교시 강의 자료입니다.">
+  <title>2주차 1교시: 코드 실행과 자료형 | Contents Programming Practice</title>
+  <meta name="description" content="코드의 실행 흐름을 한 줄씩 따라가며 int, float, str, bool 자료형을 값의 표기와 동작으로 구분하는 2주차 1교시 강의 자료입니다.">
   <link rel="canonical" href="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period1.html">
   <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
-  <meta property="og:title" content="2주차 1교시: 컴퓨터는 어떻게 코드를 실행하는가 | Contents Programming Practice">
-  <meta property="og:description" content="사람의 의도를 데이터와 명령으로 바꾸고, Python 코드가 출력으로 이어지는 과정을 살펴봅니다.">
+  <meta property="og:title" content="2주차 1교시: 코드 실행과 자료형 | Contents Programming Practice">
+  <meta property="og:description" content="사람의 의도를 데이터와 명령으로 표현하고, 숫자·글자·참·거짓이 서로 다르게 처리되는 방식을 살펴봅니다.">
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/week-02-period1.html">
   <meta property="og:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <meta property="og:image:alt" content="Python code, plotted points, bars, and a waveform composed as data art">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="2주차 1교시: 컴퓨터는 어떻게 코드를 실행하는가 | Contents Programming Practice">
-  <meta name="twitter:description" content="데이터, 명령, 실행, 출력의 관계를 이해하는 Python 입문 강의입니다.">
+  <meta name="twitter:title" content="2주차 1교시: 코드 실행과 자료형 | Contents Programming Practice">
+  <meta name="twitter:description" content="코드 실행과 네 가지 기본 자료형을 다루는 Python 입문 강의입니다.">
   <meta name="twitter:image" content="https://creativeengineer-kimjungho.com/teaching/contents-programming/assets/python-data-art.svg">
   <link rel="stylesheet" href="/assets/teaching.css?v=teaching1">
   <link rel="stylesheet" href="/assets/accessibility.css">
-  <link rel="stylesheet" href="assets/week-02.css?v=week2-1">
+  <link rel="stylesheet" href="assets/week-02.css?v=week2-15">
 </head>
 <body class="teaching-document course-contents-programming week-two-page">
   <a class="skip-link" href="#main-content">본문 바로가기</a>
@@ -34,74 +34,86 @@
       </div>
       <div class="lesson-sequence">
         <a href="week-01-ot.html" rel="prev" aria-label="이전 자료: 1주차 OT: 콘텐츠 프로그래밍과 데이터 아트 | Contents Programming Practice">← <span class="sequence-label">이전</span></a>
-        <a href="week-02-period2.html" rel="next" aria-label="다음 자료: 2주차 2교시: 변수와 자료형 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
+        <a href="week-02-period2.html" rel="next" aria-label="다음 자료: 2주차 2교시: 변수와 대입 | Contents Programming Practice"><span class="sequence-label">다음</span> →</a>
       </div>
     </nav>
   </header>
 <header class="hero week-two-hero">
     <div class="hero-inner">
       <div class="week-two-hero-copy">
-        <p class="eyebrow">Python / Google Colab / Program execution</p>
-        <h1>2주차 1교시: 컴퓨터는 어떻게 코드를 실행하는가</h1>
-        <p class="lead">사람의 의도를 데이터와 명령으로 바꾸고, 작성한 코드가 출력으로 이어지는 과정을 살펴봅니다.</p>
+        <p class="eyebrow">Python / Google Colab / Data types</p>
+        <h1>2주차 1교시: 코드 실행과 자료형</h1>
+        <p class="lead">사람의 의도를 데이터와 명령으로 표현하고, 숫자·글자·참·거짓이 서로 다르게 처리되는 방식을 살펴봅니다.</p>
       </div>
       <figure class="week-two-hero-visual">
         <img src="assets/python-data-art.svg" width="1200" height="760" alt="좌표 점, 막대, 파형과 Python 코드가 함께 구성된 데이터 아트" loading="eager" decoding="async" fetchpriority="high">
-        <figcaption>의도에서 코드로, 코드에서 출력으로 이어지는 이번 주의 학습 지도</figcaption>
+        <figcaption>의도에서 코드로, 코드에서 출력으로 이어지는 이번 주 학습 흐름</figcaption>
       </figure>
     </div>
   </header>
 
   <main id="main-content" class="layout">
     <article class="article">
-      <p class="document-title">컴퓨터, 프로그램, 실행의 기본 구조</p>
+      <p class="document-title">코드의 흐름을 읽고 값의 종류를 구분하기</p>
 
       <dl class="week-two-lesson-facts" aria-label="1교시 수업 정보">
-        <div><dt>대상</dt><dd>프로그래밍 입문자</dd></div>
-        <div><dt>핵심 질문</dt><dd>코드는 어떻게 결과가 되는가?</dd></div>
-        <div><dt>이전 학습</dt><dd>입력, 규칙, 출력</dd></div>
-        <div><dt>다음 학습</dt><dd>변수와 자료형</dd></div>
+        <div><dt>핵심 개념</dt><dd>데이터, 명령, 자료형</dd></div>
+        <div><dt>자료형</dt><dd>int, float, str, bool</dd></div>
+        <div><dt>확인 방법</dt><dd>print(), type()</dd></div>
+        <div><dt>다음 학습</dt><dd>변수와 대입</dd></div>
       </dl>
 
       <div class="callout callout-abstract">
         <p class="callout-title">오늘의 학습 목표</p>
-        <ul>
-          <li><strong>데이터, 명령, 프로그램, 출력</strong>을 서로 구분해 설명할 수 있습니다.</li>
-          <li>간단한 Python 코드를 <strong>위에서 아래로 한 줄씩</strong> 읽을 수 있습니다.</li>
-          <li>코드의 순서와 표기 방식이 결과에 미치는 영향을 예측할 수 있습니다.</li>
-          <li><strong>Python, Colab 노트북, 런타임</strong>의 역할을 구분할 수 있습니다.</li>
-        </ul>
+        <ol>
+          <li><span><strong>데이터, 명령, 프로그램, 출력</strong>을 서로 구분해 설명할 수 있습니다.</span></li>
+          <li><span>간단한 Python 코드를 <strong>위에서 아래로 한 줄씩</strong> 읽을 수 있습니다.</span></li>
+          <li><span><code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>을 구분할 수 있습니다.</span></li>
+          <li><span>자료형에 따라 연산 결과가 달라지는 이유를 말할 수 있습니다.</span></li>
+          <li><span>Colab에서 <code>print()</code>와 <code>type()</code>을 실행해 결과를 확인할 수 있습니다.</span></li>
+        </ol>
       </div>
 
-      <ul class="session-grid session-grid-six" aria-label="1교시 시간 구성">
-        <li><span class="session-label">0-5 min</span><strong>이전 학습 연결</strong><p>입력, 규칙, 출력을 자기소개 상황에 적용합니다.</p></li>
-        <li><span class="session-label">5-15 min</span><strong>핵심 용어</strong><p>데이터, 명령, 프로그램, 실행, 출력의 관계를 정리합니다.</p></li>
-        <li><span class="session-label">15-28 min</span><strong>코드 추적</strong><p>네 줄의 Python 코드를 한 줄씩 읽고 결과를 예상합니다.</p></li>
-        <li><span class="session-label">28-38 min</span><strong>순서와 정확성</strong><p>따옴표, 괄호, 실행 순서가 바뀔 때 생기는 차이를 비교합니다.</p></li>
-        <li><span class="session-label">38-46 min</span><strong>Colab의 구조</strong><p>노트북, 코드 셀, 출력, 런타임의 관계를 이해합니다.</p></li>
-        <li><span class="session-label">46-50 min</span><strong>개념 확인</strong><p>개별 예측 문제와 한 문장 정리로 수업을 마칩니다.</p></li>
+      <p class="session-outline-title">오늘 다룰 내용</p>
+      <ul class="session-grid session-grid-topics" aria-label="오늘 다룰 내용">
+        <li><strong>이전 학습 연결</strong><p>입력, 규칙, 출력이 코드에서 어떻게 나타나는지 살펴봅니다.</p></li>
+        <li><strong>데이터와 명령</strong><p>데이터와 명령이 실행 결과로 이어지는 과정을 정리합니다.</p></li>
+        <li><strong>코드 추적</strong><p><code>print()</code>와 따옴표의 쓰임을 살피며 실행 순서를 따라갑니다.</p></li>
+        <li><strong>네 가지 자료형</strong><p>값의 종류를 구분하고, 자료형에 따라 연산이 달라지는 이유를 확인합니다.</p></li>
+        <li><strong>같이 실행하기</strong><p>Colab에서 <code>print()</code>와 <code>type()</code>을 실행하고 결과를 확인합니다.</p></li>
       </ul>
 
-      <h2 id="recall">0-5분 · 입력, 규칙, 출력을 코드로 연결하기</h2>
-
-      <p>1주차에는 콘텐츠 프로그래밍을 <strong>입력, 규칙, 출력</strong>의 구조로 살펴보았습니다. 오늘은 그 구조가 실제 코드 안에서 어떻게 나타나는지 확인합니다.</p>
-
-      <div class="worksheet">
-        <span class="worksheet-label">개별 생각 · 2분</span>
-        <h3>컴퓨터가 나를 소개하게 하려면?</h3>
-        <p>컴퓨터 화면에 “안녕하세요. 저는 서윤이고 시각디자인을 전공합니다”라는 문장을 출력하려고 합니다. 컴퓨터에 알려줘야 할 <strong>정보</strong>와 시켜야 할 <strong>행동</strong>을 나누어 적어봅니다.</p>
-        <ul>
-          <li>정보의 예: 이름, 전공</li>
-          <li>행동의 예: 정보를 문장으로 화면에 표시하기</li>
-        </ul>
+      <div class="callout callout-info">
+        <p class="callout-title">오늘 강의의 중심</p>
+        <p>앞부분에서는 코드를 한 줄씩 읽고, 뒷부분에서는 네 가지 자료형을 구분합니다. 값에 이름을 붙이는 변수와 대입은 2교시에서 다룹니다.</p>
       </div>
+
+      <h2 id="recall">입력, 규칙, 출력을 코드로 연결하기</h2>
+
+      <p>1주차에는 콘텐츠 프로그래밍을 <mark>입력, 규칙, 출력</mark>의 구조로 살펴보았습니다. 오늘은 그 구조가 실제 코드 안에서 어떻게 나타나는지 확인합니다.</p>
+
+      <p>컴퓨터 화면에 “안녕하세요. 저는 서윤이고 시각디자인을 전공합니다”라는 문장을 띄우려면, 컴퓨터에 알려줘야 할 것은 <strong>정보</strong>와 <strong>행동</strong> 두 가지입니다. 정보의 예는 이름과 전공이고, 행동의 예는 그 정보를 문장으로 화면에 표시하는 일입니다.</p>
 
       <div class="callout callout-info">
         <p class="callout-title">핵심 구분</p>
-        <p><strong>이름과 전공</strong>은 컴퓨터가 처리할 데이터이고, <strong>화면에 표시하기</strong>는 데이터에 수행할 명령입니다. 프로그램은 이 데이터와 명령을 컴퓨터가 실행할 수 있는 정확한 순서로 작성한 것입니다.</p>
+        <p><mark>이름과 전공</mark>은 컴퓨터가 처리할 데이터이고, <mark>화면에 표시하기</mark>는 그 데이터로 무엇을 할지 지시하는 명령입니다. 프로그램은 데이터와 명령을 컴퓨터가 실행할 수 있도록 <mark>정확한 순서로 작성한 코드의 묶음</mark>입니다.</p>
       </div>
 
-      <h2 id="core-model">5-15분 · 데이터와 명령은 어떻게 결과가 되는가</h2>
+      <h3 id="week-one-map">1주차 구조가 코드에서 나타나는 방식</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>1주차 구조와 오늘의 용어</caption>
+          <thead><tr><th scope="col">1주차</th><th scope="col">오늘</th><th scope="col">자기소개에서</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">입력</th><td>데이터</td><td>이름, 전공처럼 처리할 정보</td></tr>
+            <tr><th scope="row">규칙</th><td>명령과 그 순서</td><td>정보를 문장으로 보여 달라는 행동</td></tr>
+            <tr><th scope="row">출력</th><td>실행 결과</td><td>화면에 나타난 자기소개 문장</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>“나를 소개하고 싶다”라는 의도만으로는 컴퓨터가 그 문장을 알아서 만들지 못합니다. 데이터와 명령을 규칙에 맞게 작성하고 실행해야 결과가 나타납니다.</p>
+
+      <h2 id="core-model">데이터와 명령은 어떻게 결과가 되는가</h2>
 
       <h3 id="five-terms">먼저 구분할 다섯 용어</h3>
       <div class="table-wrap">
@@ -109,10 +121,10 @@
           <caption>프로그램 실행을 설명하는 기본 용어</caption>
           <thead><tr><th scope="col">용어</th><th scope="col">뜻</th><th scope="col">자기소개 코드의 예</th></tr></thead>
           <tbody>
-            <tr><th scope="row">데이터</th><td>프로그램이 기억하거나 처리하는 정보</td><td>이름, 전공, 좋아하는 색, 음악 감상 시간</td></tr>
-            <tr><th scope="row">명령</th><td>컴퓨터가 수행해야 할 한 가지 행동</td><td>이름을 기억하기, 문장을 화면에 표시하기</td></tr>
-            <tr><th scope="row">코드</th><td>프로그래밍 언어의 규칙에 맞게 쓴 데이터와 명령</td><td><code>print(name)</code></td></tr>
-            <tr><th scope="row">프로그램</th><td>목적을 이루도록 순서대로 구성한 코드의 묶음</td><td>정보를 저장하고 자기소개를 출력하는 전체 코드</td></tr>
+            <tr><th scope="row">데이터</th><td>프로그램이 처리하는 정보</td><td>이름, 전공, 좋아하는 색, 음악 감상 시간</td></tr>
+            <tr><th scope="row">명령</th><td>컴퓨터가 수행해야 할 한 가지 행동</td><td>문장을 화면에 표시하기</td></tr>
+            <tr><th scope="row">코드</th><td>프로그래밍 언어의 규칙에 맞게 쓴 데이터와 명령</td><td><code>print("서윤")</code></td></tr>
+            <tr><th scope="row">프로그램</th><td>목적을 이루도록 순서대로 구성한 코드의 묶음</td><td>자기소개를 출력하는 전체 코드</td></tr>
             <tr><th scope="row">출력</th><td>코드를 실행한 뒤 확인할 수 있는 결과</td><td>화면에 나타난 자기소개 문장</td></tr>
           </tbody>
         </table>
@@ -121,116 +133,97 @@
       <figure class="lesson-visual" aria-labelledby="execution-caption">
         <div class="execution-model">
           <div class="execution-stage"><span>Intent</span><strong>사람의 의도</strong><p>내 이름과 전공을 소개하고 싶다.</p></div>
-          <div class="execution-stage"><span>Code</span><strong>데이터와 명령</strong><p>이름을 기억하고 화면에 표시하라고 작성한다.</p></div>
-          <div class="execution-stage"><span>Run</span><strong>Python 실행</strong><p>규칙을 해석하고 코드를 한 줄씩 처리한다.</p></div>
+          <div class="execution-stage"><span>Code</span><strong>데이터와 명령</strong><p>이름과 전공을 화면에 표시하라고 작성한다.</p></div>
+          <div class="execution-stage"><span>Run</span><strong>Python 실행</strong><p>Python 문법에 따라 코드를 순서대로 실행한다.</p></div>
           <div class="execution-stage"><span>Output</span><strong>확인 가능한 결과</strong><p>문장, 숫자, 이미지 또는 오류가 나타난다.</p></div>
         </div>
-        <figcaption id="execution-caption">컴퓨터는 의도를 직접 읽지 않습니다. Python 문법으로 표현된 데이터와 명령을 실행해 결과를 만듭니다.</figcaption>
+        <figcaption id="execution-caption"><mark>컴퓨터는 의도를 직접 읽지 않습니다.</mark> Python 문법으로 표현된 데이터와 명령을 실행해 결과를 만듭니다.</figcaption>
       </figure>
 
       <h3 id="python-role">Python의 역할</h3>
-      <p><strong>Python</strong>은 사람이 비교적 읽기 쉬운 형태로 컴퓨터에 명령을 표현하는 프로그래밍 언어입니다. 우리가 작성한 코드는 Python 실행 환경에서 해석되고 처리됩니다. 여기서 <strong>실행</strong>은 화면에 코드를 적어두는 것이 아니라, 작성된 명령을 실제로 수행하게 하는 일입니다.</p>
+      <p><strong>Python</strong>은 사람이 비교적 읽기 쉬운 형태로 컴퓨터에 명령을 표현하는 프로그래밍 언어입니다. 사람은 메모에 생략된 내용을 문맥으로 짐작할 수 있지만, Python 실행 환경은 문맥을 짐작하지 않습니다. 작성된 기호를 Python 문법에 따라 해석합니다.</p>
+      <p>Python 실행 환경은 우리가 작성한 코드를 해석하고 처리합니다. 여기서 <mark>실행은 화면에 코드를 적어두는 것이 아니라, 작성된 명령을 실제로 수행하게 하는 일</mark>입니다.</p>
 
-      <h3 id="inside-computer">실행할 때 컴퓨터 안에서 일어나는 일</h3>
-      <div class="table-wrap">
-        <table>
-          <caption>Python 코드가 처리될 때 각 요소의 역할</caption>
-          <thead><tr><th scope="col">요소</th><th scope="col">초심자 관점의 역할</th><th scope="col">자기소개 코드에서 하는 일</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">소스 코드</th><td>사람이 Python 문법으로 작성한 명령</td><td><code>name = "서윤"</code>, <code>print(name)</code></td></tr>
-            <tr><th scope="row">Python 실행 환경</th><td>코드를 읽고 어떤 동작을 수행할지 해석</td><td>대입과 출력 명령을 순서대로 처리</td></tr>
-            <tr><th scope="row">CPU</th><td>계산과 명령 수행을 담당하는 장치</td><td>값을 처리하고 출력 기능을 수행</td></tr>
-            <tr><th scope="row">메모리</th><td>실행 중 필요한 값과 상태를 임시로 기억</td><td><code>name</code>에 연결된 <code>"서윤"</code>을 기억</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <p>실제 Python 내부에는 더 많은 단계가 있지만, 이번 주에는 <strong>코드를 해석한다, CPU가 동작을 수행한다, 메모리가 실행 중인 값을 기억한다</strong>는 흐름까지만 사용합니다.</p>
+      <h3 id="line-as-unit">코드는 정해진 순서에 따라 실행된다</h3>
+      <p>Python은 코드를 <mark>정해진 순서에 따라 위에서 아래로</mark> 실행합니다. 앞선 명령의 결과가 반영된 뒤 다음 명령을 실행합니다. 빈 줄은 코드를 읽기 쉽게 구분할 뿐, 별도의 명령으로 실행되지는 않습니다.</p>
 
       <div class="callout callout-question">
         <p class="callout-title">잠깐 확인</p>
-        <p>코드를 정확하게 작성했지만 실행하지 않았다면 출력이 생길까요? 생기지 않습니다. <strong>작성된 코드</strong>와 <strong>실행된 코드</strong>는 구분해야 합니다.</p>
+        <p>코드를 정확하게 작성했지만 실행하지 않았다면 출력이 생길까요? 생기지 않습니다. <mark>작성된 코드와 실행된 코드는 구분해야 합니다.</mark></p>
       </div>
 
-      <h2 id="trace-code">15-28분 · 첫 Python 코드를 한 줄씩 읽기</h2>
+      <h2 id="trace-code">코드를 한 줄씩 읽기</h2>
 
-      <p>아래 코드를 아직 외울 필요는 없습니다. 각 줄이 무엇을 기억하게 하고 무엇을 출력하게 하는지 순서대로 읽는 것이 먼저입니다.</p>
+      <p>아래 코드를 아직 외울 필요는 없습니다. 각 줄이 화면에 무엇을 보여주는지 순서대로 읽는 것이 먼저입니다. 값에 이름을 붙이는 방법은 2교시에서 다룹니다.</p>
 
-      <pre><code>name = "서윤"
-major = "시각디자인"
-
-print(name)
-print(major)</code></pre>
+      <pre><code>print("이름:", "서윤")
+print("전공:", "시각디자인")</code></pre>
 
       <figure class="lesson-visual" aria-labelledby="walkthrough-caption">
         <div class="code-walkthrough">
-          <div class="code-line"><span class="line-number">1</span><span class="code-source">name = "서윤"</span><span class="line-meaning"><code>name</code>이라는 이름으로 글자 데이터 <code>"서윤"</code>을 기억합니다.</span></div>
-          <div class="code-line"><span class="line-number">2</span><span class="code-source">major = "시각디자인"</span><span class="line-meaning"><code>major</code>라는 이름으로 글자 데이터 <code>"시각디자인"</code>을 기억합니다.</span></div>
-          <div class="code-line"><span class="line-number">3</span><span class="code-source">print(name)</span><span class="line-meaning"><code>name</code>에 연결된 값인 <code>서윤</code>을 출력합니다.</span></div>
-          <div class="code-line"><span class="line-number">4</span><span class="code-source">print(major)</span><span class="line-meaning"><code>major</code>에 연결된 값인 <code>시각디자인</code>을 출력합니다.</span></div>
+          <div class="code-line"><span class="line-number">1</span><span class="code-source">print("이름:", "서윤")</span><span class="line-meaning">항목명과 이름을 한 줄에 출력합니다.</span></div>
+          <div class="code-line"><span class="line-number">2</span><span class="code-source">print("전공:", "시각디자인")</span><span class="line-meaning">항목명과 전공을 한 줄에 출력합니다.</span></div>
         </div>
-        <figcaption id="walkthrough-caption">코드를 읽을 때에는 각 줄이 실행된 직후 컴퓨터가 무엇을 기억하고 무엇을 보여주는지 추적합니다.</figcaption>
+        <figcaption id="walkthrough-caption">코드를 읽을 때에는 <mark>각 줄이 실행된 직후 화면에 무엇이 나타나는지</mark> 추적합니다.</figcaption>
       </figure>
 
-      <h3 id="print-function">화면에 보여달라는 명령: print()</h3>
-      <p><code>print()</code>는 괄호 안의 값을 출력하는 Python의 기본 기능입니다. <code>print(name)</code>은 <code>name</code>이라는 글자를 그대로 출력하라는 뜻이 아니라, <code>name</code>에 연결된 값을 찾아 출력하라는 뜻입니다.</p>
+      <h3 id="print-function">값을 화면에 보여주는 기능: print()</h3>
+      <p><code>print()</code>는 괄호 안의 값을 출력하는 Python의 기본 기능입니다. 괄호 안에 여러 값을 쉼표로 나누어 넣으면 Python이 값 사이에 공백을 두고 함께 출력합니다.</p>
 
-      <div class="value-contrast" role="group" aria-label="변수 이름과 따옴표 안 문자열 출력 비교">
+      <div class="value-contrast" role="group" aria-label="따옴표가 있는 글자와 숫자 계산의 출력 비교">
         <div class="value-case">
-          <span class="visual-label">이름에 연결된 값</span>
-          <pre><code>name = "서윤"
-print(name)</code></pre>
+          <span class="visual-label">글자 그대로</span>
+          <pre><code>print("서윤")</code></pre>
           <p class="value-result">서윤</p>
         </div>
         <div class="value-case">
-          <span class="visual-label">따옴표 안의 글자 그대로</span>
-          <pre><code>name = "서윤"
-print("name")</code></pre>
-          <p class="value-result">name</p>
+          <span class="visual-label">숫자 계산 결과</span>
+          <pre><code>print(3 + 2)</code></pre>
+          <p class="value-result">5</p>
         </div>
       </div>
 
-      <div class="callout callout-info">
-        <p class="callout-title">지금은 이렇게 읽습니다</p>
-        <p><code>=</code>은 왼쪽과 오른쪽이 같다는 수학 기호로 읽지 않습니다. 이 수업에서는 우선 “오른쪽 값을 왼쪽 이름으로 기억한다”라고 읽습니다. 정확한 변수와 대입의 구조는 2교시에서 다룹니다.</p>
+      <div class="callout callout-warning">
+        <p class="callout-title">글자 데이터는 따옴표로 감쌉니다</p>
+        <p><code>print("서윤")</code>의 따옴표는 화면에 보이지 않습니다. 따옴표는 “이 내용은 글자 데이터”라는 표시입니다. 따옴표 없이 <code>print(서윤)</code>이라고 쓰면 Python은 글자가 아니라 <mark>미리 정의된 이름을 찾습니다.</mark> 이름을 정의하는 방법은 2교시에서 다룹니다.</p>
       </div>
 
-      <h2 id="order-and-precision">28-38분 · 컴퓨터는 순서와 표기를 그대로 따른다</h2>
+      <h3 id="order-matters">위에서 아래로 한 줄씩</h3>
+      <p>명령은 위에서 아래로 실행됩니다. <mark>위에 있는 줄을 먼저 실행한 뒤 다음 줄로 넘어가므로</mark> 줄의 순서를 바꾸면 출력 순서도 달라집니다.</p>
 
-      <h3 id="order-matters">사용하기 전에 먼저 알려주어야 한다</h3>
-      <p>사람은 문맥으로 빠진 정보를 짐작할 수 있지만, 컴퓨터는 아직 실행하지 않은 다음 줄을 미리 참고하지 않습니다.</p>
-
-      <div class="value-contrast" role="group" aria-label="정상 실행 순서와 잘못된 실행 순서 비교">
+      <div class="value-contrast" role="group" aria-label="출력 순서가 다른 두 코드 비교">
         <div class="value-case">
-          <span class="visual-label">정상 순서</span>
-          <pre><code>name = "서윤"
-print(name)</code></pre>
-          <p><strong>결과:</strong> 먼저 값을 기억한 뒤 사용하므로 <code>서윤</code>이 출력됩니다.</p>
+          <span class="visual-label">이름 먼저</span>
+          <pre><code>print("서윤")
+print("시각디자인")</code></pre>
+          <p><strong>결과:</strong> 서윤이 먼저, 시각디자인이 다음에 출력됩니다.</p>
         </div>
         <div class="value-case">
-          <span class="visual-label">문제가 생기는 순서</span>
-          <pre><code>print(name)
-name = "서윤"</code></pre>
-          <p><strong>결과:</strong> 첫 줄을 실행할 때 <code>name</code>을 아직 모르므로 <code>NameError</code>가 발생합니다.</p>
+          <span class="visual-label">전공 먼저</span>
+          <pre><code>print("시각디자인")
+print("서윤")</code></pre>
+          <p><strong>결과:</strong> 같은 값이라도 줄 순서가 바뀌면 화면 순서도 바뀝니다.</p>
         </div>
       </div>
 
       <h3 id="notation-matters">작은 기호도 명령의 일부다</h3>
+      <p>따옴표나 괄호가 올바르게 닫히지 않으면 Python은 코드를 문법에 맞게 해석할 수 없습니다. 이때 나타나는 <code>SyntaxError</code>는 <mark>코드가 Python 문법에 맞지 않음을 알리는 오류</mark>입니다. 오류 메시지를 읽을 때는 막연히 원인을 추측하기보다, <strong>어느 줄이 어떤 문법 규칙에 맞지 않는지</strong>부터 확인합니다.</p>
       <div class="table-wrap">
         <table>
           <caption>첫 코드에서 만나는 기호의 역할</caption>
           <thead><tr><th scope="col">표기</th><th scope="col">역할</th><th scope="col">빠지거나 달라지면</th></tr></thead>
           <tbody>
-            <tr><th scope="row"><code>"서윤"</code></th><td>따옴표 안의 내용을 글자 데이터로 표시</td><td><code>서윤</code>을 이미 정해진 이름으로 찾으려 합니다.</td></tr>
+            <tr><th scope="row"><code>"서윤"</code></th><td>따옴표 안의 내용을 글자 데이터로 표시</td><td>따옴표가 없으면 미리 정의된 이름을 찾습니다.</td></tr>
             <tr><th scope="row"><code>print(...)</code></th><td>괄호 안의 값을 출력 기능에 전달</td><td>괄호가 맞지 않으면 문법을 해석할 수 없습니다.</td></tr>
-            <tr><th scope="row"><code>name</code></th><td>기억한 값을 다시 찾기 위한 이름</td><td><code>Name</code>은 다른 이름으로 처리됩니다.</td></tr>
-            <tr><th scope="row">코드의 줄 순서</th><td>명령이 처리되는 순서</td><td>필요한 값이 준비되기 전에 사용하면 오류가 납니다.</td></tr>
+            <tr><th scope="row"><code>3</code>과 <code>"3"</code></th><td>숫자와 글자를 구분</td><td>같은 기호라도 처리 방식이 달라집니다.</td></tr>
+            <tr><th scope="row">코드의 줄 순서</th><td>명령이 처리되는 순서</td><td>화면에 나타나는 순서도 바뀝니다.</td></tr>
           </tbody>
         </table>
       </div>
 
-      <h3 id="same-symbol">같은 + 기호인데 결과가 다른 이유</h3>
-      <p>Python은 기호만 보는 것이 아니라 기호의 양쪽에 있는 값의 종류도 함께 봅니다. 다음 결과를 비교해봅니다.</p>
+      <h2 id="data-types">네 가지 기본 자료형</h2>
+
+      <p><mark>Python은 연산 기호뿐 아니라 그 기호가 다루는 값의 종류도 함께 확인합니다.</mark> 따라서 같은 <code>+</code>라도 값에 따라 결과가 달라집니다.</p>
 
       <div class="value-contrast" role="group" aria-label="숫자 덧셈과 문자열 연결 비교">
         <div class="value-case">
@@ -247,11 +240,96 @@ name = "서윤"</code></pre>
         </div>
       </div>
 
-      <p>따옴표가 있는 <code>"3"</code>은 계산할 숫자가 아니라 글자입니다. 컴퓨터가 값의 종류를 구분하는 방식이 바로 다음 교시에서 배울 <strong>자료형</strong>입니다.</p>
+      <p><code>3</code>과 <code>2</code>는 계산할 숫자이고, <code>"3"</code>과 <code>"2"</code>는 앞뒤로 연결할 글자입니다. <mark>값의 종류가 다르면 허용되는 처리 방식도 달라집니다.</mark> 그 종류의 이름이 자료형입니다.</p>
 
-      <h2 id="colab-model">38-46분 · Python과 Google Colab은 무엇이 다른가</h2>
+      <p><strong>자료형</strong>은 값이 어떤 종류의 데이터인지, 그리고 그 값에 어떤 연산을 할 수 있는지를 나타냅니다.</p>
 
-      <p><strong>Python</strong>은 코드를 쓰는 언어이고, <strong>Google Colab</strong>은 브라우저에서 Python 코드를 작성하고 실행하는 노트북 환경입니다. Colab 노트북은 설명과 코드와 결과를 한 문서 안에 함께 남길 수 있습니다.</p>
+      <div class="type-grid" role="group" aria-label="Python의 네 가지 기본 자료형">
+        <div class="type-card">
+          <span class="visual-label">int / integer</span>
+          <strong>정수</strong><br>
+          <code>120</code>
+          <p>소수점이 없는 수입니다. 개수, 순서, 픽셀 좌표처럼 끊어 세는 값에 사용합니다.</p>
+        </div>
+        <div class="type-card">
+          <span class="visual-label">float / floating point</span>
+          <strong>실수</strong><br>
+          <code>0.75</code>
+          <p>소수점이 있는 수입니다. 비율, 투명도, 시간처럼 연속적으로 변하는 값에 사용합니다.</p>
+        </div>
+        <div class="type-card">
+          <span class="visual-label">str / string</span>
+          <strong>문자열</strong><br>
+          <code>"Night Walk"</code>
+          <p>문자들이 순서대로 이어진 값입니다. 따옴표로 감싸며 이름, 제목, 색상명 같은 텍스트를 나타낼 때 사용합니다.</p>
+        </div>
+        <div class="type-card">
+          <span class="visual-label">bool / boolean</span>
+          <strong>불리언</strong><br>
+          <code>True</code>
+          <p>참과 거짓을 나타냅니다. 가능한 값은 <code>True</code>와 <code>False</code>이며 첫 글자는 대문자입니다.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-info">
+        <p class="callout-title">따옴표 유무에 따라 자료형이 달라진다</p>
+        <p><code>True</code>는 참을 나타내는 <code>bool</code>이지만, <code>"True"</code>는 네 글자로 이루어진 <code>str</code>입니다. <mark>숫자나 참·거짓 값을 따옴표로 감싸면 문자열로 처리됩니다.</mark></p>
+      </div>
+
+      <h3 id="similar-values">비슷해 보이는 값 구분하기</h3>
+      <div class="table-wrap">
+        <table>
+          <caption>20을 서로 다른 방식으로 작성했을 때의 자료형</caption>
+          <thead><tr><th scope="col">코드에 적은 값</th><th scope="col">자료형</th><th scope="col">가능한 처리</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>20</code></th><td><code>int</code></td><td>정수 계산에 사용할 수 있습니다.</td></tr>
+            <tr><th scope="row"><code>20.0</code></th><td><code>float</code></td><td>소수점이 있는 수로 계산됩니다.</td></tr>
+            <tr><th scope="row"><code>"20"</code></th><td><code>str</code></td><td>글자 2와 글자 0의 묶음으로 처리됩니다.</td></tr>
+            <tr><th scope="row"><code>True</code></th><td><code>bool</code></td><td>참인 상태를 나타냅니다.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 id="type-function">자료형 확인하기: type()</h3>
+      <p>값의 자료형이 헷갈리면 추측에 머물지 않고 <mark><code>type()</code>으로 확인</mark>할 수 있습니다. 값 자체를 괄호 안에 넣으면 됩니다.</p>
+
+      <pre><code>print(type(20))
+print(type("blue"))
+print(type(True))</code></pre>
+
+      <pre><code>&lt;class 'int'&gt;
+&lt;class 'str'&gt;
+&lt;class 'bool'&gt;</code></pre>
+
+      <p>출력에 보이는 <code>class</code>의 자세한 의미는 지금 다루지 않습니다. 이번 주에는 <code>int</code>, <code>str</code>, <code>bool</code>처럼 마지막에 표시되는 자료형 이름을 확인하면 충분합니다.</p>
+
+      <h3 id="operations">자료형에 따라 달라지는 연산</h3>
+      <p>같은 <code>+</code>라도 정수끼리면 더하고, 문자열끼리면 이어 붙입니다. <mark>연산의 의미를 파악하려면 기호와 함께 값의 자료형을 살펴야 합니다.</mark></p>
+
+      <div class="table-wrap">
+        <table>
+          <caption>이번 주에 사용하는 기본 연산</caption>
+          <thead><tr><th scope="col">코드</th><th scope="col">결과</th><th scope="col">설명</th></tr></thead>
+          <tbody>
+            <tr><th scope="row"><code>10 + 5</code></th><td><code>15</code></td><td>정수 덧셈</td></tr>
+            <tr><th scope="row"><code>10 / 2</code></th><td><code>5.0</code></td><td><code>/</code>로 나눈 결과는 실수</td></tr>
+            <tr><th scope="row"><code>"data" + " art"</code></th><td><code>"data art"</code></td><td>문자열 연결</td></tr>
+            <tr><th scope="row"><code>"ha" * 3</code></th><td><code>"hahaha"</code></td><td>문자열 반복</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">모든 자료형을 서로 더할 수 있는 것은 아닙니다</p>
+        <p><code>"20" + 1</code>처럼 문자열과 정수를 바로 더하면 <code>+</code> 연산을 적용할 수 없어 <mark><code>TypeError</code></mark>가 발생합니다. 두 값을 더하려면 먼저 자료형을 맞춰야 하며, 자료형 변환은 이후 수업에서 다룹니다.</p>
+      </div>
+
+      <h2 id="colab-followalong">Colab에서 같이 실행하기</h2>
+
+      <p>앞서 살펴본 코드를 이제 <mark>직접 실행</mark>합니다. 3교시 미션을 완성하는 시간이 아니라, <mark>코드 셀 하나를 실행해 결과가 나오는지</mark> 확인하는 시간입니다.</p>
+
+      <h3 id="colab-model">Python과 Google Colab은 무엇이 다른가</h3>
+      <p><mark>Python은 코드를 작성하는 데 쓰는 프로그래밍 언어</mark>이고, <mark>Google Colab은 브라우저에서 Python 코드를 작성하고 실행하는 노트북 환경</mark>입니다. Colab 노트북에는 설명, 코드, 결과를 한 문서에 함께 남길 수 있습니다.</p>
 
       <figure class="lesson-visual" aria-labelledby="notebook-caption">
         <div class="notebook-model">
@@ -268,36 +346,30 @@ name = "서윤"</code></pre>
             <ol>
               <li>실행한 코드 셀을 전달받습니다.</li>
               <li>코드를 위에서 아래로 처리합니다.</li>
-              <li>변수의 값을 실행 중에 기억합니다.</li>
-              <li>결과 또는 오류를 노트북에 돌려줍니다.</li>
+              <li>결과 또는 오류를 노트북에 표시합니다.</li>
             </ol>
           </div>
         </div>
-        <figcaption id="notebook-caption">노트북 파일은 코드와 기록을 저장하고, 런타임은 실행 중인 값을 기억하며 코드를 처리합니다.</figcaption>
+        <figcaption id="notebook-caption"><mark>노트북 파일은 코드와 기록을 저장</mark>하고, <mark>런타임은 그 코드를 실제로 실행</mark>합니다.</figcaption>
       </figure>
 
       <h3 id="cell-order">노트북에서는 셀의 위치와 실행 순서가 다를 수 있다</h3>
-      <p>한 코드 셀 안의 코드는 위에서 아래로 실행됩니다. 하지만 여러 셀은 화면에 놓인 순서가 아니라 <strong>실제로 실행 버튼을 누른 순서</strong>로 런타임에 반영됩니다.</p>
-
-      <div class="callout callout-warning">
-        <p class="callout-title">초심자가 자주 만나는 상황</p>
-        <p>아래쪽 셀에서 <code>name = "서윤"</code>을 먼저 실행했다면 위쪽 셀의 <code>print(name)</code>도 작동할 수 있습니다. 그러나 런타임을 다시 시작하면 기억한 값이 사라져 같은 코드가 오류를 낼 수 있습니다. 노트북은 가능하면 위에서 아래로 다시 실행해도 작동하도록 작성합니다.</p>
-      </div>
+      <p>한 코드 셀 안의 코드는 위에서 아래로 실행됩니다. 하지만 여러 셀은 화면에 놓인 순서가 아니라 <mark>실제로 실행 버튼을 누른 순서</mark>로 처리됩니다. 가능하면 위에서 아래로 다시 실행해도 같은 결과가 나오도록 작성합니다.</p>
 
       <div class="table-wrap">
         <table>
-          <caption>노트북 파일과 런타임에서 보존되는 것</caption>
-          <thead><tr><th scope="col">구분</th><th scope="col">기억하는 것</th><th scope="col">런타임이 종료되면</th></tr></thead>
+          <caption>노트북 파일과 런타임에서 남는 것</caption>
+          <thead><tr><th scope="col">구분</th><th scope="col">남는 것</th><th scope="col">런타임을 다시 시작하면</th></tr></thead>
           <tbody>
             <tr><th scope="row">Colab 노트북 파일</th><td>텍스트 셀, 코드 셀, 저장된 출력</td><td>Google Drive에 저장된 문서 내용은 남습니다.</td></tr>
-            <tr><th scope="row">Python 런타임</th><td>실행 중인 변수의 값과 임시 상태</td><td>실행 중 기억한 값은 사라집니다.</td></tr>
+            <tr><th scope="row">Python 런타임</th><td>지금 실행 중인 상태</td><td>코드를 다시 실행해야 같은 결과를 얻습니다.</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="callout callout-info">
         <p class="callout-title">print()가 없어도 값이 보이는 경우</p>
-        <p>Colab은 코드 셀의 마지막에 값이나 계산식만 적어도 결과를 보여줄 수 있습니다. 그러나 여러 결과를 명확하게 확인하고 자기소개 노트북을 읽기 쉽게 만들기 위해 이번 주에는 <code>print()</code>를 사용합니다.</p>
+        <p>Colab은 코드 셀의 마지막에 값이나 계산식만 적어도 결과를 보여줄 수 있습니다. 그러나 여러 결과를 명확하게 확인하기 위해 이번 주에는 <code>print()</code>를 사용합니다.</p>
       </div>
 
       <div class="inline-resource-grid" role="group" aria-label="Google Colab 공식 자료">
@@ -313,77 +385,124 @@ name = "서윤"</code></pre>
         </a>
       </div>
 
-      <h2 id="check">46-50분 · 개념 확인과 다음 교시 연결</h2>
+      <div class="week-two-hero-actions" aria-label="Colab 따라 하기">
+        <a class="week-two-primary-action" href="https://colab.research.google.com/#create=true" target="_blank" rel="noopener noreferrer">Colab에서 새 노트북 열기 <span aria-hidden="true">↗</span></a>
+      </div>
 
       <div class="worksheet">
-        <span class="worksheet-label">개별 확인 · 4분</span>
+        <span class="worksheet-label">교수자와 함께</span>
+        <h3>빈 노트북에 print와 type()을 적고 실행합니다</h3>
+        <ol>
+          <li>Google 계정으로 Colab에 접속합니다. 처음 접속했다면 요청되는 권한을 확인하고 허용합니다.</li>
+          <li>왼쪽 위 제목을 <code>week02-period1-자기이름</code>으로 바꿉니다.</li>
+          <li>코드 셀에 아래 네 줄을 그대로 적습니다.</li>
+          <li><mark>Shift+Enter</mark> 또는 셀 왼쪽 ▶ 버튼으로 실행합니다.</li>
+          <li>출력에서 이름, 전공, <code>5</code>, <code>int</code>를 찾습니다.</li>
+          <li><code>"서윤"</code>을 자기 이름으로 바꾸고 다시 실행합니다.</li>
+          <li><code>Ctrl+S</code> 또는 <code>Cmd+S</code>로 노트북을 저장합니다.</li>
+        </ol>
+        <pre><code>print("이름:", "서윤")
+print("전공:", "시각디자인")
+print(3 + 2)
+print(type(20))</code></pre>
+        <p class="value-result" aria-label="예상 출력">이름: 서윤<br>전공: 시각디자인<br>5<br>&lt;class 'int'&gt;</p>
+      </div>
+
+      <div class="callout callout-warning">
+        <p class="callout-title">막히면 여기만 봅니다</p>
+        <ul>
+          <li>셀 왼쪽에 별이 계속 돌면 런타임이 연결 중이거나 코드를 실행 중입니다. 잠시 기다립니다.</li>
+          <li>따옴표나 괄호가 닫히지 않았는지 확인합니다.</li>
+          <li><mark>3교시 미션 노트북은 아직 열지 않습니다.</mark> 오늘은 빈 노트북 하나로 충분합니다.</li>
+        </ul>
+      </div>
+
+      <div class="callout callout-success">
+        <p class="callout-title">오늘 확인한 것</p>
+        <ul>
+          <li>데이터와 명령의 차이를 한 문장으로 설명할 수 있습니다.</li>
+          <li>네 가지 자료형을 구분하고 <code>type()</code>으로 확인할 수 있습니다.</li>
+          <li>빈 Colab 노트북에서 코드를 실행해 출력을 확인했습니다.</li>
+        </ul>
+      </div>
+
+      <h2 id="check">수업 후 확인</h2>
+
+      <div class="worksheet">
+        <span class="worksheet-label">개별 확인</span>
         <h3>빠른 확인과 한 문장 정리</h3>
         <ol>
           <li>데이터와 명령의 차이를 한 문장으로 적습니다.</li>
-          <li><code>print(name)</code>과 <code>print("name")</code>의 출력이 어떻게 다른지 적습니다.</li>
+          <li><code>20</code>, <code>20.0</code>, <code>"20"</code>, <code>False</code>의 자료형을 적습니다.</li>
           <li><code>3 + 2</code>와 <code>"3" + "2"</code>의 결과가 다른 이유를 한 문장으로 적습니다.</li>
           <li>코드를 실행한다는 것은 <strong>________________</strong>이다.</li>
         </ol>
       </div>
 
-      <h3 id="after-class-review">수업 후 개별 복습: 답을 열어 확인하기</h3>
-      <p>아래 네 질문은 50분 수업 시간에 모두 설명하지 않습니다. 자신의 답을 먼저 작성한 뒤 항목을 열어 핵심 내용을 확인합니다.</p>
+      <h3 id="after-class-review">답을 열어 확인하기</h3>
+      <p>아래 네 질문은 강의 중에 모두 다루지 않아도 됩니다. 자신의 답을 먼저 작성한 뒤 항목을 열어 핵심 내용을 확인합니다.</p>
 
       <div class="concept-check-list">
         <details>
           <summary>1. 데이터, 명령, 출력은 어떻게 다른가?</summary>
-          <div class="details-motion-content"><p><strong>데이터</strong>는 프로그램이 기억하거나 처리할 정보이고, <strong>명령</strong>은 그 정보에 수행할 행동입니다. <strong>출력</strong>은 명령을 실행한 뒤 확인할 수 있는 결과입니다.</p></div>
+          <div class="details-motion-content"><p><mark>데이터</mark>는 프로그램이 처리하는 정보이고, <mark>명령</mark>은 그 데이터로 무엇을 할지 컴퓨터에 지시하는 내용입니다. <mark>출력</mark>은 명령을 실행한 뒤 확인할 수 있는 결과입니다.</p></div>
         </details>
         <details>
-          <summary>2. name = "서윤" 다음에 print("name")을 실행하면 무엇이 나오는가?</summary>
-          <div class="details-motion-content"><p><code>name</code>이 출력됩니다. 따옴표 안의 내용은 이름을 찾아보라는 표시가 아니라 글자 그대로의 데이터입니다. 저장된 값 <code>서윤</code>을 출력하려면 <code>print(name)</code>을 사용합니다.</p></div>
+          <summary>2. 20, 20.0, "20", False의 자료형은 각각 무엇인가?</summary>
+          <div class="details-motion-content"><p>차례로 <code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code>입니다. 따옴표와 소수점, <code>True</code> 또는 <code>False</code> 표기가 자료형을 구분하는 단서가 됩니다.</p></div>
         </details>
         <details>
-          <summary>3. print(name)을 먼저 실행하고 다음 줄에서 name = "서윤"을 실행하면 왜 오류가 나는가?</summary>
-          <div class="details-motion-content"><p>첫 줄을 처리하는 시점에는 <code>name</code>이라는 이름과 값의 연결이 아직 만들어지지 않았기 때문입니다. 컴퓨터는 다음 줄을 미리 실행해 부족한 정보를 채우지 않습니다.</p></div>
+          <summary>3. 3 + 2와 "3" + "2"의 결과가 다른 이유는?</summary>
+          <div class="details-motion-content"><p>전자는 숫자끼리 더해 <code>5</code>가 되고, 후자는 글자끼리 이어 붙어 <code>32</code>가 됩니다. 같은 <code>+</code>라도 값의 자료형에 따라 처리가 달라집니다.</p></div>
         </details>
         <details>
-          <summary>4. 노트북을 저장했는데 런타임을 다시 시작하면 변수 값이 사라지는 이유는?</summary>
-          <div class="details-motion-content"><p>노트북 파일은 작성한 코드와 설명을 저장하지만, 변수 값은 Python 런타임이 실행 중에 기억합니다. 런타임이 종료되면 코드는 남아 있어도 실행 중이던 값은 다시 코드를 실행해야 만들어집니다.</p></div>
+          <summary>4. "20" + 1이 TypeError가 되는 이유는?</summary>
+          <div class="details-motion-content"><p>문자열과 정수 사이에는 <code>+</code> 연산이 정의되어 있지 않기 때문입니다. 두 값을 더하려면 먼저 같은 자료형으로 변환해야 합니다.</p></div>
         </details>
       </div>
 
-      <h3 id="next-period">2교시 예고</h3>
-      <p>2교시에는 값에 이름을 붙이는 <strong>변수</strong>와 값의 성격을 구분하는 <strong>자료형</strong>을 배웁니다. 숫자, 글자, 참과 거짓이 서로 어떻게 다르게 저장되고 계산되는지 확인합니다.</p>
+      <h2 id="next-period">2교시 예고</h2>
+      <p>2교시에는 오늘 구분한 값에 <strong>나중에도 사용할 이름</strong>을 붙입니다. 이 이름을 변수라고 합니다. 변수를 이용해 같은 값을 여러 곳에서 사용하고 실행 중에 바꾸는 방법, 숫자 값이 이미지의 막대와 원으로 표현되는 과정을 살펴봅니다.</p>
 
       <h2 id="references">참고 자료</h2>
       <ul class="reference-list">
         <li><a href="https://colab.research.google.com/notebooks/intro.ipynb" target="_blank" rel="noopener noreferrer"><strong>Google Colab, Welcome to Colaboratory</strong></a><small>노트북의 기본 구성과 코드 실행 방식을 소개하는 공식 노트북</small></li>
         <li><a href="https://research.google.com/colaboratory/faq.html" target="_blank" rel="noopener noreferrer"><strong>Google Colab FAQ</strong></a><small>Colab의 저장, 공유, 실행 환경에 관한 공식 설명</small></li>
-        <li><a href="https://docs.python.org/3/tutorial/introduction.html" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: An Informal Introduction to Python</strong></a><small>숫자 계산, 텍스트, 변수의 기본 예제를 제공하는 Python 공식 문서</small></li>
+        <li><a href="https://docs.python.org/3/tutorial/introduction.html" target="_blank" rel="noopener noreferrer"><strong>Python 공식 튜토리얼: An Informal Introduction to Python</strong></a><small>숫자 계산과 텍스트를 다루는 Python 공식 입문 예제</small></li>
+        <li><a href="https://docs.python.org/3/library/functions.html#type" target="_blank" rel="noopener noreferrer"><strong>Python 공식 문서: type()</strong></a><small>값의 자료형을 확인하는 내장 기능의 공식 설명</small></li>
       </ul>
     </article>
 
     <nav class="toc" aria-label="문서 구조">
       <p class="toc-title">문서 구조</p>
       <ol>
-        <li class="toc-level-2"><a href="#recall">0-5분 · 이전 학습 연결</a></li>
-        <li class="toc-level-2"><a href="#core-model">5-15분 · 데이터와 명령</a></li>
+        <li class="toc-level-2"><a href="#recall">이전 학습 연결</a></li>
+        <li class="toc-level-3"><a href="#week-one-map">1주차 구조와 오늘</a></li>
+        <li class="toc-level-2"><a href="#core-model">데이터와 명령</a></li>
         <li class="toc-level-3"><a href="#five-terms">다섯 기본 용어</a></li>
         <li class="toc-level-3"><a href="#python-role">Python의 역할</a></li>
-        <li class="toc-level-3"><a href="#inside-computer">CPU와 메모리</a></li>
-        <li class="toc-level-2"><a href="#trace-code">15-28분 · 코드 추적</a></li>
+        <li class="toc-level-3"><a href="#line-as-unit">코드의 실행 순서</a></li>
+        <li class="toc-level-2"><a href="#trace-code">코드 추적</a></li>
         <li class="toc-level-3"><a href="#print-function">print() 읽기</a></li>
-        <li class="toc-level-2"><a href="#order-and-precision">28-38분 · 순서와 정확성</a></li>
-        <li class="toc-level-3"><a href="#order-matters">사용하기 전에 정의하기</a></li>
-        <li class="toc-level-3"><a href="#same-symbol">같은 +, 다른 결과</a></li>
-        <li class="toc-level-2"><a href="#colab-model">38-46분 · Colab의 구조</a></li>
+        <li class="toc-level-3"><a href="#order-matters">위에서 아래로</a></li>
+        <li class="toc-level-3"><a href="#notation-matters">표기와 오류</a></li>
+        <li class="toc-level-2"><a href="#data-types">네 가지 자료형</a></li>
+        <li class="toc-level-3"><a href="#similar-values">비슷한 값 구분</a></li>
+        <li class="toc-level-3"><a href="#type-function">type() 확인</a></li>
+        <li class="toc-level-3"><a href="#operations">자료형별 연산</a></li>
+        <li class="toc-level-2"><a href="#colab-followalong">같이 실행하기</a></li>
+        <li class="toc-level-3"><a href="#colab-model">Python과 Colab</a></li>
         <li class="toc-level-3"><a href="#cell-order">셀과 실행 순서</a></li>
-        <li class="toc-level-2"><a href="#check">46-50분 · 개념 확인</a></li>
-        <li class="toc-level-3"><a href="#after-class-review">수업 후 개별 복습</a></li>
-        <li class="toc-level-3"><a href="#next-period">2교시 예고</a></li>
+        <li class="toc-level-2"><a href="#check">수업 후 확인</a></li>
+        <li class="toc-level-3"><a href="#after-class-review">답을 열어 확인하기</a></li>
+        <li class="toc-level-2"><a href="#next-period">2교시 예고</a></li>
         <li class="toc-level-2"><a href="#references">참고 자료</a></li>
       </ol>
     </nav>
   </main>
 
   <p class="footer-note">Contents Programming Practice / Week 02 / Period 01</p>
-<script src="assets/week-02.js?v=week2-1" defer></script>
+<script src="assets/week-02.js?v=week2-2" defer></script>
   <script src="/assets/details-motion.js" defer></script>
 </body>
 </html>

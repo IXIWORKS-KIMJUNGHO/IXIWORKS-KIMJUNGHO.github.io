@@ -3,8 +3,14 @@
 }
 
 body.course-contents-programming.week-two-page {
-  --week-two-reading-width: 72ch;
+  --week-two-reading-width: none;
   --week-two-radius: 6px;
+  --week-two-label-col: 112px;
+  --week-two-display: "Space Grotesk Variable", "Space Grotesk", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+  --week-two-text: "Inter", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", sans-serif;
+  font-family: var(--week-two-text);
+  font-size: 16px;
+  line-height: 1.7;
 }
 
 body.course-contents-programming.week-two-page .skip-link {
@@ -14,7 +20,8 @@ body.course-contents-programming.week-two-page .skip-link {
 body.course-contents-programming.week-two-page .lesson-sequence a,
 body.course-contents-programming.week-two-page .toc a,
 body.course-contents-programming.week-two-page .week-two-hero-actions a,
-body.course-contents-programming.week-two-page .inline-resource-card {
+body.course-contents-programming.week-two-page .inline-resource-card,
+body.course-contents-programming.week-two-page .code-copy-button {
   transition-property: transform, border-color, color, background-color;
   transition-duration: 160ms;
   transition-timing-function: var(--ease-out);
@@ -23,7 +30,8 @@ body.course-contents-programming.week-two-page .inline-resource-card {
 body.course-contents-programming.week-two-page .lesson-sequence a:active:not(:focus-visible),
 body.course-contents-programming.week-two-page .toc a:active:not(:focus-visible),
 body.course-contents-programming.week-two-page .week-two-hero-actions a:active:not(:focus-visible),
-body.course-contents-programming.week-two-page .inline-resource-card:active:not(:focus-visible) {
+body.course-contents-programming.week-two-page .inline-resource-card:active:not(:focus-visible),
+body.course-contents-programming.week-two-page .code-copy-button:active:not(:focus-visible) {
   transform: scale(0.97);
 }
 
@@ -48,6 +56,7 @@ body.course-contents-programming.week-two-page .week-two-hero-copy {
 
 body.course-contents-programming.week-two-page .week-two-hero h1 {
   max-width: 15ch;
+  font-family: var(--week-two-display);
   font-size: clamp(38px, 4.6vw, 58px);
   line-height: 1.04;
 }
@@ -55,7 +64,9 @@ body.course-contents-programming.week-two-page .week-two-hero h1 {
 body.course-contents-programming.week-two-page .week-two-hero .lead {
   max-width: 620px;
   margin-top: 20px;
+  font-family: var(--week-two-display);
   font-size: clamp(15px, 1.5vw, 17px);
+  font-weight: 400;
   line-height: 1.68;
 }
 
@@ -187,12 +198,13 @@ body.course-contents-programming.week-two-page .article {
 
 body.course-contents-programming.week-two-page .article .document-title {
   max-width: var(--week-two-reading-width);
-  margin: 0 0 24px;
-  color: var(--ink-strong);
-  font-size: clamp(24px, 3vw, 32px);
-  font-weight: 740;
-  letter-spacing: -0.035em;
-  line-height: 1.22;
+  margin: 0 0 22px;
+  color: var(--muted);
+  font-family: var(--week-two-text);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1.55;
   word-break: keep-all;
 }
 
@@ -206,7 +218,7 @@ body.course-contents-programming.week-two-page .week-two-lesson-facts > div {
   padding: 10px 0;
   border-bottom: 1px solid var(--line);
   display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-columns: var(--week-two-label-col) minmax(0, 1fr);
   gap: 18px;
   align-items: baseline;
 }
@@ -225,7 +237,9 @@ body.course-contents-programming.week-two-page .week-two-lesson-facts dt {
 
 body.course-contents-programming.week-two-page .week-two-lesson-facts dd {
   color: var(--ink);
-  font-size: 13px;
+  font-family: var(--week-two-text);
+  font-size: 14px;
+  font-weight: 400;
   line-height: 1.55;
 }
 
@@ -238,13 +252,12 @@ body.course-contents-programming.week-two-page .article > h4,
 body.course-contents-programming.week-two-page .article > details,
 body.course-contents-programming.week-two-page .article > .callout,
 body.course-contents-programming.week-two-page .article > .worksheet,
-body.course-contents-programming.week-two-page .article > .checkpoint {
+body.course-contents-programming.week-two-page .article > .checkpoint,
+body.course-contents-programming.week-two-page .article > .write-spec {
   max-width: var(--week-two-reading-width);
 }
 
 body.course-contents-programming.week-two-page .article h2 {
-  margin-top: 64px;
-  padding-top: 22px;
   display: block;
   counter-increment: none;
   scroll-margin-top: 92px;
@@ -254,17 +267,77 @@ body.course-contents-programming.week-two-page .article h2::before {
   content: none;
 }
 
-body.course-contents-programming.week-two-page .article h3,
+body.course-contents-programming.week-two-page .article > h2 {
+  margin-top: 72px;
+  margin-bottom: 16px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-strong);
+  color: var(--ink-strong);
+  font-family: var(--week-two-display);
+  font-size: clamp(26px, 2.5vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  line-height: 1.22;
+  word-break: keep-all;
+}
+
+body.course-contents-programming.week-two-page .article > h3 {
+  margin-top: 34px;
+  margin-bottom: 10px;
+  color: var(--ink-strong);
+  font-family: var(--week-two-text);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+  word-break: keep-all;
+  scroll-margin-top: 92px;
+}
+
+body.course-contents-programming.week-two-page .article > h4,
 body.course-contents-programming.week-two-page .article h4 {
   scroll-margin-top: 92px;
 }
 
+body.course-contents-programming.week-two-page .callout-title,
+body.course-contents-programming.week-two-page summary.callout-title {
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-contents-programming.week-two-page .worksheet h3,
+body.course-contents-programming.week-two-page .worksheet h4 {
+  color: var(--ink-strong);
+  font-family: var(--week-two-text);
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.4;
+}
+
+body.course-contents-programming.week-two-page mark {
+  background: #ffe34a;
+  color: #0d110e;
+  padding: 0.05em 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+body.course-contents-programming.week-two-page mark code {
+  border-color: transparent;
+  background: transparent;
+  color: inherit;
+}
+
 body.course-contents-programming.week-two-page .callout-abstract {
-  margin: 0 0 30px;
-  padding: 20px 0;
+  margin: 0;
+  padding: 20px 0 10px;
   border: 0;
   border-top: 1px solid var(--line-strong);
-  border-bottom: 1px solid var(--line);
   border-radius: 0;
   background: transparent;
 }
@@ -278,13 +351,124 @@ body.course-contents-programming.week-two-page .callout-abstract .callout-title 
   text-transform: uppercase;
 }
 
-body.course-contents-programming.week-two-page .session-grid {
-  margin: 28px 0 42px;
+body.course-contents-programming.week-two-page .callout-abstract ol {
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: learning-goal;
+}
+
+body.course-contents-programming.week-two-page .callout-abstract ol li {
+  margin: 0;
+  padding: 7px 0;
+  display: grid;
+  grid-template-columns: var(--week-two-label-col) minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  counter-increment: learning-goal;
+}
+
+body.course-contents-programming.week-two-page .callout-abstract ol li::before {
+  content: counter(learning-goal, decimal-leading-zero);
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  line-height: inherit;
+}
+
+body.course-contents-programming.week-two-page .callout-abstract ol li > span {
+  min-width: 0;
+}
+
+body.course-contents-programming.week-two-page .article > .week-two-hero-actions {
+  margin: 8px 0 28px;
+}
+
+body.course-contents-programming.week-two-page .worksheet .value-result {
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-left: 3px solid var(--success-ink);
+  background: var(--paper);
+  color: var(--ink-strong);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.week-two-page .code-copy-wrap {
+  position: relative;
+  margin: 18px 0 26px;
+}
+
+body.course-contents-programming.week-two-page .value-case .code-copy-wrap {
+  margin: 10px 0 12px;
+}
+
+body.course-contents-programming.week-two-page .week-two-mission-preview .code-copy-wrap,
+body.course-contents-programming.week-two-page .worksheet .code-copy-wrap {
+  margin: 12px 0 0;
+}
+
+body.course-contents-programming.week-two-page .code-copy-wrap pre {
+  margin: 0;
+  padding-right: 52px;
+}
+
+body.course-contents-programming.week-two-page .code-copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--paper);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+body.course-contents-programming.week-two-page .code-copy-button svg {
+  width: 16px;
+  height: 16px;
+  display: block;
+}
+
+body.course-contents-programming.week-two-page .code-copy-button[data-copied="true"] {
+  border-color: var(--success-ink);
+  color: var(--success-ink);
+}
+
+body.course-contents-programming.week-two-page .code-copy-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+body.course-contents-programming.week-two-page .session-outline-title {
+  margin: 10px 0 2px;
+  color: var(--accent);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-contents-programming.week-two-page .article > .session-grid {
+  max-width: var(--week-two-reading-width);
+  margin: 0 0 42px;
   padding: 0;
   border: 0;
   border-radius: 0;
   display: block;
   overflow: visible;
+  list-style: none;
 }
 
 body.course-contents-programming.week-two-page .session-grid li,
@@ -299,7 +483,7 @@ body.course-contents-programming.week-two-page .session-grid-seven li:nth-child(
   border: 0;
   border-top: 1px solid var(--line);
   display: grid;
-  grid-template-columns: 96px minmax(150px, 0.62fr) minmax(0, 1fr);
+  grid-template-columns: var(--week-two-label-col) minmax(150px, 0.62fr) minmax(0, 1fr);
   gap: 18px;
   align-items: baseline;
   background: transparent;
@@ -316,12 +500,58 @@ body.course-contents-programming.week-two-page .session-grid .session-label {
 }
 
 body.course-contents-programming.week-two-page .session-grid strong {
+  font-family: var(--week-two-text);
   font-size: 14px;
+  font-weight: 600;
 }
 
 body.course-contents-programming.week-two-page .session-grid p {
+  font-family: var(--week-two-text);
   font-size: 13px;
+  font-weight: 400;
   line-height: 1.58;
+}
+
+body.course-contents-programming.week-two-page .type-card strong {
+  font-family: var(--week-two-text);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.week-two-page .value-result {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.week-two-page .assignment-equals {
+  font-size: 16px;
+}
+
+body.course-contents-programming.week-two-page .assignment-side p,
+body.course-contents-programming.week-two-page .error-reading span,
+body.course-contents-programming.week-two-page .profile-mapping strong,
+body.course-contents-programming.week-two-page .generated-profile-card figcaption {
+  font-family: var(--week-two-text);
+}
+
+body.course-contents-programming.week-two-page .error-reading strong {
+  font-family: var(--week-two-text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.week-two-page .toc,
+body.course-contents-programming.week-two-page .toc a {
+  font-family: var(--week-two-text);
+}
+
+body.course-contents-programming.week-two-page .session-grid-topics li,
+body.course-contents-programming.week-two-page .session-grid-topics.session-grid-six li:nth-child(3n + 1),
+body.course-contents-programming.week-two-page .session-grid-topics.session-grid-six li:nth-child(n + 4),
+body.course-contents-programming.week-two-page .session-grid-topics.session-grid-seven li,
+body.course-contents-programming.week-two-page .session-grid-topics.session-grid-seven li:nth-child(4n + 1),
+body.course-contents-programming.week-two-page .session-grid-topics.session-grid-seven li:nth-child(n + 5) {
+  grid-template-columns: minmax(148px, 12rem) minmax(0, 1fr);
 }
 
 body.course-contents-programming.week-two-page .goal-contract {
@@ -333,8 +563,70 @@ body.course-contents-programming.week-two-page .goal-contract {
   background: transparent;
 }
 
+body.course-contents-programming.week-two-page .goal-contract-lead,
+body.course-contents-programming.week-two-page .exit-gate-lead {
+  margin: 8px 0 12px;
+  color: var(--ink-strong);
+  font-family: var(--week-two-text);
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
 body.course-contents-programming.week-two-page .goal-contract-note {
   background: transparent;
+  font-family: var(--week-two-text);
+}
+
+body.course-contents-programming.week-two-page .mission-route strong {
+  font-family: var(--week-two-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+body.course-contents-programming.week-two-page .mission-route small {
+  font-family: var(--week-two-text);
+}
+
+body.course-contents-programming.week-two-page .write-spec {
+  margin: 8px 0 26px;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--line);
+}
+
+body.course-contents-programming.week-two-page .write-spec li {
+  margin: 0;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: var(--week-two-label-col) minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+}
+
+body.course-contents-programming.week-two-page .write-spec li > span:first-child {
+  color: var(--quiet);
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+body.course-contents-programming.week-two-page .write-spec li > span:last-child {
+  min-width: 0;
+  font-family: var(--week-two-text);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+body.course-contents-programming.week-two-page .completion-criteria strong,
+body.course-contents-programming.week-two-page .change-sequence strong,
+body.course-contents-programming.week-two-page .submission-strip strong {
+  font-family: var(--week-two-text);
 }
 
 body.course-contents-programming.week-two-page .mission-route {
@@ -380,6 +672,7 @@ body.course-contents-programming.week-two-page .toc {
 
 body.course-contents-programming.week-two-page .toc-title {
   margin: 0 0 10px 9px;
+  font-family: var(--mono);
 }
 
 body.course-contents-programming.week-two-page .toc a {
@@ -409,6 +702,11 @@ body.course-contents-programming.week-two-page > .footer-note {
     background: var(--accent);
     color: var(--paper);
     text-decoration: none;
+  }
+
+  body.course-contents-programming.week-two-page .code-copy-button:hover {
+    border-color: var(--accent-strong);
+    color: var(--accent-strong);
   }
 
   body.course-contents-programming.week-two-page .toc a:hover {
@@ -549,12 +847,26 @@ body.course-contents-programming.week-two-page > .footer-note {
     padding: 0;
   }
 
-  body.course-contents-programming.week-two-page .article h2 {
-    margin-top: 54px;
+  body.course-contents-programming.week-two-page .article > h2 {
+    margin-top: 56px;
+    padding-top: 22px;
+    font-size: 24px;
+  }
+
+  body.course-contents-programming.week-two-page .article > h3 {
+    font-size: 17px;
+  }
+
+  body.course-contents-programming.week-two-page {
+    --week-two-label-col: 92px;
   }
 
   body.course-contents-programming.week-two-page .week-two-lesson-facts > div {
-    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  body.course-contents-programming.week-two-page .callout-abstract ol li,
+  body.course-contents-programming.week-two-page .write-spec li {
     gap: 14px;
   }
 
@@ -564,12 +876,21 @@ body.course-contents-programming.week-two-page > .footer-note {
   body.course-contents-programming.week-two-page .session-grid-seven li,
   body.course-contents-programming.week-two-page .session-grid-seven li:nth-child(4n + 1),
   body.course-contents-programming.week-two-page .session-grid-seven li:nth-child(n + 5) {
-    grid-template-columns: 78px minmax(0, 1fr);
+    grid-template-columns: var(--week-two-label-col) minmax(0, 1fr);
     gap: 5px 14px;
   }
 
   body.course-contents-programming.week-two-page .session-grid p {
     grid-column: 2;
+  }
+
+  body.course-contents-programming.week-two-page .session-grid-topics li,
+  body.course-contents-programming.week-two-page .session-grid-topics.session-grid-six li:nth-child(3n + 1),
+  body.course-contents-programming.week-two-page .session-grid-topics.session-grid-six li:nth-child(n + 4),
+  body.course-contents-programming.week-two-page .session-grid-topics.session-grid-seven li,
+  body.course-contents-programming.week-two-page .session-grid-topics.session-grid-seven li:nth-child(4n + 1),
+  body.course-contents-programming.week-two-page .session-grid-topics.session-grid-seven li:nth-child(n + 5) {
+    grid-template-columns: minmax(120px, 9.5rem) minmax(0, 1fr);
   }
 
   body.course-contents-programming.week-two-page .goal-contract {
@@ -626,12 +947,18 @@ body.course-contents-programming.week-two-page > .footer-note {
   body.course-contents-programming.week-two-page .lesson-sequence a,
   body.course-contents-programming.week-two-page .toc a,
   body.course-contents-programming.week-two-page .week-two-hero-actions a,
-  body.course-contents-programming.week-two-page .inline-resource-card {
+  body.course-contents-programming.week-two-page .inline-resource-card,
+  body.course-contents-programming.week-two-page .code-copy-button {
     transition: none;
   }
 }
 
 @media print {
+  body.course-contents-programming.week-two-page mark {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
   body.course-contents-programming.week-two-page .week-two-hero .hero-inner {
     display: block;
   }
