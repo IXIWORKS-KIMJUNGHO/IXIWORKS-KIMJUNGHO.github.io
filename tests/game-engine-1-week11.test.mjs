@@ -776,17 +776,17 @@ test("week 11 pages keep source links safe and visible copy free of forbidden da
   );
   assert.match(
     period1,
-    /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/Manual\/AssetMetadata\.html/,
+    /https:\/\/docs\.unity3d\.com\/6000\.6\/Documentation\/Manual\/AssetMetadata\.html/,
   );
 
   for (const period of [period2, period3]) {
     assert.match(
       period,
-      /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/ScriptReference\/Component\.CompareTag\.html/,
+      /https:\/\/docs\.unity3d\.com\/6000\.6\/Documentation\/ScriptReference\/Component\.CompareTag\.html/,
     );
     assert.match(
       period,
-      /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/Manual\/build-profile-scene-list\.html/,
+      /https:\/\/docs\.unity3d\.com\/6000\.6\/Documentation\/Manual\/build-profile-scene-list\.html/,
     );
   }
 

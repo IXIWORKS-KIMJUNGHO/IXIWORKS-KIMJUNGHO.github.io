@@ -18,15 +18,16 @@ test("Game Engine I week 1 stops after installing Unity", async () => {
   ]);
 
   assert.match(courseIndex, /href="week-01-ot\.html"/);
-  assert.match(courseIndex, /Unity Hub 설치, Unity CLI 별도 설치, 로그인과 라이선스 확인/);
+  assert.match(courseIndex, /Unity Hub, CLI, MCP 설치/);
 
   for (const requiredText of [
     "오늘의 종료선",
-    "Unity 6.3 LTS 설치 완료",
-    "프로젝트 생성, Scene 저장, Play Mode는 오늘 진행하지 않습니다.",
+    "Unity 6.6 설치 완료",
+    "프로젝트 생성과 Scene 저장, Play Mode 실행은 오늘 진행하지 않습니다.",
     "Projects → New project를 누르지 않습니다",
     "Unity Hub 안정 버전을 설치합니다",
     "Unity CLI를 따로 설치합니다",
+    "Unity CLI MCP를 연결합니다",
     "라이선스가 활성 상태인지 확인합니다",
     "다운로드 완료와 전체 버전을 검증합니다",
   ]) {
@@ -35,8 +36,8 @@ test("Game Engine I week 1 stops after installing Unity", async () => {
 
   assert.equal(
     [...orientation.matchAll(/class="install-check"/g)].length,
-    7,
-    "the installation checklist should have seven completion checks",
+    8,
+    "the installation checklist should have eight completion checks",
   );
 
   for (const officialUrl of [
@@ -48,6 +49,7 @@ test("Game Engine I week 1 stops after installing Unity", async () => {
     "https://unity.com/releases/editor/archive",
     "https://docs.unity.com/en-us/unity-cli/unity-cli",
     "https://docs.unity.com/en-us/unity-cli/use-unity-cli",
+    "https://docs.unity.com/en-us/unity-cli/unity-cli-reference",
   ]) {
     assert.ok(orientation.includes(officialUrl), `missing official source: ${officialUrl}`);
   }
@@ -137,14 +139,14 @@ test("Game Engine I week 1 follows the classroom installation chronology", async
   assert.doesNotMatch(orientation, /id="agenda"|180분의 흐름/);
   assert.doesNotMatch(orientation, /install-step-time|85-100분|125-165분/);
   assert.doesNotMatch(orientation, /이론 1시간|실습 2시간/);
-  assert.match(orientation, /1교시와 2교시는 각각 <mark>45분 이론 강의 뒤 15분 휴식<\/mark>/);
+  assert.match(orientation, /1교시와 2교시는 각각 <mark>45분 이론 수업 뒤 15분 휴식<\/mark>/);
   assert.match(orientation, /1·2교시는 이론/);
   assert.match(orientation, /3교시는 실습/);
   assert.match(orientation, /출결<\/th><td><mark>10%<\/mark>/);
-  assert.match(orientation, /참여도 \/ 태도<\/th><td><mark>10%<\/mark>/);
-  assert.match(orientation, /중간시험<\/th><td><mark>20%<\/mark>/);
+  assert.match(orientation, /참여도·태도<\/th><td><mark>10%<\/mark>/);
+  assert.match(orientation, /중간고사<\/th><td><mark>20%<\/mark>/);
   assert.match(orientation, /과제<\/th><td><mark>20%<\/mark>/);
-  assert.match(orientation, /기말시험<\/th><td><mark>40%<\/mark>/);
+  assert.match(orientation, /기말 프로젝트<\/th><td><mark>40%<\/mark>/);
 });
 
 test("Game Engine I week 1 uses a generated visual and readable responsive UI", async () => {
@@ -212,10 +214,10 @@ test("Game Engine I week 1 uses CLI from day one and surveys subscription AI on 
     readFile(resolve(courseDirectory, "assets", "week-01-ot.js"), "utf8"),
   ]);
 
-  assert.match(orientation, /assets\/week-01-ot\.css\?v=ge1ot21/);
+  assert.match(orientation, /assets\/week-01-ot\.css\?v=ge1ot22/);
   assert.match(orientation, /assets\/week-01-ot\.js\?v=ge1ot18/);
-  assert.match(orientation, /지금 쓰는 <mark>구독형 AI<\/mark>/);
-  assert.match(orientation, /구독 여부는 점수가 아닙니다/);
+  assert.match(orientation, /현재 사용하는 <mark>AI 도구<\/mark>/);
+  assert.match(orientation, /구독 여부는 평가에 반영하지 않습니다/);
   assert.match(orientation, /종이에만 기록/);
   assert.match(orientation, /ChatGPT/);
   assert.match(orientation, /Claude/);
@@ -224,7 +226,7 @@ test("Game Engine I week 1 uses CLI from day one and surveys subscription AI on 
   assert.match(orientation, /Gemini/);
   assert.match(orientation, /Unity AI/);
   assert.match(orientation, /구독 중/);
-  assert.match(orientation, /Unity CLI는 experimental 도구입니다/);
+  assert.match(orientation, /Unity CLI는 실험 단계의 도구입니다/);
   assert.match(orientation, /Hub와 별도로 설치하는 독립 실행 파일/);
   assert.match(orientation, /Unity CLI를 따로 설치합니다/);
   assert.doesNotMatch(orientation, /자동으로 함께 설치/);
@@ -243,21 +245,21 @@ test("Game Engine I week 1 uses CLI from day one and surveys subscription AI on 
   assert.match(orientation, /unity editors -i --format json/);
   assert.match(orientation, /https:\/\/docs\.unity\.com\/en-us\/unity-cli/);
   assert.match(orientation, /AI를 활용해 작은 2D 게임을 만듭니다/);
-  assert.match(orientation, /Unity CLI는 1주차부터/);
-  assert.match(orientation, /Editor를 제어하는 Unity Pipeline package/);
-  assert.match(orientation, /1주차 CLI 설정이 완료된 것/);
-  assert.match(orientation, /종이로 구독형 AI 현황만 파악/);
-  assert.match(orientation, /회색 게임을 만듭니다/);
+  assert.match(orientation, /Unity CLI와 MCP는 1주차부터/);
+  assert.match(orientation, /실행 중인 Editor를 제어하는 Unity Pipeline 패키지/);
+  assert.match(orientation, /1주차 제작 환경도 완료됩니다/);
+  assert.match(orientation, /unity mcp configure/);
+  assert.match(orientation, /회색 블록아웃으로 게임을 만듭니다/);
   assert.match(orientation, /그림과 소리를 붙입니다/);
-  assert.match(orientation, /구독형 AI는 설명과 초안에 쓸 수 있고/);
+  assert.match(orientation, /CLI, MCP, 대화형 AI는 설명과 초안, 오류 해석에 함께 쓰되/);
   assert.doesNotMatch(orientation, /AI를 제한적으로 씁니다/);
   assert.doesNotMatch(orientation, /AI Agent 없이/);
   assert.doesNotMatch(orientation, /Agent 없이 회색/);
   assert.doesNotMatch(orientation, /Agent는 사용하지 않습니다/);
   assert.doesNotMatch(orientation, /Agent는 <mark>금지/);
-  assert.match(orientation, /<code>unity open<\/code>과 Hub의 <code>New project<\/code>/);
-  assert.match(courseIndex, /구독형 AI 현황 파악/);
-  assert.match(courseIndex, /지정된 Unity 6\.3 LTS 검증/);
+  assert.match(orientation, /<code>unity open<\/code> 명령과 Hub의 <code>New project<\/code>/);
+  assert.match(courseIndex, /Unity Hub, CLI, MCP 설치/);
+  assert.match(courseIndex, /지정 6\.6 검증/);
   assert.doesNotMatch(courseIndex, /이론\(1시간\)|실습\(2시간\)/);
   assert.match(stylesheet, /\.subscription-scale\s*\{/);
   assert.match(stylesheet, /\.semester-trail\s*\{/);
@@ -266,22 +268,22 @@ test("Game Engine I week 1 uses CLI from day one and surveys subscription AI on 
   assert.match(orientation, /파이썬이나 HTML로도 게임을 만들 수 있습니다/);
   assert.match(orientation, /바이브코딩이 잘하는 일/);
   assert.match(orientation, /게임 엔진이 맡는 일/);
-  assert.match(orientation, /이미 Component로 들어 있습니다/);
+  assert.match(orientation, /Component 형태로 이미 마련되어 있습니다/);
   assert.match(orientation, /Physics 2D · Collider/);
   assert.match(orientation, /게임의 반복 구조를 안정적으로 유지/);
   assert.match(orientation, /작은 프로젝트에 집중합니다/);
   assert.match(orientation, /한 프로젝트에서 여러 기기로 빌드합니다/);
   assert.match(orientation, /Windows, macOS, Android, iOS, Web용 빌드/);
-  assert.match(orientation, /이 학기는 데스크톱 빌드까지입니다/);
-  assert.match(orientation, /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\/Manual\/build-profiles\.html/);
+  assert.match(orientation, /이 수업에서는 데스크톱 빌드까지 다룹니다/);
+  assert.match(orientation, /https:\/\/docs\.unity3d\.com\/6000\.6\/Documentation\/Manual\/build-profiles\.html/);
   assert.match(orientation, /작은 팀이 쓰는 엔진입니다/);
-  assert.match(orientation, /소규모 팀의 짧은 게임/);
-  assert.match(orientation, /Unity Personal을 <span class="phrase">무료로 쓸 수 있습니다<\/span>/);
+  assert.match(orientation, /소규모 팀이 만든 짧은 게임/);
+  assert.match(orientation, /Unity Personal을 무료로 사용할 수 있습니다/);
   assert.match(orientation, /20만 달러 미만/);
-  assert.match(orientation, /이 학기가 만드는 짧은 2D도 그 규모입니다/);
+  assert.match(orientation, /이 수업에서 만드는 짧은 2D 게임도 이와 비슷한 규모입니다/);
   assert.match(orientation, /https:\/\/unity\.com\/products\/unity-personal/);
   assert.match(orientation, /AI는 엔진을 대신하지 않습니다/);
-  assert.match(orientation, /Unity with AI로 제작하는 2D 게임/);
+  assert.match(orientation, /Unity와 AI로 만드는 2D 게임/);
   assert.doesNotMatch(orientation, /3-5분 안에 완결되는 2D 게임/);
   assert.match(orientation, /https:\/\/unity\.com\/blog\/2026-unity-game-development-report-trends/);
   assert.match(stylesheet, /\.vibe-split \{\s*margin-top:\s*32px/);

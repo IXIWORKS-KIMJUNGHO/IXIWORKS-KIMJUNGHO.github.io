@@ -28,10 +28,9 @@ test("Game Engine I index presents week 3 as two theory periods and one mission"
 
   assert.match(courseIndex, /1교시 · 이론과 설명/);
   assert.match(courseIndex, /2교시 · 이론과 설명/);
-  assert.match(courseIndex, /3교시 · 목표지향 개인 실습/);
+  assert.match(courseIndex, /3교시 · 완료 기준이 있는 개인 실습/);
   assert.match(courseIndex, /필수 기준 8개로 검증/);
-  assert.match(courseIndex, /매주 수업은 교수자의 이론·설명과 학생의 목표지향 실습을 결합/);
-  assert.match(courseIndex, /주 3시간: 교수자 설명 \+ 목표지향 제작 실습/);
+  assert.match(courseIndex, /주 3시간: 교수자 설명 \+ 완료 기준이 있는 제작 실습/);
   assert.doesNotMatch(courseIndex, /매주 수업은 이론 1시간과 실습 2시간/);
 });
 
@@ -49,7 +48,7 @@ test("week 3 handouts form a sourced and navigable three-period sequence", async
     assert.match(page, /width="1586" height="992"/);
     assert.doesNotMatch(page, /week-03-csharp-loop\.svg/);
     assert.match(page, /data-week-three-toc/);
-    assert.match(page, /https:\/\/docs\.unity3d\.com\/6000\.3\/Documentation\//);
+    assert.match(page, /https:\/\/docs\.unity3d\.com\/6000\.6\/Documentation\//);
     assert.match(page, /질문이 남았다면/);
   });
 
@@ -140,7 +139,7 @@ test("period 3 is a finite goal-directed independent mission", async () => {
     "해결 방법을 선명하게 만드는 기술 제약",
     "완료는 여덟 가지 관찰로 판정합니다",
     "필요한 만큼만 힌트를 엽니다",
-    "Agent 실행과 완성 코드 생성 요청을 사용하지 않습니다",
+    "설명하지 못하는 코드는 제출물에 남기지 않습니다",
     "과제 1 패키지의 핵심 결과",
     "코드 설명 다섯 문장 틀",
     "Library",

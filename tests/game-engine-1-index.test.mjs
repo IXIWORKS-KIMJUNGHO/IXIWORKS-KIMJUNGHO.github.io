@@ -29,7 +29,7 @@ test("the Game Engine I hero keeps one meta line and stacked course copy", async
   const courseIndex = await readFile(courseIndexPath, "utf8");
   const hero = courseIndex.match(/<header class="course-hero">[\s\S]*?<\/header>/)[0];
 
-  assert.match(hero, /Unity 6\.3 LTS \/ 2D \/ Generative AI/);
+  assert.match(hero, /Unity 6\.6 \/ 2D \/ Generative AI/);
   assert.match(hero, /Fall 2026/);
   assert.doesNotMatch(hero, /Unity 2D course/);
   assert.equal(
@@ -78,4 +78,12 @@ test("Game Engine I week rows distinguish missions from unpublished exams", asyn
   assert.match(courseIndex, /교수자용 전체 운영안/);
   assert.match(courseIndex, /src="\/assets\/details-motion\.js" defer/);
   assert.match(courseIndex, /type="module" src="\/assets\/course-prose\.js"/);
+});
+
+test("Game Engine I installs CLI and MCP from week 1 and does not ban Agent in weeks 2-7", async () => {
+  const courseIndex = await readFile(courseIndexPath, "utf8");
+
+  assert.match(courseIndex, /Unity CLI와 MCP는 1주차부터 설치해 학기 내내 사용합니다/);
+  assert.match(courseIndex, /범위를 정하지 않고 실행한 결과는 제작 과정의 증거로 인정하지 않습니다/);
+  assert.doesNotMatch(courseIndex, /2~7주차에는 Agent를 사용하지 않습니다/);
 });

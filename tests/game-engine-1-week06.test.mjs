@@ -372,12 +372,12 @@ test("the three periods cite version-matched Unity primary sources", async () =>
   const combined = `${period1}\n${period2}\n${period3}`;
 
   for (const officialUrl of [
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/texture-type-sprite.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/sprite/sprite-editor/use-editor.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/animeditor-CreatingANewAnimationClip.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/class-Transition.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Animator.SetFloat.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SpriteRenderer-flipX.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/texture-type-sprite.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/sprite/sprite-editor/use-editor.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/animeditor-CreatingANewAnimationClip.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/class-Transition.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/Animator.SetFloat.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/SpriteRenderer-flipX.html",
     "https://docs.unity.cn/Packages/com.unity.cinemachine@3.1/manual/setup-follow-camera.html",
     "https://docs.unity.cn/Packages/com.unity.cinemachine@3.1/manual/CinemachinePositionComposer.html",
     "https://docs.unity.cn/Packages/com.unity.cinemachine@3.1/manual/CinemachineConfiner2D.html",

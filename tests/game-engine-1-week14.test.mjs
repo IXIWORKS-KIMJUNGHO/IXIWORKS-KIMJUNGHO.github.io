@@ -103,7 +103,7 @@ test("week 14 keeps periods 1 and 2 instructor-led and period 3 goal-directed", 
   for (const required of [
     "1교시 · 이론과 설명",
     "2교시 · 이론과 설명",
-    "3교시 · 목표지향 개인 실습",
+    "3교시 · 완료 기준이 있는 개인 실습",
   ]) {
     assert.ok(courseIndex.includes(required), `course index missing: ${required}`);
   }

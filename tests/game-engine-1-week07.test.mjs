@@ -279,7 +279,7 @@ test("period 3 has eight measurable gates, persistent records, and build evidenc
     /week07_play\.png/,
     /week07_result\.png/,
     /Week07_학번_이름/,
-    /Ask로 이해만 보조합니다/,
+    /완료 증거는 직접 확인한 결과입니다/,
     /assets\/week-07-period3-preflight-mission\.webp/,
   ]) {
     assert.match(period3, pattern);
@@ -354,13 +354,13 @@ test("week 7 uses generated raster visuals and version-pinned Unity primary sour
   for (const officialUrl of [
     "https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/UICanvas.html",
     "https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/script-CanvasScaler.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AudioSource.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/AudioSource.PlayOneShot.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/time-scale.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/build-profile-scene-list.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/build-profiles-reference.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/AudioSource.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/AudioSource.PlayOneShot.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/time-scale.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/SceneManagement.SceneManager.LoadScene.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/build-profiles.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/build-profile-scene-list.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/build-profiles-reference.html",
   ]) {
     assert.ok(combined.includes(officialUrl), `missing official Unity source: ${officialUrl}`);
   }

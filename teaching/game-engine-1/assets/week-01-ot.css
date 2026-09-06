@@ -1256,7 +1256,7 @@ body.course-game-engine-1.game-engine-ot .install-principle {
   border: 1px solid var(--line-strong);
   border-radius: 6px;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr) 28px) minmax(0, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr) 28px) minmax(0, 1fr);
   gap: 10px;
   align-items: center;
   background: var(--paper);

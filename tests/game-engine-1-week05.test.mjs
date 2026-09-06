@@ -422,7 +422,7 @@ test("period 3 provides finite requirements, persistent evidence, and progressiv
   assert.match(period3, /data-build-checklist data-storage-key="game-engine-1-week-05-build-v1"/);
   assert.match(period3, /assets\/week-05-interaction-starter\.zip/);
   assert.match(period3, /45-60초 화면 기록/);
-  assert.match(period3, /코드 생성과 자동 수정, Agent 실행과 Generator 사용은 이번 개인 실습에서 허용하지 않습니다/);
+  assert.match(period3, /설명하지 못하는 코드는 제출물에 남기지 않습니다/);
 
   const starter = await stat(resolve(assetDirectory, "week-05-interaction-starter.zip"));
   assert.ok(starter.size > 1_500, "the compiling TODO starter archive should be present");
@@ -506,13 +506,13 @@ test("week 5 cites version-matched Unity primary sources and records image gener
   );
 
   for (const officialUrl of [
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/MonoBehaviour.OnTriggerEnter2D.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.CompareTag.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Component.TryGetComponent.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/class-Physics2DSettings.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/tilemaps.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/tilemaps/work-with-tilemaps/tilemap-collider-2d.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/Prefabs.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/MonoBehaviour.OnTriggerEnter2D.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/Component.CompareTag.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/Component.TryGetComponent.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/class-Physics2DSettings.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/tilemaps/tilemaps.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/tilemaps/work-with-tilemaps/tilemap-collider-2d.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/Prefabs.html",
   ]) {
     assert.ok(combined.includes(officialUrl), `missing official Unity source: ${officialUrl}`);
   }

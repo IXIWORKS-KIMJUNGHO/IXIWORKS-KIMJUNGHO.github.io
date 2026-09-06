@@ -34,7 +34,7 @@ test("Game Engine I week 12 is published as three connected periods", async () =
   assert.ok(weekTwelveIndex, "the course index should include week 12");
   assert.match(weekTwelveIndex, /1교시 · 이론과 설명/);
   assert.match(weekTwelveIndex, /2교시 · 이론과 설명·시연/);
-  assert.match(weekTwelveIndex, /3교시 · 목표지향 개인 실습/);
+  assert.match(weekTwelveIndex, /3교시 · 완료 기준이 있는 개인 실습/);
   assert.doesNotMatch(weekTwelveIndex, /이론\(1시간\)|실습\(2시간\)/);
 
   for (const period of [1, 2, 3]) {

@@ -340,14 +340,14 @@ test("the three periods cite version-matched Unity primary sources", async () =>
   const combined = `${period1}\n${period2}\n${period3}`;
 
   for (const officialUrl of [
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/com.unity.inputsystem.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/com.unity.inputsystem.html",
     "https://docs.unity3d.com/Packages/com.unity.inputsystem@1.20/manual/Installation.html",
     "https://docs.unity3d.com/Packages/com.unity.inputsystem@1.20/manual/Actions.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/time-per-frame-updates.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/fixed-updates.html",
-    "https://docs.unity3d.com/6000.3/Documentation/ScriptReference/Rigidbody2D-linearVelocity.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/2d-physics/rigidbody/introduction-to-rigidbody-2d.html",
-    "https://docs.unity3d.com/6000.3/Documentation/Manual/2d-physics/collider/collider-2d-landing.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/time-per-frame-updates.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/fixed-updates.html",
+    "https://docs.unity3d.com/6000.6/Documentation/ScriptReference/Rigidbody2D-linearVelocity.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/2d-physics/rigidbody/introduction-to-rigidbody-2d.html",
+    "https://docs.unity3d.com/6000.6/Documentation/Manual/2d-physics/collider/collider-2d-landing.html",
   ]) {
     assert.ok(combined.includes(officialUrl), `missing official Unity source: ${officialUrl}`);
   }
